@@ -1,8 +1,8 @@
 ﻿<?php
-$host="localhost";
-$user="sisweb";
-$password="Ministeri0#23";
-$bd="new_bdcaj";
+$host="192.168.16.3";
+$user="web";
+$password="Cajamarca#07";
+$bd="bd_prueba";
 
 //var_dump(function_exists('mysqli_connect'));
 
