@@ -1,0 +1,186 @@
+/*!
+ * Start Bootstrap - Modern Business (http://startbootstrap.com/)
+ * Copyright 2013-2016 Start Bootstrap
+ * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap/blob/gh-pages/LICENSE)
+ */
+
+/* Global Styles */
+
+html,
+body {
+    height: 100%;
+    background-color: #ECF0F5;
+}
+
+header{
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+}
+
+.hlogo{
+    padding-top: 15px;
+    padding-bottom: 15px;
+
+    border-top: 5px solid #01344F;
+    border-bottom: 1px solid #01344F;
+}
+
+/*Menu*/
+.navbar-inverse { background-color: #337AB7; border-radius: 0; margin-bottom: 15px;}
+.navbar-inverse .navbar-nav>.active>a:hover,.navbar-inverse .navbar-nav>li>a:hover, .navbar-inverse .navbar-nav>li>a:focus { background-color: #68A4D5}
+.navbar-inverse .navbar-nav>.active>a,.navbar-inverse .navbar-nav>.open>a,.navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:hover,.navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:hover, .navbar-inverse .navbar-nav>.open>a:focus { background-color: #68A4D5}
+.dropdown-menu { background-color: #FFFFFF}
+.dropdown-menu>li>a:hover, .dropdown-menu>li>a:focus { background-color: #68A4D5}
+.navbar-inverse { background-image: none; }
+.dropdown-menu>li>a:hover, .dropdown-menu>li>a:focus { background-image: none; }
+.navbar-inverse { border-color: #337AB7}
+.navbar-inverse .navbar-brand { color: #FFFFFF}
+.navbar-inverse .navbar-brand:hover { color: #FFFFFF}
+.navbar-inverse .navbar-nav>li>a { color: #FFFFFF}
+.navbar-inverse .navbar-nav>li>a:hover, .navbar-inverse .navbar-nav>li>a:focus { color: #FFFFFF}
+.navbar-inverse .navbar-nav>.active>a,.navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:hover, .navbar-inverse .navbar-nav>.open>a:focus { color: #FFFFFF}
+.navbar-inverse .navbar-nav>.active>a:hover, .navbar-inverse .navbar-nav>.active>a:focus { color: #FFFFFF}
+.dropdown-menu>li>a { color: #666666}
+.dropdown-menu>li>a:hover, .dropdown-menu>li>a:focus { color: #FFFFFF}
+.navbar-inverse .navbar-nav>.dropdown>a .caret { border-top-color: #FFFFFF}
+.navbar-inverse .navbar-nav>.dropdown>a:hover .caret { border-top-color: #FFFFFF}
+.navbar-inverse .navbar-nav>.dropdown>a .caret { border-bottom-color: #FFFFFF}
+.navbar-inverse .navbar-nav>.dropdown>a:hover .caret { border-bottom-color: #FFFFFF}
+/*Fin Menu*/
+
+.panel-heading>h4{
+  color:#FF5C26;
+}
+.csuccess{
+  color: #6ABD50;
+}
+.cwarning{
+  color: #F39C12;
+}
+.cdanger{
+  color: #DD4B39;
+}
+.cinfo{
+  color: #00C0EF;
+}
+.img-portfolio {
+    margin-bottom: 30px;
+}
+
+.img-hover:hover {
+    opacity: 0.8;
+}
+
+/* Home Page Carousel */
+#myCarousel{
+  margin-bottom: 20px;
+  box-shadow: 2px 2px 1px #888888;
+}
+header.carousel {
+    height: 50%;
+}
+
+header.carousel .item,
+header.carousel .item.active,
+header.carousel .carousel-inner {
+    height: 100%;
+}
+
+header.carousel .fill {
+  width: 100%;
+  height: 100%;
+  background-position: center;
+  background-size: cover;
+}
+.panel{
+    border-radius: 0;
+    box-shadow: 2px 2px 1px #888888;
+}
+.panel .panel-heading{
+    border-radius: 0;
+}
+.panel .panel-heading>h4{
+    margin-top: 0;
+    margin-bottom: 0;
+}
+/* 404 Page Styles */
+
+.error-404 {
+    font-size: 100px;
+}
+
+/* Pricing Page Styles */
+
+.price {
+    display: block;
+    font-size: 50px;
+    line-height: 50px;
+}
+
+.price sup {
+    top: -20px;
+    left: 2px;
+    font-size: 20px;
+}
+
+.period {
+    display: block;
+    font-style: italic;
+}
+
+/* Footer Styles */
+
+/*carousel*/
+.enlaces .carousel {
+    margin-bottom: 0;
+    padding: 0 40px 30px 40px;
+}
+/* The controlsy */
+.enlaces .carousel-control{
+width:2%;
+color: #777777;
+}
+/* The indicators */
+.enlaces .carousel-indicators {
+  right: 50%;
+  top: auto;
+  bottom: -10px;
+  margin-right: -19px;
+}
+/* The colour of the indicators */
+.enlaces .carousel-indicators li {
+  background: #cecece;
+}
+.enlaces .carousel-indicators .active {
+background: #428bca;
+}
+/*carousel*/
+
+footer {
+    margin: 10px 0;
+    text-align: center;
+}
+footer .row .pie{
+  height: 30px;
+}
+
+/* Responsive Styles */
+/* lg */ 
+@media (min-width: 1200px) {
+
+
+}
+/* md */
+@media (min-width: 992px) and (max-width: 1199px) {
+
+
+}
+
+/* sm */
+@media (min-width: 768px) and (max-width: 991px) {
+
+  h4{
+    font-size: 14px;
+  }
+}
+@media (max-width: 767px) {
+}
