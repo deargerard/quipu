@@ -4,14 +4,34 @@ include ("../php/conexion_sp.php");
 include ("../php/funciones.php");
 if(accesoadm($cone,$_SESSION['identi'],6)){
 ?>
-        
+
           <div class="form-group">
             <label for="den" class="col-sm-3 control-label">Denominación</label>
             <div class="col-sm-9 valida">
               <input type="text" class="form-control" id="den" name="den" placeholder="Denominación de la dependencia">
             </div>
           </div>
+
+
           <div class="form-group">
+            <label for="den" class="col-sm-3 control-label">Dependencia Superior</label>
+            <div class="col-sm-9 valida">
+              <select name="pad" id="pad" class="form-control">
+                <option value="">DEPENDENCIA SUPERIOR</option>
+                <?php
+                  $cdep=mysqli_query($cone,"SELECT idDependencia, Denominacion FROM dependencia WHERE Estado=1 ORDER BY idDependencia ASC");
+                  while($rdep=mysqli_fetch_assoc($cdep)){
+                ?>
+                <option value="<?php echo $rdep['idDependencia'] ?>"><?php echo $rdep['Denominacion'] ?></option>
+                <?php
+                  }
+                  mysqli_free_result($cdep);
+                ?>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+
             <label for="sig" class="col-sm-3 control-label">Siglas</label>
             <div class="col-sm-6 valida">
               <input type="text" class="form-control" id="sig" name="sig" placeholder="Siglas">
@@ -57,4 +77,3 @@ if(accesoadm($cone,$_SESSION['identi'],6)){
   echo accrestringidoa();
 }
 ?>
-        

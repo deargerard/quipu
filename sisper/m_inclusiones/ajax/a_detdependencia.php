@@ -20,6 +20,11 @@ if(accesocon($cone,$_SESSION['identi'],6)){
 					<td colspan="2" class="text-fuchsia"><?php echo $rmandet['Denominacion'] ?></td>
 				</tr>
 				<tr>
+					<th>Pertenece a</th>
+					<td><?php echo nomdependencia($cone, $rmandet['idDependenciaPadre']) ?></td>
+				</tr>
+
+				<tr>
 					<th>Siglas</th>
 					<td><?php echo $rmandet['Siglas'] ?></td>
 				</tr>

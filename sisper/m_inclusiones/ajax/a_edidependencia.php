@@ -7,7 +7,7 @@ if(accesoadm($cone,$_SESSION['identi'],6)){
   if(isset($idd) && !empty($idd)){
     $cdep=mysqli_query($cone,"SELECT * FROM dependencia WHERE idDependencia=$idd");
     $rdep=mysqli_fetch_assoc($cdep);
-  ?>      
+  ?>
             <div class="form-group">
               <label for="den" class="col-sm-3 control-label">Denominación</label>
               <div class="col-sm-9 valida">
@@ -15,6 +15,31 @@ if(accesoadm($cone,$_SESSION['identi'],6)){
                 <input type="hidden" name="iddep" value="<?php echo $idd ?>">
               </div>
             </div>
+            <div class="form-group">
+              <label for="pad" class="col-sm-3 control-label">Dependencia Superior</label>
+              <div class="col-sm-9 valida">
+                <select name="pad" id="pad" class="form-control">
+                  <option value="">DEPENDENCIA SUPERIOR</option>
+                  <?php
+                    $cdep1=mysqli_query($cone,"SELECT idDependencia, Denominacion FROM dependencia WHERE Estado=1 ORDER BY idDependencia ASC");
+                    while($rdep1=mysqli_fetch_assoc($cdep1)){
+                      if ($rdep1['idDependencia']==$rdep['idDependenciaPadre']){
+                  ?>
+                  <option value="<?php echo $rdep1['idDependencia'] ?>" selected><?php echo $rdep1['Denominacion'] ?></option>
+                  <?php
+                      }
+                  ?>
+                  <option value="<?php echo $rdep1['idDependencia'] ?>"><?php echo $rdep1['Denominacion'] ?></option>
+                  <?php
+                    }
+                    mysqli_free_result($cdep1);
+                  ?>
+                </select>
+
+                <input type="hidden" name="iddep" value="<?php echo $idd ?>">
+              </div>
+            </div>
+
             <div class="form-group">
               <label for="sig" class="col-sm-3 control-label">Siglas</label>
               <div class="col-sm-6 valida">
@@ -67,7 +92,7 @@ if(accesoadm($cone,$_SESSION['identi'],6)){
                 </select>
               </div>
             </div>
-          
+
   <?php
     mysqli_free_result($cdep);
     mysqli_close($cone);

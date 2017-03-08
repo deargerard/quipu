@@ -4,8 +4,9 @@ include ("../php/conexion_sp.php");
 include ("../php/funciones.php");
 if(accesoadm($cone,$_SESSION['identi'],6)){
 	if(isset($_POST["NomForm"]) && $_POST["NomForm"]=="f_nuedependencia"){
-		if(isset($_POST['den']) && !empty($_POST['den']) && isset($_POST['sig']) && !empty($_POST['sig']) && isset($_POST['loc']) && !empty($_POST['loc']) && isset($_POST['disfis']) && !empty($_POST['disfis'])){
+		if(isset($_POST['den']) && !empty($_POST['den']) && isset($_POST['pad']) && !empty($_POST['pad']) && isset($_POST['sig']) && !empty($_POST['sig']) && isset($_POST['loc']) && !empty($_POST['loc']) && isset($_POST['disfis']) && !empty($_POST['disfis'])){
 			$den=imseguro($cone,$_POST['den']);
+			$pad=iseguro($cone,$_POST['pad']);
 			$sig=imseguro($cone,$_POST['sig']);
 			$loc=iseguro($cone,$_POST['loc']);
 			$disfis=iseguro($cone,$_POST['disfis']);
@@ -13,7 +14,7 @@ if(accesoadm($cone,$_SESSION['identi'],6)){
 			if($rdep=mysqli_fetch_assoc($cdep)){
 				echo "<h4 class='text-maroon'>Error: Ya existe una dependencia con el mismo nombre.</h4>";
 			}else{
-				$sql="INSERT INTO dependencia (idDistritoFiscal, idLocal, Denominacion, Siglas, Observacion, Estado) VALUES ($disfis, $loc, '$den', '$sig', 'Ninguna', 1)";
+				$sql="INSERT INTO dependencia (idDistritoFiscal, idLocal, Denominacion, idDependenciaPadre, Siglas, Observacion, Estado) VALUES ($disfis, $loc, '$den', $pad, '$sig', 'Ninguna', 1)";
 				if(mysqli_query($cone,$sql)){
 					echo "<h4 class='text-olive'>Listo: La dependencia fue creada correctamente.</h4>";
 				}else{

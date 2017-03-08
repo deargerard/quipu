@@ -11,7 +11,7 @@ if(vacceso($cone,$_SESSION['identi'],$_SESSION['docide'],$_SESSION['nomusu'])){
 <script>
 $(document).ready(function(){
   $("ul.sidebar-menu li").removeClass("active");
-  $("#mantenimiento").addClass("active");
+  $("#organizacional").addClass("active");
   $("#depmante").addClass("active");
   $('#dtdependencias').DataTable();
 });

@@ -25,8 +25,8 @@ function cprovincia(val){
   $.ajax({
     url: 'm_inclusiones/ajax/a_scarga.php',
     data: 'iddep='+val,
-    success: function(resp){ 
-      $('#pronac').html(resp) 
+    success: function(resp){
+      $('#pronac').html(resp)
     }
    });
    $('#disnac').html('<option value="">DISTRITO</option>')
@@ -36,27 +36,27 @@ function cdistrito(val){
   $.ajax({
     url: 'm_inclusiones/ajax/a_scarga.php',
     data: 'idpro='+val,
-    success: function(resp){ 
-      $('#disnac').html(resp) 
+    success: function(resp){
+      $('#disnac').html(resp)
     }
-   }); 
+   });
 }
 function cnivel(val){
   $('#nivins').html('<option value="">Cargando...</option>');
   $.ajax({
     url: 'm_inclusiones/ajax/a_scarga.php',
     data: 'gi='+val,
-    success: function(resp){ 
+    success: function(resp){
       $('#nivins').html(resp)
     }
-   }); 
+   });
 }
 function cprovinciad(val){
   $('#proubi').html('<option value="">Cargando...</option>');
   $.ajax({
     url: 'm_inclusiones/ajax/a_scarga.php',
     data: 'iddep='+val,
-    success: function(resp){ 
+    success: function(resp){
       $('#proubi').html(resp)
     }
    });
@@ -67,10 +67,10 @@ function cdistritod(val){
   $.ajax({
     url: 'm_inclusiones/ajax/a_scarga.php',
     data: 'idpro='+val,
-    success: function(resp){ 
-      $('#disubi').html(resp) 
+    success: function(resp){
+      $('#disubi').html(resp)
     }
-   }); 
+   });
 }
 //validar nuevo personal
   $("#f_nuepersonal").validate({
@@ -378,12 +378,14 @@ $("#f_camcontrasena").validate({
   $("#f_nuedependencia").validate({
     rules: {
       den: {required:true, minlength:5},
+      pad: "required",
       sig: {required:true, minlength:3},
       loc: "required",
       disfis: "required"
     },
     messages: {
       den: {required:"Ingrese denominación de la dependencia.",minlength:"Mínimo 5 caracteres"},
+      pad: "Elija una Dependencia Superior",
       sig: {required:"Ingrese siglas de la dependencia.",minlength:"Mínimo 3 caracteres"},
       loc: "Elija el local.",
       disfis: "Elija el distrito fiscal al que pertenece."
@@ -434,12 +436,14 @@ $("#f_camcontrasena").validate({
   $( "#f_edidependencia" ).validate( {
     rules: {
       den: {required:true, minlength:5},
+      pad:"required",
       sig: {required:true, minlength:3},
       loc: "required",
       disfis: "required"
     },
     messages: {
       den: {required:"Ingrese denominación de la dependencia.",minlength:"Mínimo 5 caracteres"},
+      pad:"Elija la dependencia superior",
       sig: {required:"Ingrese siglas de la dependencia.",minlength:"Mínimo 3 caracteres"},
       loc: "Elija el local.",
       disfis: "Elija el distrito fiscal al que pertenece."

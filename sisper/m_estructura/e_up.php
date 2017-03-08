@@ -26,7 +26,7 @@
     <!-- bootstrap wysihtml5 - text editor -->
   <link rel="stylesheet" href="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
   <!-- Favicon -->
-  <link rel='shortcut icon' type='image/x-icon' href='m_images/favicon.png' />  
+  <link rel='shortcut icon' type='image/x-icon' href='m_images/favicon.png' />
   <style>
   .ui-autocomplete {
     max-height: 200px;
@@ -79,11 +79,11 @@
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
           <!-- Messages: style can be found in dropdown.less-->
-          
+
           <!-- Notifications: style can be found in dropdown.less -->
-          
+
           <!-- Tasks: style can be found in dropdown.less -->
-          
+
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -101,7 +101,7 @@
                 </p>
               </li>
               <!-- Menu Body -->
-              
+
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
@@ -249,15 +249,17 @@
         }
         if(accesocon($cone,$_SESSION['identi'],6)){
         ?>
-        <li class="treeview" id="mantenimiento">
+        <li class="treeview" id="organizacional">
           <a href="#">
             <i class="fa fa-wrench"></i>
-            <span>Mantenimiento</span>
+            <span>Organizacional</span>
             <i class="fa fa-angle-left pull-right"></i>
           </a>
           <ul class="treeview-menu">
             <li id="depmante"><a href="depmante.php"><i class="fa fa-circle-o"></i> Dependencia</a></li>
+            <li id="coomante"><a href="coomante.php"><i class="fa fa-circle-o"></i> Coordinación</a></li>
             <li id="locmante"><a href="locmante.php"><i class="fa fa-circle-o"></i> Local</a></li>
+            <li id="ambmante"><a href="ambmante.php"><i class="fa fa-circle-o"></i> Ambiente</a></li>
             <!--<li id="benmante"><a href="benmante.php"><i class="fa fa-circle-o"></i> Beneficio</a></li>
             <li id="sispenmante"><a href="sispenmante.php"><i class="fa fa-circle-o"></i> Sistema Pensión</a></li>
             <li id="tiptelmante"><a href="tiptelmante.php"><i class="fa fa-circle-o"></i> Tipo Teléfono</a></li>-->

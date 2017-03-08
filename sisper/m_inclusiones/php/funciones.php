@@ -118,6 +118,18 @@ function dependenciae($con,$idemp){
 	}
 	mysqli_free_result($cdep);
 }
+
+function nomdependencia($con,$iddep){
+	$idep=iseguro($con,$idep);
+	$cdep=mysqli_query($con,"SELECT Denominacion FROM dependencia WHERE idDependencia=$iddep");
+	if($rdep=mysqli_fetch_assoc($cdep)){
+		return $rdep["Denominacion"];
+	}else{
+		return "--";
+	}
+	mysqli_free_result($cdep);
+}
+
 function dependenciaeofi($con,$idemp){
 	$idemp=iseguro($con,$idemp);
 	$cdep=mysqli_query($con,"SELECT Denominacion FROM empleado AS e INNER JOIN empleadocargo AS ec ON e.idEmpleado=ec.idEmpleado INNER JOIN cardependencia AS cd ON ec.idEmpleadoCargo=cd.idEmpleadoCargo INNER JOIN dependencia AS d ON cd.idDependencia=d.idDependencia WHERE e.idEmpleado=$idemp AND ec.idEstadoCar=1 AND cd.Oficial=1");
@@ -406,7 +418,7 @@ function RandomString($num=10){
 	$cadena = ""; //variable para almacenar la cadena generada
 	for($i=0;$i<$num;$i++)
 	{
-	    $cadena .= substr($caracteres,rand(0,strlen($caracteres)),1); /*Extraemos 1 caracter de los caracteres 
+	    $cadena .= substr($caracteres,rand(0,strlen($caracteres)),1); /*Extraemos 1 caracter de los caracteres
 	entre el rango 0 a Numero de letras que tiene la cadena */
 	}
 	return $cadena;
@@ -468,10 +480,10 @@ function url($cadena) {
 $separador = '-';//ejemplo utilizado con guión medio
 $originales = 'ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûýýþÿŔŕ~_ ';
 $modificadas = 'aaaaaaaceeeeiiiidnoooooouuuuybsaaaaaaaceeeeiiiidnoooooouuuyybyRr---';
- 
+
 //Quitamos todos los posibles acentos
 $url = strtr(utf8_decode($cadena), utf8_decode($originales), $modificadas);
- 
+
 //Convertimos la cadena a minusculas
 $url = utf8_encode(strtolower($url));
 
@@ -494,9 +506,9 @@ function encriptar($cadena){
     $key='fiscal';  // Una clave de codificacion, debe usarse la misma para encriptar y desencriptar
     $encrypted = base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, md5($key), $cadena, MCRYPT_MODE_CBC, md5(md5($key))));
     return $encrypted; //Devuelve el string encriptado
- 
+
 }
- 
+
 function desencriptar($cadena){
      $key='fiscal';  // Una clave de codificacion, debe usarse la misma para encriptar y desencriptar
      $decrypted = rtrim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, md5($key), base64_decode($cadena), MCRYPT_MODE_CBC, md5(md5($key))), "\0");
@@ -504,7 +516,7 @@ function desencriptar($cadena){
 }
 function nombredia($fecha){
    $fechats = strtotime($fecha); //pasamos a timestamp
- 
+
 //el parametro w en la funcion date indica que queremos el dia de la semana
 //lo devuelve en numero 0 domingo, 1 lunes,....
 	switch (date('w', $fechats)){
