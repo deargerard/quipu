@@ -5,13 +5,23 @@ include("../php/funciones.php");
 if(accesoadm($cone,$_SESSION['identi'],6)){
   $idlo=iseguro($cone,$_POST["idlo"]);
   if(isset($idlo) && !empty($idlo)){
-    $clo=mysqli_query($cone,"SELECT Direccion, idDistrito FROM local WHERE idLocal=$idlo");
+    $clo=mysqli_query($cone,"SELECT Direccion, idDistrito, Estado FROM local WHERE idLocal=$idlo");
     $rlo=mysqli_fetch_assoc($clo);
   ?>
     <table class="table table-striped table-bordered">
       <thead>
         <tr>
-          <th>Esta seguro que desea desactivar el local:</th>
+          <?php
+          if ($rlo['Estado']==1){
+           ?>
+          <th>¿Está seguro que desea desactivar el local?</th>
+          <?php
+        } else {
+          ?>
+          <th>¿Está seguro que desea activar el local?</th>
+          <?php
+        }
+           ?>
         </tr>
       </thead>
       <tbody>

@@ -18,7 +18,7 @@ if(accesoadm($cone,$_SESSION['identi'],6)){
             <div class="form-group">
               <label for="pad" class="col-sm-3 control-label">Dependencia Superior</label>
               <div class="col-sm-9 valida">
-                <select name="pad" id="pad" class="form-control">
+                <select name="pad" id="pad" class="form-control select2" style="width:100%">
                   <option value="">DEPENDENCIA SUPERIOR</option>
                   <?php
                     $cdep1=mysqli_query($cone,"SELECT idDependencia, Denominacion FROM dependencia WHERE Estado=1 ORDER BY idDependencia ASC");
@@ -47,20 +47,20 @@ if(accesoadm($cone,$_SESSION['identi'],6)){
               </div>
             </div>
             <div class="form-group">
-              <label for="loc" class="col-sm-3 control-label">Local</label>
+              <label for="loc" class="col-sm-3 control-label">Responsable</label>
               <div class="col-sm-9 valida">
-                <select name="loc" id="loc" class="form-control">
-                  <option value="">DISTRITO - DIRECCIÓN</option>
+                <select name="jef" id="jef" class="form-control select2" style="width:100%">
+                  <option value="">RESPONSABLE</option>
                   <?php
-                    $cloc=mysqli_query($cone,"SELECT idLocal, Direccion, idDistrito FROM local WHERE Estado=1 ORDER BY idDistrito ASC");
-                    while($rloc=mysqli_fetch_assoc($cloc)){
-                      if($rdep['idLocal']==$rloc['idLocal']){
+                    $cemp=mysqli_query($cone,"SELECT idEmpleado, concat(ApellidoPat, ' ', ApellidoMat, ', ', Nombres) as nombre FROM empleado  ORDER BY ApellidoPat ASC");
+                    while($remp=mysqli_fetch_assoc($cemp)){
+                      if($rdep['Jefe']==$remp['idEmpleado']){
                   ?>
-                  <option value="<?php echo $rloc['idLocal'] ?>" selected><?php echo nomdistrito($cone,$rloc['idDistrito'])." - ".$rloc['Direccion'] ?></option>
+                  <option value="<?php echo $remp['idEmpleado'] ?>" selected><?php echo $remp['nombre'] ?></option>
                   <?php
                       }else{
                   ?>
-                  <option value="<?php echo $rloc['idLocal'] ?>"><?php echo nomdistrito($cone,$rloc['idDistrito'])." - ".$rloc['Direccion'] ?></option>
+                  <option value="<?php echo $remp['idEmpleado'] ?>" ><?php echo $remp['nombre'] ?></option> ?></option>
                   <?php
                       }
                     }
@@ -92,7 +92,11 @@ if(accesoadm($cone,$_SESSION['identi'],6)){
                 </select>
               </div>
             </div>
-
+  <script>
+  $(".select2").select2({
+     dropdownParent: $('#m_edidependencia')
+  });
+  </script>
   <?php
     mysqli_free_result($cdep);
     mysqli_close($cone);

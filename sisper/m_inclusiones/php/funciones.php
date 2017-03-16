@@ -120,7 +120,7 @@ function dependenciae($con,$idemp){
 }
 
 function nomdependencia($con,$iddep){
-	$idep=iseguro($con,$idep);
+	$iddep=iseguro($con,$iddep);
 	$cdep=mysqli_query($con,"SELECT Denominacion FROM dependencia WHERE idDependencia=$iddep");
 	if($rdep=mysqli_fetch_assoc($cdep)){
 		return $rdep["Denominacion"];
@@ -128,6 +128,16 @@ function nomdependencia($con,$iddep){
 		return "--";
 	}
 	mysqli_free_result($cdep);
+}
+function nomlocal($con,$idloc){
+	$idloc=iseguro($con,$idloc);
+	$cloc=mysqli_query($con,"SELECT Direccion FROM local WHERE idLocal=$idloc");
+	if($rloc=mysqli_fetch_assoc($cloc)){
+		return $rloc["Direccion"];
+	}else{
+		return "--";
+	}
+	mysqli_free_result($cloc);
 }
 
 function dependenciaeofi($con,$idemp){

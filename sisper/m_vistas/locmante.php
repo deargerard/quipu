@@ -78,8 +78,17 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                                   ?>
                                   <li class="divider"></li>
                                   <li><a href="#" data-toggle="modal" data-target="#m_edilocal" onclick="edilocal(<?php echo $rdep['idLocal'] ?>)">Editar</a></li>
+                                  <?php
+                                  if($rdep['Estado']== 1){
+                                    ?>
                                   <li><a href="#" data-toggle="modal" data-target="#m_deslocal" onclick="deslocal(<?php echo $rdep['idLocal'] ?>)">Desactivar</a></li>
                                   <?php
+                                  }else{
+                                  ?>
+                                 <li><a href="#" data-toggle="modal" data-target="#m_deslocal" onclick="deslocal(<?php echo $rdep['idLocal'] ?>)">Activar</a></li>
+                                 <?php
+                                  }
+
                                   }
                                   ?>
                                 </ul>
@@ -112,7 +121,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
               </div>
               <!-- /.box-body -->
               <div class="box-footer">
-                
+
               </div>
               <!-- /.box-footer-->
             </div>
@@ -130,7 +139,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
         <h4 class="modal-title" id="myModalLabel">Detalle Local</h4>
       </div>
       <div class="modal-body" id="r_detlocal">
-        
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
@@ -192,9 +201,9 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
         <h4 class="modal-title" id="myModalLabel">Nuevo Local</h4>
       </div>
       <div class="modal-body" id="r_nuelocal">
-        
 
-        
+
+
       </div>
       <div class="modal-footer">
         <button type="submit" class="btn bg-teal" id="b_gnuelocal">Guardar</button>

@@ -9,7 +9,7 @@
   </footer>
 
   <!-- Control Sidebar -->
-  
+
   <!-- /.control-sidebar -->
   <!-- Add the sidebar's background. This div must be placed
        immediately after the control sidebar -->
@@ -80,6 +80,8 @@
 <script src="plugins/jQueryUI/jquery-ui.min.js"></script>
 <!-- Bootstrap 3.3.5 -->
 <script src="bootstrap/js/bootstrap.min.js"></script>
+<!-- select2 -->
+<script src="plugins/select2/select2.min.js"></script>
 <!-- ChartJS 1.0.1 -->
 <script src="plugins/chartjs/Chart.min.js"></script>
 <!-- SlimScroll -->

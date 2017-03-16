@@ -13,7 +13,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
         <li class="active">Ambiente</li>
       </ol>
     </section>
-
+    <!-- Fin Content Header (Page header) -->
     <!-- Main content -->
     <section class="content">
       <div class="row">
@@ -33,9 +33,11 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                       <table id="dtlocales" class="table table-bordered table-striped">
                         <thead>
                           <tr>
-                            <th>DIRECCIÓN</th>
-                            <th>DISTRITO</th>
-                            <th>TELÉFONO</th>
+                            <th>TIPO</th>
+                            <th>DEPENDENCIA</th>
+                            <th>LOCAL</th>
+                            <th>PISO</th>
+                            <th>AMBIENTE</th>
                             <th>ESTADO</th>
                             <th>ACCIÓN</th>
                           </tr>
@@ -43,23 +45,20 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                         <tbody>
                           <?php
                             if(accesoadm($cone,$_SESSION['identi'],6)){
-                              $cdep=mysqli_query($cone,"SELECT idLocal, Direccion, idDistrito, Telefono, Estado FROM local ORDER BY Direccion ASC");
+                              $camb=mysqli_query($cone,"SELECT dl.idDependenciaLocal, tl.Tipo, de.Denominacion, dl.idLocal, p.Piso, dl.Oficina, dl.Estado  FROM dependencialocal dl INNER JOIN tipolocal tl ON dl.idTipoLocal=tl.idTipoLocal INNER JOIN piso p ON dl.idPiso=p.idPiso INNER JOIN dependencia de ON dl.idDependencia=de.idDependencia ORDER BY de.Denominacion ASC");
                             }else{
-                              $cdep=mysqli_query($cone,"SELECT idLocal, Direccion, idDistrito, Telefono, Estado FROM local WHERE Estado=1 ORDER BY Direccion ASC");
+                              $camb=mysqli_query($cone,"SELECT dl.idDependenciaLocal, tl.Tipo, de.Denominacion, dl.idLocal, p.Piso, dl.Oficina, dl.Estado  FROM dependencialocal dl INNER JOIN tipolocal tl ON dl.idTipoLocal=tl.idTipoLocal INNER JOIN piso p ON dl.idPiso=p.idPiso INNER JOIN dependencia de ON dl.idDependencia=de.idDependencia WHERE dl.Estado=1 ORDER BY de.Denominacion ASC");
                             }
-                            $est="";
-                            while($rdep=mysqli_fetch_assoc($cdep)){
-                              if ($rdep['Estado']=='1') {
-                                $est="<span class='label label-success'>Activo</span>";
-                              }else{
-                                $est="<span class='label label-danger'>Inactivo</span>";
-                              }
+                              while($ramb=mysqli_fetch_assoc($camb)){
+
                           ?>
                           <tr>
-                            <td><?php echo $rdep['Direccion'] ?></td>
-                            <td><?php echo nomdistrito($cone,$rdep['idDistrito']) ?></td>
-                            <td><?php echo $rdep['Telefono'] ?></td>
-                            <td><?php echo $est ?></td>
+                            <td><?php echo $ramb['Tipo'] ?></td>
+                            <td><?php echo $ramb['Denominacion'] ?></td>
+                            <td><?php echo nomlocal($cone,$ramb['idLocal'])?></td>
+                            <td><?php echo $ramb['Piso'] ?></td>
+                            <td><?php echo $ramb['Oficina'] ?></td>
+                            <td><?php echo estado($ramb['Estado']) ?></td>
                             <td>
                               <div class="btn-group">
                                 <button class="btn btn-warning btn-xs dropdown-toggle" data-toggle="dropdown">
@@ -71,15 +70,25 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                                   <?php
                                   if(accesocon($cone,$_SESSION['identi'],6)){
                                   ?>
-                                  <li><a href="#" data-toggle="modal" data-target="#m_detlocal" onclick="detlocal(<?php echo $rdep['idLocal'] ?>)">Detalle</a></li>
+                                  <li><a href="#" data-toggle="modal" data-target="#m_detambiente" onclick="detambiente(<?php echo $ramb['idDependenciaLocal'] ?>)">Detalle</a></li>
                                   <?php
                                   }
-                                  if(accesoadm($cone,$_SESSION['identi'],6)){
+                                  if(accesoadm($cone,$_SESSION['identi'],6))
+                                  {
                                   ?>
                                   <li class="divider"></li>
-                                  <li><a href="#" data-toggle="modal" data-target="#m_edilocal" onclick="edilocal(<?php echo $rdep['idLocal'] ?>)">Editar</a></li>
-                                  <li><a href="#" data-toggle="modal" data-target="#m_deslocal" onclick="deslocal(<?php echo $rdep['idLocal'] ?>)">Desactivar</a></li>
+                                  <li><a href="#" data-toggle="modal" data-target="#m_ediambiente" onclick="ediambiente(<?php echo $ramb['idDependenciaLocal'] ?>)">Editar</a></li>
                                   <?php
+                                  if($ramb['Estado']== 1){
+                                    ?>
+                                  <li><a href="#" data-toggle="modal" data-target="#m_desambiente" onclick="desambiente(<?php echo $ramb['idDependenciaLocal'] ?>)">Desactivar</a></li>
+                                  <?php
+                                  }else{
+                                    ?>
+                                   <li><a href="#" data-toggle="modal" data-target="#m_desambiente" onclick="desambiente(<?php echo $ramb['idDependenciaLocal'] ?>)">Activar</a></li>
+                                   <?php
+                                  }
+
                                   }
                                   ?>
                                 </ul>
@@ -88,14 +97,17 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                           </tr>
                           <?php
                             }
-                            mysqli_free_result($cdep);
+                            mysqli_free_result($camb);
                           ?>
                         </tbody>
                         <tfoot>
                           <tr>
-                            <th>DIRECCIÓN</th>
-                            <th>DISTRITO</th>
-                            <th>TELÉFONO</th>
+                            <th>TIPO</th>
+                            <th>DEPENDENCIA</th>
+                            <th>LOCAL</th>
+                            <th>PISO</th>
+                            <th>AMBIENTE</th>
+                            <th>ESTADO</th>
                             <th>ACCIÓN</th>
                           </tr>
                         </tfoot>
@@ -105,7 +117,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 <?php if(accesoadm($cone,$_SESSION['identi'],6)){ ?>
                 <div class="row">
                   <div class="col-md-12 col-sm-12 form-group">
-                    <button type="button" class="btn btn-info" id="b_nuelocal" data-toggle="modal" data-target="#m_nuelocal"><i class="fa fa-plus"></i> Nuevo</button>
+                    <button type="button" class="btn btn-info" id="b_nueambiente" data-toggle="modal" data-target="#m_nueambiente"><i class="fa fa-plus"></i> Nuevo</button>
                   </div>
                 </div>
                 <?php } ?>
@@ -121,15 +133,15 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
       </div>
     </section>
     <!-- /.content -->
-<!--Modal Detalle Dependencia-->
-<div class="modal fade" id="m_detlocal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<!--Modal Detalle Ambiente-->
+<div class="modal fade" id="m_detambiente" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Detalle Local</h4>
+        <h4 class="modal-title" id="myModalLabel">Detalle Ambiente</h4>
       </div>
-      <div class="modal-body" id="r_detlocal">
+      <div class="modal-body" id="r_detambiente">
 
       </div>
       <div class="modal-footer">
@@ -138,73 +150,73 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
     </div>
   </div>
 </div>
-<!--Fin Modal Detalle Dependencia-->
+<!--Fin Modal Detalle Ambiente-->
 <?php if(accesoadm($cone,$_SESSION['identi'],6)){ ?>
-<!--Modal Editar Dependencia-->
-<div class="modal fade" id="m_edilocal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <form id="f_edilocal" action="" class="form-horizontal">
+<!--Modal Editar Ambiente-->
+<div class="modal fade" id="m_ediambiente" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <form id="f_ediambiente" action="" class="form-horizontal">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Editar Local</h4>
+        <h4 class="modal-title" id="myModalLabel">Editar Ambiente</h4>
       </div>
-      <div class="modal-body" id="r_edilocal">
+      <div class="modal-body" id="r_ediambiente">
 
       </div>
       <div class="modal-footer">
-        <button type="submit" class="btn bg-teal" id="b_gedilocal">Guardar</button>
+        <button type="submit" class="btn bg-teal" id="b_gediambiente">Guardar</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
       </div>
     </div>
   </div>
   </form>
 </div>
-<!--Fin Modal Editar Dependencia-->
-<!--Modal Desactivar Dependencia-->
-<div class="modal fade" id="m_deslocal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <form id="f_deslocal" action="">
+<!--Fin Modal Editar Ambiente-->
+<!--Modal Desactivar Ambiente-->
+<div class="modal fade" id="m_desambiente" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <form id="f_desambiente" action="">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Desactivar Local</h4>
+        <h4 class="modal-title" id="myModalLabel">Desactivar Ambiente</h4>
       </div>
-      <div class="modal-body" id="r_deslocal">
+      <div class="modal-body" id="r_desambiente">
 
       </div>
       <div class="modal-footer">
-        <button type="submit" class="btn btn-danger" id="b_gdeslocal">Si</button>
+        <button type="submit" class="btn btn-danger" id="b_gdesambiente">Si</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
       </div>
     </div>
   </div>
   </form>
 </div>
-<!--Fin Modal Desactivar Dependencia-->
-<!--Modal Nuevo Local-->
-<div class="modal fade" id="m_nuelocal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <form id="f_nuelocal" action="" class="form-horizontal">
+<!--Fin Modal Desactivar Ambiente-->
+<!--Modal Nuevo Ambiente-->
+<div class="modal fade" id="m_nueambiente" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <form id="f_nueambiente" action="" class="form-horizontal">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Nuevo Local</h4>
+        <h4 class="modal-title" id="myModalLabel">Nuevo Ambiente</h4>
       </div>
-      <div class="modal-body" id="r_nuelocal">
+      <div class="modal-body" id="r_nueambiente">
 
 
 
       </div>
       <div class="modal-footer">
-        <button type="submit" class="btn bg-teal" id="b_gnuelocal">Guardar</button>
+        <button type="submit" class="btn bg-teal" id="b_gnueambiente">Guardar</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
       </div>
     </div>
   </div>
   </form>
 </div>
-<!--Fin Modal Nuevo Local-->
+<!--Fin Modal Nuevo Ambiente-->
 <?php
   }
 }else{
