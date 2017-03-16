@@ -487,8 +487,8 @@ function cprovincia(val){
   $.ajax({
     url: 'm_inclusiones/ajax/a_scarga.php',
     data: 'iddep='+val,
-    success: function(resp){ 
-      $('#pronac').html(resp) 
+    success: function(resp){
+      $('#pronac').html(resp)
     }
    });
    $('#disnac').html('<option value="">DISTRITO</option>')
@@ -498,27 +498,27 @@ function cdistrito(val){
   $.ajax({
     url: 'm_inclusiones/ajax/a_scarga.php',
     data: 'idpro='+val,
-    success: function(resp){ 
-      $('#disnac').html(resp) 
+    success: function(resp){
+      $('#disnac').html(resp)
     }
-   }); 
+   });
 }
 function cnivel(val){
   $('#nivins').html('<option value="">Cargando...</option>');
   $.ajax({
     url: 'm_inclusiones/ajax/a_scarga.php',
     data: 'gi='+val,
-    success: function(resp){ 
+    success: function(resp){
       $('#nivins').html(resp)
     }
-   }); 
+   });
 }
 function cprovinciad(val){
   $('#proubi').html('<option value="">Cargando...</option>');
   $.ajax({
     url: 'm_inclusiones/ajax/a_scarga.php',
     data: 'iddep='+val,
-    success: function(resp){ 
+    success: function(resp){
       $('#proubi').html(resp)
     }
    });
@@ -529,10 +529,10 @@ function cdistritod(val){
   $.ajax({
     url: 'm_inclusiones/ajax/a_scarga.php',
     data: 'idpro='+val,
-    success: function(resp){ 
-      $('#disubi').html(resp) 
+    success: function(resp){
+      $('#disubi').html(resp)
     }
-   }); 
+   });
 }
 //fin funciones actualizar selects
 //fin funciones editar perfil personal
@@ -786,8 +786,8 @@ function ccargo(val){
   $.ajax({
     url: 'm_inclusiones/ajax/a_scarga.php',
     data: 'idslab='+val,
-    success: function(resp){ 
-      $('#car').html(resp) 
+    success: function(resp){
+      $('#car').html(resp)
     }
    });
 }
@@ -1640,7 +1640,7 @@ $( "#f_agrgrapersonal" ).validate( {
       ins:{required:true, minlength:5},
       numcol:{required:false, minlength:3},
       feccol:{required:false, datePE:true},
-      numdip:{required:false, minlength:3}  
+      numdip:{required:false, minlength:3}
     },
     messages: {
       niv:"Elija un nivel.",
@@ -1649,7 +1649,7 @@ $( "#f_agrgrapersonal" ).validate( {
       ins: {required:"Ingrese la institución que emite el diploma.",minlength:"Mínimo 5 caracteres"},
       numcol: {minlength:"Mínimo 3 caracteres."},
       feccol: {datePE:"Ingrese una fecha válida."},
-      numdip: {required:"Ingrese el número de la diploma",minlength:"Mínimo 3 caracteres."} 
+      numdip: {required:"Ingrese el número de la diploma",minlength:"Mínimo 3 caracteres."}
     },
     errorElement: "em",
     errorPlacement: function ( error, element ) {
@@ -1730,7 +1730,7 @@ $( "#f_edigrapersonal" ).validate( {
       ins: {required:"Ingrese la institución que emite el diploma.",minlength:"Mínimo 5 caracteres"},
       numcol: {minlength:"Mínimo 3 caracteres."},
       feccol: {datePE:"Ingrese una fecha válida."},
-      numdip: {required:"Ingrese el número de la diploma",minlength:"Mínimo 3 caracteres."} 
+      numdip: {required:"Ingrese el número de la diploma",minlength:"Mínimo 3 caracteres."}
     },
     errorElement: "em",
     errorPlacement: function ( error, element ) {
@@ -2170,8 +2170,7 @@ $("#b_nuelocal").on("click",function(e){
     }
   });
 });
-//funcion llamar formulario nuevo local
-//funcion validar local
+
 $( "#f_nuelocal" ).validate( {
     rules: {
       dir:{required:true, minlength:6},
@@ -2233,7 +2232,6 @@ $( "#f_nuelocal" ).validate( {
       });
     }
   } );
-//fin función validar local
 //función actualizar page local
 $('#m_nuelocal').on('hidden.bs.modal', function () {
  document.location.reload();
@@ -2254,7 +2252,7 @@ $.ajax({
   }
 });
 };
-//funcion validar local
+//funcion validar editar local
 $( "#f_edilocal" ).validate( {
     rules: {
       dir:{required:true, minlength:6},
@@ -2363,8 +2361,228 @@ $('#m_deslocal').on('hidden.bs.modal', function () {
 //fin funciones desactivar local
 //fin funciones mantenimiento local
 
-//funcion reporte personal
+//funciones mantenimiento ambiente
+//funcion detalle Ambiente
+function detambiente(id){
+$.ajax({
+  type: "post",
+  url: "m_inclusiones/ajax/a_detambiente.php",
+  data: { idamb : id },
+  beforeSend: function () {
+    $("#r_detambiente").html("<img src='m_images/cargando.gif'>");
+  },
+  success:function(a){
+    $("#r_detambiente").html(a);
+  }
+});
+};
+//fin funcion detalle Ambiente
 
+//funcion llamar formulario nuevo Ambiente
+$("#b_nueambiente").on("click",function(e){
+$.ajax({
+  type:"post",
+  url:"m_inclusiones/ajax/a_nueambiente.php",
+  beforeSend: function () {
+    $("#r_nueambiente").html("<img scr='m_images/cargando.gif'>");
+  },
+  success:function(a){
+    $("#r_nueambiente").html(a);
+    $("#b_gnueambiente").show();
+  }
+});
+});
+//Fin funcion llamar formulario nuevo Ambiente
+
+//funcion validar nuevo ambiente
+$( "#f_nueambiente" ).validate( {
+  rules: {
+    dep:"required",
+    den:"required",
+    loc:"required",
+    pis:"required",
+    ofi:{ required: true, minlength: 3},
+
+  },
+  messages: {
+    dep:{required:"Seleccione la dependencia"},
+    den:{required:"Elija una denominacion"},
+    loc:{required:"Seleccione el local"},
+    pis:{required:"Elija el Piso"},
+    ofi:{required:"Escriba el número de oficina", minlength:"Mínimo 3 caracteres"},
+
+  },
+  errorElement: "em",
+  errorPlacement: function ( error, element ) {
+    // Add the `help-block` class to the error element
+    error.addClass( "help-block" );
+
+    if ( element.prop( "type" ) === "checkbox" ) {
+      error.insertAfter( element.parent( "label" ) );
+    } else if ( element.prop( "type" ) === "radio" ){
+      error.insertAfter( element.parent( "label" ) );
+    }
+    else {
+      error.insertAfter( element );
+    }
+  },
+  highlight: function ( element, errorClass, validClass ) {
+    $( element ).parents( ".valida" ).addClass( "has-error" ).removeClass( "has-success" );
+  },
+  unhighlight: function (element, errorClass, validClass) {
+    $( element ).parents( ".valida" ).addClass( "has-success" ).removeClass( "has-error" );
+  },
+  submitHandler: function(form){
+    var datos = $("#f_nueambiente").serializeArray();
+    datos.push({name: "NomForm", value: "f_nueambiente"});
+    $.ajax({
+       type: "POST",
+       url: "m_inclusiones/ajax/a_gnueambiente.php",
+       dataType: "html",
+       data: datos,   // I WANT TO ADD EXTRA DATA + SERIALIZE DATA
+       beforeSend: function () {
+          $("#b_gnueambiente").html("<i class='fa fa-spinner fa-spin'></i> Enviando");
+          $("#b_gnueambiente").addClass("disabled");
+       },
+       success: function(data){
+          $("#b_gnueambiente").hide();
+          $("#b_gnueambiente").html("Guardar");
+          $("#b_gnueambiente").removeClass("disabled");
+          $("#r_nueambiente").html(data);
+          $("#r_nueambiente").slideDown();
+       }
+    });
+  }
+} );
+//fin función validar nuevo ambiente
+//función actualizar page ambiente ********************************
+$('#m_nueambiente').on('hidden.bs.modal', function () {
+ document.location.reload();
+})
+//fin función actualizar page ambiente
+//funciones editar ambiente
+function ediambiente(id){
+$.ajax({
+  type: "post",
+  url: "m_inclusiones/ajax/a_ediambiente.php",
+  data: { idamb : id },
+  beforeSend: function () {
+    $("#r_ediambiente").html("<img src='m_images/cargando.gif'>");
+  },
+  success:function(a){
+    $("#r_ediambiente").html(a);
+    $("#b_gediambiente").show();
+  }
+});
+};
+//funcion validar editar ambiente
+$( "#f_ediambiente" ).validate( {
+  rules: {
+    dep:"required",
+    den:"required",
+    loc:"required",
+    pis:"required",
+    ofi:{ required: true, minlength: 3},
+
+  },
+  messages: {
+    dep:{required:"Seleccione la dependencia"},
+    den:{required:"Elija una denominacion"},
+    loc:{required:"Seleccione el local"},
+    pis:{required:"Elija el Piso"},
+    ofi:{required:"Escriba el número de oficina", minlength:"Mínimo 3 caracteres"},
+
+  },
+    errorElement: "em",
+    errorPlacement: function ( error, element ) {
+      // Add the `help-block` class to the error element
+      error.addClass( "help-block" );
+
+      if ( element.prop( "type" ) === "checkbox" ) {
+        error.insertAfter( element.parent( "label" ) );
+      } else if ( element.prop( "type" ) === "radio" ){
+        error.insertAfter( element.parent( "label" ) );
+      }
+      else {
+        error.insertAfter( element );
+      }
+    },
+    highlight: function ( element, errorClass, validClass ) {
+      $( element ).parents( ".valida" ).addClass( "has-error" ).removeClass( "has-success" );
+    },
+    unhighlight: function (element, errorClass, validClass) {
+      $( element ).parents( ".valida" ).addClass( "has-success" ).removeClass( "has-error" );
+    },
+    submitHandler: function(form){
+      var datos = $("#f_ediambiente").serializeArray();
+      datos.push({name: "NomForm", value: "f_ediambiente"});
+      $.ajax({
+         type: "POST",
+         url: "m_inclusiones/ajax/a_gediambiente.php",
+         dataType: "html",
+         data: datos,   // I WANT TO ADD EXTRA DATA + SERIALIZE DATA
+         beforeSend: function () {
+            $("#b_gediambiente").html("<i class='fa fa-spinner fa-spin'></i> Enviando");
+            $("#b_gediambiente").addClass("disabled");
+         },
+         success: function(data){
+            $("#b_gediambiente").hide();
+            $("#b_gediambiente").html("Guardar");
+            $("#b_gediambiente").removeClass("disabled");
+            $("#r_ediambiente").html(data);
+            $("#r_ediambiente").slideDown();
+         }
+      });
+    }
+  } );
+//fin función validar ambiente
+//función actualizar page ambiente
+$('#m_ediambiente').on('hidden.bs.modal', function () {
+ document.location.reload();
+})
+//fin función actualizar page ambiente
+//fin funciones editar ambiente
+//funciones desactivar ambiente
+function desambiente(id){
+$.ajax({
+  type: "post",
+  url: "m_inclusiones/ajax/a_desambiente.php",
+  data: { idamb : id },
+  beforeSend: function () {
+    $("#r_desambiente").html("<img scr='m_images/cargando.gif'>");
+  },
+  success:function(a){
+    $("#r_desambiente").html(a);
+    $("#b_gdesambiente").show();
+  }
+});
+};
+$("#f_desambiente").submit(function(e){
+  e.preventDefault();
+  var datos = $("#f_desambiente").serializeArray();
+  datos.push({name: "NomForm", value: "f_desambiente"});
+  $.ajax({
+        data:  datos,
+        url:   "m_inclusiones/ajax/a_gdesambiente.php",
+        type:  "post",
+        beforeSend: function () {
+          $("#r_desambiente").html("<img scr='m_images/cargando.gif'>");
+          $("#b_gdesambiente").hide();
+        },
+        success:  function (response) {
+          $("#r_desambiente").html(response);
+        }
+    });
+});
+//función actualizar page ambiente
+$('#m_desambiente').on('hidden.bs.modal', function () {
+ document.location.reload();
+})
+//fin función actualizar page ambiente
+//fin funciones desactivar ambiente
+//fin funciones mantenimiento ambiente **********************
+
+//funcion reporte personal
 $("#f_reppersonal").validate({
   rules: {
     depen: "required",

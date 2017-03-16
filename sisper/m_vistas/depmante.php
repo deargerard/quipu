@@ -34,8 +34,8 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                         <thead>
                           <tr>
                             <th>DEPENDENCIA</th>
-                            <th>DISTRITO</th>
-                            <th>DIRECCIÓN</th>
+                            <th>SIGLAS</th>
+                            <th>RESPONSABLE</th>
                             <th>ESTADO</th>
                             <th>ACCIÓN</th>
                           </tr>
@@ -43,9 +43,9 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                         <tbody>
                           <?php
                             if(accesoadm($cone,$_SESSION['identi'],6)){
-                              $cdep=mysqli_query($cone,"SELECT idDependencia, Denominacion, Direccion, idDistrito, d.Estado FROM dependencia AS d INNER JOIN local AS l ON d.idLocal=l.idLocal ORDER BY Denominacion ASC");
+                              $cdep=mysqli_query( $cone, "SELECT idDependencia, Denominacion, Siglas, d.Estado, concat(e.ApellidoPat, ' ', e.ApellidoMat, ', ', e.Nombres) as nombre FROM dependencia d LEFT JOIN empleado e ON e.idEmpleado=d.jefe ORDER BY Denominacion ASC" );
                             }else{
-                              $cdep=mysqli_query($cone,"SELECT idDependencia, Denominacion, Direccion, idDistrito, d.Estado FROM dependencia AS d INNER JOIN local AS l ON d.idLocal=l.idLocal WHERE d.estado=1 ORDER BY Denominacion ASC");
+                              $cdep=mysqli_query( $cone, "SELECT idDependencia, Denominacion, Siglas, d.Estado, concat(e.ApellidoPat, ' ', e.ApellidoMat, ', ', e.Nombres) as nombre FROM dependencia d LEFT JOIN empleado e ON e.idEmpleado=d.jefe WHERE d.estado = 1 ORDER BY Denominacion ASC" );
                             }
                             $est="";
                             while($rdep=mysqli_fetch_assoc($cdep)){
@@ -57,8 +57,8 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                           ?>
                           <tr>
                             <td><?php echo $rdep['Denominacion'] ?></td>
-                            <td><?php echo nomdistrito($cone,$rdep['idDistrito']) ?></td>
-                            <td><?php echo $rdep['Direccion'] ?></td>
+                            <td><?php echo $rdep['Siglas'] ?></td>
+                            <td><?php echo $rdep['nombre'] ?></td>
                             <td><?php echo $est ?></td>
                             <td>
                               <div class="btn-group">
@@ -94,9 +94,9 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                         <tfoot>
                           <tr>
                             <th>DEPENDENCIA</th>
-                            <th>DISTRITO</th>
-                            <th>DIRECCIÓN</th>
-                            <th>ACCIÓN</th>
+                            <th>SIGLAS</th>
+                            <th>RESPONSABLE</th>
+                            <th>ESTADO</th>
                           </tr>
                         </tfoot>
                       </table>
@@ -112,7 +112,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
               </div>
               <!-- /.box-body -->
               <div class="box-footer">
-                
+
               </div>
               <!-- /.box-footer-->
             </div>
@@ -130,7 +130,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
         <h4 class="modal-title" id="myModalLabel">Dependencia</h4>
       </div>
       <div class="modal-body" id="r_detdependencia">
-        
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
@@ -192,7 +192,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
         <h4 class="modal-title" id="myModalLabel">Nueva Dependencia</h4>
       </div>
       <div class="modal-body" id="r_nuedependencia">
-        
+
       </div>
       <div class="modal-footer">
         <button type="submit" class="btn bg-teal" id="b_gnuedependencia">Guardar</button>

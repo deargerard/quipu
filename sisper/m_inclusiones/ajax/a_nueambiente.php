@@ -4,20 +4,11 @@ include ("../php/conexion_sp.php");
 include ("../php/funciones.php");
 if(accesoadm($cone,$_SESSION['identi'],6)){
 ?>
-
           <div class="form-group">
-            <label for="den" class="col-sm-3 control-label">Denominación</label>
+            <label for="dir" class="col-sm-3 control-label">Dependencia</label>
             <div class="col-sm-9 valida">
-              <input type="text" class="form-control" id="den" name="den" placeholder="Denominación de la dependencia">
-            </div>
-          </div>
-
-
-          <div class="form-group">
-            <label for="den" class="col-sm-3 control-label">Dependencia Superior</label>
-            <div class="col-sm-9 valida">
-              <select name="pad" id="pad" class="form-control select2" style="width:100%">
-                <option value="">DEPENDENCIA SUPERIOR</option>
+              <select name="dep" id="dep" class="form-control select2" style="width: 100%">
+                <option value="">DEPENDENCIA</option>
                 <?php
                   $cdep=mysqli_query($cone,"SELECT idDependencia, Denominacion FROM dependencia WHERE Estado=1 ORDER BY idDependencia ASC");
                   while($rdep=mysqli_fetch_assoc($cdep)){
@@ -31,10 +22,20 @@ if(accesoadm($cone,$_SESSION['identi'],6)){
             </div>
           </div>
           <div class="form-group">
-
-            <label for="sig" class="col-sm-3 control-label">Siglas</label>
-            <div class="col-sm-6 valida">
-              <input type="text" class="form-control" id="sig" name="sig" placeholder="Siglas">
+            <label for="den" class="col-sm-3 control-label">Tipo</label>
+            <div class="col-sm-9 valida">
+              <select name="den" id="den" class="form-control">
+                <option value="">TIPO AMBIENTE</option>
+                <?php
+                  $ctip=mysqli_query($cone,"SELECT * FROM tipolocal WHERE Estado=1 ORDER BY Tipo ASC");
+                  while($rtip=mysqli_fetch_assoc($ctip)){
+                ?>
+                <option value="<?php echo $rtip['idTipoLocal'] ?>"><?php echo $rtip['Tipo'] ?></option>
+                <?php
+                  }
+                  mysqli_free_result($ctip);
+                ?>
+              </select>
             </div>
           </div>
           <div class="form-group">
@@ -55,25 +56,29 @@ if(accesoadm($cone,$_SESSION['identi'],6)){
             </div>
           </div>
           <div class="form-group">
-            <label for="disfis" class="col-sm-3 control-label">Distrito Fiscal</label>
-            <div class="col-sm-9 valida">
-              <select name="disfis" id="disfis" class="form-control">
-                <option value="">DISTRITO FISCAL</option>
+            <label for="pis" class="col-sm-3 control-label">Piso</label>
+            <div class="col-sm-3 valida">
+              <select name="pis" id="pis" class="form-control">
+                <option value="">PISO</option>
                 <?php
-                  $cdisfis=mysqli_query($cone,"SELECT idDistritoFiscal, Denominacion FROM distritofiscal WHERE Estado=1 ORDER BY idDistritoFiscal ASC");
-                  while($rdisfis=mysqli_fetch_assoc($cdisfis)){
+                  $cpis=mysqli_query($cone,"SELECT * FROM piso WHERE Estado=1 ORDER BY Piso ASC");
+                  while($rpis=mysqli_fetch_assoc($cpis)){
                 ?>
-                <option value="<?php echo $rdisfis['idDistritoFiscal'] ?>"><?php echo $rdisfis['Denominacion'] ?></option>
+                <option value="<?php echo $rpis['idPiso'] ?>"><?php echo $rpis['Piso'] ?></option>
                 <?php
                   }
-                  mysqli_free_result($cdisfis);
+                  mysqli_free_result($cpis);
                 ?>
               </select>
+            </div>
+            <label for="ofi" class="col-sm-3 control-label">Oficina</label>
+            <div class="col-sm-3 valida">
+              <input type="text" class="form-control" id="ofi" name="ofi" placeholder="Oficina">
             </div>
           </div>
 <script>
 $(".select2").select2({
-   dropdownParent: $('#m_nuedependencia')
+   dropdownParent: $('#m_nueambiente')
 });
 </script>
 <?php
