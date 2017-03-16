@@ -2,21 +2,21 @@
 function iseguro($conex,$val)
 {
     $input = htmlentities($val);
-    $seguro = mysqli_real_escape_string ($conex,$input);
+    $seguro = trim(mysqli_real_escape_string ($conex,$input));
     return $seguro;
 }
 function imseguro($conex,$val)
 {
     $val=mb_strtoupper($val,'UTF-8');
     $input = htmlentities($val);
-    $seguro = mysqli_real_escape_string ($conex,$input);
+    $seguro = trim(mysqli_real_escape_string ($conex,$input));
     return $seguro;
 }
 function inseguro($conex,$val)
 {
     $val=mb_strtolower($val,'UTF-8');
     $input = htmlentities($val);
-    $seguro = mysqli_real_escape_string ($conex,$input);
+    $seguro = trim(mysqli_real_escape_string ($conex,$input));
     return $seguro;
 }
 function disprodep($co,$dis){
