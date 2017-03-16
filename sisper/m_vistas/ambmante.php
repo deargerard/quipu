@@ -78,8 +78,17 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                                   ?>
                                   <li class="divider"></li>
                                   <li><a href="#" data-toggle="modal" data-target="#m_ediambiente" onclick="ediambiente(<?php echo $ramb['idDependenciaLocal'] ?>)">Editar</a></li>
+                                  <?php
+                                  if($ramb['Estado']== 1){
+                                    ?>
                                   <li><a href="#" data-toggle="modal" data-target="#m_desambiente" onclick="desambiente(<?php echo $ramb['idDependenciaLocal'] ?>)">Desactivar</a></li>
                                   <?php
+                                  }else{
+                                    ?>
+                                   <li><a href="#" data-toggle="modal" data-target="#m_desambiente" onclick="desambiente(<?php echo $ramb['idDependenciaLocal'] ?>)">Activar</a></li>
+                                   <?php
+                                  }
+
                                   }
                                   ?>
                                 </ul>

@@ -78,8 +78,18 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                                   ?>
                                   <li class="divider"></li>
                                   <li><a href="#" data-toggle="modal" data-target="#m_edidependencia" onclick="edidependencia(<?php echo $rdep['idDependencia'] ?>)">Editar</a></li>
-                                  <li><a href="#" data-toggle="modal" data-target="#m_desdependencia" onclick="desdependencia(<?php echo $rdep['idDependencia'] ?>)">Desactivar</a></li>
                                   <?php
+                                  if($rdep['Estado']== 1){
+                                    ?>
+                                   <li><a href="#" data-toggle="modal" data-target="#m_desdependencia" onclick="desdependencia(<?php echo $rdep['idDependencia'] ?>)">Desactivar</a></li>
+                                   <?php
+                                    }else{
+                                      ?>
+                                     <li><a href="#" data-toggle="modal" data-target="#m_desdependencia" onclick="desdependencia(<?php echo $rdep['idDependencia'] ?>)">Activar</a></li>
+                                     <?php
+                                    }
+
+
                                   }
                                   ?>
                                 </ul>

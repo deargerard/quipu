@@ -5,13 +5,24 @@ include("../php/funciones.php");
 if(accesoadm($cone,$_SESSION['identi'],6)){
   $idd=iseguro($cone,$_POST["idd"]);
   if(isset($idd) && !empty($idd)){
-    $cdep=mysqli_query($cone,"SELECT Denominacion FROM dependencia WHERE idDependencia=$idd");
+    $cdep=mysqli_query($cone,"SELECT Denominacion, Estado FROM dependencia WHERE idDependencia=$idd");
     $rdep=mysqli_fetch_assoc($cdep);
+
   ?>
     <table class="table table-striped">
       <thead>
         <tr>
-          <th>Esta seguro que desea desactivar la dependencia:</th>
+          <?php
+          if ($rdep['Estado']==1){
+           ?>
+          <th>¿Está seguro que desea desactivar la dependencia?</th>
+          <?php
+        } else {
+          ?>
+          <th>¿Está seguro que desea activar la dependencia?</th>
+          <?php
+        }
+           ?>
         </tr>
       </thead>
       <tbody>

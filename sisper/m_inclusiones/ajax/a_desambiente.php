@@ -11,7 +11,17 @@ if(accesoadm($cone,$_SESSION['identi'],6)){
     <table class="table table-striped table-bordered">
       <thead>
         <tr>
-          <th>Está seguro que desea desactivar el Ambiente:</th>
+          <?php
+          if ($ramb['Estado']==1){
+           ?>
+          <th>¿Está seguro que desea desactivar el ambiente?</th>
+          <?php
+        } else {
+          ?>
+          <th>¿Está seguro que desea activar el ambiente?</th>
+          <?php
+        }
+           ?>
         </tr>
       </thead>
       <tbody>
