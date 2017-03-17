@@ -12,21 +12,21 @@ if(accesocon($cone,$_SESSION['identi'],6)){
 		<table class="table table-striped table-bordered">
 			<thead>
 				<tr>
-					<th colspan="2" ><h4 class="text-aqua"> <strong> <?php echo $ramb['Tipo'] ?></strong></h4></th>
-				</tr>
-				<tr>
-					<th colspan="2"><?php echo $ramb['Denominacion'] ?></th>
+					<th colspan="3" ><h4 class="text-aqua"> <strong> <?php echo $ramb['Tipo'] ?></strong></h4></th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
-					<td colspan="10" ><?php echo nomlocal( $cone, $ramb['idLocal']) ?></td>
+					<th colspan="3"><?php echo $ramb['Denominacion'] ?></th>
+				</tr>
+				<tr>
+					<td colspan="3" ><?php echo nomlocal( $cone, $ramb['idLocal']) ?></td>
 				</tr>
 				<?php if(!empty($ramb['Piso'])){ ?>
 				<tr>
 					<th><?php echo $ramb['Piso'] ?></th>
 					<th>Ambiente</th>
-					<th><?php echo $ramb['Oficina'] ?></th>
+					<td><?php echo $ramb['Oficina'] ?></td>
 				</tr>
 				<?php } ?>
 
@@ -35,7 +35,7 @@ if(accesocon($cone,$_SESSION['identi'],6)){
 				<?php } ?>
 				<tr>
 					<th>Estado</th>
-					<td><?php echo estado ($ramb['Estado']) ?></td>
+					<td colspan="2"><?php echo estado ($ramb['Estado']) ?></td>
 				</tr>
 			</tbody>
 		</table>

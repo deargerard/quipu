@@ -8,7 +8,7 @@ if(accesoadm($cone,$_SESSION['identi'],6)){
           <div class="form-group">
             <label for="coo" class="col-sm-3 control-label">Coordinación</label>
             <div class="col-sm-9 valida">
-              <select name="coo" id="coo" class="form-control">
+              <select name="coo" id="coo" class="form-control select2" style="width: 100%;">
                 <option value="">COORDINACIÓN</option>
                 <?php
                 $c=mysqli_query($cone,"SELECT idCoordinacion, Denominacion FROM coordinacion WHERE Estado=1 ORDER BY Denominacion ASC");
@@ -27,7 +27,7 @@ if(accesoadm($cone,$_SESSION['identi'],6)){
           <div class="form-group">
             <label for="cood" class="col-sm-3 control-label">Coordinador</label>
             <div class="col-sm-9 valida">
-              <select name="cood" id="cood" class="form-control">
+              <select name="cood" id="cood" class="form-control select2" style="width: 100%;">
                 <option value="">COORDINADOR</option>
                 <?php
                 $c=mysqli_query($cone,"SELECT idEmpleado, ApellidoPat, ApellidoMat, Nombres FROM empleado WHERE Estado=1 ORDER BY ApellidoPat ASC, ApellidoMat ASC, Nombres ASC");
@@ -72,6 +72,7 @@ if(accesoadm($cone,$_SESSION['identi'],6)){
               todayHighlight: true,
               autoclose: true
             });
+            $(".select2").select2();
           </script>
 <?php
   mysqli_close($cone);

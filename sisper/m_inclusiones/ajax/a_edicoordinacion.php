@@ -12,7 +12,7 @@ if(accesoadm($cone,$_SESSION['identi'],6)){
             <label for="den" class="col-sm-3 control-label">Denominación</label>
             <div class="col-sm-9 valida">
               <input type="hidden" name="idco" id="idco" value="<?php echo $idco; ?>">
-              <input type="text" class="form-control" id="den" name="den" placeholder="Dirección del local" value="<?php echo $re['Denominacion']; ?>">
+              <input type="text" class="form-control" id="den" name="den" placeholder="Denominacion de la coordinación" value="<?php echo $re['Denominacion']; ?>">
             </div>
           </div>
           <div class="form-group">

@@ -316,7 +316,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
 </div>
 <!--Fin Modal Nueva coordinacion-->
 <!--Modal asignar coordinador-->
-<div class="modal fade" id="m_asicoordinador" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="m_asicoordinador" role="dialog" aria-labelledby="myModalLabel">
   <form id="f_asicoordinador" action="" class="form-horizontal">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -337,7 +337,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
 </div>
 <!--Fin Modal asignar coordinador-->
 <!--Modal Editar Dependencia-->
-<div class="modal fade" id="m_edicoordinador" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="m_edicoordinador" role="dialog" aria-labelledby="myModalLabel">
   <form id="f_edicoordinador" action="" class="form-horizontal">
   <div class="modal-dialog" role="document">
     <div class="modal-content">

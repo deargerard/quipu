@@ -388,3 +388,6 @@ $( "#f_edicoordinador" ).validate( {
     }
   } );
 //fin función validar coordinación
+$('#m_nuecoordinacion, #m_edicoordinacion, #m_asicoordinador, #m_edicoordinador').on('hidden.bs.modal', function () {
+ document.location.reload();
+})

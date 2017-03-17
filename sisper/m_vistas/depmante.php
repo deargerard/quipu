@@ -151,7 +151,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
 <!--Fin Modal Detalle Dependencia-->
 <?php if(accesoadm($cone,$_SESSION['identi'],6)){ ?>
 <!--Modal Editar Dependencia-->
-<div class="modal fade" id="m_edidependencia" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="m_edidependencia" role="dialog" aria-labelledby="myModalLabel">
   <form id="f_edidependencia" action="" class="form-horizontal">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -193,7 +193,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
 </div>
 <!--Fin Modal Desactivar Dependencia-->
 <!--Modal Nueva Dependencia-->
-<div class="modal fade" id="m_nuedependencia" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="m_nuedependencia" role="dialog" aria-labelledby="myModalLabel">
   <form id="f_nuedependencia" action="" class="form-horizontal">
   <div class="modal-dialog" role="document">
     <div class="modal-content">

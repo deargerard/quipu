@@ -17,7 +17,7 @@ if(accesocon($cone,$_SESSION['identi'],6)){
 			</thead>
 			<tbody>
 				<tr>
-					<td colspan="2" class="text-fuchsia"><?php echo $rlo['Direccion'] ?></td>
+					<td colspan="2" class="text-aqua"><h4><strong><?php echo $rlo['Direccion'] ?></strong></h4></td>
 				</tr>
 				<?php if(!empty($rlo['Urbanizacion'])){ ?>
 				<tr>
@@ -27,7 +27,7 @@ if(accesocon($cone,$_SESSION['identi'],6)){
 				<?php } ?>
 				<tr>
 					<th>Distrito</th>
-					<td><?php echo nomdistrito($cone,$rlo['idDistrito']) ?></td>
+					<td class="text-olive"><?php echo nomdistrito($cone,$rlo['idDistrito']) ?></td>
 				</tr>
 				<?php if(!empty($rlo['Telefono'])){ ?>
 				<tr>

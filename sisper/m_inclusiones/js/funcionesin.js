@@ -380,14 +380,16 @@ $("#f_camcontrasena").validate({
       den: {required:true, minlength:5},
       pad: "required",
       sig: {required:true, minlength:3},
-      loc: "required",
+      jef: "required",
+      coo: "required",
       disfis: "required"
     },
     messages: {
-      den: {required:"Ingrese denominación de la dependencia.",minlength:"Mínimo 5 caracteres"},
-      pad: "Elija una Dependencia Superior",
-      sig: {required:"Ingrese siglas de la dependencia.",minlength:"Mínimo 3 caracteres"},
-      loc: "Elija el local.",
+      den: {required:"Ingrese denominación de la dependencia.",minlength:"Mínimo 5 caracteres."},
+      pad: "Elija una Dependencia Superior.",
+      sig: {required:"Ingrese siglas de la dependencia.",minlength:"Mínimo 3 caracteres."},
+      jef: "Elija un responsable de la dependencia.",
+      coo: "Elija una coordinación",
       disfis: "Elija el distrito fiscal al que pertenece."
     },
     errorElement: "em",
@@ -436,16 +438,18 @@ $("#f_camcontrasena").validate({
   $( "#f_edidependencia" ).validate( {
     rules: {
       den: {required:true, minlength:5},
-      pad:"required",
+      pad: "required",
       sig: {required:true, minlength:3},
       jef: "required",
+      coo: "required",
       disfis: "required"
     },
     messages: {
-      den: {required:"Ingrese denominación de la dependencia.",minlength:"Mínimo 5 caracteres"},
-      pad:"Elija la dependencia superior",
-      sig: {required:"Ingrese siglas de la dependencia.",minlength:"Mínimo 3 caracteres"},
-      jef: "Elija el Responsable.",
+      den: {required:"Ingrese denominación de la dependencia.",minlength:"Mínimo 5 caracteres."},
+      pad: "Elija una Dependencia Superior.",
+      sig: {required:"Ingrese siglas de la dependencia.",minlength:"Mínimo 3 caracteres."},
+      jef: "Elija un responsable de la dependencia.",
+      coo: "Elija una coordinación",
       disfis: "Elija el distrito fiscal al que pertenece."
     },
     errorElement: "em",
