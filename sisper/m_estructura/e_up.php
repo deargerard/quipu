@@ -253,7 +253,7 @@
         ?>
         <li class="treeview" id="organizacional">
           <a href="#">
-            <i class="fa fa-wrench"></i>
+            <i class="fa fa-sitemap"></i>
             <span>Organizacional</span>
             <i class="fa fa-angle-left pull-right"></i>
           </a>
@@ -262,9 +262,21 @@
             <li id="coomante"><a href="coomante.php"><i class="fa fa-circle-o"></i> Coordinación</a></li>
             <li id="locmante"><a href="locmante.php"><i class="fa fa-circle-o"></i> Local</a></li>
             <li id="ambmante"><a href="ambmante.php"><i class="fa fa-circle-o"></i> Ambiente</a></li>
-            <!--<li id="benmante"><a href="benmante.php"><i class="fa fa-circle-o"></i> Beneficio</a></li>
-            <li id="sispenmante"><a href="sispenmante.php"><i class="fa fa-circle-o"></i> Sistema Pensión</a></li>
-            <li id="tiptelmante"><a href="tiptelmante.php"><i class="fa fa-circle-o"></i> Tipo Teléfono</a></li>-->
+          </ul>
+        </li>
+        <?php
+        }
+         if(accesocon($cone,$_SESSION['identi'],12)){
+        ?>
+        <li class="treeview" id="directorio">
+          <a href="#">
+            <i class="fa fa-book"></i>
+            <span>Directorio</span>
+            <i class="fa fa-angle-left pull-right"></i>
+          </a>
+          <ul class="treeview-menu">
+            <li id="dirper"><a href="dirper.php"><i class="fa fa-circle-o"></i> Personal</a></li>
+            <li id="dirdep"><a href="dirdep.php"><i class="fa fa-circle-o"></i> Dependencia</a></li>
           </ul>
         </li>
         <?php
