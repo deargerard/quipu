@@ -14,7 +14,11 @@ $(document).ready(function(){
   $("ul.sidebar-menu li").removeClass("active");
   $("#directorio").addClass("active");
   $("#dirper").addClass("active");
+<<<<<<< HEAD
 	$(".select2").select2();
+=======
+  $(".select2").select2();
+>>>>>>> 0e8e4d3887489604116c24b05f3dbd894fb245c7
 });
 </script>
 <?php

@@ -391,3 +391,387 @@ $( "#f_edicoordinador" ).validate( {
 $('#m_nuecoordinacion, #m_edicoordinacion, #m_asicoordinador, #m_edicoordinador').on('hidden.bs.modal', function () {
  document.location.reload();
 })
+
+//funciones directorio personal
+//funcion validar formulario buscar telefono personal
+$( "#f_btelper" ).validate( {
+    rules: {
+      per: "required"
+    },
+    messages: {
+      fec: "Elija un personal."
+    },
+    errorElement: "em",
+    errorPlacement: function ( error, element ) {
+      // Add the `help-block` class to the error element
+      error.addClass( "help-block" );
+
+      if ( element.prop( "type" ) === "checkbox" ) {
+        error.insertAfter( element.parent( "label" ) );
+      } else if ( element.prop( "type" ) === "radio" ){
+        error.insertAfter( element.parent( "label" ) );
+      }
+      else {
+        error.insertAfter( element );
+      }
+    },
+    highlight: function ( element, errorClass, validClass ) {
+      $( element ).parents( ".valida" ).addClass( "has-error" ).removeClass( "has-success" );
+    },
+    unhighlight: function (element, errorClass, validClass) {
+      $( element ).parents( ".valida" ).addClass( "has-success" ).removeClass( "has-error" );
+    },
+    submitHandler: function(form){
+      var datos = $("#f_btelper").serializeArray();
+      $.ajax({
+         type: "POST",
+         url: "m_inclusiones/a_directorio/a_btelper.php",
+         dataType: "html",
+         data: datos,   // I WANT TO ADD EXTRA DATA + SERIALIZE DATA
+         beforeSend: function () {
+            $("#b_btelper").html("<i class='fa fa-spinner fa-spin'></i> Buscando");
+            $("#b_btelper").addClass("disabled");
+         },
+         success: function(data){
+            $("#b_btelper").html("Buscar");
+            $("#b_btelper").removeClass("disabled");
+            $(".r_telefono").html(data);
+            $(".r_telefono").slideDown();
+         }
+      });
+    }
+  } );
+//funcion validar formulario buscar telefono personal
+//funcion validar formulario buscar correo personal
+$( "#f_bcorper" ).validate( {
+    rules: {
+      per: "required"
+    },
+    messages: {
+      fec: "Elija un personal."
+    },
+    errorElement: "em",
+    errorPlacement: function ( error, element ) {
+      // Add the `help-block` class to the error element
+      error.addClass( "help-block" );
+
+      if ( element.prop( "type" ) === "checkbox" ) {
+        error.insertAfter( element.parent( "label" ) );
+      } else if ( element.prop( "type" ) === "radio" ){
+        error.insertAfter( element.parent( "label" ) );
+      }
+      else {
+        error.insertAfter( element );
+      }
+    },
+    highlight: function ( element, errorClass, validClass ) {
+      $( element ).parents( ".valida" ).addClass( "has-error" ).removeClass( "has-success" );
+    },
+    unhighlight: function (element, errorClass, validClass) {
+      $( element ).parents( ".valida" ).addClass( "has-success" ).removeClass( "has-error" );
+    },
+    submitHandler: function(form){
+      var datos = $("#f_bcorper").serializeArray();
+      $.ajax({
+         type: "POST",
+         url: "m_inclusiones/a_directorio/a_bcorper.php",
+         dataType: "html",
+         data: datos,   // I WANT TO ADD EXTRA DATA + SERIALIZE DATA
+         beforeSend: function () {
+            $("#b_bcorper").html("<i class='fa fa-spinner fa-spin'></i> Buscando");
+            $("#b_bcorper").addClass("disabled");
+         },
+         success: function(data){
+            $("#b_bcorper").html("Buscar");
+            $("#b_bcorper").removeClass("disabled");
+            $(".r_correo").html(data);
+            $(".r_correo").slideDown();
+         }
+      });
+    }
+  } );
+//funcion validar formulario buscar correo personal
+//funciones nuevo teléfono
+function nuetel(id){
+  $.ajax({
+    type: "post",
+    url: "m_inclusiones/a_directorio/a_fnuetel.php",
+    data: { id : id },
+    beforeSend: function () {
+      $("#r_nuetel").html("<img src='m_images/cargando.gif'>");
+    },
+    success:function(a){
+      $("#r_nuetel").html(a);
+      $("#b_gnuetel").show();
+    }
+  });
+};
+//fin funciones nuevo teléfono
+//funcion validar formulario nuevo telefono personal
+$( "#f_nuetel" ).validate( {
+    rules: {
+      tiptel: "required",
+      num:{required:true,minlength:6}
+    },
+    messages: {
+      fec: "Elija un tipo de telefono.",
+      num:{required:"Ingrese el número.",minlength:"Mínimo 6 caracteres."}
+    },
+    errorElement: "em",
+    errorPlacement: function ( error, element ) {
+      // Add the `help-block` class to the error element
+      error.addClass( "help-block" );
+
+      if ( element.prop( "type" ) === "checkbox" ) {
+        error.insertAfter( element.parent( "label" ) );
+      } else if ( element.prop( "type" ) === "radio" ){
+        error.insertAfter( element.parent( "label" ) );
+      }
+      else {
+        error.insertAfter( element );
+      }
+    },
+    highlight: function ( element, errorClass, validClass ) {
+      $( element ).parents( ".valida" ).addClass( "has-error" ).removeClass( "has-success" );
+    },
+    unhighlight: function (element, errorClass, validClass) {
+      $( element ).parents( ".valida" ).addClass( "has-success" ).removeClass( "has-error" );
+    },
+    submitHandler: function(form){
+      var datos = $("#f_nuetel").serializeArray();
+      $.ajax({
+         type: "POST",
+         url: "m_inclusiones/a_directorio/a_gnuetel.php",
+         dataType: "html",
+         data: datos,   // I WANT TO ADD EXTRA DATA + SERIALIZE DATA
+         beforeSend: function () {
+            $("#b_gnuetel").html("<i class='fa fa-spinner fa-spin'></i> Guardando");
+            $("#b_gnuetel").addClass("disabled");
+         },
+         success: function(data){
+            $("#b_gnuetel").hide();
+            $("#b_gnuetel").html("Guardar");
+            $("#b_gnuetel").removeClass("disabled");
+            $("#r_nuetel").html(data);
+            $("#r_nuetel").slideDown();
+         }
+      });
+    }
+  } );
+//funcion validar formulario nuevo telefono personal
+//funciones nuevo teléfono
+function editel(id){
+  $.ajax({
+    type: "post",
+    url: "m_inclusiones/a_directorio/a_feditel.php",
+    data: { id : id },
+    beforeSend: function () {
+      $("#r_editel").html("<img src='m_images/cargando.gif'>");
+    },
+    success:function(a){
+      $("#r_editel").html(a);
+      $("#b_geditel").show();
+    }
+  });
+};
+//fin funciones nuevo teléfono
+//funcion validar formulario nuevo telefono personal
+$( "#f_editel" ).validate( {
+    rules: {
+      tiptel: "required",
+      num:{required:true,minlength:6}
+    },
+    messages: {
+      fec: "Elija un tipo de telefono.",
+      num:{required:"Ingrese el número.",minlength:"Mínimo 6 caracteres."}
+    },
+    errorElement: "em",
+    errorPlacement: function ( error, element ) {
+      // Add the `help-block` class to the error element
+      error.addClass( "help-block" );
+
+      if ( element.prop( "type" ) === "checkbox" ) {
+        error.insertAfter( element.parent( "label" ) );
+      } else if ( element.prop( "type" ) === "radio" ){
+        error.insertAfter( element.parent( "label" ) );
+      }
+      else {
+        error.insertAfter( element );
+      }
+    },
+    highlight: function ( element, errorClass, validClass ) {
+      $( element ).parents( ".valida" ).addClass( "has-error" ).removeClass( "has-success" );
+    },
+    unhighlight: function (element, errorClass, validClass) {
+      $( element ).parents( ".valida" ).addClass( "has-success" ).removeClass( "has-error" );
+    },
+    submitHandler: function(form){
+      var datos = $("#f_editel").serializeArray();
+      $.ajax({
+         type: "POST",
+         url: "m_inclusiones/a_directorio/a_geditel.php",
+         dataType: "html",
+         data: datos,   // I WANT TO ADD EXTRA DATA + SERIALIZE DATA
+         beforeSend: function () {
+            $("#b_geditel").html("<i class='fa fa-spinner fa-spin'></i> Guardando");
+            $("#b_geditel").addClass("disabled");
+         },
+         success: function(data){
+            $("#b_geditel").hide();
+            $("#b_geditel").html("Guardar");
+            $("#b_geditel").removeClass("disabled");
+            $("#r_editel").html(data);
+            $("#r_editel").slideDown();
+         }
+      });
+    }
+  } );
+//funcion validar formulario nuevo telefono personal
+//funciones nuevo teléfono
+function elitel(id){
+  $.ajax({
+    type: "post",
+    url: "m_inclusiones/a_directorio/a_felitel.php",
+    data: { id : id },
+    beforeSend: function () {
+      $("#r_elitel").html("<img src='m_images/cargando.gif'>");
+      $("#b_sielitel").hide();
+      $("#b_noelitel").html("Cerrar");
+    },
+    success:function(a){
+      $("#r_elitel").html(a);
+      $("#b_sielitel").show();
+      $("#b_noelitel").html("No");
+    }
+  });
+};
+//fin funciones nuevo teléfono
+//funcion eliminar teléfono
+$("#f_elitel").submit(function(e){
+  e.preventDefault();
+  var datos = $("#f_elitel").serializeArray();
+  $.ajax({
+        data:  datos,
+        url:   "m_inclusiones/a_directorio/a_elitel.php",
+        type:  "post",
+        beforeSend: function () {
+          $("#b_sielitel").html("<i class='fa fa-spinner fa-spin'></i> Eliminando");
+          $("#b_sielitel").addClass("disabled");
+          $("#b_noelitel").hide();
+        },
+        success:  function (response) {
+          $("#b_sielitel").hide();
+          $("#b_noelitel").html("Cerrar");
+          $("#b_noelitel").show();
+          $("#r_elitel").html(response);
+        }
+    });
+});
+//fin funcion eliminar teléfono
+//funciones editar correo
+function edicor(id,tc){
+  $.ajax({
+    type: "post",
+    url: "m_inclusiones/a_directorio/a_fedicor.php",
+    data: { id : id, tc : tc },
+    beforeSend: function () {
+      $("#r_edicor").html("<img src='m_images/cargando.gif'>");
+      $("#b_gedicor").hide();
+    },
+    success:function(a){
+      $("#b_gedicor").show();
+      $("#r_edicor").html(a);
+    }
+  });
+};
+//fin funciones editar correo
+//funcion validar formulario nuevo telefono personal
+$( "#f_edicor" ).validate( {
+    rules: {
+      cor:{required:true,email:true}
+    },
+    messages: {
+      cor:{required:"Ingrese el correo"}
+    },
+    errorElement: "em",
+    errorPlacement: function ( error, element ) {
+      // Add the `help-block` class to the error element
+      error.addClass( "help-block" );
+
+      if ( element.prop( "type" ) === "checkbox" ) {
+        error.insertAfter( element.parent( "label" ) );
+      } else if ( element.prop( "type" ) === "radio" ){
+        error.insertAfter( element.parent( "label" ) );
+      }
+      else {
+        error.insertAfter( element );
+      }
+    },
+    highlight: function ( element, errorClass, validClass ) {
+      $( element ).parents( ".valida" ).addClass( "has-error" ).removeClass( "has-success" );
+    },
+    unhighlight: function (element, errorClass, validClass) {
+      $( element ).parents( ".valida" ).addClass( "has-success" ).removeClass( "has-error" );
+    },
+    submitHandler: function(form){
+      var datos = $("#f_edicor").serializeArray();
+      $.ajax({
+         type: "POST",
+         url: "m_inclusiones/a_directorio/a_gedicor.php",
+         dataType: "html",
+         data: datos,   // I WANT TO ADD EXTRA DATA + SERIALIZE DATA
+         beforeSend: function () {
+            $("#b_gedicor").html("<i class='fa fa-spinner fa-spin'></i> Guardando");
+            $("#b_gedicor").addClass("disabled");
+         },
+         success: function(data){
+            $("#b_gedicor").hide();
+            $("#b_gedicor").html("Guardar");
+            $("#b_gedicor").removeClass("disabled");
+            $("#r_edicor").html(data);
+            $("#r_edicor").slideDown();
+         }
+      });
+    }
+  } );
+//funcion validar formulario nuevo telefono personal
+
+$('#m_nuetel, #m_editel, #m_elitel').on('hidden.bs.modal', function () {
+      var per = $("#per").val();
+      $.ajax({
+         type: "POST",
+         url: "m_inclusiones/a_directorio/a_btelper.php",
+         dataType: "html",
+         data: {per: per},   // I WANT TO ADD EXTRA DATA + SERIALIZE DATA
+         beforeSend: function () {
+            $("#b_btelper").html("<i class='fa fa-spinner fa-spin'></i> Actualizando");
+            $("#b_btelper").addClass("disabled");
+         },
+         success: function(data){
+            $("#b_btelper").html("Buscar");
+            $("#b_btelper").removeClass("disabled");
+            $(".r_telefono").html(data);
+            $(".r_telefono").slideDown();
+         }
+      });
+})
+
+$('#m_edicor').on('hidden.bs.modal', function () {
+      var per1 = $("#per1").val();
+      $.ajax({
+         type: "POST",
+         url: "m_inclusiones/a_directorio/a_bcorper.php",
+         dataType: "html",
+         data: {per1: per1},   // I WANT TO ADD EXTRA DATA + SERIALIZE DATA
+         beforeSend: function () {
+            $("#b_btelper").html("<i class='fa fa-spinner fa-spin'></i> Actualizando");
+            $("#b_btelper").addClass("disabled");
+         },
+         success: function(data){
+            $("#b_btelper").html("Buscar");
+            $("#b_btelper").removeClass("disabled");
+            $(".r_correo").html(data);
+            $(".r_correo").slideDown();
+         }
+      });
+})
