@@ -27,21 +27,36 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
               <div class="tab-pane active" id="tab_1">
 
                 <!--Formulario busqueda-->
-                <form class="form-inline" id="f_bteldep">
-                  <div class="form-group">
-                    <div class="input-group valida">
-                      <select class="form-control" name="ano" id="ano">
-                        <option value="">DEPENDENCIA</option>
-                        <option value="2016">INFORMÁTICA</option>
-                      </select>
-                    </div>
-                  </div>
-                  <button type="submit" class="btn btn-default" id="b_bteldep">Buscar</button>
-                </form>
+                  <form id="f_bteldep">
+                            <div class="row">
+                              <div class="col-sm-6">
+                                <div class="form-group valida">
+                                  <select name="dep" id="dep" class="form-control select2" style="width:100%" >
+                                    <option value="">DEPENDENCIA</option>
+                                    <?php
+                                      $cdep=mysqli_query($cone,"SELECT idDependencia, Denominacion FROM dependencia WHERE Estado=1 ORDER BY Denominacion ASC");
+                                      while($rdep=mysqli_fetch_assoc($cdep)){
+                                    ?>
+                                    <option value="<?php echo $rdep['idDependencia']; ?>"><?php echo $rdep['Denominacion']; ?></option>
+                                    <?php
+                                      }
+                                      mysqli_free_result($cdep);
+                                    ?>
+                                  </select>
+                                </div>
+                              </div>
+                              <div class="col-sm-2">
+                                <button type="submit" class="btn btn-default" id="b_bteldep">Buscar</button>
+                              </div>
+                            </div>
+                          </form>
                 <!--Fin formulario busqueda-->
                 <!--Div resultados-->
+                <hr>
                 <div class="r_telefono">
-                  <h2>Resultados</h2>
+                  <h4 class="text-aqua"><strong>Resultados</strong></h4>
+
+
                 </div>
                 <!--Fin div resultados-->
 
@@ -58,52 +73,74 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
     </section>
     <!-- /.content -->
 
-<!--Modal nuevo comunicado-->
-<div class="modal fade" id="m_ncomunicado" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  
-  <div class="modal-dialog modal-lg" role="document">
+<!--Modal nuevo telefono-->
+<div class="modal fade" id="m_ntelefono" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+
+  <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <form id="f_ncomunicado" action="" class="form-horizontal">
+      <form id="f_ntelefono" action="" class="form-horizontal">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Nuevo Comunicado</h4>
+        <h4 class="modal-title" id="myModalLabel">Nuevo Telefono</h4>
       </div>
-      <div class="modal-body" id="d_ncomunicado">
+      <div class="modal-body" id="d_ntelefono">
 
       </div>
       <div class="modal-footer">
-        <button type="submit" class="btn bg-teal" id="b_gncomunicado">Guardar</button>
+        <button type="submit" class="btn bg-teal" id="b_gntelefono">Guardar</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
       </div>
       </form>
     </div>
   </div>
-  
+
 </div>
-<!--Fin Modal nuevo comunicado-->
+<!--Fin Modal nuevo telefono-->
+<!--Modal editar telefono-->
+<div class="modal fade" id="m_editel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 
-
-<!--Modal desactivar boletín-->
-<div class="modal fade" id="m_dboletin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <form id="f_dboletin" action="" class="form-horizontal">
+      <form id="f_etelefono" action="" class="form-horizontal">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Desactivar Boletín</h4>
+        <h4 class="modal-title" id="myModalLabel">Editar Telefono</h4>
       </div>
-      <div class="modal-body" id="d_dboletin">
+      <div class="modal-body" id="d_etelefono">
 
       </div>
       <div class="modal-footer">
-        <button type="submit" class="btn btn-danger" id="b_sidboletin">Si</button>
-        <button type="button" class="btn btn-default" id="b_nodboletin" data-dismiss="modal">No</button>
+        <button type="submit" class="btn bg-teal" id="b_getelefono">Guardar</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+      </form>
+    </div>
+  </div>
+
+</div>
+<!--Fin Modal editar telefono-->
+
+<!--Modal eliminar telefono-->
+<div class="modal fade" id="m_elitelefono" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <form id="f_elitelefono" action="" class="form-horizontal">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Eliminar Telefono</h4>
+      </div>
+      <div class="modal-body" id="d_elitelefono">
+
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-danger" id="b_sielitelefono">Sí</button>
+        <button type="button" class="btn btn-default" id="b_noelitelefono" data-dismiss="modal">No</button>
       </div>
       </form>
     </div>
   </div>
 </div>
-<!--Fin Modal desactivar boletín-->
+<!--Fin Modal eliminar telefono-->
 
 <?php
   }else{

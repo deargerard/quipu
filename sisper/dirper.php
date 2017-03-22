@@ -14,6 +14,7 @@ $(document).ready(function(){
   $("ul.sidebar-menu li").removeClass("active");
   $("#directorio").addClass("active");
   $("#dirper").addClass("active");
+	$(".select2").select2();
 });
 </script>
 <?php
