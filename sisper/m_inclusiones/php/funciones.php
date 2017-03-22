@@ -151,11 +151,11 @@ function dependenciaeofi($con,$idemp){
 	mysqli_free_result($cdep);
 }
 function disprodependencia($cone,$iddep){
-	$cdis=mysqli_query($cone,"SELECT di.NombreDis, p.NombrePro FROM dependencia AS d INNER JOIN local AS l ON d.idLocal=l.idLocal INNER JOIN distrito AS di ON l.idDistrito=di.idDistrito INNER JOIN provincia AS p ON di.idProvincia=p.idProvincia WHERE idDependencia=$iddep");
+	$cdis=mysqli_query($cone,"SELECT d.NombreDis, p.NombrePro FROM dependencialocal dl INNER JOIN local l ON dl.idLocal=l.idLocal INNER JOIN distrito d ON l.idDistrito=d.idDistrito INNER JOIN provincia p ON d.idProvincia=p.idProvincia WHERE dl.idDependencia=$iddep;");
 	if($rdis=mysqli_fetch_assoc($cdis)){
 		return $rdis['NombreDis']."-".$rdis['NombrePro'];
 	}else{
-		return "-";
+		return "Sin local";
 	}
 	mysqli_free_result($cdis);
 }
