@@ -44,8 +44,8 @@ if(accesocon($cone,$_SESSION['identi'],12)){
                 <span class="sr-only">Desplegar menú</span>
               </button>
               <ul class="dropdown-menu pull-right" role="menu">
-                <li><a href="#" data-toggle="modal" data-target="#m_editel" onclick="editeld(<?php echo $ramb['idTelefonoDep'].", ".$dep ?>)">Editar</a></li>
-                <li><a href="#" data-toggle="modal" data-target="#m_elitelefono" onclick="eliteld(<?php echo $ramb['idTelefonoDep'].", '".$ramb['TipoTelefono'].": ".$ramb['Numero']." de ".$ramb['Tipo']."-".$ramb['Oficina']."-".$ramb['Piso']."-".$ramb['Direccion']."'" ?>)">Eliminar</a></li>
+                <li><a href="#" data-toggle="modal" data-target="#m_editeld" onclick="editeld(<?php echo $ramb['idTelefonoDep'].", ".$dep ?>)">Editar</a></li>
+                <li><a href="#" data-toggle="modal" data-target="#m_elitelefono" onclick="eliteld(<?php echo $ramb['idTelefonoDep'].", '".$ramb['TipoTelefono'].":  ".$ramb['Numero']."  de ".$ramb['Tipo']."  ".$ramb['Oficina']." ".$ramb['Piso']." Local: ".$ramb['Direccion']." de la Dependencia: ".$rdep['Denominacion']."'" ?>)">Eliminar</a></li>
               </ul>
             </div>
           </td>
@@ -55,7 +55,7 @@ if(accesocon($cone,$_SESSION['identi'],12)){
 				}else{
 				?>
 				<tr>
-					<td colspan="4" class="text-maroon text-center">Esta dependencia no cuenta con teléfono</td>
+					<?php echo mensajewa("Esta dependencia no cuenta con teléfono"); ?>
 				</tr>
 				<?php
 				}
@@ -66,7 +66,7 @@ if(accesocon($cone,$_SESSION['identi'],12)){
 	<?php
 		mysqli_close($cone);
 	}else{
-		echo "<h4 class='text-maroon'>Error: No se seleccionó ninguna dependencia.</h4>";
+		echo mensajeda("Error: No se seleccionó ninguna dependencia");
 	}
 }else{
   echo accrestringidoa();

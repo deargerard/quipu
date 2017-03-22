@@ -97,7 +97,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
 </div>
 <!--Fin Modal nuevo telefono-->
 <!--Modal editar telefono-->
-<div class="modal fade" id="m_editel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="m_editeld" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 
   <div class="modal-dialog" role="document">
     <div class="modal-content">

@@ -2928,7 +2928,7 @@ $("#f_elitelefono").submit(function(e){
 });
 //fin funcion eliminar teléfono
 //funcion actualizar lista de telefonos
-$('#m_ntelefono, #m_editel, #m_elitelefono').on('hidden.bs.modal', function () {
+$('#m_ntelefono, #m_editeld, #m_elitelefono').on('hidden.bs.modal', function () {
       var dep = $("#dep").val();
       $.ajax({
          type: "POST",
