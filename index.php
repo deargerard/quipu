@@ -25,6 +25,8 @@
     <!-- Custom Fonts -->
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
+    <link href="plugins/select2/select2.css" rel="stylesheet">
+
     <link rel="stylesheet" href="sisper/dist/css/AdminLTE.css">
 
     <link href="plugins/pace/pace.css" rel="stylesheet">
@@ -219,6 +221,68 @@
         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
             <div class="row">
                 <div class="col-md-12 col-sm-12">
+                  <div class="box box-info collapsed-box">
+                    <div class="box-header with-border">
+                      <h3 class="box-title">Directorio Institucional</h3>
+
+                      <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+
+                        <div class="form-group">
+                          <label for="per">Personal</label>
+                          <select id="per" name="per" class="form-control select2" style="width: 100%;">
+                            <?php
+                              $c1=mysqli_query($cone, "SELECT e.idEmpleado, NombreCom FROM enombre e INNER JOIN empleadocargo ec ON e.idEmpleado=ec.idEmpleado WHERE ec.idEstadoCar=1;");
+                              if(mysqli_num_rows($c1)>0){
+                                while ($r1=mysqli_fetch_assoc($c1)) {
+                            ?>
+                            <option value="<?php echo $r1['idEmpleado']; ?>"><?php echo $r1['NombreCom']; ?></option>
+                            <?php
+                                }
+                              }
+                              mysqli_free_result($c1);
+                            ?>
+                          </select>
+                        </div>
+
+                        <button class="btn btn-default pull-right" id="dirper" data-toggle="modal" data-target="#mdirectorio"><i class="fa fa-search"></i></button>
+
+                      <div class="clearfix"></div>
+
+                        <div class="form-group">
+                          <label for="dep">Dependencia</label>
+                          <select id="dep" name="dep" class="form-control select2" style="width: 100%;">
+                            <?php
+                              $c2=mysqli_query($cone, "SELECT idDependencia, Denominacion FROM dependencia WHERE Estado=1;");
+                              if(mysqli_num_rows($c2)>0){
+                                while ($r2=mysqli_fetch_assoc($c2)) {
+                            ?>
+                            <option value="<?php echo $r2['idDependencia']; ?>"><?php echo $r2['Denominacion']; ?></option>
+                            <?php
+                                }
+                              }
+                              mysqli_free_result($c2);
+                            ?>
+                          </select>
+                        </div>
+
+                        <button class="btn btn-default pull-right" id="dirdep" data-toggle="modal" data-target="#mdirectorio"><i class="fa fa-search"></i></button>
+
+
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer clearfix">
+
+                    </div>
+                    <!-- /.box-footer -->
+                  </div>
+                </div>
+                <div class="col-md-12 col-sm-12">
                   <div class="box box-warning">
                     <div class="box-header with-border">
                       <h3 class="box-title">Comunicados</h3>
@@ -240,7 +304,7 @@
                                 while($rco=mysqli_fetch_assoc($cco)){
                             ?>
                             <tr>
-                                <td><i class="fa fa-bell-o cwarning"></i></td>
+                                <td><i class="fa fa-bullhorn cwarning"></i></td>
                                 <td><a href="#" data-toggle="modal" data-target="#mcomunicado" onclick="vcomunicado(<?php echo $rco["idComunicado"] ?>)"><?php echo $rco['Descripcion'] ?></a></td>
                             </tr>
                             <?php
@@ -456,14 +520,30 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel"><i class="fa fa-bell-o text-orange"></i> Comunicado</h4>
+        <h4 class="modal-title" id="myModalLabel"><i class="fa fa-bullhorn text-orange"></i> Comunicado</h4>
       </div>
       <div class="modal-body d_rcomunicado">
         
       </div>
     </div>
   </div>
-</div>        
+</div>
+
+<!-- Modal Directorio Personal-->
+<div class="modal fade" id="mdirectorio" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel"><i class="fa fa-book text-orange"></i> Directorio</h4>
+      </div>
+      <div class="modal-body d_rdirectorio">
+        
+      </div>
+    </div>
+  </div>
+</div> 
+
 
 <hr>
 
@@ -486,6 +566,7 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
     <script src="plugins/pace/pace.js"></script>
+    <script src="plugins/select2/select2.min.js"></script>
     <!-- AdminLTE App -->
     <script src="sisper/dist/js/app.min.js"></script>
 

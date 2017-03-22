@@ -34,3 +34,38 @@ $.ajax({
   }
 });
 }
+
+$(".select2").select2();
+
+//directorio personal
+$("#dirper").on("click",function(e){
+  var per = $("#per").val();
+  $.ajax({
+    type: "post",
+    url: "ajax/a_bdirectorio.php",
+    data: { id : per, tip : 1 },
+    beforeSend: function () {
+      $(".d_rdirectorio").html("<img src='images/cargando.gif'>");
+    },
+    success:function(a){
+      $(".d_rdirectorio").html(a);
+    }
+  });
+});
+//directorio personal
+//directorio dependencia
+$("#dirdep").on("click",function(e){
+  var per = $("#dep").val();
+  $.ajax({
+    type: "post",
+    url: "ajax/a_bdirectorio.php",
+    data: { id : per, tip : 2 },
+    beforeSend: function () {
+      $(".d_rdirectorio").html("<img src='images/cargando.gif'>");
+    },
+    success:function(a){
+      $(".d_rdirectorio").html(a);
+    }
+  });
+});
+//directorio dependencia
