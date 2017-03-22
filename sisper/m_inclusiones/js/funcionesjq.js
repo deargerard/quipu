@@ -2455,7 +2455,7 @@ $( "#f_nueambiente" ).validate( {
   }
 } );
 //fin función validar nuevo ambiente
-//función actualizar page ambiente ********************************
+//función actualizar page ambiente
 $('#m_nueambiente').on('hidden.bs.modal', function () {
  document.location.reload();
 })
@@ -2686,3 +2686,266 @@ $("#f_repcargos").validate({
   }
 });
 //fin funcion reporte cargos
+
+//validar seleccionar dependencia para mostrar directorio
+$("#f_bteldep").validate({
+ rules: {
+   dep: "required",
+ },
+ messages: {
+   tiptel: "Elija la dependencia.",
+ },
+ errorElement: "em",
+ errorPlacement: function(error, element){
+   // Add the `help-block` class to the error element
+   error.addClass("help-block");
+
+   if(element.prop("type") === "checkbox"){
+     error.insertAfter(element.parent("label"));
+   }else if(element.prop("type") === "radio"){
+     error.insertAfter(element.parent("label"));
+   }
+   else{
+     error.insertAfter(element);
+   }
+ },
+ highlight: function ( element, errorClass, validClass ) {
+   $( element ).parents(".valida").addClass("has-error").removeClass("has-success");
+ },
+ unhighlight: function (element, errorClass, validClass) {
+   $( element ).parents(".valida").addClass("has-success").removeClass("has-error");
+ },
+ submitHandler: function(form){
+   var datos = $("#f_bteldep").serializeArray();
+   datos.push({name: "NomForm", value: "f_bteldep"});
+   $.ajax({
+      type: "POST",
+      url: "m_inclusiones/a_directorio/a_dirdep.php",
+      dataType: "html",
+      data: datos,   // I WANT TO ADD EXTRA DATA + SERIALIZE DATA
+      beforeSend: function () {
+        $("#b_bteldep").html("<i class='fa fa-spinner fa-spin'></i> Buscando");
+        $("#b_bteldep").addClass("disabled");
+      },
+      success: function(data){
+         $("#b_bteldep").html("Buscar");
+         $("#b_bteldep").removeClass("disabled");
+         $(".r_telefono").html(data);
+         $(".r_telefono").slideDown();
+      }
+   });
+ }
+});
+//fin validar seleccionar dependencia para mostrar directorio
+ // función nuevo telefono
+function nueteld(id){
+$.ajax({
+  type: "post",
+  url: "m_inclusiones/a_directorio/a_fnueteld.php",
+  data: { iddep : id },
+  beforeSend: function () {
+    $("#d_ntelefono").html("<img src='m_images/cargando.gif'>");
+    $("#b_gntelefono").hide();
+  },
+  success:function(a){
+    $("#b_gntelefono").show();
+    $("#d_ntelefono").html(a);
+  }
+});
+};
+//fin nuevo telefono
+//funcion validar nuevo telefono
+$( "#f_ntelefono" ).validate( {
+  rules: {
+    tiptel:"required",
+    num:{ required: true, minlength: 4},
+    amb:"required"
+  },
+  messages: {
+    tiptel:"Seleccione el tipo de teléfono",
+    num:{required:"Escriba el número de teléfono", minlength:"Mínimo 4 caracteres"},
+    amb:"Seleccione el ambiente"
+
+  },
+  errorElement: "em",
+  errorPlacement: function ( error, element ) {
+    // Add the `help-block` class to the error element
+    error.addClass( "help-block" );
+
+    if ( element.prop( "type" ) === "checkbox" ) {
+      error.insertAfter( element.parent( "label" ) );
+    } else if ( element.prop( "type" ) === "radio" ){
+      error.insertAfter( element.parent( "label" ) );
+    }
+    else {
+      error.insertAfter( element );
+    }
+  },
+  highlight: function ( element, errorClass, validClass ) {
+    $( element ).parents( ".valida" ).addClass( "has-error" ).removeClass( "has-success" );
+  },
+  unhighlight: function (element, errorClass, validClass) {
+    $( element ).parents( ".valida" ).addClass( "has-success" ).removeClass( "has-error" );
+  },
+  submitHandler: function(form){
+    var datos = $("#f_ntelefono").serializeArray();
+    datos.push({name: "NomForm", value: "f_ntelefono"});
+    $.ajax({
+       type: "POST",
+       url: "m_inclusiones/a_directorio/a_gnueteld.php",
+       dataType: "html",
+       data: datos,   // I WANT TO ADD EXTRA DATA + SERIALIZE DATA
+       beforeSend: function () {
+          $("#b_gntelefono").html("<i class='fa fa-spinner fa-spin'></i> Enviando");
+          $("#b_gntelefono").addClass("disabled");
+       },
+       success: function(data){
+          $("#b_gntelefono").hide();
+          $("#b_gntelefono").html("Guardar");
+          $("#b_gntelefono").removeClass("disabled");
+          $("#d_ntelefono").html(data);
+          $("#d_ntelefono").slideDown();
+       }
+    });
+  }
+} );
+//fin función validar nuevo telefono
+// función editar telefono
+function editeld(id, iddep){
+$.ajax({
+ type: "post",
+ url: "m_inclusiones/a_directorio/a_fediteld.php",
+ data: { idtd : id, iddep : iddep },
+ beforeSend: function () {
+   $("#d_etelefono").html("<img src='m_images/cargando.gif'>");
+   $("#b_getelefono").hide();
+ },
+ success:function(a){
+   $("#b_getelefono").show();
+   $("#d_etelefono").html(a);
+ }
+});
+};
+//fin editar telefono
+//funcion validar editar telefono
+$( "#f_etelefono" ).validate( {
+  rules: {
+    amb:"required",
+    tiptel:"required",
+    num:{ required: true, minlength: 4},
+
+  },
+  messages: {
+    amb:"Seleccione el ambiente",
+    tiptel:"Seleccione el tipo de teléfono",
+    num:{required:"Escriba el número de teléfono", minlength:"Mínimo 4 caracteres"},
+
+
+  },
+  errorElement: "em",
+  errorPlacement: function ( error, element ) {
+    // Add the `help-block` class to the error element
+    error.addClass( "help-block" );
+
+    if ( element.prop( "type" ) === "checkbox" ) {
+      error.insertAfter( element.parent( "label" ) );
+    } else if ( element.prop( "type" ) === "radio" ){
+      error.insertAfter( element.parent( "label" ) );
+    }
+    else {
+      error.insertAfter( element );
+    }
+  },
+  highlight: function ( element, errorClass, validClass ) {
+    $( element ).parents( ".valida" ).addClass( "has-error" ).removeClass( "has-success" );
+  },
+  unhighlight: function (element, errorClass, validClass) {
+    $( element ).parents( ".valida" ).addClass( "has-success" ).removeClass( "has-error" );
+  },
+  submitHandler: function(form){
+    var datos = $("#f_etelefono").serializeArray();
+    datos.push({name: "NomForm", value: "f_etelefono"});
+    $.ajax({
+       type: "POST",
+       url: "m_inclusiones/a_directorio/a_gediteld.php",
+       dataType: "html",
+       data: datos,   // I WANT TO ADD EXTRA DATA + SERIALIZE DATA
+       beforeSend: function () {
+          $("#b_getelefono").html("<i class='fa fa-spinner fa-spin'></i> Enviando");
+          $("#b_getelefono").addClass("disabled");
+       },
+       success: function(data){
+          $("#b_getelefono").hide();
+          $("#b_getelefono").html("Guardar");
+          $("#b_getelefono").removeClass("disabled");
+          $("#d_etelefono").html(data);
+          $("#d_etelefono").slideDown();
+       }
+    });
+  }
+} );
+//fin función validar editar telefono
+
+// función eliminar telefono
+function eliteld(id, amb){
+$.ajax({
+ type: "post",
+ url: "m_inclusiones/a_directorio/a_feliteld.php",
+ data: { idtd : id, amb : amb },
+ beforeSend: function () {
+   $("#d_elitelefono").html("<img src='m_images/cargando.gif'>");
+   $("#b_sielitelefono").hide();
+   $("#b_noelitelefono").html("Cerrar");
+ },
+ success:function(a){
+   $("#b_sielitelefono").show();
+   $("#b_noelitelefono").html("No");
+   $("#d_elitelefono").html(a);
+ }
+});
+};
+//fin función eliminar telefono
+//funcion eliminar teléfono
+$("#f_elitelefono").submit(function(e){
+  e.preventDefault();
+  var datos = $("#f_elitelefono").serializeArray();
+  $.ajax({
+        data:  datos,
+        url:   "m_inclusiones/a_directorio/a_eliteld.php",
+        type:  "post",
+        beforeSend: function () {
+          $("#b_sielitelefono").html("<i class='fa fa-spinner fa-spin'></i> Eliminando");
+          $("#b_sielitelefono").addClass("disabled");
+          $("#b_noelitelefono").hide();
+        },
+        success:  function (response) {
+          $("#b_sielitelefono").hide();
+          $("#b_noelitelefono").html("Cerrar");
+          $("#b_noelitelefono").show();
+          $("#d_elitelefono").html(response);
+        }
+    });
+});
+//fin funcion eliminar teléfono
+//funcion actualizar lista de telefonos
+$('#m_ntelefono, #m_editel, #m_elitelefono').on('hidden.bs.modal', function () {
+      var dep = $("#dep").val();
+      $.ajax({
+         type: "POST",
+         url: "m_inclusiones/a_directorio/a_dirdep.php",
+         dataType: "html",
+         data: {dep: dep},   // I WANT TO ADD EXTRA DATA + SERIALIZE DATA
+         beforeSend: function () {
+            $("#b_bteldep").html("<i class='fa fa-spinner fa-spin'></i> Actualizando");
+            $("#b_bteldep").addClass("disabled");
+         },
+         success: function(data){
+            $("#b_bteldep").html("Buscar");
+            $("#b_bteldep").removeClass("disabled");
+            $(".r_telefono").html(data);
+            $(".r_telefono").slideDown();
+         }
+      });
+})
+
+//fin funcion actualizar lista de telefonos

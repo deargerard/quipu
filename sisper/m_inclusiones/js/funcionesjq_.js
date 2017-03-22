@@ -468,8 +468,8 @@ function cprovincia(val){
   $.ajax({
     url: 'm_inclusiones/ajax/a_scarga.php',
     data: 'iddep='+val,
-    success: function(resp){ 
-      $('#pronac').html(resp) 
+    success: function(resp){
+      $('#pronac').html(resp)
     }
    });
    $('#disnac').html('<option value="">DISTRITO</option>')
@@ -479,27 +479,27 @@ function cdistrito(val){
   $.ajax({
     url: 'm_inclusiones/ajax/a_scarga.php',
     data: 'idpro='+val,
-    success: function(resp){ 
-      $('#disnac').html(resp) 
+    success: function(resp){
+      $('#disnac').html(resp)
     }
-   }); 
+   });
 }
 function cnivel(val){
   $('#nivins').html('<option value="">Cargando...</option>');
   $.ajax({
     url: 'm_inclusiones/ajax/a_scarga.php',
     data: 'gi='+val,
-    success: function(resp){ 
+    success: function(resp){
       $('#nivins').html(resp)
     }
-   }); 
+   });
 }
 function cprovinciad(val){
   $('#proubi').html('<option value="">Cargando...</option>');
   $.ajax({
     url: 'm_inclusiones/ajax/a_scarga.php',
     data: 'iddep='+val,
-    success: function(resp){ 
+    success: function(resp){
       $('#proubi').html(resp)
     }
    });
@@ -510,10 +510,10 @@ function cdistritod(val){
   $.ajax({
     url: 'm_inclusiones/ajax/a_scarga.php',
     data: 'idpro='+val,
-    success: function(resp){ 
-      $('#disubi').html(resp) 
+    success: function(resp){
+      $('#disubi').html(resp)
     }
-   }); 
+   });
 }
 //fin funciones actualizar selects
 //fin funciones editar perfil personal
@@ -747,8 +747,8 @@ function ccargo(val){
   $.ajax({
     url: 'm_inclusiones/ajax/a_scarga.php',
     data: 'idslab='+val,
-    success: function(resp){ 
-      $('#car').html(resp) 
+    success: function(resp){
+      $('#car').html(resp)
     }
    });
 }
@@ -1560,7 +1560,7 @@ $( "#f_agrgrapersonal" ).validate( {
       ins:{required:true, minlength:5},
       numcol:{required:false, minlength:3},
       feccol:{required:false, datePE:true},
-      numdip:{required:false, minlength:3}  
+      numdip:{required:false, minlength:3}
     },
     messages: {
       niv:"Elija un nivel.",
@@ -1569,7 +1569,7 @@ $( "#f_agrgrapersonal" ).validate( {
       ins: {required:"Ingrese la institución que emite el diploma.",minlength:"Mínimo 5 caracteres"},
       numcol: {minlength:"Mínimo 3 caracteres."},
       feccol: {datePE:"Ingrese una fecha válida."},
-      numdip: {required:"Ingrese el número de la diploma",minlength:"Mínimo 3 caracteres."} 
+      numdip: {required:"Ingrese el número de la diploma",minlength:"Mínimo 3 caracteres."}
     },
     errorElement: "em",
     errorPlacement: function ( error, element ) {
@@ -1644,7 +1644,7 @@ $( "#f_edigrapersonal" ).validate( {
       ins: {required:"Ingrese la institución que emite el diploma.",minlength:"Mínimo 5 caracteres"},
       numcol: {minlength:"Mínimo 3 caracteres."},
       feccol: {datePE:"Ingrese una fecha válida."},
-      numdip: {required:"Ingrese el número de la diploma",minlength:"Mínimo 3 caracteres."} 
+      numdip: {required:"Ingrese el número de la diploma",minlength:"Mínimo 3 caracteres."}
     },
     errorElement: "em",
     errorPlacement: function ( error, element ) {
