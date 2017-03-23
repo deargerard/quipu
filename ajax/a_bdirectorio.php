@@ -7,19 +7,32 @@
     	$tip=iseguro($cone,$_POST['tip']);
 
     	if($tip==1){
+    		$fot = "../sisper/m_fotos/".docidentidad($cone,$id).".jpg";
+    		$fot1 = "sisper/m_fotos/".docidentidad($cone,$id).".jpg";
+    		$fot = file_exists($fot) ? $fot1 : "/sisper/m_fotos/sinfoto.jpg";
 ?>
-		<h4 class="text-aqua text-center">
-			<strong><?php echo nomempleado($cone,$id); ?></strong><br>
-			<small><strong><?php echo cargoe($cone,$id); ?></strong></small><br>
-			<small><?php echo dependenciae($cone,$id); ?></small>
-		</h4>
-
+	<div class="row">
+		<div class="col-sm-3">
+			<img src="<?php echo $fot; ?>" class="img-thumbnail img-responsive">
+		</div>
+		<div class="col-sm-9">
+			<h4 class="text-aqua">
+				<br>
+				<strong><?php echo nomempleado($cone,$id); ?></strong><br>
+				<small><strong><?php echo cargoe($cone,$id); ?></strong></small><br>
+				<small><?php echo dependenciae($cone,$id); ?></small>
+			</h4>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-6">
 				<h4 class="text-orange text-center"><i class="fa fa-phone-square"></i> TELÉFONOS</h4>
 <?php
     		$c1=mysqli_query($cone, "SELECT TipoTelefono, Numero FROM telefonoemp te INNER JOIN tipotelefono tt ON te.idTipoTelefono=tt.idTipoTelefono WHERE idEmpleado=$id AND te.idTipoTelefono=17 AND te.Estado=1 ORDER BY TipoTelefono ASC;");
     		if(mysqli_num_rows($c1)>0){
 ?>
-				<table class="table table-hover">
+
+				<table class="table table-hover table-bordered">
 					<tbody>
 				
 <?php
@@ -36,21 +49,35 @@
 				</table>
 <?php
     		}else{
-    			echo "<h5 class='text-maroon text-center'>No cuenta con ningún teléfono institucional.</h5>";
-    		}
-    		mysqli_free_result($c1);
-    		$c2=mysqli_query($cone, "SELECT CorreoIns, CorreoPer FROM empleado WHERE idEmpleado=$id;");
-    		$r2=mysqli_fetch_assoc($c2);
 ?>
-				<h4 class="text-orange text-center"><i class="fa fa-envelope-square"></i> CORREO</h4>
-				<table class="table table-hover">
+				<table class="table table-hover table-bordered">
 					<tbody>
 						<tr>
-							<th>Institucional</th>
-							<td><?php echo $r2['CorreoIns']=="" ? "Sin Correo" : $r2['CorreoIns']; ?></td>
+							<td class="text-center">Sin teléfono institucional.</td>
 						</tr>
 					</tbody>
 				</table>
+<?php
+    		}
+    		mysqli_free_result($c1);
+?>
+		</div>
+		<div class="col-sm-6">
+<?php
+    		$c2=mysqli_query($cone, "SELECT CorreoIns, CorreoPer FROM empleado WHERE idEmpleado=$id;");
+    		$r2=mysqli_fetch_assoc($c2);
+?>
+
+				<h4 class="text-orange text-center"><i class="fa fa-envelope-square"></i> CORREO</h4>
+				<table class="table table-hover table-bordered">
+					<tbody>
+						<tr>
+							<td class="text-center"><?php echo $r2['CorreoIns']=="" ? "Sin Correo" : $r2['CorreoIns']; ?></td>
+						</tr>
+					</tbody>
+				</table>
+		</div>
+	</div>
 <?php
 			mysqli_free_result($c2);
     	}elseif($tip==2){
@@ -59,22 +86,26 @@
 <?php
 			$c4=mysqli_query($cone, "SELECT Telefono FROM dependencialocal dl INNER JOIN local l ON dl.idLocal=l.idLocal WHERE idDependencia=$id;");
 			if($r4=mysqli_fetch_assoc($c4)){
-?>
-			<h5 class="text-center"><strong>Central: </strong><?php echo $r4['Telefono']; ?></h5>
-<?php
+				$cen=$r4['Telefono'];
 			}else{
-?>
-			<h5 class="text-center"><strong>Central: </strong>--</h5>
-<?php
+				$cen="--";
 			}
 ?>
+			<table class="table table-bordered table-hover">
+				<tbody>
+					<tr>
+						<th class="text-center">CENTRAL</th>
+						<td class="text-center"><?php echo $cen; ?></td>
+					</tr>
+				</tbody>
+			</table>
 			
 			<h4 class="text-orange text-center"><i class="fa fa-phone-square"></i> TELÉFONOS</h4>
 <?php
 			$c3=mysqli_query($cone,"SELECT Tipotelefono, Numero, idDistrito, Direccion, dl.Oficina, tl.Tipo, p.Piso FROM telefonodep td INNER JOIN tipotelefono tt ON td.idTipoTelefono=tt.idTipoTelefono INNER JOIN dependencialocal dl ON td.idDependenciaLocal=dl.idDependenciaLocal INNER JOIN piso p ON dl.idPiso=p.idPiso INNER JOIN tipolocal tl ON dl.idTipoLocal=tl.idTipoLocal INNER JOIN local l ON dl.idLocal=l.idLocal WHERE dl.idDependencia=$id AND td.Estado=1;");
 			if(mysqli_num_rows($c3)>0){
 ?>
-			<table class="table table-hover">
+			<table class="table table-hover table-bordered">
 				<thead>
 					<tr>
 						<th>TIPO</th>
@@ -100,9 +131,17 @@
 			</table>
 <?php
 			}else{
-
-				echo "<h5 class='text-maroon text-center'>Sin teléfono en la oficina.</h5>";	
-
+?>
+			<table class="table table-bordered table-hover">
+				<tbody>
+					<tr>
+						<td class="text-center">
+							Sin teléfono en la oficina.
+						</td>
+					</tr>
+				</tbody>
+			</table>
+<?php
 			}
 			mysqli_free_result($c3);
     	}
