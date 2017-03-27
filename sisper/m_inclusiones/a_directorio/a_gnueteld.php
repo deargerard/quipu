@@ -8,15 +8,16 @@ if(accesoadm($cone,$_SESSION['identi'],12)){
 			$amb=imseguro($cone,$_POST['amb']);
 			$tiptel=imseguro($cone,$_POST['tiptel']);
 			$num=iseguro($cone,$_POST['num']);
-			$sql="INSERT INTO telefonodep (idTipoTelefono, Numero, Estado, idDependenciaLocal) VALUES ('$tiptel', '$num', 1, '$amb')";
+			$eqtra=imseguro($cone,$_POST['eqtra']);
+			$sql="INSERT INTO telefonodep (idTipoTelefono, Numero, Estado, idDependenciaLocal, EquipoTra) VALUES ('$tiptel', '$num', 1, '$amb', '$eqtra')";
 			if(mysqli_query($cone,$sql)){
-				echo "<h4 class='text-olive'>Listo: El número de teléfono fue insertado correctamente.</h4>";
+				echo mensajesu("Listo: El número de teléfono fue insertado correctamente.");
 			}else{
-				echo "<h4 class='text-maroon'>Error: " . mysqli_error($cone)."</h4>";
+				echo mensajeda("Error: " . mysqli_error($cone));
 			}
 			mysqli_close($cone);
 		}else{
-			echo "<h4 class='text-maroon'>Error: No lleno correctamente el formulario.</h4>";
+			echo mensajewa("No lleno correctamente el formulario");
 		}
 	}
 }else{

@@ -21,6 +21,7 @@ if(accesocon($cone,$_SESSION['identi'],12)){
 		  <thead>
 				<tr>
 					<th>AMBIENTE</th>
+					<th>EQUIPO DE TRABAJO</th>
           <th>NUMERO</th>
           <th>TIPO</th>
 					<th>ACCIÓN</th>
@@ -28,12 +29,13 @@ if(accesocon($cone,$_SESSION['identi'],12)){
 			</thead>
 			<tbody>
 				<?php
-						$camb=mysqli_query($cone,"SELECT dl.idDependenciaLocal, dl.Estado, t.Tipo, dl.Oficina, l.Direccion, p.Piso, td.Numero, tt.TipoTelefono, td.idTelefonoDep FROM dependencialocal as dl INNER JOIN local AS l ON dl.idLocal=l.idLocal INNER JOIN tipolocal AS t ON dl.idTipoLocal= t.idTipoLocal INNER JOIN piso AS p ON dl.idPiso=p.idPiso INNER JOIN telefonodep AS td ON dl.idDependenciaLocal=td.idDependenciaLocal INNER JOIN tipotelefono AS tt ON td.idTipoTelefono=tt.idTipoTelefono WHERE dl.idDependencia=$dep and dl.Estado=1");
+						$camb=mysqli_query($cone,"SELECT dl.idDependenciaLocal, dl.Estado, t.Tipo, dl.Oficina, td.EquipoTra, l.Direccion, p.Piso, td.Numero, tt.TipoTelefono, td.idTelefonoDep FROM dependencialocal as dl INNER JOIN local AS l ON dl.idLocal=l.idLocal INNER JOIN tipolocal AS t ON dl.idTipoLocal= t.idTipoLocal INNER JOIN piso AS p ON dl.idPiso=p.idPiso INNER JOIN telefonodep AS td ON dl.idDependenciaLocal=td.idDependenciaLocal INNER JOIN tipotelefono AS tt ON td.idTipoTelefono=tt.idTipoTelefono WHERE dl.idDependencia=$dep and dl.Estado=1");
 					if(mysqli_num_rows($camb)>0){
 						while($ramb=mysqli_fetch_assoc($camb)){
 				?>
 				<tr>
 					<td><?php echo $ramb['Tipo']?> - <?php echo $ramb['Oficina']?> - <?php echo $ramb['Piso']?> - <?php echo $ramb['Direccion']?></td>
+					<td><?php echo $ramb['EquipoTra']?></td>
 					<td><?php echo $ramb['Numero']?></td>
 					<td><?php echo $ramb['TipoTelefono']?></td>
           <td>

@@ -63,6 +63,12 @@ if(accesoadm($cone,$_SESSION['identi'],12)){
               <input type="text" class="form-control" id="num" name="num" placeholder="Número" value="<?php echo $rtel['Numero'] ?>">
             </div>
           </div>
+          <div class="form-group valida">
+            <label for="Eqtra" class="col-sm-3 control-label">Equipo de trabajo</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" id="eqtra" name="eqtra" placeholder="Equipo de Trabajo" value="<?php echo $rtel['EquipoTra'] ?>">
+            </div>
+          </div>
 <?php
     mysqli_close($cone);
   }else{
