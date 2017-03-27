@@ -4,23 +4,36 @@ include ("../php/conexion_sp.php");
 include ("../php/funciones.php");
 if(accesoadm($cone,$_SESSION['identi'],6)){
 	if(isset($_POST["NomForm"]) && $_POST["NomForm"]=="f_edilocal"){
-		if(isset($_POST['dir']) && !empty($_POST['dir']) && isset($_POST['disubi']) && !empty($_POST['disubi'])){
+		if(isset($_POST['ali']) && !empty($_POST['ali']) && isset($_POST['dir']) && !empty($_POST['dir']) && isset($_POST['disubi']) && !empty($_POST['disubi'])){
 			$idlo=imseguro($cone,$_POST['idlo']);
+			$ali=imseguro($cone,$_POST['ali']);
 			$dir=imseguro($cone,$_POST['dir']);
 			$urb=imseguro($cone,$_POST['urb']);
-			$loc=iseguro($cone,$_POST['loc']);
 			$disubi=iseguro($cone,$_POST['disubi']);
 			$tel=imseguro($cone,$_POST['tel']);
-			$obs=iseguro($cone,$_POST['obs']);
-			$sql="UPDATE local SET Direccion='$dir', Urbanizacion='$urb', idDistrito=$disubi, Telefono='$tel', Observacion='$obs' WHERE idLocal=$idlo";
+			$con=iseguro($cone,$_POST['con']);
+			$pro=iseguro($cone,$_POST['pro']);
+			$atot=iseguro($cone,$_POST['atot']);
+			$acon=iseguro($cone,$_POST['acon']);
+			$mat=iseguro($cone,$_POST['mat']);
+			$npis=iseguro($cone,$_POST['npis']);
+			$malq=iseguro($cone,$_POST['malq']);
+			$mman=iseguro($cone,$_POST['mman']);
+			$san=iseguro($cone,$_POST['san']);
+			$ftsan=iseguro($cone,$_POST['ftsan'])=="" ? "0000-00-00" : fmysql(iseguro($cone,$_POST['ftsan']));
+			$acons=iseguro($cone,$_POST['acons']);
+			$finsp=iseguro($cone,$_POST['finsp'])=="" ? "0000-00-00" : fmysql(iseguro($cone,$_POST['finsp']));
+			$upla=iseguro($cone,$_POST['upla']);
+			$urea=iseguro($cone,$_POST['urea']);
+			$sql="UPDATE local SET Alias='$ali', Direccion='$dir', Urbanizacion='$urb', idDistrito=$disubi, Telefono='$tel', idCondicionLoc=$con, Propietario='$pro', AreaTot=$atot, AreaCons=$acon, Material='$mat', NumPisos=$npis, MonAlquiler=$malq, MonMantenimiento=$mman, Saneamiento='$san', FecTraSaneamiento='$ftsan', AnoConstruccion='$acons', UsoPlanificado='$upla', UsoReal='$urea', FecInspeccion='$finsp' WHERE idLocal=$idlo";
 			if(mysqli_query($cone,$sql)){
-				echo "<h4 class='text-olive'>Listo: El local fue editado correctamente.</h4>";
+				echo mensajesu("Listo: El local fue editado correctamente.");
 			}else{
-				echo "<h4 class='text-maroon'>Error: " . mysqli_error($cone)."</h4>";
+				echo mensajeda("Error: " . mysqli_error($cone));
 			}
 			mysqli_close($cone);			
 		}else{
-			echo "<h4 class='text-maroon'>Error: No lleno correctamente el formulario.</h4>";
+			echo mensajewa("Error: No lleno correctamente el formulario.");
 		}
 	}
 }else{

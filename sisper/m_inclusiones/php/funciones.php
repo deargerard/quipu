@@ -45,9 +45,11 @@ function sexo($s){
 }
 function fnormal($fecha){
 	if(is_null($fecha)){
-		return "--";
+		return "";
 	}elseif($fecha=='1970-01-01'){
-		return "--";
+		return "";
+	}elseif($fecha=='0000-00-00'){
+		return "";
 	}else{
 		$fec=@date("d/m/Y",strtotime($fecha));
 		return $fec;
@@ -55,8 +57,10 @@ function fnormal($fecha){
 }
 function fnormalsin($fecha){
 	if(is_null($fecha)){
-		return "--";
+		return "";
 	}elseif($fecha=='1970-01-01'){
+		return "";
+	}elseif($fecha=='0000-00-00'){
 		return "";
 	}else{
 		$fec=@date("d/m/Y",strtotime($fecha));
