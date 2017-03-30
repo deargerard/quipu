@@ -13,7 +13,7 @@ $(document).ready(function(){
   $("ul.sidebar-menu li").removeClass("active");
   $("#organizacional").addClass("active");
   $("#ambmante").addClass("active");
-  $('#dtdependencias').DataTable();
+  $('#dtambiente').DataTable();
 });
 </script>
 <?php

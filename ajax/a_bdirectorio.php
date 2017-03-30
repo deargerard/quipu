@@ -27,15 +27,24 @@
 	<div class="row">
 		<div class="col-sm-6">
 				<h4 class="text-orange text-center"><i class="fa fa-phone-square"></i> TELÉFONOS</h4>
-<?php
-    		$c1=mysqli_query($cone, "SELECT TipoTelefono, Numero FROM telefonoemp te INNER JOIN tipotelefono tt ON te.idTipoTelefono=tt.idTipoTelefono WHERE idEmpleado=$id AND te.idTipoTelefono=17 AND te.Estado=1 ORDER BY TipoTelefono ASC;");
-    		if(mysqli_num_rows($c1)>0){
-?>
-
 				<table class="table table-hover table-bordered">
 					<tbody>
 				
 <?php
+			$iddepen=iddependenciae($cone,$id);
+			$c6=mysqli_query($cone,"SELECT DISTINCT Telefono FROM dependencia d INNER JOIN dependencialocal dl ON d.idDependencia=dl.idDependencia INNER JOIN local l ON dl.idLocal=l.idLocal WHERE d.idDependencia=$iddepen");
+			if ($r6=mysqli_fetch_assoc($c6)) {
+?>
+						<tr>
+							<th>CENTRAL</th>
+							<td><?php echo $r6['Telefono']; ?></td>
+						</tr>
+<?php
+			}
+
+
+    		$c1=mysqli_query($cone, "SELECT TipoTelefono, Numero FROM telefonoemp te INNER JOIN tipotelefono tt ON te.idTipoTelefono=tt.idTipoTelefono WHERE idEmpleado=$id AND (te.idTipoTelefono=17 OR te.idTipoTelefono=18 OR te.idTipoTelefono=20 OR te.idTipoTelefono=21) AND te.Estado=1 ORDER BY TipoTelefono ASC;");
+    		if(mysqli_num_rows($c1)>0){
     			while ($r1=mysqli_fetch_assoc($c1)) {
 ?>
 						<tr>
@@ -44,23 +53,12 @@
 						</tr>
 <?php
     			}
-?>
-					</tbody>
-				</table>
-<?php
-    		}else{
-?>
-				<table class="table table-hover table-bordered">
-					<tbody>
-						<tr>
-							<td class="text-center">Sin teléfono institucional.</td>
-						</tr>
-					</tbody>
-				</table>
-<?php
+
     		}
     		mysqli_free_result($c1);
 ?>
+					</tbody>
+				</table>
 		</div>
 		<div class="col-sm-6">
 <?php
@@ -103,7 +101,7 @@
 						<td colspan="2"><?php echo $r4['Direccion']." - ".nomdistrito($cone,$r4['idDistrito']); ?></td>
 					</tr>
 <?php
-					$c5=mysqli_query($cone,"SELECT Oficina, Piso, tl.Tipo, tt.TipoTelefono, Numero, EquipoTra FROM dependencialocal dl INNER JOIN telefonodep td ON dl.idDependenciaLocal=td.idDependenciaLocal INNER JOIN tipotelefono tt ON td.idTipoTelefono=tt.idTipoTelefono INNER JOIN piso p ON dl.idPiso=p.idPiso INNER JOIN tipolocal tl ON dl.idTipoLocal=tl.idTipoLocal WHERE idLocal=$idloc AND idDependencia=$id;");
+					$c5=mysqli_query($cone,"SELECT Oficina, Piso, tl.Tipo, tt.TipoTelefono, Numero, EquipoTra FROM dependencialocal dl INNER JOIN telefonodep td ON dl.idDependenciaLocal=td.idDependenciaLocal INNER JOIN tipotelefono tt ON td.idTipoTelefono=tt.idTipoTelefono INNER JOIN piso p ON dl.idPiso=p.idPiso INNER JOIN tipolocal tl ON dl.idTipoLocal=tl.idTipoLocal WHERE idLocal=$idloc AND idDependencia=$id ORDER BY EquipoTra ASC, Numero ASC;");
 					if(mysqli_num_rows($c5)>0){
 ?>
 					<tr class="text-blue">
@@ -134,7 +132,7 @@
 			<table class="table table-bordered table-hover">
 				<tbody>
 					<tr>
-						<td class="text-center">Sin local asiganado</td>
+						<td class="text-center">Sin local asignado</td>
 					</tr>
 				</tbody>
 			</table>

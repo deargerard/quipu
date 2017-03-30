@@ -91,7 +91,7 @@ if(accesocon($cone,$_SESSION['identi'],6)){
 					<?php } else if($rlo['Saneamiento']==3){?>
 						<td>EN TRÁMITE</td>
 					<th>Inició Trámite</th>
-					<td><?php echo $rlo['FecTraSaneamiento'] ?></td>
+					<td><?php echo fnormal($rlo['FecTraSaneamiento']) ?></td>
 					<?php }
 				}?>
 				</tr>
@@ -102,7 +102,7 @@ if(accesocon($cone,$_SESSION['identi'],6)){
 					<?php } ?>
 					<?php if(!empty($rlo['FecInspeccion'])){ ?>
 					<th>Inspección INDECI</th>
-					<td><?php echo $rlo['FecInspeccion'] ?></td>
+					<td><?php echo fnormal($rlo['FecInspeccion']) ?></td>
 					<?php } ?>
 				</tr>
 				<tr>

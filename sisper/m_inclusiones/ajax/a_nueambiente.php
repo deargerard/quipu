@@ -77,9 +77,7 @@ if(accesoadm($cone,$_SESSION['identi'],6)){
             </div>
           </div>
 <script>
-$(".select2").select2({
-   dropdownParent: $('#m_nueambiente')
-});
+$(".select2").select2();
 </script>
 <?php
   mysqli_close($cone);

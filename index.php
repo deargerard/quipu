@@ -12,7 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <meta http-equiv="refresh" content="600">
+    <meta http-equiv="refresh" content="1000">
 
     <title>Distrito Fiscal de Cajamarca - Intranet</title>
 
@@ -237,7 +237,7 @@
                           <label for="per">Personal</label>
                           <select id="per" name="per" class="form-control select2" style="width: 100%;">
                             <?php
-                              $c1=mysqli_query($cone, "SELECT e.idEmpleado, NombreCom FROM enombre e INNER JOIN empleadocargo ec ON e.idEmpleado=ec.idEmpleado WHERE ec.idEstadoCar=1;");
+                              $c1=mysqli_query($cone, "SELECT e.idEmpleado, NombreCom FROM enombre e INNER JOIN empleadocargo ec ON e.idEmpleado=ec.idEmpleado WHERE ec.idEstadoCar=1 ORDER BY NombreCom ASC;");
                               if(mysqli_num_rows($c1)>0){
                                 while ($r1=mysqli_fetch_assoc($c1)) {
                             ?>
@@ -258,7 +258,7 @@
                           <label for="dep">Dependencia</label>
                           <select id="dep" name="dep" class="form-control select2" style="width: 100%;">
                             <?php
-                              $c2=mysqli_query($cone, "SELECT idDependencia, Denominacion FROM dependencia WHERE Estado=1;");
+                              $c2=mysqli_query($cone, "SELECT idDependencia, Denominacion FROM dependencia WHERE Estado=1 ORDER BY Denominacion ASC;");
                               if(mysqli_num_rows($c2)>0){
                                 while ($r2=mysqli_fetch_assoc($c2)) {
                             ?>
@@ -552,8 +552,8 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <p>Oficina de informática y Sistemas</p>
-                <p>Teléfono: (076) 365577 Anexo 1015, Correo: informatica.cajamarca@djmail.mpfn.gob.pe</p>
+                <p>Área de informática</p>
+                <p>Teléfono: (076) 365577 Anexo 1015, 1003 - Correo: informatica.cajamarca@djmail.mpfn.gob.pe</p>
             </div>
         </div>
     </div>
@@ -571,6 +571,20 @@
     <script src="sisper/dist/js/app.min.js"></script>
 
     <script src="js/main.js"></script>
+    <?php
+    $c=mysqli_query($cone,"SELECT idComunicado FROM comunicado ORDER BY idComunicado DESC LIMIT 1;");
+    if($r=mysqli_fetch_assoc($c)){
+      $idco=$r['idComunicado'];
+    ?>
+    <script>
+      $(document).ready(function(){
+        $("#mcomunicado").modal("show");
+        vcomunicado(<?php echo $idco; ?>);
+      });
+    </script>
+    <?php
+    }
+    ?>
 
 </body>
 

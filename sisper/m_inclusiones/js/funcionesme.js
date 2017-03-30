@@ -511,11 +511,11 @@ function nuetel(id){
 $( "#f_nuetel" ).validate( {
     rules: {
       tiptel: "required",
-      num:{required:true,minlength:6}
+      num:{required:true,minlength:4}
     },
     messages: {
       fec: "Elija un tipo de telefono.",
-      num:{required:"Ingrese el número.",minlength:"Mínimo 6 caracteres."}
+      num:{required:"Ingrese el número.",minlength:"Mínimo 4 caracteres."}
     },
     errorElement: "em",
     errorPlacement: function ( error, element ) {
@@ -579,11 +579,11 @@ function editel(id){
 $( "#f_editel" ).validate( {
     rules: {
       tiptel: "required",
-      num:{required:true,minlength:6}
+      num:{required:true,minlength:4}
     },
     messages: {
       fec: "Elija un tipo de telefono.",
-      num:{required:"Ingrese el número.",minlength:"Mínimo 6 caracteres."}
+      num:{required:"Ingrese el número.",minlength:"Mínimo 4 caracteres."}
     },
     errorElement: "em",
     errorPlacement: function ( error, element ) {
@@ -640,6 +640,8 @@ function elitel(id){
     },
     success:function(a){
       $("#r_elitel").html(a);
+      $("#b_sielitel").removeClass("disabled");
+      $("#b_sielitel").html("Sí");
       $("#b_sielitel").show();
       $("#b_noelitel").html("No");
     }

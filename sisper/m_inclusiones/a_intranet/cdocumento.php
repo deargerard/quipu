@@ -20,7 +20,7 @@ if(accesoadm($cone,$_SESSION['identi'],11)){
 
                 		$nomadj='d'.$iddoc.'_'.url($_FILES['doc']['name']);
                 		$ruta="../../files_intranet/".$nomadj;
-                		$subir=@move_uploaded_file($_FILES['doc']['tmp_name'], $ruta);
+                		$subir=move_uploaded_file($_FILES['doc']['tmp_name'], $ruta);
                 		if($subir){
                 			$q="UPDATE documento SET Adjunto='$nomadj', idEmpleado=$idu WHERE idDocumento=$iddoc";
                 			if(mysqli_query($cone,$q)){

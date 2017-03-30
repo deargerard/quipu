@@ -106,9 +106,7 @@ if(accesoadm($cone,$_SESSION['identi'],6)){
   </div>
 </div>
 <script>
-$(".select2").select2({
-dropdownParent: $('#m_ediambiente')
-});
+$(".select2").select2();
 </script>
 
 <?php

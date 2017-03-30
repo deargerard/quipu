@@ -22,7 +22,7 @@ if(accesocon($cone,$_SESSION['identi'],6)){
 				</tr>
 				<tr>
 					<th>Oficial</th>
-					<td><?php echo $rco['Oficial'] == 1 ? Si : No ?></td>
+					<td><?php echo $rco['Oficial'] == 1 ? "Si" : "No" ?></td>
 				</tr>
 				<tr>
 					<th>Estado</th>

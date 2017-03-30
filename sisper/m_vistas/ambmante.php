@@ -30,7 +30,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
               <div class="box-body">
                 <div class="row">
                   <div class="col-md-12" id="r_blocal">
-                      <table id="dtlocales" class="table table-bordered table-striped">
+                      <table id="dtambiente" class="table table-bordered table-striped">
                         <thead>
                           <tr>
                             <th>TIPO</th>
@@ -153,7 +153,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
 <!--Fin Modal Detalle Ambiente-->
 <?php if(accesoadm($cone,$_SESSION['identi'],6)){ ?>
 <!--Modal Editar Ambiente-->
-<div class="modal fade" id="m_ediambiente" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="m_ediambiente" role="dialog" aria-labelledby="myModalLabel">
   <form id="f_ediambiente" action="" class="form-horizontal">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -195,7 +195,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
 </div>
 <!--Fin Modal Desactivar Ambiente-->
 <!--Modal Nuevo Ambiente-->
-<div class="modal fade" id="m_nueambiente" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="m_nueambiente" role="dialog" aria-labelledby="myModalLabel">
   <form id="f_nueambiente" action="" class="form-horizontal">
   <div class="modal-dialog" role="document">
     <div class="modal-content">

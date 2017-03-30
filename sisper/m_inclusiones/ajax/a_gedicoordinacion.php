@@ -12,7 +12,11 @@ if(accesoadm($cone,$_SESSION['identi'],6)){
 			// }else{
 			// 	$ofi=0;
 			// }
-			$ofi = $_POST['ofi']==1 ? 1 : 0;
+			if(isset($_POST['ofi']) && $_POST['ofi']==1){
+				$ofi=1;
+			}else{
+				$ofi=0;
+			}
 			$sql="UPDATE coordinacion SET Denominacion='$den', Oficial=$ofi WHERE idCoordinacion=$idco";
 			if(mysqli_query($cone,$sql)){
 				echo mensajesu("Listo: La coordinacion fue editada correctamente.");

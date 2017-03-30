@@ -13,8 +13,8 @@ if(accesoadm($cone,$_SESSION['identi'],6)){
 			$fecfin=strtotime('-1 day', strtotime($fecini));
 			$fecfin=date('Y-m-d', $fecfin);
 
-			$sql="INSERT INTO coordinador (FecInicio, FecFin, Condicion, idEmpleado, idCoordinacion) VALUES ('$fecini', '0000-00-00', $con, '$cood', '$coo')";
-			$c=mysqli_query($cone,"SELECT idCoordinador FROM coordinador WHERE idCoordinacion=$coo AND FecFin='0000-00-00'");
+			$sql="INSERT INTO coordinador (FecInicio, FecFin, Condicion, idEmpleado, idCoordinacion) VALUES ('$fecini', NULL, $con, '$cood', '$coo')";
+			$c=mysqli_query($cone,"SELECT idCoordinador FROM coordinador WHERE idCoordinacion=$coo AND FecFin='1969-12-31'");
 			$idco=0;
 			if($r=mysqli_fetch_assoc($c)){
 				$idco=$r['idCoordinador'];

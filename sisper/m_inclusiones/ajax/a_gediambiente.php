@@ -13,13 +13,13 @@ if(accesoadm($cone,$_SESSION['identi'],6)){
 			$ofi=iseguro($cone,$_POST['ofi']);
 			$sql="UPDATE dependencialocal SET idDependencia=$dep, idTipoLocal=$den, idLocal=$loc, IdPiso=$pis, Oficina='$ofi' WHERE idDependenciaLocal=$idamb";
 			if(mysqli_query($cone,$sql)){
-				echo "<h4 class='text-olive'>Listo: El local fue editado correctamente.</h4>";
+				echo mensajesu("Listo: El ambiente fue editado correctamente.");
 			}else{
-				echo "<h4 class='text-maroon'>Error: " . mysqli_error($cone)."</h4>";
+				echo mensajeda("Error: " . mysqli_error($cone));
 			}
 			mysqli_close($cone);
 		}else{
-			echo "<h4 class='text-maroon'>Error: No lleno correctamente el formulario.</h4>";
+			echo mensajewa("Error: No lleno correctamente el formulario.");
 		}
 	}
 }else{

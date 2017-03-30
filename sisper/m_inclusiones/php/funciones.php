@@ -46,7 +46,7 @@ function sexo($s){
 function fnormal($fecha){
 	if(is_null($fecha)){
 		return "";
-	}elseif($fecha=='1970-01-01'){
+	}elseif($fecha=='1969-12-31'){
 		return "";
 	}elseif($fecha=='0000-00-00'){
 		return "";
@@ -69,6 +69,8 @@ function fnormalsin($fecha){
 }
 function fmysql($fecha){
 	if(is_null($fecha)){
+		return "";
+	}if($fecha=="1969-12-31"){
 		return "";
 	}else{
 		$fec=@date("Y-m-d",strtotime(str_replace('/', '-',$fecha)));
@@ -123,6 +125,16 @@ function dependenciae($con,$idemp){
 	mysqli_free_result($cdep);
 }
 
+function iddependenciae($con,$idemp){
+	$idemp=iseguro($con,$idemp);
+	$cdep=mysqli_query($con,"SELECT d.idDependencia FROM empleado AS e INNER JOIN empleadocargo AS ec ON e.idEmpleado=ec.idEmpleado INNER JOIN cardependencia AS cd ON ec.idEmpleadoCargo=cd.idEmpleadoCargo INNER JOIN dependencia AS d ON cd.idDependencia=d.idDependencia WHERE e.idEmpleado=$idemp AND ec.idEstadoCar=1 AND cd.Estado=1");
+	if($rdep=mysqli_fetch_assoc($cdep)){
+		return $rdep["idDependencia"];
+	}else{
+		return "0";
+	}
+	mysqli_free_result($cdep);
+}
 function nomdependencia($con,$iddep){
 	$iddep=iseguro($con,$iddep);
 	$cdep=mysqli_query($con,"SELECT Denominacion FROM dependencia WHERE idDependencia=$iddep");

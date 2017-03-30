@@ -49,7 +49,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                             }
                             while($rdep=mysqli_fetch_assoc($cdep)){
                               $idcoor=$rdep['idCoordinacion'];
-                              $c1=mysqli_query($cone,"SELECT idEmpleado FROM coordinador WHERE idCoordinacion=$idcoor AND FecFin='0000-00-00';");
+                              $c1=mysqli_query($cone,"SELECT idEmpleado FROM coordinador WHERE idCoordinacion=$idcoor AND FecFin IS NULL;");
                               $idcoordinador="";
                               if($r1=mysqli_fetch_assoc($c1)){
                                 $idcoordinador=$r1['idEmpleado'];
@@ -57,7 +57,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                           ?>
                           <tr>
                             <td><span class="text-blue"><?php echo $rdep['Denominacion'] ?></span></td>
-                            <td><?php echo $rdep['Oficial']==1 ? Si : No ?></td>
+                            <td><?php echo $rdep['Oficial']==1 ? "Sí" : "No" ?></td>
                             <td><?php echo $idcoordinador == "" ? '<span class="text-maroon">SIN COORDINADOR</span>' : nomempleado($cone, $idcoordinador); ?></td>
                             <td><?php echo estado($rdep['Estado']) ?></td>
                             <td>
@@ -150,10 +150,10 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                             <td><?php echo $rdep['Denominacion'] ?></td>
                             <td><?php echo $rdep['Condicion']==1 ? 'OFICIAL' : 'ENCARGADO'; ?></td>
                             <td><?php echo fnormal($rdep['FecInicio']); ?>
-                            <td><?php echo $rdep['FecFin'] == "0000-00-00" ? "SIN FIN" : '<span class="text-maroon">'.fnormal($rdep['FecFin']).'</span>'; ?></td>
+                            <td><?php echo $rdep['FecFin'] == "" ? "SIN FIN" : '<span class="text-maroon">'.fnormal($rdep['FecFin']).'</span>'; ?></td>
                             
                             <td>
-                            <?php if($rdep['FecFin'] == "0000-00-00"){ ?>
+                            <?php if($rdep['FecFin'] == ""){ ?>
                               <div class="btn-group">
                                 <button class="btn btn-warning btn-xs dropdown-toggle" data-toggle="dropdown">
                                   <i class="fa fa-cog"></i>&nbsp;
@@ -328,7 +328,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
 
       </div>
       <div class="modal-footer">
-        <button type="submit" class="btn bg-teal" id="b_asicoordinador">Guardar</button>
+        <button type="submit" class="btn bg-teal" id="b_gasicoordinador">Guardar</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
       </div>
     </div>

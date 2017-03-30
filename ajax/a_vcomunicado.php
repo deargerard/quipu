@@ -17,7 +17,7 @@
 		<tbody>
 			<tr>
 				<td>
-					<span class="text-primary"><?php echo data_text(fnormal($rco['Fecha'])); ?></span>
+					<span class="text-primary"><i class="fa fa-calendar"></i> <?php echo data_text(fnormal($rco['Fecha'])); ?></span>
 					<p class="text-justify"><?php echo html_entity_decode($rco['Contenido']); ?></p>
 				</td>
 			</tr>
