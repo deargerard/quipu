@@ -5,19 +5,22 @@ include("../php/funciones.php");
 if(accesocon($cone,$_SESSION['identi'],6)){
 	$idlo=iseguro($cone,$_POST["idlo"]);
 	if(isset($idlo) && !empty($idlo)){
-		$clo=mysqli_query($cone,"SELECT * FROM local l INNER JOIN condicionloc cl on l.idCondicionLoc=cl.idCondicionLoc WHERE idLocal=$idlo");
+		$clo=mysqli_query($cone,"SELECT * FROM local WHERE idLocal=$idlo");
 		$rlo=mysqli_fetch_assoc($clo);
+		$idcl=$rlo['idCondicionLoc'];
+		$ccl=mysqli_query($cone,"SELECT CondicionLocal FROM condicionloc WHERE idCondicionLoc=$idcl");
+		$rccl=mysqli_fetch_assoc($ccl);
 	?>
 	<div class="table-responsive">
 		<table class="table table-striped table-bordered">
 			<thead>
 				<tr>
 					<th colspan="3"><strong><h4><?php echo $rlo['Alias'] ?></strong></h5></th>
-					<td ><strong><?php echo $rlo['CondicionLocal'] ?></strong></td>
+					<td ><strong><?php echo $rccl['CondicionLocal'] ?></strong></td>
 				</tr>
 				<?php if(!empty($rlo['Propietario']) && $rlo['idCondicionLoc']==2){?>
 				<tr>
-					<th>Propietario</th>
+					<th>Propietario(a)</th>
 					<td><?php echo $rlo['Propietario'] ?></td>
 				</tr>
 				<?php } ?>
@@ -25,13 +28,7 @@ if(accesocon($cone,$_SESSION['identi'],6)){
 			<tbody>
 				<tr>
 					<td colspan="3" class="text-aqua"><h4><strong><?php echo $rlo['Direccion'] ?></strong></h4></td>
-					<?php
-					if($rlo['Estado']==1)
-						$est='<span class="label label-success">Activo</span>';
-					else
-						$est='<span class="label label-danger">Inactivo</span>';
-					?>
-					<td><?php echo $est ?></td>
+					<td><?php echo estado($rlo['Estado'])?></td>
 				</tr>
 				<?php if(!empty($rlo['Urbanizacion'])){ ?>
 				<tr>

@@ -138,6 +138,7 @@ if(accesoadm($cone,$_SESSION['identi'],6)){
                 <option value="NEGOCIO">NEGOCIO</option>
                 <option value="OFICINAS">OFICINAS</option>
                 <option value="VIVIENDA">VIVIENDA</option>
+                <option value="VIVIENDA">FUNCIÓN MÉDICA</option>
               </select>
             </div>
             <label for="urea" class="col-sm-2 control-label">Uso Real</label>
@@ -148,6 +149,7 @@ if(accesoadm($cone,$_SESSION['identi'],6)){
                 <option value="NEGOCIO">NEGOCIO</option>
                 <option value="OFICINAS">OFICINAS</option>
                 <option value="VIVIENDA">VIVIENDA</option>
+                <option value="VIVIENDA">FUNCIÓN MÉDICA</option>
               </select>
             </div>
           </div>
@@ -160,7 +162,7 @@ if(accesoadm($cone,$_SESSION['identi'],6)){
             });
             $("#acons").datepicker( {
               format: " yyyy", // Notice the Extra space at the beginning
-              viewMode: "years", 
+              viewMode: "years",
               minViewMode: "years",
               todayHighlight: true,
               autoclose: true
@@ -172,4 +174,3 @@ if(accesoadm($cone,$_SESSION['identi'],6)){
   echo accrestringidoa();
 }
 ?>
-        
