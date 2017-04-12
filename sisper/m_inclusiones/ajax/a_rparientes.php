@@ -21,7 +21,7 @@ $idp=$_SESSION['idperper'];
 		                	
 		                	<table class="table table-striped table-bordered">
 		                		<thead>
-		                			<th>PARENTEZCO</th>
+		                			<th>PARENTESCO</th>
 		                			<th>NOMBRE</th>
 		                			<th>T. DOC.</th>
 		                			<th>N° DOC.</th>

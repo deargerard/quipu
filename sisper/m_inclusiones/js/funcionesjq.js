@@ -1238,6 +1238,84 @@ $( "#f_nuedesplazamiento" ).validate( {
       });
     }
   } );
+
+//funcion nuevo desplazamiento
+function edidesplazamiento(id){
+  $.ajax({
+    type: "post",
+    url: "m_inclusiones/ajax/a_edidesplazamiento.php",
+    data: { id : id },
+    beforeSend: function () {
+      $("#r_edidesplazamiento").html("<img src='m_images/cargando.gif'>");
+    },
+    success:function(a){
+      $("#r_edidesplazamiento").html(a);
+      $("#b_gedidesplazamiento").show();
+    }
+  });
+};
+//funcion validar nuevo desplazamiento
+$( "#f_edidesplazamiento" ).validate( {
+    rules: {
+      dep:"required",
+      tipdes:"required",
+      ini:{required:true, datePE:true},
+      fin:{required:false, datePE:true},
+      numres:{required:true, minlength:5},
+      mot:{required:true, minlength:5},
+      ofi:{required:false}
+    },
+    messages: {
+      dep:"Elija una dependencia.",
+      tipdes:"Elija un tipo de desplazamiento.",
+      ini: {required:"Ingrese fecha de inicio del desplazamiento.",datePE:"Ingrese una fecha válida."},
+      fin: {datePE:"Ingrese una fecha válida."},
+      numres: {required:"Ingrese número de documento que autoriza el desplazamiento.",minlength:"Mínimo 5 caracteres."},
+      mot: {required:"Ingrese motivo del desplazamiento.",minlength:"Mínimo 5 caracteres"}
+    },
+    errorElement: "em",
+    errorPlacement: function ( error, element ) {
+      // Add the `help-block` class to the error element
+      error.addClass( "help-block" );
+
+      if ( element.prop( "type" ) === "checkbox" ) {
+        error.insertAfter( element.parent( "label" ) );
+      } else if ( element.prop( "type" ) === "radio" ){
+        error.insertAfter( element.parent( "label" ) );
+      }
+      else {
+        error.insertAfter( element );
+      }
+    },
+    highlight: function ( element, errorClass, validClass ) {
+      $( element ).parents( ".valida" ).addClass( "has-error" ).removeClass( "has-success" );
+    },
+    unhighlight: function (element, errorClass, validClass) {
+      $( element ).parents( ".valida" ).addClass( "has-success" ).removeClass( "has-error" );
+    },
+    submitHandler: function(form){
+      var datos = $("#f_edidesplazamiento").serializeArray();
+      datos.push({name: "NomForm", value: "f_edidesplazamiento"});
+      $.ajax({
+         type: "POST",
+         url: "m_inclusiones/ajax/a_gedidesplazamiento.php",
+         dataType: "html",
+         data: datos,   // I WANT TO ADD EXTRA DATA + SERIALIZE DATA
+         beforeSend: function () {
+            $("#b_gedidesplazamiento").html("<i class='fa fa-spinner fa-spin'></i> Enviando");
+            $("#b_gedidesplazamiento").addClass("disabled");
+         },
+         success: function(data){
+            $("#b_gedidesplazamiento").hide();
+            $("#b_gedidesplazamiento").html("Guardar");
+            $("#b_gedidesplazamiento").removeClass("disabled");
+            $("#r_edidesplazamiento").html(data);
+            $("#r_edidesplazamiento").slideDown();
+         }
+      });
+    }
+  } );
+
 $('#m_nuedesplazamiento').on('hidden.bs.modal', function () {
  $("#cargoe").load("m_inclusiones/ajax/a_rcargo.php");
  $("#nomcare").load("m_inclusiones/ajax/a_rnomcar.php");
@@ -1317,7 +1395,82 @@ $( "#f_nueestcargo" ).validate( {
       });
     }
   } );
-$('#m_nueestcargo').on('hidden.bs.modal', function () {
+
+//funcion nuevo estado cargo
+function ediestcargo(id){
+$.ajax({
+  type: "post",
+  url: "m_inclusiones/ajax/a_ediestcargo.php",
+  data: { idec : id },
+  beforeSend: function () {
+    $("#r_ediestcargo").html("<img src='m_images/cargando.gif'>");
+    $("#b_gediestcargo").hide();
+  },
+  success:function(a){
+    $("#r_ediestcargo").html(a);
+    $("#b_gediestcargo").show();
+  }
+});
+};
+//funcion validar nuevo estado cargo
+$( "#f_ediestcargo" ).validate( {
+    rules: {
+      estcar:"required",
+      ini:{required:true, datePE:true},
+      fin:{required:false, datePE:true},
+      numres:{required:true, minlength:5},
+      mot:{required:true, minlength:5},
+    },
+    messages: {
+      estcar:"Elija un nuevo estado.",
+      ini: {required:"Ingrese fecha de inicio del nuevo estado.",datePE:"Ingrese una fecha válida."},
+      fin: {datePE:"Ingrese una fecha válida."},
+      numres: {required:"Ingrese número de documento que autoriza el nuevo estado.",minlength:"Mínimo 5 caracteres."},
+      mot: {required:"Ingrese motivo del nuevo estado.",minlength:"Mínimo 5 caracteres"}
+    },
+    errorElement: "em",
+    errorPlacement: function ( error, element ) {
+      // Add the `help-block` class to the error element
+      error.addClass( "help-block" );
+
+      if ( element.prop( "type" ) === "checkbox" ) {
+        error.insertAfter( element.parent( "label" ) );
+      } else if ( element.prop( "type" ) === "radio" ){
+        error.insertAfter( element.parent( "label" ) );
+      }
+      else {
+        error.insertAfter( element );
+      }
+    },
+    highlight: function ( element, errorClass, validClass ) {
+      $( element ).parents( ".valida" ).addClass( "has-error" ).removeClass( "has-success" );
+    },
+    unhighlight: function (element, errorClass, validClass) {
+      $( element ).parents( ".valida" ).addClass( "has-success" ).removeClass( "has-error" );
+    },
+    submitHandler: function(form){
+      var datos = $("#f_ediestcargo").serializeArray();
+      datos.push({name: "NomForm", value: "f_ediestcargo"});
+      $.ajax({
+         type: "POST",
+         url: "m_inclusiones/ajax/a_gediestcargo.php",
+         dataType: "html",
+         data: datos,   // I WANT TO ADD EXTRA DATA + SERIALIZE DATA
+         beforeSend: function () {
+            $("#b_gediestcargo").html("<i class='fa fa-spinner fa-spin'></i> Enviando");
+            $("#b_gediestcargo").addClass("disabled");
+         },
+         success: function(data){
+            $("#b_gediestcargo").hide();
+            $("#b_gediestcargo").html("Guardar");
+            $("#b_gediestcargo").removeClass("disabled");
+            $("#r_ediestcargo").html(data);
+            $("#r_ediestcargo").slideDown();
+         }
+      });
+    }
+  } );
+$('#m_nueestcargo, #m_ediestcargo, #m_edidesplazamiento').on('hidden.bs.modal', function () {
  $("#cargoe").load("m_inclusiones/ajax/a_rcargo.php");
  $("#nomcare").load("m_inclusiones/ajax/a_rnomcar.php");
 })
@@ -2742,6 +2895,119 @@ $("#f_repcargos").validate({
   }
 });
 //fin funcion reporte cargos
+//funcion reporte cargos
+
+$("#f_ubipersonal").validate({
+  rules: {
+    dis: "required",
+    carg: "required"
+  },
+  messages: {
+    dis: "Elija un distrito.",
+    carg: "Elija un cargo"
+  },
+  errorElement: "em",
+  errorPlacement: function(error, element){
+    // Add the `help-block` class to the error element
+    error.addClass("help-block");
+
+    if(element.prop("type") === "checkbox"){
+      error.insertAfter(element.parent("label"));
+    }else if(element.prop("type") === "radio"){
+      error.insertAfter(element.parent("label"));
+    }
+    else{
+      error.insertAfter(element);
+    }
+  },
+  highlight: function ( element, errorClass, validClass ) {
+    $( element ).parents(".valida").addClass("has-error").removeClass("has-success");
+  },
+  unhighlight: function (element, errorClass, validClass) {
+    $( element ).parents(".valida").addClass("has-success").removeClass("has-error");
+  },
+  submitHandler: function(form){
+    var datos = $("#f_ubipersonal").serializeArray();
+    datos.push({name: "NomForm", value: "f_ubipersonal"});
+    $.ajax({
+       type: "POST",
+       url: "m_inclusiones/ajax/a_rubipersonal.php",
+       dataType: "html",
+       data: datos,   // I WANT TO ADD EXTRA DATA + SERIALIZE DATA
+       beforeSend: function () {
+          $("#b_rubipersonal").html("<i class='fa fa-spinner fa-spin'></i> Buscando");
+          $("#b_rubipersonal").addClass("disabled");
+        },
+       success: function(data){
+          $("#b_rubipersonal").html("Buscar");
+          $("#b_rubipersonal").removeClass("disabled");
+          $("#r_rubipersonal").html(data);
+       }
+    });
+  }
+});
+//fin funcion reporte cargos
+//funcion reporte personal
+$("#f_rephijos").validate({
+  rules: {
+    pers: "required"
+  },
+  messages: {
+    pers: "Elija un personal."
+  },
+  errorElement: "em",
+  errorPlacement: function(error, element){
+    // Add the `help-block` class to the error element
+    error.addClass("help-block");
+
+    if(element.prop("type") === "checkbox"){
+      error.insertAfter(element.parent("label"));
+    }else if(element.prop("type") === "radio"){
+      error.insertAfter(element.parent("label"));
+    }
+    else{
+      error.insertAfter(element);
+    }
+  },
+  highlight: function ( element, errorClass, validClass ) {
+    $( element ).parents(".valida").addClass("has-error").removeClass("has-success");
+  },
+  unhighlight: function (element, errorClass, validClass) {
+    $( element ).parents(".valida").addClass("has-success").removeClass("has-error");
+  },
+  submitHandler: function(form){
+    var datos = $("#f_rephijos").serializeArray();
+    datos.push({name: "NomForm", value: "f_rephijos"});
+    $.ajax({
+       type: "POST",
+       url: "m_inclusiones/ajax/a_rperhijos.php",
+       dataType: "html",
+       data: datos,   // I WANT TO ADD EXTRA DATA + SERIALIZE DATA
+       beforeSend: function () {
+          $("#b_rhijos").html("<i class='fa fa-spinner fa-spin'></i> Buscando");
+          $("#b_rhijos").addClass("disabled");
+        },
+       success: function(data){
+          $("#b_rhijos").html("Buscar");
+          $("#b_rhijos").removeClass("disabled");
+          $("#r_rhijos").html(data);
+       }
+    });
+  }
+});
+//fin funcion reporte personal
+$("#b_rvencimientos").on("click",function(e){
+  $.ajax({
+    type:"post",
+    url:"m_inclusiones/ajax/a_rvencimientos.php",
+    beforeSend: function () {
+      $("#r_rvencimientos").html("<img scr='m_images/cargando.gif'>");
+    },
+    success:function(a){
+      $("#r_rvencimientos").html(a);
+    }
+  });
+});
 
 //validar seleccionar dependencia para mostrar directorio
 $("#f_bteldep").validate({
@@ -3003,5 +3269,4 @@ $('#m_ntelefono, #m_editeld, #m_elitelefono').on('hidden.bs.modal', function () 
          }
       });
 })
-
 //fin funcion actualizar lista de telefonos

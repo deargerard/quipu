@@ -10,7 +10,7 @@ if(accesoadm($cone,$_SESSION['identi'],1)){
                     <label for="dep" class="col-sm-3 control-label">Dependencia</label>
                     <div class="col-sm-9 valida">
                       <input type="hidden" id="idec" name="idec" value="<?php echo $idec ?>">
-                      <select name="dep" id="dep" class="form-control">
+                      <select name="dep" id="dep" class="form-control select2" style="width: 100%;">
                         <option value="">DEPENDENCIA</option>
                         <?php echo listadepe($cone) ?>
                       </select>
@@ -22,7 +22,7 @@ if(accesoadm($cone,$_SESSION['identi'],1)){
                       <select name="tipdes" id="tipdes" class="form-control">
                         <option value="">TIPO DESPLAZAMIENTO</option>
                         <?php
-                          $ctd=mysqli_query($cone,"SELECT * FROM tipodesplaza WHERE Estado=1");
+                          $ctd=mysqli_query($cone,"SELECT * FROM tipodesplaza WHERE Estado=1 AND idTipoDesplaza!=1");
                           while($rtd=mysqli_fetch_assoc($ctd)){
                         ?>
                         <option value="<?php echo $rtd['idTipoDesplaza'] ?>"><?php echo $rtd['TipoDesplaza'] ?></option>
@@ -40,7 +40,7 @@ if(accesoadm($cone,$_SESSION['identi'],1)){
                     </div>
                   </div>
                   <div class="form-group">
-                    <label for="fin" class="col-sm-3 control-label">Finaliza</label>
+                    <label for="fin" class="col-sm-3 control-label">Probable fin</label>
                     <div class="col-sm-3 valida">
                       <input type="text" id="fin" name="fin" class="form-control" placeholder="dd/mm/aaaa">
                     </div>
@@ -67,8 +67,10 @@ if(accesoadm($cone,$_SESSION['identi'],1)){
   $('#ini,#fin').datepicker({
     format: "dd/mm/yyyy",
     language: "es",
+    autoclose: true,
     todayHighlight: true
   });
+  $(".select2").select2();
 </script>
   <?php
   }else{

@@ -182,9 +182,7 @@
             <?php if(accesoadm($cone,$_SESSION['identi'],1)){ ?>
             <li id="nuepersonal"><a href="nuepersonal.php"><i class="fa fa-circle-o"></i> Nuevo</a></li>
             <?php } ?>
-            <li id="reppersonal"><a href="reppersonal.php"><i class="fa fa-circle-o"></i> Personal x Dependencia</a></li>
-            <li id="repcargos"><a href="repcargos.php"><i class="fa fa-circle-o"></i> Cargos x Dependencia</a></li>
-            <li id="rephijos"><a href="rephijos.php"><i class="fa fa-circle-o"></i> Hijos de Personal</a></li>
+            <li id="reppersonal"><a href="reppersonal.php"><i class="fa fa-circle-o"></i> Reportes</a></li>
           </ul>
         </li>
         <?php

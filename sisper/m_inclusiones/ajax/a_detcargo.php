@@ -16,28 +16,22 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
 		}
 	?>
 	<div class="table-responsive">
-		<table class="table table-striped table-bordered">
+		<table class="table table-hover table-bordered">
 			<thead>
 				<tr>
-					<th colspan="2">Cargo</th>
+					<th colspan="<?php echo $rc['CondicionCar']=="NINGUNO" ? 4 : 2; ?>"><i class="fa fa-black-tie"></i> Cargo</th>
+					<?php if($rc['CondicionCar']!='NINGUNO'){ ?>
+					<th colspan="2">Condición</th>
+					<?php } ?>
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
-					<th colspan="2" class="text-aqua"><?php echo $rc['Cargo'] ?></th>
+					<th colspan="<?php echo $rc['CondicionCar']=="NINGUNO" ? 4 : 2; ?>" class="text-aqua"><h5><strong><?php echo $rc['Cargo']; ?></strong></h5></th>
+					<?php if($rc['CondicionCar']!='NINGUNO'){ ?>
+					<th colspan="2" class="text-red"><?php echo $rc['CondicionCar'] ?></th>
+					<?php } ?>
 				</tr>
-				<?php if($rc['CondicionCar']!='NINGUNO'){ ?>
-				<tr>
-					<th>Condición cargo</th>
-					<td><?php echo $rc['CondicionCar'] ?></td>
-				</tr>
-				<?php } ?>
-				<?php if(!empty($rc['Rol'])){ ?>
-				<tr>
-					<th>Rol</th>
-					<td><?php echo $rc['Rol'] ?></td>
-				</tr>
-				<?php } ?>
 				<tr>
 					<th>Mod. Acceso</th>
 					<?php
@@ -49,33 +43,24 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
 					<?php
 					mysqli_free_result($cma);
 					?>
-				</tr>
-				<?php if(!empty($rc['Concurso'])){ ?>
-				<tr>
 					<th>Concurso</th>
 					<td><?php echo $rc['Concurso'] ?></td>
 				</tr>
-				<?php } ?>
 				<tr>
 					<th>Condición laboral</th>
 					<td><?php echo $rc['Tipo'] ?></td>
+					<th>Rol</th>
+					<td><?php echo $rc['Rol'] ?></td>
 				</tr>
 				<tr>
 					<th>Fecha asume</th>
 					<td><?php echo fnormal($rc['FechaAsu']) ?></td>
-				</tr>
-				<?php if($rc['FechaJur']!='1969-12-31'){ ?>
-				<tr>
 					<th>Fecha juramentación</th>
 					<td><?php echo fnormal($rc['FechaJur']) ?></td>
 				</tr>
-				<?php } ?>
-				<?php if($rc['FechaVen']!='1969-12-31'){ ?>
 				<tr>
 					<th>Fecha vencimiento</th>
 					<td><?php echo fnormal($rc['FechaVen']) ?></td>
-				</tr>
-				<?php } ?>
 				<?php
 				$ree=$rc['Reemplazado'];
 				if($ree==0){
@@ -86,32 +71,61 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
 					$reem=$rr['NombreCom'];
 				}
 				?>
-				<tr>
 					<th>Reemplaza a</th>
 					<td><?php echo $reem ?></td>
 				</tr>
 				<tr>
-					<th>N° Resolución</th>
+					<th>N° Documento</th>
 					<td><?php echo $rc['NumResolucion'] ?></td>
-				</tr>
-				<?php if(!empty($rc['NumContrato'])){ ?>
-				<tr>
 					<th>N° Contrato</th>
 					<td><?php echo $rc['NumContrato'] ?></td>
 				</tr>
-				<?php } ?>
-				<?php if(!empty($rc['Motivo'])){ ?>
 				<tr>
 					<th>Motivo</th>
 					<td><?php echo $rc['Motivo'] ?></td>
-				</tr>
-				<?php } ?>
-				<tr>
 					<th>Estado</th>
 					<td><?php echo $est ?></td>
 				</tr>
 			</tbody>
 		</table>
+		<?php
+		$ce=mysqli_query($cone, "SELECT * FROM estadocargo ec INNER JOIN estadocar ecar ON ec.idEstadoCar=ecar.idEstadoCar WHERE idEmpleadoCargo=$idc ORDER BY idEstadoCargo ASC");
+		if(mysqli_num_rows($ce)>0){
+		?>
+			<table class="table table-hover table-bordered">
+				<thead>
+					<tr>
+						<th colspan="5"><i class="fa fa-toggle-on"></i> Estado del cargo</th>
+					</tr>
+					<tr>
+						<th>Estado</th>
+						<th>Desde</th>
+						<th>Prob. Hasta</th>
+						<th># Resolución</th>
+						<th>Motivo</th>
+					</tr>
+				</thead>
+				<tbody>
+		<?php
+			while ($re=mysqli_fetch_assoc($ce)) {
+		?>
+				
+					<tr>
+						<td><?php echo estadocar($re['EstadoCar']); ?></td>
+						<td><?php echo fnormal($re['FechaIni']); ?></td>
+						<td><?php echo fnormal($re['FechaFin']); ?></td>
+						<td><?php echo $re['NumResolucion']; ?></td>
+						<td><?php echo $re['Motivo']; ?></td>
+					</tr>
+				
+		<?php
+			}
+		?>
+				</tbody>
+			</table>
+		<?php
+		}
+		?>
 	</div>
 	<?php
 		mysqli_free_result($cc);

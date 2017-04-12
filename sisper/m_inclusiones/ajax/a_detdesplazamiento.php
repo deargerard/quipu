@@ -19,10 +19,10 @@ if(accesocon($cone,$_SESSION['identi'],1)  || accesocon($cone,$_SESSION['identi'
 		}
 	?>
 	<div class="table-responsive">
-		<table class="table table-striped table-bordered">
+		<table class="table table-hover table-bordered">
 			<thead>
 				<tr>
-					<th colspan="2">Dependencia</th>
+					<th colspan="2"><i class="fa fa-university"></i> Dependencia</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -38,7 +38,7 @@ if(accesocon($cone,$_SESSION['identi'],1)  || accesocon($cone,$_SESSION['identi'
 					<td><?php echo fnormal($rcd['FecInicio']) ?></td>
 				</tr>
 				<tr>
-					<th>Finalizó</th>
+					<th>Probable Fin</th>
 					<td><?php echo fnormal($rcd['FecFin']) ?></td>
 				</tr>
 				<tr>

@@ -13,6 +13,7 @@ $(document).ready(function(){
   $("ul.sidebar-menu li").removeClass("active");
   $("#personal").addClass("active");
   $("#reppersonal").addClass("active");
+  $(".select2").select2();
 });
 </script>
 <?php

@@ -25,7 +25,7 @@ if(accesoadm($cone,$_SESSION['identi'],1)){
                   </div>
                   <div class="form-group">
                     <label for="tiping" class="col-sm-3 control-label">Modalidad Acceso</label>
-                    <div class="col-sm-3 valida">
+                    <div class="col-sm-4 valida">
                       <select name="tiping" id="tiping" class="form-control">
                         <option value="">MODALIDAD ACCESO</option>
                       <?php
@@ -62,6 +62,7 @@ if(accesoadm($cone,$_SESSION['identi'],1)){
                         ?>
                       </select>
                     </div>
+                    <div class="col-sm-6"><i class="fa fa-exclamation-circle text-orange"></i><small> Elegir <strong>Titular</strong> o <strong>Provisional</strong> sólo para cargos de fiscales según sea el caso, para el resto de cargos <strong>Ninguno</strong>.</small></div>
                   </div>
                   <div class="form-group">
                     <label for="conlab" class="col-sm-3 control-label">Condición Laboral</label>
@@ -99,10 +100,20 @@ if(accesoadm($cone,$_SESSION['identi'],1)){
                   <div class="form-group">
                     <label for="rem" class="col-sm-3 control-label">Reemplaza a</label>
                     <div class="col-sm-6 valida">
-                      <select name="rem" id="rem" class="form-control">
+                      <select name="rem" id="rem" class="form-control select2" style="width: 100%;">
                         <option value="">REEMPLAZADO</option>
                         <option value="0">NO REEMPLAZA</option>
-                        <?php echo listaper($cone) ?>
+                        <?php
+                        $c=mysqli_query($cone,"SELECT idEmpleado, ApellidoPat, ApellidoMat, Nombres FROM empleado ORDER BY ApellidoPat, ApellidoPat, Nombres ASC;");
+                        if(mysqli_num_rows($c)>0){
+                          while ($r=mysqli_fetch_assoc($c)) { 
+                        ?>
+                        <option value="<?php echo $r['idEmpleado']; ?>"><?php echo $r['ApellidoPat']." ".$r['ApellidoMat'].", ".$r['Nombres']; ?></option>
+                        <?php
+                          }
+                        }
+                        mysqli_free_result($c);
+                        ?>
                       </select>
                     </div>
                   </div>
@@ -130,7 +141,7 @@ if(accesoadm($cone,$_SESSION['identi'],1)){
                   <div class="form-group">
                     <label for="dep" class="col-sm-3 control-label">Dependencia</label>
                     <div class="col-sm-9 valida">
-                      <select name="dep" id="dep" class="form-control">
+                      <select name="dep" id="dep" class="form-control select2" style="width: 100%;">
                         <option value="">DEPENDENCIA</option>
                         <?php echo listadepe($cone) ?>
                       </select>
@@ -141,8 +152,10 @@ if(accesoadm($cone,$_SESSION['identi'],1)){
   $('#fecasu,#fecjur,#fecven').datepicker({
     format: "dd/mm/yyyy",
     language: "es",
+    autoclose: true,
     todayHighlight: true
   });
+  $(".select2").select2();
 </script>
   <?php
   }else{

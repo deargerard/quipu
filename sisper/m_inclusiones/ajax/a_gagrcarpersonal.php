@@ -25,22 +25,22 @@ if(accesoadm($cone,$_SESSION['identi'],1)){
                   if(mysqli_query($cone,$sql)){
                         $idec=mysqli_insert_id($cone);
                         if(!mysqli_query($cone,"INSERT INTO cardependencia (idEmpleadocargo, idDependencia, idTipoDesplaza, FecInicio, NumResolucion, Motivo, Estado, Oficial) VALUES ($idec, $dep, 1, '$fecasu', '$numres', 'DEPENDENCIA INICIAL', 1, 1)")){
-                              echo "<h4 class='text-maroon'>Error: ". mysqli_error($cone)." Al asignarle dependencia.</h4>";
+                              echo mensajeda("Error: ". mysqli_error($cone)." Al asignarle dependencia.");
                         }
                         if(!mysqli_query($cone,"INSERT INTO estadocargo (idEmpleadoCargo, idEstadoCar, FechaIni, Motivo, NumResolucion, Estado) VALUES ($idec, 1, '$fecasu', 'ESTADO INICIAL', '$numres', 1)")){
-                              echo "<h4 class='text-maroon'>Error: ". mysqli_error($cone)." Al asignarle el estado al cargo.</h4>";
+                              echo mensajeda("Error: ". mysqli_error($cone)." Al asignarle el estado al cargo.");
                         }
                         if(!mysqli_query($cone,"UPDATE empleado SET Estado=1 WHERE idEmpleado=$idper")){
-                              echo "<h4 class='text-maroon'>Error: ". mysqli_error($cone)." Al actualizar estado del empleado.</h4>";
+                              echo mensajeda("Error: ". mysqli_error($cone)." Al actualizar estado del empleado.");
                         }
-                        echo "<h4 class='text-olive'>Listo: Cargo registrado correctamente.</h4><br>";
+                        echo mensajesu("Listo: Cargo registrado correctamente.");
                   }else{
-                        echo "<h4 class='text-maroon'>Error: ". mysqli_error($cone)."</h4>";
+                        echo mensajeda("Error: ". mysqli_error($cone));
                   }
                   mysqli_close($cone);
                   
             }else{
-                  echo "<h4 class='text-maroon'>Error: No lleno correctamente el formulario.</h4>";
+                  echo mensajeda("Error: No lleno correctamente el formulario.");
             }
       }
 }else{

@@ -68,7 +68,7 @@ if(accesoadm($cone,$_SESSION['identi'],1)){
                   </div>
                   <div class="form-group">
                     <label for="tiping" class="col-sm-3 control-label">Modalidad Acceso</label>
-                    <div class="col-sm-3 valida">
+                    <div class="col-sm-4 valida">
                       <select name="tiping" id="tiping" class="form-control">
                         <option value="">MODALIDAD ACCESO</option>
                         <?php
@@ -117,6 +117,7 @@ if(accesoadm($cone,$_SESSION['identi'],1)){
                         ?>
                       </select>
                     </div>
+                    <div class="col-sm-6"><i class="fa fa-exclamation-circle text-orange"></i><small> Elegir <strong>Titular</strong> o <strong>Provisional</strong> sólo para cargos de fiscales según sea el caso, para el resto de cargos <strong>Ninguno</strong>.</small></div>
                   </div>
                   <div class="form-group">
                     <label for="conlab" class="col-sm-3 control-label">Condición Laboral</label>
@@ -168,7 +169,7 @@ if(accesoadm($cone,$_SESSION['identi'],1)){
                   <div class="form-group">
                     <label for="rem" class="col-sm-3 control-label">Reemplaza a</label>
                     <div class="col-sm-6 valida">
-                      <select name="rem" id="rem" class="form-control">
+                      <select name="rem" id="rem" class="form-control select2" style="width: 100%;">
                         <option value="">REEMPLAZADO</option>
                         <?php
                         if($recar['Reemplazado']==0){
@@ -182,7 +183,7 @@ if(accesoadm($cone,$_SESSION['identi'],1)){
                         }
                         ?>
                         <?php
-                        $cemp=mysqli_query($cone,"SELECT idEmpleado, NombreCom FROM enombre WHERE Estado=1 ORDER BY NombreCom ASC");
+                        $cemp=mysqli_query($cone,"SELECT idEmpleado, NombreCom FROM enombre ORDER BY NombreCom ASC");
                         while($remp=mysqli_fetch_assoc($cemp)){
                           if($remp['idEmpleado']==$recar['Reemplazado']){
                         ?>
@@ -221,8 +222,10 @@ if(accesoadm($cone,$_SESSION['identi'],1)){
   $('#fecasu,#fecjur,#fecven').datepicker({
     format: "dd/mm/yyyy",
     language: "es",
+    autoclose: true,
     todayHighlight: true
   });
+  $(".select2").select2();
 </script>
   <?php
     mysqli_free_result($cecar);

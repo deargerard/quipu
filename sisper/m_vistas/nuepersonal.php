@@ -9,7 +9,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
       </h1>
       <ol class="breadcrumb">
         <li><a href="dboard.php"><i class="fa fa-home"></i> Inicio</a></li>
-        <li><a href="pagpersonal.php">Personal</a></li>
+        <li>Personal</li>
         <li class="active">Nuevo</li>
       </ol>
     </section>
@@ -213,13 +213,13 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                       </select>
                     </div>
                   </div>
-                  <div class="form-group">
+                  <div class="form-group" id="dcuspp">
                     <label for="cuspp" class="col-sm-3 control-label">Código CUSPP</label>
                     <div class="col-sm-3 valida">
                       <input type="text" id="cuspp" name="cuspp" class="form-control" placeholder="CUSPP">
                     </div>
                   </div>
-                  <div class="form-group">
+                  <div class="form-group" id="dfecafi">
                     <label for="fecafi" class="col-sm-3 control-label">Fecha Afiliación</label>
                     <div class="col-sm-3 valida">
                       <input type="text" id="fecafi" name="fecafi" class="form-control" placeholder="dd/mm/aaaa">

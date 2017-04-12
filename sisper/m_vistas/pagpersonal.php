@@ -9,6 +9,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
       </h1>
       <ol class="breadcrumb">
         <li><a href="dboard.php"><i class="fa fa-home"></i> Inicio</a></li>
+        <li>Personal</li>
         <li class="active">Personal</li>
       </ol>
     </section>
@@ -55,16 +56,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                             <td><?php echo $rp["NumeroDoc"] ?></td>
                             <td><?php echo cargoe($cone,$rp["idEmpleado"]) ?></td>
                             <td>
-                              <div class="btn-group">
-                                <button class="btn btn-warning btn-xs dropdown-toggle" data-toggle="dropdown">
-                                  <i class="fa fa-cog"></i>&nbsp;
-                                  <span class="caret"></span>
-                                  <span class="sr-only">Desplegar menú</span>
-                                </button>
-                                <ul class="dropdown-menu pull-right" role="menu">
-                                  <li><a href="perpersonal.php?idp=<?php echo $rp["idEmpleado"] ?>">Ver Perfil</a></li>
-                                </ul>
-                              </div>
+                              <a href="perpersonal.php?idp=<?php echo $rp["idEmpleado"] ?>" class="btn btn-xs btn-warning"><i class="fa fa-folder-open"></i> Ver Perfil</a>
                             </td>
                           </tr>
                     <?php

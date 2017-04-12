@@ -22,7 +22,7 @@ if(accesocon($cone,$_SESSION['identi'],6)){
 				</tr>
 				<tr>
 					<th>Oficial</th>
-					<td><?php echo $rco['Oficial'] == 1 ? "Si" : "No" ?></td>
+					<td><?php echo $rco['Oficial'] == 1 ? "Sí" : "No" ?></td>
 				</tr>
 				<tr>
 					<th>Estado</th>
@@ -32,7 +32,7 @@ if(accesocon($cone,$_SESSION['identi'],6)){
 					<th colspan="2" class="text-center">COORDINADOR</th>
 				</tr>
 				<?php
-				$c=mysqli_query($cone, "SELECT * FROM coordinador WHERE idCoordinacion=$idco AND FecFin='0000-00-00'");
+				$c=mysqli_query($cone, "SELECT * FROM coordinador WHERE idCoordinacion=$idco AND FecFin IS NULL");
 				if($r=mysqli_fetch_assoc($c)){
 				?>
 				<tr>

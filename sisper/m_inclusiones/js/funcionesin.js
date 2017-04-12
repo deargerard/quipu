@@ -98,7 +98,7 @@ function cdistritod(val){
       esp:"required",
       ins:"required",
       penins:"required",
-      cuspp:{required:true,minlength:12},
+      cuspp:{required:true,minlength:6},
       fecafi:{required:true, datePE:true},
       conviv:"required",
       dir:"required",

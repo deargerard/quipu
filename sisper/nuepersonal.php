@@ -18,6 +18,21 @@ $(document).ready(function(){
       language: "es",
       todayHighlight: true
   });
+
+  $("#penins").change(function(){
+    var ve = this.value;
+    if(ve=='6'){
+      $("#dcuspp").addClass("hidden");
+      $("#cuspp").val("Ninguno")
+      $("#dfecafi").addClass("hidden");
+      $("#fecafi").val("31/12/1969")
+    }else{
+      $("#dcuspp").removeClass("hidden");
+      $("#cuspp").val("");
+      $("#dfecafi").removeClass("hidden");
+      $("#fecafi").val("");
+    }
+  });
 });
 </script>
 <?php

@@ -48,6 +48,8 @@ function fnormal($fecha){
 		return "";
 	}elseif($fecha=='1969-12-31'){
 		return "";
+	}elseif($fecha=='1970-01-01'){
+		return "";
 	}elseif($fecha=='0000-00-00'){
 		return "";
 	}else{
@@ -306,7 +308,7 @@ function listaslab($con){
 	mysqli_free_result($q1);
 }
 function listadepe($con){
-	$q1=mysqli_query($con,"SELECT idDependencia, Denominacion FROM dependencia ORDER BY Denominacion ASC");
+	$q1=mysqli_query($con,"SELECT idDependencia, Denominacion FROM dependencia WHERE Estado=1 ORDER BY Denominacion ASC");
 	$op="";
 	while($fila=mysqli_fetch_assoc($q1)){
 		$op=$op.'<option value="'.$fila["idDependencia"].'">'.$fila["Denominacion"].'</option>';
@@ -401,7 +403,7 @@ function nomempleado($con,$idemp){
 	if($re=mysqli_fetch_assoc($ce)){
 		return $re['ApellidoPat']." ".$re['ApellidoMat'].", ".$re['Nombres'];
 	}else{
-		return "El identificador no existe.";
+		return "--";
 	}
 }
 function nomvigilante($con,$idv){
@@ -496,9 +498,9 @@ function mensajewa($text){
 }
 function estado($est){
 	if($est==1){
-		echo "<span class='label label-success'>Activo</span>";
+		return "<span class='label label-success'>Activo</span>";
 	}else{
-		echo "<span class='label label-danger'>Inactivo</span>";
+		return "<span class='label label-danger'>Inactivo</span>";
 	}
 }
 function data_text($data, $tipus=1){if ($data != '' && $tipus == 0 || $tipus == 1){$setmana = array('Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado');$mes = array('Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre');if ($tipus == 1){ereg('([0-9]{1,2})/([0-9]{1,2})/([0-9]{2,4})', $data, $data);$data = @mktime(0,0,0,$data[2],$data[1],$data[3]);}return $setmana[@date('w', $data)].', '.@date('d', $data).' '.$mes[@date('m',$data)-1].' de '.@date('Y', $data);}else{return 0;}}
@@ -601,5 +603,12 @@ function telefonopers($con,$ide){
 		return "";
 	}
 	mysqli_free_result($ctp);
+}
+function estadocar($est){
+	switch ($est){
+	    case "ACTIVO": return "<span class='label label-success'>ACTIVO</span>"; break;
+	    case "RESERVADO": return "<span class='label label-warning'>RESERVADO</span>"; break;
+	    case "CESADO": return "<span class='label label-danger'>CESADO</span>"; break;
+	}
 }
 ?>

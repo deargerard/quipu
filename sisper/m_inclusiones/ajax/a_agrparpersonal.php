@@ -75,7 +75,7 @@ if(accesoadm($cone,$_SESSION['identi'],1) || accesoadm($cone,$_SESSION['identi']
                   <div class="form-group">
                     <label for="fecnac" class="col-sm-3 control-label">Fecha Nacimiento</label>
                     <div class="col-sm-3 valida">
-                      <input type="text" id="fecnac" name="fecnac" class="form-control" placeholder="dd/mm/aaaa">
+                      <input type="text" id="fecnac" name="fecnac" class="form-control" placeholder="dd/mm/aaaa" value="<?php echo "31/12/1969"; ?>">
                     </div>
                   </div>
                   <div class="form-group">

@@ -5,23 +5,28 @@ include("../php/funciones.php");
 if(accesoadm($cone,$_SESSION['identi'],1)){
   if(isset($_POST["idec"]) && !empty($_POST["idec"])){
     $idec=iseguro($cone,$_POST["idec"]);
-    $c=mysqli_query($cone,"SELECT idEstadoCar FROM estadocargo WHERE idEmpleadoCargo=$idec AND Estado=1");
+    $c=mysqli_query($cone,"SELECT * FROM estadocargo WHERE idEstadocargo=$idec");
     if($r=mysqli_fetch_assoc($c)){
-      $idecar=$r['idEstadoCar'];
-    }
+      $idempcar=$r['idEmpleadoCargo'];
+      $fesac=$r['FechaIni'];
+      $cesan=mysqli_query($cone,"SELECT idEstadoCar FROM estadocargo WHERE idEmpleadoCargo=$idempcar AND FechaIni<'$fesac' ORDER BY FechaIni DESC LIMIT 1;");
+      if($resan=mysqli_fetch_assoc($cesan)){
+        $esan=$resan['idEstadoCar'];
+      }
   ?>
     
                   <div class="form-group">
                     <label for="estcar" class="col-sm-3 control-label">Nuevo Estado</label>
                     <div class="col-sm-6 valida">
                       <input type="hidden" id="idec" name="idec" value="<?php echo $idec; ?>">
+                      <input type="hidden" id="emca" name="emca" value="<?php echo $idempcar; ?>">
                       <select name="estcar" id="estcar" class="form-control">
                         <option value="">ESTADO CARGO</option>
                         <?php
-                        $cecar=mysqli_query($cone,"SELECT * FROM estadocar WHERE Estado=1 AND idEstadoCar!=$idecar");
+                        $cecar=mysqli_query($cone,"SELECT * FROM estadocar WHERE Estado=1 AND idEstadoCar!=$esan");
                         while ($rec=mysqli_fetch_assoc($cecar)) {
                         ?>
-                        <option value="<?php echo $rec['idEstadoCar']; ?>"><?php echo $rec['EstadoCar']; ?></option>
+                        <option value="<?php echo $rec['idEstadoCar']; ?>" <?php echo $rec['idEstadoCar']==$r['idEstadoCar'] ? "selected" : ""; ?>><?php echo $rec['EstadoCar']; ?></option>
                         <?php
                         }
                         mysqli_free_result($cecar);
@@ -32,25 +37,25 @@ if(accesoadm($cone,$_SESSION['identi'],1)){
                   <div class="form-group">
                     <label for="ini" class="col-sm-3 control-label">Desde</label>
                     <div class="col-sm-3 valida">
-                      <input type="text" id="ini" name="ini" class="form-control" placeholder="dd/mm/aaaa">
+                      <input type="text" id="ini" name="ini" class="form-control" placeholder="dd/mm/aaaa" value="<?php echo fnormal($r['FechaIni']); ?>">
                     </div>
                   </div>
-                  <div class="form-group hidden" id="pfin">
+                  <div class="form-group<?php echo $r['idEstadoCar']==2 ? "" : " hidden"; ?>" id="pfin">
                     <label for="fin" class="col-sm-3 control-label">Probable fin</label>
                     <div class="col-sm-3 valida">
-                      <input type="text" id="fin" name="fin" class="form-control" placeholder="dd/mm/aaaa">
+                      <input type="text" id="fin" name="fin" class="form-control" placeholder="dd/mm/aaaa" value="<?php echo fnormal($r['FechaFin']); ?>">
                     </div>
                   </div>
                   <div class="form-group">
                     <label for="numres" class="col-sm-3 control-label">N° Documento</label>
                     <div class="col-sm-6 valida">
-                      <input type="text" id="numres" name="numres" class="form-control" placeholder="N° Documento">
+                      <input type="text" id="numres" name="numres" class="form-control" placeholder="N° Documento" value="<?php echo $r['NumResolucion']; ?>">
                     </div>
                   </div>
                   <div class="form-group">
                     <label for="mot" class="col-sm-3 control-label">Motivo</label>
                     <div class="col-sm-9 valida">
-                      <input type="text" id="mot" name="mot" class="form-control" placeholder="Motivo">
+                      <input type="text" id="mot" name="mot" class="form-control" placeholder="Motivo" value="<?php echo $r['Motivo']; ?>">
                     </div>
                   </div>
 <script>
@@ -72,8 +77,11 @@ if(accesoadm($cone,$_SESSION['identi'],1)){
 </script>
 
   <?php
+    }else{
+      echo mensajewa("Error: No envio datos válidos.");
+    }
   }else{
-    echo "<h4 class='text-maroon'>Error: No se selecciono ningún personal.</h4>";
+    echo mensajewa("Error: No se selecciono ningún estado.");
   }
 }else{
   echo accrestringidoa();
