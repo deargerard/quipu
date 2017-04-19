@@ -48,7 +48,7 @@ if(accesocon($cone,$_SESSION['identi'],1)){
         <?php
             }
           }
-          $cp=mysqli_query($cone,"SELECT e.idEmpleado, ApellidoPat, ApellidoMat, Nombres FROM cardependencia cd INNER JOIN empleadocargo ec ON cd.idEmpleadoCargo=ec.idEmpleadoCargo INNER JOIN empleado e ON ec.idEmpleado=e.idEmpleado INNER JOIN cargo c ON ec.idCargo=c.idCargo WHERE cd.idDependencia=$idde AND ec.idEstadoCar=1 $pca ORDER BY c.Orden, ApellidoPat, ApellidoMat ASC;");
+          $cp=mysqli_query($cone,"SELECT e.idEmpleado, ApellidoPat, ApellidoMat, Nombres FROM cardependencia cd INNER JOIN empleadocargo ec ON cd.idEmpleadoCargo=ec.idEmpleadoCargo INNER JOIN empleado e ON ec.idEmpleado=e.idEmpleado INNER JOIN cargo c ON ec.idCargo=c.idCargo WHERE cd.idDependencia=$idde AND cd.Estado=1 AND ec.idEstadoCar=1 $pca ORDER BY c.Orden, ApellidoPat, ApellidoMat ASC;");
           if(mysqli_num_rows($cp)>0){
         ?>
           <tr>

@@ -1,16 +1,16 @@
 <?php
 if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
-  if(accesocon($cone,$_SESSION['identi'],3)){
+  if(accesocon($cone,$_SESSION['identi'],4)){
 ?>
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Vacaciones
+        Licencias
       </h1>
       <ol class="breadcrumb">
         <li><a href="dboard.php"><i class="fa fa-home"></i> Inicio</a></li>
-        <li>Vacaciones</li>
-        <li class="active">Vacaciones</li>
+        <li>Licencias</li>
+        <li class="active">Licencias</li>
       </ol>
     </section>
 
@@ -21,7 +21,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
            <!-- Default box -->
             <div class="box box-info">
               <div class="box-header with-border">
-                <h3 class="box-title">Vacaciones</h3>
+                <h3 class="box-title">Licencias</h3>
                 <div class="box-tools pull-right">
                   <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
                     <i class="fa fa-minus"></i></button>
@@ -33,9 +33,9 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                     <!--Formulario-->
                     <form action="" id="f_pervac" class="form-horizontal">
                       <div class="form-group">
-                        <label for="pervac" class="col-sm-1 control-label">Personal</label>
+                        <label for="perlic" class="col-sm-1 control-label">Personal</label>
                         <div class="col-sm-6 valida">
-                          <select name="pervac" id="pervac" class="form-control select2" style="width: 100%;">
+                          <select name="perlic" id="perlic" class="form-control select2" style="width: 100%;">
                             <option value="">Personal</option>
                           </select>
                         </div>
@@ -56,7 +56,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                     <!--div resultados-->
                     <div class="row">
                       <hr>
-                      <div class="col-md-12" id="r_pervac">
+                      <div class="col-md-12" id="r_perlic">
 
                       </div>
                     </div>

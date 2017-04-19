@@ -212,7 +212,7 @@
           </a>
           <ul class="treeview-menu">
             <li id="paglicencias"><a href="paglicencias.php"><i class="fa fa-circle-o"></i> Licencias</a></li>
-            <li id="replicencias"><a href="replicencias.php"><i class="fa fa-circle-o"></i> Reporte</a></li>
+            <li id="replicencias"><a href="replicencias.php"><i class="fa fa-circle-o"></i> Reportes</a></li>
           </ul>
         </li>
         <?php
@@ -227,7 +227,7 @@
           </a>
           <ul class="treeview-menu">
             <li id="pagvacaciones"><a href="pagvacaciones.php"><i class="fa fa-circle-o"></i> Vacaciones</a></li>
-            <li id="repvacaciones"><a href="repvacaciones.php"><i class="fa fa-circle-o"></i> Reporte</a></li>
+            <li id="repvacaciones"><a href="repvacaciones.php"><i class="fa fa-circle-o"></i> Reportes</a></li>
           </ul>
         </li>
         <?php

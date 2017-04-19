@@ -10,13 +10,13 @@ if(accesocon($cone,$_SESSION['identi'],1)){
 ?>
   <h4 class="text-maroon"><strong><?php echo nomempleado($cone,$pers); ?></strong><small> (<?php echo cargoe($cone,$pers) ?>)</small></h4>
 <?php
-  $c=mysqli_query($cone,"SELECT ApellidoPat, ApellidoMat, Nombres, Sexo, FechaNac, NumeroDoc, TelefonoFij, TelefonoMov, ContactoEme, TipoPariente FROM pariente p INNER JOIN tipopariente tp ON p.idTipoPariente=tp.idTipoPariente WHERE idEmpleado=$pers ORDER BY TipoPariente, ApellidoPat, ApellidoMat, Nombres ASC");
+  $c=mysqli_query($cone,"SELECT ApellidoPat, ApellidoMat, Nombres, Sexo, FechaNac, NumeroDoc, TelefonoFij, TelefonoMov, ContactoEme, TipoPariente FROM pariente p INNER JOIN tipopariente tp ON p.idTipoPariente=tp.idTipoPariente WHERE idEmpleado=$pers ORDER BY TipoPariente, ApellidoPat, ApellidoMat, Nombres ASC;");
 ?>
     <table class="table table-bordered table-hover">
 <?php
     if(mysqli_num_rows($c)>0){
-?>
-      <tr>
+
+      echo '<tr>
         <th>#</th>
         <th>T. PARIENTE</th>
         <th>NOMBRE</th>
@@ -25,15 +25,15 @@ if(accesocon($cone,$_SESSION['identi'],1)){
         <th>EDAD</th>
         <th>C. EMERG.</th>
         <th>TELÉFONO</th>
-      </tr>
-<?
+      </tr>';
+
       $n=0;
       while($r=mysqli_fetch_assoc($c)){
         $n++;
-        $f1=@date("y-m-d");
+        $f1=date("Y-m-d");
         $f2=$r['FechaNac'];
-        $f1=@date_create($f1);
-        $f2=@date_create($f2);
+        $f1=date_create($f1);
+        $f2=date_create($f2);
         $tie=date_diff($f1, $f2);
 ?>
       <tr>
@@ -60,10 +60,10 @@ if(accesocon($cone,$_SESSION['identi'],1)){
     </table>
 <?php
     }else{
-      echo mensajewa("no se enviaron datos");
+      echo mensajewa("no se enviaron datos.");
     }
   }else{
-    echo mensajeda("No es el formulario");
+    echo mensajeda("No es el formulario.");
   }
 }else{
   echo accrestringidoa();

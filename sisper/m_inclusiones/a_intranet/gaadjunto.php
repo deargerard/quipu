@@ -23,7 +23,7 @@ if(accesoadm($cone,$_SESSION['identi'],11)){
     			}
 
     		}else{
-    			echo mensajeda("Error: No se pudo guardar la imagen.");
+    			echo mensajeda("Error: No se pudo guardar el adjunto.");
     		}
     	}else{
     		echo mensajeda("Error: El archivo supero los 2Mb permitidos.");

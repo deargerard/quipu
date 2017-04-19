@@ -307,7 +307,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 <!--Div resultados-->
                 <div class="d_imagen">
                   <?php
-                  $ccom=mysqli_query($cone,"SELECT * FROM slider ORDER BY idSlider ASC LIMIT 10");
+                  $ccom=mysqli_query($cone,"SELECT * FROM slider ORDER BY idSlider DESC");
                   if(mysqli_num_rows($ccom)>0){
                   ?>
                   <h3 class="text-maroon">Imagenes de Slider.</h3>

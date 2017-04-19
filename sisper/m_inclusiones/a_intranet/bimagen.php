@@ -5,7 +5,7 @@ include("../php/funciones.php");
 if(accesoadm($cone,$_SESSION['identi'],11)){
 ?>
                   <?php
-                  $ccom=mysqli_query($cone,"SELECT * FROM slider ORDER BY idSlider ASC LIMIT 10");
+                  $ccom=mysqli_query($cone,"SELECT * FROM slider ORDER BY idSlider DESC");
                   if(mysqli_num_rows($ccom)>0){
                   ?>
                   <h3 class="text-maroon">Imagenes de carrusel.</h3>
