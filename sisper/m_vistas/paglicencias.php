@@ -31,33 +31,32 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 <div class="row">
                   <div class="col-md-12">
                     <!--Formulario-->
-                    <form action="" id="f_pervac" class="form-horizontal">
+                    <form id="f_licper" class="form-inline">
                       <div class="form-group">
-                        <label for="perlic" class="col-sm-1 control-label">Personal</label>
-                        <div class="col-sm-6 valida">
-                          <select name="perlic" id="perlic" class="form-control select2" style="width: 100%;">
-                            <option value="">Personal</option>
-                          </select>
-                        </div>
-                        <label for="per" class="col-sm-1 control-label">Periodo</label>
-                        <div class="col-sm-4 valida">
-                          <select name="per" id="per" class="form-control select2" style="width: 100%;">
-                            <option value="">Periodo</option>
-                          </select>
-                        </div>
+                        <label for="licper" class="sr-only">Personal</label>
+                        <select name="licper" id="licper" class="form-control select2peract" style="width: 350px;">
+                        </select>
                       </div>
                       <div class="form-group">
-                        <div class="col-sm-offset-1 col-sm-11">
-                          <button type="submit" id="b_bpervac" class="btn btn-default">Buscar</button>
+                        <label for="ano" class="sr-only">Año</label>
+                        <div class="input-group">
+                          <input type="text" class="form-control" name="ano" id="ano" value="<?php echo date('Y'); ?>">
+                          <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
                         </div>
                       </div>
+                      <div class="checkbox">
+                        <label>
+                          <input type="checkbox" name="vcan" value="c" id="vcan"> Ver Canceladas
+                        </label>
+                      </div>
+                          <button type="submit" id="b_blicper" class="btn btn-default">Buscar</button>
                     </form>
                     <!--Fin Formulario-->
                     <!--div resultados-->
                     <div class="row">
                       <hr>
-                      <div class="col-md-12" id="r_perlic">
-
+                      <div class="col-md-12" id="r_licper">
+                        <h4 class="text-aqua"><strong>Licencias</strong></h4>
                       </div>
                     </div>
                     <!--fin div resultados-->
@@ -76,6 +75,108 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
 
     </section>
     <!-- /.content -->
+<!--Modal Nueva Dependencia-->
+<div class="modal fade" id="m_nuelic" role="dialog" aria-labelledby="myModalLabel">
+  <form id="f_nuelic" action="" class="form-horizontal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Nueva Licencia</h4>
+      </div>
+      <div class="modal-body" id="r_nuelic">
+
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn bg-teal" id="b_gnuelic">Guardar</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+  </form>
+</div>
+<!--Fin Modal Nueva Dependencia-->
+<!--Modal Editar Dependencia-->
+<div class="modal fade" id="m_edilic" role="dialog" aria-labelledby="myModalLabel">
+  <form id="f_edilic" action="" class="form-horizontal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Editar Licencia</h4>
+      </div>
+      <div class="modal-body" id="r_edilic">
+
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn bg-teal" id="b_gedilic">Guardar</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+  </form>
+</div>
+<!--Fin Modal Editar Dependencia-->
+<!--Modal Editar Dependencia-->
+<div class="modal fade" id="m_detlic" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Detalle Licencia</h4>
+      </div>
+      <div class="modal-body" id="r_detlic">
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Fin Modal Editar Dependencia-->
+<!--Modal estado licencia-->
+<div class="modal fade" id="m_estlic" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Cambiar Estado</h4>
+      </div>
+      <form id="f_estlic" action="" class="form-horizontal">
+      <div class="modal-body" id="r_estlic">
+
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-danger" id="b_siestlic">Si</button>
+        <button type="button" class="btn btn-default" id="b_noestlic" data-dismiss="modal">No</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!--Fin Modal estado licencia-->
+<!--Modal nuevo documento-->
+<div class="modal fade" id="m_nuedocu" role="dialog" aria-labelledby="myModalLabel">
+  <form id="f_nuedocu" action="" class="form-horizontal">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Nuevo Documento</h4>
+      </div>
+      <div class="modal-body" id="r_nuedocu">
+
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn bg-teal" id="b_gnuedocu">Guardar</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+  </form>
+</div>
+<!--Fin Modal nuevo documento-->
 <?php
 }else{
   echo accrestringidop();

@@ -756,7 +756,7 @@ $('#m_nuetel, #m_editel, #m_elitel').on('hidden.bs.modal', function () {
             $(".r_telefono").slideDown();
          }
       });
-})
+});
 
 $('#m_edicor').on('hidden.bs.modal', function () {
       var per1 = $("#per1").val();
@@ -776,4 +776,36 @@ $('#m_edicor').on('hidden.bs.modal', function () {
             $(".r_correo").slideDown();
          }
       });
-})
+});
+
+$(".select2peract").select2({
+  placeholder: 'Selecione a un personal',
+  ajax: {
+    url: 'm_inclusiones/a_general/a_selpersonal.php',
+    dataType: 'json',
+    delay: 250,
+    processResults: function (data) {
+      return {
+        results: data
+      };
+    },
+    cache: true
+  },
+  minimumInputLength: 4
+});
+
+$(".select2doc").select2({
+  placeholder: 'Selecione a un documento',
+  ajax: {
+    url: 'm_inclusiones/a_general/a_seldocumento.php',
+    dataType: 'json',
+    delay: 250,
+    processResults: function (data) {
+      return {
+        results: data
+      };
+    },
+    cache: true
+  },
+  minimumInputLength: 4
+});

@@ -572,7 +572,7 @@
 
     <script src="js/main.js"></script>
     <?php
-    $c=mysqli_query($cone,"SELECT idComunicado FROM comunicado ORDER BY idComunicado DESC LIMIT 1;");
+    $c=mysqli_query($cone,"SELECT idComunicado FROM comunicado WHERE Estado=1 ORDER BY Fecha DESC LIMIT 1;");
     if($r=mysqli_fetch_assoc($c)){
       $idco=$r['idComunicado'];
     ?>
