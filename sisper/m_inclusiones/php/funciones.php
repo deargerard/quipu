@@ -611,4 +611,15 @@ function estadocar($est){
 	    case "CESADO": return "<span class='label label-danger'>CESADO</span>"; break;
 	}
 }
+
+//funcion intervalo de fechas
+function intervalo($f1, $f2) {
+  $dias	= (strtotime($f1)-strtotime($f2))/86400;
+	//$dias 	= abs($dias);
+  $dias = floor($dias);
+  $dias=$dias+1;
+	return $dias;
+}
+//Fin Funcion intervalo de fechas
+
 ?>
