@@ -104,17 +104,17 @@
 <script src="m_inclusiones/js/messages_es_PE.js"></script>
 <!-- Bootstrap WYSIHTML5 -->
 <script src="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
-<?php
-if(!empty($js)){
-  echo $js;
-}
-?>
 <!--inicio-->
 <script src="m_inclusiones/js/funcionesin.js"></script>
 <script src="m_inclusiones/js/funcionesme.js"></script>
 <script src="m_inclusiones/js/funcionesjq.js"></script>
 <script src="m_inclusiones/js/intranetjs.js"></script>
 <script src="m_inclusiones/js/asistenciajs.js"></script>
+<?php
+if(!empty($js)){
+  echo $js;
+}
+?>
 <!--fin-->
 <?php
 if(!empty($sc)){
