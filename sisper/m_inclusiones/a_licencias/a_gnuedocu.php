@@ -2,7 +2,7 @@
 session_start();
 include("../php/conexion_sp.php");
 include("../php/funciones.php");
-if(accesoadm($cone,$_SESSION['identi'],4)){
+if(accesoadm($cone,$_SESSION['identi'],4)||accesoadm($cone,$_SESSION['identi'],3)){
   if(isset($_POST['tdoc']) && !empty($_POST['tdoc']) && isset($_POST['num']) && !empty($_POST['num']) && isset($_POST['adoc']) && !empty($_POST['adoc']) && isset($_POST['sig']) && !empty($_POST['sig']) && isset($_POST['fec']) && !empty($_POST['fec'])){
     $tdoc=iseguro($cone,$_POST['tdoc']);
     $num=iseguro($cone,$_POST['num']);

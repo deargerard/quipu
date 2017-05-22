@@ -21,7 +21,7 @@ $("#atrab").datepicker({
   format: " yyyy",
   minViewMode: "years",
   maxViewMode: "years",
-  startDate: '2010',
+  startDate: '1998',
   endDate: new Date(),
   startView: "year" //does not work
 });

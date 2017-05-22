@@ -9,39 +9,33 @@ if(accesocon($cone,$_SESSION['identi'],3)){
 	if(isset($per) && !empty($per) && isset($pervac) && !empty($pervac) && isset($can)){
     // Obtener  idEmpleadoCargo, fechas para cálculo de vacaciones
 		$cin=mysqli_query($cone,"SELECT idEmpleadoCargo, FechaVac, FechaAsu FROM empleadocargo WHERE idEmpleado=$per AND idEstadoCar=1");
+		$cpv=mysqli_query($cone,"SELECT * FROM periodovacacional WHERE idPeriodoVacacional=$pervac");
 		$rin=mysqli_fetch_assoc($cin);
-		if ($pervac!=="t") {
-			$cpv=mysqli_query($cone,"SELECT * FROM periodovacacional WHERE idPeriodoVacacional=$pervac");
-			$rpv=mysqli_fetch_assoc($cpv);
-		}
-				$idec=$rin['idEmpleadoCargo'];
-				$mesi = substr($rin['FechaVac'], -5, -3)==12 ? 1 : substr($rin['FechaVac'], -5, -3) + 1;
-				$anoi= $mesi==1 ? substr($rpv['PeriodoVacacional'], -4)+1 : substr($rpv['PeriodoVacacional'], -4);
-				$fii="01-".$mesi."-".$anoi;
-				$f=date($fii);
-				$f=strtotime('+10 month',strtotime($f));
-				$ffi=date('j-m-Y',$f);
-				$fff= strtotime('+29 day',strtotime($ffi));
-				$fff= date('j-m-Y',$fff);
-				$hoy = date("j-m-Y");
-				$fii = strtotime($fii)<=strtotime($hoy) ? date("d-m-Y",strtotime('+15 day',strtotime($hoy))) : $fii; // Valida que la fecha inicial sea 15 días mayoy que la fecha actual.
-				$anot= substr($rpv['PeriodoVacacional'], -11,-6);
-				$alta= substr($rin['FechaVac'], -10, -6);
-				$l=intervalo($hoy,$rin['FechaVac']);
-				//Fin Obtener  idEmpleadoCargo, fechas para cálculo de vacaciones
-				//echo "F-Asume: ".$rin['FechaAsu']." F-para vacaciones: ".$rin['FechaVac']." F-inicial de inicio vacaciones: ".$fii ." F-final de inicio vacaciones:  ".$ffi."   F-final de fin vacaciones:   ".$fff .  "  Hoy  ".$hoy."  dias  ".$l."  año trabajado  ".$anot."  año alta  ".$alta."  intervalo  ". intervalo($fff,$hoy);
-if ($anot<=$alta && $pervac!=="t") {
+			$idec=$rin['idEmpleadoCargo'];
+		$rpv=mysqli_fetch_assoc($cpv);
+			$mesi = substr($rin['FechaVac'], -5, -3)==12 ? 1 : substr($rin['FechaVac'], -5, -3) + 1;
+			$anoi= $mesi==1 ? substr($rpv['PeriodoVacacional'], -4)+1 : substr($rpv['PeriodoVacacional'], -4);
+			$fii="01-".$mesi."-".$anoi;
+			$f=date($fii);
+			$f=strtotime('+10 month',strtotime($f));
+			$ffi=date('j-m-Y',$f);
+			$fff= strtotime('+29 day',strtotime($ffi));
+			$fff= date('j-m-Y',$fff);
+			$hoy = date("j-m-Y");
+			$fii = strtotime($fii)<=strtotime($hoy) ? date("d-m-Y",strtotime('+15 day',strtotime($hoy))) : $fii; // Valida que la fecha inicial sea 15 días mayoy que la fecha actual.
+			$anot= substr($rpv['PeriodoVacacional'], -11,-6);
+			$alta= substr($rin['FechaVac'], -10, -6);
+			$l=intervalo($hoy,$rin['FechaVac']);
+		//Fin Obtener  idEmpleadoCargo, fechas para cálculo de vacaciones
+			//echo "F-Asume: ".$rin['FechaAsu']." F-para vacaciones: ".$rin['FechaVac']." F-inicial de inicio vacaciones: ".$fii ." F-final de inicio vacaciones:  ".$ffi."   F-final de fin vacaciones:   ".$fff .  "  Hoy  ".$hoy."  dias  ".$l."  año trabajado  ".$anot."  año alta  ".$alta."  intervalo  ". intervalo($fff,$hoy);
+if ($anot<=$alta) {
 	echo mensajewa("Al trabajador ".nomempleado($cone,$per)." no le corresponde programar vacaciones en el periodo ".$rpv['PeriodoVacacional']);
 }else{
 ?>
 <div class="row">
   <div class="col-sm-2"> <!--Botón Nuevo-->
-		<?php if ($pervac!=="t"){ ?>
-    <button id="b_nuevac" class="btn btn-info" data-toggle="modal" data-target="#m_nvacaciones" onclick="nuevac(<?php echo $idec .", ".$pervac.", '".$fii."', '".$ffi."', '".$fff."'" ?>)">Nuevas Vacaciones</button>
-		<?php
-	}
-		?>
-  </div>
+		<button id="b_nuevac" class="btn btn-info" data-toggle="modal" data-target="#m_nvacaciones" onclick="nuevac(<?php echo $idec .", ".$pervac.", '".$fii."', '".$ffi."', '".$fff."'" ?>)">Nuevas Vacaciones</button>
+	</div>
   <div class="col-sm-7"> <!--Nombre-->
 		<h4 class="text-aqua text-center"><strong><i class="fa fa-user"></i> <?php echo nomempleado($cone,$per); ?> </strong>| <small><i class="fa fa-black-tie"></i> <?php echo cargoe($cone,$per); ?></small></h4>
 	</div>
@@ -54,15 +48,6 @@ if ($anot<=$alta && $pervac!=="t") {
 <?php
 $num=1;
 $tot=0;
-if($pervac=="t"){
-	$cpv=mysqli_query($cone,"SELECT COUNT(DISTINCT idPeriodoVacacional) as npv FROM provacaciones as v INNER JOIN empleadocargo as ec ON v.idEmpleadoCargo=ec.idEmpleadoCargo where idEmpleado=$per");
-	$rpv=mysqli_fetch_assoc($cpv);
-	$num=$rpv['npv'];
-	if($can=="2"){
-		$cvac=mysqli_query($cone,"SELECT v.idProVacaciones, pv.PeriodoVacacional, concat(d.Numero,'-',d.Ano,'-',d.Siglas) AS Resolucion, d.FechaDoc, v.FechaIni, v.FechaFin, v.Estado, v.Condicion, av.idAprVacaciones FROM provacaciones as v INNER JOIN periodovacacional AS pv ON v.idPeriodoVacacional = pv.idPeriodoVacacional INNER JOIN aprvacaciones as av ON v.idProVacaciones= av.idProVacaciones INNER JOIN doc AS d ON av.idDoc=d.idDoc INNER JOIN empleadocargo AS ec ON v.idEmpleadoCargo=ec.idEmpleadoCargo WHERE idEmpleado = $per");
-	}else{
-				$cvac=mysqli_query($cone,"SELECT v.idProVacaciones, pv.PeriodoVacacional, concat(d.Numero,'-',d.Ano,'-',d.Siglas) AS Resolucion, d.FechaDoc, v.FechaIni, v.FechaFin, v.Estado, v.Condicion, av.idAprVacaciones FROM provacaciones as v INNER JOIN periodovacacional AS pv ON v.idPeriodoVacacional = pv.idPeriodoVacacional INNER JOIN aprvacaciones as av ON v.idProVacaciones= av.idProVacaciones INNER JOIN doc AS d ON av.idDoc=d.idDoc INNER JOIN empleadocargo AS ec ON v.idEmpleadoCargo=ec.idEmpleadoCargo WHERE idEmpleado = $per AND v.Estado!=2");
-	}}else{
 		if($can=="2"){
 			$cvac=mysqli_query($cone,"SELECT v.idProVacaciones, pv.PeriodoVacacional, concat(d.Numero,'-',d.Ano,'-',d.Siglas) AS Resolucion, d.FechaDoc, v.FechaIni, v.FechaFin, v.Estado, v.Condicion, av.idAprVacaciones FROM provacaciones as v INNER JOIN periodovacacional AS pv ON v.idPeriodoVacacional = pv.idPeriodoVacacional INNER JOIN aprvacaciones as av ON v.idProVacaciones= av.idProVacaciones INNER JOIN doc AS d ON av.idDoc=d.idDoc INNER JOIN empleadocargo AS ec ON v.idEmpleadoCargo=ec.idEmpleadoCargo WHERE idEmpleado = $per AND v.idPeriodoVacacional=$pervac" );
 		}else{
@@ -73,7 +58,6 @@ if($pervac=="t"){
 		$rperi=mysqli_fetch_assoc($cperi);
 		$peri=$rperi['PeriodoVacacional'];
 		// fin se obtine el periodo seleccionado
-			}
 	if(mysqli_num_rows($cvac)>0){
 		$est="";
 		$cap="";
@@ -105,9 +89,12 @@ if($pervac=="t"){
 								$est="success";
 								$cap="Ejecutado";
 								$eje= intervalo($rvac['FechaFin'], $rvac['FechaIni']) + $eje;
-							}else {
+							}elseif ($rvac['Estado']=='2') {
 								$est="danger";
 								$cap="Cancelado";
+							}else {
+								$est="success";
+								$cap="Ejecutandose";
 							}
 							$con="";
 							if($rvac['Condicion']=='1'){
@@ -156,14 +143,14 @@ if($pervac=="t"){
 				?>
 				<tr>
 					<?php
-				 		echo $pervac=="t" ? mensajewa("El trabajador no tiene vacaciones para ningún período") : mensajewa("El trabajador no tiene vacaciones para el período $peri.");
+				 		mensajewa("El trabajador no tiene vacaciones para el período $peri.");
 					?>
 				</tr>
 				<?php
 				$re="programar ";
 				}
-						$tot=(30*$num)-($pen+$eje); //Calculo de días de vacaciones pendientes de programar
-						mysqli_free_result($cvac);
+					$tot=(30*$num)-($pen+$eje); //Calculo de días de vacaciones pendientes de programar
+					mysqli_free_result($cvac);
 				?>
 		</tbody>
 		<script>
@@ -179,11 +166,11 @@ if($pervac=="t"){
 				<input type="hidden" name="dt" id="dt" value="<?php echo $dt?>">
 				<input type="hidden" name="df" id="df" value="<?php echo $tot ?>">
 			<?php
-			if ($tot!=0 && $pervac!=="t"){
+			if ($tot!=0){
 			?>
 					<td class="text-red">Tiene <?php echo $tot ?> días de vacaciones pendientes de <?php echo $re ?> en el período <?php echo $peri ?>.</td>
 			<?php
-		}elseif ($falta<15 && $pervac!=="t") {
+		}elseif ($falta<15) {
 			if ($falta==1) {
 				?>
 						<td class="text-success">Mañana iniciarán las vacaciones del período <?php echo $peri ?>.</td>

@@ -34,39 +34,25 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                     <form action="" id="f_vacper" class="form-inline">
                       <div class="form-group">
                         <label for="per" class="sr-only">Personal</label>
-                        <select name="per" id="per" class="form-control select2" style="width: 400px;">
-                          <?php
-                            $cper=mysqli_query($cone,"SELECT e.idEmpleado, CONCAT(ApellidoPat, ' ', ApellidoMat, ', ', Nombres) as NombreCompleto FROM empleado e INNER JOIN  empleadocargo ec ON e.idEmpleado=ec.idEmpleado WHERE ec.idEstadoCar=1 ORDER BY NombreCompleto ASC");
-                            while($rper=mysqli_fetch_assoc($cper)){
-                          ?>
-                          <option value="<?php echo $rper['idEmpleado']; ?>"><?php echo $rper['NombreCompleto']; ?></option>
-                          <?php
-                            }
-                            mysqli_free_result($cper);
-                          ?>
+                        <select name="per" id="per" class="form-control select2peract" style="width: 400px;">
+
                         </select>
                       </div>
                       <div class="form-group">
                         <label for="pervac" class="sr-only">Período</label>
-                        <select name="pervac" id="pervac" class="form-control" >
-                          <option value="" disabled selected>Período</option>
+                        <select name="pervac" id="pervac" class="form-control select2per" style="width: 150px">
+
                           <!-- <option value="t">TODOS</option> -->
-                          <?php
-                            $cpv=mysqli_query($cone,"SELECT idPeriodoVacacional, PeriodoVacacional FROM periodovacacional WHERE Estado=1 ORDER BY PeriodoVacacional DESC");
-                            while($rpv=mysqli_fetch_assoc($cpv)){
-                          ?>
-                          <option value="<?php echo $rpv['idPeriodoVacacional']; ?>"><?php echo $rpv['PeriodoVacacional']; ?></option>
-                          <?php
-                            }
-                            mysqli_free_result($cpv);
-                          ?>
+
                         </select>
                       </div>
                       <button class="btn btn-default" type="button" id="b_nperiodo" data-toggle="modal" data-target="#m_nperiodo"><i class="fa fa-calendar-plus-o" ></i></button>
                       <div class="checkbox">
                         <label><input type="checkbox" name="can" id="can" value="2"> Ver Canceladas</label>
                       </div>
+
                       <button type="submit" id="b_bvacper" class="btn btn-default">Buscar</button>
+
                 </form>
                     <!--Fin Formulario-->
                     <!--div resultados-->
@@ -95,7 +81,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
     <!--Modal Nuevas vacaciones-->
     <div class="modal fade" id="m_nvacaciones" role="dialog" aria-labelledby="myModalLabel">
       <form id="f_nuevacaciones" action="" class="form-horizontal">
-      <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -116,7 +102,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
     <!--Modal editar vacaciones-->
     <div class="modal fade" id="m_evacaciones" role="dialog" aria-labelledby="myModalLabel">
       <form id="f_evacaciones" action="" class="form-horizontal">
-      <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -176,7 +162,27 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
       </form>
     </div>
     <!--Fin Modal Nuevo Período-->
+    <!--Modal nuevo documento-->
+    <div class="modal fade" id="m_nuedocu" role="dialog" aria-labelledby="myModalLabel">
+      <form id="f_nuedocu" action="" class="form-horizontal">
+      <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Nuevo Documento</h4>
+          </div>
+          <div class="modal-body" id="r_nuedocu">
 
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn bg-teal" id="b_gnuedocu">Guardar</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+          </div>
+        </div>
+      </div>
+      </form>
+    </div>
+    <!--Fin Modal nuevo documento-->
 <?php
 }else{
   echo accrestringidop();

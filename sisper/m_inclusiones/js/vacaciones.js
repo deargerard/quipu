@@ -289,6 +289,7 @@ $( "#f_nperiodo").validate({
          $("#b_gnperiodo").hide();
          $("#b_gnperiodo").html("Guardar");
          $("#b_gnperiodo").removeClass("disabled");
+         $("#b_cnperiodo").html("Cerrar");
          $("#r_nperiodo").html(data);
          $("#r_nperiodo").slideDown();
       }
@@ -315,3 +316,18 @@ $("#f_rreva").submit(function(e){
    });
 });
 // Fin Recibir datos para reporte de Record de Vacaciones
+$(".select2per").select2({
+  placeholder: 'Selecione período',
+  ajax: {
+    url: 'm_inclusiones/a_vacaciones/a_selperiodo.php',
+    dataType: 'json',
+    delay: 250,
+    processResults: function (data) {
+      return {
+        results: data
+      };
+    },
+    cache: true
+  },
+  minimumInputLength: 1
+});

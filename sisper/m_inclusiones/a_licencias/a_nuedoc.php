@@ -2,7 +2,7 @@
 session_start();
 include("../php/conexion_sp.php");
 include("../php/funciones.php");
-if(accesoadm($cone,$_SESSION['identi'],4)){
+if(accesoadm($cone,$_SESSION['identi'],4)||accesoadm($cone,$_SESSION['identi'],3)){
   $ano=date('Y');
   $anop=$ano-1;
 ?>

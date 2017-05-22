@@ -12,53 +12,51 @@ if(accesoadm($cone,$_SESSION['identi'],3)){
     //echo $fii ." --- ".$ffi." --- ".$fff;
     ?>
           <div class="form-group valida">
-            <label for="peva" class="col-sm-3 control-label">Período</label>
-            <div class="col-sm-8">
+            <div class="col-sm-12 text-center">
               <input type="hidden" name="idec" value="<?php echo $idec ?>"> <!--envía id de personal-->
               <?php
                 $cpv=mysqli_query($cone,"SELECT * FROM periodovacacional WHERE idPeriodoVacacional=$pervac");
                 $rpv=mysqli_fetch_assoc($cpv);
               ?>
-                <h5><strong><?php echo $rpv['PeriodoVacacional']?></strong></h5>
+                <h4 class="text-danger"><?php echo "VACACIONES PARA EL PERÍODO  ". $rpv['PeriodoVacacional']?></h4>
                 <input type="hidden" name="peva" value="<?php echo $pervac?>"> <!--envía id del periodo-->
             </div>
           </div>
           <div class="form-group valida">
-            <label for="inivac" class="col-sm-3 control-label">Inicia</label>
-            <div class="col-sm-8">
-              <input type="text" id="inivac" name="inivac" class="form-control" placeholder="dd/mm/aaaa">
-            </div>
-          </div>
-            <div class="form-group valida" id="divter">
-            </div>
-          <span id="msg" class="text-maroon"></span>
-          <hr>
-          <label for="doc" >Documento de Aprobación</label>
-          <div class="form-group valida">
-            <div class="col-sm-12">
-              <div class="input-group">
-                <select name="doc" id="doc" class="form-control">
-                  <option value="">DOCUMENTO DE APROBACIÓN</option>
-                  <?php
-                    $cdoc=mysqli_query($cone,"SELECT idDoc, concat(Numero,'-',Ano,'-',Siglas) AS Resolucion, FechaDoc FROM doc ORDER BY Ano, Numero DESC");
-                    while($rdoc=mysqli_fetch_assoc($cdoc)){
-                  ?>
-                  <option value="<?php echo $rdoc['idDoc'] ?>"><?php echo $rdoc['Resolucion']." Del ". fnormal($rdoc['FechaDoc'])?></option>
-                  <?php
-                    }
-                    mysqli_free_result($cdoc);
-                  ?>
-                </select>
-                <span class="input-group-btn">
-                  <button class="btn btn-info" type="button">Nuevo</button>
-                </span>
+            <div class="col-sm-6" >
+              <label for="inivac" class="col-sm-4 control-label">Inicia</label>
+              <div class="input-group col-sm-8">
+                <input type="text" id="inivac" name="inivac" class="form-control" placeholder="dd/mm/aaaa">
+                <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
               </div>
             </div>
-            <label for="finvac" class="col-sm-3 control-label">Legajo</label>
-            <div class="col-lg-12">
-              <input name="leg" id="leg" type="text" class="form-control">
+            <div class="col-sm-6" id="divter">
+              <label for="finvac" class="col-sm-4 control-label">Termina</label>
+              <div class="input-group col-sm-8">
+              <input type="text" id="finvac" name="finvac" class="form-control" placeholder="dd/mm/aaaa">
+              <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
+              </div>
             </div>
+          </div>
+          <div class="form-group valida text-center">
+          <span id="msg" class="text-maroon"></span>
+          </div>
+          <hr>
 
+          <label for="doc" class="col-sm-2" >Documento</label>
+          <div class="form-group valida">
+            <div class="col-sm-8">
+              <select name="doc" id="doc" class="form-control select2doc" style="width:100%">
+              </select>
+            </div>
+            <button id="b_nuedoc" class="btn btn-info" type="button" data-toggle="modal" data-target="#m_nuedocu" >Nuevo</button>
+          </div>
+
+          <label class="col-sm-2 control-label">Legajo</label>
+          <div class="col-lg-7">
+            <input name="leg" id="leg" type="text" class="form-control">
+          </div>
+          <hr>
 <script>
   $('#inivac').datepicker({
     format: "dd/mm/yyyy",
@@ -68,19 +66,105 @@ if(accesoadm($cone,$_SESSION['identi'],3)){
     startDate: "<?php echo $fii ?>",
     endDate: "<?php echo $ffi?>",
   })
-  .on('hide', function(e){
-      var ini=$("#inivac").val();
-      var fin= '<?php echo $fff?>';
+  .on('changeDate', function(e){
+    var fechai= $("#inivac").val();
+    var fechaf= $("#finvac").val();
+    if (fechai!="" && fechaf!="") {
+      var aFecha1 = fechai.split('/');
+      var aFecha2 = fechaf.split('/');
+      var fFecha1 = Date.UTC(aFecha1[2],aFecha1[1]-1,aFecha1[0]);
+      var fFecha2 = Date.UTC(aFecha2[2],aFecha2[1]-1,aFecha2[0]);
+      var dif = fFecha2 - fFecha1;
+      var dias = Math.floor(dif / (1000 * 60 * 60 * 24))+1;
+
+      if(dias > 0){
+        var df=$("#df").val();
+         if (dias>df) {
+           $("#msg").html("¡Error!, solo tiene "+df+" días pendientes y ha escogido un período de "+dias+" días.");
+           $("#inivac").val("");
+         }else{
+           $("#msg").html("<span class='text-success'>Usted está programando "+dias+" días de vacaciones.</span>");
+         }
+      }else{
+        $("#msg").html('¡Error!, la fecha inicial no puede ser mayor a la fecha final.');
+        $("#inivac").val("");
+        $("#finvac").val("");
+
+      }
+    }else {
+      $("#msg").html("");
+    }
+
+   });
+   $(' #finvac').datepicker({
+     format: "dd/mm/yyyy",
+     language: "es",
+     autoclose: true,
+     todayHighlight: true,
+     startDate: "<?php echo $fii ?>",
+     endDate: "<?php echo $fff?>",
+   })
+   .on('changeDate', function(e){
+     var fechai= $("#inivac").val();
+     var fechaf= $("#finvac").val();
+     if (fechai!="" && fechaf!="") {
+       var aFecha1 = fechai.split('/');
+       var aFecha2 = fechaf.split('/');
+       var fFecha1 = Date.UTC(aFecha1[2],aFecha1[1]-1,aFecha1[0]);
+       var fFecha2 = Date.UTC(aFecha2[2],aFecha2[1]-1,aFecha2[0]);
+       var dif = fFecha2 - fFecha1;
+       var dias = Math.floor(dif / (1000 * 60 * 60 * 24))+1;
+       if(dias > 0){
+         var df=$("#df").val();
+          if (dias>df) {
+            $("#msg").html("¡Error!, solo tiene "+df+" días pendientes y ha escogido un período de "+dias+" días.");
+            $("#finvac").val("");
+          }else{
+            $("#msg").html("<span class='text-success'>Usted está programando "+dias+" días de vacaciones.</span>");
+          }
+       }else{
+         $("#inivac").val("");
+         $("#finvac").val("");
+         $("#msg").html('¡Error!, la fecha inicial no puede ser mayor a la fecha final.');
+       }
+     }else{
+       $("#msg").html("");
+     }
+
+    });
+//funcion seleccionar docuento
+   $(".select2doc").select2({
+     placeholder: 'Selecione a un documento',
+     ajax: {
+       url: 'm_inclusiones/a_general/a_seldocumento.php',
+       dataType: 'json',
+       delay: 250,
+       processResults: function (data) {
+         return {
+           results: data
+         };
+       },
+       cache: true
+     },
+     minimumInputLength: 2
+   });
+//fin funcion seleccionar docuento
+   //funcion llamar formulario nuevo documento
+    $("#b_nuedoc").on("click",function(e){
       $.ajax({
-        data    : {ini : ini, fin : fin},
-        url     :  "m_inclusiones/a_vacaciones/divter.php",
-        type    :  "post",
-        success :   function(r){
-          $("#divter").html(r);
+        type:"post",
+        url:"m_inclusiones/a_licencias/a_nuedoc.php",
+        beforeSend: function () {
+          $("#r_nuedocu").html("<img scr='m_images/cargando.gif' class='center-block'>");
+          $("#b_gnuedocu").hide();
+        },
+        success:function(a){
+          $("#r_nuedocu").html(a);
+          $("#b_gnuedocu").show();
         }
       });
-   });
-  $(".select2").select2();
+    });
+// fin funcion llamar formulario nuevo documento
 </script>
 
 <?php
