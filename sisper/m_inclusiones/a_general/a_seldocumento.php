@@ -2,7 +2,7 @@
 session_start();
 include("../php/conexion_sp.php");
 include("../php/funciones.php");
-if(acceso($cone,$_SESSION['identi'])){
+
     $t=iseguro($cone,$_GET['q']);
     $c=mysqli_query($cone,"SELECT iddoc, Numero, Ano, Siglas, FechaDoc, TipoDoc FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc WHERE Numero LIKE '%$t%' OR Ano LIKE '%$t%' OR Siglas LIKE '%$t%' ORDER BY Ano, Siglas, Numero DESC;");
     $json=[];
@@ -13,7 +13,5 @@ if(acceso($cone,$_SESSION['identi'])){
     echo json_encode($json);
     mysqli_free_result($c);
     mysqli_close($cone);
-}else{
-  echo accrestringidoa();
-}
+
 ?>

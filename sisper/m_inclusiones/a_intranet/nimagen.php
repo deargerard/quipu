@@ -15,7 +15,7 @@ if(accesoadm($cone,$_SESSION['identi'],11)){
                 $id=mysqli_insert_id($cone);
         		$nomadj='s'.$id.'_'.url($_FILES['img']['name']);
         		$ruta="../../files_intranet/".$nomadj;
-        		$subir=@move_uploaded_file($_FILES['img']['tmp_name'], $ruta);
+        		$subir=move_uploaded_file($_FILES['img']['tmp_name'], $ruta);
         		if($subir){
         			$q="UPDATE slider SET Imagen='$nomadj' WHERE idSlider=$id";
         			if(mysqli_query($cone,$q)){
@@ -27,6 +27,7 @@ if(accesoadm($cone,$_SESSION['identi'],11)){
         			}
 
         		}else{
+                    mysqli_query($cone,"DELETE FROM slider WHERE idSlider=$id");
         			echo mensajeda("Error: No se pudo guardar la imagen.");
         		}
             }else{

@@ -235,43 +235,23 @@
 
                         <div class="form-group">
                           <label for="per">Personal</label>
-                          <select id="per" name="per" class="form-control select2" style="width: 100%;">
-                            <?php
-                              $c1=mysqli_query($cone, "SELECT e.idEmpleado, NombreCom FROM enombre e INNER JOIN empleadocargo ec ON e.idEmpleado=ec.idEmpleado WHERE ec.idEstadoCar=1 ORDER BY NombreCom ASC;");
-                              if(mysqli_num_rows($c1)>0){
-                                while ($r1=mysqli_fetch_assoc($c1)) {
-                            ?>
-                            <option value="<?php echo $r1['idEmpleado']; ?>"><?php echo $r1['NombreCom']; ?></option>
-                            <?php
-                                }
-                              }
-                              mysqli_free_result($c1);
-                            ?>
+                          <select id="per" name="per" class="form-control select2peract" style="width: 100%;">
+
                           </select>
                         </div>
 
-                        <button class="btn btn-default pull-right" id="dirper" data-toggle="modal" data-target="#mdirectorio"><i class="fa fa-search"></i></button>
+                        <button class="btn btn-info btn-xs pull-right" id="dirper" data-toggle="modal" data-target="#mdirectorio"><i class="fa fa-search"></i></button>
 
                       <div class="clearfix"></div>
 
                         <div class="form-group">
                           <label for="dep">Dependencia</label>
-                          <select id="dep" name="dep" class="form-control select2" style="width: 100%;">
-                            <?php
-                              $c2=mysqli_query($cone, "SELECT idDependencia, Denominacion FROM dependencia WHERE Estado=1 ORDER BY Denominacion ASC;");
-                              if(mysqli_num_rows($c2)>0){
-                                while ($r2=mysqli_fetch_assoc($c2)) {
-                            ?>
-                            <option value="<?php echo $r2['idDependencia']; ?>"><?php echo $r2['Denominacion']; ?></option>
-                            <?php
-                                }
-                              }
-                              mysqli_free_result($c2);
-                            ?>
+                          <select id="dep" name="dep" class="form-control select2depact" style="width: 100%;">
+
                           </select>
                         </div>
 
-                        <button class="btn btn-default pull-right" id="dirdep" data-toggle="modal" data-target="#mdirectorio"><i class="fa fa-search"></i></button>
+                        <button class="btn btn-info btn-xs pull-right" id="dirdep" data-toggle="modal" data-target="#mdirectorio"><i class="fa fa-search"></i></button>
 
 
                     </div>

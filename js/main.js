@@ -35,7 +35,7 @@ $.ajax({
 });
 }
 
-$(".select2").select2();
+//$(".select2").select2();
 
 //directorio personal
 $("#dirper").on("click",function(e){
@@ -69,3 +69,67 @@ $("#dirdep").on("click",function(e){
   });
 });
 //directorio dependencia
+//buscar personal directorio
+$(".select2peract").select2({
+  placeholder: 'Selecione a un personal',
+  ajax: {
+    url: 'sisper/m_inclusiones/a_general/a_selpersonal.php',
+    dataType: 'json',
+    delay: 250,
+    processResults: function (data) {
+      return {
+        results: data
+      };
+    },
+    cache: true
+  },
+  minimumInputLength: 4
+})
+.on("change", function(e){
+  $('#mdirectorio').modal('show');
+  var per = $("#per").val();
+  $.ajax({
+    type: "post",
+    url: "ajax/a_bdirectorio.php",
+    data: { id : per, tip : 1 },
+    beforeSend: function () {
+      $(".d_rdirectorio").html("<img src='images/cargando.gif'>");
+    },
+    success:function(a){
+      $(".d_rdirectorio").html(a);
+    }
+  });
+});
+//fin buscar personal directorio
+//buscar personal directorio
+$(".select2depact").select2({
+  placeholder: 'Selecione una dependencia',
+  ajax: {
+    url: 'sisper/m_inclusiones/a_general/a_seldependencia.php',
+    dataType: 'json',
+    delay: 250,
+    processResults: function (data) {
+      return {
+        results: data
+      };
+    },
+    cache: true
+  },
+  minimumInputLength: 4
+})
+.on("change", function(e){
+  $('#mdirectorio').modal('show');
+  var per = $("#dep").val();
+  $.ajax({
+    type: "post",
+    url: "ajax/a_bdirectorio.php",
+    data: { id : per, tip : 2 },
+    beforeSend: function () {
+      $(".d_rdirectorio").html("<img src='images/cargando.gif'>");
+    },
+    success:function(a){
+      $(".d_rdirectorio").html(a);
+    }
+  });
+});
+//fin buscar personal directorio
