@@ -24,6 +24,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
               <li class="active"><a href="#tab_1" data-toggle="tab">Record de Vacaciones</a></li>
               <li><a href="#tab_2" data-toggle="tab">Vacaciones por Régimen Laboral</a></li>
               <li><a href="#tab_3" data-toggle="tab">Ejecución de Vacaciones</a></li>
+              <!--<li><a href="#tab_4" data-toggle="tab">Vacaciones Pendientes</a></li>-->
             </ul>
             <div class="tab-content">
               <div class="tab-pane active" id="tab_1">
@@ -31,41 +32,37 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 <form action="" id="f_rreva" class="form-inline">
                   <div class="form-group">
                     <label for="aaa" class="sr-only">Personal</label>
-                    <select name="per" id="per" class="form-control select2" style="width: 350px;">
-                      <?php
-                        $cper=mysqli_query($cone,"SELECT e.idEmpleado, CONCAT(ApellidoPat, ' ', ApellidoMat, ', ', Nombres) as NombreCompleto FROM empleado e INNER JOIN  empleadocargo ec ON e.idEmpleado=ec.idEmpleado WHERE ec.idEstadoCar=1 ORDER BY NombreCompleto ASC");
-                        while($rper=mysqli_fetch_assoc($cper)){
-                      ?>
-                      <option value="<?php echo $rper['idEmpleado']; ?>"><?php echo $rper['NombreCompleto']; ?></option>
-                      <?php
-                        }
-                        mysqli_free_result($cper);
-                      ?>
+                    <select name="per" id="per" class="form-control select2pertot" style="width: 350px;">
+
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="bbb" class="sr-only">Cargo </label>
+                    <select name="car" id="car" class="form-control select2" style="width: 250px;">
+
                     </select>
                   </div>
                   <div class="form-group">
                     <label for="bbb" class="sr-only">Estado </label>
-                    <select name="estvac" id="estvac" class="form-control" style="width: 200px;">
-                      <option value="" disabled selected>Estado</option>
-                      <option value="0">PENDIENTE</option>
+                    <select data-actions-box="true" name="estvac[]" class="form-control selectpicker" multiple="multiple" multiple data-selected-text-format="count" title="ESTADO" >
+                      <option value="4">PLANIFICADAS</option>
+                      <option value="0">PENDIENTES</option>
                       <option value="3">EJECUTANDOSE</option>
-                      <option value="1">EJECUTADO</option>
-                      <option value="2">CANCELADO</option>
-                      <option value="t">TODOS</option>
+                      <option value="1">EJECUTADAS</option>
+                      <option value="2">CANCELADAS</option>
                     </select>
                   </div>
                   <div class="form-group">
                     <label for="aaa" class="sr-only">Condición</label>
-                    <select name="convac" id="convac" class="form-control" style="width: 200px;">
-                      <option value="" disabled selected>Condición</option>
+                    <select name="convac[]" class="selectpicker" multiple="multiple" multiple data-selected-text-format="count" title="CONDICIÓN" >
                       <option value="1">PROGRAMADAS</option>
-                      <option value="t">REPROGRAMADAS</option>
-                      <option value="t">TODOS</option>
+                      <option value="0">REPROGRAMADAS</option>
                     </select>
                     </div>
                     <button type="submit" id="b_breva" class="btn btn-default">Buscar</button>
                 </form>
                 <!--Fin Formulario-->
+
                 <!--div resultados-->
                 <div class="row">
                   <div class="col-md-12" id="r_reva">
@@ -81,8 +78,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 <form action="" id="f_rvare" class="form-inline">
                   <div class="form-group">
                     <label for="aaa" class="sr-only">Regimen</label>
-                    <select name="reglab" id="reglab" class="form-control" style="width: 200px;" >
-                      <option value="" disabled selected>Régimen</option>
+                    <select data-actions-box="true" name="reglab[]" class="form-control selectpicker" multiple="multiple" multiple data-selected-text-format="count" title="RÉGIMEN">
                       <?php
                         $crl=mysqli_query($cone,"SELECT idCondicionLab, Tipo FROM condicionlab WHERE Estado=1 ORDER BY Tipo ASC");
                         while($rrl=mysqli_fetch_assoc($crl)){
@@ -92,14 +88,11 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                         }
                         mysqli_free_result($crl);
                       ?>
-                      <option value="t">TODOS</option>
                     </select>
                   </div>
                   <div class="form-group">
                     <label for="bbb" class="sr-only">Período</label>
-                    <select name="pervac" id="pervac" class="form-control" style="width: 200px;" >
-                      <option value="" disabled selected>Período</option>
-                      <option value="t">TODOS</option>
+                    <select data-actions-box="true" name="pervac[]" class="form-control selectpicker" multiple="multiple" multiple data-selected-text-format="count" title="PERÍODO">
                       <?php
                         $cpv=mysqli_query($cone,"SELECT idPeriodoVacacional, PeriodoVacacional FROM periodovacacional WHERE Estado=1 ORDER BY PeriodoVacacional DESC");
                         while($rpv=mysqli_fetch_assoc($cpv)){
@@ -113,22 +106,19 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                   </div>
                   <div class="form-group">
                     <label for="bbb" class="sr-only">Estado</label>
-                    <select name="estvac" id="estvac" class="form-control" style="width: 200px;">
-                      <option value="" disabled selected>Estado</option>
-                      <option value="t">TODOS</option>
-                      <option value="0">PENDIENTE</option>
+                    <select data-actions-box="true" name="estvac[]" class="form-control selectpicker" multiple="multiple" multiple data-selected-text-format="count" title="ESTADO">
+                      <option value="4">PLANIFICADAS</option>
+                      <option value="0">PENDIENTES</option>
                       <option value="3">EJECUTANDOSE</option>
-                      <option value="1">EJECUTADO</option>
-                      <option value="2">CANCELADO</option>
+                      <option value="1">EJECUTADAS</option>
+                      <option value="2">CANCELADAS</option>
                     </select>
                   </div>
                   <div class="form-group">
                     <label for="bbb" class="sr-only">Condición</label>
-                    <select name="convac" id="convac" class="form-control" style="width: 200px;">
-                      <option value="" disabled selected>Condición</option>
-                      <option value="t">TODOS</option>
+                    <select name="convac[]" class="form-control selectpicker" multiple="multiple" multiple data-selected-text-format="count" title="CONDICIÓN">
                       <option value="1">PROGRAMADAS</option>
-                      <option value="t">REPROGRAMADAS</option>
+                      <option value="0">REPROGRAMADAS</option>
                     </select>
                   </div>
                   <button type="submit" id="b_bvare" class="btn btn-default">Buscar</button>
@@ -150,9 +140,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 <form action="" id="f_rejva" class="form-inline">
                   <div class="form-group">
                     <label for="bbb" class="sr-only">Periodo </label>
-                    <select name="pervac" id="pervac" class="form-control" style="width: 200px" >
-                      <option value="" disabled selected>Período</option>
-                      <option value="t">TODOS</option>
+                    <select name="pervac[]" data-actions-box="true" class="form-control selectpicker" multiple="multiple" multiple data-selected-text-format="count" title="PERÍODO">
                       <?php
                         $cpv=mysqli_query($cone,"SELECT idPeriodoVacacional, PeriodoVacacional FROM periodovacacional WHERE Estado=1 ORDER BY PeriodoVacacional DESC");
                         while($rpv=mysqli_fetch_assoc($cpv)){
@@ -166,9 +154,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                   </div>
                   <div class="form-group">
                     <label for="aaa" class="sr-only">Régimen</label>
-                      <select name="reglab" id="reglab" class="form-control" style="width: 200px;" >
-                        <option value="" disabled selected>Régimen</option>
-                        <option value="t">TODOS</option>
+                      <select name="reglab[]" data-actions-box="true" class="form-control selectpicker" multiple="multiple" multiple data-selected-text-format="count" title="RÉGIMEN">
                         <?php
                           $crl=mysqli_query($cone,"SELECT idCondicionLab, Tipo FROM condicionlab WHERE Estado=1 ORDER BY Tipo ASC");
                           while($rrl=mysqli_fetch_assoc($crl)){
@@ -183,7 +169,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                   <div class="form-group">
                     <label for="aaa" class="sr-only">Mes</label>
                     <select name="mes" id="mes" class="form-control" style="width: 200px;">
-                        <option value="" disabled selected>Mes</option>
+                        <option value="" disabled selected>MES</option>
                         <option value="01">ENERO</option>
                         <option value="02">FEBRERO</option>
                         <option value="03">MARZO</option>
@@ -200,13 +186,12 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                   </div>
                   <div class="form-group">
                     <label for="aaa" class="sr-only">Estado</label>
-                    <select name="estvac" id="estvac" class="form-control" style="width: 200px;">
-                      <option value="" disabled selected>Estado</option>
-                      <option value="t">TODOS</option>
-                      <option value="0">PENDIENTE</option>
+                    <select name="estvac[]" data-actions-box="true" class="form-control selectpicker" multiple="multiple" multiple data-selected-text-format="count" title="ESTADO">
+                      <option value="4">PLANIFICADAS</option>
+                      <option value="0">PENDIENTES</option>
                       <option value="3">EJECUTANDOSE</option>
-                      <option value="1">EJECUTADO</option>
-                      <option value="2">CANCELADO</option>
+                      <option value="1">EJECUTADAS</option>
+                      <option value="2">CANCELADAS</option>
                     </select>
                   </div>
                   <button type="submit" id="b_bejva" class="btn btn-default">Buscar</button>
@@ -215,6 +200,54 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 <!--div resultados-->
                 <div class="row">
                   <div class="col-md-12" id="r_ejva">
+
+                  </div>
+                </div>
+                <!--fin div resultados-->
+              </div>
+
+              <div class="tab-pane" id="tab_4">
+                <!--Formulario-->
+                <form action="" id="f_rvape" class="form-inline">
+                  <div class="form-group">
+                    <label for="aaa" class="sr-only">Régimen</label>
+                      <select name="reglab[]" data-actions-box="true" class="form-control selectpicker" multiple="multiple" multiple data-selected-text-format="count" title="RÉGIMEN">
+                        <?php
+                          $crl=mysqli_query($cone,"SELECT idCondicionLab, Tipo FROM condicionlab WHERE Estado=1 ORDER BY Tipo ASC");
+                          while($rrl=mysqli_fetch_assoc($crl)){
+                        ?>
+                        <option value="<?php echo $rrl['idCondicionLab']; ?>"><?php echo $rrl['Tipo']; ?></option>
+                        <?php
+                          }
+                          mysqli_free_result($crl);
+                        ?>
+                      </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="aaa" class="sr-only">Estado</label>
+                    <select name="estvac[]" data-actions-box="true" class="form-control selectpicker" multiple="multiple" multiple data-selected-text-format="count" title="ESTADO">
+                      <option value="4">PLANIFICADAS</option>
+                      <option value="0">PENDIENTES</option>
+                      <option value="3">EJECUTANDOSE</option>
+                      <option value="1">EJECUTADAS</option>
+                      <option value="2">CANCELADAS</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="aaa" class="sr-only">Mes</label>
+                      <div class="input-group">
+                        <input type="text" id="fecha" name="finvac" class="form-control" placeholder="dd/mm/aaaa" value="<?php echo date('d/m/Y')?>">
+
+                      <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
+                    </div>
+                  </div>
+
+                  <button type="submit" id="b_bvape" class="btn btn-default">Buscar</button>
+                </form>
+                <!--Fin Formulario-->
+                <!--div resultados-->
+                <div class="row">
+                  <div class="col-md-12" id="r_vape">
 
                   </div>
                 </div>
@@ -230,6 +263,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
 
     </section>
     <!-- /.content -->
+
 <?php
 }else{
   echo accrestringidop();

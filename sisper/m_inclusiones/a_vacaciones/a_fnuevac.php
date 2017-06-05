@@ -3,23 +3,27 @@ session_start();
 include ("../php/conexion_sp.php");
 include ("../php/funciones.php");
 if(accesoadm($cone,$_SESSION['identi'],3)){
-  if(isset($_POST['idec']) && !empty($_POST['idec']) && isset($_POST['pervac']) && !empty($_POST['pervac'])&& isset($_POST['fii']) && !empty($_POST['fii'])&& isset($_POST['ffi']) && !empty($_POST['ffi'])&& isset($_POST['fff']) && !empty($_POST['fff'])){
+  if(isset($_POST['idec']) && !empty($_POST['idec']) && isset($_POST['pervac']) && !empty($_POST['pervac'])&& isset($_POST['fii']) && !empty($_POST['fii'])&& isset($_POST['ffi']) && !empty($_POST['ffi'])&& isset($_POST['fff']) && !empty($_POST['fff'])&& isset($_POST['st'])){
     $pervac=iseguro($cone,$_POST['pervac']);
     $fii=iseguro($cone,$_POST['fii']);
     $ffi=iseguro($cone,$_POST['ffi']);
     $fff=iseguro($cone,$_POST['fff']);
     $idec=iseguro($cone,$_POST['idec']);
-    //echo $fii ." --- ".$ffi." --- ".$fff;
+    $st=iseguro($cone,$_POST['st']);
+
+  //echo $fii ." --- ".$ffi." --- ".$fff;
+
     ?>
           <div class="form-group valida">
             <div class="col-sm-12 text-center">
-              <input type="hidden" name="idec" value="<?php echo $idec ?>"> <!--envía id de personal-->
+              <input type="hidden" name="idec" value="<?php echo $idec?>"> <!--envía id de personal-->
               <?php
                 $cpv=mysqli_query($cone,"SELECT * FROM periodovacacional WHERE idPeriodoVacacional=$pervac");
                 $rpv=mysqli_fetch_assoc($cpv);
               ?>
                 <h4 class="text-danger"><?php echo "VACACIONES PARA EL PERÍODO  ". $rpv['PeriodoVacacional']?></h4>
                 <input type="hidden" name="peva" value="<?php echo $pervac?>"> <!--envía id del periodo-->
+                <input type="hidden" name="st" value="<?php echo $st?>"> <!--envía el estado inicial-->
             </div>
           </div>
           <div class="form-group valida">

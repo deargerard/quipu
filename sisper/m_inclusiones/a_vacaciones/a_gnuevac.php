@@ -4,20 +4,21 @@ include ("../php/conexion_sp.php");
 include ("../php/funciones.php");
 if(accesoadm($cone,$_SESSION['identi'],3)){
 	if(isset($_POST["NomForm"]) && $_POST["NomForm"]=="f_nuevacaciones"){
-		if(isset($_POST['idec']) && !empty($_POST['idec']) && isset($_POST['peva']) && !empty($_POST['peva']) && isset($_POST['inivac']) && !empty($_POST['inivac']) && isset($_POST['finvac']) && !empty($_POST['finvac']) && isset($_POST['doc']) && !empty($_POST['doc'])){
+		if(isset($_POST['idec']) && !empty($_POST['idec']) && isset($_POST['peva']) && !empty($_POST['peva']) && isset($_POST['inivac']) && !empty($_POST['inivac']) && isset($_POST['finvac']) && !empty($_POST['finvac']) && isset($_POST['doc']) && !empty($_POST['doc'])&& isset($_POST['st'])){
 			$peva=iseguro($cone,$_POST['peva']);
 			$inivac=fmysql(iseguro($cone,$_POST['inivac']));
 			$finvac=fmysql(iseguro($cone,$_POST['finvac']));
 			$doc=iseguro($cone,$_POST['doc']);
 			$leg=imseguro($cone,$_POST['leg']);
 			$idec=iseguro($cone,$_POST['idec']);
+			$st=iseguro($cone,$_POST['st']);
 			$cvac=mysqli_query($cone, "SELECT Condicion FROM provacaciones WHERE idPeriodoVacacional=$peva and idEmpleadoCargo=$idec AND Condicion=1");
 			if ($rvac=mysqli_fetch_assoc($cvac)){
 				$c=0;
 				}else {
 					$c=1;
 				}
-				$sql="INSERT INTO provacaciones (idEmpleadoCargo, idPeriodoVacacional, FechaIni, FechaFin, Condicion, Estado) VALUES ($idec, $peva, '$inivac', '$finvac', $c, 0)";
+				$sql="INSERT INTO provacaciones (idEmpleadoCargo, idPeriodoVacacional, FechaIni, FechaFin, Condicion, Estado) VALUES ($idec, $peva, '$inivac', '$finvac', $c, $st)";
 
 				if(mysqli_query($cone,$sql)){
 					$idpv=mysqli_insert_id($cone);

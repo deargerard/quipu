@@ -15,8 +15,7 @@ $(document).ready(function(){
   $("ul.sidebar-menu li").removeClass("active");
   $("#vacaciones").addClass("active");
   $("#repvacaciones").addClass("active");
-  $(".select2").select2();
-});
+  });
 </script>
 <?php
 }else{

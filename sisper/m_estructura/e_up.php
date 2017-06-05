@@ -14,7 +14,9 @@
   <link rel="stylesheet" href="dist/css/ionicons.min.css">
   <!-- Select2 -->
   <link rel="stylesheet" href="plugins/select2/select2.min.css">
-  <!-- Theme style -->
+  <!-- Select Multiple -->
+  <link rel="stylesheet" href="plugins/bootstrap-select/dist/css/bootstrap-select.min.css">
+    <!-- Theme style -->
   <link rel="stylesheet" href="dist/css/AdminLTE.css">
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
@@ -211,7 +213,7 @@
             <i class="fa fa-angle-left pull-right"></i>
           </a>
           <ul class="treeview-menu">
-            <li id="paglicencias"><a href="paglicencias.php"><i class="fa fa-circle-o"></i> Licencias</a></li>
+            <li id="paglicencias"><a href="paglicencias.php"><i class="fa fa-circle-o"></i> Registro</a></li>
             <li id="replicencias"><a href="replicencias.php"><i class="fa fa-circle-o"></i> Reportes</a></li>
           </ul>
         </li>
@@ -226,7 +228,7 @@
             <i class="fa fa-angle-left pull-right"></i>
           </a>
           <ul class="treeview-menu">
-            <li id="pagvacaciones"><a href="pagvacaciones.php"><i class="fa fa-circle-o"></i> Vacaciones</a></li>
+            <li id="pagvacaciones"><a href="pagvacaciones.php"><i class="fa fa-circle-o"></i> Programación</a></li>
             <li id="repvacaciones"><a href="repvacaciones.php"><i class="fa fa-circle-o"></i> Reportes</a></li>
           </ul>
         </li>

@@ -9,7 +9,7 @@ if(accesoadm($cone,$_SESSION['identi'],3)){
     $rvac=mysqli_fetch_assoc($cvac);
     $est="";
     $est= $rvac['Condicion']==1 ? "PROGRAMADAS" : "REPROGRAMADAS";
-    if ($rvac['Estado']!=0){
+    if ($rvac['Estado']==1 || $rvac['Estado']==2 || $rvac['Estado']==3){
       ?>
       <thead>
         <tr>

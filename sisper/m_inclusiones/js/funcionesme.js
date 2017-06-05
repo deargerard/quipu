@@ -793,6 +793,36 @@ $(".select2peract").select2({
   },
   minimumInputLength: 4
 });
+$(".select2pertot").select2({
+  placeholder: 'Selecione a un personal',
+  ajax: {
+    url: 'm_inclusiones/a_general/a_seltodopersonal.php',
+    dataType: 'json',
+    delay: 250,
+    processResults: function (data) {
+      return {
+        results: data
+      };
+    },
+    cache: true
+  },
+  minimumInputLength: 4
+})
+.on("change", function(e){
+  var per = $("#per").val();
+	console.log(per);
+  $.ajax({
+    type: "post",
+    url: "m_inclusiones/a_vacaciones/a_bcargos.php",
+    data: { per : per },
+    beforeSend: function () {
+      $("#car").html("<option>Cargando...</option>");
+    },
+    success:function(a){
+      $("#car").html(a);
+    }
+  });
+});
 
 $(".select2doc").select2({
   placeholder: 'Selecione a un documento',

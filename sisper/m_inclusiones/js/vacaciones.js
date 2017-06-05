@@ -18,11 +18,11 @@ $("#f_vacper").submit(function(e){
 });
 // Fin Recibir Persona y periodo vacacional
 // función nueva programacion de vacaciones
-function nuevac(idec, pervac, fii, ffi, fff){
+function nuevac(idec, pervac, fii, ffi, fff, st){
 $.ajax({
  type: "post",
  url: "m_inclusiones/a_vacaciones/a_fnuevac.php",
- data: { idec : idec, pervac : pervac, fii : fii, ffi : ffi, fff : fff },
+ data: { idec : idec, pervac : pervac, fii : fii, ffi : ffi, fff : fff, st : st},
  beforeSend: function () {
    $("#r_nuevacaciones").html("<img src='m_images/cargando.gif'>");
    $("#b_gnvac").hide();
@@ -297,25 +297,8 @@ $( "#f_nperiodo").validate({
  }
 } );
 //fin función validar nuevo período
-// Recibir datos para reporte de Record de Vacaciones
-$("#f_rreva").submit(function(e){
- e.preventDefault();
- var datos = $("#f_rreva").serializeArray();
- datos.push({name: "NomForm", value: "f_rreva"});
- $.ajax({
-       data:  datos,
-       url:   "m_inclusiones/a_vacaciones/a_rreva.php",
-       type:  "post",
-       beforeSend: function () {
-         $("#b_bvacper").html("<i class='fa fa-spinner fa-spin'></i> Buscando");
-       },
-       success:  function (response) {
-         $("#b_breva").html("Buscar");
-         $("#r_reva").html(response);
-       }
-   });
-});
-// Fin Recibir datos para reporte de Record de Vacaciones
+
+//function seleccionar periodo
 $(".select2per").select2({
   placeholder: 'Selecione período',
   ajax: {
@@ -331,3 +314,71 @@ $(".select2per").select2({
   },
   minimumInputLength: 1
 });
+//fin function seleccionar periodo
+
+// Recibir datos para reporte de Record de Vacaciones
+$("#f_rreva").submit(function(e){
+ e.preventDefault();
+ var datos = $("#f_rreva").serializeArray();
+ datos.push({name: "NomForm", value: "f_rreva"});
+ $.ajax({
+       data:  datos,
+       url:   "m_inclusiones/a_vacaciones/a_rreva.php",
+       type:  "post",
+       beforeSend: function () {
+         $("#b_breva").html("<i class='fa fa-spinner fa-spin'></i> Buscando");
+       },
+       success:  function (response) {
+         $("#b_breva").html("Buscar");
+         $("#r_reva").html(response);
+       }
+   });
+});
+// Fin Recibir datos para reporte de Record de Vacaciones
+// Recibir datos para reporte de Vacaciones por Regimen
+$("#f_rvare").submit(function(e){
+ e.preventDefault();
+ var datos = $("#f_rvare").serializeArray();
+ datos.push({name: "NomForm", value: "f_rvare"});
+ $.ajax({
+       data:  datos,
+       url:   "m_inclusiones/a_vacaciones/a_rvare.php",
+       type:  "post",
+       beforeSend: function () {
+         $("#b_bvare").html("<i class='fa fa-spinner fa-spin'></i> Buscando");
+       },
+       success:  function (response) {
+         $("#b_bvare").html("Buscar");
+         $("#r_vare").html(response);
+       }
+   });
+});
+// Fin Recibir datos para reporte de Vacaciones por Regimen
+// Recibir datos para reporte de Ejecución Vacaciones
+$("#f_rejva").submit(function(e){
+ e.preventDefault();
+ var datos = $("#f_rejva").serializeArray();
+ datos.push({name: "NomForm", value: "f_rejva"});
+ $.ajax({
+       data:  datos,
+       url:   "m_inclusiones/a_vacaciones/a_rejva.php",
+       type:  "post",
+       beforeSend: function () {
+         $("#b_bejva").html("<i class='fa fa-spinner fa-spin'></i> Buscando");
+       },
+       success:  function (response) {
+         $("#b_bejva").html("Buscar");
+         $("#r_ejva").html(response);
+       }
+   });
+});
+// Fin Recibir datos para reporte de Ejecución Vacaciones
+
+$(' #fecha').datepicker({
+  format: "dd/mm/yyyy",
+  language: "es",
+  autoclose: true,
+  todayHighlight: true,
+})
+
+$('.selectpicker').selectpicker()

@@ -25,7 +25,20 @@ if(accesocon($cone,$_SESSION['identi'],3)){
 			$fii = strtotime($fii)<=strtotime($hoy) ? date("d-m-Y",strtotime('+15 day',strtotime($hoy))) : $fii; // Valida que la fecha inicial sea 15 días mayoy que la fecha actual.
 			$anot= substr($rpv['PeriodoVacacional'], -11,-6);
 			$alta= substr($rin['FechaVac'], -10, -6);
-			$l=intervalo($hoy,$rin['FechaVac']);
+
+			$d= substr($rin['FechaVac'],-2);
+			$m= substr($rin['FechaVac'],-5, -3);
+			$aa=$d."-".$m."-".$anot;
+			$ab=date($aa);
+			$ls=intervalo($hoy,$ab);
+			if ($ls<365) {
+				$st=4;
+			}else {
+				$st=0;
+			}
+
+			$l=intervalo($hoy, $rin['FechaVac']);
+			//echo "Hoy ".$hoy." Fecha de resta ". $ab." F-Asume: ".$l." estado: ".$st;
 		//Fin Obtener  idEmpleadoCargo, fechas para cálculo de vacaciones
 			//echo "F-Asume: ".$rin['FechaAsu']." F-para vacaciones: ".$rin['FechaVac']." F-inicial de inicio vacaciones: ".$fii ." F-final de inicio vacaciones:  ".$ffi."   F-final de fin vacaciones:   ".$fff .  "  Hoy  ".$hoy."  dias  ".$l."  año trabajado  ".$anot."  año alta  ".$alta."  intervalo  ". intervalo($fff,$hoy);
 if ($anot<=$alta) {
@@ -34,7 +47,7 @@ if ($anot<=$alta) {
 ?>
 <div class="row">
   <div class="col-sm-2"> <!--Botón Nuevo-->
-		<button id="b_nuevac" class="btn btn-info" data-toggle="modal" data-target="#m_nvacaciones" onclick="nuevac(<?php echo $idec .", ".$pervac.", '".$fii."', '".$ffi."', '".$fff."'" ?>)">Nuevas Vacaciones</button>
+		<button id="b_nuevac" class="btn btn-info" data-toggle="modal" data-target="#m_nvacaciones" onclick="nuevac(<?php echo $idec .", ".$pervac.", '".$fii."', '".$ffi."', '".$fff."',".$st ?>)">Nuevas Vacaciones</button>
 	</div>
   <div class="col-sm-7"> <!--Nombre-->
 		<h4 class="text-aqua text-center"><strong><i class="fa fa-user"></i> <?php echo nomempleado($cone,$per); ?> </strong>| <small><i class="fa fa-black-tie"></i> <?php echo cargoe($cone,$per); ?></small></h4>
@@ -87,14 +100,18 @@ $tot=0;
 								$pen= intervalo($rvac['FechaFin'], $rvac['FechaIni']) + $pen;
 							}elseif($rvac['Estado']=='1') {
 								$est="success";
-								$cap="Ejecutado";
+								$cap="Ejecutada";
 								$eje= intervalo($rvac['FechaFin'], $rvac['FechaIni']) + $eje;
 							}elseif ($rvac['Estado']=='2') {
 								$est="danger";
-								$cap="Cancelado";
-							}else {
-								$est="success";
+								$cap="Cancelada";
+							}elseif($rvac['Estado']=='3'){
+								$est="primary";
 								$cap="Ejecutandose";
+							}else {
+								$est="warning";
+								$cap="Planificada";
+								$pen= intervalo($rvac['FechaFin'], $rvac['FechaIni']) + $pen;
 							}
 							$con="";
 							if($rvac['Condicion']=='1'){
@@ -116,7 +133,7 @@ $tot=0;
           <td> <!--columna ACCIÓN-->
 					<?php
 					$falta = intervalo($rvac['FechaIni'],$hoy)-1;
-						if ($rvac['Estado']=='0')
+						if ($rvac['Estado']=='0'|| $rvac['Estado']=='4')
 						{if ($falta>16) {
 								?>
 									<div class="btn-group">  <!--menu desplegable-->
