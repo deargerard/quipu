@@ -16,3 +16,8 @@ Mailer Error: ¡Feliz Cumpleaños! - HAMILTHON BURGA VIGO - SMTP connect() faile
 05/06/2017 09:32:56 Message sent! ¡Feliz Cumpleaños! - GRICELDA NOEMI YSLA VALVERDE
 05/06/2017 09:55:22 Message sent! ¡Feliz Cumpleaños! - GERARDO SEVERINO INTOR OSORIO
 05/06/2017 09:55:22 Message sent! ¡Feliz Cumpleaños! - GRICELDA NOEMI YSLA VALVERDE
+06/06/2017 09:59:01 Message sent! ¡Feliz Cumpleaños! - ANALIS DEL PILAR ALFARO ARTEAGA
+06/06/2017 09:59:02 Message sent! ¡Feliz Cumpleaños! - ROBERT OSWALDO REYES BARRERA
+06/06/2017 10:08:02 Message sent! ¡Feliz Cumpleaños! - GERARDO SEVERINO INTOR OSORIO
+06/06/2017 10:08:02 Message sent! ¡Feliz Cumpleaños! - ANALIS DEL PILAR ALFARO ARTEAGA
+06/06/2017 10:08:03 Message sent! ¡Feliz Cumpleaños! - ROBERT OSWALDO REYES BARRERA

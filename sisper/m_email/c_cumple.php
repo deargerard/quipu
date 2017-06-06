@@ -1,7 +1,7 @@
 <?php
-include("../m_inclusiones/php/conexion_sp.php");
-include("../m_inclusiones/php/funciones.php");
-include("fcorreo.php");
+include("/var/www/html/sisper/m_inclusiones/php/conexion_sp.php");
+include("/var/www/html/sisper/m_inclusiones/php/funciones.php");
+include("/var/www/html/sisper/m_email/fcorreo.php");
 $cc=mysqli_query($cone, "SELECT ApellidoPat, ApellidoMat, Nombres, CorreoIns, Sexo FROM empleado e INNER JOIN empleadocargo ec ON e.idEmpleado=ec.idEmpleado WHERE date_format(FechaNac,'%m-%d')=date_format(now(),'%m-%d') AND idEstadoCar=1;");
 if(mysqli_num_rows($cc)>0){
 	while ($rc=mysqli_fetch_assoc($cc)) {
@@ -116,7 +116,7 @@ if(mysqli_num_rows($cc)>0){
 </html>';
 		if(!empty($cpar)){
 			$msg=ecorreo($cdes, $ndes, $cpar, $npar, $asu, $cue, $acue);	
-			$archivo=fopen("../logs/log_envio_cumples.txt", "a") or die("Problemas al crear");
+			$archivo=fopen("/var/www/html/sisper/logs/log_envio_cumples.txt", "a") or die("Problemas al crear");
 			fwrite($archivo,$msg);
 			fwrite($archivo,"\n");
 			fclose($archivo);
