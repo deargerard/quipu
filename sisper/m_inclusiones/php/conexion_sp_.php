@@ -10,7 +10,8 @@ $cone = mysqli_connect($host,$user,$password,$bd);
 
 //Check connection
 if (mysqli_connect_errno()){
-  echo "Fallo la conexión a MySQL: " . mysqli_connect_error();
+  echo "Fallo la conexión a MySQL en el servidor: " . mysqli_connect_error();
 }
 
+//para pruebas
 ?>

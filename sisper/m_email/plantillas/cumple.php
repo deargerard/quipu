@@ -30,7 +30,7 @@
 											<tr>
 												<td height="80" width="80" align="center" valign="middle" bgcolor="#FF7101" style="font-family: Arial, Helvetica, sans-serif; color:#ffffff;">
 													<div style="font-size: 30px;">
-														<b>07</b>
+														<b>05</b>
 													</div>
 													<div style="font-size: 12px;">
 														<b>Diciembre</b>
