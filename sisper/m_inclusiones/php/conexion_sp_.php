@@ -13,5 +13,5 @@ if (mysqli_connect_errno()){
   echo "Fallo la conexión a MySQL en el servidor: " . mysqli_connect_error();
 }
 
-//para pruebas
+//para pruebas, otra prueba
 ?>
