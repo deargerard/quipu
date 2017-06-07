@@ -43,24 +43,17 @@ if(accesoadm($cone,$_SESSION['identi'],3)){
             </div>
           </div>
           <div class="form-group valida text-center">
-          <span id="msg" class="text-maroon"></span>
+            <span id="msg" class="text-maroon"></span>
           </div>
-          <hr>
 
-          <label for="doc" class="col-sm-2" >Documento</label>
           <div class="form-group valida">
+            <label for="doc" class="col-sm-2" >Documento</label>
             <div class="col-sm-8">
               <select name="doc" id="doc" class="form-control select2doc" style="width:100%">
               </select>
             </div>
             <button id="b_nuedoc" class="btn btn-info" type="button" data-toggle="modal" data-target="#m_nuedocu" >Nuevo</button>
           </div>
-
-          <label class="col-sm-2 control-label">Legajo</label>
-          <div class="col-lg-7">
-            <input name="leg" id="leg" type="text" class="form-control">
-          </div>
-          <hr>
 <script>
   $('#inivac').datepicker({
     format: "dd/mm/yyyy",

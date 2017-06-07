@@ -8,8 +8,7 @@ if(accesoadm($cone,$_SESSION['identi'],3)){
 			$peva=iseguro($cone,$_POST['peva']);
 			$inivac=fmysql(iseguro($cone,$_POST['inivac']));
 			$finvac=fmysql(iseguro($cone,$_POST['finvac']));
-			$doc=iseguro($cone,$_POST['doc']);
-			$leg=imseguro($cone,$_POST['leg']);
+			$doc=iseguro($cone,$_POST['doc']);			
 			$idec=iseguro($cone,$_POST['idec']);
 			$st=iseguro($cone,$_POST['st']);
 			$cvac=mysqli_query($cone, "SELECT Condicion FROM provacaciones WHERE idPeriodoVacacional=$peva and idEmpleadoCargo=$idec AND Condicion=1");
@@ -22,7 +21,7 @@ if(accesoadm($cone,$_SESSION['identi'],3)){
 
 				if(mysqli_query($cone,$sql)){
 					$idpv=mysqli_insert_id($cone);
-					$sqlpv="INSERT INTO aprvacaciones (idProVacaciones, Aprobado, legajo, idDoc) VALUES ($idpv, 1, '$leg', '$doc')";
+					$sqlpv="INSERT INTO aprvacaciones (idProVacaciones, Aprobado, idDoc) VALUES ($idpv, 1, '$doc')";
 					if(!mysqli_query($cone,$sqlpv)){
 						echo mensajeda("Error: No se pudo aprovar las vacaciones. Consulte con Informática ".mysqli_error($cone));
 					}
