@@ -8,12 +8,11 @@ if(accesoadm($cone,$_SESSION['identi'],3)){
 			$inivac=fmysql(iseguro($cone,$_POST['inivac']));
 			$finvac=fmysql(iseguro($cone,$_POST['finvac']));
 			$doc=iseguro($cone,$_POST['doc']);
-			$leg=imseguro($cone,$_POST['leg']);
 			$idvac=iseguro($cone,$_POST['idvac']);
 			$idav=iseguro($cone,$_POST['idav']);
 				$sql="UPDATE provacaciones SET FechaIni='$inivac', FechaFin='$finvac' WHERE idProVacaciones=$idvac";
 				if(mysqli_query($cone,$sql)){
-					$sqlpv="UPDATE aprvacaciones SET Legajo='$leg', idDoc=$doc WHERE idAprVacaciones=$idav";
+					$sqlpv="UPDATE aprvacaciones SET idDoc=$doc WHERE idAprVacaciones=$idav";
 					if(!mysqli_query($cone,$sqlpv)){
 						echo mensajeda("Error: No se pudo actualizar la aprobación de las vacaciones. Consulte con Informática ".mysqli_error($cone));
 					}

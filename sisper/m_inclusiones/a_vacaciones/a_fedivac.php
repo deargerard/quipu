@@ -55,13 +55,11 @@ if(accesoadm($cone,$_SESSION['identi'],3)){
             <span class='text-success'>El período de vacaciones programado tiene <?php echo $dp ?> días. </span>
           </span>
           </div>
-          <hr>
     <?php
     if($rav=mysqli_fetch_assoc($cav)){
       $doc=$rav['idDoc'];
       $cdoc=mysqli_query($cone,"SELECT * FROM doc WHERE idDoc=$doc");
         if($rdoc=mysqli_fetch_assoc($cdoc)){
-
     ?>
           <label for="doc" class="col-sm-2" >Documento</label>
           <div class="form-group valida">
@@ -72,11 +70,7 @@ if(accesoadm($cone,$_SESSION['identi'],3)){
             </div>
             <button id="b_nuedoc" class="btn btn-info" type="button" data-toggle="modal" data-target="#m_nuedocu" >Nuevo</button>
           </div>
-          <label class="col-sm-2 control-label">Legajo</label>
-          <div class="col-lg-7">
-            <input name="leg" id="leg" type="text" class="form-control" value="<?php echo $rav['Legajo'] ?>">
-          </div>
-          <hr>
+
 <script>
   $('#inivac').datepicker({
     format: "dd/mm/yyyy",
