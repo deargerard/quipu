@@ -312,6 +312,21 @@
         </li>
         <?php
         }
+        if(accesocon($cone,$_SESSION['identi'],13)){
+        ?>
+        <li class="treeview" id="documentario">
+          <a href="#">
+            <i class="fa fa-file-text-o"></i>
+            <span>Documentario</span>
+            <i class="fa fa-angle-left pull-right"></i>
+          </a>
+          <ul class="treeview-menu">
+            <li id="regdocumentario"><a href="regdocumentario.php"><i class="fa fa-circle-o"></i> Registro</a></li>
+            <!--<li id="repdocumentario"><a href="repdocumentario.php"><i class="fa fa-circle-o"></i> Reportes</a></li>-->
+          </ul>
+        </li>
+        <?php
+        }
         ?>
       </ul>
     </section>

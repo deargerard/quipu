@@ -16,7 +16,6 @@ if(accesoadm($cone,$_SESSION['identi'],4)){
 	    $tdoc=iseguro($cone,$_POST['tdoc']);
 	    $ndoc=iseguro($cone,$_POST['ndoc']);
 	    $docapr=iseguro($cone,$_POST['docapr']);
-	    $leg=iseguro($cone,$_POST['leg']);
 
 	    $c=mysqli_query($cone,"SELECT idLicencia FROM licencia WHERE idEmpleadoCargo=$idec AND Estado=1 AND (('$des' BETWEEN FechaIni AND FechaFin) OR ('$has' BETWEEN FechaIni AND FechaFin));");
 	    if(mysqli_num_rows($c)>0){
@@ -27,7 +26,7 @@ if(accesoadm($cone,$_SESSION['identi'],4)){
 	    	if(mysqli_query($cone,$q)){
 	    		$idlic=mysqli_insert_id($cone);
 	    		echo mensajesu("Listo: Licencia registrada correctamente.");
-	    		$qa="INSERT INTO aprlicencia (idLicencia, Aprobado, Legajo, idDoc) VALUES ($idlic, 1, '$leg', $docapr);";
+	    		$qa="INSERT INTO aprlicencia (idLicencia, Aprobado, idDoc) VALUES ($idlic, 1, $docapr);";
 	    		if(mysqli_query($cone,$qa)){
 	    			echo mensajesu("Licencia aprobada");
 	    		}else{

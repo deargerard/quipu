@@ -66,7 +66,9 @@ $( "#f_nuedocu" ).validate( {
       num:{required:true,number:true},
       adoc:{required:true,minlength:4},
       sig:{required:true,minlength:5},
-      fec:{required:true, datePE:true}
+      fec:{required:true, datePE:true},
+      leg:{required:false},
+      des:{required:false}
     },
     messages: {
       tdoc:"Elija un tipo de documento",
@@ -129,8 +131,7 @@ $( "#f_nuelic" ).validate( {
       emed:"required",
       tdoc:"required",
       ndoc:{required:true, minlength:2},
-      docapr:"required",
-      leg:{required:false, minlength:2}
+      docapr:"required"
     },
     messages: {
       tlic:"Elija un tipo de licencia",
@@ -142,8 +143,7 @@ $( "#f_nuelic" ).validate( {
       emed:"Elija una especialidad.",
       tdoc:"Elija el tipo de documento.",
       ndoc:{required:"Ingrese # colegiatura.",minlength:"Mínimo 2 caracteres."},
-      docapr:"Elija el documento que aprueba la licencia.",
-      leg:{minlength:"Mínimo 2 caracteres."}
+      docapr:"Elija el documento que aprueba la licencia."
     },
     errorElement: "em",
     errorPlacement: function ( error, element ) {
@@ -256,8 +256,7 @@ $( "#f_edilic" ).validate( {
       emed:"required",
       tdoc:"required",
       ndoc:{required:true, minlength:2},
-      docapr:"required",
-      leg:{required:false, minlength:2}
+      docapr:"required"
     },
     messages: {
       tlic:"Elija un tipo de licencia",
@@ -269,8 +268,7 @@ $( "#f_edilic" ).validate( {
       emed:"Elija una especialidad.",
       tdoc:"Elija el tipo de documento.",
       ndoc:{required:"Ingrese # colegiatura.",minlength:"Mínimo 2 caracteres."},
-      docapr:"Elija el documento que aprueba la licencia.",
-      leg:{minlength:"Mínimo 2 caracteres."}
+      docapr:"Elija el documento que aprueba la licencia."
     },
     errorElement: "em",
     errorPlacement: function ( error, element ) {

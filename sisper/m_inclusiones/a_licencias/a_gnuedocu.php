@@ -9,11 +9,13 @@ if(accesoadm($cone,$_SESSION['identi'],4)||accesoadm($cone,$_SESSION['identi'],3
     $adoc=iseguro($cone,$_POST['adoc']);
     $sig=imseguro($cone,$_POST['sig']);
     $fec=fmysql(iseguro($cone,$_POST['fec']));
+    $des=iseguro($cone,$_POST['des']);
+    $leg=iseguro($cone,$_POST['leg']);
     $c=mysqli_query($cone,"SELECT idDoc FROM doc WHERE idTipoDoc=$tdoc AND Numero='$num' AND Ano='$adoc' AND Siglas='$sig';");
     if(mysqli_num_rows($c)>0){
-    	echo mensajewa("Error: El documento que intenta registrar ya se encuentra registrado.");
+    	echo mensajewa("Error: El documento que intenta registrar ya existe.");
     }else{
-    	$q="INSERT INTO doc (Numero, Ano, Siglas, FechaDoc, idTipoDoc) VALUES ('$num', '$adoc', '$sig', '$fec', $tdoc);";
+    	$q="INSERT INTO doc (Numero, Ano, Siglas, FechaDoc, idTipoDoc, Descripcion, Legajo) VALUES ('$num', '$adoc', '$sig', '$fec', $tdoc, '$des', '$leg');";
     	if(mysqli_query($cone,$q)){
     		echo mensajesu("Listo: Documento correctamente registrado.");
     	}else{

@@ -160,13 +160,6 @@ if(accesoadm($cone,$_SESSION['identi'],4)){
             <button type="button" id="b_nuedoc" class="btn btn-default btn-block" data-toggle="modal" data-target="#m_nuedocu"><i class="fa fa-file-text-o"></i> Nuevo</button>
           </div>
         </div>
-        <div class="form-group has-feedback">
-          <label for="ndoc" class="col-sm-2 control-label">Legajo</label>
-          <div class="col-sm-10 valida">
-            <span class="fa fa-folder-o form-control-feedback text-primary"></span>
-            <input type="text" name="leg" id="leg" class="form-control" placeholder="Legajo" value="<?php echo $rl['Legajo']; ?>">
-          </div>
-        </div>
         <script>
           var li=$("#tlic").val();
           if(li!=1){
