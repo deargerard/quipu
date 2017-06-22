@@ -102,12 +102,12 @@ if(accesocon($cone,$_SESSION['identi'],3)){
 		<?php
 		if (mysqli_num_rows($cvac)>0) {
 		 ?>
-		<table id="dtdir" class="table table-bordered table-hover"> <!--Tabla que Lista las vacaciones-->
+		<table id="dtreva" class="table table-bordered table-hover"> <!--Tabla que Lista las vacaciones-->
 			  <thead>
 					<tr>
 						<th>PERÍODO</th>
 						<th>NÚMERO DE RESOLUCIÓN</th>
-						<th>FECHA</th>
+						<th>FECHA RES.</th>
 						<th>PROGRAMACIÓN</th>
 						<th>DÍAS</th>
 						<th>INICIA</th>
@@ -132,6 +132,9 @@ if(accesocon($cone,$_SESSION['identi'],3)){
 						}elseif ($rvac['Estado']=='3') {
 							$est="primary";
 							$cap="Ejecutandose";
+						}elseif ($rvac['Estado']=='5'){
+							$est="default";
+							$cap="Suspendida";
 						}else {
 							$est="warning";
 							$cap="Planificada";
@@ -151,7 +154,7 @@ if(accesocon($cone,$_SESSION['identi'],3)){
 					<td><?php echo fnormal($rvac['FechaDoc'])?></td> <!--columna FECHA DOCUMENTO-->
 					<td><?php echo $con ?></td> <!--columna CONDICIÓN-->
 					<td><?php echo $dt ?></td> <!--columna CAMTIDAD DE DIAS-->
-					<td><?php echo fnormal($rvac['FechaIni'])?></td> <!--columna INICIO-->
+					<td><?php echo "<span class='hidden'>".$rvac['FechaIni']."</span> ".fnormal($rvac['FechaIni'])?></td> <!--columna INICIO-->
 					<td><?php echo fnormal($rvac['FechaFin'])?></td> <!--columna FIN-->
 					<td><span class='label label-<?php echo $est?>'><?php echo $cap?></span></td> <!--columna ESTADO-->
         </tr>
@@ -161,22 +164,11 @@ if(accesocon($cone,$_SESSION['identi'],3)){
 		</tbody>
 
 	</table>
-	<table class="table table-hover table-bordered"> <!--Datos relacionados a los dias de vacaciones-->
-		<tr>
-		<?php
-			if ($tot==1){
-		?>
-				<td class="text-blue"> <?php echo $tot ?> Registro encontrado.</td>
-		<?php
-			}else{
-			?>
-				<td class="text-blue"> <?php echo $tot ?> Registros encontrados.</td>
-			<?php
-			}
-			?>
-		</tr>
-	</table>
-
+	<script>
+	$('#dtreva').DataTable({
+		"order": [[5,"asc"]]
+	});
+	</script>
 <?php
 	}else {
 		echo mensajewa("No se encontraron resultados");

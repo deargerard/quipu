@@ -229,6 +229,7 @@
           </a>
           <ul class="treeview-menu">
             <li id="pagvacaciones"><a href="pagvacaciones.php"><i class="fa fa-circle-o"></i> Programación</a></li>
+            <li id="ejevacaciones"><a href="ejevacaciones.php"><i class="fa fa-circle-o"></i> Ejecución</a></li>
             <li id="repvacaciones"><a href="repvacaciones.php"><i class="fa fa-circle-o"></i> Reportes</a></li>
           </ul>
         </li>

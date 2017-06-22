@@ -206,6 +206,7 @@ $("#f_cvacaciones").submit(function(e){
 $('#m_nvacaciones, #m_evacaciones, #m_cvacaciones').on('hidden.bs.modal', function () {
   var per = $("#per").val();
   var pervac = $("#pervac").val();
+  var car = $("#car").val();
   if ($("#can").is(':checked')){
     var can = 2;
   } else {
@@ -215,7 +216,7 @@ $('#m_nvacaciones, #m_evacaciones, #m_cvacaciones').on('hidden.bs.modal', functi
      type: "POST",
      url: "m_inclusiones/a_vacaciones/a_vacper.php",
      dataType: "html",
-     data: {per: per, pervac: pervac, can: can},   // I WANT TO ADD EXTRA DATA + SERIALIZE DATA
+     data: {per: per, pervac: pervac, car : car, can: can},   // I WANT TO ADD EXTRA DATA + SERIALIZE DATA
      beforeSend: function () {
         $("#b_bvacper").html("<i class='fa fa-spinner fa-spin'></i> Actualizando");
         $("#b_bvacper").addClass("disabled");
@@ -227,7 +228,6 @@ $('#m_nvacaciones, #m_evacaciones, #m_cvacaciones').on('hidden.bs.modal', functi
         $("#r_vacper").slideDown();
      }
   });
-  console.log(can);
 })
 //fin funcion actualizar lista de vacaciones
 //funcion llamar formulario nuevo período
@@ -382,3 +382,90 @@ $(' #fecha').datepicker({
 })
 
 $('.selectpicker').selectpicker()
+
+$("#meseje").datepicker({
+  autoclose: true,
+  format: "mm/yyyy",
+  language: "es",
+  minViewMode: "months",
+  maxViewMode: "months",
+  startDate: '01/2000',
+  startView: "month" //does not work
+});
+
+// Recibir datos para Ejecución Vacaciones
+$("#f_ejva").submit(function(e){
+ e.preventDefault();
+ var datos = $("#f_ejva").serializeArray();
+ datos.push({name: "NomForm", value: "f_ejva"});
+ $.ajax({
+       data:  datos,
+       url:   "m_inclusiones/a_vacaciones/a_ejva.php",
+       type:  "post",
+       beforeSend: function () {
+         $("#b_bejva").html("<i class='fa fa-spinner fa-spin'></i> Buscando");
+       },
+       success:  function (response) {
+         $("#b_bejva").html("Buscar");
+         $("#r_ejva").html(response);
+       }
+   });
+});
+// Fin Recibir datos para Ejecución Vacaciones
+// Función ejecutar vacaciones
+function ejevac(idvac, nom){
+$.ajax({
+ type: "post",
+ url: "m_inclusiones/a_vacaciones/a_fejevac.php",
+ data: { idvac : idvac, nom  : nom},
+ beforeSend: function () {
+   $("#r_ejvacaciones").html("<img src='m_images/cargando.gif'>");
+   $("#b_siejvacaciones").hide();
+   $("#b_noejvacaciones").html("Cerrar");
+ },
+ success:function(a){
+   $("#b_siejvacaciones").show();
+   $("#b_noejvacaciones").html("No");
+   $("#r_ejvacaciones").html(a);
+ }
+});
+};
+//fin función ejecutar vacaciones
+//función enviar vacaciones a ejecutar
+$("#f_ejvacaciones").submit(function(e){
+  e.preventDefault();
+  var datos = $("#f_ejvacaciones").serializeArray();
+  datos.push({name: "NomForm", value: "f_ejvacaciones"});
+  $.ajax({
+        data:  datos,
+        url:   "m_inclusiones/a_vacaciones/a_gejevac.php",
+        type:  "post",
+        beforeSend: function () {
+          $("#r_ejvacaciones").html("<img scr='m_images/cargando.gif'>");
+          $("#b_siejvacaciones").hide();
+        },
+        success:  function (response) {
+          $("#r_ejvacaciones").html(response);
+          $("#b_noejvacaciones").html("Cerrar");
+        }
+    });
+});
+//fin función enviar vacaciones a ejecutar
+//funcion actualizar lista de vacaciones por ejecutar
+$('#m_ejvacaciones').on('hidden.bs.modal', function () {
+  var datos = $("#f_ejva").serializeArray();
+  datos.push({name: "NomForm", value: "f_ejva"});
+  $.ajax({
+        data:  datos,
+        url:   "m_inclusiones/a_vacaciones/a_ejva.php",
+        type:  "post",
+        beforeSend: function () {
+          $("#b_bejva").html("<i class='fa fa-spinner fa-spin'></i> Buscando");
+        },
+        success:  function (response) {
+          $("#b_bejva").html("Buscar");
+          $("#r_ejva").html(response);
+        }
+    });
+})
+//fin funcion actualizar lista de vacaciones por ejecutar

@@ -3,16 +3,17 @@ session_start();
 include("../php/conexion_sp.php");
 include("../php/funciones.php");
 if(accesocon($cone,$_SESSION['identi'],3)){
+	$sislab=$_POST["sislab"];
 	$pervac=$_POST["pervac"];
 	$reglab=$_POST["reglab"];
 	$mes=$_POST["mes"];
 	$estvac=$_POST["estvac"];
 
-	if(isset($pervac) && !empty($pervac) && isset($reglab) && !empty($reglab) && isset($mes) && isset($estvac)){
+	if(isset($pervac) && !empty($pervac) && isset($reglab) && !empty($reglab) && isset($mes) && isset($estvac) && isset($sislab) && !empty($sislab)){
 
 		$wpv="(";
 		$wrl="(";
-		//$wmes="(";
+		$wsl="(";
 		$wev="(";
 
 		for ($j=0; $j < count($pervac); $j++) {
@@ -23,26 +24,26 @@ if(accesocon($cone,$_SESSION['identi'],3)){
 			$wrl.= $i==(count($reglab)-1) ? " ec.idCondicionLab=$reglab[$i])" : "ec.idCondicionLab=$reglab[$i] OR ";
 		}
 
-		//for ($l=0; $l < count($mes); $l++) {
-			//$wmes.=$l==(count($cmes)-1) ? " pv.Condicion=$mes[$l])" : "pv.Condicion=$mes[$l] OR ";
-		//}
+		for ($l=0; $l < count($sislab); $l++) {
+			$wsl.=$l==(count($sislab)-1) ? " sl.idSistemaLab=$sislab[$l])" : "sl.idSistemaLab=$sislab[$l] OR ";
+		}
 
 		for ($k=0; $k < count($estvac); $k++) {
 			$wev.= $k==(count($estvac)-1) ? " pv.Estado=$estvac[$k])" : "pv.Estado=$estvac[$k] OR ";
 		}
 
 
-			$c="SELECT e.NumeroDoc, e.idEmpleado, c.Denominacion as cargo, d.Denominacion, cl.Tipo, ec.FechaVac, pva.idPeriodoVacacional, pva.PeriodoVacacional, pv.FechaIni, pv.FechaFin, pv.Estado, pv.Condicion FROM provacaciones pv INNER JOIN empleadocargo ec ON pv.idEmpleadoCargo=ec.idEmpleadoCargo INNER JOIN empleado e ON ec.idEmpleado=e.idEmpleado INNER JOIN condicionlab cl ON ec.idCondicionLab=cl.idCondicionLab INNER JOIN cargo c ON ec.idCargo=c.idCargo INNER JOIN cardependencia cd ON ec.idEmpleadoCargo=cd.idEmpleadoCargo INNER JOIN dependencia d ON cd.idDependencia=d.idDependencia INNER JOIN periodovacacional pva ON pv.idPeriodoVacacional=pva.idPeriodoVacacional WHERE date_format(pv.FechaIni,'%m')=$mes AND cd.Oficial=1 AND $wrl AND $wpv AND $wev";
+			$c="SELECT sl.idSistemaLab, e.NumeroDoc, e.idEmpleado, c.Denominacion as cargo, d.Denominacion, cl.Tipo, ec.FechaVac, pva.idPeriodoVacacional, pva.PeriodoVacacional, pv.FechaIni, pv.FechaFin, pv.Estado, pv.Condicion FROM provacaciones pv INNER JOIN empleadocargo ec ON pv.idEmpleadoCargo=ec.idEmpleadoCargo INNER JOIN empleado e ON ec.idEmpleado=e.idEmpleado INNER JOIN condicionlab cl ON ec.idCondicionLab=cl.idCondicionLab INNER JOIN cargo c ON ec.idCargo=c.idCargo INNER JOIN cardependencia cd ON ec.idEmpleadoCargo=cd.idEmpleadoCargo INNER JOIN dependencia d ON cd.idDependencia=d.idDependencia INNER JOIN periodovacacional pva ON pv.idPeriodoVacacional=pva.idPeriodoVacacional INNER JOIN sistemalab sl ON c.idSistemaLab=sl.idSistemaLab WHERE date_format(pv.FechaIni,'%m/%Y')='$mes' AND cd.Oficial=1 AND $wrl AND $wpv AND $wev AND $wsl";
 			//echo $c;
 			$cpv=mysqli_query($cone,$c);
 			if (mysqli_num_rows($cpv)>0) {
 		?>
 		<hr>
-		<table id="dtdir" class="table table-bordered table-hover"> <!--Tabla que Lista las vacaciones-->
+		<table id="dtejva" class="table table-bordered table-hover"> <!--Tabla que Lista las vacaciones-->
 					  <thead>
 							<tr>
-								<th style="font-size:12px;">CÓDIGO</th>
-								<th style="font-size:12px;">APELLIDOS Y NOMBRES</th>
+								<th style="font-size:12px;">DNI</th>
+								<th style="font-size:12px;">EMPLEADO</th>
 								<th style="font-size:12px;">CARGO</th>
 								<th style="font-size:12px;">DEPENDENCIA</th>
 								<th style="font-size:12px;">RÉGIMEN</th>
@@ -75,6 +76,9 @@ if(accesocon($cone,$_SESSION['identi'],3)){
 								}elseif ($rpc['Estado']=='3'){
 									$est="primary";
 									$cap="Ejecutandose";
+								}elseif ($rpc['Estado']=='5'){
+									$est="default";
+									$cap="Suspendida";
 								}else{
 									$est="warning";
 									$cap="Planificada";
@@ -93,10 +97,10 @@ if(accesocon($cone,$_SESSION['identi'],3)){
 							<td style="font-size:11px;" class="<?php echo $con?>"><?php echo nomempleado($cone, $rpc['idEmpleado'])?></td> <!--columna APELLIDOS Y NOMBRES-->
 							<td style="font-size:11px;" class="<?php echo $con?>"><?php echo $rpc['cargo']?></td> <!--columna CARGO-->
 							<td style="font-size:11px;" class="<?php echo $con?>"><?php echo $rpc['Denominacion']?></td> <!--columna DEPENDENCIA-->
-							<td style="font-size:11px;" class="<?php echo $con?>"><?php echo substr($rpc['Tipo'],-8); ?></td> <!--columna REGIMEN-->
+							<td style="font-size:11px;" class="<?php echo $con?>"><?php echo substr($rpc['Tipo'],0,13); ?></td> <!--columna REGIMEN-->
 							<td style="font-size:11px;" class="<?php echo $con?>"><?php echo fnormal($rpc['FechaVac'])?></td> <!--columna ALTA-->
 							<td style="font-size:11px;" class="<?php echo $con?>"><?php echo $rpc['PeriodoVacacional']?></td> <!--columna PERIODO-->
-							<td style="font-size:11px;" class="<?php echo $con?>"><?php echo fnormal($rpc['FechaIni'])?></td> <!--columna INICIO-->
+							<td style="font-size:11px;" class="<?php echo $con?>"><?php echo"<span class='hidden'>".$rpc['FechaIni']."</span> ". fnormal($rpc['FechaIni'])?></td> <!--columna INICIO-->
 							<td style="font-size:11px;" class="<?php echo $con?>"><?php echo fnormal($rpc['FechaFin'])?></td> <!--columna FIN-->
 							<td style="font-size:11px;" class="<?php echo $con?>"><?php echo $dt ?></td> <!--columna CAMTIDAD DE DIAS-->
 							<td style="font-size:11px;" class="<?php echo $con?>"><span class='label label-<?php echo $est?>'><?php echo $cap?></span></td> <!--columna ESTADO-->
@@ -107,21 +111,11 @@ if(accesocon($cone,$_SESSION['identi'],3)){
 						 ?>
 				</tbody>
 			</table>
-			<table class="table table-hover table-bordered"> <!--Datos relacionados a los dias de vacaciones-->
-			  <tr>
-				<?php
-					if ($tot==1){
-				?>
-						<td class="text-blue"> <?php echo $tot ?> Registro encontrado.</td>
-				<?php
-					}else{
-					?>
-						<td class="text-blue"> <?php echo $tot ?> Registros encontrados.</td>
-					<?php
-					}
-					?>
-			  </tr>
-			</table>
+			<script>
+			$('#dtejva').DataTable({
+				"order": [[7,"asc"]]
+			});
+			</script>
 		<?php
 	}else {
 			echo mensajewa("No se encontraron resultados");

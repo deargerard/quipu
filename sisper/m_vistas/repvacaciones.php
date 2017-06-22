@@ -21,10 +21,10 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
           <!-- Custom Tabs -->
           <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
-              <li class="active"><a href="#tab_1" data-toggle="tab">Record de Vacaciones</a></li>
-              <li><a href="#tab_2" data-toggle="tab">Vacaciones por Régimen Laboral</a></li>
-              <li><a href="#tab_3" data-toggle="tab">Ejecución de Vacaciones</a></li>
-              <!--<li><a href="#tab_4" data-toggle="tab">Vacaciones Pendientes</a></li>-->
+              <li class="active"><a href="#tab_1" data-toggle="tab">Vacaciones por Trabajador</a></li>
+              <li><a href="#tab_2" data-toggle="tab">Vacaciones por Período</a></li>
+              <li><a href="#tab_3" data-toggle="tab">Vacaciones por Mes</a></li>
+              <!--<li><a href="#tab_4" data-toggle="tab">Vacaciones por Sistema Laboral</a></li>-->
             </ul>
             <div class="tab-content">
               <div class="tab-pane active" id="tab_1">
@@ -38,7 +38,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                   </div>
                   <div class="form-group">
                     <label for="bbb" class="sr-only">Cargo </label>
-                    <select name="car" id="car" class="form-control select2" style="width: 250px;">
+                    <select name="car" id="car" class="form-control select2" style="width: 200px;">
 
                     </select>
                   </div>
@@ -50,11 +50,12 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                       <option value="3">EJECUTANDOSE</option>
                       <option value="1">EJECUTADAS</option>
                       <option value="2">CANCELADAS</option>
+                      <option value="5">SUSPENDIDAS</option>
                     </select>
                   </div>
                   <div class="form-group">
                     <label for="aaa" class="sr-only">Condición</label>
-                    <select name="convac[]" class="selectpicker" multiple="multiple" multiple data-selected-text-format="count" title="CONDICIÓN" >
+                    <select name="convac[]" class="selectpicker" multiple="multiple" multiple data-selected-text-format="count" title="CONDICIÓN">
                       <option value="1">PROGRAMADAS</option>
                       <option value="0">REPROGRAMADAS</option>
                     </select>
@@ -77,20 +78,6 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 <!--Formulario-->
                 <form action="" id="f_rvare" class="form-inline">
                   <div class="form-group">
-                    <label for="aaa" class="sr-only">Regimen</label>
-                    <select data-actions-box="true" name="reglab[]" class="form-control selectpicker" multiple="multiple" multiple data-selected-text-format="count" title="RÉGIMEN">
-                      <?php
-                        $crl=mysqli_query($cone,"SELECT idCondicionLab, Tipo FROM condicionlab WHERE Estado=1 ORDER BY Tipo ASC");
-                        while($rrl=mysqli_fetch_assoc($crl)){
-                      ?>
-                      <option value="<?php echo $rrl['idCondicionLab']; ?>"><?php echo $rrl['Tipo']; ?></option>
-                      <?php
-                        }
-                        mysqli_free_result($crl);
-                      ?>
-                    </select>
-                  </div>
-                  <div class="form-group">
                     <label for="bbb" class="sr-only">Período</label>
                     <select data-actions-box="true" name="pervac[]" class="form-control selectpicker" multiple="multiple" multiple data-selected-text-format="count" title="PERÍODO">
                       <?php
@@ -104,6 +91,37 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                       ?>
                     </select>
                   </div>
+
+                  <div class="form-group">
+                    <label for="aaa" class="sr-only">Sistema</label>
+                      <select name="sislab[]" data-actions-box="true" class="form-control selectpicker" multiple="multiple" multiple data-selected-text-format="count" title="SISTEMA">
+                        <?php
+                          $csl=mysqli_query($cone,"SELECT idSistemaLab, SistemaLab FROM sistemalab WHERE idSistemaLab!=4 AND  idSistemaLab!=5 ORDER BY idSistemaLab ASC");
+                          while($rsl=mysqli_fetch_assoc($csl)){
+                        ?>
+                        <option value="<?php echo $rsl['idSistemaLab']; ?>"><?php echo $rsl['SistemaLab']; ?></option>
+                        <?php
+                          }
+                          mysqli_free_result($csl);
+                        ?>
+                      </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="aaa" class="sr-only">Regimen</label>
+                    <select data-actions-box="true" name="reglab[]" class="form-control selectpicker" multiple="multiple" multiple data-selected-text-format="count" title="RÉGIMEN">
+                      <?php
+                        $crl=mysqli_query($cone,"SELECT idCondicionLab, Tipo FROM condicionlab WHERE Estado=1 AND idCondicionLab!=6 AND idCondicionLab!=7 ORDER BY Tipo ASC");
+                        while($rrl=mysqli_fetch_assoc($crl)){
+                      ?>
+                      <option value="<?php echo $rrl['idCondicionLab']; ?>"><?php echo $rrl['Tipo']; ?></option>
+                      <?php
+                        }
+                        mysqli_free_result($crl);
+                      ?>
+                    </select>
+                  </div>
+
                   <div class="form-group">
                     <label for="bbb" class="sr-only">Estado</label>
                     <select data-actions-box="true" name="estvac[]" class="form-control selectpicker" multiple="multiple" multiple data-selected-text-format="count" title="ESTADO">
@@ -112,6 +130,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                       <option value="3">EJECUTANDOSE</option>
                       <option value="1">EJECUTADAS</option>
                       <option value="2">CANCELADAS</option>
+                      <option value="5">SUSPENDIDAS</option>
                     </select>
                   </div>
                   <div class="form-group">
@@ -139,6 +158,39 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 <!--Formulario-->
                 <form action="" id="f_rejva" class="form-inline">
                   <div class="form-group">
+                    <label for="aaa" class="sr-only">Mes</label>
+                    <input class="form-control" id="meseje" name="mes" placeholder="MM//AAAA">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="aaa" class="sr-only">Sistema</label>
+                      <select name="sislab[]" data-actions-box="true" class="form-control selectpicker" multiple="multiple" multiple data-selected-text-format="count" title="SISTEMA">
+                        <?php
+                          $csl=mysqli_query($cone,"SELECT idSistemaLab, SistemaLab FROM sistemalab WHERE idSistemaLab!=4 AND  idSistemaLab!=5 ORDER BY idSistemaLab ASC");
+                          while($rsl=mysqli_fetch_assoc($csl)){
+                        ?>
+                        <option value="<?php echo $rsl['idSistemaLab']; ?>"><?php echo $rsl['SistemaLab']; ?></option>
+                        <?php
+                          }
+                          mysqli_free_result($csl);
+                        ?>
+                      </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="aaa" class="sr-only">Régimen</label>
+                      <select name="reglab[]" data-actions-box="true" class="form-control selectpicker" multiple="multiple" multiple data-selected-text-format="count" title="RÉGIMEN">
+                        <?php
+                          $crl=mysqli_query($cone,"SELECT idCondicionLab, Tipo FROM condicionlab WHERE Estado=1 AND idCondicionLab!=6 AND idCondicionLab!=7 ORDER BY Tipo ASC");
+                          while($rrl=mysqli_fetch_assoc($crl)){
+                        ?>
+                        <option value="<?php echo $rrl['idCondicionLab']; ?>"><?php echo $rrl['Tipo']; ?></option>
+                        <?php
+                          }
+                          mysqli_free_result($crl);
+                        ?>
+                      </select>
+                  </div>
+                  <div class="form-group">
                     <label for="bbb" class="sr-only">Periodo </label>
                     <select name="pervac[]" data-actions-box="true" class="form-control selectpicker" multiple="multiple" multiple data-selected-text-format="count" title="PERÍODO">
                       <?php
@@ -152,38 +204,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                       ?>
                     </select>
                   </div>
-                  <div class="form-group">
-                    <label for="aaa" class="sr-only">Régimen</label>
-                      <select name="reglab[]" data-actions-box="true" class="form-control selectpicker" multiple="multiple" multiple data-selected-text-format="count" title="RÉGIMEN">
-                        <?php
-                          $crl=mysqli_query($cone,"SELECT idCondicionLab, Tipo FROM condicionlab WHERE Estado=1 ORDER BY Tipo ASC");
-                          while($rrl=mysqli_fetch_assoc($crl)){
-                        ?>
-                        <option value="<?php echo $rrl['idCondicionLab']; ?>"><?php echo $rrl['Tipo']; ?></option>
-                        <?php
-                          }
-                          mysqli_free_result($crl);
-                        ?>
-                      </select>
-                  </div>
-                  <div class="form-group">
-                    <label for="aaa" class="sr-only">Mes</label>
-                    <select name="mes" id="mes" class="form-control" style="width: 200px;">
-                        <option value="" disabled selected>MES</option>
-                        <option value="01">ENERO</option>
-                        <option value="02">FEBRERO</option>
-                        <option value="03">MARZO</option>
-                        <option value="04">ABRIL</option>
-                        <option value="05">MAYO</option>
-                        <option value="06">JUNIO</option>
-                        <option value="07">JULIO</option>
-                        <option value="08">AGOSTO</option>
-                        <option value="09">SETIEMBRE</option>
-                        <option value="10">OCTUBRE</option>
-                        <option value="11">NOVIEMBRE</option>
-                        <option value="12">DICIEMBRE</option>
-                      </select>
-                  </div>
+
                   <div class="form-group">
                     <label for="aaa" class="sr-only">Estado</label>
                     <select name="estvac[]" data-actions-box="true" class="form-control selectpicker" multiple="multiple" multiple data-selected-text-format="count" title="ESTADO">
@@ -192,6 +213,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                       <option value="3">EJECUTANDOSE</option>
                       <option value="1">EJECUTADAS</option>
                       <option value="2">CANCELADAS</option>
+                      <option value="5">SUSPENDIDAS</option>
                     </select>
                   </div>
                   <button type="submit" id="b_bejva" class="btn btn-default">Buscar</button>
@@ -210,16 +232,16 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 <!--Formulario-->
                 <form action="" id="f_rvape" class="form-inline">
                   <div class="form-group">
-                    <label for="aaa" class="sr-only">Régimen</label>
-                      <select name="reglab[]" data-actions-box="true" class="form-control selectpicker" multiple="multiple" multiple data-selected-text-format="count" title="RÉGIMEN">
+                    <label for="aaa" class="sr-only">Sistema</label>
+                      <select name="sislab[]" data-actions-box="true" class="form-control selectpicker" multiple="multiple" multiple data-selected-text-format="count" title="SISTEMA">
                         <?php
-                          $crl=mysqli_query($cone,"SELECT idCondicionLab, Tipo FROM condicionlab WHERE Estado=1 ORDER BY Tipo ASC");
-                          while($rrl=mysqli_fetch_assoc($crl)){
+                          $csl=mysqli_query($cone,"SELECT idSistemaLab, SistemaLab FROM sistemalab ORDER BY SistemaLab ASC");
+                          while($rsl=mysqli_fetch_assoc($csl)){
                         ?>
-                        <option value="<?php echo $rrl['idCondicionLab']; ?>"><?php echo $rrl['Tipo']; ?></option>
+                        <option value="<?php echo $rsl['idSistemaLab']; ?>"><?php echo $rsl['SistemaLab']; ?></option>
                         <?php
                           }
-                          mysqli_free_result($crl);
+                          mysqli_free_result($csl);
                         ?>
                       </select>
                   </div>
@@ -231,6 +253,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                       <option value="3">EJECUTANDOSE</option>
                       <option value="1">EJECUTADAS</option>
                       <option value="2">CANCELADAS</option>
+                      <option value="5">SUSPENDIDAS</option>
                     </select>
                   </div>
                   <div class="form-group">
