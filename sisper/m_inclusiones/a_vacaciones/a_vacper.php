@@ -6,12 +6,13 @@ if(accesocon($cone,$_SESSION['identi'],3)){
 	$per=iseguro($cone,$_POST["per"]);
 	$pervac=iseguro($cone,$_POST["pervac"]);
 	$can=iseguro($cone,$_POST["can"]);
+	$idec=iseguro($cone,$_POST["car"]);
 	if(isset($per) && !empty($per) && isset($pervac) && !empty($pervac) && isset($can)){
     // Obtener  idEmpleadoCargo, fechas para cálculo de vacaciones
-		$cin=mysqli_query($cone,"SELECT idEmpleadoCargo, FechaVac, FechaAsu FROM empleadocargo WHERE idEmpleado=$per AND idEstadoCar=1");
+		$cin=mysqli_query($cone,"SELECT ec.idEmpleadoCargo, FechaVac, FechaAsu, Denominacion, ec.idEstadoCar FROM empleadocargo ec INNER JOIN cargo c ON ec.idCargo=c.idCargo WHERE ec.idEmpleadoCargo=$idec");
 		$cpv=mysqli_query($cone,"SELECT * FROM periodovacacional WHERE idPeriodoVacacional=$pervac");
 		$rin=mysqli_fetch_assoc($cin);
-			$idec=$rin['idEmpleadoCargo'];
+//$idec=$rin['idEmpleadoCargo'];
 		$rpv=mysqli_fetch_assoc($cpv);
 			$mesi = substr($rin['FechaVac'], -5, -3)==12 ? 1 : substr($rin['FechaVac'], -5, -3) + 1;
 			$anoi= $mesi==1 ? substr($rpv['PeriodoVacacional'], -4)+1 : substr($rpv['PeriodoVacacional'], -4);
@@ -22,39 +23,48 @@ if(accesocon($cone,$_SESSION['identi'],3)){
 			$fff= strtotime('+29 day',strtotime($ffi));
 			$fff= date('j-m-Y',$fff);
 			$hoy = date("j-m-Y");
-			$fii = strtotime($fii)<=strtotime($hoy) ? date("d-m-Y",strtotime('+15 day',strtotime($hoy))) : $fii; // Valida que la fecha inicial sea 15 días mayoy que la fecha actual.
+			$fii = strtotime($fii)<=strtotime($hoy) ? date("d-m-Y",strtotime('+15 day',strtotime($hoy))) : $fii; // Valida que la fecha inicial sea 15 días mayor que la fecha actual.
 			$anot= substr($rpv['PeriodoVacacional'], -11,-6);
 			$alta= substr($rin['FechaVac'], -10, -6);
-
+			$asume= substr($rin['FechaAsu'], -10, -6);
 			$d= substr($rin['FechaVac'],-2);
 			$m= substr($rin['FechaVac'],-5, -3);
 			$aa=$d."-".$m."-".$anot;
 			$ab=date($aa);
 			$ls=intervalo($hoy,$ab);
-			if ($ls<365) {
+			if ($ls<365) { //Calcula el valor del estado
 				$st=4;
 			}else {
 				$st=0;
-			}
-
+			} //fin
 			$l=intervalo($hoy, $rin['FechaVac']);
-			//echo "Hoy ".$hoy." Fecha de resta ". $ab." F-Asume: ".$l." estado: ".$st;
-		//Fin Obtener  idEmpleadoCargo, fechas para cálculo de vacaciones
-			//echo "F-Asume: ".$rin['FechaAsu']." F-para vacaciones: ".$rin['FechaVac']." F-inicial de inicio vacaciones: ".$fii ." F-final de inicio vacaciones:  ".$ffi."   F-final de fin vacaciones:   ".$fff .  "  Hoy  ".$hoy."  dias  ".$l."  año trabajado  ".$anot."  año alta  ".$alta."  intervalo  ". intervalo($fff,$hoy);
-if ($anot<=$alta) {
-	echo mensajewa("Al trabajador ".nomempleado($cone,$per)." no le corresponde programar vacaciones en el periodo ".$rpv['PeriodoVacacional']);
-}else{
+	//echo "Hoy ".$hoy." Fecha de resta ". $ab." F-Asume: ".$l." estado: ".$st;
+	//Fin Obtener  idEmpleadoCargo, fechas para cálculo de vacaciones
+	//echo "F-Asume: ".$rin['FechaAsu']." F-para vacaciones: ".$rin['FechaVac']." F-inicial de inicio vacaciones: ".$fii ." F-final de inicio vacaciones:  ".$ffi."   F-final de fin vacaciones:   ".$fff .  "  Hoy  ".$hoy."  dias  ".$l."  año trabajado  ".$anot."  año alta  ".$alta."  intervalo  ". intervalo($fff,$hoy);
+	//echo $anot."<br>";
+	//echo $asume;
+if ($asume<=$anot) {
 ?>
 <div class="row">
   <div class="col-sm-2"> <!--Botón Nuevo-->
 		<button id="b_nuevac" class="btn btn-info" data-toggle="modal" data-target="#m_nvacaciones" onclick="nuevac(<?php echo $idec .", ".$pervac.", '".$fii."', '".$ffi."', '".$fff."',".$st ?>)">Nuevas Vacaciones</button>
 	</div>
   <div class="col-sm-7"> <!--Nombre-->
-		<h4 class="text-aqua text-center"><strong><i class="fa fa-user"></i> <?php echo nomempleado($cone,$per); ?> </strong>| <small><i class="fa fa-black-tie"></i> <?php echo cargoe($cone,$per); ?></small></h4>
+		<?php
+		if ($rin['idEstadoCar']==1) {
+		?>
+			<h4 class="text-aqua text-center"><strong><i class="fa fa-user"></i> <?php echo nomempleado($cone,$per); ?> </strong>| <small><i class="fa fa-black-tie"></i> <?php echo $rin['Denominacion']; ?></small></h4>
+		<?php
+		}else{
+		 ?>
+		 <h4 class="text-center"><strong><i class="fa fa-user"></i> <?php echo nomempleado($cone,$per); ?> </strong>| <small><i class="fa fa-black-tie"></i> <?php echo $rin['Denominacion']."  (INACTIVO)"; ?></small></h4>
+		<?php
+		}
+		?>
 	</div>
 	<div class="col-sm-3"> <!--Nombre-->
     <h6 class="text-red" style="margin-bottom: 2px; text-align:right"> FECHA DE ALTA DEL TRABAJADOR: <?php echo fnormal($rin['FechaAsu'])?></h6>
-		<h6 class="text-red" style="margin-top: 2px; text-align:right"> FECHA PARA CÁLCULO DE VACACIONES: <?php echo fnormal($rin['FechaAsu'])?></h6>
+		<h6 class="text-red" style="margin-top: 2px; text-align:right"> FECHA PARA CÁLCULO DE VACACIONES: <?php echo fnormal($rin['FechaVac'])?></h6>
 	</div>
 </div>
 <br>
@@ -62,9 +72,9 @@ if ($anot<=$alta) {
 $num=1;
 $tot=0;
 		if($can=="2"){
-			$cvac=mysqli_query($cone,"SELECT v.idProVacaciones, pv.PeriodoVacacional, concat(d.Numero,'-',d.Ano,'-',d.Siglas) AS Resolucion, d.FechaDoc, v.FechaIni, v.FechaFin, v.Estado, v.Condicion, av.idAprVacaciones FROM provacaciones as v INNER JOIN periodovacacional AS pv ON v.idPeriodoVacacional = pv.idPeriodoVacacional INNER JOIN aprvacaciones as av ON v.idProVacaciones= av.idProVacaciones INNER JOIN doc AS d ON av.idDoc=d.idDoc INNER JOIN empleadocargo AS ec ON v.idEmpleadoCargo=ec.idEmpleadoCargo WHERE idEmpleado = $per AND v.idPeriodoVacacional=$pervac" );
+			$cvac=mysqli_query($cone,"SELECT v.idProVacaciones, pv.PeriodoVacacional, concat(d.Numero,'-',d.Ano,'-',d.Siglas) AS Resolucion, d.FechaDoc, v.FechaIni, v.FechaFin, v.Estado, v.Condicion, av.idAprVacaciones FROM provacaciones as v INNER JOIN periodovacacional AS pv ON v.idPeriodoVacacional = pv.idPeriodoVacacional INNER JOIN aprvacaciones as av ON v.idProVacaciones= av.idProVacaciones INNER JOIN doc AS d ON av.idDoc=d.idDoc INNER JOIN empleadocargo AS ec ON v.idEmpleadoCargo=ec.idEmpleadoCargo WHERE v.idEmpleadoCargo = $rin[idEmpleadoCargo] AND v.idPeriodoVacacional=$pervac" );
 		}else{
-				$cvac=mysqli_query($cone,"SELECT v.idProVacaciones, pv.PeriodoVacacional, concat(d.Numero,'-',d.Ano,'-',d.Siglas) AS Resolucion, d.FechaDoc, v.FechaIni, v.FechaFin, v.Estado, v.Condicion, av.idAprVacaciones FROM provacaciones as v INNER JOIN periodovacacional AS pv ON v.idPeriodoVacacional = pv.idPeriodoVacacional INNER JOIN aprvacaciones as av ON v.idProVacaciones= av.idProVacaciones INNER JOIN doc AS d ON av.idDoc=d.idDoc INNER JOIN empleadocargo AS ec ON v.idEmpleadoCargo=ec.idEmpleadoCargo WHERE idEmpleado = $per AND v.idPeriodoVacacional=$pervac AND v.Estado!=2");
+				$cvac=mysqli_query($cone,"SELECT v.idProVacaciones, pv.PeriodoVacacional, concat(d.Numero,'-',d.Ano,'-',d.Siglas) AS Resolucion, d.FechaDoc, v.FechaIni, v.FechaFin, v.Estado, v.Condicion, av.idAprVacaciones FROM provacaciones as v INNER JOIN periodovacacional AS pv ON v.idPeriodoVacacional = pv.idPeriodoVacacional INNER JOIN aprvacaciones as av ON v.idProVacaciones= av.idProVacaciones INNER JOIN doc AS d ON av.idDoc=d.idDoc INNER JOIN empleadocargo AS ec ON v.idEmpleadoCargo=ec.idEmpleadoCargo WHERE v.idEmpleadoCargo = $rin[idEmpleadoCargo] AND v.idPeriodoVacacional=$pervac AND v.Estado!=2");
 				}
 		//se obtine el periodo seleccionado
 		$cperi=mysqli_query($cone,"SELECT PeriodoVacacional FROM periodovacacional WHERE idPeriodoVacacional=$pervac");
@@ -82,7 +92,7 @@ $tot=0;
 					<tr>
 						<th>PERÍODO</th>
 						<th>NÚMERO DE RESOLUCIÓN</th>
-						<th>FECHA</th>
+						<th>FECHA RES.</th>
 						<th>PROGRAMACIÓN</th>
 						<th>DÍAS</th>
 						<th>INICIA</th>
@@ -108,6 +118,11 @@ $tot=0;
 							}elseif($rvac['Estado']=='3'){
 								$est="primary";
 								$cap="Ejecutandose";
+								$pen= intervalo($rvac['FechaFin'], $rvac['FechaIni']) + $pen;
+							}elseif($rvac['Estado']=='5'){
+								$est="default";
+								$cap="Suspendida";
+								$pen= intervalo($rvac['FechaFin'], $rvac['FechaIni']) + $pen;
 							}else {
 								$est="warning";
 								$cap="Planificada";
@@ -196,20 +211,22 @@ $tot=0;
 			?>
 					<td class="text-success">El trabajador esta ejecutando sus vacaciones del período <?php echo $peri ?>.</td>
 			<?php
-		}else {
+			}elseif ($falta>0) {
 			?>
 					<td class="text-success">En <?php echo $falta?> días iniciarán las vacaciones del período <?php echo $peri ?>.</td>
 			<?php
-		}
+			}
 		}
 			?>
 			</tr>
 	</table>
 	<?php
 		mysqli_close($cone);
-}
+}else{
+	echo mensajewa("Al trabajador ".nomempleado($cone,$per)." no le corresponde programar vacaciones en el periodo ".$rpv['PeriodoVacacional']);
+} //
 	}else{
-		echo mensajeda("Error: No se seleccionó ningún trabajador");
+		echo mensajewa("Atención: Debe seleccionar el Trabajador y el Período Vacacional");
 	}
 
 }else{

@@ -60,6 +60,8 @@ if(accesoadm($cone,$_SESSION['identi'],3)){
     language: "es",
     autoclose: true,
     todayHighlight: true,
+    startDate: "<?php echo $fii ?>",
+    endDate: "<?php echo $ffi?>",
   })
   .on('changeDate', function(e){
     var fechai= $("#inivac").val();
@@ -96,7 +98,8 @@ if(accesoadm($cone,$_SESSION['identi'],3)){
      language: "es",
      autoclose: true,
      todayHighlight: true,
-
+     startDate: "<?php echo $fii ?>",
+     endDate: "<?php echo $fff?>",
    })
    .on('changeDate', function(e){
      var fechai= $("#inivac").val();

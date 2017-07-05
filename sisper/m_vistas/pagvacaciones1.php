@@ -34,13 +34,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                     <form action="" id="f_vacper" class="form-inline">
                       <div class="form-group">
                         <label for="per" class="sr-only">Personal</label>
-                        <select name="per" id="per" class="form-control select2pertot" style="width: 400px;">
-
-                        </select>
-                      </div>
-                      <div class="form-group">
-                        <label for="bbb" class="sr-only">Cargo </label>
-                        <select name="car" id="car" class="form-control select2" style="width: 250px;">
+                        <select name="per" id="per" class="form-control select2peract" style="width: 400px;">
 
                         </select>
                       </div>
