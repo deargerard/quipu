@@ -381,8 +381,6 @@ $(' #fecha').datepicker({
   todayHighlight: true,
 })
 
-$('.selectpicker').selectpicker()
-
 $("#meseje").datepicker({
   autoclose: true,
   format: "mm/yyyy",
@@ -391,8 +389,37 @@ $("#meseje").datepicker({
   maxViewMode: "months",
   startDate: '01/2000',
   startView: "month" //does not work
+})
+
+$('.selectpicker').selectpicker()
+// datepickers reporte por meses
+$("#mesini").datepicker({
+  autoclose: true,
+  format: "mm/yyyy",
+  language: "es",
+  minViewMode: "months",
+  maxViewMode: "months",
+  startDate: '01/2000',
+  startView: "month" //does not work
+}).on('changeDate', function (selected) {
+    var minDate = new Date(selected.date.valueOf());
+    $('#mesfin').datepicker('setStartDate', minDate);
 });
 
+$("#mesfin").datepicker({
+  autoclose: true,
+  format: "mm/yyyy",
+  language: "es",
+  minViewMode: "months",
+  maxViewMode: "months",
+  startDate: '01/2000',
+  startView: "month" //does not work
+}).on('changeDate', function (selected) {
+    var maxDate = new Date(selected.date.valueOf());
+    $('#mesini').datepicker('setEndDate', maxDate);
+})
+
+// fin datepickers reporte por meses
 // Recibir datos para Ejecución Vacaciones
 $("#f_ejva").submit(function(e){
  e.preventDefault();

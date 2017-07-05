@@ -166,7 +166,7 @@ if(accesocon($cone,$_SESSION['identi'],3)){
 	</table>
 	<script>
 	$('#dtreva').DataTable({
-		"order": [[5,"asc"]]
+		"order": [[0,"asc"]]
 	});
 	</script>
 <?php

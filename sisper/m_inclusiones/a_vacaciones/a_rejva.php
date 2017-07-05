@@ -6,10 +6,18 @@ if(accesocon($cone,$_SESSION['identi'],3)){
 	$sislab=$_POST["sislab"];
 	$pervac=$_POST["pervac"];
 	$reglab=$_POST["reglab"];
-	$mes=$_POST["mes"];
+	$mesini=iseguro($cone, $_POST["mesini"]);
+	$mesfin=iseguro($cone, $_POST["mesfin"]);
 	$estvac=$_POST["estvac"];
 
-	if(isset($pervac) && !empty($pervac) && isset($reglab) && !empty($reglab) && isset($mes) && isset($estvac) && isset($sislab) && !empty($sislab)){
+	if(isset($pervac) && !empty($pervac) && isset($reglab) && !empty($reglab) && isset($mesini) && !empty($mesini) && isset($mesfin) && !empty($mesfin) && isset($estvac) && isset($sislab) && !empty($sislab)){
+
+		$mesini=fmysql("01/".$mesini);
+		$mesfin=fmysql("01/".$mesfin);
+		$mesfin=strtotime('+ 1 month',strtotime ($mesfin) );
+		$mesfin=date('Y-m-j', $mesfin);
+		$mesfin=strtotime('- 1 day',strtotime ($mesfin) );
+		$mesfin=date('Y-m-j', $mesfin);
 
 		$wpv="(";
 		$wrl="(";
@@ -17,7 +25,7 @@ if(accesocon($cone,$_SESSION['identi'],3)){
 		$wev="(";
 
 		for ($j=0; $j < count($pervac); $j++) {
-			$wpv.=$j==(count($pervac)-1) ? " pv.idPeriodoVacacional=$pervac[$j])" : "pv.idPeriodoVacacional=$pervac[$j] OR ";
+			$wpv.=$j==(count($pervac)-1) ? " pv.idPeriodoVacacional=".iseguro($cone, $pervac[$j]).")" : "pv.idPeriodoVacacional=".iseguro($cone,$pervac[$j])." OR ";
 		}
 
 		for ($i=0; $i < count($reglab); $i++) {
@@ -33,8 +41,9 @@ if(accesocon($cone,$_SESSION['identi'],3)){
 		}
 
 
-			$c="SELECT sl.idSistemaLab, e.NumeroDoc, e.idEmpleado, c.Denominacion as cargo, d.Denominacion, cl.Tipo, ec.FechaVac, pva.idPeriodoVacacional, pva.PeriodoVacacional, pv.FechaIni, pv.FechaFin, pv.Estado, pv.Condicion FROM provacaciones pv INNER JOIN empleadocargo ec ON pv.idEmpleadoCargo=ec.idEmpleadoCargo INNER JOIN empleado e ON ec.idEmpleado=e.idEmpleado INNER JOIN condicionlab cl ON ec.idCondicionLab=cl.idCondicionLab INNER JOIN cargo c ON ec.idCargo=c.idCargo INNER JOIN cardependencia cd ON ec.idEmpleadoCargo=cd.idEmpleadoCargo INNER JOIN dependencia d ON cd.idDependencia=d.idDependencia INNER JOIN periodovacacional pva ON pv.idPeriodoVacacional=pva.idPeriodoVacacional INNER JOIN sistemalab sl ON c.idSistemaLab=sl.idSistemaLab WHERE date_format(pv.FechaIni,'%m/%Y')='$mes' AND cd.Oficial=1 AND $wrl AND $wpv AND $wev AND $wsl";
-			//echo $c;
+			$c="SELECT sl.idSistemaLab, e.NumeroDoc, e.idEmpleado, c.Denominacion as cargo, d.Denominacion, cl.Tipo, ec.FechaVac, pva.idPeriodoVacacional, pva.PeriodoVacacional, pv.FechaIni, pv.FechaFin, pv.Estado, pv.Condicion FROM provacaciones pv INNER JOIN empleadocargo ec ON pv.idEmpleadoCargo=ec.idEmpleadoCargo INNER JOIN empleado e ON ec.idEmpleado=e.idEmpleado INNER JOIN condicionlab cl ON ec.idCondicionLab=cl.idCondicionLab INNER JOIN cargo c ON ec.idCargo=c.idCargo INNER JOIN cardependencia cd ON ec.idEmpleadoCargo=cd.idEmpleadoCargo INNER JOIN dependencia d ON cd.idDependencia=d.idDependencia INNER JOIN periodovacacional pva ON pv.idPeriodoVacacional=pva.idPeriodoVacacional INNER JOIN sistemalab sl ON c.idSistemaLab=sl.idSistemaLab WHERE (FechaIni BETWEEN '$mesini' AND '$mesfin') AND cd.Oficial=1 AND $wrl AND $wpv AND $wev AND $wsl";
+			//echo $c." -- ".$mesini." -- ".$mesfin;
+
 			$cpv=mysqli_query($cone,$c);
 			if (mysqli_num_rows($cpv)>0) {
 		?>
@@ -60,8 +69,9 @@ if(accesocon($cone,$_SESSION['identi'],3)){
 					<?php
 						$est="";
 						$cap="";
-						$tot=0;
+						//$tot=0;
 							while($rpc=mysqli_fetch_assoc($cpv)){
+								$dt=intervalo ($rpc['FechaFin'], $rpc['FechaIni']);
 								if ($rpc['Estado']=='0') {
 									$est="info";
 									$cap="Pendiente";
@@ -69,13 +79,15 @@ if(accesocon($cone,$_SESSION['identi'],3)){
 								}elseif($rpc['Estado']=='1') {
 									$est="success";
 									$cap="Ejecutada";
-									//$eje= intervalo($rvac['FechaFin'], $rvac['FechaIni']) + $eje;
+									//$eje= intervalo($rvac['FechaFin'], $rvac['FechaIni']);
 								}elseif ($rpc['Estado']=='2') {
 									$est="danger";
 									$cap="Cancelada";
 								}elseif ($rpc['Estado']=='3'){
 									$est="primary";
 									$cap="Ejecutandose";
+									$hoy= date('Y-m-j');
+									$dt= intervalo($hoy, $rpc['FechaIni']);
 								}elseif ($rpc['Estado']=='5'){
 									$est="default";
 									$cap="Suspendida";
@@ -89,8 +101,7 @@ if(accesocon($cone,$_SESSION['identi'],3)){
 								}else {
 									$con="warning";
 									}
-								$dt=intervalo ($rpc['FechaFin'], $rpc['FechaIni']);
-								$tot= $tot+1;
+									//$tot= $tot+1;
 					?>
 						<tr> <!--Fila de vacaciones-->
 							<td style="font-size:11px;" class="<?php echo $con?>"><?php echo $rpc['NumeroDoc']?></td> <!--columna CÓDIGO-->
