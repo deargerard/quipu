@@ -64,7 +64,7 @@ if(accesoadm($cone,$_SESSION['identi'],4)){
               if(dias > 0){
                 $(".ndias").html(dias + ' Día(s)');
               }else{
-                $(".ndias").html('Error');
+                $(".ndias").html('Error de Fechas');
                 $("#des").val("");
                 $("#has").val("");
               }  
@@ -149,7 +149,7 @@ if(accesoadm($cone,$_SESSION['identi'],4)){
           $(".select2tiplic").select2()
           .on("change",function(e){
             var lic=$("#tlic").val();
-            if (lic==1) {
+            if (lic==1 || lic ==2) {
               $(".ocu").removeClass("hidden");
               $("#med").val("");
               $("#col").val("");

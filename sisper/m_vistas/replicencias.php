@@ -21,9 +21,11 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
           <!-- Custom Tabs -->
           <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
-              <li class="active"><a href="#tab_1" data-toggle="tab">Personal/Tipo Licencia/Año</a></li>
-              <li><a href="#tab_2" data-toggle="tab">Tipo Licencia/Año</a></li>
-              <li><a href="#tab_3" data-toggle="tab">C. Laboral/Mes</a></li>
+              <li class="active"><a href="#tab_1" data-toggle="tab">Personal/Cargo/Tipo Lic./Año</a></li>
+              <li><a href="#tab_2" data-toggle="tab">Personal/Tipo Lic./Fechas</a></li>
+              <li><a href="#tab_3" data-toggle="tab">Tipo Lic./Año</a></li>
+              <li><a href="#tab_4" data-toggle="tab">C. Laboral/Mes</a></li>
+              <li><a href="#tab_5" data-toggle="tab">Sis. Lab./Tipo Lic./Año</a></li>
             </ul>
             <div class="tab-content">
               <div class="tab-pane active" id="tab_1">
@@ -32,36 +34,46 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 <form id="f_pertlicano" class="form-inline">
                   <div class="form-group">
                     <label for="per" class="sr-only">Personal</label>
-                    <select name="per" id="per" class="form-control select2peract col-sm-5" style="width: 300px;">
+                    <select name="per" id="per" class="form-control select2pertot col-sm-5" style="width: 300px;">
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="bbb" class="sr-only">Cargo </label>
+                    <select name="car" id="car" class="form-control select2" style="width: 250px;">
+
                     </select>
                   </div>
                   <div class="form-group">
                     <label for="tlic" class="sr-only">Tipo Licencia</label>
-                    <select class="form-control select2tiplic" id="tlic" name="tlic" style="width: 300px;">
-                    <?php
-                    $c=mysqli_query($cone, "SELECT * FROM tipolic WHERE Estado=1 ORDER BY TipoLic, MotivoLic ASC;");
-                    if(mysqli_num_rows($c)>0){
-                      while ($r=mysqli_fetch_assoc($c)) {
-                    ?>
-                      <option value="<?php echo $r['idTipoLic']; ?>"><?php echo $r['TipoLic']." - ".$r['MotivoLic']; ?></option>
-                    <?php
+                    <select data-actions-box="true" id="tlic" name="tlic[]" class="form-control selectpicker" multiple="multiple" multiple data-selected-text-format="count" title="Tipo Licencia">
+                      <?php
+                      $c=mysqli_query($cone, "SELECT * FROM tipolic WHERE Estado=1 ORDER BY TipoLic, MotivoLic ASC;");
+                      if(mysqli_num_rows($c)>0){
+                        while ($r=mysqli_fetch_assoc($c)) {
+                      ?>
+                        <option value="<?php echo $r['idTipoLic']; ?>"><?php echo $r['TipoLic']." - ".$r['MotivoLic']; ?></option>
+                      <?php
+                        }
                       }
-                    }
-                    mysqli_free_result($c);
+                      mysqli_free_result($c);
+
                     ?>
+
                     </select>
                   </div>
-                  <div class="form-group">
+                  <div class="form-group has-feedback">
                     <label for="ano" class="sr-only">Año</label>
-                    <div class="input-group">
-                      <input type="text" class="form-control" name="ano" id="ano" value="<?php echo date('Y'); ?>">
-                      <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
-                    </div>
+
+                      <span class="fa fa-calendar form-control-feedback"></span>
+                      <input type="text" class="form-control" name="ano" id="ano" value="<?php echo date('Y'); ?>" style="width: 90px;">
+
                   </div>
-                  <div class="checkbox">
-                    <label>
-                      <input type="checkbox" name="vcan" value="c" id="vcan"> Ver Canceladas
-                    </label>
+                  <div class="form-group">
+                    <label for="est" class="sr-only">Estado</label>
+                    <select id="est" name="est[]" class="form-control selectpicker show-tick" multiple data-selected-text-format="count" title="Estado">
+                      <option value="1" selected>Activos</option>
+                      <option value="0">Cancelados</option>
+                    </select>
                   </div>
                       <button type="submit" id="b_pertlicano" class="btn btn-default">Buscar</button>
                 </form>
@@ -80,35 +92,99 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
               <div class="tab-pane" id="tab_2">
 
                 <!--Formulario-->
-                <form id="f_tlicano" class="form-inline">
+                <form id="f_pertlicfec" class="form-inline">
                   <div class="form-group">
-                    <label for="tlice" class="sr-only">Tipo Licencia</label>
-                    <select class="form-control select2tiplice" id="tlice" name="tlice" style="width: 300px;">
-                      <option value="t">Todas</option>
-                    <?php
-                    $c=mysqli_query($cone, "SELECT * FROM tipolic WHERE Estado=1 ORDER BY TipoLic, MotivoLic ASC;");
-                    if(mysqli_num_rows($c)>0){
-                      while ($r=mysqli_fetch_assoc($c)) {
-                    ?>
-                      <option value="<?php echo $r['idTipoLic']; ?>"><?php echo $r['TipoLic']." - ".$r['MotivoLic']; ?></option>
-                    <?php
-                      }
-                    }
-                    mysqli_free_result($c);
-                    ?>
+                    <label for="per" class="sr-only">Personal</label>
+                    <select name="per" id="per" class="form-control select2pertodos col-sm-5" style="width: 300px;">
                     </select>
                   </div>
                   <div class="form-group">
-                    <label for="anio" class="sr-only">Año</label>
-                    <div class="input-group">
-                      <input type="text" class="form-control" name="anio" id="anio" value="<?php echo date('Y'); ?>">
-                      <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
-                    </div>
+                    <label for="tlic" class="sr-only">Tipo Licencia</label>
+                    <select data-actions-box="true" id="tlic" name="tlic[]" class="form-control selectpicker" multiple="multiple" multiple data-selected-text-format="count" title="Tipo Licencia">
+                      <?php
+                      $c=mysqli_query($cone, "SELECT * FROM tipolic WHERE Estado=1 ORDER BY TipoLic, MotivoLic ASC;");
+                      if(mysqli_num_rows($c)>0){
+                        while ($r=mysqli_fetch_assoc($c)) {
+                      ?>
+                        <option value="<?php echo $r['idTipoLic']; ?>"><?php echo $r['TipoLic']." - ".$r['MotivoLic']; ?></option>
+                      <?php
+                        }
+                      }
+                      mysqli_free_result($c);
+
+                    ?>
+
+                    </select>
                   </div>
-                  <div class="checkbox">
-                    <label>
-                      <input type="checkbox" name="vcanc" value="c" id="vcanc"> Ver Canceladas
-                    </label>
+                  <div class="form-group has-feedback">
+                    <label for="fini" class="sr-only">Inicio</label>
+
+                      <span class="fa fa-calendar form-control-feedback"></span>
+                      <input type="text" class="form-control" name="f1" id="f1" style="width: 125px;">
+
+                  </div>
+                  <div class="form-group has-feedback">
+                    <label for="ffin" class="sr-only">Fin</label>
+
+                      <span class="fa fa-calendar form-control-feedback"></span>
+                      <input type="text" class="form-control" name="f2" id="f2" style="width: 125px;">
+
+                  </div>
+                  <div class="form-group">
+                    <label for="est" class="sr-only">Estado</label>
+                    <select id="est" name="est[]" class="form-control selectpicker show-tick" multiple data-selected-text-format="count" title="Estado">
+                      <option value="1" selected>Activos</option>
+                      <option value="0">Cancelados</option>
+                    </select>
+                  </div>
+                      <button type="submit" id="b_pertlicfec" class="btn btn-default">Buscar</button>
+                </form>
+                <!--Fin Formulario-->
+                <!--div resultados-->
+                <div class="row">
+                  <hr>
+                  <div class="col-md-12" id="r_pertlicfec">
+                    <h4 class="text-aqua"><strong>Resultados</strong></h4>
+                  </div>
+                </div>
+                <!--fin div resultados-->
+
+              </div>
+              <!-- /.tab-pane -->
+              <div class="tab-pane" id="tab_3">
+
+                <!--Formulario-->
+                <form id="f_tlicano" class="form-inline">
+                  <div class="form-group">
+                    <label for="tlic" class="sr-only">Tipo Licencia</label>
+                    <select data-actions-box="true" id="tlic" name="tlice[]" class="form-control selectpicker" multiple="multiple" multiple data-selected-text-format="count" title="Tipo Licencia">
+                      <?php
+                      $c=mysqli_query($cone, "SELECT * FROM tipolic WHERE Estado=1 ORDER BY TipoLic, MotivoLic ASC;");
+                      if(mysqli_num_rows($c)>0){
+                        while ($r=mysqli_fetch_assoc($c)) {
+                      ?>
+                        <option value="<?php echo $r['idTipoLic']; ?>"><?php echo $r['TipoLic']." - ".$r['MotivoLic']; ?></option>
+                      <?php
+                        }
+                      }
+                      mysqli_free_result($c);
+
+                    ?>
+
+                    </select>
+                  </div>
+                  <div class="form-group has-feedback">
+                    <label for="anio" class="sr-only">Año</label>
+                      <span class="fa fa-calendar form-control-feedback"></span>
+                      <input type="text" class="form-control" name="anio" id="anio" value="<?php echo date('Y'); ?>" style="width: 90px;">
+
+                  </div>
+                  <div class="form-group">
+                    <label for="est" class="sr-only">Estado</label>
+                    <select id="est" name="est[]" class="form-control selectpicker show-tick" multiple data-selected-text-format="count" title="Estado">
+                      <option value="1" selected>Activos</option>
+                      <option value="0">Cancelados</option>
+                    </select>
                   </div>
                       <button type="submit" id="b_tlicano" class="btn btn-default">Buscar</button>
                 </form>
@@ -124,38 +200,39 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
 
               </div>
               <!-- /.tab-pane -->
-              <div class="tab-pane" id="tab_3">
+              <div class="tab-pane" id="tab_4">
 
                 <!--Formulario-->
                 <form id="f_clabmes" class="form-inline">
                   <div class="form-group">
                     <label for="clab" class="sr-only">C. Laboral</label>
-                    <select class="form-control select2clab" id="clab" name="clab" style="width: 200px;">
-                      <option value="t">TODAS</option>
-                    <?php
-                    $c=mysqli_query($cone, "SELECT * FROM condicionlab WHERE Estado=1 ORDER BY Tipo ASC;");
-                    if(mysqli_num_rows($c)>0){
-                      while ($r=mysqli_fetch_assoc($c)) {
-                    ?>
-                      <option value="<?php echo $r['idCondicionLab']; ?>"><?php echo $r['Tipo']; ?></option>
-                    <?php
+                    <select data-actions-box="true" id="clab" name="clab[]" class="form-control selectpicker" multiple="multiple" multiple data-selected-text-format="count" title="CONDICIÓN LABORAL">
+                      <?php
+                      $c=mysqli_query($cone, "SELECT * FROM condicionlab WHERE Estado=1 AND Tipo<>'SECIGRA' AND Tipo<>'VOLUNTARIADO' ORDER BY Tipo ASC;");
+                      if(mysqli_num_rows($c)>0){
+                        while ($r=mysqli_fetch_assoc($c)) {
+                      ?>
+                        <option value="<?php echo $r['idCondicionLab']; ?>"><?php echo $r['Tipo']; ?></option>
+                      <?php
+                        }
                       }
-                    }
-                    mysqli_free_result($c);
-                    ?>
+                      mysqli_free_result($c);
+                      ?>
                     </select>
                   </div>
-                  <div class="form-group">
+                  <div class="form-group has-feedback">
                     <label for="mes" class="sr-only">Mes</label>
-                    <div class="input-group">
-                      <input type="text" class="form-control" name="mes" id="mes" value="<?php echo date('m/Y'); ?>">
-                      <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
-                    </div>
+
+                      <span class="fa fa-calendar form-control-feedback"></span>
+                      <input type="text" class="form-control" name="mes" id="mes" value="<?php echo date('m/Y'); ?>" style="width: 110px;">
+
                   </div>
-                  <div class="checkbox">
-                    <label>
-                      <input type="checkbox" name="vcancm" value="c" id="vcancm"> Ver Canceladas
-                    </label>
+                  <div class="form-group">
+                    <label for="est" class="sr-only">Estado</label>
+                    <select id="est" name="est[]" class="form-control selectpicker show-tick" multiple data-selected-text-format="count" title="Estado">
+                      <option value="1" selected>Activos</option>
+                      <option value="0">Cancelados</option>
+                    </select>
                   </div>
                       <button type="submit" id="b_clabmes" class="btn btn-default">Buscar</button>
                 </form>
@@ -164,6 +241,72 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 <div class="row">
                   <hr>
                   <div class="col-md-12" id="r_clabmes">
+                    <h4 class="text-aqua"><strong>Resultados</strong></h4>
+                  </div>
+                </div>
+                <!--fin div resultados-->
+
+              </div>
+              <!-- /.tab-pane -->
+              <div class="tab-pane" id="tab_5">
+
+                <!--Formulario-->
+                <form id="f_slabtlicano" class="form-inline">
+                  <div class="form-group">
+                    <label for="slab" class="sr-only">S. Laboral</label>
+                    <select data-actions-box="true" id="slab" name="slab[]" class="form-control selectpicker" multiple="multiple" multiple data-selected-text-format="count" title="SISTEMA LABORAL">
+                      <?php
+                      $c=mysqli_query($cone, "SELECT * FROM sistemalab WHERE SistemaLab<>'SECIGRA' AND SistemaLab<>'VOLUNTARIADO' ORDER BY SistemaLab ASC;");
+                      if(mysqli_num_rows($c)>0){
+                        while ($r=mysqli_fetch_assoc($c)) {
+                      ?>
+                        <option value="<?php echo $r['idSistemaLab']; ?>"><?php echo $r['SistemaLab']; ?></option>
+                      <?php
+                        }
+                      }
+                      mysqli_free_result($c);
+                      ?>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="tlic" class="sr-only">Tipo Licencia</label>
+                    <select data-actions-box="true" id="tlic" name="tlic[]" class="form-control selectpicker" multiple="multiple" multiple data-selected-text-format="count" title="Tipo Licencia">
+                      <?php
+                      $c=mysqli_query($cone, "SELECT * FROM tipolic WHERE Estado=1 ORDER BY TipoLic, MotivoLic ASC;");
+                      if(mysqli_num_rows($c)>0){
+                        while ($r=mysqli_fetch_assoc($c)) {
+                      ?>
+                        <option value="<?php echo $r['idTipoLic']; ?>"><?php echo $r['TipoLic']." - ".$r['MotivoLic']; ?></option>
+                      <?php
+                        }
+                      }
+                      mysqli_free_result($c);
+
+                    ?>
+
+                    </select>
+                  </div>
+                  <div class="form-group has-feedback">
+                    <label for="ano" class="sr-only">Año</label>
+
+                      <span class="fa fa-calendar form-control-feedback"></span>
+                      <input type="text" class="form-control" name="ano" id="ano" value="<?php echo date('Y'); ?>" style="width: 90px;">
+
+                  </div>
+                  <div class="form-group">
+                    <label for="est" class="sr-only">Estado</label>
+                    <select id="est" name="est[]" class="form-control selectpicker show-tick" multiple data-selected-text-format="count" title="Estado">
+                      <option value="1" selected>Activos</option>
+                      <option value="0">Cancelados</option>
+                    </select>
+                  </div>
+                      <button type="submit" id="b_slabtlicano" class="btn btn-default">Buscar</button>
+                </form>
+                <!--Fin Formulario-->
+                <!--div resultados-->
+                <div class="row">
+                  <hr>
+                  <div class="col-md-12" id="r_slabtlicano">
                     <h4 class="text-aqua"><strong>Resultados</strong></h4>
                   </div>
                 </div>
