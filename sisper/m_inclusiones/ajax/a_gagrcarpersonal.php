@@ -21,7 +21,7 @@ if(accesoadm($cone,$_SESSION['identi'],1)){
             $numcont=imseguro($cone,$_POST['numcont']);
             $mot=iseguro($cone,$_POST['mot']);
             if(isset($idper) && !empty($idper) && isset($sislab) && !empty($sislab) && isset($car) && !empty($car) && isset($dep) && !empty($dep) && isset($fecasu) && !empty($fecasu)){
-                  $sql="INSERT INTO empleadocargo (idEmpleado, idCargo, Rol, Concurso, idCondicionCar, idModAcceso, FechaAsu, FechaJur, FechaVen, Reemplazado, Motivo, idCondicionLab, NumResolucion, NumContrato, idEstadoCar) VALUES ($idper, $car, '$rol', '$numcon', $concar, $tiping, '$fecasu', '$fecjur', '$fecven', $rem, '$mot', $conlab, '$numres', '$numcont',1)";
+                  $sql="INSERT INTO empleadocargo (idEmpleado, idCargo, Rol, Concurso, idCondicionCar, idModAcceso, FechaAsu, FechaJur, FechaVen, FechaVac, Reemplazado, Motivo, idCondicionLab, NumResolucion, NumContrato, idEstadoCar) VALUES ($idper, $car, '$rol', '$numcon', $concar, $tiping, '$fecasu', '$fecjur', '$fecven','$fecasu' , $rem, '$mot', $conlab, '$numres', '$numcont',1)";
                   if(mysqli_query($cone,$sql)){
                         $idec=mysqli_insert_id($cone);
                         if(!mysqli_query($cone,"INSERT INTO cardependencia (idEmpleadocargo, idDependencia, idTipoDesplaza, FecInicio, NumResolucion, Motivo, Estado, Oficial) VALUES ($idec, $dep, 1, '$fecasu', '$numres', 'DEPENDENCIA INICIAL', 1, 1)")){

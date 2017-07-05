@@ -4,14 +4,26 @@ include("../php/conexion_sp.php");
 include("../php/funciones.php");
 if(accesocon($cone,$_SESSION['identi'],4)){
 
-	if(isset($_POST['clab']) && !empty($_POST['clab']) && isset($_POST['mes']) && !empty($_POST['mes'])){
-		$clab=iseguro($cone,$_POST['clab']);
+	if(isset($_POST['clab']) && !empty($_POST['clab']) && isset($_POST['mes']) && !empty($_POST['mes']) && isset($_POST['est'])){
+		$clab=$_POST['clab'];
 		$mes=iseguro($cone,$_POST['mes']);
-		$vcancm=iseguro($cone,$_POST['vcancm']);
+		$est=$_POST['est'];
+
 		$vc=$vcancm=="c" ? "" : "li.Estado=1 AND";
 		$cclab=$clab=="t" ? "" : "idCondicionLab=$clab AND";
+
+		$wca="(";
+		for ($j=0; $j < count($est); $j++) {
+			$wca.=$j==(count($est)-1) ? " li.Estado=$est[$j])" : "li.Estado=$est[$j] OR ";
+		}
+
+		$wcl="(";
+		for ($j=0; $j < count($clab); $j++) {
+			$wcl.=$j==(count($clab)-1) ? " idCondicionLab=$clab[$j])" : "idCondicionLab=$clab[$j] OR ";
+		}
+
 		$dat=false;
-		$c=mysqli_query($cone,"SELECT * FROM condicionlab WHERE $cclab Estado=1 ORDER BY Tipo ASC;");
+		$c=mysqli_query($cone,"SELECT * FROM condicionlab WHERE $wcl ORDER BY Tipo ASC;");
 		if(mysqli_num_rows($c)>0){
 ?>
 			<div class="row">
@@ -22,7 +34,7 @@ if(accesocon($cone,$_SESSION['identi'],4)){
 <?php
 			while($r=mysqli_fetch_assoc($c)){
 				$icl=$r['idCondicionLab'];
-				$c1=mysqli_query($cone,"SELECT ec.idEmpleado, c.Denominacion, cc.CondicionCar, tl.MotivoLic, tl.TipoLic, li.FechaIni, li.FechaFin, d.Numero, d.Ano, d.Siglas, li.Estado FROM licencia li INNER JOIN aprlicencia al ON li.idLicencia=al.idLicencia INNER JOIN doc d ON al.idDoc=d.idDoc INNER JOIN tipolic tl ON li.idTipoLic=tl.idTipoLic INNER JOIN empleadocargo ec ON li.idEmpleadoCargo=ec.idEmpleadoCargo INNER JOIN cargo c ON ec.idCargo=c.idCargo INNER JOIN condicioncar cc ON ec.idCondicionCar=cc.idCondicionCar WHERE $vc ec.idCondicionLab=$icl AND DATE_FORMAT(FechaIni,'%m/%Y')='$mes' ORDER BY FechaIni ASC;");
+				$c1=mysqli_query($cone,"SELECT ec.idEmpleado, c.Denominacion, cc.CondicionCar, tl.MotivoLic, tl.TipoLic, li.FechaIni, li.FechaFin, d.Numero, d.Ano, d.Siglas, li.Estado FROM licencia li INNER JOIN aprlicencia al ON li.idLicencia=al.idLicencia INNER JOIN doc d ON al.idDoc=d.idDoc INNER JOIN tipolic tl ON li.idTipoLic=tl.idTipoLic INNER JOIN empleadocargo ec ON li.idEmpleadoCargo=ec.idEmpleadoCargo INNER JOIN cargo c ON ec.idCargo=c.idCargo INNER JOIN condicioncar cc ON ec.idCondicionCar=cc.idCondicionCar WHERE $wca AND ec.idCondicionLab=$icl AND DATE_FORMAT(FechaIni,'%m/%Y')='$mes' ORDER BY FechaIni ASC;");
 				if (mysqli_num_rows($c1)>0) {
 					$dat=true;
 ?>
@@ -48,6 +60,7 @@ if(accesocon($cone,$_SESSION['identi'],4)){
 <?php
 					$num=0;
 					$nd=0;
+					$lc=0;
 					while ($r1=mysqli_fetch_assoc($c1)) {
 						$num++;
 				        $f1=$r1['FechaFin'];
@@ -58,6 +71,8 @@ if(accesocon($cone,$_SESSION['identi'],4)){
 				        $dias=$tie->format('%a')+1;
 				        if($r1['Estado']==1){
 				        	$nd=$nd+$dias;
+				        }else{
+				        	$lc++;
 				        }
 						$con=$r1['CondicionCar']="NINGUNO" ? "" : " (".substr($r1['CondicionCar'],0,1).")";
 ?>
@@ -76,7 +91,7 @@ if(accesocon($cone,$_SESSION['identi'],4)){
 					}
 ?>
 							<tr class="text-olive">
-								<td colspan="9">Total <strong class="text-green"><?php echo $nd; ?></strong> día(s)</td>
+								<td colspan="9" class="text-olive"><strong><?php echo ($num-$lc); ?> licencia(s)</strong>, haciendo un total de <strong><?php echo $nd; ?> día(s)</strong></td>
 							</tr>
 						</tbody>
 					</table>
@@ -91,7 +106,7 @@ if(accesocon($cone,$_SESSION['identi'],4)){
 		mysqli_free_result($c);
 		mysqli_close($cone);
 	}else{
-		echo mensajewa("Error: Personal y año, son campos obligatorios.");
+		echo mensajewa("Error: Todos los campos son obligatorios.");
 	}
 }else{
   echo accrestringidoa();

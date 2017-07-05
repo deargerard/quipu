@@ -39,6 +39,20 @@ if(accesoadm($cone,$_SESSION['identi'],1)){
                                     }
                               }
                               echo mensajesu("Listo: Nuevo estado registrado correctamente.");
+                              if($estcar==2){
+                                    if(!mysqli_query($cone,"UPDATE provacaciones SET Estado=5 WHERE idEmpleadoCargo=$idec AND (Estado=0 OR Estado=4);")){
+                                          echo mensajeda("Error: ".mysqli_error($cone)." Al cambiar estado del las vacaciones.");
+                                    }else{
+                                          echo mensajewa("Noticia: Sus vacaciones pendientes y planificadas se suspendieron.");
+                                    }
+                              }elseif($estcar==3){
+                                    if(!mysqli_query($cone,"UPDATE provacaciones SET Estado=2 WHERE idEmpleadoCargo=$idec AND (Estado=0 OR Estado=4);")){
+                                          echo mensajeda("Error: ".mysqli_error($cone)." Al cambiar estado del las vacaciones.");
+                                    }else{
+                                          echo mensajewa("Noticia: Sus vacaciones pendientes y planificadas se cancelaron.");
+                                    }
+                              }
+
                         }else{
                               echo mensajeda("Error: No se pudo registrar. ". mysqli_error($cone));
                         }

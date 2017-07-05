@@ -839,3 +839,18 @@ $(".select2doc").select2({
   },
   minimumInputLength: 4
 });
+$(".select2pertodos").select2({
+  placeholder: 'Selecione a un personal',
+  ajax: {
+    url: 'm_inclusiones/a_general/a_seltodopersonal.php',
+    dataType: 'json',
+    delay: 250,
+    processResults: function (data) {
+      return {
+        results: data
+      };
+    },
+    cache: true
+  },
+  minimumInputLength: 4
+})

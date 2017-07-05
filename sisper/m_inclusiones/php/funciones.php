@@ -611,7 +611,13 @@ function estadocar($est){
 	    case "CESADO": return "<span class='label label-danger'>CESADO</span>"; break;
 	}
 }
-
+function estadolic($est){
+	switch ($est){
+	    case "ACTIVO": return "<span class='label label-success'>ACTIVO</span>"; break;
+	    case "RESERVADO": return "<span class='label label-warning'>RESERVADO</span>"; break;
+	    case "CESADO": return "<span class='label label-danger'>CESADO</span>"; break;
+	}
+}
 //funcion intervalo de fechas
 function intervalo($f1, $f2) {
   $dias	= (strtotime($f1)-strtotime($f2))/86400;
@@ -621,5 +627,14 @@ function intervalo($f1, $f2) {
 	return $dias;
 }
 //Fin Funcion intervalo de fechas
-
+//funcion cargo por idEmpleadocargo
+function cargoiec($con, $idec){
+	$c=mysqli_query($con, "SELECT c.Denominacion, cc.CondicionCar FROM empleadocargo ec INNER JOIN cargo c ON ec.idCargo=c.idCargo INNER JOIN condicioncar cc ON ec.idCondicionCar=cc.idCondicionCar WHERE ec.idEmpleadoCargo=$idec");
+	if($r=mysqli_fetch_assoc($c)){
+		return $r['CondicionCar']=="NINGUNO" ? $r['Denominacion'] : $r['Denominacion']." (".substr($r['CondicionCar'],0,1).")";
+	}else{
+		return "Error";
+	}
+}
+//funcion cargo por idEmpleadocargo
 ?>

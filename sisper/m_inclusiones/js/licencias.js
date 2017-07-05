@@ -18,6 +18,28 @@ $("#mes").datepicker({
   endDate: new Date(),
   startView: "month" //does not work
 });
+$("#f1").datepicker({
+  autoclose: true,
+  todayHighlight: true,
+  format: "dd/mm/yyyy",
+  language: "es",
+  endDate: new Date(),
+})
+.on('changeDate', function (selected) {
+  var minDate = new Date(selected.date.valueOf());
+  $('#f2').datepicker('setStartDate', minDate);
+});
+$("#f2").datepicker({
+  autoclose: true,
+  todayHighlight: true,
+  format: "dd/mm/yyyy",
+  language: "es",
+  endDate: new Date(),
+})
+.on('changeDate', function (selected) {
+    var maxDate = new Date(selected.date.valueOf());
+    $('#f1').datepicker('setEndDate', maxDate);
+});
 $("#f_licper").submit(function(e){
   e.preventDefault();
   var datos = $("#f_licper").serializeArray();
@@ -188,18 +210,12 @@ $( "#f_nuelic" ).validate( {
     }
   } );
 $('#m_nuelic,#m_edilic,#m_estlic').on('hidden.bs.modal', function () {
-      var licper = $("#licper").val();
-      var ano = $('#ano').val();
-      if($('#vcan').prop('checked')){
-        var vcan = "c";
-      }else{
-        var vcan = "";
-      }
+      var datos = $("#f_licper").serializeArray();
       $.ajax({
          type: "POST",
          url: "m_inclusiones/a_licencias/a_blicper.php",
          dataType: "html",
-         data: {licper: licper, ano: ano, vcan: vcan},   // I WANT TO ADD EXTRA DATA + SERIALIZE DATA
+         data: datos,   // I WANT TO ADD EXTRA DATA + SERIALIZE DATA
          beforeSend: function () {
             $("#b_blicper").html("<i class='fa fa-spinner fa-spin'></i> Actualizando");
             $("#b_blicper").addClass("disabled");
@@ -407,3 +423,39 @@ $("#f_clabmes").submit(function(e){
     });
 });
 //reporte C.laboral/Mes
+//reporte personal/tipolic/fechas
+$("#f_pertlicfec").submit(function(e){
+  e.preventDefault();
+  var datos = $("#f_pertlicfec").serializeArray();
+  $.ajax({
+        data:  datos,
+        url:   "m_inclusiones/a_licencias/a_bpertlicfec.php",
+        type:  "post",
+        beforeSend: function () {
+          $("#b_pertlicfec").html("<i class='fa fa-spinner fa-spin'></i> Buscando");
+        },
+        success:  function (response) {
+          $("#b_pertlicfec").html("Buscar");
+          $("#r_pertlicfec").html(response);
+        }
+    });
+});
+//reporte personal/tipolic/fechas
+//reporte personal/tipolic/fechas
+$("#f_slabtlicano").submit(function(e){
+  e.preventDefault();
+  var datos = $("#f_slabtlicano").serializeArray();
+  $.ajax({
+        data:  datos,
+        url:   "m_inclusiones/a_licencias/a_bslabtlicano.php",
+        type:  "post",
+        beforeSend: function () {
+          $("#b_slabtlicano").html("<i class='fa fa-spinner fa-spin'></i> Buscando");
+        },
+        success:  function (response) {
+          $("#b_slabtlicano").html("Buscar");
+          $("#r_slabtlicano").html(response);
+        }
+    });
+});
+//reporte personal/tipolic/fechas

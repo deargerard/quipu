@@ -37,17 +37,17 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                         <select name="licper" id="licper" class="form-control select2peract" style="width: 350px;">
                         </select>
                       </div>
-                      <div class="form-group">
+                      <div class="form-group has-feedback">
                         <label for="ano" class="sr-only">Año</label>
-                        <div class="input-group">
-                          <input type="text" class="form-control" name="ano" id="ano" value="<?php echo date('Y'); ?>">
-                          <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
-                        </div>
+                          <span class="fa fa-calendar form-control-feedback"></span>
+                          <input type="text" class="form-control" name="ano" id="ano" value="<?php echo date('Y'); ?>" style="width: 90px;">
                       </div>
-                      <div class="checkbox">
-                        <label>
-                          <input type="checkbox" name="vcan" value="c" id="vcan"> Ver Canceladas
-                        </label>
+                      <div class="form-group">
+                        <label for="est" class="sr-only">Estado</label>
+                        <select id="est" name="est[]" class="form-control selectpicker show-tick" multiple data-selected-text-format="count" title="Estado">
+                          <option value="1" selected>Activos</option>
+                          <option value="0">Cancelados</option>
+                        </select>
                       </div>
                           <button type="submit" id="b_blicper" class="btn btn-default">Buscar</button>
                     </form>
@@ -89,7 +89,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
       </div>
       <div class="modal-footer">
         <button type="submit" class="btn bg-teal" id="b_gnuelic">Guardar</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
       </div>
     </div>
   </div>
@@ -110,7 +110,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
       </div>
       <div class="modal-footer">
         <button type="submit" class="btn bg-teal" id="b_gedilic">Guardar</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
       </div>
     </div>
   </div>
@@ -170,7 +170,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
       </div>
       <div class="modal-footer">
         <button type="submit" class="btn bg-teal" id="b_gnuedocu">Guardar</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
       </div>
     </div>
   </div>
