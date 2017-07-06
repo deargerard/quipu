@@ -89,7 +89,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
       </div>
       <div class="modal-footer">
         <button type="submit" class="btn bg-teal" id="b_gnuelic">Guardar</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
       </div>
     </div>
   </div>
@@ -110,7 +110,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
       </div>
       <div class="modal-footer">
         <button type="submit" class="btn bg-teal" id="b_gedilic">Guardar</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
       </div>
     </div>
   </div>
@@ -170,7 +170,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
       </div>
       <div class="modal-footer">
         <button type="submit" class="btn bg-teal" id="b_gnuedocu">Guardar</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
       </div>
     </div>
   </div>
