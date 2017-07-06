@@ -23,7 +23,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
             <ul class="nav nav-tabs">
               <li class="active"><a href="#tab_1" data-toggle="tab">Vacaciones por Trabajador</a></li>
               <li><a href="#tab_2" data-toggle="tab">Vacaciones por Período</a></li>
-              <li><a href="#tab_3" data-toggle="tab">Vacaciones por Mes</a></li>
+              <li><a href="#tab_3" data-toggle="tab">Vacaciones por Meses</a></li>
               <!--<li><a href="#tab_4" data-toggle="tab">Vacaciones por Sistema Laboral</a></li>-->
             </ul>
             <div class="tab-content">
@@ -158,8 +158,13 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 <!--Formulario-->
                 <form action="" id="f_rejva" class="form-inline">
                   <div class="form-group">
-                    <label for="aaa" class="sr-only">Mes</label>
-                    <input class="form-control" id="meseje" name="mes" placeholder="MM//AAAA">
+                    <label for="aaa" class="sr-only">Mes Inicial</label>
+                    <input class="form-control" id="mesini" name="mesini" placeholder="MM/AAAA (INICIO)">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="aaa" class="sr-only">Mes Final</label>
+                    <input class="form-control" id="mesfin" name="mesfin" placeholder="MM/AAAA (FIN)">
                   </div>
 
                   <div class="form-group">

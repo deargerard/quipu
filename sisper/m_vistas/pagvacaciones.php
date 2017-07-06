@@ -54,7 +54,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                       </div>
                       <button class="btn btn-default" type="button" id="b_nperiodo" data-toggle="modal" data-target="#m_nperiodo"><i class="fa fa-calendar-plus-o" ></i></button>
                       <div class="checkbox">
-                        <label><input type="checkbox" name="can" id="can" value="2"> Ver Canceladas</label>
+                        <label style="font-size:12px;"><input type="checkbox" name="can" id="can" value="2"> VER CANCELADAS </label>
                       </div>
 
                       <button type="submit" id="b_bvacper" class="btn btn-default">Buscar</button>
