@@ -182,7 +182,7 @@ if(accesoadm($cone,$_SESSION['identi'],4)){
               },
               cache: true
             },
-            minimumInputLength: 4
+            minimumInputLength: 1
           });
           //funcion llamar formulario nuevo documento
           $("#b_nuedoc").on("click",function(e){

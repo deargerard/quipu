@@ -140,7 +140,7 @@ if(accesoadm($cone,$_SESSION['identi'],3)){
        },
        cache: true
      },
-     minimumInputLength: 2
+     minimumInputLength: 1
    });
 //fin funcion seleccionar docuento
    //funcion llamar formulario nuevo documento
