@@ -837,7 +837,7 @@ $(".select2doc").select2({
     },
     cache: true
   },
-  minimumInputLength: 4
+  minimumInputLength: 1
 });
 $(".select2pertodos").select2({
   placeholder: 'Selecione a un personal',
