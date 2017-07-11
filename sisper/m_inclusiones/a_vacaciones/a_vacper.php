@@ -206,7 +206,6 @@ $tot=0;
 	</table>
 		<table class="table table-hover table-bordered"> <!--Datos relacionados a los dias de vacaciones-->
 			<tr>
-				<input type="hidden" name="dt" id="dt" value="<?php echo $dt?>">
 				<input type="hidden" name="df" id="df" value="<?php echo $tot ?>">
 			<?php
 			if ($tot!=0){
@@ -228,6 +227,7 @@ $tot=0;
 			<?php
 			}
 		}
+
 			?>
 			</tr>
 	</table>

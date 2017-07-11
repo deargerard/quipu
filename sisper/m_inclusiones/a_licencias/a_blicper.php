@@ -35,6 +35,7 @@ if(isset($_POST['licper']) && !empty($_POST['licper']) && isset($_POST['ano']) &
 </div>
 <br>
 <?php
+
 $cc=mysqli_query($cone,"SELECT idEmpleadoCargo, Denominacion, Tipo, idEstadoCar, CondicionCar FROM empleadocargo ec INNER JOIN cargo c ON ec.idCargo=c.idCargo INNER JOIN condicionlab cl ON ec.idCondicionLab=cl.idCondicionLab INNER JOIN condicioncar cc ON ec.idCondicionCar=cc.idCondicionCar WHERE ec.idEmpleado=$licper ORDER BY idEmpleadoCargo DESC;");
 if(mysqli_num_rows($cc)>0){
 	$dat=false;
@@ -43,6 +44,7 @@ if(mysqli_num_rows($cc)>0){
 	$lt=0;
 	$ltt=0;
 	$litt=0;
+	$con=0;
 	while ($rc=mysqli_fetch_assoc($cc)) {
 		$idec=$rc['idEmpleadoCargo'];
 		$cond=$rc['CondicionCar']=="NINGUNO" ? "" : " (".substr($rc['CondicionCar'], 0, 1).")";
@@ -50,6 +52,7 @@ if(mysqli_num_rows($cc)>0){
 			
 			if(mysqli_num_rows($c)>0){
 				$dat=true;
+				$con++;
 		?>
 			<table class="table table-hover table-bordered">
 				<thead>
@@ -143,6 +146,11 @@ if(mysqli_num_rows($cc)>0){
 				</tbody>
 			</table>
 		<?php
+			}else{
+				$lt=0;
+				$ndl=0;
+				$nd=0;
+				$lit=0;
 			}
 			$dit=$dit+$nd;
 			$ditt=$ditt+$ndl;
@@ -152,6 +160,7 @@ if(mysqli_num_rows($cc)>0){
 	if(!$dat){
 		echo mensajewa("Para el $ano, según el criterio de búsqueda, no presenta licencias.");
 	}
+	if ($con>1) {
 	?>
 			<table class="table table-bordered table-hover">
 				<tr>
@@ -160,6 +169,7 @@ if(mysqli_num_rows($cc)>0){
 				</tr>
 			</table>
 	<?php
+	}
 }else{
 	echo mensajewa("Error: No se enviaron datos válidos.");
 }

@@ -76,9 +76,9 @@ if(accesoadm($cone,$_SESSION['identi'],4)){
     			</script>
         </div>
         <div class="form-group">
-          <label for="mot" class="col-sm-2 control-label">Motivo</label>
+          <label for="mot" class="col-sm-2 control-label">Observación</label>
           <div class="col-sm-10 valida">
-            <textarea class="form-control" name="mot" id="mot" rows="3" placeholder="Motivo"></textarea>
+            <textarea class="form-control" name="mot" id="mot" rows="3" placeholder="Observación">Ninguna</textarea>
           </div>
         </div>
         <div class="form-group has-feedback ocu">
@@ -182,7 +182,7 @@ if(accesoadm($cone,$_SESSION['identi'],4)){
               },
               cache: true
             },
-            minimumInputLength: 4
+            minimumInputLength: 1
           });
           //funcion llamar formulario nuevo documento
           $("#b_nuedoc").on("click",function(e){

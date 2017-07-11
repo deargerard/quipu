@@ -94,7 +94,7 @@ if(accesoadm($cone,$_SESSION['identi'],3)){
                     var dias = Math.floor(dif / (1000 * 60 * 60 * 24))+1;
                     if(dias > 0){
                       var df=parseInt($("#df").val());
-                      var dt=parseInt($("#dt").val());
+                      var dt=parseInt(<?php echo $dp ?>);
                       df=df+dt;
                        if (dias>df) {
                          $("#msg").html("¡Error!, solo tiene "+df+" días pendientes y ha escogido un período de "+dias+" días.");
@@ -133,7 +133,7 @@ if(accesoadm($cone,$_SESSION['identi'],3)){
                      var dias = Math.floor(dif / (1000 * 60 * 60 * 24))+1;
                      if(dias > 0){
                        var df=parseInt($("#df").val());
-                       var dt=parseInt($("#dt").val());
+                       var dt=parseInt(<?php echo $dp ?>);
                        df=df+dt;
                         if (dias>df) {
                           $("#msg").html("¡Error!, solo tiene "+df+" días pendientes y ha escogido un período de "+dias+" días.");

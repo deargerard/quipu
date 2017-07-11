@@ -48,7 +48,7 @@ if(isset($_POST['fini']) && isset($_POST['ffin'])){
 				<td><?php echo $rc['TipoDoc']; ?></td>
 				<td><?php echo $rc['Numero']."-".$rc['Ano']."-".$rc['Siglas']; ?></td>
 				<td><?php echo $rc['Legajo']; ?></td>
-				<td><?php echo strlen($rc['Descripcion'])<120 ? $rc['Descripcion'] : substr($rc['Descripcion'],0,120)."..."; ?></td>
+				<td><?php echo strlen($rc['Descripcion'])<170 ? $rc['Descripcion'] : substr(html_entity_decode($rc['Descripcion']),0,170)."..."; ?></td>
 <?php
 				if(accesoadm($cone,$_SESSION['identi'],13)){
 ?>
