@@ -20,7 +20,7 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Perfil
+        Ficha Personal
       </h1>
       <ol class="breadcrumb">
         <li><a href="dboard.php"><i class="fa fa-home"></i> Inicio</a></li>
@@ -128,10 +128,10 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
             </ul>
             <div class="tab-content">
               <div class="active tab-pane" id="datose">
-              	
+
                 <!-- Tabla -->
                 <div class="row">
-                	<?php 
+                	<?php
 	              		$cemp=mysqli_query($cone,"SELECT * FROM empleado WHERE idEmpleado=$idp");
 	              		$remp=mysqli_fetch_assoc($cemp);
 	              	?>
@@ -205,7 +205,7 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
 		                	</table>
 		                </div>
 		                <!--Nueva Tabla-->
-		                
+
 		            </div>
 					<!--Siguiente Columna-->
 		            <div class="col-md-6">
@@ -277,7 +277,7 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
 		                	<?php } ?>
 		                </div>
 		                <div class="table-responsive table-bordered">
-		                	<?php 
+		                	<?php
 		                		$cdom=mysqli_query($cone,"SELECT * FROM domicilio WHERE idEmpleado=$idp");
 		                		$rdom=mysqli_fetch_assoc($cdom);
 		                	?>
@@ -349,7 +349,7 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
             							case 6:
             								$mod='SUPLENCIA';
             								break;
-            							
+
             							default:
             								$mod='--';
             								break;
@@ -403,7 +403,7 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
 	                								<li class="divider"></li>
 	                								<li><a href="#" data-toggle="modal" data-target="#m_edicarpersonal" onclick="edicarpersonal(<?php echo $rc['idEmpleadoCargo'] ?>)">Editar Cargo</a></li>
 	                								<li><a href="#" data-toggle="modal" data-target="#m_nueestcargo" onclick="nueestcargo(<?php echo $rc['idEmpleadoCargo'] ?>)">Cambiar Estado</a></li>
-	                								<?php 
+	                								<?php
 	                										if ($rc['FechaIni']!=$rc['FechaAsu']) {
 
 	                								?>
@@ -425,7 +425,7 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
 			                	  <div class="box-header">
 			                		<h4 class="box-title text-orange"><i class="fa fa-bus"></i> Desplazamientos</h4>
 			                		<?php
-			                		if(accesoadm($cone,$_SESSION['identi'],1)){ 
+			                		if(accesoadm($cone,$_SESSION['identi'],1)){
 			                		if($rc['EstadoCar']=="ACTIVO"){
 			                		?>
 			                		<a href="" class="btn btn-info pull-right btn-xs" data-toggle="modal" data-target="#m_nuedesplazamiento" onclick="nuedesplazamiento(<?php echo $idec ?>)"><i class="fa fa-plane"></i> Desplazar</a>
@@ -525,7 +525,7 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
 		                	$cp=mysqli_query($cone,"SELECT idPariente, TipoPariente, ApellidoPat, ApellidoMat, Nombres, TipoDoc, NumeroDoc, ContactoEme FROM pariente AS p INNER JOIN tipopariente AS tp ON p.idTipoPariente=tp.idTipoPariente WHERE idEmpleado=$idp ORDER BY FechaNac ASC");
 		                	if(mysqli_num_rows($cp)>0){
 		                	?>
-		                	
+
 		                	<table class="table table-striped table-bordered">
 		                		<thead>
 		                			<th>PARENTESCO</th>
@@ -581,7 +581,7 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
 		                	?>
 		                </div>
 		            </div>
-		        </div>                
+		        </div>
               </div>
               <!-- /.tab-pane -->
 
@@ -599,7 +599,7 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
 		                	$cgt=mysqli_query($cone,"SELECT idGradoTitulo, NivGraTit, Denominacion, Institucion, NumeroCol FROM gradotitulo AS gt INNER JOIN nivgratit AS ngt ON gt.idNivGraTit=ngt.idNivGraTit WHERE idEmpleado=$idp ORDER BY FechaExp DESC");
 		                	if(mysqli_num_rows($cgt)>0){
 		                	?>
-		                	
+
 		                	<table class="table table-striped table-bordered">
 		                		<thead>
 		                			<th>GRADO/TITULO</th>
@@ -666,7 +666,7 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
 		                	$cca=mysqli_query($cone,"SELECT idCapacitacion, Denominacion, TipCap, Duracion FROM capacitacion AS c INNER JOIN tipcap AS tc ON c.idTipCap=tc.idTipCap WHERE idEmpleado=$idp ORDER BY FechaIni DESC");
 		                	if(mysqli_num_rows($cca)>0){
 		                	?>
-		                	
+
 		                	<table class="table table-striped table-bordered">
 		                		<thead>
 		                			<th>DENOMINACIÓN</th>
@@ -732,7 +732,7 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
 		                	$cel=mysqli_query($cone,"SELECT idExpLaboral, Institucion, Cargo, FechaIni, FechaFin FROM explaboral WHERE idEmpleado=$idp ORDER BY FechaIni DESC");
 		                	if(mysqli_num_rows($cel)>0){
 		                	?>
-		                	
+
 		                	<table class="table table-striped table-bordered">
 		                		<thead>
 		                			<th>INSTITUCIÓN</th>
@@ -811,7 +811,7 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
         <h4 class="modal-title" id="myModalLabel">CARGO</h4>
       </div>
       <div class="modal-body" id="r_detcargo">
-        
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
@@ -1513,4 +1513,3 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
   header('Location: ../index.php');
 }
 ?>
-

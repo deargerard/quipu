@@ -10,23 +10,16 @@ if(vacceso($cone,$_SESSION['identi'],$_SESSION['docide'],$_SESSION['nomusu'])){
 	$js="<script src='m_inclusiones/js/upload.js'></script>\n";
 	$js.="<script src='m_inclusiones/js/bootstrap-filestyle.min.js'></script>\n";
   include("m_estructura/e_up.php");
-  include("m_vistas/perpersonal.php");
+  include("m_vistas/ficlaboral.php");
   include("m_estructura/e_down.php");
 ?>
 <script>
 $(document).ready(function(){
   $("ul.sidebar-menu li").removeClass("active");
-<?php if(isset($_GET['idp']) && !empty($_GET['idp'])){ ?>
-  $("#personal").addClass("active");
-  $("#pagpersonal").addClass("active");
-<?php }else{ ?>
-  $("#miperfil").addClass("active");
-  $("#fichapersonal").addClass("active");
 
-<?php } ?>
-  $("#b_gcamfoto").on('click', function() {
-    subirArchivos();
-  });
+  $("#miperfil").addClass("active");
+  $("#fichalaboral").addClass("active");
+
 });
 </script>
 <?php
