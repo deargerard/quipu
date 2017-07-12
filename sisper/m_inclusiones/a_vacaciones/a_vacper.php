@@ -209,24 +209,30 @@ $tot=0;
 				<input type="hidden" name="df" id="df" value="<?php echo $tot ?>">
 			<?php
 			if ($tot!=0){
-			?>
-					<td class="text-red">Tiene <?php echo $tot ?> días de vacaciones pendientes de <?php echo $re ?> en el período <?php echo $peri ?>.</td>
-			<?php
-		}elseif ($falta<15) {
-			if ($falta==1) {
-				?>
-						<td class="text-success">Mañana iniciarán las vacaciones del período <?php echo $peri ?>.</td>
-				<?php
-			}elseif ($falta==0){
-			?>
-					<td class="text-success">El trabajador esta ejecutando sus vacaciones del período <?php echo $peri ?>.</td>
-			<?php
-			}elseif ($falta>0) {
-			?>
+				if ($tot<0){
+					?>
+					<td class="text-red">El trabajador(a) ha excedido en <?php echo abs($tot) ?> día(s) al <?php echo $re ?> las vacaciones para el período <?php echo $peri ?>.</td>
+					<?php
+				}else{
+					?>
+					<td class="text-red">El trabajador(a) tiene <?php echo $tot ?> días de vacaciones pendientes de <?php echo $re ?> en el período <?php echo $peri ?>.</td>
+					<?php
+				}
+			}elseif ($falta<15){
+				if ($falta==1) {
+					?>
+					<td class="text-success">Mañana iniciarán las vacaciones del período <?php echo $peri ?>.</td>
+					<?php
+				}elseif ($falta==0){
+					?>
+					<td class="text-success">El trabajador(a) esta ejecutando sus vacaciones del período <?php echo $peri ?>.</td>
+					<?php
+				}elseif ($falta>0) {
+					?>
 					<td class="text-success">En <?php echo $falta?> días iniciarán las vacaciones del período <?php echo $peri ?>.</td>
-			<?php
+					<?php
+				}
 			}
-		}
 
 			?>
 			</tr>

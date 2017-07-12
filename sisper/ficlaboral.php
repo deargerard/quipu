@@ -19,6 +19,12 @@ $(document).ready(function(){
 
   $("#miperfil").addClass("active");
   $("#fichalaboral").addClass("active");
+<?php for ($i=1; $i < ($n+1); $i++) {  ?>
+
+  $("#dtable<?php echo $i ?>").DataTable({
+    "order": [[0,"asc"]]
+  });
+<?php } ?>
 
 });
 </script>

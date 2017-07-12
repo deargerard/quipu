@@ -1,7 +1,8 @@
 <?php
 if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
   $idper=$_SESSION['identi'];
-  $ccar=mysqli_query($cone,"SELECT ec.idEstadoCar as est, ec.idEmpleadoCargo, ec.FechaVac, ec.FechaAsu, cl.Tipo, ma.ModAcceso, eca.EstadoCar, c.Denominacion AS cargo, d.Denominacion FROM empleadocargo ec INNER JOIN condicionlab cl ON ec.idCondicionLab=cl.idCondicionLab INNER JOIN modacceso ma ON ec.idModAcceso=ma.idModAcceso INNER JOIN estadocar eca ON ec.idEstadoCar=eca.idEstadoCar INNER JOIN cargo c ON ec.idCargo=c.idCargo INNER JOIN cardependencia cd ON ec.idEmpleadoCargo=cd.idEmpleadoCargo INNER JOIN dependencia d ON cd.idDependencia=d.idDependencia WHERE ec.idEmpleado=$idper and cd.oficial=1 ORDER BY ec.idEmpleadoCargo DESC");
+  $sql="SELECT ec.idEstadoCar as est, ec.idEmpleadoCargo, ec.FechaVac, ec.FechaAsu, cl.Tipo, ma.ModAcceso, eca.EstadoCar, c.Denominacion AS cargo, d.Denominacion, cc.CondicionCar FROM empleadocargo ec INNER JOIN condicionlab cl ON ec.idCondicionLab=cl.idCondicionLab INNER JOIN modacceso ma ON ec.idModAcceso=ma.idModAcceso INNER JOIN estadocar eca ON ec.idEstadoCar=eca.idEstadoCar INNER JOIN cargo c ON ec.idCargo=c.idCargo INNER JOIN cardependencia cd ON ec.idEmpleadoCargo=cd.idEmpleadoCargo INNER JOIN dependencia d ON cd.idDependencia=d.idDependencia INNER JOIN condicioncar cc ON ec.idCondicionCar=cc.idCondicionCar WHERE ec.idEmpleado=$idper and cd.oficial=1 ORDER BY ec.idEmpleadoCargo DESC";
+  $ccar=mysqli_query($cone,$sql);
 ?>
   <!-- Content Header (Page header) -->
   <section class="content-header">
@@ -14,7 +15,6 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
       <li class="active">Ficha Laboral</li>
     </ol>
   </section>
-
   <!-- Main content -->
   <section class="content">
     <div class="row">
@@ -24,7 +24,6 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
           <ul class="nav nav-tabs">
             <li class="active"><a href="#tab_1" data-toggle="tab">Mis Vacaciones</a></li>
             <li><a href="#tab_2" data-toggle="tab">Mis Licencias</a></li>
-
           </ul>
           <div class="tab-content">
             <div class="tab-pane active" id="tab_1">
@@ -37,34 +36,37 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
               <div class="row">
                 <div class="col-md-12" id="vac">
                   <?php
-
+                    $n=0;
                   while($rcar=mysqli_fetch_assoc($ccar)){
+                    $n++;
                     $car=$rcar['idEmpleadoCargo'];
                     $q="SELECT v.idProVacaciones, pv.PeriodoVacacional, concat(d.Numero,'-',d.Ano,'-',d.Siglas) AS Resolucion, d.FechaDoc, v.FechaIni, v.FechaFin, v.Estado, v.Condicion, av.idAprVacaciones FROM provacaciones as v INNER JOIN periodovacacional AS pv ON v.idPeriodoVacacional = pv.idPeriodoVacacional INNER JOIN aprvacaciones as av ON v.idProVacaciones= av.idProVacaciones INNER JOIN doc AS d ON av.idDoc=d.idDoc INNER JOIN empleadocargo AS ec ON v.idEmpleadoCargo=ec.idEmpleadoCargo WHERE idEmpleado = $idper AND ec.idEmpleadoCargo=$car";
 
                     $cvac=mysqli_query($cone,$q);
                   		if (mysqli_num_rows($cvac)>0) {
                   		 ?>
-                       <div class="">
-                          <hr>
-                          <?php
-                       		if ($rcar['est']==1) {
-                       		?>
-                       			<h4 ><small class="text-blue text-center"><i class="fa fa-black-tie"></i> <?php echo $rcar['cargo']; ?></small></h4>
-                       		<?php
-                       		}else{
-                       		 ?>
-                       		 <h4 ><small class="text-center"><i class="fa fa-black-tie"></i> <?php echo $rcar['cargo']."  (INACTIVO)"; ?></small></h4>
-                       		<?php
-                       		}
-                       		?>
-                          
+                       <div class="row">
+                         <?php
+                     		  $cond=$rcar['CondicionCar']=="NINGUNO" ? "" : " (".substr($rcar['CondicionCar'], 0, 1).")";
+                           if ($rcar['est']==1) {
+                             $col="text-blue";
+                           }else{
+                             $col="";
+                           }
+                         ?>
+                       <div class="col-sm-5">
+                       			<h4 ><small class="<?php echo $col ?> text-center" style="font-weight: bold"><i class="fa fa-black-tie"></i> <?php echo $rcar['cargo'].$cond." (".$rcar['EstadoCar'].")"  ?></small></h4>
                        </div>
-                  		<table id="dtreva" class="table table-bordered table-hover"> <!--Tabla que Lista las vacaciones-->
+                       <div class="col-sm-7">
+                       			<h4 ><small class="<?php echo $col ?> text-center" style="font-weight: bold"><i class="fa fa-institution"></i> <?php echo $rcar['Denominacion']; ?></small></h4>
+                       </div>
+
+                     </div>
+                  		<table class="table table-bordered table-hover" id="dtable<?php echo $n ?>" > <!--Tabla que Lista las vacaciones-->
                   			  <thead>
                   					<tr>
                   						<th>PERÍODO</th>
-                  						<th>NÚMERO DE RESOLUCIÓN</th>
+                  						<th>RESOLUCIÓN</th>
                   						<th>FECHA RES.</th>
                   						<th>PROGRAMACIÓN</th>
                   						<th>DÍAS</th>
@@ -120,19 +122,12 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                   					}
                   				 ?>
                   		</tbody>
-
                   	</table>
-                  	<script>
-                  	$('#dtreva').DataTable({
-                  		"order": [[0,"asc"]]
-                  	});
-                  	</script>
                   <?php
                   	 }else {
                   		echo mensajewa("No tiene vacaciones programadas como ". $rcar['cargo'].".");
                   	 }
                }
-                 mysqli_close($cone);
               ?>
                 </div>
               </div>
@@ -140,97 +135,152 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
             </div>
             <!-- /.tab-pane -->
             <div class="tab-pane" id="tab_2">
-
-              <!--Formulario-->
-              <form action="" id="f_rvare" class="form-inline">
-                <div class="form-group">
-                  <label for="bbb" class="sr-only">Período</label>
-                  <select data-actions-box="true" name="pervac[]" class="form-control selectpicker" multiple="multiple" multiple data-selected-text-format="count" title="PERÍODO">
-                    <?php
-                      $cpv=mysqli_query($cone,"SELECT idPeriodoVacacional, PeriodoVacacional FROM periodovacacional WHERE Estado=1 ORDER BY PeriodoVacacional DESC");
-                      while($rpv=mysqli_fetch_assoc($cpv)){
-                    ?>
-                    <option value="<?php echo $rpv['idPeriodoVacacional']; ?>"><?php echo $rpv['PeriodoVacacional']; ?></option>
-                    <?php
-                      }
-                      mysqli_free_result($cpv);
-                    ?>
-                  </select>
-                </div>
-
-                <div class="form-group">
-                  <label for="aaa" class="sr-only">Sistema</label>
-                    <select name="sislab[]" data-actions-box="true" class="form-control selectpicker" multiple="multiple" multiple data-selected-text-format="count" title="SISTEMA">
-                      <?php
-                        $csl=mysqli_query($cone,"SELECT idSistemaLab, SistemaLab FROM sistemalab WHERE idSistemaLab!=4 AND  idSistemaLab!=5 ORDER BY idSistemaLab ASC");
-                        while($rsl=mysqli_fetch_assoc($csl)){
-                      ?>
-                      <option value="<?php echo $rsl['idSistemaLab']; ?>"><?php echo $rsl['SistemaLab']; ?></option>
-                      <?php
-                        }
-                        mysqli_free_result($csl);
-                      ?>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                  <label for="aaa" class="sr-only">Regimen</label>
-                  <select data-actions-box="true" name="reglab[]" class="form-control selectpicker" multiple="multiple" multiple data-selected-text-format="count" title="RÉGIMEN">
-                    <?php
-                      $crl=mysqli_query($cone,"SELECT idCondicionLab, Tipo FROM condicionlab WHERE Estado=1 AND idCondicionLab!=6 AND idCondicionLab!=7 ORDER BY Tipo ASC");
-                      while($rrl=mysqli_fetch_assoc($crl)){
-                    ?>
-                    <option value="<?php echo $rrl['idCondicionLab']; ?>"><?php echo $rrl['Tipo']; ?></option>
-                    <?php
-                      }
-                      mysqli_free_result($crl);
-                    ?>
-                  </select>
-                </div>
-
-                <div class="form-group">
-                  <label for="bbb" class="sr-only">Estado</label>
-                  <select data-actions-box="true" name="estvac[]" class="form-control selectpicker" multiple="multiple" multiple data-selected-text-format="count" title="ESTADO">
-                    <option value="4">PLANIFICADAS</option>
-                    <option value="0">PENDIENTES</option>
-                    <option value="3">EJECUTANDOSE</option>
-                    <option value="1">EJECUTADAS</option>
-                    <option value="2">CANCELADAS</option>
-                    <option value="5">SUSPENDIDAS</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label for="bbb" class="sr-only">Condición</label>
-                  <select name="convac[]" class="form-control selectpicker" multiple="multiple" multiple data-selected-text-format="count" title="CONDICIÓN">
-                    <option value="1">PROGRAMADAS</option>
-                    <option value="0">REPROGRAMADAS</option>
-                  </select>
-                </div>
-                <button type="submit" id="b_bvare" class="btn btn-default">Buscar</button>
+              <!--Formulario de encabezado-->
+              <form action="" id="f_rreva" class="form-inline">
+              <p><h4 class="text-blue"><strong><i class="fa fa-user"></i> <?php echo nomempleado($cone,$idper); ?> </strong></h4></p>
               </form>
-              <!--Fin Formulario-->
+              <!--Fin Formulario de encabezado-->
               <!--div resultados-->
               <div class="row">
-                <div class="col-md-12" id="r_vare">
+                <div class="col-md-12" id="lic">
+                <?php
+              	$ano=date('Y');
+              	$ccar=mysqli_query($cone,$sql);
+                if(mysqli_num_rows($ccar)>0){
+                	$dat=false;
+                	$dit=0;
+                	$ditt=0;
+                	$lt=0;
+                	$ltt=0;
+                	$litt=0;
+                	$con=0;
+                	while ($rcar=mysqli_fetch_assoc($ccar)) {
+                    $idec=$rcar['idEmpleadoCargo'];
+                		$cond=$rcar['CondicionCar']=="NINGUNO" ? "" : " (".substr($rcar['CondicionCar'], 0, 1).")";
+                			$c=mysqli_query($cone,"SELECT li.idLicencia, li.idTipoLic, TipoLic, MotivoLic, FechaIni, FechaFin, Numero, Ano, Siglas, li.Estado FROM licencia li INNER JOIN aprlicencia al ON li.idLicencia=al.idLicencia INNER JOIN doc do ON al.idDoc=do.idDoc INNER JOIN tipdoclicencia tdl ON li.idTipDocLicencia=tdl.idTipDocLicencia INNER JOIN tipolic tl ON li.idTipoLic=tl.idTipoLic INNER JOIN espmedica em ON li.idEspMedica=em.idEspMedica INNER JOIN empleadocargo ec ON li.idEmpleadoCargo=ec.idEmpleadoCargo WHERE li.idEmpleadoCargo=$idec AND DATE_FORMAT(FechaIni,'%Y')=DATE_FORMAT(now(),'%Y') ORDER BY FechaIni DESC");
 
+                			if(mysqli_num_rows($c)>0){
+                				$dat=true;
+                				$con++;
+                	?>
+                			<table class="table table-hover table-bordered">
+                				<thead>
+                          <?php
+                            if ($rcar['est']==1) {
+                              $col="text-blue";
+                            }else{
+                              $col="";
+                            }
+                          ?>
+                					<tr class="<?php echo $col ?>">
+                            <div class="col-sm-5">
+                            			<h4 ><small class="<?php echo $col ?> text-center" style="font-weight: bold"><i class="fa fa-black-tie"></i> <?php echo $rcar['cargo'].$cond." (".$rcar['EstadoCar'].")"   ?></small></h4>
+                            </div>
+                            <div class="col-sm-7">
+                            			<h4><small class="<?php echo $col ?> text-center" style="font-weight: bold"><i class="fa fa-institution"></i> <?php echo $rcar['Denominacion']; ?></small></h4>
+                            </div>
+                					</tr>
+                					<tr>
+                						<th>#</th>
+                						<th>TIPO LIC.</th>
+                						<th>DESDE</th>
+                						<th>HASTA</th>
+                						<th># DÍAS</th>
+                						<th>RESOLUCIÓN</th>
+                						<th>ESTADO</th>
+                					</tr>
+                				</thead>
+                				<tbody>
+                		<?php
+                				$nd=0;
+                				$ndl=0;
+                				$nl=0;
+                				$lc=0;
+                				$lit=0;
+                				while ($r=mysqli_fetch_assoc($c)) {
+                					$nl++;
+                			        $f1=$r['FechaFin'];
+                			        $f2=$r['FechaIni'];
+                			        $f1=date_create($f1);
+                			        $f2=date_create($f2);
+                			        $tie=date_diff($f1, $f2);
+                			        $dias=$tie->format('%a')+1;
+                			        if($r['idTipoLic']==1 AND $r['Estado']==1){
+                			        	$nd=$nd+$dias;
+                			        	$lit++;
+                			        }
+                			        if($r['Estado']==1){
+                			        	$ndl=$ndl+$dias;
+                			        }else{
+                			        	$lc++;
+                			        }
+                		?>
+                					<tr>
+                						<td><?php echo $nl; ?></td>
+                						<td class="text-purple"><?php echo "<strong>".$r['MotivoLic']."</strong> (".$r['TipoLic'].")"; ?></td>
+                						<td><?php echo fnormal($r['FechaIni']); ?></td>
+                						<td><?php echo fnormal($r['FechaFin']); ?></td>
+                						<td><?php echo $dias; ?> día(s)</td>
+                						<td><?php echo $r['Numero']."-".$r['Ano']."-".$r['Siglas']; ?></td>
+                						<td><?php echo $r['Estado']==0 ? "<span class='label label-danger'>Cancelada</span>" : "<span class='label label-success'>Activa</span>"; ?></td>
+
+                					</tr>
+                		<?php
+                				}
+                				$lt=$nl-$lc;
+                		?>
+                				<tr>
+                					<td colspan="4" class="text-olive"><strong><?php echo $lt; ?> licencia(s)</strong>, haciendo un total de <strong><?php echo $ndl; ?> día(s)</strong></td>
+                					<td colspan="4" class="<?php echo $nd>=20 ? 'text-maroon' : 'text-olive'; ?>"><strong><?php echo $lit; ?> licencia(s)</strong> por incapacidad temporal, haciendo un total de <strong><?php echo $nd; ?> día(s)</strong></td>
+                				</tr>
+                				</tbody>
+                			</table>
+                		<?php
+                			}else{
+                				$lt=0;
+                				$ndl=0;
+                				$nd=0;
+                				$lit=0;
+                			}
+                			$dit=$dit+$nd;
+                			$ditt=$ditt+$ndl;
+                			$ltt=$ltt+$lt;
+                			$litt=$litt+$lit;
+                	}
+                	if(!$dat){
+                		echo mensajewa("Para el $ano, según el criterio de búsqueda, no presenta licencias.");
+                	}
+                	if ($con>1) {
+                	?>
+                			<table class="table table-bordered table-hover">
+                				<tr>
+                					<td class="text-olive" width="48%"><strong><?php echo $ltt; ?> licencia(s)</strong>, haciendo un total de <strong><?php echo $ditt; ?> día(s)</strong>, correspondientes al <?php echo $ano; ?></td>
+                					<td class="<?php echo $dit>=20 ? 'text-maroon' : 'text-olive'; ?>" width="52%"><strong><?php echo $litt; ?> licencia(s)</strong> por incapacidad temporal, haciendo un total de <strong><?php echo $dit; ?> día(s)</strong>, correspondientes al <?php echo $ano; ?></td>
+                				</tr>
+                			</table>
+                	<?php
+                	}
+                }else{
+                	echo mensajewa("Error: No se enviaron datos válidos.");
+                }
+                	mysqli_free_result($c);
+                  ?>
                 </div>
               </div>
               <!--fin div resultados-->
-
             </div>
             <!-- /.tab-pane -->
-
           </div>
           <!-- /.tab-content -->
         </div>
         <!-- nav-tabs-custom -->
       </div> <!-- /.col-md-12 -->
     </div> <!-- /.row -->
-
   </section>
-  <!-- /.content -->
 
+  <!-- /.content -->
   <?php
+
 }else{
   header('Location: ../index.php');
 }
