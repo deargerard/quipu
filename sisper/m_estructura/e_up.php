@@ -169,11 +169,16 @@ if(!empty($css)){
             <i class="fa fa-home"></i><span>Inicio</span>
           </a>
         </li>
-        <li id="miperfil">
-          <a href="perpersonal.php">
+        <li class="treeview" id="miperfil">
+          <a href="#">
             <i class="fa fa-user"></i>
             <span>Mi Perfil</span>
+            <i class="fa fa-angle-left pull-right"></i>
           </a>
+          <ul class="treeview-menu">
+            <li id="fichapersonal"><a href="perpersonal.php"><i class="fa fa-circle-o"></i> Ficha Personal</a></li>
+            <li id="fichalaboral"><a href="ficlaboral.php"><i class="fa fa-circle-o"></i> Ficha Laboral</a></li>
+          </ul>
         </li>
         <?php
         if(accesocon($cone,$_SESSION['identi'],1)){

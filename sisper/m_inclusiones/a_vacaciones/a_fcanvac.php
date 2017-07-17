@@ -9,14 +9,22 @@ if(accesoadm($cone,$_SESSION['identi'],3)){
     $rvac=mysqli_fetch_assoc($cvac);
     $est="";
     $est= $rvac['Condicion']==1 ? "PROGRAMADAS" : "REPROGRAMADAS";
-    if ($rvac['Estado']==1 || $rvac['Estado']==2 || $rvac['Estado']==3){
-      ?>
-      <thead>
-        <tr>
-          <th class="text-center">Las vacaciones que ha elegido no se pueden Cancelar</th>
-        </tr>
-      </thead>
-      <?php
+    if ($_POST['perm']==0){
+      echo mensajewa("No tiene permiso para cancelar el registro");
+?>
+      <script>
+      $("#b_sicvacaciones").hide();
+      $("#b_nocvacaciones").html("Cerrar");
+      </script>
+      <form class="form-group" id="f_permc">
+        <div class="col-sm-4 col-md-offset-4">
+          <input type="password" class="form-control" id="clave" name="clave" placeholder="Ingese su clave">
+          <input type="hidden" name="perm" id="perm" value="<?php echo "1" ?>">
+          <input type="hidden" name="idvac" id="idvac" value="<?php echo $idvac ?>">
+        </div>
+        <button class="btn btn-info" type="button" id="b_gclave" name="b_gclave" onclick="validarc()">Cancelar</button>
+      </form>
+<?php
     }else{
       ?>
         <table class="table">

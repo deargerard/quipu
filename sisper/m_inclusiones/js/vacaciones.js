@@ -92,11 +92,11 @@ $( "#f_nuevacaciones").validate( {
 } );
 //fin función validar nueva programacion de vacaciones
 // función editar programacion de vacaciones
-function edivac(idvac, idav, fii, ffi, fff){
+function edivac(perm, idvac, idav, fii, ffi, fff){
 $.ajax({
 type: "post",
 url: "m_inclusiones/a_vacaciones/a_fedivac.php",
-data: { idvac: idvac, idav: idav, fii : fii, ffi : ffi, fff : fff},
+data: { perm  : perm, idvac : idvac, idav: idav, fii : fii, ffi : ffi, fff : fff},
 beforeSend: function () {
   $("#r_evacaciones").html("<img src='m_images/cargando.gif'>");
   $("#b_gevacaciones").hide();
@@ -164,11 +164,11 @@ $( "#f_evacaciones" ).validate( {
 } );
 //fin función validar editar programacion de vacaciones
 // función cancelar vacaciones
-function canvac(idvac){
+function canvac(perm, idvac){
 $.ajax({
  type: "post",
  url: "m_inclusiones/a_vacaciones/a_fcanvac.php",
- data: { idvac : idvac},
+ data: { perm  : perm, idvac : idvac},
  beforeSend: function () {
    $("#r_cvacaciones").html("<img src='m_images/cargando.gif'>");
    $("#b_sicvacaciones").hide();
@@ -204,19 +204,12 @@ $("#f_cvacaciones").submit(function(e){
 //fin función enviar vacaciones a cancelar
 //funcion actualizar lista de vacaciones
 $('#m_nvacaciones, #m_evacaciones, #m_cvacaciones').on('hidden.bs.modal', function () {
-  var per = $("#per").val();
-  var pervac = $("#pervac").val();
-  var car = $("#car").val();
-  if ($("#can").is(':checked')){
-    var can = 2;
-  } else {
-    var can = "";
-  }
+  var datos = $('#f_vacper').serializeArray()
   $.ajax({
      type: "POST",
      url: "m_inclusiones/a_vacaciones/a_vacper.php",
      dataType: "html",
-     data: {per: per, pervac: pervac, car : car, can: can},   // I WANT TO ADD EXTRA DATA + SERIALIZE DATA
+     data: datos,   // I WANT TO ADD EXTRA DATA + SERIALIZE DATA
      beforeSend: function () {
         $("#b_bvacper").html("<i class='fa fa-spinner fa-spin'></i> Actualizando");
         $("#b_bvacper").addClass("disabled");
@@ -496,3 +489,57 @@ $('#m_ejvacaciones').on('hidden.bs.modal', function () {
     });
 })
 //fin funcion actualizar lista de vacaciones por ejecutar
+
+// Recibir datos para validar clave de editar vacaciones
+function validare(){
+  var datos = $("#f_perme").serializeArray();
+   $.ajax({
+        data:  datos,
+        url:   "m_inclusiones/a_vacaciones/a_vperm.php",
+        type:  "post",
+        dataType: "json",
+        beforeSend: function () {
+          $("#b_gclave").html("<i class='fa fa-spinner fa-spin'></i> Validando");
+        },
+        success:  function (response) {
+          if (response.exito) {
+            var perm = $("#perm").val();
+            var idvac = $("#idvac").val();
+            var idav = $("#idav").val();
+            var fii = $("#fii").val();
+            var ffi = $("#ffi").val();
+            var fff = $("#fff").val();
+            edivac(perm, idvac, idav, fii, ffi, fff);
+          }else{
+            $("#r_evacaciones").html(response.mensaje);
+          }
+
+        }
+    });
+}
+// Fin Recibir datos para validar clave de editar vacaciones
+
+// Recibir datos para validar clave de Cancelar vacaciones
+function validarc(){
+  var datos = $("#f_permc").serializeArray();
+   $.ajax({
+        data:  datos,
+        url:   "m_inclusiones/a_vacaciones/a_vperm.php",
+        type:  "post",
+        dataType: "json",
+        beforeSend: function () {
+          $("#b_gclave").html("<i class='fa fa-spinner fa-spin'></i> Validando");
+        },
+        success:  function (response) {
+          if (response.exito) {
+            var perm = $("#perm").val();
+            var idvac = $("#idvac").val();
+            canvac(perm, idvac);
+          }else{
+            $("#r_cvacaciones").html(response.mensaje);
+          }
+
+        }
+    });
+}
+// Fin Recibir datos para validar clave de Cancelar vacaciones

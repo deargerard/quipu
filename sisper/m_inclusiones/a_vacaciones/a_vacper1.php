@@ -151,31 +151,23 @@ $tot=0;
           <td> <!--columna ACCIÓN-->
 					<?php
 					$falta = intervalo($rvac['FechaIni'],$hoy)-1;
-					$perm = 0;
-						if ($rvac['Estado']=='0'|| $rvac['Estado']=='4'){
-							if ($falta>16) {
-							$perm=1;
+						if ($rvac['Estado']=='0'|| $rvac['Estado']=='4')
+						{if ($falta>16) {
+								?>
+									<div class="btn-group">  <!--menu desplegable-->
+			              <button class="btn btn-warning btn-xs dropdown-toggle" data-toggle="dropdown">
+			                <i class="fa fa-cog"></i>&nbsp;
+			                <span class="caret"></span>
+			                <span class="sr-only">Desplegar menú</span>
+			              </button>
+			              <ul class="dropdown-menu pull-right" role="menu">
+			                <li><a href="#" data-toggle="modal" data-target="#m_evacaciones" onclick="edivac(<?php echo $rvac['idProVacaciones'].",".$rvac['idAprVacaciones'].", '".$fii."', '".$ffi."', '".$fff."'"  ?>)">Editar </a></li>
+			                <li><a href="#" data-toggle="modal" data-target="#m_cvacaciones" onclick="canvac(<?php echo $rvac['idProVacaciones']?>)">Cancelar</a></li>
+			              </ul>
+			            </div>
+								<?php
 							}
-						}
-						?>
-						<div class="btn-group">  <!--menu desplegable-->
-              <button class="btn btn-warning btn-xs dropdown-toggle" data-toggle="dropdown">
-                <i class="fa fa-cog"></i>&nbsp;
-                <span class="caret"></span>
-                <span class="sr-only">Desplegar menú</span>
-              </button>
-              <ul class="dropdown-menu pull-right" role="menu">
-                <li><a href="#" data-toggle="modal" data-target="#m_evacaciones" onclick="edivac(<?php echo $perm.",". $rvac['idProVacaciones'].",".$rvac['idAprVacaciones'].", '".$fii."', '".$ffi."', '".$fff."'"  ?>)">Editar </a></li>
-								<?php
-								if ($rvac['Estado']!='2'){
-								?>
-									<li><a href="#" data-toggle="modal" data-target="#m_cvacaciones" onclick="canvac(<?php echo $perm.",". $rvac['idProVacaciones']?>)">Cancelar</a></li>
-								<?php
-								}
-								?>
-              </ul>
-            </div>
-
+						}?>
           </td> <!--/columna ACCIÓN-->
 				</tr>
 				<?php
@@ -206,34 +198,28 @@ $tot=0;
 	</table>
 		<table class="table table-hover table-bordered"> <!--Datos relacionados a los dias de vacaciones-->
 			<tr>
+				<input type="hidden" name="dt" id="dt" value="<?php echo $dt?>">
 				<input type="hidden" name="df" id="df" value="<?php echo $tot ?>">
 			<?php
 			if ($tot!=0){
-				if ($tot<0){
-					?>
-					<td class="text-red">El trabajador(a) ha excedido en <?php echo abs($tot) ?> día(s) al <?php echo $re ?> las vacaciones para el período <?php echo $peri ?>.</td>
-					<?php
-				}else{
-					?>
-					<td class="text-red">El trabajador(a) tiene <?php echo $tot ?> días de vacaciones pendientes de <?php echo $re ?> en el período <?php echo $peri ?>.</td>
-					<?php
-				}
-			}elseif ($falta<15){
-				if ($falta==1) {
-					?>
-					<td class="text-success">Mañana iniciarán las vacaciones del período <?php echo $peri ?>.</td>
-					<?php
-				}elseif ($falta==0){
-					?>
-					<td class="text-success">El trabajador(a) esta ejecutando sus vacaciones del período <?php echo $peri ?>.</td>
-					<?php
-				}elseif ($falta>0) {
-					?>
+			?>
+					<td class="text-red">Tiene <?php echo $tot ?> días de vacaciones pendientes de <?php echo $re ?> en el período <?php echo $peri ?>.</td>
+			<?php
+		}elseif ($falta<15) {
+			if ($falta==1) {
+				?>
+						<td class="text-success">Mañana iniciarán las vacaciones del período <?php echo $peri ?>.</td>
+				<?php
+			}elseif ($falta==0){
+			?>
+					<td class="text-success">El trabajador esta ejecutando sus vacaciones del período <?php echo $peri ?>.</td>
+			<?php
+			}elseif ($falta>0) {
+			?>
 					<td class="text-success">En <?php echo $falta?> días iniciarán las vacaciones del período <?php echo $peri ?>.</td>
-					<?php
-				}
+			<?php
 			}
-
+		}
 			?>
 			</tr>
 	</table>
