@@ -46,7 +46,7 @@ if(mysqli_num_rows($cc)>0){
 											<tr>
 												<td height="80" width="80" align="center" valign="middle" bgcolor="#FF7101" style="font-family: Arial, Helvetica, sans-serif; color:#ffffff;">
 													<div style="font-size: 30px;">
-														<b>'.date('m').'</b>
+														<b>'.date('d').'</b>
 													</div>
 													<div style="font-size: 12px;">
 														<b>'.nombremes(date('m')).'</b>
@@ -68,7 +68,7 @@ if(mysqli_num_rows($cc)>0){
 								</tr>
 								<tr>
 									<td align="center" style="font-size: 40px; color: #0091B6; font-weight: bold; font-family:Arial, Helvetica, sans-serif;">
-										'.$nom.'<br>'.$ape.'<br>
+										'.$nom.'<br>
 									</td>
 								</tr>
 

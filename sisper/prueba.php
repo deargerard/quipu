@@ -1,25 +1,14 @@
 <?php
 include ("m_inclusiones/php/conexion_sp.php");
 include ("m_inclusiones/php/funciones.php");
+
+$cn=mysqli_query($cone, "SELECT * FROM noticia WHERE idNoticia=1");
+if($rn=mysqli_fetch_assoc($cn)){
+
 ?>
-<table>
-	<tr>
-		<td>Dependencia</td>
-		<td>Local</td>
-	</tr>
-	<?php 
-	$c=mysqli_query($cone,"SELECT Denominacion, Direccion FROM dependencia as de INNER JOIN local as lo ON de.idLocal=lo.idLocal ORDER BY Denominacion ASC");
-	?>
-	
-	<?php
-	while($r=mysqli_fetch_assoc($c)){
-	?>
-	<tr>
-		<td><?php echo $r['Denominacion']; ?></td>
-		<td><?php echo $r['Direccion']; ?></td>
-	</tr>
-	<?php
-	}
-	?>
-	
-</table>
+<h2><?php echo $rn['Titular']; ?></h2>
+<?php echo html_entity_decode($rn['Cuerpo']); ?>
+<?php
+
+}
+?>

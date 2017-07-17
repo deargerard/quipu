@@ -39,6 +39,362 @@ function fechaactual() {
     return day + "/" + month + "/" + year;
 }
 
+
+$("#b_fnoticia").click(function(){
+  $.ajax({
+    type:"post",
+    url:"m_inclusiones/a_intranet/fnnoticia.php",
+    beforeSend: function () {
+      $("#d_nnoticia").html("<p class='text-center'><img scr='m_images/loader.gif'></p>");
+    },
+    success:function(a){
+      $("#d_nnoticia").html(a);
+      $("#b_gnnoticia").show();
+    }
+  });
+});
+//funcion validar formulario noticia
+$( "#f_nnoticia" ).validate( {
+    rules: {
+      fec: {required:true, datePE:true},
+      tit: {required:true, minlength:5}
+    },
+    messages: {
+      fec: {required:"Ingrese una fecha"},
+      tit: {required:"Ingrese la descripción"}
+    },
+    errorElement: "em",
+    errorPlacement: function ( error, element ) {
+      // Add the `help-block` class to the error element
+      error.addClass( "help-block" );
+
+      if ( element.prop( "type" ) === "checkbox" ) {
+        error.insertAfter( element.parent( "label" ) );
+      } else if ( element.prop( "type" ) === "radio" ){
+        error.insertAfter( element.parent( "label" ) );
+      }
+      else {
+        error.insertAfter( element );
+      }
+    },
+    highlight: function ( element, errorClass, validClass ) {
+      $( element ).parents( ".valida" ).addClass( "has-error" ).removeClass( "has-success" );
+    },
+    unhighlight: function (element, errorClass, validClass) {
+      $( element ).parents( ".valida" ).addClass( "has-success" ).removeClass( "has-error" );
+    },
+    submitHandler: function(form){
+      var datos = $("#f_nnoticia").serializeArray();
+      var con = $('#summernote').summernote('code');
+      datos.push({name: "con", value: con});
+      $.ajax({
+         type: "POST",
+         url: "m_inclusiones/a_intranet/nnoticia.php",
+         dataType: "html",
+         data: datos,   // I WANT TO ADD EXTRA DATA + SERIALIZE DATA
+         beforeSend: function () {
+            $("#b_gnnoticia").html("<i class='fa fa-spinner fa-spin'></i> Guardando");
+            $("#b_gnnoticia").addClass("disabled");
+         },
+         success: function(data){
+            $("#b_gnnoticia").hide();
+            $("#b_gnnoticia").html("Guardar");
+            $("#b_gnnoticia").removeClass("disabled");
+            $("#d_nnoticia").html(data);
+            $("#d_nnoticia").slideDown();
+         }
+      });
+    }
+  } );
+//funcion validar formulario noticia
+//funcion cargar formulario editar noticia
+function edinot(id){
+    var parametros = {
+            "id" : id
+    };
+    $.ajax({
+            data:  parametros,
+            url:   'm_inclusiones/a_intranet/fenoticia.php',
+            type:  'post',
+            beforeSend: function () {
+                    $("#d_enoticia").html("<p class='text-center'><img src='m_images/loader.gif'/></p>");
+                    $("#b_genoticia").hide();
+            },
+            success:  function (response) {
+                    $("#d_enoticia").html(response);
+                    $("#b_genoticia").show();
+            }
+    });
+};
+//fin funcion cargar formulario editar noticia
+
+//funcion validar formulario editar noticia
+$( "#f_enoticia" ).validate( {
+    rules: {
+      fec: {required:true, datePE:true},
+      tit: {required:true, minlength:5}
+    },
+    messages: {
+      fec: {required:"Ingrese una fecha"},
+      tit: {required:"Ingrese el titular"}
+    },
+    errorElement: "em",
+    errorPlacement: function ( error, element ) {
+      // Add the `help-block` class to the error element
+      error.addClass( "help-block" );
+
+      if ( element.prop( "type" ) === "checkbox" ) {
+        error.insertAfter( element.parent( "label" ) );
+      } else if ( element.prop( "type" ) === "radio" ){
+        error.insertAfter( element.parent( "label" ) );
+      }
+      else {
+        error.insertAfter( element );
+      }
+    },
+    highlight: function ( element, errorClass, validClass ) {
+      $( element ).parents( ".valida" ).addClass( "has-error" ).removeClass( "has-success" );
+    },
+    unhighlight: function (element, errorClass, validClass) {
+      $( element ).parents( ".valida" ).addClass( "has-success" ).removeClass( "has-error" );
+    },
+    submitHandler: function(form){
+      var datos = $("#f_enoticia").serializeArray();
+      var con = $('#summernotee').summernote('code');
+      datos.push({name: "con", value: con});
+      $.ajax({
+         type: "POST",
+         url: "m_inclusiones/a_intranet/enoticia.php",
+         dataType: "html",
+         data: datos,   // I WANT TO ADD EXTRA DATA + SERIALIZE DATA
+         beforeSend: function () {
+            $("#b_genoticia").html("<i class='fa fa-spinner fa-spin'></i> Guardando");
+            $("#b_genoticia").addClass("disabled");
+         },
+         success: function(data){
+            $("#b_genoticia").hide();
+            $("#b_genoticia").html("Guardar");
+            $("#b_genoticia").removeClass("disabled");
+            $("#d_enoticia").html(data);
+            $("#d_enoticia").slideDown();
+         }
+      });
+    }
+  } );
+//funcion validar formulario editar noticia
+
+//actualizar noticias
+$('#m_nnoticia').on('hidden.bs.modal', function () {
+    $.ajax({
+            data:  {"fecha1" : restardias(-10), "fecha2" : fechaactual()},
+            url:   'm_inclusiones/a_intranet/bnoticia.php',
+            type:  'post',
+            beforeSend: function () {
+                    $(".d_noticia").html("<p class='text-center'><img src='m_images/loader.gif'/></p>");
+                    console.log(restardias(-10));
+                    console.log(fechaactual());
+            },
+            success:  function (response) {
+                    $(".d_noticia").html(response);
+            }
+    });
+});
+$('#m_enoticia,#m_inoticia,#m_esnoticia').on('hidden.bs.modal', function () {
+    var f1 = $("#fecha1").val();
+    var f2 = $("#fecha2").val();
+    if(f1=="" || f2==""){
+      f1 = restardias(-10);
+      f2 = fechaactual();
+    }
+    $.ajax({
+            data:  {"fecha1" : f1, "fecha2" : f2},
+            url:   'm_inclusiones/a_intranet/bnoticia.php',
+            type:  'post',
+            beforeSend: function () {
+                    $(".d_noticia").html("<p class='text-center'><img src='m_images/loader.gif'/></p>");
+                    console.log(f1);
+                    console.log(f2);
+            },
+            success:  function (response) {
+                    $(".d_noticia").html(response);
+            }
+    });
+});
+//fin actualizar noticias
+
+//funcion validar formulario buscar noticias
+$( "#f_bnoticia" ).validate( {
+    rules: {
+      fecha1: {required:true, datePE:true},
+      fecha2: {required:true, datePE:true}
+    },
+    messages: {
+      fecha1: {required:"Ingrese la fecha inicial"},
+      fecha2: {required:"Ingrese la fecha final"}
+    },
+    errorElement: "em",
+    errorPlacement: function ( error, element ) {
+      // Add the `help-block` class to the error element
+      error.addClass( "help-block" );
+
+      if ( element.prop( "type" ) === "checkbox" ) {
+        error.insertAfter( element.parent( "label" ) );
+      } else if ( element.prop( "type" ) === "radio" ){
+        error.insertAfter( element.parent( "label" ) );
+      }
+      else {
+        error.insertAfter( element );
+      }
+    },
+    highlight: function ( element, errorClass, validClass ) {
+      $( element ).parents( ".valida" ).addClass( "has-error" ).removeClass( "has-success" );
+    },
+    unhighlight: function (element, errorClass, validClass) {
+      $( element ).parents( ".valida" ).addClass( "has-success" ).removeClass( "has-error" );
+    },
+    submitHandler: function(form){
+      var datos = $("#f_bnoticia").serializeArray();
+      $.ajax({
+         type: "POST",
+         url: "m_inclusiones/a_intranet/bnoticia.php",
+         dataType: "html",
+         data: datos,   // I WANT TO ADD EXTRA DATA + SERIALIZE DATA
+         beforeSend: function () {
+            $("#b_bnoticia").html("<i class='fa fa-spinner fa-spin'></i> Buscando");
+            $("#b_bnoticia").addClass("disabled");
+         },
+         success: function(data){
+            $("#b_bnoticia").html("Buscar");
+            $("#b_bnoticia").removeClass("disabled");
+            $(".d_noticia").html(data);
+            $(".d_noticia").slideDown();
+         }
+      });
+    }
+  } );
+//funcion validar formulario buscar noticias
+
+//funcion cargar formulario imagen noticia
+function imanot(id){
+    var parametros = {
+            "id" : id
+    };
+    $.ajax({
+            data:  parametros,
+            url:   'm_inclusiones/a_intranet/finoticia.php',
+            type:  'post',
+            beforeSend: function () {
+                    $("#d_inoticia").html("<p class='text-center'><img src='m_images/loader.gif'/></p>");
+                    $("#b_ginoticia").hide();
+            },
+            success:  function (response) {
+                    $("#d_inoticia").html(response);
+                    $("#b_ginoticia").show();
+            }
+    });
+};
+//fin funcion cargar formulario imagen noticia
+
+//funcion validar imagen noticia
+$( "#f_inoticia" ).validate( {
+    rules: {
+      img:{required:true, accept: "jpg,jpeg,png"}
+    },
+    messages: {
+      img:{required:"Seleccione una imagen.", accept: "Sólo imagenes png y jpg."}
+    },
+    errorElement: "em",
+    errorPlacement: function ( error, element ) {
+      // Add the `help-block` class to the error element
+      error.addClass( "help-block" );
+
+      if ( element.prop( "type" ) === "checkbox" ) {
+        error.insertAfter( element.parent( "label" ) );
+      } else if ( element.prop( "type" ) === "radio" ){
+        error.insertAfter( element.parent( "label" ) );
+      }
+      else {
+        error.insertAfter( element );
+      }
+    },
+    highlight: function ( element, errorClass, validClass ) {
+      $( element ).parents( ".valida" ).addClass( "has-error" ).removeClass( "has-success" );
+    },
+    unhighlight: function (element, errorClass, validClass) {
+      $( element ).parents( ".valida" ).addClass( "has-success" ).removeClass( "has-error" );
+    },
+    submitHandler: function(form){
+      var formData = new FormData($("#f_inoticia")[0]);
+      $.ajax({
+         type: "POST",
+         url: "m_inclusiones/a_intranet/ninoticia.php",
+         dataType: "html",
+         data: formData,   // I WANT TO ADD EXTRA DATA + SERIALIZE DATA
+         contentType: false,
+         processData: false,
+         beforeSend: function () {
+            $("#b_ginoticia").html("<i class='fa fa-spinner fa-spin'></i> Guardando");
+            $("#b_ginoticia").addClass("disabled");
+         },
+         success: function(data){
+            $("#b_ginoticia").hide();
+            $("#b_ginoticia").html("Guardar");
+            $("#b_ginoticia").removeClass("disabled");
+            $("#d_inoticia").html(data);
+            $("#d_inoticia").slideDown();
+         }
+      });
+    }
+  } );
+//fin funcion validar imagen noticia
+
+//cargar formulario estado noticia
+function estnot(id){
+    var parametros = {
+            "id" : id
+    };
+    $.ajax({
+            data:  parametros,
+            url:   'm_inclusiones/a_intranet/fesnoticia.php',
+            type:  'post',
+            beforeSend: function () {
+                    $("#d_esnoticia").html("<p class='text-center'><img src='m_images/loader.gif'/></p>");
+                    $("#b_siesnoticia").hide();
+            },
+            success:  function (response) {
+                    $("#d_esnoticia").html(response);
+                    $("#b_siesnoticia").show();
+                    $("#b_noesnoticia").html("No");
+            }
+    });
+};
+//fin cargar formulario estado noticia
+//cambiar estado noticia
+$("#f_esnoticia").submit(function(e){
+  e.preventDefault();
+  var datos = $("#f_esnoticia").serializeArray();
+  $.ajax({
+        data:  datos,
+        url:   "m_inclusiones/a_intranet/esnoticia.php",
+        type:  "post",
+        beforeSend: function () {
+          $("#b_noesnoticia").hide();
+          $("#b_siesnoticia").html("<i class='fa fa-spinner fa-spin'></i> Desactivando");
+          $("#b_siesnoticia").addClass("disabled");
+        },
+        success:  function (response) {
+          $("#b_siesnoticia").hide();
+          $("#b_siesnoticia").html("Si");
+          $("#b_siesnoticia").removeClass("disabled");
+          $("#b_noesnoticia").html("Cerrar");
+          $("#b_noesnoticia").show();
+          $("#d_esnoticia").html(response);
+        }
+    });
+});
+//cambiar estado noticia
+
+
 $("#b_fcomunicado").click(function(){
   $.ajax({
     type:"post",
@@ -53,7 +409,7 @@ $("#b_fcomunicado").click(function(){
   });
 });
 //fecha intranet
-$('#fech1,#fech2').datepicker({
+$('#fech1,#fech2,#fecha1,#fecha2').datepicker({
   format: "dd/mm/yyyy",
   language: "es",
   autoclose: true,

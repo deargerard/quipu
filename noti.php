@@ -16,7 +16,7 @@ if($conex){
 <div class="container">
     <div class="row">
 <?php
-  include("contenido/index.php");
+  include("contenido/noti.php");
   include("estructura/aderecha.php");
 ?>
     </div>
@@ -37,20 +37,6 @@ if($conex){
   include("estructura/jss.php");
 ?>
 
-    <?php
-    $c=mysqli_query($cone,"SELECT idComunicado FROM comunicado WHERE Estado=1 ORDER BY Fecha DESC LIMIT 1;");
-    if($r=mysqli_fetch_assoc($c)){
-      $idco=$r['idComunicado'];
-    ?>
-    <script>
-      $(document).ready(function(){
-        $("#mcomunicado").modal("show");
-        vcomunicado(<?php echo $idco; ?>);
-      });
-    </script>
-    <?php
-    }
-    ?>
 <?php
 }else{
   echo mensajeda("Error: No existe conexión a la base de datos.");

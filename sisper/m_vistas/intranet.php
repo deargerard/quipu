@@ -24,6 +24,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
               <li><a href="#tab_2" data-toggle="tab">Boletines</a></li>
               <li><a href="#tab_3" data-toggle="tab">Documentos</a></li>
               <li><a href="#tab_4" data-toggle="tab">Slider</a></li>
+              <li><a href="#tab_5" data-toggle="tab">Noticias</a></li>
             </ul>
             <div class="tab-content">
               <div class="tab-pane active" id="tab_1">
@@ -365,6 +366,97 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 <!--Fin div resultados-->
               </div>
               <!-- /.tab-pane -->
+              <div class="tab-pane" id="tab_5">
+
+                <!--Formulario busqueda-->
+                <form class="form-inline" id="f_bnoticia">
+                  <div class="form-group has-feedback valida">
+                      <span class="fa fa-calendar form-control-feedback"></span>
+                      <input type="text" class="form-control" id="fecha1" name="fecha1" placeholder="Fecha de inicio">
+                  </div>
+                  <div class="form-group has-feedback valida">
+                      <span class="fa fa-calendar form-control-feedback"></span>
+                      <input type="text" class="form-control" id="fecha2" name="fecha2" placeholder="Fecha de fin">
+                  </div>
+
+                  <button type="submit" class="btn btn-default" id="b_bnoticia">Buscar</button>
+                  <button type="button" class="btn btn-info" id="b_fnoticia" data-toggle="modal" data-target="#m_nnoticia">Nueva Noticia</button>
+
+                </form>
+                <!--Fin formulario busqueda-->
+                <!--Div resultados-->
+                <div class="d_noticia">
+                  <?php
+                  $fecha = @date('Y-m-j');
+                  $nuevafecha = @strtotime ( '-10 day' , strtotime ( $fecha ) ) ;
+                  $nuevafecha = @date ( 'Y-m-j' , $nuevafecha );
+                  $cnot=mysqli_query($cone,"SELECT idNoticia, Fecha, Titular, Imagen, Estado, idEmpleado FROM noticia WHERE Fecha>='$nuevafecha' AND Fecha<='$fecha' ORDER BY Fecha DESC");
+                  if(mysqli_num_rows($cnot)>0){
+                  ?>
+                  <h3 class="text-maroon">Noticias del <?php echo fnormal($nuevafecha); ?> al <?php echo fnormal($fecha); ?>.</h3>
+                  <table class="table" id="dtcomunicado">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Fecha</th>
+                        <th>Titular</th>
+                        <th>Imagen</th>
+                        <th>Por</th>
+                        <th>Estado</th>
+                        <th>Acción</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <?php
+                      $c=0;
+                      while($rnot=mysqli_fetch_assoc($cnot)){
+                        $c++;
+                        if($rnot['Imagen']==""){
+                          $a=false;
+                        }else{
+                          $a=true;
+                        }
+                      ?>
+                      <tr>
+                        <td><?php echo $c; ?></td>
+                        <td><?php echo fnormal($rnot['Fecha']); ?></td>
+                        <td><?php echo $rnot['Titular']; ?></td>
+                        <td><a href="files_intranet/<?php echo $rnot['Imagen']; ?>" target="_blank"><?php echo end(explode('_', $rnot['Imagen'])); ?></a></td>
+                        <td><?php echo nomempleado($cone, $rnot['idEmpleado']); ?></td>
+                        <td><?php echo estado($rnot['Estado']) ?></td>
+                        <td>
+                          <div class="btn-group">
+                            <button class="btn btn-warning btn-xs dropdown-toggle" data-toggle="dropdown">
+                              <i class="fa fa-cog"></i>&nbsp;
+                              <span class="caret"></span>
+                              <span class="sr-only">Desplegar menú</span>
+                            </button>
+                            <ul class="dropdown-menu pull-right" role="menu">
+                              <li><a href="#" onclick="edinot(<?php echo $rnot['idNoticia']; ?>)" data-toggle="modal" data-target="#m_enoticia">Editar</a></li>
+                              <li><a href="#" onclick="imanot(<?php echo $rnot['idNoticia']; ?>)" data-toggle="modal" data-target="#m_inoticia">Imagen</a></li>
+                              <?php if($a){ ?>
+                              <li><a href="#" onclick="estnot(<?php echo $rnot['idNoticia']; ?>)" data-toggle="modal" data-target="#m_esnoticia"><?php echo $rnot['Estado']==1 ? "Desactivar" : "Activar"; ?></a></li>
+                              <?php } ?>
+                            </ul>
+                          </div>
+                        </td>
+                      </tr>
+                      <?php
+                      }
+                      ?>
+                    </tbody>
+                  </table>
+                  <?php
+                  }else{
+                    echo mensajewa("No existen noticias.");
+                  }
+                  mysqli_free_result($cnot);
+                  ?>
+                </div>
+                <!--Fin div resultados-->
+
+              </div>
+              <!-- /.tab-pane -->
             </div>
             <!-- /.tab-content -->
           </div>
@@ -374,6 +466,97 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
 
     </section>
     <!-- /.content -->
+
+<!--Modal nueva noticia-->
+<div class="modal fade" id="m_nnoticia" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <form id="f_nnoticia" action="" class="form-horizontal">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Nueva Noticia</h4>
+      </div>
+      <div class="modal-body" id="d_nnoticia">
+
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn bg-teal" id="b_gnnoticia">Guardar</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+      </form>
+    </div>
+  </div>
+  
+</div>
+<!--Fin Modal nueva noticia-->
+
+<!--Modal editar noticia-->
+<div class="modal fade" id="m_enoticia" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <form id="f_enoticia" action="" class="form-horizontal">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Editar Noticia</h4>
+      </div>
+      <div class="modal-body" id="d_enoticia">
+
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn bg-teal" id="b_genoticia">Guardar</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+      </form>
+    </div>
+  </div>
+  
+</div>
+<!--Fin Modal editar noticia-->
+<!--Modal imagen noticia-->
+<div class="modal fade" id="m_inoticia" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <form id="f_inoticia" action="" class="form-horizontal">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Imagen Noticia</h4>
+      </div>
+      <div class="modal-body" id="d_inoticia">
+
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn bg-teal" id="b_ginoticia">Guardar</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!--Fin Modal imagen noticia-->
+
+<!--Modal estado noticia-->
+<div class="modal fade" id="m_esnoticia" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <form id="f_esnoticia" action="" class="form-horizontal">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Estado Noticia</h4>
+      </div>
+      <div class="modal-body" id="d_esnoticia">
+
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-danger" id="b_siesnoticia">Si</button>
+        <button type="button" class="btn btn-default" id="b_noesnoticia" data-dismiss="modal">No</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!--Fin Modal estado noticia-->
 
 <!--Modal nuevo comunicado-->
 <div class="modal fade" id="m_ncomunicado" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

@@ -31,6 +31,11 @@
   <link rel="stylesheet" href="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
   <!-- Favicon -->
   <link rel='shortcut icon' type='image/x-icon' href='m_images/favicon.png' />
+<?php
+if(!empty($css)){
+  echo $css;
+}
+?>
   <style>
   .ui-autocomplete {
     max-height: 200px;

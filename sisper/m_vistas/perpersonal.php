@@ -368,7 +368,7 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
 		                			<tr>
 		                				<th>COND. LAB.</th>
 		                				<th>MOD.</th>
-		                				<th>REEMPAZA A</th>
+		                				<th>REEMPLAZA A</th>
 		                				<th>F. ASUME</th>
 		                				<th>ESTADO</th>
 		                			<?php if($rc['EstadoCar']!="ACTIVO"){ ?>
