@@ -96,7 +96,7 @@
                 </div>
                 <?php
                   }else{
-                    mensajewa("Aún no hay noticias.");
+                    echo mensajewa("Aún no hay noticias.");
                   }
                 ?>
               </div>
@@ -113,7 +113,7 @@
                 <?php
                     }
                   }else{
-                    mensajewa("Aún no hay muchas noticias.");
+                    echo mensajewa("Aún no hay muchas noticias.");
                   }
                 ?>
               </div>

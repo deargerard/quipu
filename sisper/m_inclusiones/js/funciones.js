@@ -103,3 +103,65 @@ $("#f_camcontra").validate({
       });
     }
 });
+
+$("#ocon").on("click",function(e){
+$.ajax({
+  type:"post",
+  url:"a_ocon.php",
+  beforeSend: function () {
+    $("#r_ocon").html("<img scr='m_images/loader.gif'>");
+  },
+  success:function(a){
+    $("#r_ocon").html(a);
+    $("#b_gocon").show();
+  }
+});
+});
+
+$( "#f_ocon" ).validate( {
+  rules: {
+    odni:{required:true,minlength:8},
+    ocor:{required:true,email:true}
+  },
+  messages: {
+    odni:{minlength:"El DNI tiene 8 caracteres."}
+  },
+  errorElement: "em",
+  errorPlacement: function ( error, element ) {
+    // Add the `help-block` class to the error element
+    error.addClass( "help-block" );
+
+    if ( element.prop( "type" ) === "checkbox" ) {
+      error.insertAfter( element.parent( "label" ) );
+    } else if ( element.prop( "type" ) === "radio" ){
+      error.insertAfter( element.parent( "label" ) );
+    }
+    else {
+      error.insertAfter( element );
+    }
+  },
+  highlight: function ( element, errorClass, validClass ) {
+    $( element ).parents( ".valida" ).addClass( "has-error" ).removeClass( "has-success" );
+  },
+  unhighlight: function (element, errorClass, validClass) {
+    $( element ).parents( ".valida" ).addClass( "has-success" ).removeClass( "has-error" );
+  },
+  submitHandler: function(form){
+    var datos = $("#f_ocon").serializeArray();
+    datos.push({name: "NomForm", value: "f_ocon"});
+    $.ajax({
+       type: "POST",
+       url: "a_gocon.php",
+       dataType: "html",
+       data: datos,   // I WANT TO ADD EXTRA DATA + SERIALIZE DATA
+       beforeSend: function () {
+          $("#r_ocon").html("<img scr='m_images/loader.gif'>");
+          $("#b_gocon").hide();
+       },
+       success: function(data){
+          $("#r_ocon").html(data);
+          $("#r_ocon").slideDown();
+       }
+    });
+  }
+});

@@ -57,13 +57,33 @@
     <div id="a_login" role="alert"></div>
     <div class="row">
       <div class="col-xs-12">
-        <a class="btn btn-default btn-block btn-flat" href="Manual.pdf" role="button" target="_blank"><i class="fa fa-cloud-download"></i> Descargar manual</a>
+        <button id="ocon" type="button" class="btn btn-default btn-block btn-flat" data-toggle="modal" data-target="#m_ocon"><i class="fa fa-frown-o"></i> He olvidado mi contraseña</button><br>
       </div>
     </div>
   </div>
   <!-- /.login-box-body -->
 </div>
 <!-- /.login-box -->
+
+<div class="modal fade" id="m_ocon" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Recuperar contraseña</h4>
+      </div>
+      <form id="f_ocon">
+      <div class="modal-body" id="r_ocon">
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <button type="submit" id="b_gocon" class="btn btn-primary">Recuperar</button>
+      </div>
+      </form>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 <!-- jQuery 2.1.4 -->
 <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
