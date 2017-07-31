@@ -3,6 +3,6 @@
           <span class="glyphicon glyphicon-credit-card form-control-feedback"></span>
         </div>
         <div class="form-group has-feedback">
-          <input type="text" class="form-control valida" name="ocor" id="ocor" placeholder="Correo">
+          <input type="text" class="form-control valida" name="ocor" id="ocor" placeholder="Correo Institucional">
           <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
         </div>

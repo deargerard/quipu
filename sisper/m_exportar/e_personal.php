@@ -16,13 +16,13 @@ if(accesocon($cone,$_SESSION['identi'],1)){
 ?>
           <table border=1>
               <tr>
-                    <th colspan="15"><font face="arial" color="#FF5C26" size="3">LISTADO DE PERSONAL ACTIVO - DISTRITO FISCAL DE CAJAMARCA</font></th>
+                    <th colspan="19"><font face="arial" color="#FF5C26" size="3">LISTADO DE PERSONAL ACTIVO - DISTRITO FISCAL DE CAJAMARCA</font></th>
               </tr>
               <tr>
-                    <td colspan="15"></td>
+                    <td colspan="19"></td>
               </tr>
 <?php
-              $cper=mysqli_query($cone,"SELECT e.idEmpleado, ApellidoPat, ApellidoMat, Nombres, FechaNac, NumeroDoc, CorreoPer, CorreoIns, ec.idCargo, cd.Oficial, cd.idDependencia, ec.FechaAsu, ec.idModAcceso, ec.Reemplazado FROM empleado AS e INNER JOIN empleadocargo AS ec ON e.idEmpleado=ec.idEmpleado INNER JOIN cardependencia AS cd ON ec.idEmpleadoCargo=cd.idEmpleadoCargo WHERE ec.idEstadoCar=1 AND cd.Estado=1 ORDER BY ApellidoPat, ApellidoMat, Nombres ASC");
+              $cper=mysqli_query($cone,"SELECT e.idEmpleado, ApellidoPat, ApellidoMat, Nombres, Sexo, FechaNac, NumeroDoc, CorreoPer, CorreoIns, ec.idCargo, cd.Oficial, cd.idDependencia, ec.FechaAsu, ec.idModAcceso, ec.Reemplazado FROM empleado AS e INNER JOIN empleadocargo AS ec ON e.idEmpleado=ec.idEmpleado INNER JOIN cardependencia AS cd ON ec.idEmpleadoCargo=cd.idEmpleadoCargo WHERE ec.idEstadoCar=1 AND cd.Estado=1 ORDER BY ApellidoPat, ApellidoMat, Nombres ASC");
               if(mysqli_num_rows($cper)>0){
 ?>
                 <tr bgcolor= "#777777">
@@ -31,6 +31,7 @@ if(accesocon($cone,$_SESSION['identi'],1)){
                   <td><font color="#ffffff" size="2">A. PATERNO</font></td>
                   <td><font color="#ffffff" size="2">A. MATERNO</font></td>
                   <td><font color="#ffffff" size="2">NOMBRES</font></td>
+                  <td><font color="#ffffff" size="2">SEXO</font></td>
                   <td><font color="#ffffff" size="2">F. NACIMIENTO</font></td>
                   <td><font color="#ffffff" size="2">CARGO</font></td>
                   <td><font color="#ffffff" size="2">SIS. LABORAL</font></td>
@@ -68,6 +69,7 @@ if(accesocon($cone,$_SESSION['identi'],1)){
                   <td><font color="#000000"><?php echo $rper['ApellidoPat']; ?></font></td>
                   <td><font color="#000000"><?php echo $rper['ApellidoMat']; ?></font></td>
                   <td><font color="#000000"><?php echo $rper['Nombres']; ?></td>
+                  <td><font color="#000000"><?php echo $rper['Sexo']; ?></td>
                   <td><font color="#555555"><?php echo fnormal($rper['FechaNac']); ?></td>
                   <td><font color="#000000"><?php echo cargoe($cone,$ide); ?></font></td>
                   <td><font color="#555555"><?php echo sislaboral($cone,$rper['idCargo']); ?></font></td>
