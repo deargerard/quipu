@@ -5,7 +5,7 @@
     <div class="pull-right hidden-xs">
       <b>Ministerio Público</b> Distrito Fiscal de Cajamarca
     </div>
-    <strong>Copyright &copy; 2016 Oficina de Sistemas e Informática.</strong> Todos los derechos reservados.
+    <strong>Copyright &copy; <?php echo date("Y"); ?> Área de Informática.</strong> Todos los derechos reservados.
   </footer>
 
   <!-- Control Sidebar -->

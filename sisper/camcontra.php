@@ -36,8 +36,8 @@ if(vacceso($cone,$_SESSION['identi'],$_SESSION['docide'],$_SESSION['nomusu'])){
 <div class="login-box">
   <!-- /.login-logo -->
   <div class="login-box-body">
-    <h4 class="login-box-msg">CAMBIAR CONTRASEÑA</h4>
-    <p class="text-justify">Por motivos de seguridad, se recomienda cambiar la contraseña inicial y luego cada 3 meses.</p>
+    <h4 class="login-box-msg text-maroon">CAMBIAR CONTRASEÑA</h4>
+    <p class="text-justify">Por motivos de seguridad, se recomienda cambiar la contraseña continuamente.</p>
     <p class="text-justify">Dicha contraseña debe contener como mínimo 6 caracteres, pudiendo ser estos, alfanuméricos y especiales.</p>
     <form id="f_camcontra" name="f_camcontra" action="" method="post">
       <div class="form-group has-feedback valida">
