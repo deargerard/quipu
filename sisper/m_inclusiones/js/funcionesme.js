@@ -854,3 +854,7 @@ $(".select2pertodos").select2({
   },
   minimumInputLength: 4
 })
+
+$('#r_entregacargo').slimScroll({
+	height:'600px'
+});

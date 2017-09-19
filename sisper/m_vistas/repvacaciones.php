@@ -32,13 +32,13 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 <form action="" id="f_rreva" class="form-inline">
                   <div class="form-group">
                     <label for="aaa" class="sr-only">Personal</label>
-                    <select name="per" id="per" class="form-control select2pertot" style="width: 350px;">
+                    <select name="per" id="per" class="form-control select2pertot" style="width: 300px;">
 
                     </select>
                   </div>
                   <div class="form-group">
                     <label for="bbb" class="sr-only">Cargo </label>
-                    <select name="car" id="car" class="form-control select2" style="width: 200px;">
+                    <select name="car" id="car" class="form-control select2" style="width: 180px;">
 
                     </select>
                   </div>
@@ -53,9 +53,11 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                       <option value="5">SUSPENDIDAS</option>
                     </select>
                   </div>
+                
+
                   <div class="form-group">
                     <label for="aaa" class="sr-only">Condición</label>
-                    <select name="convac[]" class="selectpicker" multiple="multiple" multiple data-selected-text-format="count" title="CONDICIÓN">
+                    <select name="convac[]" class="form-control selectpicker" multiple="multiple" multiple data-selected-text-format="count" title="CONDICIÓN">
                       <option value="1">PROGRAMADAS</option>
                       <option value="0">REPROGRAMADAS</option>
                     </select>

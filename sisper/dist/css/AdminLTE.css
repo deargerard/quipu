@@ -4519,6 +4519,8 @@ table.text-center th {
 .label-warning,
 .label-primary,
 .label-success,
+.label-purple,
+.label-navy,
 .modal-primary .modal-body,
 .modal-primary .modal-header,
 .modal-primary .modal-footer,
@@ -4583,7 +4585,8 @@ table.text-center th {
 .modal-success .modal-body {
   background-color: #00a65a !important;
 }
-.bg-navy {
+.bg-navy,
+.label-navy {
   background-color: #001f3f !important;
 }
 .bg-teal {
@@ -4601,7 +4604,8 @@ table.text-center th {
 .bg-fuchsia {
   background-color: #f012be !important;
 }
-.bg-purple {
+.bg-purple,
+.label-purple {
   background-color: #605ca8 !important;
 }
 .bg-maroon {

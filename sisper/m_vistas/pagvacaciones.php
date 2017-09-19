@@ -34,19 +34,19 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                     <form action="" id="f_vacper" class="form-inline">
                       <div class="form-group">
                         <label for="per" class="sr-only">Personal</label>
-                        <select name="per" id="per" class="form-control select2pertot" style="width: 400px;">
+                        <select name="per" id="per" class="form-control select2pertot" style="width: 300px;">
 
                         </select>
                       </div>
                       <div class="form-group">
                         <label for="bbb" class="sr-only">Cargo </label>
-                        <select name="car" id="car" class="form-control select2" style="width: 250px;">
+                        <select name="car" id="car" class="form-control select2" style="width: 180px;">
 
                         </select>
                       </div>
                       <div class="form-group">
                         <label for="pervac" class="sr-only">Período</label>
-                        <select name="pervac" id="pervac" class="form-control select2per" style="width: 150px">
+                        <select name="pervac" id="pervac" class="form-control select2per" style="width: 110px">
 
                           <!-- <option value="t">TODOS</option> -->
 
@@ -55,7 +55,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                       <button class="btn btn-default" type="button" id="b_nperiodo" data-toggle="modal" data-target="#m_nperiodo"><i class="fa fa-calendar-plus-o" ></i></button>
                       <div class="form-group">
                         <label for="est" class="sr-only">ESTADO</label>
-                        <select id="can" name="can[]" class="form-control selectpicker show-tick" multiple data-selected-text-format="count" title=" VER CANCELADAS">
+                        <select id="can" name="can[]" class="form-control selectpicker show-tick" multiple data-selected-text-format="count" title="CANCELADAS">
                           <option value="2">VER CANCELADAS</option>
                         </select>
                       </div>

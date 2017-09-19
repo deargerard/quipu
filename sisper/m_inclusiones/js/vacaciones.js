@@ -17,7 +17,7 @@ $("#f_vacper").submit(function(e){
    });
 });
 // Fin Recibir Persona y periodo vacacional
-// función nueva programacion de vacaciones
+// funciÃ³n reprogramacion de vacaciones
 function nuevac(idec, pervac, fii, ffi, fff, st){
 $.ajax({
  type: "post",
@@ -33,8 +33,8 @@ $.ajax({
  }
 });
 };
-//fin nueva programacion de vacaciones
-//funcion validar nueva programacion de vacaciones
+//fin reprogramacion de vacaciones
+//funcion validar reprogramacion de vacaciones
 $( "#f_nuevacaciones").validate( {
  rules: {
    peva:"required",
@@ -46,7 +46,7 @@ $( "#f_nuevacaciones").validate( {
    peva:"Seleccione el periodo vacacional",
    inivac:"Seleccione el inicio de las vacaciones",
    finvac:"Seleccione el final de las vacaciones",
-   doc:"Seleccione el documento de aprobación de las vacaciones",
+   doc:"Seleccione el documento de aprobaciÃ³n de las vacaciones",
   },
  errorElement: "em",
  errorPlacement: function ( error, element ) {
@@ -90,8 +90,8 @@ $( "#f_nuevacaciones").validate( {
    });
  }
 } );
-//fin función validar nueva programacion de vacaciones
-// función editar programacion de vacaciones
+//fin funciÃ³n validar reprogramacion de vacaciones
+// funciÃ³n editar reprogramacion de vacaciones
 function edivac(perm, idvac, idav, fii, ffi, fff){
 $.ajax({
 type: "post",
@@ -107,8 +107,8 @@ success:function(a){
 }
 });
 };
-//fin editar programacion de vacaciones
-//funcion validar editar programacion de vacaciones
+//fin editar reprogramacion de vacaciones
+//funcion validar editar reprogramacion de vacaciones
 $( "#f_evacaciones" ).validate( {
   rules: {
     inivac:"required",
@@ -118,7 +118,7 @@ $( "#f_evacaciones" ).validate( {
   messages: {
     inivac:"Seleccione el inicio de las vacaciones",
     finvac:"Seleccione el final de las vacaciones",
-    doc:"Seleccione el documento de aprobación de las vacaciones",
+    doc:"Seleccione el documento de aprobaciÃ³n de las vacaciones",
    },
  errorElement: "em",
  errorPlacement: function ( error, element ) {
@@ -162,8 +162,8 @@ $( "#f_evacaciones" ).validate( {
    });
  }
 } );
-//fin función validar editar programacion de vacaciones
-// función cancelar vacaciones
+//fin funciÃ³n validar editar reprogramacion de vacaciones
+// funciÃ³n cancelar vacaciones
 function canvac(perm, idvac){
 $.ajax({
  type: "post",
@@ -181,8 +181,8 @@ $.ajax({
  }
 });
 };
-//fin función cancelar vacaciones
-//función enviar vacaciones a cancelar
+//fin funciÃ³n cancelar vacaciones
+//funciÃ³n enviar vacaciones a cancelar
 $("#f_cvacaciones").submit(function(e){
   e.preventDefault();
   var datos = $("#f_cvacaciones").serializeArray();
@@ -201,7 +201,7 @@ $("#f_cvacaciones").submit(function(e){
         }
     });
 });
-//fin función enviar vacaciones a cancelar
+//fin funciÃ³n enviar vacaciones a cancelar
 //funcion actualizar lista de vacaciones
 $('#m_nvacaciones, #m_evacaciones, #m_cvacaciones').on('hidden.bs.modal', function () {
   var datos = $('#f_vacper').serializeArray()
@@ -223,7 +223,7 @@ $('#m_nvacaciones, #m_evacaciones, #m_cvacaciones').on('hidden.bs.modal', functi
   });
 })
 //fin funcion actualizar lista de vacaciones
-//funcion llamar formulario nuevo período
+//funcion llamar formulario nuevo perÃ­odo
 $("#b_nperiodo").on("click",function(e){
   $.ajax({
     type:"post",
@@ -237,14 +237,14 @@ $("#b_nperiodo").on("click",function(e){
     }
   });
 });
-//fin funcion llamar formulario nuevo período
-//funcion validar nuevo período
+//fin funcion llamar formulario nuevo perÃ­odo
+//funcion validar nuevo perÃ­odo
 $( "#f_nperiodo").validate({
  rules: {
    atrab: "required",
    },
  messages: {
-   atrab: "Ingrese el año trabajado.",
+   atrab: "Ingrese el aÃ±o trabajado.",
    },
  errorElement: "em",
  errorPlacement: function ( error, element ) {
@@ -289,11 +289,11 @@ $( "#f_nperiodo").validate({
    });
  }
 } );
-//fin función validar nuevo período
+//fin funciÃ³n validar nuevo perÃ­odo
 
 //function seleccionar periodo
 $(".select2per").select2({
-  placeholder: 'Selecione período',
+  placeholder: 'Selecione perÃ­odo',
   ajax: {
     url: 'm_inclusiones/a_vacaciones/a_selperiodo.php',
     dataType: 'json',
@@ -347,7 +347,7 @@ $("#f_rvare").submit(function(e){
    });
 });
 // Fin Recibir datos para reporte de Vacaciones por Regimen
-// Recibir datos para reporte de Ejecución Vacaciones
+// Recibir datos para reporte de EjecuciÃ³n Vacaciones
 $("#f_rejva").submit(function(e){
  e.preventDefault();
  var datos = $("#f_rejva").serializeArray();
@@ -365,7 +365,7 @@ $("#f_rejva").submit(function(e){
        }
    });
 });
-// Fin Recibir datos para reporte de Ejecución Vacaciones
+// Fin Recibir datos para reporte de EjecuciÃ³n Vacaciones
 
 $(' #fecha').datepicker({
   format: "dd/mm/yyyy",
@@ -413,7 +413,7 @@ $("#mesfin").datepicker({
 })
 
 // fin datepickers reporte por meses
-// Recibir datos para Ejecución Vacaciones
+// Recibir datos para EjecuciÃ³n Vacaciones
 $("#f_ejva").submit(function(e){
  e.preventDefault();
  var datos = $("#f_ejva").serializeArray();
@@ -431,8 +431,8 @@ $("#f_ejva").submit(function(e){
        }
    });
 });
-// Fin Recibir datos para Ejecución Vacaciones
-// Función ejecutar vacaciones
+// Fin Recibir datos para EjecuciÃ³n Vacaciones
+// FunciÃ³n ejecutar vacaciones
 function ejevac(idvac, nom){
 $.ajax({
  type: "post",
@@ -450,8 +450,8 @@ $.ajax({
  }
 });
 };
-//fin función ejecutar vacaciones
-//función enviar vacaciones a ejecutar
+//fin funciÃ³n ejecutar vacaciones
+//funciÃ³n enviar vacaciones a ejecutar
 $("#f_ejvacaciones").submit(function(e){
   e.preventDefault();
   var datos = $("#f_ejvacaciones").serializeArray();
@@ -470,7 +470,7 @@ $("#f_ejvacaciones").submit(function(e){
         }
     });
 });
-//fin función enviar vacaciones a ejecutar
+//fin funciÃ³n enviar vacaciones a ejecutar
 //funcion actualizar lista de vacaciones por ejecutar
 $('#m_ejvacaciones').on('hidden.bs.modal', function () {
   var datos = $("#f_ejva").serializeArray();
@@ -543,3 +543,168 @@ function validarc(){
     });
 }
 // Fin Recibir datos para validar clave de Cancelar vacaciones
+
+//----
+
+// funciÃ³n programacion de vacaciones
+function provac(idec, pervac, fii, ffi, fff){
+$.ajax({
+ type: "post",
+ url: "m_inclusiones/a_vacaciones/a_fnuepro.php",
+ data: { idec : idec, pervac : pervac, fii : fii, ffi : ffi, fff : fff},
+ beforeSend: function () {
+   $("#r_provacaciones").html("<img src='m_images/cargando.gif'>");
+   $("#b_gpvac").hide();
+ },
+ success:function(a){
+   $("#b_gpvac").show();
+   $("#r_provacaciones").html(a);
+ }
+});
+};
+//fin programacion de vacaciones
+//funcion validar programacion de vacaciones
+$( "#f_provacaciones").validate( {
+ rules: {
+   peva:"required",
+   inivac:"required",
+   finvac:"required",
+  },
+ messages: {
+   peva:"Seleccione el periodo vacacional",
+   inivac:"Seleccione el inicio de las vacaciones",
+   finvac:"Seleccione el final de las vacaciones",
+  },
+ errorElement: "em",
+ errorPlacement: function ( error, element ) {
+   // Add the `help-block` class to the error element
+   error.addClass( "help-block" );
+
+   if ( element.prop( "type" ) === "checkbox" ) {
+     error.insertAfter( element.parent( "label" ) );
+   } else if ( element.prop( "type" ) === "radio" ){
+     error.insertAfter( element.parent( "label" ) );
+   }
+   else {
+     error.insertAfter( element );
+   }
+ },
+ highlight: function ( element, errorClass, validClass ) {
+   $( element ).parents( ".valida" ).addClass( "has-error" ).removeClass( "has-success" );
+ },
+ unhighlight: function (element, errorClass, validClass) {
+   $( element ).parents( ".valida" ).addClass( "has-success" ).removeClass( "has-error" );
+ },
+ submitHandler: function(form){
+   var datos = $("#f_provacaciones").serializeArray();
+   datos.push({name: "NomForm", value: "f_provacaciones"});
+   $.ajax({
+      type: "POST",
+      url: "m_inclusiones/a_vacaciones/a_gprovac.php",
+      dataType: "html",
+      data: datos,   // I WANT TO ADD EXTRA DATA + SERIALIZE DATA
+      beforeSend: function () {
+         $("#b_gnvac").html("<i class='fa fa-spinner fa-spin'></i> Enviando");
+         $("#b_gnvac").addClass("disabled");
+      },
+      success: function(data){
+         $("#b_gpvac").hide();
+         $("#b_gpvac").html("Guardar");
+         $("#b_gpvac").removeClass("disabled");
+         $("#r_provacaciones").html(data);
+         $("#r_provacaciones").slideDown();
+      }
+   });
+ }
+} );
+//fin funciÃ³n validar programacion de vacaciones
+//funcion actualizar lista de vacaciones
+$('#m_programarvacaciones, #m_editarprogramacion').on('hidden.bs.modal', function () {
+  var idper = $('#idper').val();
+  var pervac = $('#pervac').val();
+  $.ajax({
+     type: "POST",
+     url: "m_inclusiones/a_vacaciones/a_reva.php",
+     dataType: "html",
+     data: {idper : idper, pervac : pervac},   // I WANT TO ADD EXTRA DATA + SERIALIZE DATA
+     beforeSend: function () {
+        $("#reva").html("<i class='fa fa-spinner fa-spin'></i> Actualizando");
+     },
+     success: function(data){
+
+        $("#reva").html(data);
+        $("#reva").slideDown();
+     }
+  });
+})
+//fin funcion actualizar lista de vacaciones
+// funciÃ³n editar programacion de vacaciones
+function edipro(idvac, fii, ffi, fff){
+$.ajax({
+type: "post",
+url: "m_inclusiones/a_vacaciones/a_fedipro.php",
+data: { idvac : idvac, fii : fii, ffi : ffi, fff : fff},
+beforeSend: function () {
+  $("#r_ediprogramacion").html("<img src='m_images/cargando.gif'>");
+  $("#b_gepro").hide();
+},
+success:function(a){
+  $("#b_gepro").show();
+  $("#r_ediprogramacion").html(a);
+}
+});
+};
+//fin editar programacion de vacaciones
+//funcion validar editar programacion de vacaciones
+$( "#f_ediprogramacion" ).validate( {
+  rules: {
+    inivac:"required",
+    finvac:"required",
+   },
+  messages: {
+    inivac:"Seleccione el inicio de las vacaciones",
+    finvac:"Seleccione el final de las vacaciones",
+   },
+ errorElement: "em",
+ errorPlacement: function ( error, element ) {
+   // Add the `help-block` class to the error element
+   error.addClass( "help-block" );
+
+   if ( element.prop( "type" ) === "checkbox" ) {
+     error.insertAfter( element.parent( "label" ) );
+   } else if ( element.prop( "type" ) === "radio" ){
+     error.insertAfter( element.parent( "label" ) );
+   }
+   else {
+     error.insertAfter( element );
+   }
+ },
+ highlight: function ( element, errorClass, validClass ) {
+   $( element ).parents( ".valida" ).addClass( "has-error" ).removeClass( "has-success" );
+ },
+ unhighlight: function (element, errorClass, validClass) {
+   $( element ).parents( ".valida" ).addClass( "has-success" ).removeClass( "has-error" );
+ },
+ submitHandler: function(form){
+   var datos = $("#f_ediprogramacion").serializeArray();
+   datos.push({name: "NomForm", value: "f_ediprogramacion"});
+   $.ajax({
+      type: "POST",
+      url: "m_inclusiones/a_vacaciones/a_gedipro.php",
+      dataType: "html",
+      data: datos,   // I WANT TO ADD EXTRA DATA + SERIALIZE DATA
+      beforeSend: function () {
+         $("#b_gepro").html("<i class='fa fa-spinner fa-spin'></i> Enviando");
+         $("#b_gepro").addClass("disabled");
+      },
+      success: function(data){
+         $("#b_gepro").hide();
+         $("#b_gepro").html("Guardar");
+         $("#b_gepro").removeClass("disabled");
+         $("#r_ediprogramacion").html(data);
+         $("#r_ediprogramacion").slideDown();
+      }
+   });
+ }
+} );
+//fin funciÃ³n validar editar programacion de vacaciones

@@ -9,6 +9,7 @@ if(vacceso($cone,$_SESSION['identi'],$_SESSION['docide'],$_SESSION['nomusu'])){
 	$tit="Perfil";
 	$js="<script src='m_inclusiones/js/upload.js'></script>\n";
 	$js.="<script src='m_inclusiones/js/bootstrap-filestyle.min.js'></script>\n";
+  $js.="<script src='m_inclusiones/js/vacaciones.js'></script>";
   include("m_estructura/e_up.php");
   include("m_vistas/ficlaboral.php");
   include("m_estructura/e_down.php");
@@ -22,10 +23,12 @@ $(document).ready(function(){
 <?php for ($i=1; $i < ($n+1); $i++) {  ?>
 
   $("#dtable<?php echo $i ?>").DataTable({
-    "order": [[0,"asc"]]
+    "order": [[7,"asc"]]
   });
 <?php } ?>
-
+<?php if(!$v){ ?>
+    $("#b_provac").hide();
+<?php } ?>
 });
 </script>
 <?php

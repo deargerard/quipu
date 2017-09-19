@@ -1,8 +1,15 @@
 <?php
 if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
   $idper=$_SESSION['identi'];
-  $sql="SELECT ec.idEstadoCar as est, ec.idEmpleadoCargo, ec.FechaVac, ec.FechaAsu, cl.Tipo, ma.ModAcceso, eca.EstadoCar, c.Denominacion AS cargo, d.Denominacion, cc.CondicionCar FROM empleadocargo ec INNER JOIN condicionlab cl ON ec.idCondicionLab=cl.idCondicionLab INNER JOIN modacceso ma ON ec.idModAcceso=ma.idModAcceso INNER JOIN estadocar eca ON ec.idEstadoCar=eca.idEstadoCar INNER JOIN cargo c ON ec.idCargo=c.idCargo INNER JOIN cardependencia cd ON ec.idEmpleadoCargo=cd.idEmpleadoCargo INNER JOIN dependencia d ON cd.idDependencia=d.idDependencia INNER JOIN condicioncar cc ON ec.idCondicionCar=cc.idCondicionCar WHERE ec.idEmpleado=$idper and cd.oficial=1 ORDER BY ec.idEmpleadoCargo DESC";
+  $sql="SELECT ec.idEstadoCar as est, ec.idEmpleadoCargo, ec.FechaVac, ec.FechaAsu, cl.Tipo, ma.ModAcceso, eca.EstadoCar, c.Denominacion AS cargo, d.Denominacion, cc.CondicionCar FROM empleadocargo ec INNER JOIN condicionlab cl ON ec.idCondicionLab=cl.idCondicionLab INNER JOIN modacceso ma ON ec.idModAcceso=ma.idModAcceso INNER JOIN estadocar eca ON ec.idEstadoCar=eca.idEstadoCar INNER JOIN cargo c ON ec.idCargo=c.idCargo INNER JOIN cardependencia cd ON ec.idEmpleadoCargo=cd.idEmpleadoCargo INNER JOIN dependencia d ON cd.idDependencia=d.idDependencia INNER JOIN condicioncar cc ON ec.idCondicionCar=cc.idCondicionCar WHERE ec.idEmpleado=$idper and cd.oficial=1 ORDER BY ec.idEstadoCar ASC, ec.idEmpleadoCargo DESC";
   $ccar=mysqli_query($cone,$sql);
+  $qec="SELECT idEmpleadoCargo, FechaVac, FechaAsu FROM empleadocargo WHERE idEmpleado=$idper and idEstadoCar=1";
+  $cec=mysqli_query($cone,$qec);
+  $hoy = date("Y");
+  $anos= $hoy + 1;
+  $pv = trim($hoy." - ".$anos);
+  $cpev=mysqli_query($cone,"SELECT * FROM periodovacacional WHERE PeriodoVacacional='$pv'");
+
 ?>
   <!-- Content Header (Page header) -->
   <section class="content-header">
@@ -27,22 +34,44 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
           </ul>
           <div class="tab-content">
             <div class="tab-pane active" id="tab_1">
-              <!--Formulario de encabezado-->
-              <form action="" id="f_rreva" class="form-inline">
-              <p><h4 class="text-blue"><strong><i class="fa fa-user"></i> <?php echo nomempleado($cone,$idper); ?> </strong></h4></p>
-              </form>
-              <!--Fin Formulario de encabezado-->
+
+              <!--Encabezado-->
+                <div class="row">
+                <div class="col-sm-9">
+                  <p><h4 class="text-blue"><strong><i class="fa fa-user"></i> <?php echo nomempleado($cone,$idper); ?> </strong></h4></p>
+                </div>
+                <?php
+                if ($rec=mysqli_fetch_assoc($cec)) {
+                  $idec=$rec['idEmpleadoCargo'];
+                  if ($rpev=mysqli_fetch_assoc($cpev)) {
+                    $pervac=$rpev['idPeriodoVacacional'];
+                  }
+                  include("m_inclusiones/a_vacaciones/a_ofechas.php");
+                ?>
+                <div class="col-sm-3"> <!--Botón Programar vacaciones-->
+                  <input type="hidden" id="idper" value="<?php echo $idper?>"> <!--envía id de personal-->
+                  <input type="hidden" id="pervac" value="<?php echo $pervac?>"> <!--envía id de personal-->
+                  <button id="b_provac" class="btn btn-info" data-toggle="modal" data-target="#m_programarvacaciones" onclick="provac(<?php echo $idec .", ".$pervac.", '".$fii."', '".$ffi."', '".$fff."'" ?>)">Programar Vacaciones <?php echo $pv ?></button>
+                </div>
+                <?php
+                }
+                 ?>
+              </div>
+              <!--Fin Encabezado-->
+
               <!--div resultados-->
-              <div class="row">
+              <div class="row" id="reva">
                 <div class="col-md-12" id="vac">
                   <?php
                     $n=0;
                   while($rcar=mysqli_fetch_assoc($ccar)){
                     $n++;
                     $car=$rcar['idEmpleadoCargo'];
-                    $q="SELECT v.idProVacaciones, pv.PeriodoVacacional, concat(d.Numero,'-',d.Ano,'-',d.Siglas) AS Resolucion, d.FechaDoc, v.FechaIni, v.FechaFin, v.Estado, v.Condicion, av.idAprVacaciones FROM provacaciones as v INNER JOIN periodovacacional AS pv ON v.idPeriodoVacacional = pv.idPeriodoVacacional INNER JOIN aprvacaciones as av ON v.idProVacaciones= av.idProVacaciones INNER JOIN doc AS d ON av.idDoc=d.idDoc INNER JOIN empleadocargo AS ec ON v.idEmpleadoCargo=ec.idEmpleadoCargo WHERE idEmpleado = $idper AND ec.idEmpleadoCargo=$car";
+                    $q="SELECT v.idProVacaciones, pv.PeriodoVacacional, v.FechaIni, v.FechaFin, v.Estado, v.Condicion FROM provacaciones as v INNER JOIN periodovacacional AS pv ON v.idPeriodoVacacional = pv.idPeriodoVacacional INNER JOIN empleadocargo AS ec ON v.idEmpleadoCargo=ec.idEmpleadoCargo WHERE ec.idEmpleadoCargo=$car";
 
                     $cvac=mysqli_query($cone,$q);
+                    $vis=false;
+                    $v=true;
                   		if (mysqli_num_rows($cvac)>0) {
                   		 ?>
                        <div class="row">
@@ -50,14 +79,15 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                      		  $cond=$rcar['CondicionCar']=="NINGUNO" ? "" : " (".substr($rcar['CondicionCar'], 0, 1).")";
                            if ($rcar['est']==1) {
                              $col="text-blue";
+                             $vis= true;
                            }else{
                              $col="";
                            }
                          ?>
-                       <div class="col-sm-5">
+                       <div class="col-sm-4">
                        			<h4 ><small class="<?php echo $col ?> text-center" style="font-weight: bold"><i class="fa fa-black-tie"></i> <?php echo $rcar['cargo'].$cond." (".$rcar['EstadoCar'].")"  ?></small></h4>
                        </div>
-                       <div class="col-sm-7">
+                       <div class="col-sm-5">
                        			<h4 ><small class="<?php echo $col ?> text-center" style="font-weight: bold"><i class="fa fa-institution"></i> <?php echo $rcar['Denominacion']; ?></small></h4>
                        </div>
 
@@ -73,19 +103,47 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                   						<th>INICIA</th>
                   	          <th>TERMINA</th>
                   	          <th>ESTADO</th>
+                              <th></th>
                   					</tr>
                   				</thead>
                   		<tbody>
                   			<?php
                   			$tot=0;
+                        $sol=0;
+                        $msg="";
+                        $msg1="";
+                        $res=0;
+                        $p="";
                   					while($rvac=mysqli_fetch_assoc($cvac)){
+                              $d=$rvac['idProVacaciones'];
+                              $qd="SELECT concat(d.Numero,'-',d.Ano,'-',d.Siglas) AS Resolucion, d.FechaDoc FROM provacaciones as v  INNER JOIN aprvacaciones as av ON v.idProVacaciones= av.idProVacaciones INNER JOIN doc AS d ON av.idDoc=d.idDoc WHERE v.idProVacaciones=$d";
+                              $cdoc=mysqli_query($cone,$qd);
+                              if ($rdoc=mysqli_fetch_assoc($cdoc)) {
+                                $doc=$rdoc["Resolucion"];
+                                $fdoc=fnormal($rdoc["FechaDoc"]);
+
+                              }else {
+                                $doc="Resolución Pendiente";
+                                $fdoc="---";
+
+                              }
                   						if ($rvac['Estado']=='0') {
-                  							$est="info";
+                                $est="info";
                   							$cap="Pendiente";
+                                $hoy = date("Y-m-d");
+                                $ini = $rvac['FechaIni'];
+                                $p=intervalo($ini, $hoy)-1;
+                                if ($p>0 && $p<15){
+                                  $peri=$rvac['PeriodoVacacional'];
+                                  if ($p==1) {
+                                    $msg="Mañana inician tus vacaciones del período ".$peri.", debes hacer Entrega de Cargo.";
+                                  }else{
+                                    $msg="Faltan ".$p." días para iniciar tus vacaciones del período ".$peri.", prepara tu Entrega de Cargo.";
+                                  }
+                                }
                   						}elseif($rvac['Estado']=='1') {
                   							$est="success";
                   							$cap="Ejecutado";
-                  							//$eje= intervalo($rvac['FechaFin'], $rvac['FechaIni']) + $eje;
                   						}elseif ($rvac['Estado']=='2') {
                   							$est="danger";
                   							$cap="Cancelado";
@@ -95,9 +153,22 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                   						}elseif ($rvac['Estado']=='5'){
                   							$est="default";
                   							$cap="Suspendida";
-                  						}else {
+                              }elseif ($rvac['Estado']=='6') {
+                                $est="default";
+                                $cap="Solicitada";
+                                $sol=intervalo ($rvac['FechaFin'], $rvac['FechaIni']);
+                              }elseif ($rvac['Estado']=='7'){
+                                $est="purple";
+                                $cap="Aceptada";
+                                if ($rvac['idPeriodoVacacional']=$pervac) {
+                                  $sol=intervalo ($rvac['FechaFin'], $rvac['FechaIni']);
+                                }
+                  						}elseif ($rvac['Estado']=='4') {
                   							$est="warning";
                   							$cap="Planificada";
+                                if ($rvac['idPeriodoVacacional']=$pervac) {
+                                  $sol=intervalo ($rvac['FechaFin'], $rvac['FechaIni']);
+                                }
                   						}
                   						$con="";
                   						if($rvac['Condicion']=='1'){
@@ -106,24 +177,71 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                   										$con="REPROGRAMADAS";
                   										}
                   						$dt=intervalo ($rvac['FechaFin'], $rvac['FechaIni']);
-                  						$tot=$tot+1;
+                  						$tot= $tot + $sol;
+                              if ($tot<31){
+                                $res=30-$tot;
+                                if ($res>0) {
+                                  $msg1="Tienes ".$res." días de vacaciones por solicitar para el periodo ".$pv.".";
+                                }elseif($res == 0) {
+                                  $msg1="";
+                                  $v=false;
+                                }
+                              }else{
+                                $res=$tot-30;
+                                $msg1="Haz exedido en ".$res." días las vacaciones solicitadas para el periodo ".$pv.".";
+                                $v=false;
+                              }
                   						?>
                   				<tr> <!--Fila de vacaciones-->
                   					<td><?php echo $rvac['PeriodoVacacional']?></td> <!--columna PERÍODO-->
-                  					<td><?php echo $rvac['Resolucion']?></td> <!--columna NÚMERO DE RESOLUCIÓN-->
-                  					<td><?php echo fnormal($rvac['FechaDoc'])?></td> <!--columna FECHA DOCUMENTO-->
+                  					<td><?php echo $doc?></td> <!--columna NÚMERO DE RESOLUCIÓN-->
+                  					<td><?php echo $fdoc?></td> <!--columna FECHA DOCUMENTO-->
                   					<td><?php echo $con ?></td> <!--columna CONDICIÓN-->
                   					<td><?php echo $dt ?></td> <!--columna CAMTIDAD DE DIAS-->
                   					<td><?php echo "<span class='hidden'>".$rvac['FechaIni']."</span> ".fnormal($rvac['FechaIni'])?></td> <!--columna INICIO-->
                   					<td><?php echo fnormal($rvac['FechaFin'])?></td> <!--columna FIN-->
                   					<td><span class='label label-<?php echo $est?>'><?php echo $cap?></span></td> <!--columna ESTADO-->
+                            <td>
+                              <?php
+                              if ($rvac['Estado']=='6') {
+                              ?>
+                                <a href="#" data-toggle="modal" data-target="#m_editarprogramacion"><i class="fa fa-pencil" onclick="edipro(<?php echo $rvac['idProVacaciones'].", '".$fii."', '".$ffi."', '".$fff."'" ?>)"></i></a>
+                              <?php
+                              }
+                              ?>
+                            </td> <!--columna EDITAR-->
                           </tr>
                   				<?php
                   					}
                   				 ?>
                   		</tbody>
                   	</table>
-                  <?php
+                    <div class="row">
+                      <div class="col-sm-9"> <!--Mensaje-->
+                        <span class="text-red" > <?php echo $msg ?> </span>
+                      </div>
+              <?php
+                      if ($vis==false || $msg=="" ) {
+
+                      }else{
+              ?>
+                      <div class="col-sm-3"> <!--Botón Entrega de Cargo-->
+                        <!-- <button id="b_entcar" class="btn btn-info" data-toggle="modal" data-target="#m_entregacargo" onclick="entcar()">Entrega de Cargo</button> -->
+                      </div>
+              <?php
+                      }
+                      if ($vis){
+               ?>
+                       <div class="col-sm-12">
+                         <span class="text-green" > <?php echo $msg1 ?> </span>
+                         <input type="hidden" name="df" id="df" value="<?php echo $res ?>">
+
+                       </div>
+              <?php
+              }
+              ?>
+                    </div>
+              <?php
                   	 }else {
                   		echo mensajewa("No tiene vacaciones programadas como ". $rcar['cargo'].".");
                   	 }
@@ -132,6 +250,8 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 </div>
               </div>
               <!--fin div resultados-->
+
+
             </div>
             <!-- /.tab-pane -->
             <div class="tab-pane" id="tab_2">
@@ -155,9 +275,9 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 	$litt=0;
                 	$con=0;
                 	while ($rcar=mysqli_fetch_assoc($ccar)) {
-                    $idec=$rcar['idEmpleadoCargo'];
+                    $ec=$rcar['idEmpleadoCargo'];
                 		$cond=$rcar['CondicionCar']=="NINGUNO" ? "" : " (".substr($rcar['CondicionCar'], 0, 1).")";
-                			$c=mysqli_query($cone,"SELECT li.idLicencia, li.idTipoLic, TipoLic, MotivoLic, FechaIni, FechaFin, Numero, Ano, Siglas, li.Estado FROM licencia li INNER JOIN aprlicencia al ON li.idLicencia=al.idLicencia INNER JOIN doc do ON al.idDoc=do.idDoc INNER JOIN tipdoclicencia tdl ON li.idTipDocLicencia=tdl.idTipDocLicencia INNER JOIN tipolic tl ON li.idTipoLic=tl.idTipoLic INNER JOIN espmedica em ON li.idEspMedica=em.idEspMedica INNER JOIN empleadocargo ec ON li.idEmpleadoCargo=ec.idEmpleadoCargo WHERE li.idEmpleadoCargo=$idec AND DATE_FORMAT(FechaIni,'%Y')=DATE_FORMAT(now(),'%Y') ORDER BY FechaIni DESC");
+                			$c=mysqli_query($cone,"SELECT li.idLicencia, li.idTipoLic, TipoLic, MotivoLic, FechaIni, FechaFin, Numero, Ano, Siglas, li.Estado FROM licencia li INNER JOIN aprlicencia al ON li.idLicencia=al.idLicencia INNER JOIN doc do ON al.idDoc=do.idDoc INNER JOIN tipdoclicencia tdl ON li.idTipDocLicencia=tdl.idTipDocLicencia INNER JOIN tipolic tl ON li.idTipoLic=tl.idTipoLic INNER JOIN espmedica em ON li.idEspMedica=em.idEspMedica INNER JOIN empleadocargo ec ON li.idEmpleadoCargo=ec.idEmpleadoCargo WHERE li.idEmpleadoCargo=$ec AND DATE_FORMAT(FechaIni,'%Y')=DATE_FORMAT(now(),'%Y') ORDER BY FechaIni DESC");
 
                 			if(mysqli_num_rows($c)>0){
                 				$dat=true;
@@ -285,3 +405,242 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
   header('Location: ../index.php');
 }
 ?>
+
+<!--Modal entrega de Cargo-->
+<div class="modal fade" id="m_entregacargo" role="dialog" aria-labelledby="myModalLabel">
+  <form id="f_entregacargo" action="" class="form-horizontal">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Entrega de Cargo (Anexo 1)</h4>
+      </div>
+      <div class="modal-body" id="r_entregacargo">
+
+        <div class="form-group valida">
+          <div class="col-sm-12 text-center">
+            <h4 class="text-danger">ACTA DE ENTREGA DE CARGO</h4>
+          </div>
+
+          <div class="col-sm-12">
+            <div class="col-sm-4">
+              <span>1. Lugar y Fecha: </span>
+            </div>
+            <div class="col-sm-4">
+              <span>Cajamarca</span>
+            </div>
+            <div class="col-sm-4">
+              <span>20 de Julio de 2017</span>
+            </div>
+          </div>
+          <hr>
+          <div class="col-sm-12">
+            <div class="col-sm-3">
+              <span>2. Dependencia: </span>
+            </div>
+            <div class="col-sm-3">
+              <span>Administración - Informática</span>
+            </div>
+            <div class="col-sm-3">
+              <span>Distrito Judicial: </span>
+            </div>
+            <div class="col-sm-3">
+              <span>Cajamarca</span>
+            </div>
+          </div>
+          <div class="col-sm-12">
+            <div class="col-sm-12">
+              <div class="">
+                <span>3. Datos del Cargo que se entrega: </span>
+              </div>
+                <div class="col-sm-6">
+                  <span>3.1. Denominacion</span>
+                </div>
+                <div class="col-sm-6">
+                  <span>Analista: </span>
+                </div>
+                <div class="col-sm-6">
+                  <span>3.2. Grado y Sub grado o Nivel</span>
+                </div>
+                <div class="col-sm-6">
+                  <span>Analista: </span>
+                </div>
+                <div class="col-sm-4">
+                  <span>3.3. Funciones según ROF</span>
+                </div>
+                <div class="col-sm-12">
+                  <textarea class="form-control" rows="3" id="comment"></textarea>
+                </div>
+            </div>
+          </div>
+          <div class="col-sm-12">
+            <div class="col-sm-12">
+              <div class="">
+                <span>4. Datos del trabajador que entregael cargo: </span>
+              </div>
+                <div class="col-sm-2">
+                  <span>4.1.</span>
+                </div>
+                <div class="col-sm-10">
+                  <span>MARCO WILSON COTRINA VARGAS </span>
+                </div>
+                <div class="col-sm-12">
+                  <span>4.2. Situación de los trabajos encomendados (Incluir trabajos pendientes si los hubiera)</span>
+                </div>
+                <div class="col-sm-12">
+                  <textarea class="form-control" rows="3" id="comment"></textarea>
+                </div>
+                <div class="col-sm-12">
+                  <span>4.3. Relación de Expedientes, denuncias y/o documentos a mi cargo</span>
+                </div>
+                <div class="col-sm-12">
+                  <textarea class="form-control" rows="3" id="comment"></textarea>
+                </div>
+                <div class="col-sm-12">
+                  <span>4.4. Relación de útiles de escritorio</span>
+                </div>
+                <div class="col-sm-12">
+                  <textarea class="form-control" rows="1" id="comment">Anexo: Cargo de bienes en uso</textarea>
+                </div>
+                <div class="col-sm-12">
+                  <span>4.5. Relación de mobiliario, enseres y equipos de oficina</span>
+                </div>
+                <div class="col-sm-12">
+                  <textarea class="form-control" rows="1" id="comment">Anexo: Cargo de bienes en uso</textarea>
+                </div>
+                <div class="col-sm-12">
+                  <span>4.6. Relación de documentos normativos o instructivos a su cargo</span>
+                </div>
+                <div class="col-sm-12">
+                  <textarea class="form-control" rows="3" id="comment"></textarea>
+                </div>
+            </div>
+          </div>
+          <hr>
+          <div class="col-sm-12">
+            <div class="col-sm-12">
+              <div class="">
+                <span>5. Documentos y bienes que se adjuntan</span>
+              </div>
+                <div class="col-sm-12">
+                  <span>5.1. Evaluación del rendimiento del personal a mi cargo (solo en caso de jefes y cuando la separación es definitiva opor un periodo de tres (03) meses o más)</span>
+                </div>
+                <div class="col-sm-12">
+                  <span>Se adjuntan  </span>
+                </div>
+                <div class="col-sm-12">
+                  <span>5.2. Otros (Carnet de identidad, sello, placas, tarjetas institucioanles, fotocheck, credencial, etc.  )</span>
+                </div>
+                <div class="col-sm-12">
+                  <textarea class="form-control" rows="3" id="comment"></textarea>
+                </div>
+                <div class="col-sm-12">
+                  <span>5.3. Constancia de no estar incurso dentro del compromiso de permanencia y capacitación (sólo en caso de renuncia)</span>
+                </div>
+                <div class="col-sm-12">
+                  <textarea class="form-control" rows="3" id="comment"></textarea>
+                </div>
+            </div>
+          </div>
+          <hr>
+          <div class="col-sm-12">
+            <div class="col-sm-12">
+              <div class="">
+                <span>6. Datos del trebajador que recibe el cargo</span>
+              </div>
+              <div class="">
+                <input type="text" name="" value="" class="col-sm-12">
+              </div>
+            </div>
+          </div>
+          <hr>
+          <div class="col-sm-12">
+            <div class="col-sm-12">
+              <div class="">
+                <span>7. Observaciones</span>
+              </div>
+                <div class="col-sm-12">
+                  <span>7.1. Datos del trabajador que entrega el cargo</span>
+                </div>
+                <div class="">
+                  <div class="col-sm-12">
+                    <textarea class="form-control" rows="3" id="comment"></textarea>
+                  </div>
+                </div>
+                <div class="col-sm-12">
+                  <span>7.2. Datos del trabajador que recibe el cargo</span>
+                </div>
+                <div class="col-sm-12">
+                  <textarea class="form-control" rows="3" id="comment"></textarea>
+                </div>
+            </div>
+          </div>
+          <hr>
+          <br>
+          <div class="col-sm-12">
+            <div class="col-sm-6 text-center">
+              <span>Marco Cotrina Vargas</span>
+            </div>
+            <div class="col-sm-6 text-center">
+              <span>Gerardo Intor Osorio</span>
+            </div>
+          </div>
+
+        </div>
+
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn bg-teal" id="b_gentcar">Guardar</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+  </form>
+</div>
+<!--Fin Modal Entrega de Cargo-->
+
+<!--Modal Nuevas programacion-->
+<div class="modal fade" id="m_programarvacaciones" role="dialog" aria-labelledby="myModalLabel">
+  <form id="f_provacaciones" action="" class="form-horizontal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Vacaciones <?php echo $pv ?></h4>
+      </div>
+      <div class="modal-body" id="r_provacaciones">
+
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn bg-teal" id="b_gpvac">Guardar</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+  </form>
+</div>
+<!--Fin Modal Nueva programacion-->
+
+<!--Modal editar programacion-->
+<div class="modal fade" id="m_editarprogramacion" role="dialog" aria-labelledby="myModalLabel">
+  <form id="f_ediprogramacion" action="" class="form-horizontal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Vacaciones <?php echo $pv ?></h4>
+      </div>
+      <div class="modal-body" id="r_ediprogramacion">
+
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn bg-teal" id="b_gepro">Guardar</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+  </form>
+</div>
+<!--Fin Modal editar programacion-->
