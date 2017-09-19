@@ -4,39 +4,41 @@ include("../php/conexion_sp.php");
 include("../php/funciones.php");
 if(accesocon($cone,$_SESSION['identi'],4)){
 
-if(isset($_POST['licper']) && !empty($_POST['licper']) && isset($_POST['ano']) && !empty($_POST['ano']) && isset($_POST['est'])){
-	$licper=iseguro($cone,$_POST['licper']);
+if(isset($_POST['per']) && !empty($_POST['per']) && isset($_POST['car']) && !empty($_POST['car']) && isset($_POST['ano']) && !empty($_POST['ano']) && isset($_POST['est'])){
+	$licper=iseguro($cone,$_POST['per']);
 	$ano=iseguro($cone,$_POST['ano']);
 	$est=$_POST['est'];
+	$iec=iseguro($cone,$_POST['car']);
 
 	$wca="(";
 	for ($j=0; $j < count($est); $j++) {
 		$wca.=$j==(count($est)-1) ? " li.Estado=$est[$j])" : "li.Estado=$est[$j] OR ";
 	}
 
-	$ciec=mysqli_query($cone,"SELECT idEmpleadoCargo FROM empleadocargo WHERE idEmpleado=$licper AND idEstadoCar=1;");
-	if($riec=mysqli_fetch_assoc($ciec)){
-		$iec=$riec['idEmpleadoCargo'];
-	}
+	 $ciec=mysqli_query($cone,"SELECT idEstadoCar FROM empleadocargo WHERE idEmpleadoCargo=$iec;");
+	 if($riec=mysqli_fetch_assoc($ciec)){
+	// 	$iec=$riec['idEmpleadoCargo'];
+	 	$e=$riec['idEstadoCar'];
+	 }
 ?>
 <div class="row">
 	<div class="col-md-2">
 <?php  
 	if(accesoadm($cone,$_SESSION['identi'],4)){
 ?>
-		<button class="btn btn-info btn-block" id="b_nuelic" data-toggle="modal" data-target="#m_nuelic" onclick="nuelic(<?php echo $iec.", ".$ano; ?>)">Nueva</button>
+		<button class="btn btn-info btn-block" id="b_nuelic" data-toggle="modal" data-target="#m_nuelic" onclick="nuelic(<?php echo $iec.", ".$ano; ?>)">Agregar Licencia</button>
 <?php  
 	}
 ?>
 	</div>
 	<div class="col-md-10">
-		<h4 class="text-aqua"><strong><i class="fa fa-user"></i> <?php echo nomempleado($cone,$licper); ?></strong> | <small><i class="fa fa-black-tie"></i> <?php echo cargoe($cone,$licper); ?></small></h4>
+		<h4 class="<?php echo $e==1 ? "text-aqua" : "text-gray"; ?>"><strong><i class="fa fa-user"></i> <?php echo nomempleado($cone,$licper); ?></strong> | <small><i class="fa fa-black-tie"></i> <?php echo cargocu($cone,$iec); ?></small></h4>
 	</div>
 </div>
 <br>
 <?php
 
-$cc=mysqli_query($cone,"SELECT idEmpleadoCargo, Denominacion, Tipo, idEstadoCar, CondicionCar FROM empleadocargo ec INNER JOIN cargo c ON ec.idCargo=c.idCargo INNER JOIN condicionlab cl ON ec.idCondicionLab=cl.idCondicionLab INNER JOIN condicioncar cc ON ec.idCondicionCar=cc.idCondicionCar WHERE ec.idEmpleado=$licper ORDER BY idEmpleadoCargo DESC;");
+$cc=mysqli_query($cone,"SELECT idEmpleadoCargo, Denominacion, Tipo, idEstadoCar, CondicionCar FROM empleadocargo ec INNER JOIN cargo c ON ec.idCargo=c.idCargo INNER JOIN condicionlab cl ON ec.idCondicionLab=cl.idCondicionLab INNER JOIN condicioncar cc ON ec.idCondicionCar=cc.idCondicionCar WHERE ec.idEmpleado=$licper ORDER BY idEstadoCar ASC, idEmpleadoCargo DESC;");
 if(mysqli_num_rows($cc)>0){
 	$dat=false;
 	$dit=0;
@@ -56,7 +58,7 @@ if(mysqli_num_rows($cc)>0){
 		?>
 			<table class="table table-hover table-bordered">
 				<thead>
-					<tr class="text-blue">
+					<tr class="<?php echo $rc['idEstadoCar']==1 ? "text-blue" : "text-gray"; ?>">
 						<th colspan="5"><i class="fa fa-black-tie"></i> <?php echo $rc['Denominacion'].$cond; ?></th>
 						<th colspan="3"><i class="fa fa-suitcase"></i> <?php echo substr($rc['Tipo'],0,9); ?></th>
 					</tr>

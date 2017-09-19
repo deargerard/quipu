@@ -26,6 +26,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
               <li><a href="#tab_3" data-toggle="tab">Tipo Lic./Año</a></li>
               <li><a href="#tab_4" data-toggle="tab">C. Laboral/Mes</a></li>
               <li><a href="#tab_5" data-toggle="tab">Sis. Lab./Tipo Lic./Año</a></li>
+              <li><a href="#tab_6" data-toggle="tab">Lic. sin goce</a></li>
             </ul>
             <div class="tab-content">
               <div class="tab-pane active" id="tab_1">
@@ -38,7 +39,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                     </select>
                   </div>
                   <div class="form-group">
-                    <label for="bbb" class="sr-only">Cargo </label>
+                    <label for="car" class="sr-only">Cargo </label>
                     <select name="car" id="car" class="form-control select2" style="width: 250px;">
 
                     </select>
@@ -314,6 +315,35 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
 
               </div>
               <!-- /.tab-pane -->
+              <div class="tab-pane" id="tab_6">
+
+                <!--Formulario-->
+                <form id="f_licsg" class="form-inline">
+                  <div class="form-group">
+                    <label for="per1" class="sr-only">Personal</label>
+                    <select name="per1" id="per1" class="form-control select2pertot1 col-sm-5" style="width: 300px;">
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="car1" class="sr-only">Cargo </label>
+                    <select name="car1" id="car1" class="form-control select2" style="width: 250px;">
+
+                    </select>
+                  </div>
+                      <button type="submit" id="b_licsg" class="btn btn-default">Buscar</button>
+                </form>
+                <!--Fin Formulario-->
+                <!--div resultados-->
+                <div class="row">
+                  <hr>
+                  <div class="col-md-12" id="r_licsg">
+                    <h4 class="text-aqua"><strong>Resultados</strong></h4>
+                  </div>
+                </div>
+                <!--fin div resultados-->
+
+              </div>
+              <!-- /.tab-pane -->
             </div>
             <!-- /.tab-content -->
           </div>
@@ -323,6 +353,25 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
 
     </section>
     <!-- /.content -->
+
+<!--Modal Detalle Licencia-->
+<div class="modal fade" id="m_detlic" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Detalle Licencia</h4>
+      </div>
+      <div class="modal-body" id="r_detlic">
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Fin Modal Detalle Licencia-->
 <?php
 }else{
   echo accrestringidop();

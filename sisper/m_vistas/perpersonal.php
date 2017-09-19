@@ -330,7 +330,7 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
 		                </div>
 		                <?php
 		                	$act="DESACTIVO";
-		                	$cc=mysqli_query($cone,"SELECT ec.idEmpleadoCargo, ec.Reemplazado, c.Denominacion as Cargo, ec.idCondicionCar, ec.idModAcceso, ec.FechaAsu, cl.Tipo, escar.EstadoCar, esca.idEstadoCargo, esca.FechaIni FROM empleadocargo AS ec INNER JOIN cargo AS c ON ec.idCargo=c.idCargo INNER JOIN condicionlab AS cl ON ec.idCondicionLab=cl.idCondicionLab INNER JOIN estadocargo AS esca ON ec.idEmpleadoCargo=esca.idEmpleadoCargo INNER JOIN estadocar AS escar ON esca.idEstadoCar=escar.idEstadoCar WHERE idEmpleado=$idp AND esca.Estado=1 ORDER BY FechaAsu DESC");
+		                	$cc=mysqli_query($cone,"SELECT ec.idEmpleadoCargo, ec.Reemplazado, c.Denominacion as Cargo, ec.idCondicionCar, ec.idModAcceso, ec.FechaAsu, cl.Tipo, escar.EstadoCar, esca.idEstadoCargo, esca.FechaIni FROM empleadocargo AS ec INNER JOIN cargo AS c ON ec.idCargo=c.idCargo INNER JOIN condicionlab AS cl ON ec.idCondicionLab=cl.idCondicionLab INNER JOIN estadocargo AS esca ON ec.idEmpleadoCargo=esca.idEmpleadoCargo INNER JOIN estadocar AS escar ON esca.idEstadoCar=escar.idEstadoCar WHERE idEmpleado=$idp AND esca.Estado=1 ORDER BY ec.idEstadoCar ASC,  ec.idEmpleadoCargo DESC");
 		                	if(mysqli_num_rows($cc)>0){
 		                		while($rc=mysqli_fetch_assoc($cc)){
             						$idec=$rc['idEmpleadoCargo'];
