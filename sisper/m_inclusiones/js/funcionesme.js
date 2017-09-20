@@ -810,7 +810,6 @@ $(".select2pertot").select2({
 })
 .on("change", function(e){
   var per = $("#per").val();
-	console.log(per);
   $.ajax({
     type: "post",
     url: "m_inclusiones/a_vacaciones/a_bcargos.php",
@@ -820,6 +819,35 @@ $(".select2pertot").select2({
     },
     success:function(a){
       $("#car").html(a);
+    }
+  });
+});
+$(".select2pertot1").select2({
+  placeholder: 'Selecione a un personal',
+  ajax: {
+    url: 'm_inclusiones/a_general/a_seltodopersonal.php',
+    dataType: 'json',
+    delay: 250,
+    processResults: function (data) {
+      return {
+        results: data
+      };
+    },
+    cache: true
+  },
+  minimumInputLength: 4
+})
+.on("change", function(e){
+  var per = $("#per1").val();
+  $.ajax({
+    type: "post",
+    url: "m_inclusiones/a_vacaciones/a_bcargos.php",
+    data: { per : per },
+    beforeSend: function () {
+      $("#car1").html("<option>Cargando...</option>");
+    },
+    success:function(a){
+      $("#car1").html(a);
     }
   });
 });

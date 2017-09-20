@@ -49,7 +49,7 @@ if(isset($_POST['per']) && !empty($_POST['per']) && isset($_POST['tlic']) && !em
 					$nl=0;
 					$nc=0;
 					$ndias=0;
-				$cl=mysqli_query($cone,"SELECT li.FechaIni, li.FechaFin, li.Motivo, li.Estado, li.idEmpleadoCargo, do.Numero, do.Ano, do.Siglas FROM licencia li INNER JOIN aprlicencia al ON li.idLicencia=al.idLicencia INNER JOIN doc do ON al.idDoc=do.idDoc WHERE idTipoLic=$idtl AND $wcargo AND $wca AND (li.FechaIni BETWEEN '$f1' AND '$f2') ORDER BY li.FechaIni ASC;");
+				$cl=mysqli_query($cone,"SELECT li.idLicencia, li.FechaIni, li.FechaFin, li.Motivo, li.Estado, li.idEmpleadoCargo, do.Numero, do.Ano, do.Siglas FROM licencia li INNER JOIN aprlicencia al ON li.idLicencia=al.idLicencia INNER JOIN doc do ON al.idDoc=do.idDoc WHERE idTipoLic=$idtl AND $wcargo AND $wca AND (li.FechaIni BETWEEN '$f1' AND '$f2') ORDER BY li.FechaIni ASC;");
 				if(mysqli_num_rows($cl)>0){
 					$cli=true;
 ?>
@@ -83,7 +83,7 @@ if(isset($_POST['per']) && !empty($_POST['per']) && isset($_POST['tlic']) && !em
 								<tr>
 									<td><?php echo $nl; ?></td>
 									<td><?php echo cargoiec($cone, $rl['idEmpleadoCargo']); ?></td>
-									<td><?php echo $rl['Motivo']; ?></td>
+									<td><a href="#" data-toggle="modal" data-target="#m_detlic" onclick="detlic(<?php echo $rl['idLicencia'] ?>)"><?php echo strlen($rl['Motivo'])>30 ? substr($rl['Motivo'],0,30)."..." : ($rl['Motivo']=="" ? "Ninguna" : $rl['Motivo']); ?></a></td>
 									<td><?php echo fnormal($rl['FechaIni']); ?></td>
 									<td><?php echo fnormal($rl['FechaFin']); ?></td>
 									<td><?php echo intervalo($rl['FechaFin'],$rl['FechaIni']); ?></td>

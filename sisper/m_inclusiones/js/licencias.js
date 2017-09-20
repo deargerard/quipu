@@ -459,3 +459,21 @@ $("#f_slabtlicano").submit(function(e){
     });
 });
 //reporte personal/tipolic/fechas
+//reporte licencias sin goce
+$("#f_licsg").submit(function(e){
+  e.preventDefault();
+  var datos = $("#f_licsg").serializeArray();
+  $.ajax({
+        data:  datos,
+        url:   "m_inclusiones/a_licencias/a_blicsg.php",
+        type:  "post",
+        beforeSend: function () {
+          $("#b_licsg").html("<i class='fa fa-spinner fa-spin'></i> Buscando");
+        },
+        success:  function (response) {
+          $("#b_licsg").html("Buscar");
+          $("#r_licsg").html(response);
+        }
+    });
+});
+//reporte licencias sin goce

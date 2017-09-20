@@ -39,7 +39,7 @@ if(isset($_POST['per']) && !empty($_POST['per']) && isset($_POST['tlic']) && !em
 	while ($rl=mysqli_fetch_assoc($cl)){
 		$tl=$rl['idTipoLic'];
 
-		$sql="SELECT Motivo, Numero, Ano, Siglas, FechaIni, FechaFin, Estado FROM licencia l INNER JOIN aprlicencia al ON l.idLicencia=al.idLicencia INNER JOIN doc d ON al.idDoc=d.idDoc WHERE idTipoLic=$tl AND DATE_FORMAT(FechaIni,'%Y')='$ano' AND idEmpleadoCargo=$car AND $wca;";
+		$sql="SELECT l.idLicencia, Motivo, Numero, Ano, Siglas, FechaIni, FechaFin, Estado FROM licencia l INNER JOIN aprlicencia al ON l.idLicencia=al.idLicencia INNER JOIN doc d ON al.idDoc=d.idDoc WHERE idTipoLic=$tl AND DATE_FORMAT(FechaIni,'%Y')='$ano' AND idEmpleadoCargo=$car AND $wca;";
 		//echo $sql;
 		$clic=mysqli_query($cone,$sql);
 		if(mysqli_num_rows($clic)>0){
@@ -81,7 +81,7 @@ if(isset($_POST['per']) && !empty($_POST['per']) && isset($_POST['tlic']) && !em
 ?>
 			<tr>
 				<td><?php echo $j; ?></td>
-				<td><?php echo $rlic['Motivo']; ?></td>
+				<td><a href="#" data-toggle="modal" data-target="#m_detlic" onclick="detlic(<?php echo $rlic['idLicencia'] ?>)"><?php echo strlen($rlic['Motivo'])>30 ? substr($rlic['Motivo'],0,30)." ..." : ($rlic['Motivo']=="" ? "Ninguna" : $rlic['Motivo']); ?></a></td>
 				<td><?php echo $rlic['Numero']."-".$rlic['Ano']."-".$rlic['Siglas']; ?></td>
 				<td><?php echo fnormal($rlic['FechaIni']); ?></td>
 				<td><?php echo fnormal($rlic['FechaFin']); ?></td>

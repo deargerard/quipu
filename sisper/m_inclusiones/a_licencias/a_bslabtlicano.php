@@ -29,7 +29,7 @@ if(isset($_POST['slab']) && !empty($_POST['slab']) && isset($_POST['tlic']) && !
 		if($rsl=mysqli_fetch_assoc($csl)){
 			$sislab=$rsl['SistemaLab'];
 		}
-		$cl=mysqli_query($cone, "SELECT c.Denominacion, cc.CondicionCar, ec.idEmpleado, tl.TipoLic, tl.Motivolic, l.FechaIni, l.FechaFin, l.Estado, d.Numero, d.Ano, d.Siglas FROM sistemalab sl INNER JOIN cargo c ON sl.idSistemaLab=c.idSistemaLab INNER JOIN empleadocargo ec ON c.idCargo=ec.idCargo INNER JOIN licencia l ON ec.idEmpleadoCargo=l.idEmpleadoCargo INNER JOIN tipolic tl ON l.idTipoLic=tl.idTipoLic INNER JOIN aprlicencia al ON l.idLicencia=al.idLicencia INNER JOIN doc d ON al.idDoc=d.idDoc INNER JOIN condicioncar cc ON ec.idCondicionCar=cc.idCondicionCar WHERE sl.idSistemaLab=$isl AND DATE_FORMAT(l.FechaIni,'%Y')='$ano' AND $wtl AND $wca ORDER BY tl.MotivoLic, l.FechaIni ASC;");
+		$cl=mysqli_query($cone, "SELECT c.Denominacion, cc.CondicionCar, ec.idEmpleado, tl.TipoLic, tl.Motivolic, l.idLicencia, l.FechaIni, l.FechaFin, l.Estado, d.Numero, d.Ano, d.Siglas FROM sistemalab sl INNER JOIN cargo c ON sl.idSistemaLab=c.idSistemaLab INNER JOIN empleadocargo ec ON c.idCargo=ec.idCargo INNER JOIN licencia l ON ec.idEmpleadoCargo=l.idEmpleadoCargo INNER JOIN tipolic tl ON l.idTipoLic=tl.idTipoLic INNER JOIN aprlicencia al ON l.idLicencia=al.idLicencia INNER JOIN doc d ON al.idDoc=d.idDoc INNER JOIN condicioncar cc ON ec.idCondicionCar=cc.idCondicionCar WHERE sl.idSistemaLab=$isl AND DATE_FORMAT(l.FechaIni,'%Y')='$ano' AND $wtl AND $wca ORDER BY tl.MotivoLic, l.FechaIni ASC;");
 		if(mysqli_num_rows($cl)>0){
 			?>
 			<table class="table table-bordered table-hover">
@@ -68,7 +68,7 @@ if(isset($_POST['slab']) && !empty($_POST['slab']) && isset($_POST['tlic']) && !
 			?>
 					<tr>
 						<td><?php echo $nl; ?></td>
-						<td><?php echo nomempleado($cone, $rl['idEmpleado']); ?></td>
+						<td><a href="#" data-toggle="modal" data-target="#m_detlic" onclick="detlic(<?php echo $rl['idLicencia'] ?>)"><?php echo nomempleado($cone, $rl['idEmpleado']); ?></a></td>
 						<td><?php echo $rl['Denominacion'].($rl['CondicionCar']=="NINGUNO" ? "" : " (".substr($rl['CondicionCar'],0,1).")"); ?></td>
 						<td><?php echo $rl['TipoLic']." - ".$rl['Motivolic']; ?></td>
 						<td><?php echo fnormal($rl['FechaIni']); ?></td>

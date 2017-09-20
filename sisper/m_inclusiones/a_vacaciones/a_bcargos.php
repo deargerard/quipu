@@ -5,7 +5,7 @@ include ("../php/funciones.php");
 if(acceso($cone,$_SESSION['identi'])){
 $per=iseguro($cone,$_POST["per"]);
 
-$ccar=mysqli_query($cone,"SELECT ec.idEmpleadoCargo, c.Denominacion, cc.CondicionCar FROM empleadocargo ec INNER JOIN cargo c ON ec.idCargo=c.idCargo INNER JOIN condicioncar cc ON ec.idCondicionCar=cc.idCondicionCar WHERE ec.idEmpleado=$per ORDER BY ec.idEmpleadoCargo DESC");
+$ccar=mysqli_query($cone,"SELECT ec.idEmpleadoCargo, c.Denominacion, cc.CondicionCar FROM empleadocargo ec INNER JOIN cargo c ON ec.idCargo=c.idCargo INNER JOIN condicioncar cc ON ec.idCondicionCar=cc.idCondicionCar WHERE ec.idEmpleado=$per ORDER BY ec.idEstadoCar ASC, ec.idEmpleadoCargo DESC;");
 
   if (mysqli_num_rows($ccar)>0){
     while ($rcar=mysqli_fetch_array($ccar)) {
@@ -16,7 +16,7 @@ $ccar=mysqli_query($cone,"SELECT ec.idEmpleadoCargo, c.Denominacion, cc.Condicio
     }
   }else{
     ?>
-    <option>Sin cargos</option>
+    <option value="">Sin cargos</option>
     <?php
   }
 }

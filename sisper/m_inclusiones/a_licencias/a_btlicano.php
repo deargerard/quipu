@@ -32,7 +32,7 @@ if(isset($_POST['tlice']) && !empty($_POST['tlice']) && isset($_POST['anio']) &&
 		$ntl=0;
 		while ($rli=mysqli_fetch_assoc($cli)) {
 			$idli=$rli['idTipoLic'];
-				$c=mysqli_query($cone,"SELECT ec.idEmpleado, c.Denominacion, cc.CondicionCar, tl.TipoLic, tl.MotivoLic, FechaIni, FechaFin, Numero, Ano, Siglas, li.Estado, cl.Tipo FROM licencia li INNER JOIN aprlicencia al ON li.idLicencia=al.idLicencia INNER JOIN doc do ON al.idDoc=do.idDoc INNER JOIN tipolic tl ON li.idTipoLic=tl.idTipoLic INNER JOIN empleadocargo ec ON li.idEmpleadoCargo=ec.idEmpleadoCargo INNER JOIN cargo c ON c.idCargo=ec.idCargo INNER JOIN condicioncar cc ON cc.idCondicionCar=ec.idCondicionCar INNER JOIN condicionlab cl ON cl.idCondicionLab=ec.idCondicionLab WHERE $wca AND li.idTipoLic=$idli AND DATE_FORMAT(FechaIni,'%Y')='$anio' ORDER BY FechaIni ASC;");
+				$c=mysqli_query($cone,"SELECT ec.idEmpleado, c.Denominacion, cc.CondicionCar, tl.TipoLic, tl.MotivoLic, li.idLicencia, FechaIni, FechaFin, Numero, Ano, Siglas, li.Estado, cl.Tipo FROM licencia li INNER JOIN aprlicencia al ON li.idLicencia=al.idLicencia INNER JOIN doc do ON al.idDoc=do.idDoc INNER JOIN tipolic tl ON li.idTipoLic=tl.idTipoLic INNER JOIN empleadocargo ec ON li.idEmpleadoCargo=ec.idEmpleadoCargo INNER JOIN cargo c ON c.idCargo=ec.idCargo INNER JOIN condicioncar cc ON cc.idCondicionCar=ec.idCondicionCar INNER JOIN condicionlab cl ON cl.idCondicionLab=ec.idCondicionLab WHERE $wca AND li.idTipoLic=$idli AND DATE_FORMAT(FechaIni,'%Y')='$anio' ORDER BY FechaIni ASC;");
 				if(mysqli_num_rows($c)>0){
 					$dat=true;
 			?>
@@ -82,7 +82,7 @@ if(isset($_POST['tlice']) && !empty($_POST['tlice']) && isset($_POST['anio']) &&
 			?>
 						<tr>
 							<td><?php echo $co; ?></td>
-							<td><?php echo nomempleado($cone,$r['idEmpleado']); ?></td>
+							<td><a href="#" data-toggle="modal" data-target="#m_detlic" onclick="detlic(<?php echo $r['idLicencia'] ?>)"><?php echo nomempleado($cone,$r['idEmpleado']); ?></a></td>
 							<td><?php echo $r['Denominacion'].$condi; ?></td>
 							<td><?php echo substr($r['Tipo'],0,9); ?></td>
 							<td><?php echo fnormal($r['FechaIni']); ?></td>

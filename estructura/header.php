@@ -23,23 +23,22 @@
           </button>
           <a href="./" class="navbar-brand"><i class="fa fa-home"></i></a>
         </div>
-        <nav class="collapse navbar-collapse bs-navbar-collapse navbar-right">
+        <nav class="collapse navbar-collapse bs-navbar-collapse">
           <ul class="nav navbar-nav">
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">ENLACES PJ <span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                  <li><a href="https://casillas.pj.gob.pe/sinoe/login.xhtml" target="_blank">Casillas Electrónicas</a></li>
-                </ul>
+            <li>
+                <a href="/sisper/" target="_blank"><i class="fa fa-group"></i> Quipu</a>
             </li>
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">ENLACES MP <span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                  <li><a href="/sisper" target="_blank">SisPer</a></li>
-                  <!--<li><a href="/asistencia" target="_blank">Asistencia</a></li>-->
-                  <li role="separator" class="divider"></li>
-                  <li><a href="http://sistemas2.mpfn.gob.pe/" target="_blank">Sistemas2</a></li>
-                  <li><a href="http://djmail.mpfn.gob.pe/" target="_blank">Correo</a></li>
-                </ul>
+            <li>
+                <a href="https://djmail.mpfn.gob.pe" target="_blank"><i class="fa fa-envelope"></i> Correo</a>
+            </li>
+            <li>
+                <a href="http://sistemas2.mpfn.gob.pe/" target="_blank"><i class="fa fa-dashboard"></i> Sistemas2</a>
+            </li>
+            <li>
+                <a href="http://intranet.mpfn.gob.pe/" target="_blank"><i class="fa fa-globe"></i> Intranet Nacional</a>
+            </li>
+            <li>
+                <a href="https://casillas.pj.gob.pe/sinoe/login.xhtml" target="_blank"><i class="fa fa-envelope-square"></i> Casillas Electrónicas PJ</a>
             </li>
           </ul>
         </nav>

@@ -32,11 +32,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 <div class="row">
                   <div class="col-md-12" id="r_bpersonal">
                     <?php
-                    if(accesoadm($cone,$_SESSION['identi'],1)){
                       $cp=mysqli_query($cone,"SELECT idEmpleado, NombreCom, NumeroDoc FROM enombre ORDER BY NombreCom ASC");
-                    }else{
-                      $cp=mysqli_query($cone,"SELECT idEmpleado, NombreCom, NumeroDoc FROM enombre WHERE Estado=1 ORDER BY NombreCom ASC");
-                    }
                     ?>
                       <table id="dtpersonal" class="table table-bordered table-striped">
                         <thead>
@@ -56,7 +52,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                             <td><?php echo $rp["NumeroDoc"] ?></td>
                             <td><?php echo cargoe($cone,$rp["idEmpleado"]) ?></td>
                             <td>
-                              <a href="perpersonal.php?idp=<?php echo $rp["idEmpleado"] ?>" class="btn btn-xs btn-warning"><i class="fa fa-folder-open"></i> Ver Perfil</a>
+                              <a href="perpersonal.php?idp=<?php echo $rp["idEmpleado"] ?>" class="btn btn-xs bg-orange"><i class="fa fa-file-text-o"></i> Perfil</a>
                             </td>
                           </tr>
                     <?php

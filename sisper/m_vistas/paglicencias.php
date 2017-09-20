@@ -34,7 +34,13 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                     <form id="f_licper" class="form-inline">
                       <div class="form-group">
                         <label for="licper" class="sr-only">Personal</label>
-                        <select name="licper" id="licper" class="form-control select2peract" style="width: 350px;">
+                        <select name="per" id="per" class="form-control select2pertot" style="width: 350px;">
+                        </select>
+                      </div>
+                      <div class="form-group">
+                        <label for="car" class="sr-only">Cargo </label>
+                        <select name="car" id="car" class="form-control select2" style="width: 250px;">
+
                         </select>
                       </div>
                       <div class="form-group has-feedback">
@@ -117,7 +123,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
   </form>
 </div>
 <!--Fin Modal Editar Dependencia-->
-<!--Modal Editar Dependencia-->
+<!--Modal Detalle Dependencia-->
 <div class="modal fade" id="m_detlic" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -134,7 +140,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
     </div>
   </div>
 </div>
-<!--Fin Modal Editar Dependencia-->
+<!--Fin Modal Detalle Dependencia-->
 <!--Modal estado licencia-->
 <div class="modal fade" id="m_estlic" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">

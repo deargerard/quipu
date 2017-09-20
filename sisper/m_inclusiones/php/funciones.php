@@ -99,6 +99,15 @@ function cargoe($con,$idemp){
 	}
 	mysqli_free_result($ccargo);
 }
+function cargocu($con,$idec){
+	$idec=iseguro($con,$idec);
+	$cca=mysqli_query($con,"SELECT Denominacion, CondicionCar FROM empleadocargo ec INNER JOIN cargo c ON ec.idCargo=c.idCargo INNER JOIN condicioncar cc ON ec.idCondicionCar=cc.idCondicionCar WHERE ec.idEmpleadocargo=$idec;");
+	if($rca=mysqli_fetch_assoc($cca)){
+		return $rca['CondicionCar']=="NINGUNO" ? $rca['Denominacion'] : $rca['Denominacion']." (".substr($rca['CondicionCar'], 0, 1).")";
+	}else{
+		return "Error";
+	}
+}
 function modacce($con,$idemp){
 	$idemp=iseguro($con,$idemp);
 	$cmod=mysqli_query($con,"SELECT idModAcceso FROM empleadocargo WHERE idEmpleado=$idemp AND idEstadoCar=1");
@@ -174,6 +183,15 @@ function disprodependencia($cone,$iddep){
 		return $rdis['NombreDis']."-".$rdis['NombrePro'];
 	}else{
 		return "Sin local";
+	}
+	mysqli_free_result($cdis);
+}
+function direccionlocal($cone,$iddep){
+	$cdis=mysqli_query($cone,"SELECT l.Direccion FROM dependencialocal dl INNER JOIN local l ON dl.idLocal=l.idLocal WHERE dl.idDependencia=$iddep;");
+	if($rdis=mysqli_fetch_assoc($cdis)){
+		return $rdis['Direccion'];
+	}else{
+		return "Sin dirección";
 	}
 	mysqli_free_result($cdis);
 }

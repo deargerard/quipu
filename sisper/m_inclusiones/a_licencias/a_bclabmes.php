@@ -34,7 +34,7 @@ if(accesocon($cone,$_SESSION['identi'],4)){
 <?php
 			while($r=mysqli_fetch_assoc($c)){
 				$icl=$r['idCondicionLab'];
-				$c1=mysqli_query($cone,"SELECT ec.idEmpleado, c.Denominacion, cc.CondicionCar, tl.MotivoLic, tl.TipoLic, li.FechaIni, li.FechaFin, d.Numero, d.Ano, d.Siglas, li.Estado FROM licencia li INNER JOIN aprlicencia al ON li.idLicencia=al.idLicencia INNER JOIN doc d ON al.idDoc=d.idDoc INNER JOIN tipolic tl ON li.idTipoLic=tl.idTipoLic INNER JOIN empleadocargo ec ON li.idEmpleadoCargo=ec.idEmpleadoCargo INNER JOIN cargo c ON ec.idCargo=c.idCargo INNER JOIN condicioncar cc ON ec.idCondicionCar=cc.idCondicionCar WHERE $wca AND ec.idCondicionLab=$icl AND DATE_FORMAT(FechaIni,'%m/%Y')='$mes' ORDER BY FechaIni ASC;");
+				$c1=mysqli_query($cone,"SELECT ec.idEmpleado, c.Denominacion, cc.CondicionCar, tl.MotivoLic, tl.TipoLic, li.idLicencia, li.FechaIni, li.FechaFin, d.Numero, d.Ano, d.Siglas, li.Estado FROM licencia li INNER JOIN aprlicencia al ON li.idLicencia=al.idLicencia INNER JOIN doc d ON al.idDoc=d.idDoc INNER JOIN tipolic tl ON li.idTipoLic=tl.idTipoLic INNER JOIN empleadocargo ec ON li.idEmpleadoCargo=ec.idEmpleadoCargo INNER JOIN cargo c ON ec.idCargo=c.idCargo INNER JOIN condicioncar cc ON ec.idCondicionCar=cc.idCondicionCar WHERE $wca AND ec.idCondicionLab=$icl AND DATE_FORMAT(FechaIni,'%m/%Y')='$mes' ORDER BY FechaIni ASC;");
 				if (mysqli_num_rows($c1)>0) {
 					$dat=true;
 ?>
@@ -78,7 +78,7 @@ if(accesocon($cone,$_SESSION['identi'],4)){
 ?>
 							<tr>
 								<td><?php echo $num; ?></td>
-								<td><?php echo nomempleado($cone,$r1['idEmpleado']); ?></td>
+								<td><a href="#" data-toggle="modal" data-target="#m_detlic" onclick="detlic(<?php echo $r1['idLicencia'] ?>)"><?php echo nomempleado($cone,$r1['idEmpleado']); ?></a></td>
 								<td><?php echo $r1['Denominacion'].$con; ?></td>
 								<td><?php echo $r1['MotivoLic']." <br>(".$r1['TipoLic'].")"; ?></td>
 								<td><?php echo fnormal($r1['FechaIni']); ?></td>
