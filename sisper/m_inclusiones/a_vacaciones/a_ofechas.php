@@ -1,4 +1,7 @@
 <?php
+$fii="";
+$ffi="";
+$fff="";
 $cin=mysqli_query($cone,"SELECT ec.idEmpleadoCargo, FechaVac, FechaAsu, Denominacion, ec.idEstadoCar FROM empleadocargo ec INNER JOIN cargo c ON ec.idCargo=c.idCargo WHERE ec.idEmpleadoCargo=$idec");
 $cpv=mysqli_query($cone,"SELECT * FROM periodovacacional WHERE idPeriodoVacacional=$pervac");
 $rin=mysqli_fetch_assoc($cin);
