@@ -165,39 +165,6 @@ if(accesoadm($cone,$_SESSION['identi'],9)){
         $("#finvac").val("");
       }
     });
-//funcion seleccionar docuento
-   $(".select2doc").select2({
-     placeholder: 'Selecione a un documento',
-     ajax: {
-       url: 'm_inclusiones/a_general/a_seldocumento.php',
-       dataType: 'json',
-       delay: 250,
-       processResults: function (data) {
-         return {
-           results: data
-         };
-       },
-       cache: true
-     },
-     minimumInputLength: 1
-   });
-//fin funcion seleccionar docuento
-   //funcion llamar formulario nuevo documento
-    $("#b_nuedoc").on("click",function(e){
-      $.ajax({
-        type:"post",
-        url:"m_inclusiones/a_licencias/a_nuedoc.php",
-        beforeSend: function () {
-          $("#r_nuedocu").html("<img scr='m_images/cargando.gif' class='center-block'>");
-          $("#b_gnuedocu").hide();
-        },
-        success:function(a){
-          $("#r_nuedocu").html(a);
-          $("#b_gnuedocu").show();
-        }
-      });
-    });
-// fin funcion llamar formulario nuevo documento
 </script>
 <?php
     mysqli_close($cone);

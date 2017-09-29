@@ -2,7 +2,7 @@
 session_start();
 include ("../php/conexion_sp.php");
 include ("../php/funciones.php");
-if(accesoadm($cone,$_SESSION['identi'],9)){
+if(accesoadm($cone,$_SESSION['identi'],9) || escoordinador($cone,$_SESSION['identi'])){
 	if(isset($_POST["NomForm"]) && $_POST["NomForm"]=="f_ediprogramacion"){
 		if(isset($_POST['inivac']) && !empty($_POST['inivac']) && isset($_POST['finvac']) && !empty($_POST['finvac'])  && isset($_POST['idvac']) && !empty($_POST['idvac'])){
 			$inivac=fmysql(iseguro($cone,$_POST['inivac']));

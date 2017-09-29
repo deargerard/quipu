@@ -708,3 +708,70 @@ $( "#f_ediprogramacion" ).validate( {
  }
 } );
 //fin funciÃ³n validar editar programacion de vacaciones
+// funciÃ³n programacion de vacaciones
+function provacc(idec, pervac, fii, ffi, nd){
+$.ajax({
+ type: "post",
+ url: "m_inclusiones/a_vacaciones/a_fnueproc.php",
+ data: { idec : idec, pervac : pervac, fii : fii, ffi : ffi, nd : nd},
+ beforeSend: function () {
+   $("#r_provacaciones").html("<img src='m_images/cargando.gif'>");
+   $("#b_gpvac").hide();
+ },
+ success:function(a){
+   $("#b_gpvac").show();
+   $("#r_provacaciones").html(a);
+ }
+});
+};
+//fin programacion de vacaciones
+// funciÃ³n editar programacion de vacaciones
+function ediproc(idvac, fii, ffi, fff, dias){
+$.ajax({
+type: "post",
+url: "m_inclusiones/a_vacaciones/a_fediproc.php",
+data: { idvac : idvac, fii : fii, ffi : ffi, fff : fff, dias : dias},
+beforeSend: function () {
+  $("#r_ediprogramacion").html("<img src='m_images/cargando.gif'>");
+  $("#b_gepro").hide();
+},
+success:function(a){
+  $("#b_gepro").show();
+  $("#r_ediprogramacion").html(a);
+}
+});
+};
+//fin editar programacion de vacaciones
+//funcion actualizar lista de vacaciones
+$('#m_editarprogramacionc, #m_programarvacacionesc, #m_envprovacc').on('hidden.bs.modal', function () {
+  //var datos = $('#f_vacper').serializeArray()
+  $.ajax({
+     type: "POST",
+     url: "m_inclusiones/a_vacaciones/a_provacaciones.php",
+     dataType: "html",
+     //data: datos,   // I WANT TO ADD EXTRA DATA + SERIALIZE DATA
+     beforeSend: function () {
+        $("#r_provacacionesc").html("<img src='m_images/cargando.gif'>");
+     },
+     success: function(data){
+        $("#r_provacacionesc").html(data);
+        $("#r_provacacionesc").slideDown();
+     }
+  });
+})
+//fin funcion actualizar lista de vacaciones
+// funciÃ³n editar programacion de vacaciones
+function envprovacc(idcoo){
+$.ajax({
+type: "post",
+url: "m_inclusiones/a_vacaciones/a_envprovacc.php",
+data: { idcoo : idcoo},
+beforeSend: function () {
+  $("#r_envprovacc").html("<img src='m_images/cargando.gif'>");
+},
+success:function(a){
+  $("#r_envprovacc").html(a);
+}
+});
+};
+//fin editar programacion de vacaciones

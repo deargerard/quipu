@@ -655,4 +655,40 @@ function cargoiec($con, $idec){
 	}
 }
 //funcion cargo por idEmpleadocargo
+//funcion coordinador
+function escoordinador($con, $ide){
+	$ide=iseguro($con,$ide);
+  	$cc=mysqli_query($con,"SELECT idCoordinacion FROM coordinador WHERE idEmpleado=$ide AND Condicion!=0;");
+  	if($rc=mysqli_fetch_assoc($cc)){
+  		return true;
+  	}else{
+  		return false;
+  	}
+}
+
+function enviopv($con, $idcoo){
+	$idcoo=iseguro($con,$idcoo);
+	$c7=mysqli_query($con,"SELECT pv.idProVacaciones FROM dependencia d INNER JOIN cardependencia cd ON d.idDependencia=cd.idDependencia INNER JOIN empleadocargo ec ON cd.idEmpleadoCargo=ec.idEmpleadoCargo INNER JOIN provacaciones pv ON ec.idEmpleadoCargo=pv.idEmpleadoCargo WHERE cd.Estado=1 AND d.idCoordinacion=$idcoo AND ec.idEstadoCar=1 AND pv.Estado=7;");
+	if(mysqli_num_rows($c7)>0){
+		return true;
+	}else{
+		return false;
+	}
+}
+
+function nomcoordinacion($con, $idcoo){
+	$idcoo=iseguro($con,$idcoo);
+	$cc=mysqli_query($con, "SELECT Denominacion FROM coordinacion WHERE idCoordinacion=$idcoo;");
+	if($rc=mysqli_fetch_assoc($cc)){
+		return $rc['Denominacion'];
+	}else{
+		return "Error";
+	}
+}
+
+function srdias($fec,$dias){
+	$fec=date($fec);
+	$nfec=strtotime('+'.$dias.' day',strtotime($fec));
+	return date('Y-m-d',$nfec);
+}
 ?>

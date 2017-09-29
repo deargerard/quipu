@@ -2,7 +2,7 @@
 session_start();
 include ("../php/conexion_sp.php");
 include ("../php/funciones.php");
-if(accesoadm($cone,$_SESSION['identi'],9)){
+if(accesoadm($cone,$_SESSION['identi'],9) || escoordinador($cone,$_SESSION['identi'])){
 	if(isset($_POST["NomForm"]) && $_POST["NomForm"]=="f_provacaciones"){
 		if(isset($_POST['idec']) && !empty($_POST['idec']) && isset($_POST['peva']) && !empty($_POST['peva']) && isset($_POST['inivac']) && !empty($_POST['inivac']) && isset($_POST['finvac']) && !empty($_POST['finvac'])){
 			$peva=iseguro($cone,$_POST['peva']);

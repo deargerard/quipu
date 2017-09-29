@@ -104,9 +104,11 @@
 <script src="m_inclusiones/js/jquery.validate.js"></script>
 <script src="m_inclusiones/js/additional-methods.min.js"></script>
 <script src="m_inclusiones/js/messages_es_PE.js"></script>
-<!-- Bootstrap WYSIHTML5 -->
-<script src="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
-<!--inicio-->
+<?php
+if(!empty($jsp)){
+  echo $jsp;
+}
+?>
 <script src="m_inclusiones/js/funcionesin.js"></script>
 <script src="m_inclusiones/js/funcionesme.js"></script>
 <script src="m_inclusiones/js/funcionesjq.js"></script>

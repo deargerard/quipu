@@ -28,7 +28,7 @@
 									<td>
 										<table width="100%" border="0" cellpadding="0" cellspacing="0">
 											<tr>
-												<td align="center" style="font-family:Georgia, 'Times New Roman', Times, serif; font-size:30px; color: #FF7101">SISPER</td>
+												<td align="center" style="font-family:Georgia, 'Times New Roman', Times, serif; font-size:30px; color: #FF7101">QUIPU</td>
 											</tr>
 										</table>
 										<br>

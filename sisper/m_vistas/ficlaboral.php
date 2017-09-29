@@ -31,7 +31,6 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
           <ul class="nav nav-tabs">
             <li class="active"><a href="#tab_1" data-toggle="tab">Mis Vacaciones</a></li>
             <li><a href="#tab_2" data-toggle="tab">Mis Licencias</a></li>
-            <li><a href="#tab_3" data-toggle="tab">Programación</a></li>
           </ul>
           <div class="tab-content">
 
@@ -393,86 +392,6 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
             </div>
             <!-- /.tab-pane 2 -->
 
-            <div class="tab-pane" id="tab_3">
-              <!--Encabezado-->
-                <div class="row">
-                  <div class="col-sm-9">
-                    <p><h4 class="text-blue"><strong><i class="fa fa-user"></i> <?php echo nomempleado($cone,$idper); ?> </strong></h4></p>
-                  </div>
-
-                  <div class="col-sm-3"> <!--Botón Programar vacaciones-->
-                    <input type="hidden" id="idper" value="<?php echo $idper?>"> <!--envía id de personal-->
-                    <input type="hidden" id="pervac" value="<?php echo $pervac?>"> <!--envía id del periodovacacional-->
-                    <button id="b_envpro" class="btn btn-info" data-toggle="modal" data-target="#m_programarvacaciones" onclick="envpro(<?php ?>)">Aprobar y Enviar</button>
-                  </div>
-
-                </div>
-              <!--Fin Encabezado-->
-              <!--div resultados-->
-              <div class="row" id="repro">
-                <div class="col-md-12" id="vac">
-                  <?php
-                    $qsv="SELECT pv.idProVacaciones, e.NumeroDoc, e.idEmpleado, ec.idEmpleadoCargo, e.ApellidoPat, c.Denominacion as cargo, d.Denominacion, pva.idPeriodoVacacional, pva.PeriodoVacacional, pv.FechaIni, pv.FechaFin FROM provacaciones pv INNER JOIN empleadocargo ec ON pv.idEmpleadoCargo=ec.idEmpleadoCargo INNER JOIN empleado e ON ec.idEmpleado=e.idEmpleado INNER JOIN condicionlab cl ON ec.idCondicionLab=cl.idCondicionLab INNER JOIN cargo c ON ec.idCargo=c.idCargo INNER JOIN cardependencia cd ON ec.idEmpleadoCargo=cd.idEmpleadoCargo INNER JOIN dependencia d ON cd.idDependencia=d.idDependencia INNER JOIN periodovacacional pva ON pv.idPeriodoVacacional=pva.idPeriodoVacacional INNER JOIN sistemalab sl ON c.idSistemaLab=sl.idSistemaLab WHERE cd.Oficial=1 AND pv.Estado=6 ORDER BY e.ApellidoPat";
-                    $csv=mysqli_query($cone,$qsv);
-                      if (mysqli_num_rows($csv)>0) {
-                       ?>
-                        <table class="table table-bordered table-hover" id="dtableprova" > <!--Tabla que Lista las vacaciones-->
-                          <thead>
-                            <tr>
-                              <th>DNI</th>
-                              <th>EMPLEADO</th>
-                              <th>CARGO</th>
-                              <th>DEPENDENCIA</th>
-                              <th>DÍAS</th>
-                              <th>INICIA</th>
-                              <th>TERMINA</th>
-                              <th></th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <?php
-                            $dt=0;
-                            while($rsv=mysqli_fetch_assoc($csv)){
-                              $dt=intervalo ($rsv['FechaFin'], $rsv['FechaIni']);
-                              $idec=$rsv['idEmpleadoCargo'];
-                              $pervac=$rsv['idPeriodoVacacional'];
-                              include("m_inclusiones/a_vacaciones/a_ofechas.php");
-                            ?>
-                                <tr> <!--Fila de vacaciones-->
-                                <td style="font-size:12px; "><?php echo $rsv['NumeroDoc']?></td> <!--columna DNI-->
-                                <td style="font-size:12px;"><?php echo nomempleado($cone,$rsv['idEmpleado']); ?></td> <!--columna EMPLEADO-->
-                                <td style="font-size:12px;"><?php echo $rsv['cargo']?></td> <!--columna CARGO-->
-                                <td style="font-size:11px;"><?php echo $rsv['Denominacion'] ?></td> <!--DEPENDENCIA-->
-                                <td style="font-size:13px;"><?php echo $dt ?></td> <!--columna CAMTIDAD DE DIAS-->
-                                <td style="font-size:13px;" class="warning"><?php echo "<span class='hidden'>".$rsv['FechaIni']."</span> ".fnormal($rsv['FechaIni'])?></td> <!--columna INICIO-->
-                                <td style="font-size:13px;" class="warning"><?php echo fnormal($rsv['FechaFin'])?></td> <!--columna FIN-->
-                                <td>
-                                    <a href="#" data-toggle="modal" data-target="#m_editarprogramacion"><i class="fa fa-pencil" onclick="edipro(<?php echo $rsv['idProVacaciones'].", '".$fii."', '".$ffi."', '".$fff."'" ?>)"></i></a>
-                                </td> <!--columna EDITAR-->
-                              </tr>
-                          <?php
-                            }
-                           ?>
-                         </tbody>
-                        </table>
-                        <div class="row">
-                          <div class="col-sm-9"> <!--Mensaje-->
-                            <span class="text-red" > <?php echo $msg ?> </span>
-                          </div>
-                          <div class="col-sm-3"> <!--Botón Entrega de Cargo-->
-                            <!-- <button id="b_entcar" class="btn btn-info" data-toggle="modal" data-target="#m_entregacargo" onclick="entcar()">Entrega de Cargo</button> -->
-                          </div>
-                        </div>
-                      <?php
-                      }else {
-                          echo mensajewa("No hay trabajadores que hayan solicitado vacaciones");
-                      }
-                      ?>
-                </div>
-              </div>
-              <!--fin div resultados-->
-            </div>
-            <!-- /.tab-pane 3 -->
           </div>
           <!-- /.tab-content -->
         </div>
