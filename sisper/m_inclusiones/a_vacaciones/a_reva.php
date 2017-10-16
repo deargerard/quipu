@@ -117,13 +117,13 @@ $z=true;
               }elseif ($rvac['Estado']=='7'){
                 $est="purple";
                 $cap="Aceptada";
-                if ($rvac['idPeriodoVacacional']=$pervac) {
+                if ($rvac['idPeriodoVacacional']==$pervac) {
                   $sol=intervalo ($rvac['FechaFin'], $rvac['FechaIni']);
                 }
               }elseif ($rvac['Estado']=='4') {
                 $est="warning";
                 $cap="Planificada";
-                if ($rvac['idPeriodoVacacional']=$pervac) {
+                if ($rvac['idPeriodoVacacional']==$pervac) {
                   $sol=intervalo ($rvac['FechaFin'], $rvac['FechaIni']);
                 }
               }
