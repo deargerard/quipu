@@ -289,7 +289,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                     <label for="bbb" class="sr-only">Estado</label>
                     <select data-actions-box="true" name="estvac[]" class="form-control selectpicker" multiple="multiple" multiple data-selected-text-format="count" title="ESTADO">
                       <option value="6">SOLICITADAS</option>
-                      <option value="7">APROBADAS</option>
+                      <option value="7">ACEPTADAS</option>
                     </select>
                   </div>
                   <button type="submit" id="b_bprova" class="btn btn-default">Buscar</button>

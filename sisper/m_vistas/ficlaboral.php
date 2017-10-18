@@ -68,7 +68,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                   while($rcar=mysqli_fetch_assoc($ccar)){
                     $n++;
                     $car=$rcar['idEmpleadoCargo'];
-                    $q="SELECT v.idProVacaciones, pv.PeriodoVacacional, v.FechaIni, v.FechaFin, v.Estado, v.Condicion FROM provacaciones as v INNER JOIN periodovacacional AS pv ON v.idPeriodoVacacional = pv.idPeriodoVacacional INNER JOIN empleadocargo AS ec ON v.idEmpleadoCargo=ec.idEmpleadoCargo WHERE ec.idEmpleadoCargo=$car";
+                    $q="SELECT v.idProVacaciones, pv.PeriodoVacacional, pv.idPeriodoVacacional, v.FechaIni, v.FechaFin, v.Estado, v.Condicion FROM provacaciones as v INNER JOIN periodovacacional AS pv ON v.idPeriodoVacacional = pv.idPeriodoVacacional INNER JOIN empleadocargo AS ec ON v.idEmpleadoCargo=ec.idEmpleadoCargo WHERE ec.idEmpleadoCargo=$car";
                     $cvac=mysqli_query($cone,$q);
                     $vis=false;
 
@@ -157,7 +157,9 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                                   }elseif ($rvac['Estado']=='6') {
                                     $est="default";
                                     $cap="Solicitada";
-                                    $sol=intervalo ($rvac['FechaFin'], $rvac['FechaIni']);
+                                    if ($rvac['idPeriodoVacacional']==$pervac) {
+                                      $sol=intervalo ($rvac['FechaFin'], $rvac['FechaIni']);
+                                    }
                                   }elseif ($rvac['Estado']=='7'){
                                     $est="purple";
                                     $cap="Aceptada";
@@ -189,7 +191,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                                     }
                                   }else{
                                     $res=$tot-30;
-                                    $msg1="Haz exedido en ".$res." días las vacaciones solicitadas para el periodo ".$pv.".";
+                                    $msg1="Has excedido en ".$res." días las vacaciones solicitadas para el periodo ".$pv.".";
                                     $v=false;
                                   }
                                   ?>

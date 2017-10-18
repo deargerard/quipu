@@ -98,7 +98,7 @@ if(accesocon($cone,$_SESSION['identi'],3)){
 			</table>
 			<script>
 			$('#dtvare').DataTable({
-				"order": [[7,"asc"]]
+				"order": [[1,"asc"]]
 			});
 			</script>
 		<?php
