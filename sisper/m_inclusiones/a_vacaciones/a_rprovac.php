@@ -8,29 +8,41 @@ if(accesocon($cone,$_SESSION['identi'],3)){
 	$pervac=$_POST["pervac"];
 	$estvac=$_POST["estvac"];
 	$dep=$_POST["dep"];
-	if(isset($reglab) && isset($pervac) && isset($estvac) && isset($sislab) && !empty($sislab)){
+	if(isset($pervac) && !empty($pervac) && isset($estvac) && !empty($estvac)){
 
-		$wrl="(";
-		$wev="(";
-		$wsl="(";
+		$wrl="";
+		$wev="AND (";
+		$wsl="";
 		$wdep="";
-		if ($dep!="t") {
-			$wdep="AND d.idDependencia=38";
-		}
 
-		for ($i=0; $i < count($reglab); $i++) {
-			$wrl.= $i==(count($reglab)-1) ? " ec.idCondicionLab=$reglab[$i])" : "ec.idCondicionLab=$reglab[$i] OR ";
+		if ($dep!="t") {
+			$wdep="AND d.idDependencia=$dep";
 		}
 
 		for ($k=0; $k < count($estvac); $k++) {
 			$wev.= $k==(count($estvac)-1) ? " pv.Estado=$estvac[$k])" : "pv.Estado=$estvac[$k] OR ";
 		}
 
-		for ($m=0; $m < count($sislab); $m++) {
-			$wsl.=$m==(count($sislab)-1) ? " sl.idSistemaLab=$sislab[$m])" : "sl.idSistemaLab=$sislab[$m] OR ";
+		if(isset($reglab) && !empty($reglab)){
+
+			$wrl="AND (";
+
+			for ($i=0; $i < count($reglab); $i++) {
+				$wrl.= $i==(count($reglab)-1) ? " ec.idCondicionLab=$reglab[$i])" : "ec.idCondicionLab=$reglab[$i] OR ";
+			}
+
 		}
 
-			$c="SELECT sl.idSistemaLab, e.NumeroDoc, e.idEmpleado, c.Denominacion as cargo, d.Denominacion, cl.Tipo, ec.FechaVac, pva.idPeriodoVacacional, pva.PeriodoVacacional, pv.FechaIni, pv.FechaFin, pv.Estado, pv.Condicion FROM provacaciones pv INNER JOIN empleadocargo ec ON pv.idEmpleadoCargo=ec.idEmpleadoCargo INNER JOIN empleado e ON ec.idEmpleado=e.idEmpleado INNER JOIN condicionlab cl ON ec.idCondicionLab=cl.idCondicionLab INNER JOIN cargo c ON ec.idCargo=c.idCargo INNER JOIN cardependencia cd ON ec.idEmpleadoCargo=cd.idEmpleadoCargo INNER JOIN dependencia d ON cd.idDependencia=d.idDependencia INNER JOIN periodovacacional pva ON pv.idPeriodoVacacional=pva.idPeriodoVacacional INNER JOIN sistemalab sl ON c.idSistemaLab=sl.idSistemaLab WHERE pv.idPeriodoVacacional=$pervac AND cd.Oficial=1 AND $wrl AND $wev AND $wsl $wdep";
+		if(isset($sislab) && !empty($sislab)){
+
+			$wsl="AND (";
+
+			for ($m=0; $m < count($sislab); $m++) {
+				$wsl.=$m==(count($sislab)-1) ? " sl.idSistemaLab=$sislab[$m])" : "sl.idSistemaLab=$sislab[$m] OR ";
+			}
+		}
+
+			$c="SELECT sl.idSistemaLab, e.NumeroDoc, e.idEmpleado, c.Denominacion as cargo, d.Denominacion, cl.Tipo, ec.FechaVac, pva.idPeriodoVacacional, pva.PeriodoVacacional, pv.FechaIni, pv.FechaFin, pv.Estado, pv.Condicion FROM provacaciones pv INNER JOIN empleadocargo ec ON pv.idEmpleadoCargo=ec.idEmpleadoCargo INNER JOIN empleado e ON ec.idEmpleado=e.idEmpleado INNER JOIN condicionlab cl ON ec.idCondicionLab=cl.idCondicionLab INNER JOIN cargo c ON ec.idCargo=c.idCargo INNER JOIN cardependencia cd ON ec.idEmpleadoCargo=cd.idEmpleadoCargo INNER JOIN dependencia d ON cd.idDependencia=d.idDependencia INNER JOIN periodovacacional pva ON pv.idPeriodoVacacional=pva.idPeriodoVacacional INNER JOIN sistemalab sl ON c.idSistemaLab=sl.idSistemaLab WHERE pv.idPeriodoVacacional=$pervac AND cd.Oficial=1 $wrl $wev $wsl $wdep";
 			//echo $c;
 			$cpv=mysqli_query($cone,$c);
 			if (mysqli_num_rows($cpv)>0) {
@@ -95,7 +107,7 @@ if(accesocon($cone,$_SESSION['identi'],3)){
 		}
 		mysqli_close($cone);
 }else{
-		echo mensajeda("Error: Debe seleccionar al menos un valor en cada campo");
+		echo mensajeda("Error: Debe seleccionar al menos el estado");
 	}
 
 }else{

@@ -12,7 +12,7 @@ if(vacceso($cone,$_SESSION['identi'],$_SESSION['docide'],$_SESSION['nomusu'])){
           <div class="col-md-12">
             <div class="box box-solid">
               <div class="box-header with-border">
-                
+
               </div>
               <!-- /.box-header -->
               <div class="box-body">
@@ -27,7 +27,7 @@ if(vacceso($cone,$_SESSION['identi'],$_SESSION['docide'],$_SESSION['nomusu'])){
                     if($rcoo=mysqli_fetch_assoc($ccoo)){
                       $c++;
                       $csv=mysqli_query($cone,"SELECT e.NumeroDoc, e.idEmpleado, ec.idEmpleadoCargo FROM dependencia d INNER JOIN cardependencia cd ON d.idDependencia=cd.idDependencia INNER JOIN empleadocargo ec ON cd.idEmpleadoCargo=ec.idEmpleadoCargo INNER JOIN empleado e ON ec.idEmpleado=e.idEmpleado WHERE cd.Estado=1 AND d.idCoordinacion=$idcoo AND ec.idEstadoCar=1 ORDER BY e.ApellidoPat ASC, e.ApellidoMat ASC;");
-                  
+
                 ?>
                   <!-- we are adding the .panel class so bootstrap.js collapse plugin detects it -->
                   <div class="panel box box-info">
@@ -42,7 +42,7 @@ if(vacceso($cone,$_SESSION['identi'],$_SESSION['docide'],$_SESSION['nomusu'])){
                       <div class="box-body">
                         <?php
                         if(!enviopv($cone, $idcoo)){
-                        
+
                           if (mysqli_num_rows($csv)>0) {
 
                         ?>
@@ -63,9 +63,9 @@ if(vacceso($cone,$_SESSION['identi'],$_SESSION['docide'],$_SESSION['nomusu'])){
                                 <?php
                                 $dt=0;
                                 while($rsv=mysqli_fetch_assoc($csv)){
-                                  
+
                                   $idec=$rsv['idEmpleadoCargo'];
-                                  
+
 
                                   $qvac=mysqli_query($cone,"SELECT pv.idProVacaciones, pv.FechaIni, pv.FechaFin, pva.idPeriodoVacacional, pv.estado FROM provacaciones pv INNER JOIN periodovacacional pva ON pv.idPeriodoVacacional=pva.idPeriodoVacacional WHERE pv.idEmpleadoCargo=$idec AND pv.Estado=6;");
                                   if(mysqli_num_rows($qvac)>0){
@@ -138,7 +138,7 @@ if(vacceso($cone,$_SESSION['identi'],$_SESSION['docide'],$_SESSION['nomusu'])){
 
                                   }
 
-                                  
+
                                 ?>
 
                               <?php
@@ -151,7 +151,7 @@ if(vacceso($cone,$_SESSION['identi'],$_SESSION['docide'],$_SESSION['nomusu'])){
                         ?>
                         <div class="col-sm-12">
                           <br>
-                          <button id="b_envpro" class="btn btn-info" data-toggle="modal" data-target="#m_envprovacc" onclick="envprovacc(<?php echo $idcoo; ?>)">Aprobar y Enviar</button>
+                          <button id="b_envpro" class="btn btn-info" data-toggle="modal" data-target="#m_envprovacc" onclick="envprovacc(<?php echo $idcoo; ?>)">Aceptar y Enviar</button>
                         </div>
                         <?php
                         }else{
