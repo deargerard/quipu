@@ -200,7 +200,7 @@ $z=true;
     </div>
 <?php
      }else {
-      echo mensajewa("No tiene vacaciones programadas como ". $rcar['cargo'].".");
+      //echo mensajewa("No tiene vacaciones programadas como ". $rcar['cargo'].".");
      }
 }
 

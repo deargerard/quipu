@@ -366,6 +366,25 @@ $("#f_rejva").submit(function(e){
    });
 });
 // Fin Recibir datos para reporte de EjecuciÃ³n Vacaciones
+// Recibir datos para reporte de Programación de Vacaciones
+$("#f_rprovac").submit(function(e){
+ e.preventDefault();
+ var datos = $("#f_rprovac").serializeArray();
+ datos.push({name: "NomForm", value: "f_rprovac"});
+ $.ajax({
+       data:  datos,
+       url:   "m_inclusiones/a_vacaciones/a_rprovac.php",
+       type:  "post",
+       beforeSend: function () {
+         $("#b_bprova").html("<i class='fa fa-spinner fa-spin'></i> Buscando");
+       },
+       success:  function (response) {
+         $("#b_bprova").html("Buscar");
+         $("#r_rprova").html(response);
+       }
+   });
+});
+// Fin Recibir datos para reporte de Programación de Vacaciones
 
 $(' #fecha').datepicker({
   format: "dd/mm/yyyy",
@@ -775,3 +794,20 @@ success:function(a){
 });
 };
 //fin editar programacion de vacaciones
+//Select2 para buscar dependencia.
+$(".select2depact").select2({
+  placeholder: 'Selecione una dependencia',
+  ajax: {
+    url: 'm_inclusiones/a_general/a_seldependenciat.php',
+    dataType: 'json',
+    delay: 250,
+    processResults: function (data) {
+      return {
+        results: data
+      };
+    },
+    cache: true
+  },
+  minimumInputLength: 4
+})
+//Fin Select2 para buscar dependencia.

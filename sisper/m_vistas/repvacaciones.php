@@ -1,6 +1,13 @@
 <?php
 if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
   if(accesocon($cone,$_SESSION['identi'],3)){
+    $hoy = date("Y");
+    $anos= $hoy + 1;
+    $pv = trim($hoy." - ".$anos);
+    $cpev=mysqli_query($cone,"SELECT * FROM periodovacacional WHERE PeriodoVacacional='$pv'");
+    if ($rpev=mysqli_fetch_assoc($cpev)) {
+      $pervac=$rpev['idPeriodoVacacional'];
+    }
 ?>
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -24,6 +31,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
               <li class="active"><a href="#tab_1" data-toggle="tab">Vacaciones por Trabajador</a></li>
               <li><a href="#tab_2" data-toggle="tab">Vacaciones por Período</a></li>
               <li><a href="#tab_3" data-toggle="tab">Vacaciones por Meses</a></li>
+              <li><a href="#tab_4" data-toggle="tab">Programación de Vacaciones <?php echo $pv ?></a></li>
               <!--<li><a href="#tab_4" data-toggle="tab">Vacaciones por Sistema Laboral</a></li>-->
             </ul>
             <div class="tab-content">
@@ -53,7 +61,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                       <option value="5">SUSPENDIDAS</option>
                     </select>
                   </div>
-                
+
 
                   <div class="form-group">
                     <label for="aaa" class="sr-only">Condición</label>
@@ -155,7 +163,6 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
 
               </div>
               <!-- /.tab-pane -->
-
               <div class="tab-pane" id="tab_3">
                 <!--Formulario-->
                 <form action="" id="f_rejva" class="form-inline">
@@ -234,8 +241,71 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 </div>
                 <!--fin div resultados-->
               </div>
-
+              <!-- /.tab-pane -->
               <div class="tab-pane" id="tab_4">
+
+                <!--Formulario-->
+                <form action="" id="f_rprovac" class="form-inline">
+
+                  <div class="form-group">
+                    <label for="aaa" class="sr-only">Personal</label>
+                    <select name="dep" id="dep" class="form-control select2depact" style="width: 500px;">
+                      <option value="t"> TODAS LAS DEPENDENCIAS</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <input type="hidden" name="pervac" value="<?php echo $pervac ?>">
+                    <label for="aaa" class="sr-only">Sistema</label>
+                      <select name="sislab[]" data-actions-box="true" class="form-control selectpicker" multiple="multiple" multiple data-selected-text-format="count" title="SISTEMA">
+                        <?php
+                          $csl=mysqli_query($cone,"SELECT idSistemaLab, SistemaLab FROM sistemalab WHERE idSistemaLab!=4 AND  idSistemaLab!=5 ORDER BY idSistemaLab ASC");
+                          while($rsl=mysqli_fetch_assoc($csl)){
+                        ?>
+                        <option value="<?php echo $rsl['idSistemaLab']; ?>"><?php echo $rsl['SistemaLab']; ?></option>
+                        <?php
+                          }
+                          mysqli_free_result($csl);
+                        ?>
+                      </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="aaa" class="sr-only">Regimen</label>
+                    <select data-actions-box="true" name="reglab[]" class="form-control selectpicker" multiple="multiple" multiple data-selected-text-format="count" title="RÉGIMEN">
+                      <?php
+                        $crl=mysqli_query($cone,"SELECT idCondicionLab, Tipo FROM condicionlab WHERE Estado=1 AND idCondicionLab!=6 AND idCondicionLab!=7 ORDER BY Tipo ASC");
+                        while($rrl=mysqli_fetch_assoc($crl)){
+                      ?>
+                      <option value="<?php echo $rrl['idCondicionLab']; ?>"><?php echo $rrl['Tipo']; ?></option>
+                      <?php
+                        }
+                        mysqli_free_result($crl);
+                      ?>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="bbb" class="sr-only">Estado</label>
+                    <select data-actions-box="true" name="estvac[]" class="form-control selectpicker" multiple="multiple" multiple data-selected-text-format="count" title="ESTADO">
+                      <option value="6">SOLICITADAS</option>
+                      <option value="7">APROBADAS</option>
+                    </select>
+                  </div>
+                  <button type="submit" id="b_bprova" class="btn btn-default">Buscar</button>
+                </form>
+                <!--Fin Formulario-->
+                <!--div resultados-->
+                <div class="row">
+                  <div class="col-md-12" id="r_rprova">
+
+                  </div>
+                </div>
+                <!--fin div resultados-->
+
+              </div>
+              <!-- /.tab-pane -->
+              <div class="tab-pane" id="tab_5">
                 <!--Formulario-->
                 <form action="" id="f_rvape" class="form-inline">
                   <div class="form-group">

@@ -64,13 +64,15 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 <div class="col-md-12" id="vac">
                   <?php
                   $n=0;
+                  $v=true;
                   while($rcar=mysqli_fetch_assoc($ccar)){
                     $n++;
                     $car=$rcar['idEmpleadoCargo'];
                     $q="SELECT v.idProVacaciones, pv.PeriodoVacacional, v.FechaIni, v.FechaFin, v.Estado, v.Condicion FROM provacaciones as v INNER JOIN periodovacacional AS pv ON v.idPeriodoVacacional = pv.idPeriodoVacacional INNER JOIN empleadocargo AS ec ON v.idEmpleadoCargo=ec.idEmpleadoCargo WHERE ec.idEmpleadoCargo=$car";
                     $cvac=mysqli_query($cone,$q);
                     $vis=false;
-                    $v=true;
+
+                    //echo $v."-";
                       if (mysqli_num_rows($cvac)>0){
                         ?>
                         <div class="row">
@@ -244,9 +246,10 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                         <!--fin div row-->
                         <?php
                       }else {
-                        echo mensajewa("No tiene vacaciones programadas como ". $rcar['cargo'].".");
+                        //echo mensajewa("No tiene vacaciones programadas como ". $rcar['cargo'].".");
                       }
                   }
+
                   ?>
                 </div>
               </div>
