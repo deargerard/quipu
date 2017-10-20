@@ -623,13 +623,10 @@ $( "#f_provacaciones").validate( {
       dataType: "html",
       data: datos,   // I WANT TO ADD EXTRA DATA + SERIALIZE DATA
       beforeSend: function () {
-         $("#b_gnvac").html("<i class='fa fa-spinner fa-spin'></i> Enviando");
-         $("#b_gnvac").addClass("disabled");
+        $("#b_gpvac").hide();
+        $("#r_provacaciones").html("<i class='fa fa-spinner fa-spin'></i> Enviando");
       },
       success: function(data){
-         $("#b_gpvac").hide();
-         $("#b_gpvac").html("Guardar");
-         $("#b_gpvac").removeClass("disabled");
          $("#r_provacaciones").html(data);
          $("#r_provacaciones").slideDown();
       }
