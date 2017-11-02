@@ -107,7 +107,73 @@ if(accesocon($cone,$_SESSION['identi'],3)){
 		}
 		mysqli_close($cone);
 }else{
-		echo mensajeda("Error: Debe seleccionar al menos el estado");
+		//echo mensajeda("Resultado de los que no han programado");
+	$cta=mysqli_query($cone, "SELECT idEmpleadoCargo, idEmpleado, FechaVac FROM  empleadocargo  WHERE idEstadoCar= 1 AND (idCargo!=32 AND idCargo!=34);");
+
+	if (mysqli_num_rows($cta)>0) {
+?>
+<br>
+<table id="dtvare" class="table table-bordered table-hover"> <!--Tabla que Lista las vacaciones-->
+				<thead>
+					<tr>
+						<th style="font-size:12px;">DNI</th>
+						<th style="font-size:12px;">EMPLEADO</th>
+						<th style="font-size:12px;">CARGO</th>
+						<th style="font-size:12px;">DEPENDENCIA</th>
+						<th style="font-size:12px;">FECH. VAC</th>
+						<th style="font-size:12px;">PROGRAMÓ</th>
+					</tr>
+				</thead>
+		<tbody>
+<?php
+
+		while ($rta=mysqli_fetch_assoc($cta)) {
+			$idec=$rta['idEmpleadoCargo'];
+			$ide=$rta['idEmpleado'];
+			$fvac=fnormal($rta['FechaVac']);
+			$cpv=mysqli_query($cone,"SELECT FechaIni, FechaFin FROM  provacaciones  WHERE idEmpleadoCargo=$idec AND idPeriodoVacacional=$pervac;");
+
+			if (mysqli_num_rows($cpv)>0) {
+				$total=0;
+				$n=0;
+				while ($rpv=mysqli_fetch_assoc($cpv)) {
+					$dias=intervalo($rpv['FechaFin'], $rpv['FechaIni']);
+					$total = $total + $dias;
+					$n++;
+				}
+
+			}else{
+				$total=0;
+			}
+			//$difa=30-$total;
+			//if($total!=30){
+				?>
+									<tr> <!--Fila de vacaciones-->
+										<td style="font-size:11px;"><?php echo docidentidad($cone, $ide); ?></td> <!--columna CÓDIGO-->
+										<td style="font-size:11px;"><?php echo nomempleado($cone, $ide); ?></td> <!--columna APELLIDOS Y NOMBRES-->
+										<td style="font-size:11px;"><?php echo cargoe($cone, $ide); ?></td> <!--columna CARGO-->
+										<td style="font-size:11px;"><?php echo dependenciae($cone, $ide); ?></td> <!--columna DEPENDENCIA-->
+										<td style="font-size:11px;"><?php echo $fvac; ?></td> <!--columna ALTA-->
+										<td style="font-size:12px;" class="<?php echo $total!=30 ? "danger" : "success"; ?>"><?php echo $total." Días"; ?></td> <!--columna CAMTIDAD DE DIAS-->
+									</tr>
+				<?php
+			//}
+
+		}
+?>
+	</tbody>
+</table>
+<script>
+$('#dtvare').DataTable({
+	"order": [[1,"asc"]]
+});
+</script>
+<?php
+	}else {
+		echo mensajewa("Atención, No existen Trabajadores Activos");
+	}
+
+
 	}
 
 }else{
