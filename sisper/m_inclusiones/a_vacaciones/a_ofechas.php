@@ -1,4 +1,5 @@
 <?php
+//Inicio de cálculo de fechas de restricción de vacaciones.
 $fii="";
 $ffi="";
 $fff="";
@@ -12,14 +13,15 @@ $rpv=mysqli_fetch_assoc($cpv);
   $fii= $diai."-".$mesi."-".$anoi;
   $fii=date($fii);
   $fii=strtotime('+1 day',strtotime($fii));
-  $fii= date('j-m-Y',$fii);
+  $fii= date('j-m-Y',$fii); //Fecha Mínima de inicio de vacaciones.
   $f=date($fii);
-  $f=strtotime('+11 month',strtotime($f));
-  $ffi=date('j-m-Y',$f);
-  $fff= strtotime('+29 day',strtotime($ffi));
-  $fff= date('j-m-Y',$fff);
+  $f1=strtotime('+12 month',strtotime($f));
+  $ffi=date('j-m-Y',$f1); //Fecha máxima de inicio de vacaciones.
+  $fff= $ffi; //Fecha máxima de fin de vacaciones.
   $hoy = date("j-m-Y");
   $fii = strtotime($fii)<=strtotime($hoy) ? date("d-m-Y",strtotime('+15 day',strtotime($hoy))) : $fii; // Valida que la fecha inicial sea 15 días mayor que la fecha actual.
+//fin de cálculo de fechas de restricción de vacaciones.
+
   $anot= substr($rpv['PeriodoVacacional'], -11,-6);
   $alta= substr($rin['FechaVac'], -10, -6);
   $asume= substr($rin['FechaAsu'], -10, -6);

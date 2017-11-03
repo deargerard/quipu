@@ -145,32 +145,42 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                                   }elseif($rvac['Estado']=='1') {
                                     $est="success";
                                     $cap="Ejecutado";
+                                    $sol=0;
                                   }elseif ($rvac['Estado']=='2') {
                                     $est="danger";
                                     $cap="Cancelado";
+                                    $sol=0;
                                   }elseif ($rvac['Estado']=='3') {
                                     $est="primary";
                                     $cap="Ejecutandose";
+                                    $sol=0;
                                   }elseif ($rvac['Estado']=='5'){
                                     $est="default";
                                     $cap="Suspendida";
+                                    $sol=0;
                                   }elseif ($rvac['Estado']=='6') {
                                     $est="default";
                                     $cap="Solicitada";
                                     if ($rvac['idPeriodoVacacional']==$pervac) {
                                       $sol=intervalo ($rvac['FechaFin'], $rvac['FechaIni']);
+                                    }else {
+                                      $sol=0;
                                     }
                                   }elseif ($rvac['Estado']=='7'){
                                     $est="purple";
                                     $cap="Aceptada";
                                     if ($rvac['idPeriodoVacacional']==$pervac) {
                                       $sol=intervalo ($rvac['FechaFin'], $rvac['FechaIni']);
+                                    }else {
+                                      $sol=0;
                                     }
                                   }elseif ($rvac['Estado']=='4') {
                                     $est="warning";
                                     $cap="Planificada";
                                     if ($rvac['idPeriodoVacacional']==$pervac) {
                                       $sol=intervalo ($rvac['FechaFin'], $rvac['FechaIni']);
+                                    }else {
+                                      $sol=0;
                                     }
                                   }
                                   $con="";
