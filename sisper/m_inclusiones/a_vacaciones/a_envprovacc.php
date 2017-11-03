@@ -7,7 +7,7 @@ if(vacceso($cone,$_SESSION['identi'],$_SESSION['docide'],$_SESSION['nomusu'])){
     	if(isset($_POST['idcoo']) && !empty($_POST['idcoo'])){
     		echo "<div id='titulo' class='text-orange'></div>";
     		$idcoo=iseguro($cone,$_POST['idcoo']);
-			$qt=mysqli_query($cone,"SELECT ec.idEmpleadoCargo, ec.idEmpleado FROM dependencia d INNER JOIN cardependencia cd ON d.idDependencia=cd.idDependencia INNER JOIN empleadocargo ec ON cd.idEmpleadoCargo=ec.idEmpleadoCargo WHERE d.idCoordinacion=$idcoo AND cd.Estado=1 AND ec.idEstadoCar=1;");
+			$qt=mysqli_query($cone,"SELECT ec.idEmpleadoCargo, ec.idEmpleado FROM dependencia d INNER JOIN cardependencia cd ON d.idDependencia=cd.idDependencia INNER JOIN empleadocargo ec ON cd.idEmpleadoCargo=ec.idEmpleadoCargo WHERE d.idCoordinacion=$idcoo AND cd.Estado=1 AND ec.idEstadoCar=1 AND (ec.idCargo!=32 AND ec.idCargo!=34);");
 			$b=true;
 			if (mysqli_num_rows($qt)>0) {
 				$u="";
