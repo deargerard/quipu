@@ -42,7 +42,7 @@ if(accesocon($cone,$_SESSION['identi'],3)){
 			}
 		}
 
-			$c="SELECT sl.idSistemaLab, e.NumeroDoc, e.idEmpleado, c.Denominacion as cargo, d.Denominacion, cl.Tipo, ec.FechaVac, pva.idPeriodoVacacional, pva.PeriodoVacacional, pv.FechaIni, pv.FechaFin, pv.Estado, pv.Condicion FROM provacaciones pv INNER JOIN empleadocargo ec ON pv.idEmpleadoCargo=ec.idEmpleadoCargo INNER JOIN empleado e ON ec.idEmpleado=e.idEmpleado INNER JOIN condicionlab cl ON ec.idCondicionLab=cl.idCondicionLab INNER JOIN cargo c ON ec.idCargo=c.idCargo INNER JOIN cardependencia cd ON ec.idEmpleadoCargo=cd.idEmpleadoCargo INNER JOIN dependencia d ON cd.idDependencia=d.idDependencia INNER JOIN periodovacacional pva ON pv.idPeriodoVacacional=pva.idPeriodoVacacional INNER JOIN sistemalab sl ON c.idSistemaLab=sl.idSistemaLab WHERE pv.idPeriodoVacacional=$pervac AND cd.Estado=1 $wrl $wev $wsl $wdep";
+			$c="SELECT sl.idSistemaLab, e.NumeroDoc, e.idEmpleado, ca.Denominacion as cargo, d.Denominacion, cl.Tipo, ec.FechaVac, pva.idPeriodoVacacional, pva.PeriodoVacacional, pv.FechaIni, pv.FechaFin, pv.Estado, pv.Condicion FROM provacaciones pv INNER JOIN empleadocargo ec ON pv.idEmpleadoCargo=ec.idEmpleadoCargo INNER JOIN empleado e ON ec.idEmpleado=e.idEmpleado INNER JOIN condicionlab cl ON ec.idCondicionLab=cl.idCondicionLab INNER JOIN cargo ca ON ec.idCargo=ca.idCargo INNER JOIN cardependencia cd ON ec.idEmpleadoCargo=cd.idEmpleadoCargo INNER JOIN dependencia d ON cd.idDependencia=d.idDependencia INNER JOIN periodovacacional pva ON pv.idPeriodoVacacional=pva.idPeriodoVacacional INNER JOIN sistemalab sl ON ca.idSistemaLab=sl.idSistemaLab WHERE pv.idPeriodoVacacional=$pervac AND cd.Estado=1 $wrl $wev $wsl $wdep AND (d.Observacion!='e' OR sl.SistemaLab!='FISCAL');";
 			//echo $c;
 			$cpv=mysqli_query($cone,$c);
 			if (mysqli_num_rows($cpv)>0) {
@@ -108,7 +108,7 @@ if(accesocon($cone,$_SESSION['identi'],3)){
 		mysqli_close($cone);
 }else{
 		//echo mensajeda("Resultado de los que no han programado");
-	$cta=mysqli_query($cone, "SELECT idEmpleadoCargo, idEmpleado, FechaVac FROM  empleadocargo  WHERE idEstadoCar= 1 AND (idCargo!=32 AND idCargo!=34);");
+	$cta=mysqli_query($cone, "SELECT ec.idEmpleadoCargo, e.idEmpleado, ec.FechaVac FROM dependencia d INNER JOIN cardependencia cd ON d.idDependencia=cd.idDependencia INNER JOIN dependencia de ON cd.idDependencia=de.idDependencia INNER JOIN empleadocargo ec ON cd.idEmpleadoCargo=ec.idEmpleadoCargo INNER JOIN empleado e ON ec.idEmpleado=e.idEmpleado INNER JOIN cargo ca ON ec.idCargo=ca.idCargo INNER JOIN sistemalab sl ON ca.idSistemaLab=sl.idSistemaLab WHERE cd.Estado=1 AND ec.idEstadoCar=1 AND (de.Observacion!='e' OR sl.SistemaLab!='FISCAL') AND (ec.idCargo!=32 AND ec.idCargo!=34);");
 
 	if (mysqli_num_rows($cta)>0) {
 ?>
@@ -126,7 +126,7 @@ if(accesocon($cone,$_SESSION['identi'],3)){
 				</thead>
 		<tbody>
 <?php
-
+		$fal=0;
 		while ($rta=mysqli_fetch_assoc($cta)) {
 			$idec=$rta['idEmpleadoCargo'];
 			$ide=$rta['idEmpleado'];
@@ -144,6 +144,7 @@ if(accesocon($cone,$_SESSION['identi'],3)){
 
 			}else{
 				$total=0;
+				$fal++;
 			}
 			//$difa=30-$total;
 			//if($total!=30){
@@ -163,6 +164,7 @@ if(accesocon($cone,$_SESSION['identi'],3)){
 ?>
 	</tbody>
 </table>
+<span class="label label-danger">Faltan <?php echo $fal; ?> personas programar sus vacaciones.</span>
 <script>
 $('#dtvare').DataTable({
 	"order": [[1,"asc"]]
