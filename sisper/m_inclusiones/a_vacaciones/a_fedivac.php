@@ -4,25 +4,30 @@ include ("../php/conexion_sp.php");
 include ("../php/funciones.php");
 if(accesoadm($cone,$_SESSION['identi'],3)){
   if (($_POST['perm'])==1){
-    if(isset($_POST['idvac']) && !empty($_POST['idvac']) && isset($_POST['idav']) && !empty($_POST['idav']) && isset($_POST['fii']) && !empty($_POST['fii']) && isset($_POST['ffi']) && !empty($_POST['ffi']) && isset($_POST['fff']) && !empty($_POST['fff'])){
+    if(isset($_POST['idvac']) && !empty($_POST['idvac']) && isset($_POST['idav']) && !empty($_POST['idav']) && isset($_POST['fav']) && !empty($_POST['fav'])){
         $idvac=iseguro($cone,$_POST['idvac']);
         $idav=iseguro($cone,$_POST['idav']);
-        $fii=iseguro($cone,$_POST['fii']);
-        $ffi=iseguro($cone,$_POST['ffi']);
-        $fff=iseguro($cone,$_POST['fff']);
-        //echo $fii ." --- ".$ffi." --- ".$fff;
+        $fav=fmysql(iseguro($cone,$_POST['fav']));
+
         $cvac=mysqli_query($cone,"SELECT * FROM provacaciones WHERE idProVacaciones=$idvac");
         $cav=mysqli_query($cone,"SELECT * FROM aprvacaciones WHERE idAprVacaciones=$idav");
         if($rvac=mysqli_fetch_assoc($cvac)){
+        $st=$rvac['Estado'];
+
 ?>
               <div class="form-group valida">
                 <div class="col-sm-12 text-center">
                   <input type="hidden" name="idvac" value="<?php echo $idvac ?>"> <!--envía id de vacaciones-->
+                  <input type="hidden" name="st" value="<?php echo $st ?>"> <!--envía id de vacaciones-->
                   <input type="hidden" name="idav" value="<?php echo $idav ?>"> <!--envía id de aprobacion-->
+                  <input type="hidden" name="fav" value="<?php echo $fav ?>"> <!--envía la fecha de vacaciones-->
+
 <?php
+                  //echo $fav." ".$st;
                   $vac=$rvac['idPeriodoVacacional'];
                   $cpv=mysqli_query($cone,"SELECT * FROM periodovacacional WHERE idPeriodoVacacional=$vac");
                   $rpv=mysqli_fetch_assoc($cpv);
+
 ?>
                     <h4 class="text-danger"><?php echo "VACACIONES PARA EL PERÍODO  ". $rpv['PeriodoVacacional']?></h4>
                 </div>
@@ -77,8 +82,7 @@ if(accesoadm($cone,$_SESSION['identi'],3)){
                   language: "es",
                   autoclose: true,
                   todayHighlight: true,
-                  startDate: "<?php echo $fii ?>",
-                  endDate: "<?php echo $ffi?>",
+
                 })
                 .on('changeDate', function(e){
                   var fechini = new Date(e.date.valueOf());
@@ -116,8 +120,6 @@ if(accesoadm($cone,$_SESSION['identi'],3)){
                    language: "es",
                    autoclose: true,
                    todayHighlight: true,
-                   startDate: "<?php echo $fii ?>",
-                   endDate: "<?php echo $fff?>",
                  })
                  .on('changeDate', function(e){
                    var fechfin = new Date(e.date.valueOf());
@@ -196,9 +198,7 @@ if(accesoadm($cone,$_SESSION['identi'],3)){
       echo mensajewa("No tiene permiso para editar el registro");
       $idvac=iseguro($cone,$_POST['idvac']);
       $idav=iseguro($cone,$_POST['idav']);
-      $fii=iseguro($cone,$_POST['fii']);
-      $ffi=iseguro($cone,$_POST['ffi']);
-      $fff=iseguro($cone,$_POST['fff']);
+      $fav=fmysql(iseguro($cone,$_POST['fav']));
 ?>
       <script>
       $("#b_gevacaciones").hide();
@@ -209,9 +209,7 @@ if(accesoadm($cone,$_SESSION['identi'],3)){
           <input type="hidden" name="perm" id="perm" value="<?php echo "1" ?>">
           <input type="hidden" name="idvac" id="idvac" value="<?php echo $idvac ?>">
           <input type="hidden" name="idav" id="idav" value="<?php echo $idav ?>">
-          <input type="hidden" name="fii" id="fii" value="<?php echo "'$fii'" ?>">
-          <input type="hidden" name="ffi" id="ffi" value="<?php echo "'$ffi'" ?>">
-          <input type="hidden" name="fff" id="fff" value="<?php echo "'$fff'" ?>">
+          <input type="hidden" name="fav" id="fav"value="<?php echo $fav ?>"> <!--envía la fecha de vacaciones-->
         </div>
         <button class="btn btn-info" type="button" id="b_gclave" name="b_gclave" onclick="validare()">Editar</button>
       </form>

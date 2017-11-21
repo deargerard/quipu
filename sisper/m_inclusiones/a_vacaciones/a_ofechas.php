@@ -23,11 +23,14 @@ $rpv=mysqli_fetch_assoc($cpv);
 //fin de cálculo de fechas de restricción de vacaciones.
 
   $anot= substr($rpv['PeriodoVacacional'], -11,-6);
+  $anov= substr($rpv['PeriodoVacacional'], -4);
   $alta= substr($rin['FechaVac'], -10, -6);
   $asume= substr($rin['FechaAsu'], -10, -6);
   $d= substr($rin['FechaVac'],-2);
   $m= substr($rin['FechaVac'],-5, -3);
   $aa=$d."-".$m."-".$anot;
+  $av=$d."-".$m."-".$anov;
+  $av=date($av);
   $ab=date($aa);
   $ls=intervalo($hoy,$ab);
   if ($ls<365) { //Calcula el valor del estado

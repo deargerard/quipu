@@ -3,15 +3,13 @@ session_start();
 include ("../php/conexion_sp.php");
 include ("../php/funciones.php");
 if(accesoadm($cone,$_SESSION['identi'],3)){
-  if(isset($_POST['idec']) && !empty($_POST['idec']) && isset($_POST['pervac']) && !empty($_POST['pervac'])&& isset($_POST['fii']) && !empty($_POST['fii'])&& isset($_POST['ffi']) && !empty($_POST['ffi'])&& isset($_POST['fff']) && !empty($_POST['fff'])&& isset($_POST['st'])){
+  if(isset($_POST['idec']) && !empty($_POST['idec']) && isset($_POST['pervac']) && !empty($_POST['pervac']) && isset($_POST['fav']) && !empty($_POST['fav'])&& isset($_POST['st'])){
     $pervac=iseguro($cone,$_POST['pervac']);
-    $fii=iseguro($cone,$_POST['fii']);
-    $ffi=iseguro($cone,$_POST['ffi']);
-    $fff=iseguro($cone,$_POST['fff']);
+    $fav=fmysql(iseguro($cone,$_POST['fav']));
     $idec=iseguro($cone,$_POST['idec']);
     $st=iseguro($cone,$_POST['st']);
 
-  //echo $fii ." --- ".$ffi." --- ".$fff;
+  //echo $fav." --- ".$st;
 
     ?>
           <div class="form-group valida">
@@ -21,9 +19,10 @@ if(accesoadm($cone,$_SESSION['identi'],3)){
                 $cpv=mysqli_query($cone,"SELECT * FROM periodovacacional WHERE idPeriodoVacacional=$pervac");
                 $rpv=mysqli_fetch_assoc($cpv);
               ?>
-                <h4 class="text-danger"><?php echo "VACACIONES PARA EL PERÍODO  ". $rpv['PeriodoVacacional']?></h4>
+                <h4 class="text-danger"><?php echo "REPROGRAMACIÓN PARA EL PERÍODO  ". $rpv['PeriodoVacacional']?></h4>
                 <input type="hidden" name="peva" value="<?php echo $pervac?>"> <!--envía id del periodo-->
                 <input type="hidden" name="st" value="<?php echo $st?>"> <!--envía el estado inicial-->
+                <input type="hidden" name="fav" value="<?php echo $fav?>"> <!--envía la fecha de vacaciones-->
             </div>
           </div>
           <div class="form-group valida">
@@ -60,8 +59,6 @@ if(accesoadm($cone,$_SESSION['identi'],3)){
     language: "es",
     autoclose: true,
     todayHighlight: true,
-    startDate: "<?php echo $fii ?>",
-    endDate: "<?php echo $ffi?>",
   })
   .on('changeDate', function(e){
     var fechini = new Date(e.date.valueOf());
@@ -97,8 +94,7 @@ if(accesoadm($cone,$_SESSION['identi'],3)){
      language: "es",
      autoclose: true,
      todayHighlight: true,
-     startDate: "<?php echo $fii ?>",
-     endDate: "<?php echo $fff?>",
+
    })
    .on('changeDate', function(e){
      var fechfin = new Date(e.date.valueOf());
