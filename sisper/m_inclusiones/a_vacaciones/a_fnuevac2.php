@@ -21,7 +21,7 @@ if(accesoadm($cone,$_SESSION['identi'],3)){
                 $cpv=mysqli_query($cone,"SELECT * FROM periodovacacional WHERE idPeriodoVacacional=$pervac");
                 $rpv=mysqli_fetch_assoc($cpv);
               ?>
-                <h4 class="text-danger"><?php echo "VACACIONES PARA EL PERÍODO  ". $rpv['PeriodoVacacional']?></h4>
+                <h4 class="text-danger"><?php echo "REPROGRAMACIÓN PARA EL PERÍODO  ". $rpv['PeriodoVacacional']?></h4>
                 <input type="hidden" name="peva" value="<?php echo $pervac?>"> <!--envía id del periodo-->
                 <input type="hidden" name="st" value="<?php echo $st?>"> <!--envía el estado inicial-->
             </div>
@@ -60,8 +60,12 @@ if(accesoadm($cone,$_SESSION['identi'],3)){
     language: "es",
     autoclose: true,
     todayHighlight: true,
+    startDate: "<?php echo $fii ?>",
+    endDate: "<?php echo $ffi?>",
   })
   .on('changeDate', function(e){
+    var fechini = new Date(e.date.valueOf());
+    $('#finvac').datepicker('setStartDate', fechini);
     var fechai= $("#inivac").val();
     var fechaf= $("#finvac").val();
     if (fechai!="" && fechaf!="") {
@@ -71,7 +75,6 @@ if(accesoadm($cone,$_SESSION['identi'],3)){
       var fFecha2 = Date.UTC(aFecha2[2],aFecha2[1]-1,aFecha2[0]);
       var dif = fFecha2 - fFecha1;
       var dias = Math.floor(dif / (1000 * 60 * 60 * 24))+1;
-
       if(dias > 0){
         var df=$("#df").val();
          if (dias>df) {
@@ -84,21 +87,22 @@ if(accesoadm($cone,$_SESSION['identi'],3)){
         $("#msg").html('¡Error!, la fecha inicial no puede ser mayor a la fecha final.');
         $("#inivac").val("");
         $("#finvac").val("");
-
       }
     }else {
       $("#msg").html("");
     }
-
    });
    $(' #finvac').datepicker({
      format: "dd/mm/yyyy",
      language: "es",
      autoclose: true,
      todayHighlight: true,
-
+     startDate: "<?php echo $fii ?>",
+     endDate: "<?php echo $fff?>",
    })
    .on('changeDate', function(e){
+     var fechfin = new Date(e.date.valueOf());
+     $('#inivac').datepicker('setEndDate', fechfin);
      var fechai= $("#inivac").val();
      var fechaf= $("#finvac").val();
      if (fechai!="" && fechaf!="") {
@@ -124,7 +128,6 @@ if(accesoadm($cone,$_SESSION['identi'],3)){
      }else{
        $("#msg").html("");
      }
-
     });
 //funcion seleccionar docuento
    $(".select2doc").select2({
@@ -140,7 +143,7 @@ if(accesoadm($cone,$_SESSION['identi'],3)){
        },
        cache: true
      },
-     minimumInputLength: 2
+     minimumInputLength: 1
    });
 //fin funcion seleccionar docuento
    //funcion llamar formulario nuevo documento
@@ -160,7 +163,6 @@ if(accesoadm($cone,$_SESSION['identi'],3)){
     });
 // fin funcion llamar formulario nuevo documento
 </script>
-
 <?php
     mysqli_close($cone);
   }else{

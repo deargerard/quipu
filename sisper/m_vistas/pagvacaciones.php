@@ -21,7 +21,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
            <!-- Default box -->
             <div class="box box-info">
               <div class="box-header with-border">
-                <h3 class="box-title">Programación</h3>
+                <h3 class="box-title">Reprogramación</h3>
                 <div class="box-tools pull-right">
                   <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
                     <i class="fa fa-minus"></i></button>
@@ -93,7 +93,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel">Nuevas Vacaciones</h4>
+            <h4 class="modal-title" id="myModalLabel">Reprogramacion de Vacaciones</h4>
           </div>
           <div class="modal-body" id="r_nuevacaciones">
 

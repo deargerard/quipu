@@ -18,11 +18,11 @@ $("#f_vacper").submit(function(e){
 });
 // Fin Recibir Persona y periodo vacacional
 // funciÃ³n reprogramacion de vacaciones
-function nuevac(idec, pervac, fii, ffi, fff, st){
+function nuevac(idec, pervac, st, fav){
 $.ajax({
  type: "post",
  url: "m_inclusiones/a_vacaciones/a_fnuevac.php",
- data: { idec : idec, pervac : pervac, fii : fii, ffi : ffi, fff : fff, st : st},
+ data: { idec : idec, pervac : pervac, st : st, fav  : fav},
  beforeSend: function () {
    $("#r_nuevacaciones").html("<img src='m_images/cargando.gif'>");
    $("#b_gnvac").hide();
@@ -92,11 +92,11 @@ $( "#f_nuevacaciones").validate( {
 } );
 //fin funciÃ³n validar reprogramacion de vacaciones
 // funciÃ³n editar reprogramacion de vacaciones
-function edivac(perm, idvac, idav, fii, ffi, fff){
+function edivac(perm, idvac, idav, fav){
 $.ajax({
 type: "post",
 url: "m_inclusiones/a_vacaciones/a_fedivac.php",
-data: { perm  : perm, idvac : idvac, idav: idav, fii : fii, ffi : ffi, fff : fff},
+data: { perm  : perm, idvac : idvac, idav: idav, fav: fav },
 beforeSend: function () {
   $("#r_evacaciones").html("<img src='m_images/cargando.gif'>");
   $("#b_gevacaciones").hide();
@@ -525,10 +525,8 @@ function validare(){
             var perm = $("#perm").val();
             var idvac = $("#idvac").val();
             var idav = $("#idav").val();
-            var fii = $("#fii").val();
-            var ffi = $("#ffi").val();
-            var fff = $("#fff").val();
-            edivac(perm, idvac, idav, fii, ffi, fff);
+            var fav = $("#fav").val();
+            edivac(perm, idvac, idav, fav);
           }else{
             $("#r_evacaciones").html(response.mensaje);
           }

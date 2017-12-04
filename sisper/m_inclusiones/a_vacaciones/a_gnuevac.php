@@ -8,20 +8,31 @@ if(accesoadm($cone,$_SESSION['identi'],3)){
 			$peva=iseguro($cone,$_POST['peva']);
 			$inivac=fmysql(iseguro($cone,$_POST['inivac']));
 			$finvac=fmysql(iseguro($cone,$_POST['finvac']));
+			$fav=fmysql(iseguro($cone,$_POST['fav']));
 			$doc=iseguro($cone,$_POST['doc']);
 			$idec=iseguro($cone,$_POST['idec']);
 			$st=iseguro($cone,$_POST['st']);
-			//Valida si es que las vacaciones ingresadas ya se ejecutaron.
+			//Valida el estado.
 			if($finvac<=date('Y-m-d')){
-			$st=1;
+				$st=1;
+			}elseif($inivac<=date('Y-m-d')){
+				$st=3;
+			}elseif ($inivac>date('Y-m-d')) {
+				if (date('Y-m-d') < $fav) {
+			    $st=4;
+			  }else{
+ 					$st=0;
+			 }
 			}
-			//Fin
+			//Fin validación del estado
+			//Valida la condicion.
 			$cvac=mysqli_query($cone, "SELECT Condicion FROM provacaciones WHERE idPeriodoVacacional=$peva and idEmpleadoCargo=$idec AND Condicion=1");
 			if ($rvac=mysqli_fetch_assoc($cvac)){
 				$c=0;
 				}else {
 					$c=1;
 				}
+			//Fin validación de la condición.
 				$sql="INSERT INTO provacaciones (idEmpleadoCargo, idPeriodoVacacional, FechaIni, FechaFin, Condicion, Estado) VALUES ($idec, $peva, '$inivac', '$finvac', $c, $st)";
 
 				if(mysqli_query($cone,$sql)){

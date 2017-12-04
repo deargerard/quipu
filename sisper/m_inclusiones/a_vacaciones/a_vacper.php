@@ -17,7 +17,7 @@ if ($asume<=$anot) {
 ?>
 <div class="row">
   <div class="col-sm-2"> <!--Botón Nuevo-->
-		<button id="b_nuevac" class="btn btn-info" data-toggle="modal" data-target="#m_nvacaciones" onclick="nuevac(<?php echo $idec .", ".$pervac.", '".$fii."', '".$ffi."', '".$fff."',".$st ?>)">Nuevas Vacaciones</button>
+		<button id="b_nuevac" class="btn btn-info" data-toggle="modal" data-target="#m_nvacaciones" onclick="nuevac(<?php echo $idec .", ".$pervac.",".$st.",'".$av."'" ?>)">Nuevas Vacaciones</button>
 	</div>
   <div class="col-sm-7"> <!--Nombre-->
 		<?php
@@ -132,7 +132,7 @@ $tot=0;
                 <span class="sr-only">Desplegar menú</span>
               </button>
               <ul class="dropdown-menu pull-right" role="menu">
-                <li><a href="#" data-toggle="modal" data-target="#m_evacaciones" onclick="edivac(<?php echo $perm.",". $rvac['idProVacaciones'].",".$rvac['idAprVacaciones'].", '".$fii."', '".$ffi."', '".$fff."'"  ?>)">Editar </a></li>
+                <li><a href="#" data-toggle="modal" data-target="#m_evacaciones" onclick="edivac(<?php echo $perm.",". $rvac['idProVacaciones'].",".$rvac['idAprVacaciones'].",'".$av."'"?>)">Editar </a></li>
 								<?php
 								if ($rvac['Estado']!='2'){
 								?>
