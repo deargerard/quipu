@@ -3368,8 +3368,8 @@ table.text-center th {
 }
 .login-page,
 .register-page {
-  /*background: #d2d6de;*/
-  background-image: url("../../m_images/fondo.jpg");
+  background: #d2d6de;
+  /*background-image: url("../../m_images/fondo.jpg");*/
   background-size: cover;
 }
 .login-box,
@@ -3386,8 +3386,8 @@ table.text-center th {
 }
 .login-box-body,
 .register-box-body {
-  /*background: #fff;*/
-  background-color: transparent;
+  background: #fff;
+  /*background-color: transparent;*/
   padding: 20px;
   border-top: 0;
   color: #666;

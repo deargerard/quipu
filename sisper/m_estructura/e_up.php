@@ -242,6 +242,9 @@ if(!empty($css)){
             <li id="provacaciones"><a href="provacaciones.php"><i class="fa fa-circle-o"></i> Programación</a></li>
             <?php } if(accesoadm($cone,$_SESSION['identi'],3)){ ?>
             <li id="pagvacaciones"><a href="pagvacaciones.php"><i class="fa fa-circle-o"></i> Reprogramación</a></li>
+              <?php if(accesoadm($cone,$_SESSION['identi'],14)){ ?>
+            <li id="aprvacaciones"><a href="aprvacaciones.php"><i class="fa fa-circle-o"></i> Aprobación</a></li>
+              <?php } ?>
             <li id="ejevacaciones"><a href="ejevacaciones.php"><i class="fa fa-circle-o"></i> Ejecución</a></li>
             <li id="repvacaciones"><a href="repvacaciones.php"><i class="fa fa-circle-o"></i> Reportes</a></li>
             <?php } ?>
