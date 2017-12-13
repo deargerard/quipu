@@ -31,8 +31,9 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
               <li class="active"><a href="#tab_1" data-toggle="tab">Vacaciones por Trabajador</a></li>
               <li><a href="#tab_2" data-toggle="tab">Vacaciones por Período</a></li>
               <li><a href="#tab_3" data-toggle="tab">Vacaciones por Meses</a></li>
-              <li><a href="#tab_4" data-toggle="tab">Programación de Vacaciones <?php echo $pv ?></a></li>
-              <!--<li><a href="#tab_4" data-toggle="tab">Vacaciones por Sistema Laboral</a></li>-->
+              <li><a href="#tab_4" data-toggle="tab">Vacaciones por Resolución</a></li>
+              <li><a href="#tab_5" data-toggle="tab">Programación de Vacaciones <?php echo $pv ?></a></li>
+
             </ul>
             <div class="tab-content">
               <div class="tab-pane active" id="tab_1">
@@ -245,10 +246,34 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
               <div class="tab-pane" id="tab_4">
 
                 <!--Formulario-->
+                <form action="" id="f_vacres" class="form-inline">
+                  <div class="form-group">
+                    <label for="doc" class="sr-only">Documento</label>
+                    <select name="doc" id="doc" class="form-control select2doc" style="width:400px;">
+                    </select>
+                  </div>
+                  <button type="button" id="b_bvacres" class="btn btn-default">Buscar</button>
+                  <button type="button" id="b_exvacres" class="btn btn-info">Exportar</button>
+                </form>
+                <!--Fin Formulario-->
+                <!--div resultados-->
+                <div class="row">
+                  <div class="col-md-12" id="r_vacres">
+
+                  </div>
+                </div>
+                <!--fin div resultados-->
+
+              </div>
+              <!-- /.tab-pane -->
+
+              <div class="tab-pane" id="tab_5">
+
+                <!--Formulario-->
                 <form action="" id="f_rprovac" class="form-inline">
 
                   <div class="form-group">
-                    <label for="aaa" class="sr-only">Personal</label>
+                    <label for="aaa" class="sr-only">Dependencia</label>
                     <select name="dep" id="dep" class="form-control select2depact" style="width: 500px;">
                       <option value="t"> TODAS LAS DEPENDENCIAS</option>
                     </select>
@@ -289,7 +314,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                     <label for="bbb" class="sr-only">Estado</label>
                     <select data-actions-box="true" name="estvac[]" class="form-control selectpicker" multiple="multiple" multiple data-selected-text-format="count" title="ESTADO">
                       <option value="6">SOLICITADAS</option>
-                      <option value="7">ACEPTADAS</option>                      
+                      <option value="7">ACEPTADAS</option>
                     </select>
                   </div>
                   <button type="submit" id="b_bprova" class="btn btn-default">Buscar</button>
@@ -305,54 +330,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
 
               </div>
               <!-- /.tab-pane -->
-              <div class="tab-pane" id="tab_5">
-                <!--Formulario-->
-                <form action="" id="f_rvape" class="form-inline">
-                  <div class="form-group">
-                    <label for="aaa" class="sr-only">Sistema</label>
-                      <select name="sislab[]" data-actions-box="true" class="form-control selectpicker" multiple="multiple" multiple data-selected-text-format="count" title="SISTEMA">
-                        <?php
-                          $csl=mysqli_query($cone,"SELECT idSistemaLab, SistemaLab FROM sistemalab ORDER BY SistemaLab ASC");
-                          while($rsl=mysqli_fetch_assoc($csl)){
-                        ?>
-                        <option value="<?php echo $rsl['idSistemaLab']; ?>"><?php echo $rsl['SistemaLab']; ?></option>
-                        <?php
-                          }
-                          mysqli_free_result($csl);
-                        ?>
-                      </select>
-                  </div>
-                  <div class="form-group">
-                    <label for="aaa" class="sr-only">Estado</label>
-                    <select name="estvac[]" data-actions-box="true" class="form-control selectpicker" multiple="multiple" multiple data-selected-text-format="count" title="ESTADO">
-                      <option value="4">PLANIFICADAS</option>
-                      <option value="0">PENDIENTES</option>
-                      <option value="3">EJECUTANDOSE</option>
-                      <option value="1">EJECUTADAS</option>
-                      <option value="2">CANCELADAS</option>
-                      <option value="5">SUSPENDIDAS</option>
-                    </select>
-                  </div>
-                  <div class="form-group">
-                    <label for="aaa" class="sr-only">Mes</label>
-                      <div class="input-group">
-                        <input type="text" id="fecha" name="finvac" class="form-control" placeholder="dd/mm/aaaa" value="<?php echo date('d/m/Y')?>">
 
-                      <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
-                    </div>
-                  </div>
-
-                  <button type="submit" id="b_bvape" class="btn btn-default">Buscar</button>
-                </form>
-                <!--Fin Formulario-->
-                <!--div resultados-->
-                <div class="row">
-                  <div class="col-md-12" id="r_vape">
-
-                  </div>
-                </div>
-                <!--fin div resultados-->
-              </div>
 
             </div>
             <!-- /.tab-content -->

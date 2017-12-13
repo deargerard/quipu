@@ -134,6 +134,11 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                                     $hoy = date("Y-m-d");
                                     $ini = $rvac['FechaIni'];
                                     $p=intervalo($ini, $hoy)-1;
+                                    if ($rvac['idPeriodoVacacional']==$pervac) {
+                                      $sol=intervalo ($rvac['FechaFin'], $rvac['FechaIni']);
+                                    }else {
+                                      $sol=0;
+                                    }
                                     if ($p>0 && $p<15){
                                       $peri=$rvac['PeriodoVacacional'];
                                       if ($p==1) {
@@ -145,7 +150,11 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                                   }elseif($rvac['Estado']=='1') {
                                     $est="success";
                                     $cap="Ejecutado";
-                                    $sol=0;
+                                    if ($rvac['idPeriodoVacacional']==$pervac) {
+                                      $sol=intervalo ($rvac['FechaFin'], $rvac['FechaIni']);
+                                    }else {
+                                      $sol=0;
+                                    }
                                   }elseif ($rvac['Estado']=='2') {
                                     $est="danger";
                                     $cap="Cancelado";
@@ -153,11 +162,19 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                                   }elseif ($rvac['Estado']=='3') {
                                     $est="primary";
                                     $cap="Ejecutandose";
-                                    $sol=0;
+                                    if ($rvac['idPeriodoVacacional']==$pervac) {
+                                      $sol=intervalo ($rvac['FechaFin'], $rvac['FechaIni']);
+                                    }else {
+                                      $sol=0;
+                                    }
                                   }elseif ($rvac['Estado']=='5'){
                                     $est="default";
                                     $cap="Suspendida";
-                                    $sol=0;
+                                    if ($rvac['idPeriodoVacacional']==$pervac) {
+                                      $sol=intervalo ($rvac['FechaFin'], $rvac['FechaIni']);
+                                    }else {
+                                      $sol=0;
+                                    }
                                   }elseif ($rvac['Estado']=='6') {
                                     $est="default";
                                     $cap="Solicitada";
@@ -201,12 +218,12 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                                     }
                                   }else{
                                     $res=$tot-30;
-                                    $msg1="Has excedido en ".$res." días las vacaciones solicitadas para el periodo ".$pv.".";
+                                    $msg1="Has excedido en ".$res."-".$tot." días las vacaciones solicitadas para el periodo ".$pv.".";
                                     $v=false;
                                   }
                                   ?>
                               <tr> <!--Fila de vacaciones-->
-                                <td><?php echo $rvac['PeriodoVacacional']?></td> <!--columna PERÍODO-->
+                                <td><?php echo $rvac['PeriodoVacacional']."-".$sol?></td> <!--columna PERÍODO-->
                                 <td><?php echo $doc?></td> <!--columna NÚMERO DE RESOLUCIÓN-->
                                 <td><?php echo $fdoc?></td> <!--columna FECHA DOCUMENTO-->
                                 <td><?php echo $con ?></td> <!--columna CONDICIÓN-->

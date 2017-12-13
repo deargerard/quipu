@@ -780,6 +780,7 @@ $.ajax({
 type: "post",
 url: "m_inclusiones/a_vacaciones/a_envprovacc.php",
 data: { idcoo : idcoo},
+dataType: "html",
 beforeSend: function () {
   $("#r_envprovacc").html("<img src='m_images/cargando.gif'>");
 },
@@ -806,3 +807,75 @@ $(".select2depact").select2({
   minimumInputLength: 4
 })
 //Fin Select2 para buscar dependencia.
+
+// función aprobar programacion de vacaciones
+function aprovacf(){
+$.ajax({
+type: "post",
+url: "m_inclusiones/a_vacaciones/a_faprovac.php",
+dataType: "html",
+beforeSend: function () {
+  $("#r_aprovac").html("<img src='m_images/cargando.gif'>");
+},
+success:function(a){
+  $("#r_aprovac").html(a);
+  $("#b_gaprovac").show();
+}
+});
+};
+//fin aprobar programacion de vacaciones
+//DataTable Aprobación de Vacaciones
+$('#dtvare').DataTable({
+  "order": [[1,"asc"]]
+});
+//Fin DataTable Aprobación de Vacaciones
+
+$('#b_gaprovac').click(function(){
+  var doc=$("#doc").val();
+  $.ajax({
+  type: "post",
+  url: "m_inclusiones/a_vacaciones/a_gaprovac.php",
+  data: { doc : doc},
+  dataType: "html",
+  beforeSend: function () {
+    $("#r_aprovac").html("<img src='m_images/cargando.gif'>");
+    $("#b_gaprovac").hide();
+  },
+  success:function(a){
+    $("#r_aprovac").html(a);
+  }
+  });
+})
+//funcion actualizar lista de programación de vacaciones
+$('#maprobar').on('hidden.bs.modal', function () {
+   window.location.reload(true);
+})
+//fin funcion actualizar lista de programación de vacaciones
+//funcion buscar vacaciones por resolución
+$("#b_bvacres").click(function(){
+  var doc=$("#doc").val();
+  $.ajax({
+  type: "post",
+  url: "m_inclusiones/a_vacaciones/a_rvacres.php",
+  data: { doc : doc},
+  dataType: "html",
+  beforeSend: function () {
+    $("#r_vacres").html("<img src='m_images/cargando.gif'>");
+  },
+  success:function(a){
+    $("#r_vacres").html(a);
+  }
+  });
+})
+//Fin funcion buscar vacaciones por resolución
+// Exportar vacaciones por resolución
+$("#b_exvacres").click(function(){
+  var doc=$("#doc").val();
+  if (doc==null) {
+    alert("No seleccionó ninguna resolución");
+  }else {
+     window.location.href = "m_exportar/e_exvacres.php?doc="+doc;
+  }
+})
+
+// Fin exportar vacaciones por resolución
