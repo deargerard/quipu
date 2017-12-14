@@ -223,7 +223,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                                   }
                                   ?>
                               <tr> <!--Fila de vacaciones-->
-                                <td><?php echo $rvac['PeriodoVacacional']."-".$sol?></td> <!--columna PERÍODO-->
+                                <td><?php echo $rvac['PeriodoVacacional']?></td> <!--columna PERÍODO-->
                                 <td><?php echo $doc?></td> <!--columna NÚMERO DE RESOLUCIÓN-->
                                 <td><?php echo $fdoc?></td> <!--columna FECHA DOCUMENTO-->
                                 <td><?php echo $con ?></td> <!--columna CONDICIÓN-->
