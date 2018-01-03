@@ -39,4 +39,5 @@ $rpv=mysqli_fetch_assoc($cpv);
     $st=0;
   } //fin
   $l=intervalo($hoy, $rin['FechaVac']);
+  $mpp=date('m');
 ?>

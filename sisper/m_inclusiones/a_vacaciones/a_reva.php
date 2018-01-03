@@ -135,19 +135,23 @@ $z=true;
                       }
               $dt=intervalo ($rvac['FechaFin'], $rvac['FechaIni']);
               $tot= $tot + $sol;
-
-              if ($tot<31){
-                $res=30-$tot;
-                if ($res>0) {
-                  $msg1="Tienes ".$res." días de vacaciones por solicitar para el periodo ".$pv.".";
-                }elseif($res == 0) {
-                  $msg1="";
+              if ($mpp>10) { //el valor de $mpp está en a_ofechas.php
+                if ($tot<31){
+                  $res=30-$tot;
+                  if ($res>0) {
+                    $msg1="Tienes ".$res." días de vacaciones por solicitar para el periodo ".$pv.".";
+                  }elseif($res == 0) {
+                    $msg1="";
+                    $z=false;
+                  }
+                }else{
+                  $res=$tot-30;
+                  $msg1="Haz exedido en ".$res." días las vacaciones solicitadas para el periodo ".$pv.".";
                   $z=false;
                 }
-              }else{
-                $res=$tot-30;
-                $msg1="Haz exedido en ".$res." días las vacaciones solicitadas para el periodo ".$pv.".";
+              }else {
                 $z=false;
+                $msg1="";
               }
               ?>
           <tr> <!--Fila de vacaciones-->
