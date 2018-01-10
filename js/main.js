@@ -133,3 +133,42 @@ $(".select2depact").select2({
   });
 });
 //fin buscar personal directorio
+$("#f_encuesta").submit(function(e){
+  e.preventDefault(e);
+  var datos = $("#f_encuesta").serializeArray();
+  $.ajax({
+    type: "post",
+    url: "ajax/a_gencuesta.php",
+    dataType: "json",
+    data: datos,
+    beforeSend: function () {
+      $("#e_respuesta").html("<br /><img src='images/cargando.gif'>");
+    },
+    success:function(e){
+      if(e.exito){
+        $("#introduccion").hide();
+        $("#f_encuesta").html(e.mensaje);
+      }else{
+        $("#e_respuesta").html(e.mensaje);
+      }
+    }
+  });
+
+});
+$("#rencuesta").submit(function(e){
+  e.preventDefault(e);
+  var datos = $("#rencuesta").serializeArray();
+  $.ajax({
+    type: "post",
+    url: "ajax/a_rencuesta.php",
+    dataType: "html",
+    data: datos,
+    beforeSend: function () {
+      $("#resultados").html("<p class='text-center'><img src='images/cargando.gif'></p>");
+    },
+    success:function(e){
+        $("#resultados").html(e);
+    }
+  });
+
+});

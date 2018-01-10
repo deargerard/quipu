@@ -79,6 +79,30 @@ function fmysql($fecha){
 		return $fec;
 	}
 }
+function ftnormal($fecha){
+	if(is_null($fecha)){
+		return "";
+	}elseif($fecha=='1969-12-31 00:00:00'){
+		return "";
+	}elseif($fecha=='1970-01-01 00:00:00'){
+		return "";
+	}elseif($fecha=='0000-00-00 00:00:00'){
+		return "";
+	}else{
+		$fec=@date("d/m/Y H:i:s",strtotime($fecha));
+		return $fec;
+	}
+}
+function ftmysql($fecha){
+	if(is_null($fecha)){
+		return "";
+	}if($fecha=="1969-12-31 00:00:00"){
+		return "";
+	}else{
+		$fec=@date("Y-m-d H:i:s",strtotime(str_replace('/', '-',$fecha)));
+		return $fec;
+	}
+}
 function cargoe($con,$idemp){
 	$idemp=iseguro($con,$idemp);
 	$ccargo=mysqli_query($con,"SELECT Denominacion, CondicionCar FROM empleadocargo AS ec INNER JOIN cargo AS c ON ec.idCargo=c.idCargo INNER JOIN condicioncar AS cc ON ec.idCondicionCar=cc.idCondicionCar WHERE ec.idEmpleado=$idemp AND ec.idEstadoCar=1");
@@ -690,5 +714,29 @@ function srdias($fec,$dias){
 	$fec=date($fec);
 	$nfec=strtotime('+'.$dias.' day',strtotime($fec));
 	return date('Y-m-d',$nfec);
+}
+
+function solucionador($con, $id){
+	$id=iseguro($con,$id);
+	$c=mysqli_query($con,"SELECT idSolucionador FROM masolucionador WHERE idEmpleado=$id;");
+	if($r=mysqli_fetch_assoc($c)){
+		return true;
+	}else{
+		return false;
+	}
+	mysqli_free_result($c);
+}
+function ateestado($est){
+	switch ($est) {
+		case 1:
+			return "<span class='label label-success'>Resuelta</span>";
+			break;
+		case 2:
+			return "<span class='label label-warning'>Pendiente</span>";
+			break;
+		case 3:
+			return "<span class='label label-default'>Cancelada</span>";
+			break;
+	}
 }
 ?>

@@ -1,5 +1,6 @@
 <?php
     include ("sisper/m_inclusiones/php/conexion_sp.php");
+    include ("ajax/a_coneenc.php");
     include ("sisper/m_inclusiones/php/funciones.php");
 ?>
 <!DOCTYPE html>

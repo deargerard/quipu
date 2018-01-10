@@ -345,6 +345,21 @@ if(!empty($css)){
         </li>
         <?php
         }
+        if(solucionador($cone, $_SESSION['identi'])){
+        ?>
+        <li class="treeview" id="mesaayuda">
+          <a href="#">
+            <i class="fa fa-wrench"></i>
+            <span>Mesa de Ayuda</span>
+            <i class="fa fa-angle-left pull-right"></i>
+          </a>
+          <ul class="treeview-menu">
+            <li id="maatenciones"><a href="maatenciones.php"><i class="fa fa-circle-o"></i> Atenciones</a></li>
+            <li id="mareportes"><a href="mareportes.php"><i class="fa fa-circle-o"></i> Reportes</a></li>
+          </ul>
+        </li>
+        <?php
+        }
         ?>
       </ul>
     </section>

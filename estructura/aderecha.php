@@ -1,5 +1,19 @@
         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
             <div class="row">
+<?php
+    $hoy=date('Y-m-d');
+    $c="SELECT nombre FROM encuesta WHERE '$hoy' BETWEEN FecInicio AND FecFin;";
+    $ce=mysqli_query($con,$c);
+    if($re=mysqli_fetch_assoc($ce)){
+?>
+                <div class="col-md-12 col-sm-12">
+                  <a href="encuesta.php" class="btn bg-aqua btn-block"><i class="fa fa-pie-chart"></i> ENCUESTA: <?php echo $re['nombre']; ?></a>
+                  <br>
+                </div>
+<?php
+  }
+  mysqli_free_result($ce);
+?>
                 <div class="col-md-12 col-sm-12">
                   <div class="box box-info collapsed-box">
                     <div class="box-header with-border">

@@ -111,7 +111,6 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
 
 <!--Modal nuevo telefono personal-->
 <div class="modal fade" id="m_nuetel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  
   <div class="modal-dialog modal-sm" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -128,9 +127,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
       </div>
       </form>
     </div>
-  </div>
-
-  
+  </div>  
 </div>
 <!--Fin Modal nuevo telefono personal-->
 
