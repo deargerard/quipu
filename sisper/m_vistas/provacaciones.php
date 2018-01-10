@@ -51,7 +51,8 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                     <div id="collapse<?php echo $c; ?>" class="panel-collapse collapse <?php echo $c==1 ? "in" : ""; ?>">
                       <div class="box-body">
                         <?php
-                        if(!enviopv($cone, $idcoo)){
+                        $mpp=date('m');
+                        if(!enviopv($cone, $idcoo) && ($mpp>10)){
 
                           if (mysqli_num_rows($csv)>0) {
 
@@ -168,7 +169,9 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                         ?>
                         <div class="col-sm-12">
                           <p class="text-olive"><i class="fa fa-check-square"></i> Ya envió su programación de vacaciones.</p>
-                          <a class="btn btn-info" href="pdf/exppdf/provaccoo.php?c=<?php echo $idcoo; ?>" target="_blank">Imprimir programación</a>
+                          <?php if ($mpp>10): ?>
+                            <a class="btn btn-info" href="pdf/exppdf/provaccoo.php?c=<?php echo $idcoo; ?>" target="_blank">Imprimir programación</a>
+                          <?php endif; ?>
                         </div>
                         <?php
                         }

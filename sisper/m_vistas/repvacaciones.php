@@ -2,6 +2,7 @@
 if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
   if(accesocon($cone,$_SESSION['identi'],3)){
     $hoy = date("Y");
+    $mpp = date("m");
     $anos= $hoy + 1;
     $pv = trim($hoy." - ".$anos);
     $cpev=mysqli_query($cone,"SELECT * FROM periodovacacional WHERE PeriodoVacacional='$pv'");
@@ -32,8 +33,9 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
               <li><a href="#tab_2" data-toggle="tab">Vacaciones por Período</a></li>
               <li><a href="#tab_3" data-toggle="tab">Vacaciones por Meses</a></li>
               <li><a href="#tab_4" data-toggle="tab">Vacaciones por Resolución</a></li>
-              <li><a href="#tab_5" data-toggle="tab">Programación de Vacaciones <?php echo $pv ?></a></li>
-
+              <?php if ($mpp>10): ?>
+                <li><a href="#tab_5" data-toggle="tab">Programación de Vacaciones <?php echo $pv ?></a></li>
+              <?php endif; ?>
             </ul>
             <div class="tab-content">
               <div class="tab-pane active" id="tab_1">
