@@ -443,7 +443,7 @@ function nomempleado($con,$idemp){
 	$idemp=iseguro($con,$idemp);
 	$ce=mysqli_query($con,"SELECT ApellidoPat, ApellidoMat, Nombres FROM empleado WHERE idEmpleado=$idemp");
 	if($re=mysqli_fetch_assoc($ce)){
-		return $re['ApellidoPat']." ".$re['ApellidoMat'].", ".$re['Nombres'];
+		return trim($re['ApellidoPat'])." ".trim($re['ApellidoMat']).", ".trim($re['Nombres']);
 	}else{
 		return "--";
 	}
@@ -470,6 +470,17 @@ function fotoe($con, $idemp){
 	}else{
 		return "El identificador no existe.";
 	}
+	mysqli_free_result($ce);
+}
+function DNI($con, $ide){
+	$idemp=iseguro($con,$ide);
+	$ce=mysqli_query($con,"SELECT NumeroDoc FROM empleado WHERE idEmpleado=$ide");
+	if($re=mysqli_fetch_assoc($ce)){
+		return $doc=$re['NumeroDoc'];
+	}else{
+		return "El identificador no existe.";
+	}
+	mysqli_free_result($ce);
 }
 function accrestringidop(){
 	return "<section class='content'>
@@ -735,8 +746,72 @@ function ateestado($est){
 			return "<span class='label label-warning'>Pendiente</span>";
 			break;
 		case 3:
-			return "<span class='label label-default'>Cancelada</span>";
+			return "<span class='label label-danger'>Cancelada</span>";
 			break;
+	}
+}
+function atemedio($med){
+	switch ($med) {
+		case 1:
+			return "Presencial";
+			break;
+		case 2:
+			return "Teléfono>";
+			break;
+		case 3:
+			return "Email";
+			break;
+		case 4:
+			return "Acceso Remoto";
+			break;
+		case 5:
+			return "Ninguno";
+			break;
+	}
+}
+function get_format($df) {
+
+    $str = '';
+    $str .= ($df->invert == 1) ? ' - ' : '';
+    if ($df->y > 0) {
+        // years
+        $str .= ($df->y > 1) ? $df->y . ' Años ' : $df->y . ' Año ';
+    } if ($df->m > 0) {
+        // month
+        $str .= ($df->m > 1) ? $df->m . ' Meses ' : $df->m . ' Mes ';
+    } if ($df->d > 0) {
+        // days
+        $str .= ($df->d > 1) ? $df->d . ' Días ' : $df->d . ' Dia ';
+    } if ($df->h > 0) {
+        // hours
+        $str .= ($df->h > 1) ? $df->h . ' Horas ' : $df->h . ' Hora ';
+    } if ($df->i > 0) {
+        // minutes
+        $str .= ($df->i > 1) ? $df->i . ' Minutos ' : $df->i . ' Minuto ';
+    } if ($df->s > 0) {
+        // seconds
+        $str .= ($df->s > 1) ? $df->s . ' Segundos ' : $df->s . ' Segundos ';
+    }
+
+    echo $str;
+}
+function diftiempo($f1,$f2){
+    $date1 = new DateTime($f1);
+    $date2 = new DateTime($f2);
+    $diff = $date1->diff($date2);
+    return get_format($diff);
+}
+function telefonose($con,$ide){
+	$ide=iseguro($con,$ide);
+	$ct=mysqli_query($con,"SELECT Numero, TipoTelefono FROM telefonoemp te INNER JOIN tipotelefono tt ON te.idTipoTelefono=tt.idTipoTelefono WHERE idEmpleado=$ide AND te.Estado=1;");
+	if(mysqli_num_rows($ct)>0){
+		$tel="";
+		while ($rt=mysqli_fetch_assoc($ct)) {
+			$tel.=$rt['TipoTelefono'].": ".$rt['Numero']." ";
+		}
+		return $tel;
+	}else{
+		return "No presente ningún número registrado";
 	}
 }
 ?>
