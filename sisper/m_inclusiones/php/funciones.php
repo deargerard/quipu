@@ -787,10 +787,10 @@ function get_format($df) {
         $str .= ($df->h > 1) ? $df->h . ' Horas ' : $df->h . ' Hora ';
     } if ($df->i > 0) {
         // minutes
-        $str .= ($df->i > 1) ? $df->i . ' Minutos ' : $df->i . ' Minuto ';
+        $str .= ($df->i > 1) ? $df->i . ' Mins. ' : $df->i . ' Min. ';
     } if ($df->s > 0) {
         // seconds
-        $str .= ($df->s > 1) ? $df->s . ' Segundos ' : $df->s . ' Segundos ';
+        $str .= ($df->s > 1) ? $df->s . ' Segs. ' : $df->s . ' Seg. ';
     }
 
     echo $str;

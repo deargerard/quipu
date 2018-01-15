@@ -235,3 +235,54 @@ function iatencion(id){
 		}
 	})
 };
+
+$("#mesini").datepicker({
+  autoclose: true,
+  format: "dd/mm/yyyy",
+  language: "es",
+}).on('changeDate', function (selected) {
+    var minDate = new Date(selected.date.valueOf());
+    $('#mesfin').datepicker('setStartDate', minDate);
+});
+
+$("#mesfin").datepicker({
+  autoclose: true,
+  format: "dd/mm/yyyy",
+  language: "es",
+}).on('changeDate', function (selected) {
+    var maxDate = new Date(selected.date.valueOf());
+    $('#mesini').datepicker('setEndDate', maxDate);
+})
+// fin datepickers reporte por meses
+
+//funcion buscar atenciones por meses y solucionador
+$("#b_bama").click(function(){
+  var mesini=$("#mesini").val();
+	var mesfin=$("#mesfin").val();
+	var soluc=$("#soluc").val();
+  $.ajax({
+  type: "post",
+  url: "m_inclusiones/a_mayuda/a_ratencionma.php",
+  data: { mesini : mesini, mesfin : mesfin, soluc : soluc },
+  dataType: "html",
+  beforeSend: function () {
+    $("#r_ama").html("<img src='m_images/cargando.gif'>");
+  },
+  success:function(a){
+    $("#r_ama").html(a);
+  }
+  });
+})
+//Fin funcion buscar vacaciones por resolución
+// Exportar atenciones
+$("#b_eama").click(function(){
+	var mesini=$("#mesini").val();
+	var mesfin=$("#mesfin").val();
+	var soluc=$("#soluc").val();
+  if (mesini==null & mesfin==null) {
+    alert("Todos los campos son obligatorios");
+  }else {
+     window.location.href = "m_exportar/e_exatenciones.php?mesini="+mesini+"&mesfin="+mesfin+"&soluc="+soluc;
+  }
+})
+// Fin exportar atenciones
