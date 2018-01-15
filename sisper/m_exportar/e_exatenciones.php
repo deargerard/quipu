@@ -59,10 +59,10 @@ if(solucionador($cone,$_SESSION['identi'])){
                   $a++;
                   $ide=$rper['idEmpleado'];
 
-                  if ($rp['Estado']==2) {
+                  if ($rper['Estado']==2) {
         						$ffin=date('Y-m-d H:i');
         					}else {
-        						$ffin=$rp['FecSolucion'];
+        						$ffin=$rper['FecSolucion'];
         					}
 ?>
                 <tr>
