@@ -728,14 +728,18 @@ function srdias($fec,$dias){
 }
 
 function solucionador($con, $id){
-	$id=iseguro($con,$id);
-	$c=mysqli_query($con,"SELECT idSolucionador FROM masolucionador WHERE idEmpleado=$id;");
-	if($r=mysqli_fetch_assoc($c)){
-		return true;
+	if(!empty($con) && !empty($id)){
+		$id=iseguro($con,$id);
+		$c=mysqli_query($con,"SELECT idSolucionador FROM masolucionador WHERE idEmpleado=$id;");
+		if(mysqli_num_rows($c)>0){
+			return true;
+		}else{
+			return false;
+		}
+		mysqli_free_result($c);
 	}else{
 		return false;
 	}
-	mysqli_free_result($c);
 }
 function ateestado($est){
 	switch ($est) {

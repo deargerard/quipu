@@ -3,7 +3,7 @@ include("../php/conexion_sp.php");
 include("../php/funciones.php");
 if(isset($_POST['idcat']) && !empty($_POST['idcat'])){
 	$idcat=iseguro($cone,$_POST['idcat']);
-	$csc=mysqli_query($cone, "SELECT idSubCategoria, SubCategoria FROM masubcategoria WHERE idCategoria=$idcat AND Estado=1;");
+	$csc=mysqli_query($cone, "SELECT idSubCategoria, SubCategoria FROM masubcategoria WHERE idCategoria=$idcat AND Estado=1 ORDER BY SubCategoria ASC;");
 	if(mysqli_num_rows($csc)>0){
 		while ($rsc=mysqli_fetch_assoc($csc)) {
 ?>
@@ -20,7 +20,7 @@ if(isset($_POST['idcat']) && !empty($_POST['idcat'])){
 
 if(isset($_POST['idscat']) && !empty($_POST['idscat'])){
 	$idscat=iseguro($cone,$_POST['idscat']);
-	$ctip=mysqli_query($cone, "SELECT idTipo, Tipo FROM matipo WHERE idSubCategoria=$idscat AND Estado=1;");
+	$ctip=mysqli_query($cone, "SELECT idTipo, Tipo FROM matipo WHERE idSubCategoria=$idscat AND Estado=1 ORDER BY Tipo ASC;");
 	if(mysqli_num_rows($ctip)>0){
 		while ($rtip=mysqli_fetch_assoc($ctip)) {
 ?>
@@ -37,7 +37,7 @@ if(isset($_POST['idscat']) && !empty($_POST['idscat'])){
 
 if(isset($_POST['idtip']) && !empty($_POST['idtip'])){
 	$idtip=iseguro($cone,$_POST['idtip']);
-	$cpro=mysqli_query($cone, "SELECT idProducto, Producto FROM maproducto WHERE idTipo=$idtip AND Estado=1;");
+	$cpro=mysqli_query($cone, "SELECT idProducto, Producto FROM maproducto WHERE idTipo=$idtip AND Estado=1 ORDER BY Producto ASC;");
 	if(mysqli_num_rows($cpro)>0){
 		while ($rpro=mysqli_fetch_assoc($cpro)) {
 ?>
