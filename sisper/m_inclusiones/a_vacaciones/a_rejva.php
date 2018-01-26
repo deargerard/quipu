@@ -41,7 +41,7 @@ if(accesocon($cone,$_SESSION['identi'],3)){
 		}
 
 
-			$c="SELECT sl.idSistemaLab, e.NumeroDoc, e.idEmpleado, c.Denominacion as cargo, d.Denominacion, cl.Tipo, ec.FechaVac, pva.idPeriodoVacacional, pva.PeriodoVacacional, pv.FechaIni, pv.FechaFin, pv.Estado, pv.Condicion FROM provacaciones pv INNER JOIN empleadocargo ec ON pv.idEmpleadoCargo=ec.idEmpleadoCargo INNER JOIN empleado e ON ec.idEmpleado=e.idEmpleado INNER JOIN condicionlab cl ON ec.idCondicionLab=cl.idCondicionLab INNER JOIN cargo c ON ec.idCargo=c.idCargo INNER JOIN cardependencia cd ON ec.idEmpleadoCargo=cd.idEmpleadoCargo INNER JOIN dependencia d ON cd.idDependencia=d.idDependencia INNER JOIN periodovacacional pva ON pv.idPeriodoVacacional=pva.idPeriodoVacacional INNER JOIN sistemalab sl ON c.idSistemaLab=sl.idSistemaLab WHERE (FechaIni BETWEEN '$mesini' AND '$mesfin') AND cd.Oficial=1 AND $wrl AND $wpv AND $wev AND $wsl";
+			$c="SELECT sl.idSistemaLab, e.NumeroDoc, e.idEmpleado, c.Denominacion as cargo, d.Denominacion, cl.Tipo, ec.FechaVac, pva.idPeriodoVacacional, pva.PeriodoVacacional, pv.FechaIni, pv.FechaFin, pv.Estado, pv.Condicion, do.Numero, do.Ano, do.Siglas FROM provacaciones pv INNER JOIN empleadocargo ec ON pv.idEmpleadoCargo=ec.idEmpleadoCargo INNER JOIN empleado e ON ec.idEmpleado=e.idEmpleado INNER JOIN condicionlab cl ON ec.idCondicionLab=cl.idCondicionLab INNER JOIN cargo c ON ec.idCargo=c.idCargo INNER JOIN cardependencia cd ON ec.idEmpleadoCargo=cd.idEmpleadoCargo INNER JOIN dependencia d ON cd.idDependencia=d.idDependencia INNER JOIN periodovacacional pva ON pv.idPeriodoVacacional=pva.idPeriodoVacacional INNER JOIN sistemalab sl ON c.idSistemaLab=sl.idSistemaLab INNER JOIN aprvacaciones ava ON pv.idProVacaciones=ava.idProVacaciones INNER JOIN doc do ON ava.idDoc=do.idDoc WHERE (FechaIni BETWEEN '$mesini' AND '$mesfin') AND cd.Oficial=1 AND ec.idEstadoCar=1 AND $wrl AND $wpv AND $wev AND $wsl";
 			//echo $c." -- ".$mesini." -- ".$mesfin;
 
 			$cpv=mysqli_query($cone,$c);
@@ -58,10 +58,11 @@ if(accesocon($cone,$_SESSION['identi'],3)){
 								<th style="font-size:12px;">RÉGIMEN</th>
 								<th style="font-size:12px;">ALTA</th>
 								<th style="font-size:12px;">PERIODO</th>
-			          <th style="font-size:12px;">INICIA</th>
+			          			<th style="font-size:12px;">INICIA</th>
 								<th style="font-size:12px;">TERMINA</th>
 								<th style="font-size:12px;">DIAS</th>
-			          <th style="font-size:12px;">ESTADO</th>
+								<th style="font-size:12px;"">DOCUMENTO</th>
+			          			<th style="font-size:12px;">ESTADO</th>
 
 							</tr>
 						</thead>
@@ -100,21 +101,22 @@ if(accesocon($cone,$_SESSION['identi'],3)){
 									$con="active";
 								}else {
 									$con="warning";
-									}
+								}
 									//$tot= $tot+1;
 					?>
 						<tr> <!--Fila de vacaciones-->
-							<td style="font-size:11px;" class="<?php echo $con?>"><?php echo $rpc['NumeroDoc']?></td> <!--columna CÓDIGO-->
+							<td style="font-size:9px;" class="<?php echo $con?>"><?php echo $rpc['NumeroDoc']?></td> <!--columna CÓDIGO-->
 							<td style="font-size:11px;" class="<?php echo $con?>"><?php echo nomempleado($cone, $rpc['idEmpleado'])?></td> <!--columna APELLIDOS Y NOMBRES-->
-							<td style="font-size:11px;" class="<?php echo $con?>"><?php echo $rpc['cargo']?></td> <!--columna CARGO-->
-							<td style="font-size:11px;" class="<?php echo $con?>"><?php echo $rpc['Denominacion']?></td> <!--columna DEPENDENCIA-->
+							<td style="font-size:9px;" class="<?php echo $con?>"><?php echo $rpc['cargo']?></td> <!--columna CARGO-->
+							<td style="font-size:9px;" class="<?php echo $con?>"><?php echo $rpc['Denominacion']?></td> <!--columna DEPENDENCIA-->
 							<td style="font-size:11px;" class="<?php echo $con?>"><?php echo substr($rpc['Tipo'],0,13); ?></td> <!--columna REGIMEN-->
 							<td style="font-size:11px;" class="<?php echo $con?>"><?php echo fnormal($rpc['FechaVac'])?></td> <!--columna ALTA-->
 							<td style="font-size:11px;" class="<?php echo $con?>"><?php echo $rpc['PeriodoVacacional']?></td> <!--columna PERIODO-->
 							<td style="font-size:11px;" class="<?php echo $con?>"><?php echo"<span class='hidden'>".$rpc['FechaIni']."</span> ". fnormal($rpc['FechaIni'])?></td> <!--columna INICIO-->
 							<td style="font-size:11px;" class="<?php echo $con?>"><?php echo fnormal($rpc['FechaFin'])?></td> <!--columna FIN-->
 							<td style="font-size:11px;" class="<?php echo $con?>"><?php echo $dt ?></td> <!--columna CAMTIDAD DE DIAS-->
-							<td style="font-size:11px;" class="<?php echo $con?>"><span class='label label-<?php echo $est?>'><?php echo $cap?></span></td> <!--columna ESTADO-->
+							<td style="font-size:9px;" class="<?php echo $con?>"><?php echo $rpc['Numero']."-".$rpc['Ano'].$rpc['Siglas'] ?></td>
+							<td style="font-size:12px;" class="<?php echo $con?>"><span class='label label-<?php echo $est?>'><?php echo $cap?></span></td> <!--columna ESTADO-->
 
 						</tr>
 						<?php

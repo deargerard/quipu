@@ -181,7 +181,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
 
                   <div class="form-group">
                     <label for="aaa" class="sr-only">Sistema</label>
-                      <select name="sislab[]" data-actions-box="true" class="form-control selectpicker" multiple="multiple" multiple data-selected-text-format="count" title="SISTEMA">
+                      <select name="sislab[]" id="sislab" data-actions-box="true" class="form-control selectpicker" multiple="multiple" multiple data-selected-text-format="count" title="SISTEMA">
                         <?php
                           $csl=mysqli_query($cone,"SELECT idSistemaLab, SistemaLab FROM sistemalab WHERE idSistemaLab!=4 AND  idSistemaLab!=5 ORDER BY idSistemaLab ASC");
                           while($rsl=mysqli_fetch_assoc($csl)){
@@ -195,7 +195,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                   </div>
                   <div class="form-group">
                     <label for="aaa" class="sr-only">Régimen</label>
-                      <select name="reglab[]" data-actions-box="true" class="form-control selectpicker" multiple="multiple" multiple data-selected-text-format="count" title="RÉGIMEN">
+                      <select name="reglab[]" id="reglab" data-actions-box="true" class="form-control selectpicker" multiple="multiple" multiple data-selected-text-format="count" title="RÉGIMEN">
                         <?php
                           $crl=mysqli_query($cone,"SELECT idCondicionLab, Tipo FROM condicionlab WHERE Estado=1 AND idCondicionLab!=6 AND idCondicionLab!=7 ORDER BY Tipo ASC");
                           while($rrl=mysqli_fetch_assoc($crl)){
@@ -209,7 +209,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                   </div>
                   <div class="form-group">
                     <label for="bbb" class="sr-only">Periodo </label>
-                    <select name="pervac[]" data-actions-box="true" class="form-control selectpicker" multiple="multiple" multiple data-selected-text-format="count" title="PERÍODO">
+                    <select name="pervac[]" id="pervac" data-actions-box="true" class="form-control selectpicker" multiple="multiple" multiple data-selected-text-format="count" title="PERÍODO">
                       <?php
                         $cpv=mysqli_query($cone,"SELECT idPeriodoVacacional, PeriodoVacacional FROM periodovacacional WHERE Estado=1 ORDER BY PeriodoVacacional DESC");
                         while($rpv=mysqli_fetch_assoc($cpv)){
@@ -224,7 +224,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
 
                   <div class="form-group">
                     <label for="aaa" class="sr-only">Estado</label>
-                    <select name="estvac[]" data-actions-box="true" class="form-control selectpicker" multiple="multiple" multiple data-selected-text-format="count" title="ESTADO">
+                    <select name="estvac[]" id="estvac" data-actions-box="true" class="form-control selectpicker" multiple="multiple" multiple data-selected-text-format="count" title="ESTADO">
                       <option value="4">PLANIFICADAS</option>
                       <option value="0">PENDIENTES</option>
                       <option value="3">EJECUTANDOSE</option>
@@ -234,6 +234,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                     </select>
                   </div>
                   <button type="submit" id="b_bejva" class="btn btn-default">Buscar</button>
+                  <button type="button" id="b_evxm" class="btn bg-aqua">Exportar</button>
                 </form>
                 <!--Fin Formulario-->
                 <!--div resultados-->

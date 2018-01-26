@@ -879,3 +879,20 @@ $("#b_exvacres").click(function(){
 })
 
 // Fin exportar vacaciones por resolución
+
+// Exportar vacaciones por mes
+$("#b_evxm").click(function(){
+  var mesini=$("#mesini").val();
+  var mesfin=$("#mesfin").val();
+  var sislab=$("#sislab").val();
+  var reglab=$("#reglab").val();
+  var pervac=$("#pervac").val();
+  var estvac=$("#estvac").val();
+  if (mesini==null || mesfin==null || sislab==null || reglab==null || pervac==null || estvac==null) {
+    alert("Error: Debe seleccionar al menos un valor en cada campo");
+  }else {
+     window.location.href = "m_exportar/e_exvacmes.php?mesini="+mesini+"&mesfin="+mesfin+"&sislab="+sislab+"&reglab="+reglab+"&pervac="+pervac+"&estvac="+estvac;
+  }
+})
+
+// Fin exportar vacaciones por mes

@@ -518,7 +518,7 @@ function vcontrasena($con,$ide){
 	$f2=@date_create($fc);
 	$tie=date_diff($f1, $f2);
 	$m=$tie->format('%m');
-	if($m>=3){
+	if($m>=6){
 		return true;
 	}else{
 		return false;
@@ -816,6 +816,47 @@ function telefonose($con,$ide){
 		return $tel;
 	}else{
 		return "No presente ningún número registrado";
+	}
+}
+
+function estadoVac($est){
+	switch ($est) {
+		case 0:
+			return "<span class='label label-info'>Pendiente</span>";
+			break;
+		case 1:
+			return "<span class='label label-success'>Ejecutado</span>";
+			break;
+		case 2:
+			return "<span class='label label-danger'>Cancelado</span>";
+			break;
+		case 3:
+			return "<span class='label label-primary'>Ejecutandose</span>";
+			break;
+		case 4:
+			return "<span class='label label-warning'>Planificado</span>";
+			break;
+		case 5:
+			return "<span class='label label-default'>Suspendido</span>";
+			break;
+		case 6:
+			return "<span class='label label-orange'>Solicitado</span>";
+			break;
+		case 7:
+			return "<span class='label label-olive'>Aceptado</span>";
+			break;
+	}
+}
+
+function condicionVac($cond){
+	switch ($cond) {
+		case 0:
+			return "Reprogramado";
+			break;
+		
+		case 1:
+			return "Programado";
+			break;
 	}
 }
 ?>
