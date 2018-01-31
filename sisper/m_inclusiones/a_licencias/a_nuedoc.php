@@ -68,7 +68,7 @@ if(accesoadm($cone,$_SESSION['identi'],4)||accesoadm($cone,$_SESSION['identi'],3
             format: " yyyy",
             minViewMode: "years",
             maxViewMode: "years",
-            startDate: '<?php echo $anop; ?>',
+            //startDate: '<?php //echo $anop; ?>',
             endDate: new Date(),
             startView: "year" //does not work
           });
@@ -77,7 +77,7 @@ if(accesoadm($cone,$_SESSION['identi'],4)||accesoadm($cone,$_SESSION['identi'],3
             language: "es",
             autoclose: true,
             todayHighlight: true,
-            startDate: '01-01-<?php echo $anop; ?>',
+            //startDate: '01-01-<?php //echo $anop; ?>',
             endDate: '31-12-<?php echo $ano; ?>'
           });
           //fin fecha intranet

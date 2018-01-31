@@ -3,19 +3,15 @@ session_start();
 include("../php/conexion_sp.php");
 include("../php/funciones.php");
 if(accesoadm($cone,$_SESSION['identi'],2)){
-  if(isset($_POST['fec']) && !empty($_POST['fec']) && isset($_POST['tip']) && !empty($_POST['tip'])){
-    $fec=fmysql(iseguro($cone,$_POST['fec']));
+  if(isset($_POST['fec']) && !empty($_POST['fec'])){
     $fecn=iseguro($cone,$_POST['fec']);
-    $tip=iseguro($cone,$_POST['tip']);
-    $casi=mysqli_query($cone,"SELECT * FROM marcacion WHERE Fecha='$fec' AND idTipMarcacion=$tip ORDER BY Hora ASC");
+    $fec=fmysql($fecn);
+    $casi=mysqli_query($cone,"SELECT * FROM marcacion WHERE DATE_FORMAT(Marcacion, '%Y-%m-%d')='$fec' ORDER BY Marcacion ASC");
     if(mysqli_num_rows($casi)>0){
-      $ctm=mysqli_query($cone,"SELECT * FROM tipmarcacion WHERE idTipMarcacion=$tip");
-      $rtm=mysqli_fetch_assoc($ctm);
-      $tm=$rtm['TipMarcacion'];
-      mysqli_free_result($ctm);
-      echo "<h3 class='text-maroon'>Registros de $tm del $fecn.</h3>";
+
+      echo "<h3><i class='fa fa-calendar-check-o text-gray'></i> <span class='text-orange'>Marcaciones del $fecn</span></h3>";
 ?>
-    <table class="table" id="dtasistencia">
+    <table class="table table-bordered table-hover" id="dtasistencia">
       <thead>
         <tr>
           <th>#</th>
@@ -32,7 +28,7 @@ if(accesoadm($cone,$_SESSION['identi'],2)){
 ?>
         <tr>
           <td><?php echo $j; ?></td>
-          <td><?php echo $rasi['Hora']; ?></td>
+          <td><?php echo date("h:m:i A",strtotime($rasi['Marcacion'])); ?></td>
           <td><?php echo nomempleado($cone,$rasi['idEmpleado']); ?></td>
           <td><?php echo nomvigilante($cone,$rasi['idVigilante']); ?></td>
         </tr>

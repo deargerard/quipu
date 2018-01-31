@@ -3,18 +3,27 @@ $('#fec,#fec1').datepicker({
   format: "dd/mm/yyyy",
   language: "es",
   autoclose: true,
-  todayHighlight: true
+  todayHighlight: true,
+  endDate: new Date()
+});
+$("#mesano").datepicker({
+  autoclose: true,
+  format: "mm/yyyy",
+  language: "es",
+  minViewMode: "months",
+  maxViewMode: "months",
+  startDate: '01/2000',
+  endDate: new Date(),
+  startView: "month" //does not work
 });
 //fin fecha intranet
 //funcion validar formulario buscar asistencia diaria
 $( "#f_badiaria" ).validate( {
     rules: {
-      fec: {required:true, datePE:true},
-      tip: {required:true}
+      fec: {required:true, datePE:true}
     },
     messages: {
-      fec: {required:"Ingrese la fecha"},
-      tip: {required:"Elija un tipo de marcación"}
+      fec: {required:"Ingrese la fecha"}
     },
     errorElement: "em",
     errorPlacement: function ( error, element ) {
@@ -44,12 +53,9 @@ $( "#f_badiaria" ).validate( {
          dataType: "html",
          data: datos,   // I WANT TO ADD EXTRA DATA + SERIALIZE DATA
          beforeSend: function () {
-            $("#b_badiaria").html("<i class='fa fa-spinner fa-spin'></i> Buscando");
-            $("#b_badiaria").addClass("disabled");
+            $(".d_adiaria").html("<p class='text-center'><img src='m_images/loader.gif'></p>");
          },
          success: function(data){
-            $("#b_badiaria").html("Buscar");
-            $("#b_badiaria").removeClass("disabled");
             $(".d_adiaria").html(data);
             $(".d_adiaria").slideDown();
          }
@@ -60,14 +66,12 @@ $( "#f_badiaria" ).validate( {
 //funcion validar formulario buscar asistencia empleado
 $( "#f_baempleado" ).validate( {
     rules: {
-      mes: {required:true},
-      ano: {required:true},
+      mesano: {required:true,minlength:7},
       emp: {required:true}
     },
     messages: {
-      mes: {required:"Elija un mes"},
-      ano: {required:"Elija un año"},
-      tip: {required:"Elija un empleado"}
+      mes: {required:"Seleccione un mes/año"},
+      tip: {required:"Seleccione un personal"}
     },
     errorElement: "em",
     errorPlacement: function ( error, element ) {

@@ -61,26 +61,13 @@ $("#login").validate({
       });
     }
 });
-function fmarca(id){
-$.ajax({
-  type: "post",
-  url: "ajax/fmarcacion.php",
-  data: { idm : id },
-  beforeSend: function () {
-    $("#ccontenido").html("<div class='text-center'><img src='images/ajax-loader.gif'/></div>");
-  },
-  success:function(a){
-    $(".contenido").html(a);
-  }
-});
-};
  //validar registrar marcación
 $("#fmarcacion").validate({
   rules: {
     cod: {required:true, minlength:8}
   },
   messages: {
-    cod: {required:"Lea un código.",minlength:"Mínimo 8 caracteres"}
+    cod: {required:"Ingrese un código.",minlength:"Mínimo 8 caracteres"}
   },
   errorElement: "em",
   errorPlacement: function(error, element){

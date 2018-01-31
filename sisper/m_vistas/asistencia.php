@@ -5,7 +5,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Intranet
+        Asistencia
       </h1>
       <ol class="breadcrumb">
         <li><a href="dboard.php"><i class="fa fa-home"></i> Inicio</a></li>
@@ -20,8 +20,8 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
           <!-- Custom Tabs -->
           <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
-              <li class="active"><a href="#tab_1" data-toggle="tab">Asistencia diaria</a></li>
-              <li><a href="#tab_2" data-toggle="tab">Asistencia empleado</a></li>
+              <li class="active"><a href="#tab_1" data-toggle="tab">Marcaciones diarias</a></li>
+              <li><a href="#tab_2" data-toggle="tab">Marcación mensual</a></li>
               <li><a href="#tab_3" data-toggle="tab">Vigilantes</a></li>
               <li><a href="#tab_4" data-toggle="tab">--</a></li>
             </ul>
@@ -34,28 +34,12 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                       <span class="fa fa-calendar form-control-feedback"></span>
                       <input type="text" class="form-control" id="fec" name="fec" placeholder="Fecha">
                   </div>
-                  <div class="form-group valida">
-                      <select name="tip" id="tip" class="form-control">
-                        <option value="">TIPO MARCACIÓN</option>
-                        <?php
-                        $ctm=mysqli_query($cone,"SELECT * FROM tipmarcacion ORDER BY TipMarcacion ASC");
-                        if(mysqli_num_rows($ctm)>0){
-                          while($rtm=mysqli_fetch_assoc($ctm)){
-                        ?>
-                        <option value="<?php echo $rtm['idTipMarcacion']; ?>"><?php echo $rtm['TipMarcacion']; ?></option>
-                        <?php
-                          }
-                        }
-                        ?>
-                      </select>
-                  </div>
-
                   <button type="submit" class="btn btn-default" id="b_badiaria">Buscar</button>
                 </form>
                 <!--Fin formulario busqueda-->
                 <!--Div resultados-->
                 <div class="d_adiaria">
-                  <h1>Realice su búsqueda</h1>
+                  <h3><i class="fa fa-calendar-check-o text-gray"></i> <span class="text-orange">Buscar</span></h3>
                 </div>
                 <!--Fin div resultados-->
 
@@ -64,56 +48,21 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
               <div class="tab-pane" id="tab_2">
                 <!--Formulario busqueda-->
                 <form class="form-inline" id="f_baempleado">
-                  <div class="form-group">
-                    <div class="input-group valida">
-                      <select name="mes" id="mes" class="form-control">
-                        <option value="">MES</option>
-                        <option value="1">ENERO</option>
-                        <option value="2">FEBRERO</option>
-                        <option value="3">MARZO</option>
-                        <option value="4">ABRIL</option>
-                        <option value="5">MAYO</option>
-                        <option value="6">JUNIO</option>
-                        <option value="7">JULIO</option>
-                        <option value="8">AGOSTO</option>
-                        <option value="9">SETIEMBRE</option>
-                        <option value="10">OCTUBRE</option>
-                        <option value="11">NOVIEMBRE</option>
-                        <option value="12">DICIEMBRE</option>
-                      </select>
-                    </div>
-                    <div class="input-group valida">
-                      <select name="ano" id="ano" class="form-control">
-                        <option value="">AÑO</option>
-                        <option value="2016">2016</option>
-                        <option value="2017">2017</option>
-                        <option value="2018">2018</option>
-                        <option value="2018">2019</option>
-                      </select>
-                    </div>
-                    <div class="input-group valida">
-                      <select class="form-control" name="emp" id="emp">
-                        <option value="">EMPLEADO</option>
-                        <?php
-                        $cemp=mysqli_query($cone,"SELECT idEmpleado, NombreCom FROM enombre ORDER BY NombreCom ASC");
-                        if(mysqli_num_rows($cemp)>0){
-                          while($remp=mysqli_fetch_assoc($cemp)){
-                        ?>
-                        <option value="<?php echo $remp['idEmpleado']; ?>"><?php echo $remp['NombreCom']; ?></option>
-                        <?php
-                          }
-                        }
-                        mysqli_free_result($cemp);
-                        ?>
-                      </select>
-                    </div>
+                  <div class="form-group has-feedback valida">
+                      <span class="fa fa-calendar form-control-feedback"></span>
+                      <input type="text" class="form-control" id="mesano" name="mesano" placeholder="Mes/Año">
                   </div>
+                  <div class="form-group valida">
+                      <select class="form-control select2peract" name="emp" id="emp" style="width: 300px;">
+                      </select>
+                  </div>
+
                   <button type="submit" class="btn btn-default" id="b_baempleado">Buscar</button>
                 </form>
                 <!--Fin formulario busqueda-->
                 <!--Div resultados-->
                 <div class="d_aempleado">
-                  <h1>Realice su búsqueda</h1>
+                  <h3><i class="fa fa-calendar-check-o text-gray"></i> <span class="text-orange">Buscar</span></h3>
                 </div>
                 <!--Fin div resultados-->
               </div>
