@@ -38,6 +38,9 @@
                 <a href="http://intranet.mpfn.gob.pe/" target="_blank"><i class="fa fa-globe"></i> Intranet Nacional</a>
             </li>
             <li>
+                <a href="/asistencia/" target="_blank"><i class="fa fa-calendar"></i> Asistencia</a>
+            </li>
+            <li>
                 <a href="https://casillas.pj.gob.pe/sinoe/login.xhtml" target="_blank"><i class="fa fa-envelope-square"></i> Casillas Electrónicas PJ</a>
             </li>
           </ul>

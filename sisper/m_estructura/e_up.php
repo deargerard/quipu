@@ -321,7 +321,7 @@ if(!empty($css)){
         }
         ?>
         <?php
-        if(accesoadm($cone,$_SESSION['identi'],2)){
+        if(accesocon($cone,$_SESSION['identi'],2)){
         ?>
         <li id="asistencia">
           <a href="asistencia.php">
