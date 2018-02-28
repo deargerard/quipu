@@ -10,11 +10,11 @@ if(accesoadm($cone,$_SESSION['identi'],2)){
 
 ?>
 <input type="hidden" name="id" value="<?php echo $id; ?>">
-<p class="text-center">Seguro que desea desactivar al vigilante:</p>
+<p class="text-center">Seguro que desea <b><?php echo $r["Estado"]==1 ? "desactivar" : "activar"; ?></b> al vigilante:</p>
 <h3 class="text-maroon text-center"><?php echo $r['Apellidos'].', '.$r['Nombres']; ?></h3>
 <?php
         }else{
-            echo mensajeda("Error: No se encontró el registro.");
+            echo mensajeda("Error: Datos invalidos.");
         }
         mysqli_free_result($c);
     }else{

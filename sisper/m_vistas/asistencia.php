@@ -1,6 +1,6 @@
 <?php
 if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
-  if(accesoadm($cone,$_SESSION['identi'],2)){
+  if(accesocon($cone,$_SESSION['identi'],2)){
 ?>
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -22,8 +22,11 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
             <ul class="nav nav-tabs">
               <li class="active"><a href="#tab_1" data-toggle="tab">Marcaciones diarias</a></li>
               <li><a href="#tab_2" data-toggle="tab">Marcación mensual</a></li>
-              <li><a href="#tab_3" data-toggle="tab">Vigilantes</a></li>
-              <li><a href="#tab_4" data-toggle="tab">--</a></li>
+              <li><a href="#tab_3" data-toggle="tab">Control Asistencia</a></li>
+              <li><a href="#tab_4" data-toggle="tab">Permisos</a></li>
+              <li><a href="#tab_5" data-toggle="tab">Horarios</a></li>
+              <li><a href="#tab_6" data-toggle="tab">Días Libres</a></li>
+              <li><a href="#tab_7" data-toggle="tab">Vigilantes</a></li>
             </ul>
             <div class="tab-content">
               <div class="tab-pane active" id="tab_1">
@@ -39,7 +42,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 <!--Fin formulario busqueda-->
                 <!--Div resultados-->
                 <div class="d_adiaria">
-                  <h3><i class="fa fa-calendar-check-o text-gray"></i> <span class="text-orange">Buscar</span></h3>
+                  <h4><i class="fa fa-calendar-check-o text-gray"></i> <span class="text-orange">Buscar</span></h4>
                 </div>
                 <!--Fin div resultados-->
 
@@ -53,7 +56,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                       <input type="text" class="form-control" id="mesano" name="mesano" placeholder="Mes/Año">
                   </div>
                   <div class="form-group valida">
-                      <select class="form-control select2peract" name="emp" id="emp" style="width: 300px;">
+                      <select class="form-control select2peract" name="emp" id="emp" style="width: 350px;">
                       </select>
                   </div>
 
@@ -62,172 +65,128 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 <!--Fin formulario busqueda-->
                 <!--Div resultados-->
                 <div class="d_aempleado">
-                  <h3><i class="fa fa-calendar-check-o text-gray"></i> <span class="text-orange">Buscar</span></h3>
+                  <h4><i class="fa fa-calendar text-gray"></i> <span class="text-orange">Buscar</span></h4>
                 </div>
                 <!--Fin div resultados-->
               </div>
               <!-- /.tab-pane -->
               <div class="tab-pane" id="tab_3">
+                <!--Formulario busqueda-->
+                <form class="form-inline" id="f_bcaempleado">
+                  <div class="form-group has-feedback valida">
+                      <span class="fa fa-calendar form-control-feedback"></span>
+                      <input type="text" class="form-control" id="mesanoc" name="mesanoc" placeholder="Mes/Año">
+                  </div>
+                  <div class="form-group valida">
+                      <select class="form-control select2pertot" name="per" id="per" style="width: 350px;">
+                      </select>
+                  </div>
+                  <div class="form-group">
+                    <select name="car" id="car" class="form-control select2" style="width: 250px;">
+                      <option>--</option>
+                    </select>
+                  </div>
+
+                  <button type="submit" class="btn btn-default" id="b_bcaempleado">Buscar</button>
+                </form>
+                <!--Fin formulario busqueda-->
+                <!--Div resultados-->
+                <div id="d_caempleado">
+                  <h4><i class="fa fa-calendar text-gray"></i> <span class="text-orange">Buscar</span></h4>
+                </div>
+                <!--Fin div resultados-->
+              </div>
+              <!-- /.tab-pane -->
+              <div class="tab-pane" id="tab_4">
                 <div class="row">
                   <div class="col-md-12">
                     <!--Formulario busqueda-->
-                    <form class="form-inline" id="f_bvigilante">
-                      <div class="form-group valida">
-                        <label class="sr-only" for="vig"></label>
-                        <div class="input-group">
-                          <select class="form-control" name="vig" id="vig">
-                            <option value="">VIGILANTE</option>
-                            <?php
-                            $cvi=mysqli_query($cone,"SELECT * FROM vigilante ORDER BY Apellidos, Nombres ASC");
-                            if(mysqli_num_rows($cvi)>0){
-                              while($rvi=mysqli_fetch_assoc($cvi)){
-                            ?>
-                            <option value="<?php echo $rvi['idVigilante']; ?>"><?php echo $rvi['Apellidos'].', '.$rvi['Nombres']; ?></option>
-                            <?php
-                              }
-                            }
-                            mysqli_free_result($cvi);
-                            ?>
-                          </select>
-                        </div>
+                    <form class="form-inline" id="f_bpermisos">
+                      <div class="form-group has-feedback valida">
+                          <span class="fa fa-calendar form-control-feedback"></span>
+                          <input type="text" class="form-control" id="anop" name="anop" placeholder="Año">
                       </div>
-                      <button type="submit" class="btn btn-default" id="b_bvigilante">Buscar</button>
-                      <button type="button" class="btn btn-info" id="b_fvigilante" data-toggle="modal" data-target="#m_nvigilante">Nuevo Vigilante</button>
+                      <div class="form-group valida">
+                          <select class="form-control select2peract" name="perp" id="perp" style="width: 350px;">
+                          </select>
+                      </div>
+
+                      <button type="submit" class="btn btn-default" id="b_bpermisos">Buscar</button>
                     </form>
                     <!--Fin formulario busqueda-->
                     <!--Div resultados-->
-                    <div class="d_vigilante">
-                      <?php
-                        $cv=mysqli_query($cone,"SELECT * FROM vigilante ORDER BY idVigilante DESC LIMIT 10");
-                        if(mysqli_num_rows($cv)>0){
-                      ?>
-                      <h3 class="text-maroon">Últimos 10 vigilantes registrados.</h3>
-                      <table class="table" id="dtvigilante">
-                        <thead>
-                          <tr>
-                            <th>#</th>
-                            <th>NOMBRE</th>
-                            <th>DNI</th>
-                            <th>ULT. INGRESO</th>
-                            <th>ESTADO</th>
-                            <th>ACCIÓN</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                      <?php
-                          $p=0;
-                          while($rv=mysqli_fetch_assoc($cv)){
-                            $p++;
-                            if($rv['UltIngreso']=="0000-00-00 00:00:00"){
-                              $ui="Aún no ingresa";
-                            }else{
-                              $date = date_create($rv['UltIngreso']);
-                              $ui=date_format($date, 'd/m/Y H:i:s');
-                            }
-                      ?>
-                          <tr>
-                            <td><?php echo $p; ?></td>
-                            <td><?php echo $rv['Apellidos'].', '.$rv['Nombres']; ?></td>
-                            <td><?php echo $rv['DNI']; ?></td>
-                            <td><?php echo $ui; ?></td>
-                            <td><?php echo estado($rv['Estado']); ?></td>
-                            <td>
-                              <div class="btn-group">
-                                <button class="btn btn-warning btn-xs dropdown-toggle" data-toggle="dropdown">
-                                  <i class="fa fa-cog"></i>&nbsp;
-                                  <span class="caret"></span>
-                                  <span class="sr-only">Desplegar menú</span>
-                                </button>
-                                <ul class="dropdown-menu pull-right" role="menu">
-                                  <li><a href="#" onclick="edivig(<?php echo $rv['idVigilante']; ?>)" data-toggle="modal" data-target="#m_evigilante">Editar</a></li>
-                                  <li><a href="#" onclick="convig(<?php echo $rv['idVigilante']; ?>)" data-toggle="modal" data-target="#m_ccontrasena">Cambiar contraseña</a></li>
-                                  <?php if($rv['Estado']==1){ ?>
-                                  <li><a href="#" onclick="desvig(<?php echo $rv['idVigilante']; ?>)" data-toggle="modal" data-target="#m_dvigilante">Desactivar</a></li>
-                                  <?php }else{ ?>
-                                  <li><a href="#" onclick="actvig(<?php echo $rv['idVigilante']; ?>)" data-toggle="modal" data-target="#m_avigilante">Activar</a></li>
-                                  <?php } ?>
-                                </ul>
-                              </div>
-                            </td>
-                          </tr>
-                      <?php
-                          }
-                      ?>
-                        </tbody>
-                      </table>
-                      <?php
-                        }else{
-                          mensajeda("Error: No existen vigilantes registrados.");
-                        }
-                      ?>
-
+                    <div class="d_permisos">
+                      <h4><i class="fa fa-calendar-plus-o text-gray"></i> <span class="text-orange">Buscar</span></h4>
                     </div>
                     <!--Fin div resultados-->
                   </div>
                 </div>
               </div>
               <!-- /.tab-pane -->
-              <div class="tab-pane" id="tab_4">
-                <button type="button" class="btn btn-info" id="b_fimagen" data-toggle="modal" data-target="#m_nimagen">Nueva Imagen</button>
-                <!--Div resultados-->
-                <div class="d_imagen">
-                  <?php
-                  $ccom=mysqli_query($cone,"SELECT * FROM slider ORDER BY idSlider ASC LIMIT 10");
-                  if(mysqli_num_rows($ccom)>0){
-                  ?>
-                  <h3 class="text-maroon">Imagenes de carrusel.</h3>
-                  <table class="table">
-                    <thead>
-                      <tr>
-                        <th>#</th>
-                        <th>Imagen</th>
-                        <th>Por</th>
-                        <th>Estado</th>
-                        <th>Acción</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <?php
-                      $a=0;
-                      while($rcom=mysqli_fetch_assoc($ccom)){
-                        $a++;
-                      ?>
-                      <tr>
-                        <td><?php echo $a; ?></td>
-                        <td><a href="#" onclick="verimg(<?php echo $rcom['idSlider']; ?>)" data-toggle="modal" data-target="#m_vimagen"><?php echo $rcom['Imagen']; ?></a></td>
-                        <td><?php echo nomempleado($cone, $rcom['idEmpleado']); ?></td>
-                        <td><?php echo estado($rcom['Estado']) ?></td>
-                        <td>
-                          <div class="btn-group">
-                            <button class="btn btn-warning btn-xs dropdown-toggle" data-toggle="dropdown">
-                              <i class="fa fa-cog"></i>&nbsp;
-                              <span class="caret"></span>
-                              <span class="sr-only">Desplegar menú</span>
-                            </button>
-                            <ul class="dropdown-menu pull-right" role="menu">
-                              <li><a href="#" onclick="eliimg(<?php echo $rcom['idSlider']; ?>)" data-toggle="modal" data-target="#m_eimagen">Eliminar</a></li>
-                              <?php if($rcom['Estado']==1){ ?>
-                              <li><a href="#" onclick="desimg(<?php echo $rcom['idSlider']; ?>)" data-toggle="modal" data-target="#m_dimagen">Desactivar</a></li>
-                              <?php }else{ ?>
-                              <li><a href="#" onclick="actimg(<?php echo $rcom['idSlider']; ?>)" data-toggle="modal" data-target="#m_aimagen">Activar</a></li>
-                              <?php } ?>
-                            </ul>
-                          </div>
-                        </td>
-                      </tr>
-                      <?php
-                      }
-                      ?>
-                    </tbody>
-                  </table>
-                  <?php
-                  }else{
-                    echo mensajewa("No existen imagenes.");
-                  }
-                  mysqli_free_result($ccom);
-                  ?>
+              <div class="tab-pane" id="tab_5">
+                <div class="row">
+                  <div class="col-md-12">
+                    <!--Formulario busqueda-->
+                    <form class="form-inline" id="f_bhorarios">
+                      <button type="button" class="btn btn-default" onclick="acthor();"> Buscar Horarios</button>
+                      <?php if(accesoadm($cone,$_SESSION['identi'],2)){ ?>
+                      <button type="button" class="btn btn-info" id="b_ahorario" data-toggle="modal" data-target="#m_ahorario" onclick="agrhor();"><i class="fa fa-calendar-o"></i> Agregar Horario</button>
+                      <?php } ?>
+                    </form>
+                    <!--Fin formulario busqueda-->
+                    <!--Div resultados-->
+                    <div class="d_horarios">
+                      <h4><i class="fa fa-calendar-o text-gray"></i> <span class="text-orange">Buscar</span></h4>
+                    </div>
+                    <!--Fin div resultados-->
+                  </div>
                 </div>
-                <!--Fin div resultados-->
+              </div>
+              <!-- /.tab-pane -->
+              <div class="tab-pane" id="tab_6">
+                <div class="row">
+                  <div class="col-md-12">
+                    <!--Formulario busqueda-->
+                    <form class="form-inline" id="f_bdlibres">
+                      <div class="form-group has-feedback valida">
+                          <span class="fa fa-calendar form-control-feedback"></span>
+                          <input type="text" class="form-control" id="anodl" name="anodl" placeholder="Año">
+                      </div>
+                      <button type="button" class="btn btn-default" id="b_bdlibres" onclick="actdlib();">Buscar</button>
+                      <?php if(accesoadm($cone,$_SESSION['identi'],2)){ ?>
+                      <button type="button" class="btn btn-info" id="b_adlibre" data-toggle="modal" data-target="#m_adlibre"><i class="fa fa-calendar-times-o"></i> Agregar Día Libre</button>
+                      <?php } ?>
+                    </form>
+                    <!--Fin formulario busqueda-->
+                    <!--Div resultados-->
+                    <div class="d_dlibres">
+                      <h4><i class="fa fa-calendar-times-o text-gray"></i> <span class="text-orange">Buscar</span></h4>
+                    </div>
+                    <!--Fin div resultados-->
+                  </div>
+                </div>
+              </div>
+              <!-- /.tab-pane -->
+              <div class="tab-pane" id="tab_7">
+                <div class="row">
+                  <div class="col-md-12">
+                    <!--Formulario busqueda-->
+                    <form class="form-inline" id="f_bvigilante">
+                      <div class="form-group valida">
+                        <input type="text" name="vig" id="vig" class="form-control" placeholder="Nombre Vigilante" style="width: 300px;">
+                      </div>
+                      <?php if(accesoadm($cone,$_SESSION['identi'],2)){ ?>
+                      <button type="button" class="btn btn-info" id="b_fvigilante" data-toggle="modal" data-target="#m_nvigilante"><i class="fa fa-user-secret"></i> Nuevo Vigilante</button>
+                      <?php } ?>
+                    </form>
+                    <!--Fin formulario busqueda-->
+                    <!--Div resultados-->
+                    <div class="d_vigilante">
+                      <h4><i class="fa fa-user-secret text-gray"></i> <span class="text-orange">Buscar</span></h4>
+                    </div>
+                    <!--Fin div resultados-->
+                  </div>
+                </div>
               </div>
               <!-- /.tab-pane -->
             </div>
@@ -245,19 +204,19 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
   
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <form id="f_nvigilante" action="" class="form-horizontal">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Nuevo Vigilante</h4>
+        <h4 class="modal-title" id="myModalLabel"><i class="fa fa-plus text-gray"></i> <span class="text-orange">Nuevo Vigilante</span></h4>
       </div>
       <div class="modal-body" id="d_nvigilante">
+        <form id="f_nvigilante" action="" class="form-horizontal">
 
+        </form>        
       </div>
       <div class="modal-footer">
-        <button type="submit" class="btn bg-teal" id="b_gnvigilante">Guardar</button>
+        <button type="submit" class="btn bg-teal" id="b_gnvigilante" form="f_nvigilante">Guardar</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
       </div>
-      </form>
     </div>
   </div>
   
@@ -267,489 +226,272 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
 <div class="modal fade" id="m_evigilante" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <form id="f_evigilante" action="" class="form-horizontal">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Editar Vigilante</h4>
+        <h4 class="modal-title" id="myModalLabel"><i class="fa fa fa-pencil text-gray"></i> <span class="text-orange">Editar Vigilante</span></h4>
       </div>
       <div class="modal-body" id="d_evigilante">
+        <form id="f_evigilante" action="" class="form-horizontal">
 
+        </form>
       </div>
       <div class="modal-footer">
-        <button type="submit" class="btn bg-teal" id="b_gevigilante">Guardar</button>
+        <button type="submit" class="btn bg-teal" id="b_gevigilante" form="f_evigilante">Guardar</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
       </div>
-      </form>
     </div>
   </div>
 </div>
 <!--Fin Modal editar vigilante-->
 <!--Modal cambiar contraseña-->
 <div class="modal fade" id="m_ccontrasena" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-sm" role="document">
     <div class="modal-content">
-      <form id="f_ccontrasena" action="" class="form-horizontal">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Cambiar Contraseña</h4>
+        <h4 class="modal-title" id="myModalLabel"><i class="fa fa-lock text-gray"></i> <span class="text-orange">Cambiar contraseña</span></h4>
       </div>
       <div class="modal-body" id="d_ccontrasena">
-
+        <form id="f_ccontrasena" action="" class="form-horizontal">
+          
+        </form>
       </div>
       <div class="modal-footer">
-        <button type="submit" class="btn bg-teal" id="b_gccontrasena">Guardar</button>
+        <button type="submit" class="btn bg-teal" id="b_gccontrasena" form="f_ccontrasena">Guardar</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
       </div>
-      </form>
     </div>
   </div>
 </div>
 <!--Fin Modal cambiar contraseña-->
-<!--Modal desactivar comunicado-->
-<div class="modal fade" id="m_dvigilante" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<!--Modal estado vigilante-->
+<div class="modal fade" id="m_estvigilante" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <form id="f_dvigilante" action="" class="form-horizontal">
+    <div class="modal-content">  
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Desactivar Vigilante</h4>
+        <h4 class="modal-title" id="myModalLabel"><i class="fa fa-toggle-on text-gray"></i> <span class="text-orange">Cambiar estado</span></h4>
       </div>
       <div class="modal-body" id="d_dvigilante">
+        <form id="f_estvigilante" action="" class="form-horizontal">
 
+        </form>
       </div>
       <div class="modal-footer">
-        <button type="submit" class="btn btn-danger" id="b_sidvigilante">Si</button>
-        <button type="button" class="btn btn-default" id="b_nodvigilante" data-dismiss="modal">No</button>
-      </div>
-      </form>
-    </div>
-  </div>
-</div>
-<!--Fin Modal desactivar comunicado-->
-<!--Modal activar comunicado-->
-<div class="modal fade" id="m_avigilante" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <form id="f_avigilante" action="" class="form-horizontal">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Activar Vigilante</h4>
-      </div>
-      <div class="modal-body" id="d_avigilante">
-
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-danger" id="b_siavigilante">Si</button>
-        <button type="button" class="btn btn-default" id="b_noavigilante" data-dismiss="modal">No</button>
-      </div>
-      </form>
-    </div>
-  </div>
-</div>
-<!--Fin Modal activar comunicado-->
-
-
-<!-- Modal Comunicado-->
-<div class="modal fade" id="m_vcomunicado" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel"><i class="fa fa-bell-o text-orange"></i> Comunicado</h4>
-      </div>
-      <div class="modal-body d_rcomunicado">
-        
-      </div>
-    </div>
-  </div>
-</div>
-
-<!--Modal nuevo boletín-->
-<div class="modal fade" id="m_nboletin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <form id="f_nboletin" action="" class="form-horizontal">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Nuevo Boletín</h4>
-      </div>
-      <div class="modal-body" id="d_nboletin">
-
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn bg-teal" id="b_gnboletin">Guardar</button>
+        <button type="submit" class="btn btn-danger" id="b_sievigilante" form="f_estvigilante">Si</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
       </div>
-      </form>
     </div>
   </div>
 </div>
-<!--Fin Modal nuevo boletín-->
-
-<!--Modal cambiar boletín-->
-<div class="modal fade" id="m_cboletin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<!--Fin Modal estado vigilante-->
+<!--Modal agregar marcación-->
+<div class="modal fade" id="m_amarcacion" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <form id="f_cboletin" action="" class="form-horizontal">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Cambiar Boletín</h4>
+        <h4 class="modal-title" id="myModalLabel"><i class="fa fa-plus text-gray"></i> <span class="text-orange">Agregar Marcación</span></h4>
       </div>
-      <div class="modal-body" id="d_cboletin">
+      <div class="modal-body">
+        <form id="f_amarcacion" action="" class="form-horizontal">
 
+        </form>        
       </div>
       <div class="modal-footer">
-        <button type="submit" class="btn bg-teal" id="b_gcboletin">Guardar</button>
+        <button type="submit" class="btn bg-teal" id="b_gamarcacion" form="f_amarcacion">Guardar</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
       </div>
-      </form>
     </div>
   </div>
 </div>
-<!--Fin Modal cambiar boletín-->
-
-<!--Modal desactivar boletín-->
-<div class="modal fade" id="m_dboletin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<!--Fin Modal agregar marcación-->
+<!--Modal editar marcación-->
+<div class="modal fade" id="m_emarcacion" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <form id="f_dboletin" action="" class="form-horizontal">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Desactivar Boletín</h4>
+        <h4 class="modal-title" id="myModalLabel"><i class="fa fa-edit text-gray"></i> <span class="text-orange">Editar Marcación</span></h4>
       </div>
-      <div class="modal-body" id="d_dboletin">
+      <div class="modal-body">
+        <form id="f_emarcacion" action="" class="form-horizontal">
 
+        </form>        
       </div>
       <div class="modal-footer">
-        <button type="submit" class="btn btn-danger" id="b_sidboletin">Si</button>
-        <button type="button" class="btn btn-default" id="b_nodboletin" data-dismiss="modal">No</button>
-      </div>
-      </form>
-    </div>
-  </div>
-</div>
-<!--Fin Modal desactivar boletín-->
-
-<!--Modal activar boletín-->
-<div class="modal fade" id="m_aboletin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <form id="f_aboletin" action="" class="form-horizontal">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Activar Boletín</h4>
-      </div>
-      <div class="modal-body" id="d_aboletin">
-
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-danger" id="b_siaboletin">Si</button>
-        <button type="button" class="btn btn-default" id="b_noaboletin" data-dismiss="modal">No</button>
-      </div>
-      </form>
-    </div>
-  </div>
-</div>
-<!--Fin Modal activar boletín-->
-
-<!--Modal nuevo categoría documento-->
-<div class="modal fade" id="m_ncategoria" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <form id="f_ncategoria" action="" class="form-horizontal">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Nueva categoria</h4>
-      </div>
-      <div class="modal-body" id="d_ncategoria">
-
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn bg-teal" id="b_gncategoria">Guardar</button>
+        <button type="submit" class="btn bg-teal" id="b_gemarcacion" form="f_emarcacion">Guardar</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
       </div>
-      </form>
     </div>
   </div>
 </div>
-<!--Fin Modal nuevo categoría documento-->
-
-<!--Modal editar categoría documento-->
-<div class="modal fade" id="m_ecategoria" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<!--Fin Modal editar marcación-->
+<!--Modal agregar permiso-->
+<div class="modal fade" id="m_apermiso" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <form id="f_ecategoria" action="" class="form-horizontal">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Editar categoria</h4>
+        <h4 class="modal-title" id="myModalLabel"><i class="fa fa-plus text-gray"></i> <span class="text-orange">Agregar Permiso</span></h4>
       </div>
-      <div class="modal-body" id="d_ecategoria">
+      <div class="modal-body">
+        <form id="f_apermiso" action="" class="form-horizontal">
 
+        </form>        
       </div>
       <div class="modal-footer">
-        <button type="submit" class="btn bg-teal" id="b_gecategoria">Guardar</button>
+        <button type="submit" class="btn bg-teal" id="b_gapermiso" form="f_apermiso">Guardar</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
       </div>
-      </form>
     </div>
   </div>
 </div>
-<!--Fin Modal editar categoría documento-->
-
-<!--Modal desactivar boletín-->
-<div class="modal fade" id="m_dcategoria" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<!--Fin Modal agregar permiso-->
+<!--Modal editar permiso-->
+<div class="modal fade" id="m_epermiso" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <form id="f_dcategoria" action="" class="form-horizontal">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Desactivar Categoría</h4>
+        <h4 class="modal-title" id="myModalLabel"><i class="fa fa-edit text-gray"></i> <span class="text-orange">Editar Permiso</span></h4>
       </div>
-      <div class="modal-body" id="d_dcategoria">
+      <div class="modal-body">
+        <form id="f_epermiso" action="" class="form-horizontal">
 
+        </form>        
       </div>
       <div class="modal-footer">
-        <button type="submit" class="btn btn-danger" id="b_sidcategoria">Si</button>
-        <button type="button" class="btn btn-default" id="b_nodcategoria" data-dismiss="modal">No</button>
-      </div>
-      </form>
-    </div>
-  </div>
-</div>
-<!--Fin Modal desactivar boletín-->
-
-<!--Modal activar boletín-->
-<div class="modal fade" id="m_acategoria" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <form id="f_acategoria" action="" class="form-horizontal">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Activar Categoría</h4>
-      </div>
-      <div class="modal-body" id="d_acategoria">
-
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-danger" id="b_siacategoria">Si</button>
-        <button type="button" class="btn btn-default" id="b_noacategoria" data-dismiss="modal">No</button>
-      </div>
-      </form>
-    </div>
-  </div>
-</div>
-<!--Fin Modal activar boletín-->
-
-<!--Modal nuevo documento-->
-<div class="modal fade" id="m_ndocumento" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <form id="f_ndocumento" action="" class="form-horizontal">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Nuevo Documento</h4>
-      </div>
-      <div class="modal-body" id="d_ndocumento">
-
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn bg-teal" id="b_gndocumento">Guardar</button>
+        <button type="submit" class="btn bg-teal" id="b_gepermiso" form="f_epermiso">Guardar</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
       </div>
-      </form>
     </div>
   </div>
 </div>
-<!--Fin Modal nuevo documento-->
-<!--Modal editar documento-->
-<div class="modal fade" id="m_edocumento" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<!--Fin Modal editar permiso-->
+<!--Modal estado permiso-->
+<div class="modal fade" id="m_estpermiso" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <form id="f_edocumento" action="" class="form-horizontal">
+    <div class="modal-content">  
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Editar Documento</h4>
+        <h4 class="modal-title" id="myModalLabel"><i class="fa fa-toggle-on text-gray"></i> <span class="text-orange">Cambiar Estado</span></h4>
       </div>
-      <div class="modal-body" id="d_edocumento">
+      <div class="modal-body">
+        <form id="f_estpermiso" class="form-horizontal">
 
+        </form>
       </div>
       <div class="modal-footer">
-        <button type="submit" class="btn bg-teal" id="b_gedocumento">Guardar</button>
+        <button type="submit" class="btn btn-danger" id="b_siepermiso" form="f_estpermiso">Si</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
       </div>
-      </form>
     </div>
   </div>
 </div>
-<!--Fin Modal editar documento-->
-<!--Modal cambiar documento-->
-<div class="modal fade" id="m_cdocumento" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<!--Fin Modal estado permiso-->
+<!--Modal detalle permiso-->
+<div class="modal fade" id="m_dpermiso" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <form id="f_cdocumento" action="" class="form-horizontal">
+    <div class="modal-content">  
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Cambiar Documento</h4>
+        <h4 class="modal-title" id="myModalLabel"><i class="fa fa-toggle-on text-gray"></i> <span class="text-orange">Detalle Permiso</span></h4>
       </div>
-      <div class="modal-body" id="d_cdocumento">
-
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn bg-teal" id="b_gcdocumento">Guardar</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-      </div>
-      </form>
-    </div>
-  </div>
-</div>
-<!--Fin Modal cambiar documdocdocumento-->
-<!--Modal desactivar documento-->
-<div class="modal fade" id="m_ddocumento" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <form id="f_ddocumento" action="" class="form-horizontal">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Desactivar Documento</h4>
-      </div>
-      <div class="modal-body" id="d_ddocumento">
-
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-danger" id="b_siddocumento">Si</button>
-        <button type="button" class="btn btn-default" id="b_noddocumento" data-dismiss="modal">No</button>
-      </div>
-      </form>
-    </div>
-  </div>
-</div>
-<!--Fin Modal desactivar documento-->
-<!--Modal activar documento-->
-<div class="modal fade" id="m_adocumento" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <form id="f_adocumento" action="" class="form-horizontal">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Activar Documento</h4>
-      </div>
-      <div class="modal-body" id="d_adocumento">
-
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-danger" id="b_siadocumento">Si</button>
-        <button type="button" class="btn btn-default" id="b_noadocumento" data-dismiss="modal">No</button>
-      </div>
-      </form>
-    </div>
-  </div>
-</div>
-<!--Fin Modal activar documento-->
-
-<!--Modal nuevo imagen-->
-<div class="modal fade" id="m_nimagen" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <form id="f_nimagen" action="" class="form-horizontal">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Nueva Imagen</h4>
-      </div>
-      <div class="modal-body" id="d_nimagen">
-
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn bg-teal" id="b_gnimagen">Guardar</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-      </div>
-      </form>
-    </div>
-  </div>
-</div>
-<!--Fin Modal nuevo imagen-->
-<!--Modal eliminar imagen-->
-<div class="modal fade" id="m_eimagen" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <form id="f_eimagen" action="" class="form-horizontal">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Eliminar Imagen</h4>
-      </div>
-      <div class="modal-body" id="d_eimagen">
-
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-danger" id="b_sieimagen">Si</button>
-        <button type="button" class="btn btn-default" id="b_noeimagen" data-dismiss="modal">No</button>
-      </div>
-      </form>
-    </div>
-  </div>
-</div>
-<!--Fin Modal eliminar imagen-->
-<!--Modal desactivar imagen-->
-<div class="modal fade" id="m_dimagen" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <form id="f_dimagen" action="" class="form-horizontal">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Desactivar Imagen</h4>
-      </div>
-      <div class="modal-body" id="d_dimagen">
-
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-danger" id="b_sidimagen">Si</button>
-        <button type="button" class="btn btn-default" id="b_nodimagen" data-dismiss="modal">No</button>
-      </div>
-      </form>
-    </div>
-  </div>
-</div>
-<!--Fin Modal desactivar imagen-->
-<!--Modal activar imagen-->
-<div class="modal fade" id="m_aimagen" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <form id="f_aimagen" action="" class="form-horizontal">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Activar Imagen</h4>
-      </div>
-      <div class="modal-body" id="d_aimagen">
-
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-danger" id="b_siaimagen">Si</button>
-        <button type="button" class="btn btn-default" id="b_noaimagen" data-dismiss="modal">No</button>
-      </div>
-      </form>
-    </div>
-  </div>
-</div>
-<!--Fin Modal activar imagen-->
-<!--Modal activar imagen-->
-<div class="modal fade" id="m_vimagen" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Imagen</h4>
-      </div>
-      <div class="modal-body" id="d_vimagen">
+      <div class="modal-body" id="d_dpermiso">
 
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
       </div>
-
     </div>
   </div>
 </div>
-<!--Fin Modal activar imagen-->
+<!--Fin Modal detalle permiso-->
+<!--Modal agregar permiso-->
+<div class="modal fade" id="m_ahorario" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel"><i class="fa fa-plus text-gray"></i> <span class="text-orange">Agregar Horario</span></h4>
+      </div>
+      <div class="modal-body">
+        <form id="f_ahorario" class="form-horizontal">
+
+        </form>        
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn bg-teal" id="b_gahorario" form="f_ahorario">Guardar</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Fin Modal agregar permiso-->
+<!--Modal estado horario-->
+<div class="modal fade" id="m_esthorario" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">  
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel"><i class="fa fa-toggle-on text-gray"></i> <span class="text-orange">Cambiar Estado</span></h4>
+      </div>
+      <div class="modal-body">
+        <form id="f_esthorario" class="form-horizontal">
+
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-danger" id="b_siehorario" form="f_esthorario">Si</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Fin Modal estado horario-->
+<!--Modal agregar día libre-->
+<div class="modal fade" id="m_adlibre" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel"><i class="fa fa-plus text-gray"></i> <span class="text-orange">Agregar Día Libre</span></h4>
+      </div>
+      <div class="modal-body">
+        <form id="f_adlibre" class="form-horizontal">
+
+        </form>        
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn bg-teal" id="b_gadlibre" form="f_adlibre">Guardar</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Fin Modal agregar día libre-->
+<!--Modal estado día libre-->
+<div class="modal fade" id="m_estdlibre" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">  
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel"><i class="fa fa-toggle-on text-gray"></i> <span class="text-orange">Cambiar Estado</span></h4>
+      </div>
+      <div class="modal-body">
+        <form id="f_estdlibre" class="form-horizontal">
+
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-danger" id="b_siedlibre" form="f_estdlibre">Si</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Fin Modal estado día libre-->
 
 <?php
   }else{
