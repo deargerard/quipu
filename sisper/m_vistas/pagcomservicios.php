@@ -1,16 +1,16 @@
 <?php
 if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
-  if(accesocon($cone,$_SESSION['identi'],3)){
+  if(accesocon($cone,$_SESSION['identi'],15)){
 ?>
     <!-- Cabecera -->
     <section class="content-header">
       <h1>
-      Vacaciones
+      Comisión de Servicios
       </h1>
       <ol class="breadcrumb">
         <li><a href="dboard.php"><i class="fa fa-home"></i> Inicio</a></li>
-        <li>Vacaciones</li>
-        <li class="active">Reprogramación</li>
+        <li>Comisión de Servicios</li>
+        <li class="active">Registro</li>
       </ol>
     </section>
     <!-- /.Cabecera -->
@@ -21,7 +21,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
            <!-- Default box -->
             <div class="box box-info">
               <div class="box-header with-border">
-                <h3 class="box-title">Reprogramación</h3>
+                <h3 class="box-title">Registro</h3>
                 <div class="box-tools pull-right">
                   <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
                     <i class="fa fa-minus"></i></button>
@@ -31,42 +31,22 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 <div class="row">
                   <div class="col-md-12">
                     <!--Formulario-->
-                    <form action="" id="f_vacper" class="form-inline">
+                    <form action="" id="f_comser" class="form-inline">
                       <div class="form-group">
                         <label for="per" class="sr-only">Personal</label>
-                        <select name="per" id="per" class="form-control select2pertot" style="width: 300px;">
+                        <select name="per" id="per" class="form-control select2peract" style="width: 300px;">
 
                         </select>
                       </div>
-                      <div class="form-group">
-                        <label for="bbb" class="sr-only">Cargo </label>
-                        <select name="car" id="car" class="form-control select2" style="width: 180px;">
 
-                        </select>
-                      </div>
-                      <div class="form-group">
-                        <label for="pervac" class="sr-only">Período</label>
-                        <select name="pervac" id="pervac" class="form-control select2per" style="width: 110px">
-
-                          <!-- <option value="t">TODOS</option> -->
-
-                        </select>
-                      </div>
-                      <button class="btn btn-default" type="button" id="b_nperiodo" data-toggle="modal" data-target="#m_nperiodo"><i class="fa fa-calendar-plus-o" ></i></button>
-                      <div class="form-group">
-                        <label for="est" class="sr-only">ESTADO</label>
-                        <select id="can" name="can[]" class="form-control selectpicker show-tick" multiple data-selected-text-format="count" title="CANCELADAS">
-                          <option value="2">VER CANCELADAS</option>
-                        </select>
-                      </div>
-                      <button type="submit" id="b_bvacper" class="btn btn-default">Buscar</button>
+                      <button type="submit" id="b_bcomser" class="btn btn-default">Buscar</button>
 
                 </form>
                     <!--Fin Formulario-->
                     <!--div resultados-->
                     <div class="row">
                       <hr>
-                      <div class="col-md-12" id="r_vacper">
+                      <div class="col-md-12" id="r_comser">
 
                       </div>
                     </div>
@@ -86,90 +66,116 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
 
     </section>
     <!-- /.Sección de Busqueda -->
-    <!--Modal Nuevas vacaciones-->
-    <div class="modal fade" id="m_nvacaciones" role="dialog" aria-labelledby="myModalLabel">
-      <form id="f_nuevacaciones" action="" class="form-horizontal">
+    <!--Modal Nueva Comisión de Servicios-->
+    <div class="modal fade" id="m_ncomservicios" role="dialog" aria-labelledby="myModalLabel">
+
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel">Reprogramacion de Vacaciones</h4>
+            <h4 class="modal-title" id="myModalLabel">Nueva Comisión de Servicios</h4>
           </div>
-          <div class="modal-body" id="r_nuevacaciones">
+          <div class="modal-body">
+            <form id="f_ncomservicios" class="form-horizontal">
 
+            </form>
           </div>
           <div class="modal-footer">
-            <button type="submit" class="btn bg-teal" id="b_gnvac">Guardar</button>
+            <button type="submit" class="btn bg-teal" id="b_gncomser" form="f_ncomservicios">Guardar</button>
             <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
           </div>
         </div>
       </div>
-      </form>
+
     </div>
-    <!--Fin Modal Nuevas Vacaciones-->
-    <!--Modal editar vacaciones-->
-    <div class="modal fade" id="m_evacaciones" role="dialog" aria-labelledby="myModalLabel">
-      <form id="f_evacaciones" action="" class="form-horizontal">
+    <!--Fin Modal Nueva Comisión de Servicios-->
+    <!--Modal editar Comisión de Servicios-->
+    <div class="modal fade" id="m_ecomservicios" role="dialog" aria-labelledby="myModalLabel">
+
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel">Editar Vacaciones</h4>
+            <h4 class="modal-title" id="myModalLabel">Editar Comisión de Servicios</h4>
           </div>
-          <div class="modal-body" id="r_evacaciones">
-
+          <div class="modal-body" >
+            <form id="f_ecomservicios" action="" class="form-horizontal">
+            </form>
           </div>
           <div class="modal-footer">
-            <button type="submit" class="btn bg-teal" id="b_gevacaciones">Guardar</button>
+            <button type="submit" class="btn bg-teal" id="b_gecomser" form="f_ecomservicios">Guardar</button>
             <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
           </div>
         </div>
       </div>
-      </form>
+
     </div>
-    <!--Fin Modal editar Vacaciones-->
-    <!--Modal Cancelar vacaciones-->
-    <div class="modal fade" id="m_cvacaciones" role="dialog" aria-labelledby="myModalLabel">
-      <form id="f_cvacaciones" action="" class="form-horizontal">
+    <!--Fin Modal editar Comisión de Servicios-->
+    <!--Modal Detalle Comisión de Servicios-->
+    <div class="modal fade" id="m_dcomservicios" role="dialog" aria-labelledby="myModalLabel">
+
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Detalle de la Comisión de Servicios</h4>
+          </div>
+          <div class="modal-body">
+            <form id="f_dcomservicios" action="" class="form-horizontal">
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!--Fin Modal Detalle Comisión de Servicios-->
+    <!--Modal Cancelar Comisión de Servicios-->
+    <div class="modal fade" id="m_ccomservicios" role="dialog" aria-labelledby="myModalLabel">
+
       <div class="modal-dialog modal-ls" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel">Cancelar Vacaciones</h4>
+            <h4 class="modal-title" id="myModalLabel">Cancelar Comisión de Servicios</h4>
           </div>
-          <div class="modal-body" id="r_cvacaciones">
-
+          <div class="modal-body">
+            <form id="f_ccomservicios" action="" class="form-horizontal">
+            </form>
           </div>
           <div class="modal-footer">
-            <button type="submit" class="btn bg-teal" id="b_sicvacaciones">Sí</button>
-            <button type="button" class="btn btn-default" id="b_nocvacaciones" data-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn bg-teal" id="b_siccomser" form="f_ccomservicios">Sí</button>
+            <button type="button" class="btn btn-default" id="b_noccomser" data-dismiss="modal" form="f_ccomservicios">Cancelar</button>
           </div>
         </div>
       </div>
-      </form>
+
     </div>
-    <!--Fin Modal Cancelar Vacaciones-->
-    <!--Modal Nuevo Período-->
-    <div class="modal fade" id="m_nperiodo" role="dialog" aria-labelledby="myModalLabel">
-      <form id="f_nperiodo" action="" class="form-horizontal">
-      <div class="modal-dialog modal-sm" role="document">
+    <!--Fin Modal Cancelar Comisión de Servicios-->
+    <!--Modal Nueva Encargatura-->
+    <div class="modal fade" id="m_nencargatura" role="dialog" aria-labelledby="myModalLabel">
+
+      <div class="modal-dialog modal-ls" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel">Nuevo Período Vacacional</h4>
+            <h4 class="modal-title" id="myModalLabel">Asignar Encargatura</h4>
           </div>
-          <div class="modal-body" id="r_nperiodo">
-
+          <div class="modal-body">
+            <form id="f_nencargatura" action="" class="form-horizontal">
+            </form>
           </div>
           <div class="modal-footer">
-            <button type="submit" class="btn bg-teal" id="b_gnperiodo">Guardar</button>
-            <button type="button" class="btn btn-default" id="b_cnperiodo" data-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn bg-teal" id="b_gnencarg" form="f_nencargatura">Guardar</button>
+            <button type="button" class="btn btn-default" id="b_cnencarg" data-dismiss="modal">Cancelar</button>
           </div>
         </div>
       </div>
-      </form>
+
     </div>
-    <!--Fin Modal Nuevo Período-->
+    <!--Fin Modal Nueva Encargatura-->
     <!--Modal nuevo documento-->
     <div class="modal fade" id="m_nuedocu" role="dialog" aria-labelledby="myModalLabel">
       <form id="f_nuedocu" action="" class="form-horizontal">

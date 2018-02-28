@@ -345,6 +345,21 @@ if(!empty($css)){
         </li>
         <?php
         }
+        if(accesocon($cone,$_SESSION['identi'],15)){
+        ?>
+        <li class="treeview" id="comservicios">
+          <a href="#">
+            <i class="fa fa-automobile"></i>
+            <span>Comisión de Servicios</span>
+            <i class="fa fa-angle-left pull-right"></i>
+          </a>
+          <ul class="treeview-menu">
+            <li id="pagcomservicios"><a href="pagcomservicios.php"><i class="fa fa-circle-o"></i> Registro</a></li>
+            <li id="repcomservicios"><a href="repcomservicios.php"><i class="fa fa-circle-o"></i> Reportes</a></li>
+          </ul>
+        </li>
+        <?php
+        }
         if(solucionador($cone, $_SESSION['identi'])){
         ?>
         <li class="treeview" id="mesaayuda">

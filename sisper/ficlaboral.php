@@ -25,10 +25,15 @@ $(document).ready(function(){
   $("#dtable<?php echo $i ?>").DataTable({
     "order": [[7,"asc"]]
   });
-<?php } ?>
-<?php if(!$v){ ?>
-    $("#b_provac").hide();
-<?php } ?>
+  <?php } ?>
+  <?php if(!$v){ ?>
+      $("#b_provac").hide();
+  <?php } ?>
+  
+  $('#dtcomser').DataTable({
+    "order": [[4,"asc"]]
+  });
+
 });
 </script>
 <?php
