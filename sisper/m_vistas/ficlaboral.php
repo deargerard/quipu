@@ -31,6 +31,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
           <ul class="nav nav-tabs">
             <li class="active"><a href="#tab_1" data-toggle="tab">Mis Vacaciones</a></li>
             <li><a href="#tab_2" data-toggle="tab">Mis Licencias</a></li>
+            <li><a href="#tab_3" data-toggle="tab">Mis Comisiones de Servicio</a></li>
           </ul>
           <div class="tab-content">
 
@@ -428,6 +429,88 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
               <!--fin div resultados-->
             </div>
             <!-- /.tab-pane 2 -->
+
+            <div class="tab-pane" id="tab_3">
+              <!--Encabezado-->
+              <div class="row">
+                <div class="col-sm-9">
+                  <p><h4 class="text-blue"><strong><i class="fa fa-user"></i> <?php echo nomempleado($cone,$idper); ?> </strong></h4></p>
+                </div>
+                <div class="col-sm-3">
+                  <input type="hidden" id="idper" value="<?php echo $idper?>"> <!--envía id de personal-->
+                </div>
+              </div>
+              <!--Fin Encabezado-->
+              <!--div resultados-->
+              <div class="row" id="reva">
+                <div class="col-md-12" id="vac">
+                  <?php
+
+                    $q="SELECT cs.idComServicios, concat(d.Numero,'-',d.Ano,'-',d.Siglas) AS Resolucion, d.FechaDoc, cs.FechaIni, cs.FechaFin, cs.Estado, SUBSTRING(cs.Descripcion, 1, 100) as Descripcion FROM comservicios cs INNER JOIN doc d ON cs.idDoc=d.idDoc WHERE cs.idEmpleado=$idper AND cs.Estado=1";
+
+                    $ccs=mysqli_query($cone,$q);
+
+                      if (mysqli_num_rows($ccs)>0){
+                        ?>
+                        <div class="row">
+                           <div class="col-sm-4">
+                             <h4 ><small class="<?php echo $col ?> text-center" style="font-weight: bold"><i class="fa fa-black-tie"></i> <?php echo cargoe($cone, $idper)." (ACTIVO)";?></small></h4>
+                           </div>
+                           <div class="col-sm-5">
+                              <h4 ><small class="<?php echo $col ?> text-center" style="font-weight: bold"><i class="fa fa-institution"></i> <?php echo dependenciae($cone, $idper);?></small></h4>
+                           </div>
+                        </div>
+                        <!--Fin div row-->
+                        <table id="dtcomser" class="table table-bordered table-hover"> <!--Tabla que Lista las comisiones-->
+                  			  <thead>
+                  					<tr>
+                  						<th>DESCRIPCIÓN DE LA COMISIÓN</th>
+                  						<th>INICIA</th>
+                  		        <th>TERMINA</th>
+                  						<th>NÚMERO DE RESOLUCIÓN</th>
+                  						<th>FECHA RES.</th>
+                  		        <!-- <th>ESTADO</th> -->
+                  					</tr>
+                  				</thead>
+                          <tbody>
+                      			<?php
+                      			$est="";
+                      			$cap="";
+                      			while($rcs=mysqli_fetch_assoc($ccs)){
+                      				if ($rcs['Estado']==1) {
+                      					$est="success";
+                      					$cap="Activa";
+                      				}elseif ($rcs['Estado']==2){
+                      					$est="danger";
+                      					$cap="Cancelada";
+                      				}
+                      			?>
+                      			<tr> <!--Fila de comisiones-->
+                      					<td><?php echo $rcs['Descripcion']?></td> <!--columna DESCRIPCIÓN-->
+                      					<td><?php echo date('d/m/Y H:i', strtotime($rcs['FechaIni']))?></td> <!--columna INICIO-->
+                      					<td><?php echo date('d/m/Y H:i', strtotime($rcs['FechaFin']))?></td> <!--columna FIN-->
+                      					<td><?php echo $rcs['Resolucion']?></td> <!--columna NÚMERO DE RESOLUCIÓN-->
+                      					<td><?php echo fnormal($rcs['FechaDoc'])?></td> <!--columna FECHA DOCUMENTO-->
+                      					<!-- <td><?php //echo $dt ?></td> columna CAMTIDAD DE DIAS-->
+                      					<!-- <td><span class='label label-<?php //echo $est?>'><?php //echo $cap?></span></td> --> <!--columna ESTADO-->
+                              </tr>
+                    				<?php
+                    				}
+                    				?>
+                      		</tbody>
+                          <!--fin tbody-->
+                        </table>
+                        <!--fin table-->
+                        <?php
+                        }else {
+                          echo mensajewa("No tiene Programadas Comisiones de Servicio");
+                        }
+                      ?>
+                </div>
+              </div>
+              <!--fin div resultados-->
+            </div>
+            <!-- /.tab-pane 3 -->
 
           </div>
           <!-- /.tab-content -->
