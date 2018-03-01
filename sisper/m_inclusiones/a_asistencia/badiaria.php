@@ -28,7 +28,7 @@ if(accesocon($cone,$_SESSION['identi'],2)){
 ?>
         <tr>
           <td><?php echo $j; ?></td>
-          <td><?php echo date("h:m:i A",strtotime($rasi['Marcacion'])); ?></td>
+          <td><?php echo date("h:i:s A",strtotime($rasi['Marcacion'])); ?></td>
           <td><?php echo nomempleado($cone,$rasi['idEmpleado']); ?></td>
           <td><?php echo nomvigilante($cone,$rasi['idVigilante']); ?></td>
         </tr>
