@@ -29,9 +29,12 @@ $(document).ready(function(){
   <?php if(!$v){ ?>
       $("#b_provac").hide();
   <?php } ?>
-  
+
   $('#dtcomser').DataTable({
     "order": [[4,"asc"]]
+  });
+  $('#dtrepasi').DataTable({
+    "order": [[2,"desc"]]
   });
 
 });

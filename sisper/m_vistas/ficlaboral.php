@@ -32,6 +32,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
             <li class="active"><a href="#tab_1" data-toggle="tab">Mis Vacaciones</a></li>
             <li><a href="#tab_2" data-toggle="tab">Mis Licencias</a></li>
             <li><a href="#tab_3" data-toggle="tab">Mis Comisiones de Servicio</a></li>
+            <li><a href="#tab_4" data-toggle="tab">Mi Asistencia</a></li>
           </ul>
           <div class="tab-content">
 
@@ -512,6 +513,76 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
             </div>
             <!-- /.tab-pane 3 -->
 
+            <div class="tab-pane" id="tab_4">
+              <!--Encabezado-->
+              <div class="row">
+                <div class="col-sm-9">
+                  <p><h4 class="text-blue"><strong><i class="fa fa-user"></i> <?php echo nomempleado($cone,$idper); ?> </strong></h4></p>
+                </div>
+                <div class="col-sm-3">
+                  <input type="hidden" id="idper" value="<?php echo $idper?>"> <!--envía id de personal-->
+                </div>
+              </div>
+              <!--Fin Encabezado-->
+              <!--div resultados-->
+              <div class="row" id="repasi">
+                <div class="col-md-12" id="repasi">
+                <?php
+
+                $fini = date("Y-m-d",strtotime("- 1 month", strtotime(date("Y-m")."-01")));
+                
+                $cm=mysqli_query($cone,"SELECT * FROM marcacion WHERE idEmpleado=$idper AND Marcacion>='$fini' ORDER BY Marcacion DESC;");
+                  if(mysqli_num_rows($cm)>0){
+
+                  ?>
+                  <div class="row">
+                     <div class="col-sm-4">
+                       <h4 ><small class="<?php echo $col ?> text-center" style="font-weight: bold"><i class="fa fa-black-tie"></i> <?php echo cargoe($cone, $idper)." (ACTIVO)";?></small></h4>
+                     </div>
+                     <div class="col-sm-5">
+                        <h4 ><small class="<?php echo $col ?> text-center" style="font-weight: bold"><i class="fa fa-institution"></i> <?php echo dependenciae($cone, $idper);?></small></h4>
+                     </div>
+                  </div>
+
+                  <table id="dtrepasi" class="table table-bordered table-hover">
+                    <thead>
+                      <tr>
+                        <th width="30">Nro</th>
+                        <th>DÍA</th>
+                        <th>FECHA</th>
+                        <th>MARCACIÓN</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                  <?php
+                          $n=0;
+                          while ($rm=mysqli_fetch_assoc($cm)) {
+                            $n++;
+                  ?>
+                      <tr>
+                        <td><?php echo $n; ?></td>
+                        <td><?php echo nombredia($rm['Marcacion']); ?></td>
+                        <td><span class="hidden"> <?php echo $rm['Marcacion'] ?></span> <?php echo date('d/m/Y', strtotime($rm['Marcacion'])); ?></td>
+                        <td><?php echo date('h:i:s A', strtotime($rm['Marcacion'])); ?></td>
+
+                  <?php
+                          }
+                  ?>
+                    </tbody>
+                  </table>
+                  <?php
+                        }else{
+                          echo mensajewa("No se encontraron marcaciones.");
+                        }
+                        mysqli_free_result($cm);
+
+                  ?>
+                </div>
+              </div>
+              <!--fin div resultados-->
+            </div>
+            <!-- /.tab-pane 4 -->
+
           </div>
           <!-- /.tab-content -->
         </div>
@@ -591,7 +662,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                   <span>3.3. Funciones según ROF</span>
                 </div>
                 <div class="col-sm-12">
-                  <textarea class="form-control" rows="3" id="comment"></textarea>
+                  <textarea class="form-control" rows="3" id="comment1"></textarea>
                 </div>
             </div>
           </div>
@@ -610,31 +681,31 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                   <span>4.2. Situación de los trabajos encomendados (Incluir trabajos pendientes si los hubiera)</span>
                 </div>
                 <div class="col-sm-12">
-                  <textarea class="form-control" rows="3" id="comment"></textarea>
+                  <textarea class="form-control" rows="3" id="comment2"></textarea>
                 </div>
                 <div class="col-sm-12">
                   <span>4.3. Relación de Expedientes, denuncias y/o documentos a mi cargo</span>
                 </div>
                 <div class="col-sm-12">
-                  <textarea class="form-control" rows="3" id="comment"></textarea>
+                  <textarea class="form-control" rows="3" id="comment3"></textarea>
                 </div>
                 <div class="col-sm-12">
                   <span>4.4. Relación de útiles de escritorio</span>
                 </div>
                 <div class="col-sm-12">
-                  <textarea class="form-control" rows="1" id="comment">Anexo: Cargo de bienes en uso</textarea>
+                  <textarea class="form-control" rows="1" id="comment4">Anexo: Cargo de bienes en uso</textarea>
                 </div>
                 <div class="col-sm-12">
                   <span>4.5. Relación de mobiliario, enseres y equipos de oficina</span>
                 </div>
                 <div class="col-sm-12">
-                  <textarea class="form-control" rows="1" id="comment">Anexo: Cargo de bienes en uso</textarea>
+                  <textarea class="form-control" rows="1" id="comment5">Anexo: Cargo de bienes en uso</textarea>
                 </div>
                 <div class="col-sm-12">
                   <span>4.6. Relación de documentos normativos o instructivos a su cargo</span>
                 </div>
                 <div class="col-sm-12">
-                  <textarea class="form-control" rows="3" id="comment"></textarea>
+                  <textarea class="form-control" rows="3" id="comment6"></textarea>
                 </div>
             </div>
           </div>
@@ -654,13 +725,13 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                   <span>5.2. Otros (Carnet de identidad, sello, placas, tarjetas institucioanles, fotocheck, credencial, etc.  )</span>
                 </div>
                 <div class="col-sm-12">
-                  <textarea class="form-control" rows="3" id="comment"></textarea>
+                  <textarea class="form-control" rows="3" id="comment7"></textarea>
                 </div>
                 <div class="col-sm-12">
                   <span>5.3. Constancia de no estar incurso dentro del compromiso de permanencia y capacitación (sólo en caso de renuncia)</span>
                 </div>
                 <div class="col-sm-12">
-                  <textarea class="form-control" rows="3" id="comment"></textarea>
+                  <textarea class="form-control" rows="3" id="comment8"></textarea>
                 </div>
             </div>
           </div>
@@ -686,14 +757,14 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 </div>
                 <div class="">
                   <div class="col-sm-12">
-                    <textarea class="form-control" rows="3" id="comment"></textarea>
+                    <textarea class="form-control" rows="3" id="comment9"></textarea>
                   </div>
                 </div>
                 <div class="col-sm-12">
                   <span>7.2. Datos del trabajador que recibe el cargo</span>
                 </div>
                 <div class="col-sm-12">
-                  <textarea class="form-control" rows="3" id="comment"></textarea>
+                  <textarea class="form-control" rows="3" id="comment10"></textarea>
                 </div>
             </div>
           </div>
