@@ -22,7 +22,7 @@ if(accesocon($cone,$_SESSION['identi'],15)){
 			$wecs.= $k==(count($estcs)-1) ? " cs.Estado=$estcs[$k])" : "cs.Estado=$estcs[$k] OR ";
 		}
 
-			$c="SELECT e.idEmpleado, e.NumeroDoc, cs.FechaIni, cs.FechaFin, concat(d.Numero,'-',d.Ano,'-',d.Siglas) AS Resolucion, SUBSTRING(cs.Descripcion, 1, 100) as Descripcion, cs.Estado from comservicios cs INNER JOIN empleado e ON e.idEmpleado=cs.idEmpleado INNER JOIN empleadocargo ec ON e.idEmpleado=ec.idEmpleadoCargo  INNER JOIN cardependencia cd ON ec.idEmpleadoCargo=cd.idEmpleadoCargo INNER JOIN doc d ON cs.idDoc=d.idDoc where (FechaIni BETWEEN '$mesini' AND '$mesfin') AND $wecs";
+			$c="SELECT e.idEmpleado, e.NumeroDoc, cs.FechaIni, cs.FechaFin, concat(d.Numero,'-',d.Ano,'-',d.Siglas) AS Resolucion, SUBSTRING(cs.Descripcion, 1, 100) as Descripcion, cs.Estado from comservicios cs INNER JOIN empleado e ON e.idEmpleado=cs.idEmpleado INNER JOIN doc d ON cs.idDoc=d.idDoc where (FechaIni BETWEEN '$mesini' AND '$mesfin') AND $wecs";
 			//echo $c." -- ".$mesini." -- ".$mesfin;
 			$ccs=mysqli_query($cone,$c);
 			if (mysqli_num_rows($ccs)>0) {
