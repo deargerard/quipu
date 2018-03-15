@@ -859,4 +859,14 @@ function condicionVac($cond){
 			break;
 	}
 }
+
+function nomhorario($con, $idh){
+	$idh=iseguro($con,$idh);
+	$ch=mysqli_query($con,"SELECT Descripcion FROM horario WHERE idHorario=$idh;");
+	if($rh=mysqli_fetch_assoc($ch)){
+		return $rh['Descripcion'];
+	}else{
+		return "Sin horario";
+	}
+}
 ?>

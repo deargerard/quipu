@@ -2,11 +2,11 @@
 session_start();
 include("../php/conexion_sp.php");
 include("../php/funciones.php");
-if(accesoadm($cone,$_SESSION['identi'],2)){
+if(accesocon($cone,$_SESSION['identi'],2)){
   if(isset($_POST['vig']) && !empty($_POST['vig'])){
     $vig=iseguro($cone,trim($_POST['vig']));
     if(strlen($vig)>=3){
-                        $cv=mysqli_query($cone,"SELECT * FROM vigilante WHERE CONCAT(TRIM(Apellidos),', ',TRIM(Nombres)) LIKE '%$vig%' ORDER BY Apellidos, Nombres ASC;");
+                        $cv=mysqli_query($cone,"SELECT * FROM vigilante WHERE CONCAT(TRIM(Apellidos),' ',TRIM(Nombres)) LIKE '%$vig%' ORDER BY Apellidos, Nombres ASC;");
                         $nr=mysqli_num_rows($cv);
                         if($nr>0){
                       ?>
@@ -20,7 +20,9 @@ if(accesoadm($cone,$_SESSION['identi'],2)){
                             <th>DNI</th>
                             <th>ULT. INGRESO</th>
                             <th>ESTADO</th>
+                            <?php if(accesoadm($cone,$_SESSION['identi'],2)){ ?>
                             <th>ACCIÓN</th>
+                            <?php } ?>
                           </tr>
                         </thead>
                         <tbody>
@@ -41,6 +43,7 @@ if(accesoadm($cone,$_SESSION['identi'],2)){
                             <td><?php echo $rv['DNI']; ?></td>
                             <td><?php echo $ui; ?></td>
                             <td><?php echo estado($rv['Estado']); ?></td>
+                            <?php if(accesoadm($cone,$_SESSION['identi'],2)){ ?>
                             <td>
                               <div class="btn-group">
                                 <button class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
@@ -59,6 +62,7 @@ if(accesoadm($cone,$_SESSION['identi'],2)){
                                 </ul>
                               </div>
                             </td>
+                            <?php } ?>
                           </tr>
                       <?php
                           }

@@ -754,6 +754,23 @@ function detper(idp){
   });
 }
 
+function actper(){
+  var datos=$("#f_bpermisos").serializeArray();
+  $.ajax({
+     type: "POST",
+     url: "m_inclusiones/a_asistencia/bpermisos.php",
+     dataType: "html",
+     data: datos,   // I WANT TO ADD EXTRA DATA + SERIALIZE DATA
+     beforeSend: function () {
+        $(".d_permisos").html("<p class='text-center'><img src='m_images/loader.gif'></p>");
+     },
+     success: function(data){
+        $(".d_permisos").html(data);
+        $(".d_permisos").slideDown();
+     }
+  });
+}
+
 function acthor(){
   $.ajax({
      type: "POST",
@@ -959,3 +976,48 @@ $("#f_estdlibre").submit(function(e){
   });
   e.preventDefault();
 });
+
+function hormen(mes, ndias, idp){
+  $.ajax({
+     type: "POST",
+     url: "m_inclusiones/a_asistencia/fahmensual.php",
+     dataType: "html",
+     data: {mes: mes, ndias: ndias, idp: idp},   // I WANT TO ADD EXTRA DATA + SERIALIZE DATA
+     beforeSend: function () {
+        $("#f_hmensual").html("<p class='text-center'><img src='m_images/loader.gif'></p>");
+        $("#b_ghmensual").hide();
+     },
+     success: function(data){
+        $("#f_hmensual").html(data);
+        $("#f_hmensual").slideDown();
+        $("#b_ghmensual").show();
+     }
+  });
+}
+
+$("#f_hmensual").submit(function(e){
+  var datos = $("#f_hmensual").serializeArray();
+  $.ajax({
+     type: "POST",
+     url: "m_inclusiones/a_asistencia/gahmensual.php",
+     dataType: "json",
+     data: datos,   // I WANT TO ADD EXTRA DATA + SERIALIZE DATA
+     beforeSend: function () {
+        $("#d_ahmensual").html("<p class='text-center'><img src='m_images/loader.gif'></p>");
+        $("#b_ghmensual").hide();
+     },
+     success: function(d){
+      if(d.e){
+        $("#f_hmensual").html(d.m);
+        $("#f_hmensual").slideDown();
+        actdlib();
+      }else{
+        $("#d_ahmensual").html(d.m);
+        $("#d_ahmensual").slideDown();
+        $("#b_ghmensual").show();
+      }
+     }
+  });
+  e.preventDefault();
+});
+

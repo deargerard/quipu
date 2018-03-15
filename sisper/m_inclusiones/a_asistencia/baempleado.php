@@ -34,7 +34,7 @@ if(accesocon($cone,$_SESSION['identi'],2)){
       <th>DÍA</th>
       <th>FECHA</th>
       <th>HORA</th>
-      <th>REPONSABLE</th>
+      <th>RESPONSABLE</th>
       <?php if(accesoadm($cone,$_SESSION['identi'],2)){ ?>
       <th>ACCIÓN</th>
       <?php } ?>

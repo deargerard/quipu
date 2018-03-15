@@ -17,9 +17,12 @@ if(accesoadm($cone,$_SESSION['identi'],2)){
         $hsal=iseguro($cone,$_POST['hsal']);
         $hingr=empty(iseguro($cone,$_POST['hingr'])) ? "NULL" : "'".iseguro($cone,$_POST['hingr'])."'";
         $hsalr=empty(iseguro($cone,$_POST['hsalr'])) ? "NULL" : "'".iseguro($cone,$_POST['hsalr'])."'";
-        $ssigd=iseguro($cone,$_POST['ssigd'])==1 ? 1 : 0; 
+        $ssigd=iseguro($cone,$_POST['ssigd'])==1 ? 1 : 0;
+        $esab=iseguro($cone,$_POST['esab'])==1 ? 1 : 0;
+        $edom=iseguro($cone,$_POST['edom'])==1 ? 1 : 0;
+        $rdlib=iseguro($cone,$_POST['rdlib'])==1 ? 1 : 0;
         $gu=true;
-        $pq="(Descripcion, ReqMarcacion, Ingreso, SalidaRef, IngresoRef, Salida, SalSigDia, Estado) VALUES ('$des', 1, '$hing', $hsalr, $hingr, '$hsal', $ssigd, 1)";
+        $pq="(Descripcion, ReqMarcacion, Ingreso, SalidaRef, IngresoRef, Salida, SalSigDia, Estado, ExcSabado, ExcDomingo, RDLibre) VALUES ('$des', 1, '$hing', $hsalr, $hingr, '$hsal', $ssigd, 1, $esab, $edom, $rdlib)";
       }else{
         $r['m']=mensajewa("Cuando se requiere marcar, son campos obligatorios la <b>H. Ingreso</b> y la <b>H. Salida</b>.");
         $r['e']=false;
