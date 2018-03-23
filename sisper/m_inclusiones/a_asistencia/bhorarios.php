@@ -18,7 +18,10 @@ if(accesocon($cone,$_SESSION['identi'],2)){
                               <th>H. SAL. REF.</th>
                               <th>H. ING. REF.</th>
                               <th>H. SAL.</th>
-                              <th>S. SIG. DÍA</th>
+                              <th>R.D.L.</th>
+                              <th>S.S.DÍA</th>
+                              <th>Exc. Sáb.</th>
+                              <th>Exc. Dom.</th>
                               <th>ESTADO</th>
                               <?php if(accesoadm($cone,$_SESSION['identi'],2)){ ?>
                               <th>ACCIÓN</th>
@@ -39,7 +42,10 @@ if(accesocon($cone,$_SESSION['identi'],2)){
                               <td><?php echo is_null($rh['SalidaRef']) ? "" : date("H:i",strtotime($rh['SalidaRef'])); ?></td>
                               <td><?php echo is_null($rh['IngresoRef']) ? "" : date("H:i",strtotime($rh['IngresoRef'])); ?></td>
                               <td><?php echo is_null($rh['Salida']) ? "" : date("H:i",strtotime($rh['Salida'])); ?></td>
+                              <td><?php echo $rh['RDLibre']==1 ? "Si" : "No"; ?></td>
                               <td><?php echo $rh['SalSigDia']==1 ? "Si" : "No"; ?></td>
+                              <td><?php echo $rh['ExcSabado']==1 ? "Si" : "No"; ?></td>
+                              <td><?php echo $rh['ExcDomingo']==1 ? "Si" : "No"; ?></td>
                               <td><?php echo $rh['Estado']==1 ? "<span class='label label-success'>Activo</span>" : "<span class='label label-danger'>Cancelado</span>"; ?></td>
                               <?php if(accesoadm($cone,$_SESSION['identi'],2)){ ?>
                               <td><button class="btn btn-default btn-xs" data-toggle="modal" data-target="#m_esthorario" onclick="esthor(<?php echo $rh['idHorario']; ?>);"><i class="fa fa-toggle-on"></i> <?php echo $rh['Estado']==1 ? "Cancelar" : "Activar"; ?></button></td>

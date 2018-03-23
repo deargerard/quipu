@@ -13,19 +13,19 @@ if(accesoadm($cone,$_SESSION['identi'],2)){
       $ideh=$rh['idEmpleadoHorario'];
       $q="UPDATE empleadohorario SET idHorario=$tur WHERE idEmpleadoHorario=$ideh;";
       if(mysqli_query($cone,$q)){
-        $r['m']="Turno cambiado!. (Si ya no realizará mas cambios, favor actualice.)";
+        $r['m']="Horario cambiado!. (Si ya no realizará mas cambios, favor actualice.)";
         $r['e']=true;
       }else{
-        $r['m']="Error al cambiar el turno, vuelva a intentarlo";
+        $r['m']="Error al cambiar el horario, vuelva a intentarlo";
         $r['e']=false;
       }
     }else{
       $q="INSERT INTO empleadohorario (idEmpleado, idHorario, Fecha, Estado) VALUES ($emp, $tur, '$fec', 1)";
       if(mysqli_query($cone,$q)){
-        $r['m']="Turno cambiado!. (Si ya no realizará mas cambios, favor actualice.)";
+        $r['m']="Horario cambiado!. (Si ya no realizará mas cambios, favor actualice.)";
         $r['e']=true;
       }else{
-        $r['m']="Error al cambiar el turno, vuelva a intentarlo";
+        $r['m']="Error al cambiar el horario, vuelva a intentarlo";
         $r['e']=false;
       }
     }

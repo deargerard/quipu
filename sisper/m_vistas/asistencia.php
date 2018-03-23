@@ -396,7 +396,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
     <div class="modal-content">  
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel"><i class="fa fa-toggle-on text-gray"></i> <span class="text-orange">Detalle Permiso</span></h4>
+        <h4 class="modal-title" id="myModalLabel"><i class="fa fa-file-text text-gray"></i> <span class="text-orange">Detalle Permiso</span></h4>
       </div>
       <div class="modal-body" id="d_dpermiso">
 
@@ -492,6 +492,27 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
   </div>
 </div>
 <!--Fin Modal estado día libre-->
+<!--Modal agregar día libre-->
+<div class="modal fade" id="m_hmensual" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel"><i class="fa fa-calendar-check-o text-gray"></i> <span class="text-orange">Horario Mensual</span></h4>
+      </div>
+      <div class="modal-body">
+        <form id="f_hmensual" class="form-horizontal">
+
+        </form>        
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn bg-teal" id="b_ghmensual" form="f_hmensual">Guardar</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Fin Modal agregar día libre-->
 
 <?php
   }else{
