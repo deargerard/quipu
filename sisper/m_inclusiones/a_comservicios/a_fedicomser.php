@@ -70,66 +70,26 @@ if(accesoadm($cone,$_SESSION['identi'],15)){
             </div>
 
         <script>
-          $('#inicom').datepicker({
-            format: "dd/mm/yyyy",
-            language: "es",
-            autoclose: true,
-            todayHighlight: true,
-          })
-          .on('changeDate', function(e){
-            var fechini = new Date(e.date.valueOf());
-            $('#fincom').datepicker('setStartDate', fechini);
-            var fechai= $("#inicom").val();
-            var fechaf= $("#fincom").val();
-            if (fechai!="" && fechaf!="") {
-              var aFecha1 = fechai.split('/');
-              var aFecha2 = fechaf.split('/');
-              var fFecha1 = Date.UTC(aFecha1[2],aFecha1[1]-1,aFecha1[0]);
-              var fFecha2 = Date.UTC(aFecha2[2],aFecha2[1]-1,aFecha2[0]);
-              var dif = fFecha2 - fFecha1;
-              var dias = Math.floor(dif / (1000 * 60 * 60 * 24))+1;
-              if(dias > 0){
-                $("#msg").html("<span class='text-success'>Usted está registrando una Comisión de servicios de "+dias+" días.</span>");
-              }else{
-                $("#msg").html('¡Error!, la fecha inicial no puede ser mayor a la fecha final.');
-                $("#inicom").val("");
-                $("#fincom").val("");
-              }
-            }else {
-              $("#msg").html("");
-            }
-           });
-           $(' #fincom').datepicker({
-             format: "dd/mm/yyyy",
-             language: "es",
-             autoclose: true,
-             todayHighlight: true,
+          $('#inicom').datetimepicker({
+            locale:'es',
+            useCurrent: false,
+            sideBySide:true,
+            format:'DD/MM/YYYY HH:mm',
+          }).on('dp.change', function(e){
+            $('#fincom').data('DateTimePicker').minDate(e.date.format ('DD-MM-YYYY'));
 
-           })
-           .on('changeDate', function(e){
-             var fechfin = new Date(e.date.valueOf());
-             $('#inicom').datepicker('setEndDate', fechfin);
-             var fechai= $("#inicom").val();
-             var fechaf= $("#fincom").val();
-             if (fechai!="" && fechaf!="") {
-               var aFecha1 = fechai.split('/');
-               var aFecha2 = fechaf.split('/');
-               var fFecha1 = Date.UTC(aFecha1[2],aFecha1[1]-1,aFecha1[0]);
-               var fFecha2 = Date.UTC(aFecha2[2],aFecha2[1]-1,aFecha2[0]);
-               var dif = fFecha2 - fFecha1;
-               var dias = Math.floor(dif / (1000 * 60 * 60 * 24))+1;
-               if(dias > 0){
-                $("#msg").html("<span class='text-success'>Usted está registrando una Comisión de servicios de "+dias+" días.</span>");
-               }else{
-                 $("#inicom").val("");
-                 $("#fincom").val("");
-                 $("#msg").html('¡Error!, la fecha inicial no puede ser mayor a la fecha final.');
-               }
-             }else{
-               $("#msg").html("");
-             }
-            });
-        //funcion seleccionar docuento
+          });
+
+
+          $('#fincom').datetimepicker({
+            locale:'es',
+            format:'DD/MM/YYYY HH:mm',
+            useCurrent: false,
+            sideBySide:true,
+          }).on('dp.change', function(e){
+            $('#inicom').data('DateTimePicker').maxDate(e.date.format ('DD-MM-YYYY'));
+          });
+        //funcion seleccionar documento
            $(".select2doc").select2({
              placeholder: 'Selecione a un documento',
              ajax: {
@@ -145,7 +105,7 @@ if(accesoadm($cone,$_SESSION['identi'],15)){
              },
              minimumInputLength: 1
            });
-        //fin funcion seleccionar docuento
+        //fin funcion seleccionar documento
            //funcion llamar formulario nuevo documento
             $("#b_nuedoc").on("click",function(e){
               $.ajax({
