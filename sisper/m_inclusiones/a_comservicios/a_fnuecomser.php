@@ -89,7 +89,7 @@ $('#fincom').datetimepicker({
      },
      minimumInputLength: 1
    });
-//fin funcion seleccionar docuento
+//fin funcion seleccionar documento
 //funcion llamar formulario nuevo documento
   $("#b_nuedoc").on("click",function(e){
     $.ajax({
