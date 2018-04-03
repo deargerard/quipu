@@ -1,3 +1,13 @@
 .salto{
 	white-space:normal;
 }
+#catable > tbody > tr > td{
+	border: 1px solid #bbb;
+}
+#catable > tbody > tr > th{
+	border: 1px solid #bbb;
+}
+#catable > thead > tr > th{
+	border: 1px solid #bbb;
+	border-bottom-width: 2px;
+}

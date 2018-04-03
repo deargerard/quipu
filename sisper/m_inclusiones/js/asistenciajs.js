@@ -1021,3 +1021,46 @@ $("#f_hmensual").submit(function(e){
   e.preventDefault();
 });
 
+function elimar(idm, mar){
+  $.ajax({
+     type: "POST",
+     url: "m_inclusiones/a_asistencia/felmarcacion.php",
+     dataType: "html",
+     data: {idm: idm, mar: mar},   // I WANT TO ADD EXTRA DATA + SERIALIZE DATA
+     beforeSend: function () {
+        $("#f_elmarcacion").html("<p class='text-center'><img src='m_images/loader.gif'></p>");
+        $("#b_sielmarcacion").hide();
+     },
+     success: function(data){
+        $("#f_elmarcacion").html(data);
+        $("#f_elmarcacion").slideDown();
+        $("#b_sielmarcacion").show();
+     }
+  });
+}
+
+$("#f_elmarcacion").submit(function(e){
+  var datos = $("#f_elmarcacion").serializeArray();
+  $.ajax({
+     type: "POST",
+     url: "m_inclusiones/a_asistencia/gelmarcacion.php",
+     dataType: "json",
+     data: datos,   // I WANT TO ADD EXTRA DATA + SERIALIZE DATA
+     beforeSend: function () {
+        $("#r_elmarcacion").html("<p class='text-center'><img src='m_images/loader.gif'></p>");
+        $("#b_sielmarcacion").hide();
+     },
+     success: function(d){
+      if(d.e){
+        $("#f_elmarcacion").html(d.m);
+        $("#f_elmarcacion").slideDown();
+        amarmen();
+      }else{
+        $("#r_elmarcacion").html(d.m);
+        $("#r_elmarcacion").slideDown();
+        $("#b_sielmarcacion").show();
+      }
+     }
+  });
+  e.preventDefault();
+});

@@ -167,8 +167,9 @@ if(accesocon($cone,$_SESSION['identi'],2)){
                   $nj="<small style='font-size:70%;'>Com. Servicios<br>".$rcs['Numero']."-".$rcs['Ano']."-".$rcs['Siglas']."</small>";
                 }else{
                   //consultamos si el día esta considerado como día libre
-                  $cdl=mysqli_query($cone, "SELECT * FROM dialibre WHERE Fecha='$fec';");
-                  if($rdl=mysqli_fetch_assoc($cdl) && $rslib){
+                  $cdl=mysqli_query($cone, "SELECT * FROM dialibre WHERE Fecha='$fec' AND Estado=1;");
+                  if(($rdl=mysqli_fetch_assoc($cdl)) && $rdlib){
+                    $dj=true;
                     $nj="<small style='font-size:70%;'>".$rdl['Descripcion']."</small>";
                   }else{
                     //Consultamos permiso por onomastico
@@ -259,7 +260,14 @@ if(accesocon($cone,$_SESSION['identi'],2)){
                       $mirf=date('h:i A', strtotime($mir));
                       //calculamos la tardanza
                       if($mir>=$ingrt){
-                        $tir=floor((strtotime($mir)-strtotime($ftingref))/60);
+                        //buscamos si tiene algún tipo de permiso
+                        $cper=mysqli_query($cone,"SELECT TipPermiso FROM permiso p INNER JOIN tippermiso tp ON p.idTipPermiso=tp.idTipPermiso WHERE FechaIni='$ftingref' AND p.idEmpleado=$emp AND p.Estado=1;");
+                        if($rper=mysqli_fetch_assoc($cper)){
+                            $nj.="<small style='font-size:70%;'> (P) ".$rper['TipPermiso']."</small>";                        
+                        }else{
+                          $tir=floor((strtotime($mir)-strtotime($ftingref))/60);
+                        }
+                        mysqli_free_result($cper);
                       }
                     }else{
                       //acciones cuando no marco el ingreso de refrigerio

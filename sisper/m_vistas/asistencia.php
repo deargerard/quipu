@@ -327,6 +327,27 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
   </div>
 </div>
 <!--Fin Modal editar marcación-->
+<!--Modal eliminar marcación-->
+<div class="modal fade" id="m_elmarcacion" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">  
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel"><i class="fa fa-trash text-gray"></i> <span class="text-orange">Eliminar Marcación</span></h4>
+      </div>
+      <div class="modal-body">
+        <form id="f_elmarcacion" class="form-horizontal">
+
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-danger" id="b_sielmarcacion" form="f_elmarcacion">Si</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Fin Modal eliminar marcación-->
 <!--Modal agregar permiso-->
 <div class="modal fade" id="m_apermiso" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
