@@ -211,7 +211,7 @@ if(accesocon($cone,$_SESSION['identi'],2)){
                   //calcular tardanza
                   if($mi>=$ingt && $mi<$ingf){
                     $ti=floor(((strtotime($mi)-strtotime($fting))/60));
-                  }elseif($mi>$ingf){
+                  }elseif($mi>=$ingf){
                     //Buscamos si tiene permiso por marcación fuera de horario
                     $cper=mysqli_query($cone,"SELECT TipPermiso FROM permiso p INNER JOIN tippermiso tp ON p.idTipPermiso=tp.idTipPermiso WHERE FechaIni='$fting' AND p.idTipPermiso=7 AND p.idEmpleado=$emp AND p.Estado=1;");
                     if($rper=mysqli_fetch_assoc($cper)){
