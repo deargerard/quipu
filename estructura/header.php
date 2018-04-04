@@ -44,7 +44,7 @@
                 <a href="https://casillas.pj.gob.pe/sinoe/login.xhtml" target="_blank"><i class="fa fa-envelope-square"></i> SINOE PJ</a>
             </li>
             <li>
-                <a href="https://casillas.pj.gob.pe/msiap/faces/login.jsp" target="_blank"><i class="fa fa-user-secret"></i> MSIAP PJ</a>
+                <a href="https://casillas.pj.gob.pe/msiap/faces/login.jsp" target="_blank"><i class="fa fa-folder"></i> MSIAP PJ</a>
             </li>
           </ul>
         </nav>

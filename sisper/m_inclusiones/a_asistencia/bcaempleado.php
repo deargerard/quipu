@@ -200,7 +200,7 @@ if(accesocon($cone,$_SESSION['identi'],2)){
                   $mi=$rmi['Marcacion'];
                   $mif=date('h:i A', strtotime($mi));
                   //calcular tardanza
-                  if($mi>=$ingt && $mi<=$ingf){
+                  if($mi>=$ingt && $mi<$ingf){
                     $ti=floor(((strtotime($mi)-strtotime($fting))/60));
                   }elseif($mi>$ingf){
                     //Buscamos si tiene permiso por marcación fuera de horario

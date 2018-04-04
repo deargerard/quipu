@@ -20,7 +20,7 @@ if(accesoadm($cone,$_SESSION['identi'],2)){
 
 <?php
     }else{
-      echo mensajewa("No cuenta con permisos para editar las marcaciones.");
+      echo mensajewa("No cuenta con permisos para eliminar las marcaciones.");
     }
     mysqli_free_result($cv);
   }else{
