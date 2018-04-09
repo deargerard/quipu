@@ -161,7 +161,7 @@ if(accesocon($cone,$_SESSION['identi'],2)){
                 }
               }else{
                 //Consultamos Comisión de servicio
-                $ccs=mysqli_query($cone, "SELECT d.Numero, d.Ano, d.Siglas FROM comservicios cs INNER JOIN doc d ON cs.idDoc=d.idDoc WHERE ('$fec' BETWEEN cs.FechaIni AND cs.FechaFin) AND cs.idEmpleado=$emp AND cs.Estado=1;");
+                $ccs=mysqli_query($cone, "SELECT d.Numero, d.Ano, d.Siglas FROM comservicios cs INNER JOIN doc d ON cs.idDoc=d.idDoc WHERE ('$fec' BETWEEN DATE_FORMAT(cs.FechaIni,'%Y-%m-%d') AND DATE_FORMAT(cs.FechaFin,'%Y-%m-%d')) AND cs.idEmpleado=$emp AND cs.Estado=1;");
                 if($rcs=mysqli_fetch_assoc($ccs)){
                   $dj=true;
                   $nj="<small style='font-size:70%;'>Com. Servicios<br>".$rcs['Numero']."-".$rcs['Ano']."-".$rcs['Siglas']."</small>";
