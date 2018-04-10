@@ -23,7 +23,7 @@ if(acceso($cone,$idusu,1)){
 				$d['mensaje']=mensajesu("Documento registrado y asignado.");
 			}else{
 				$d['exito']=false;
-				$d['mensaje']=mensajewa("Error al registrar, vuelva a intantarlo. ");
+				$d['mensaje']=mensajewa("Error al registrar, vuelva a intentarlo.".mysqli_error($cone));
 			}
 		}else{
 			$d['exito']=false;

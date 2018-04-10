@@ -20,9 +20,11 @@ $("#b_regasi").click(function(){
 		dataType: 'json',
 		beforeSend: function(){
 			$("#r_regasi").html('<i class="fa fa-spinner fa-spin"></i>');
+			$("#b_regasi").hide();
 		},
 		success: function(e){
 			$("#r_regasi").html(e.mensaje);
+			$("#b_regasi").show();
 			if(e.exito){
 				$("#doc").val("");
 				$("#ori").val("");
