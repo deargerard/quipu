@@ -34,7 +34,7 @@ if(isset($_SESSION['nusu']) && !empty($_SESSION['nusu']) && isset($_SESSION['idu
                                   <select class="form-control" name="per" id="per">
                                     <option value="t">TODOS</option>
                                   <?php
-                                    $cp=mysqli_query($cone, "SELECT u.idUsuario, Nombres, Apellidos FROM usuario u INNER JOIN modusu mu ON u.idUsuario=mu.idUsuario WHERE mu.idModulo=2 ORDER BY Apellidos, Nombres DESC;");
+                                    $cp=mysqli_query($cone, "SELECT u.idUsuario, Nombres, Apellidos FROM usuario u INNER JOIN modusu mu ON u.idUsuario=mu.idUsuario WHERE mu.idModulo=2 AND mu.Estado=1 AND u.Estado=1 ORDER BY Apellidos, Nombres DESC;");
                                     if(mysqli_num_rows($cp)>0){
                                       while ($rp=mysqli_fetch_assoc($cp)) {
                                   ?>
@@ -109,7 +109,7 @@ if(isset($_SESSION['nusu']) && !empty($_SESSION['nusu']) && isset($_SESSION['idu
                                   <select class="form-control" name="pera" id="pera">
                                     <option value="t">Todos</option>
                                   <?php
-                                    $cp=mysqli_query($cone, "SELECT u.idUsuario, Nombres, Apellidos FROM usuario u INNER JOIN modusu mu ON u.idUsuario=mu.idUsuario WHERE mu.idModulo=1 ORDER BY Apellidos, Nombres DESC;");
+                                    $cp=mysqli_query($cone, "SELECT u.idUsuario, Nombres, Apellidos FROM usuario u INNER JOIN modusu mu ON u.idUsuario=mu.idUsuario WHERE mu.idModulo=1 AND mu.Estado=1 AND u.Estado=1 ORDER BY Apellidos, Nombres DESC;");
                                     if(mysqli_num_rows($cp)>0){
                                       while ($rp=mysqli_fetch_assoc($cp)) {
                                   ?>

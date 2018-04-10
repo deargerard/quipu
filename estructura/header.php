@@ -41,7 +41,7 @@
                 <a href="/asistencia/" target="_blank"><i class="fa fa-calendar"></i> Asistencia</a>
             </li>
             <li>
-                <a href="/notificaciones/" target="_blank"><i class="fa fa-motorcycle"></i> NOTI</a>
+                <a href="/notificaciones/" target="_blank"><i class="fa fa-file-text-o"></i> NOTI</a>
             </li>
             <li>
                 <a href="https://casillas.pj.gob.pe/sinoe/login.xhtml" target="_blank"><i class="fa fa-envelope-square"></i> SINOE PJ</a>

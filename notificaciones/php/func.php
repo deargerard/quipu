@@ -189,7 +189,7 @@ function modnotificacion($mnot){
             return "Se nego firmar";
             break;
         default:
-            return "Sin modo de notificación";
+            return "Sin modo";
             break;
     }
 }
