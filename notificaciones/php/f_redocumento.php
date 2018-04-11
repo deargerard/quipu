@@ -35,6 +35,7 @@ if(acceso($cone,$idusu,2)){
                               <option value="2">Bajo Puerta</option>
                               <option value="3">No se ubicó dirección</option>
                               <option value="4">Se nego firmar</option>
+                              <option value="5">Mesa de partes</option>
                             </select>
                           </div>
                         </div>

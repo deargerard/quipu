@@ -188,6 +188,9 @@ function modnotificacion($mnot){
         case 4:
             return "Se nego firmar";
             break;
+        case 5:
+            return "Mesa de partes";
+            break;
         default:
             return "Sin modo";
             break;
