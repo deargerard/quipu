@@ -412,3 +412,221 @@ $("#f_contrasena").submit(function(e){
 		}
 	});
 });
+
+$("#b_geguia").click(function(){
+	var datos = $("#f_geguia").serializeArray();
+	$.ajax({
+		method: "POST",
+		url: "php/g_geguia.php",
+		data: datos,
+		dataType: 'json',
+		beforeSend: function(){
+			$("#r_geguia").html('<i class="fa fa-spinner fa-spin"></i>');
+			$("#b_geguia").hide();
+		},
+		success: function(e){
+			$("#r_geguia").html(e.mensaje);
+			$("#b_geguia").show();
+			if(e.exito){
+				$("#des").val("");
+				aguia();
+			}
+		}
+	});
+});
+
+function aguia(){
+	$.ajax({
+		method: "POST",
+		url: "php/a_guia.php",
+		dataType: 'html',
+		beforeSend: function(){
+			$("#d_guia").html('<i class="fa fa-spinner fa-spin"></i>');
+		},
+		success: function(e){
+			$("#d_guia").html(e);
+		}
+	});
+}
+
+function edguia(idg){
+	$.ajax({
+		method: "POST",
+		url: "php/f_edguia.php",
+		data: {idg: idg},
+		dataType: 'html',
+		beforeSend: function(){
+			$("#b_edguia").hide();
+			$("#f_edguia").html('<i class="fa fa-spinner fa-spin"></i>');
+		},
+		success: function(e){
+			$("#b_edguia").show();
+			$("#f_edguia").html(e);
+		}
+	});
+}
+
+$("#f_edguia").submit(function(e){
+	e.preventDefault();
+	var datos = $("#f_edguia").serializeArray();
+	$.ajax({
+		method: "POST",
+		url: "php/g_edguia.php",
+		data: datos,
+		dataType: 'json',
+		beforeSend: function(){
+			$("#r_edguia").html('<i class="fa fa-spinner fa-spin"></i>');
+			$("#b_edguia").hide();
+		},
+		success: function(e){
+			if(e.exito){
+				$("#f_edguia").html(e.mensaje);
+				aguia();
+			}else{
+				$("#r_edguia").html(e.mensaje);
+				$("#b_edguia").show();
+			}
+		}
+	});
+});
+
+$("#b_indoc").click(function(){
+	var datos = $("#f_indoc").serializeArray();
+	$.ajax({
+		method: "POST",
+		url: "php/g_indoc.php",
+		data: datos,
+		dataType: 'json',
+		beforeSend: function(){
+			$("#r_indoc").html('<i class="fa fa-spinner fa-spin"></i>');
+			$("#b_indoc").hide();
+		},
+		success: function(e){
+			$("#r_indoc").html(e.mensaje);
+			$("#b_indoc").show();
+			if(e.exito){
+				$("#num").val("");
+				$("#tip").val("");
+				$("#ori").val("");
+				$("#rem").val("");
+				$("#des").val("");
+				$("#dest").val("");
+				$("#dcar").prop("checked", false);
+				var guia =$("#guia").val();
+				adoc(guia);
+			}
+		}
+	});
+});
+
+function adoc(guia){
+	$.ajax({
+		method: "POST",
+		url: "php/a_doc.php",
+		data: {guia: guia},
+		dataType: 'html',
+		beforeSend: function(){
+			$("#d_doc").html('<i class="fa fa-spinner fa-spin"></i>');
+		},
+		success: function(e){
+			$("#d_doc").html(e);
+		}
+	});
+}
+
+function eddoc(idd){
+	$.ajax({
+		method: "POST",
+		url: "php/f_eddoc.php",
+		data: {idd: idd},
+		dataType: 'html',
+		beforeSend: function(){
+			$("#b_eddoc").hide();
+			$("#f_eddoc").html('<i class="fa fa-spinner fa-spin"></i>');
+		},
+		success: function(e){
+			$("#b_eddoc").show();
+			$("#f_eddoc").html(e);
+		}
+	});
+}
+
+$("#f_eddoc").submit(function(e){
+	e.preventDefault();
+	var datos = $("#f_eddoc").serializeArray();
+	$.ajax({
+		method: "POST",
+		url: "php/g_eddoc.php",
+		data: datos,
+		dataType: 'json',
+		beforeSend: function(){
+			$("#r_eddoc").html('<i class="fa fa-spinner fa-spin"></i>');
+			$("#b_eddoc").hide();
+		},
+		success: function(e){
+			if(e.exito){
+				$("#f_eddoc").html(e.mensaje);
+				var guia =$("#guia").val();
+				adoc(guia);
+			}else{
+				$("#r_eddoc").html(e.mensaje);
+				$("#b_eddoc").show();
+			}
+		}
+	});
+});
+
+function dedoc(idd){
+	$.ajax({
+		method: "POST",
+		url: "php/f_dedoc.php",
+		data: {idd: idd},
+		dataType: 'html',
+		beforeSend: function(){
+			$("#f_dedoc").html('<i class="fa fa-spinner fa-spin"></i>');
+		},
+		success: function(e){
+			$("#f_dedoc").html(e);
+		}
+	});
+}
+
+function eldoc(idd){
+	$.ajax({
+		method: "POST",
+		url: "php/f_eldoc.php",
+		data: {idd: idd},
+		dataType: 'html',
+		beforeSend: function(){
+			$("#f_eldoc").html('<i class="fa fa-spinner fa-spin"></i>');
+		},
+		success: function(e){
+			$("#f_eldoc").html(e);
+		}
+	});
+}
+
+$("#f_eldoc").submit(function(e){
+	e.preventDefault();
+	var datos = $("#f_eldoc").serializeArray();
+	$.ajax({
+		method: "POST",
+		url: "php/g_eldoc.php",
+		data: datos,
+		dataType: 'json',
+		beforeSend: function(){
+			$("#r_eldoc").html('<i class="fa fa-spinner fa-spin"></i>');
+			$("#b_eldoc").hide();
+		},
+		success: function(e){
+			if(e.exito){
+				$("#f_eldoc").html(e.mensaje);
+				var guia =$("#guia").val();
+				adoc(guia);
+			}else{
+				$("#r_eldoc").html(e.mensaje);
+				$("#b_eldoc").show();
+			}
+		}
+	});
+});
