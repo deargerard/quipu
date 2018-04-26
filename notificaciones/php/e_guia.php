@@ -36,12 +36,12 @@ if(isset($_SESSION['nusu']) && !empty($_SESSION['nusu']) && isset($_SESSION['idu
                           </tr>
                         </thead>
                       </table>
+                      <table border="1">
                       <?php
                       $q="SELECT d.*, td.Tipo FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc WHERE d.idGuia=$guia AND d.Cargo=0;";
                       $cd=mysqli_query($cone, $q);
                       if(mysqli_num_rows($cd)>0){
                       ?>
-                      <table border="1">
                         <thead>
                           <tr>
                             <th colspan="9" bgcolor="#B2BABB"><font color="#FFFFFF">PARA DELIGENCIAMIENTO</font></th>
