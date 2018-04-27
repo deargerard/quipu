@@ -1,5 +1,19 @@
 <?php
 session_start();
+?>
+      <style type="text/css">
+      <!--
+        .tabla td { border: 1px solid #CCC; padding: 0 3px; }
+        .tabla th { border: 1px solid #CCC; padding: 0 3px; }
+        .tabla { border-collapse: collapse; width: 100%;}
+        .tablasb td th {border: none;}
+        .tablasb { border-collapse: collapse; width: 100%;}
+        table.page_header {width: 100%; border: none; border-bottom: solid 1px #AAAAAA; padding: 2px 4px }
+        table.page_footer {width: 100%; border: none; border-top: solid 1px #AAAAAA; padding: 2px 4px}
+      -->
+      </style>
+<page backtop="40px" backbottom="30px" backleft="0" backright="0">
+<?php
 include("../m_inclusiones/php/conexion_sp.php");
 include("../m_inclusiones/php/funciones.php");
 if(accesocon($cone,$_SESSION['identi'],2)){
@@ -39,57 +53,36 @@ if(accesocon($cone,$_SESSION['identi'],2)){
       mysqli_free_result($ccm2);
 
 
-?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Asistencia</title>
-      <style type="text/css">
-        .tabla td { border: 1px solid #CCC; padding: 0 3px; }
-        .tabla th { border: 1px solid #CCC; padding: 0 3px; }
-        .tabla { border-collapse: collapse; }
-        .tablasb td th {border: none;}
-        .tablasb { border-collapse: collapse; }
-      </style>
-</head>
-<body>
-  
-
-
-
-  <table class="tablasb" align='center'>
+?>  
+  <table class="tablasb">
     <tr>
-      <th width="300">ASISTENCIA: <?php echo strtoupper(nombremes($mesano[0])).' - '.$mesano[1]; ?></th>
-      <th width="400"><?php echo nomempleado($cone,$emp); ?></th>
+      <th style="width: 50%;"><?php echo nomempleado($cone,$emp); ?></th>
+      <th style="width: 50%; text-align: right;">ASISTENCIA: <?php echo strtoupper(nombremes($mesano[0])).' - '.$mesano[1]; ?></th>
     </tr>
   </table>
 
-<br>
+  <br>
 <?php
       if(!$cm){
-        echo mensajewa("No le corresponde asistencia.");
+        echo "No le corresponde asistencia.";
       }else{
         //validamos si se selecciono el mes actual de modo que la fecha final sera en día actual.
         if(date('Y-m')==$fm){
           $ff=date('Y-m-d');
         }
 ?>
-        <table class="tabla" width="100%">
-          <thead>
+        <table class="tabla">
             <tr>
-              <th><small>Día</small></th>
-              <th><small>Ingreso</small></th>
-              <th><small>Sal. Ref.</small></th>
-              <th><small>Ing. Ref.</small></th>
-              <th><small>Salida</small></th>
-              <th width="100"><small>Justificación/Motivo</small></th>
-              <th><small>Min. Tarde</small></th>
-              <th><small>Incidente</small></th>
-              <th><small>Horario</small></th>
+              <th style="width: 4%;"><small>Día</small></th>
+              <th style="width: 9%;"><small>Ingreso</small></th>
+              <th style="width: 9%;"><small>Sal. Ref.</small></th>
+              <th style="width: 9%;"><small>Ing. Ref.</small></th>
+              <th style="width: 9%;"><small>Salida</small></th>
+              <th style="width: 35%;"><small>Justificación/Motivo</small></th>
+              <th style="width: 8%"><small>Min. Tarde</small></th>
+              <th style="width: 8%"><small>Incidente</small></th>
+              <th style="width: 9%"><small>Horario</small></th>
             </tr>
-          </thead>
-          <tbody>
 <?php
 
       $nf=0;
@@ -141,21 +134,21 @@ if(accesocon($cone,$_SESSION['identi'],2)){
           $cv=mysqli_query($cone, "SELECT d.Numero, d.Ano, d.Siglas FROM empleadocargo ec INNER JOIN provacaciones pv ON ec.idEmpleadoCargo=pv.idEmpleadoCargo INNER JOIN aprvacaciones av ON pv.idProVacaciones=av.idProVacaciones INNER JOIN doc d ON av.idDoc=d.idDoc WHERE ('$fec' BETWEEN pv.FechaIni AND pv.FechaFin) AND ec.idEmpleado=$emp AND pv.estado!=2;");
           if($rv=mysqli_fetch_assoc($cv)){
             $dj=true;
-            $nj="<small style='font-size:70%;'>Vacaciones<br>".$rv['Numero']."-".$rv['Ano']."-".$rv['Siglas']."</small>";
+            $nj="<small style='font-size:70%;'>Vacaciones<br>".$rv['Numero']."-".$rv['Ano']."-".$rv['Siglas']."</small><br>";
           }else{
             //validamos si el turno excluye sabado o domingo
             if($nomdia=="Sábado" && $esab==1){
               $dj=true;
-              $nj="<small style='font-size:70%;'>Descanso</small>";
+              $nj="<small style='font-size:70%;'>Descanso</small><br>";
             }elseif($nomdia=="Domingo" && $edom==1){
               $dj=true;
-              $nj="<small style='font-size:70%;'>Descanso</small>";
+              $nj="<small style='font-size:70%;'>Descanso</small><br>";
             }else{
               //Colsultamos licencia
               $cl=mysqli_query($cone, "SELECT d.Numero, d.Ano, d.Siglas, tl.MotivoLic, tl.TipoLic FROM empleadocargo ec INNER JOIN licencia l ON ec.idEmpleadoCargo=l.idEmpleadoCargo INNER JOIN aprlicencia al ON l.idLicencia=al.idLicencia INNER JOIN doc d ON al.idDoc=d.idDoc INNER JOIN tipolic tl ON l.idTipoLic=tl.idTipoLic WHERE ('$fec' BETWEEN l.FechaIni AND l.FechaFin) AND ec.idEmpleado=$emp AND l.Estado=1;");
               if($rl=mysqli_fetch_assoc($cl)){
                 $dj=true;
-                $nj="<small style='font-size:70%;'>(L) ".$rl['MotivoLic']."<br>".$rl['Numero']."-".$rl['Ano']."-".$rl['Siglas']."</small>";
+                $nj="<small style='font-size:70%;'>(L) ".$rl['MotivoLic']."<br>".$rl['Numero']."-".$rl['Ano']."-".$rl['Siglas']."</small><br>";
                 if($rl['TipoLic']=="Sin goce"){
                   $lsg++;
                 }
@@ -164,19 +157,19 @@ if(accesocon($cone,$_SESSION['identi'],2)){
                 $ccs=mysqli_query($cone, "SELECT d.Numero, d.Ano, d.Siglas FROM comservicios cs INNER JOIN doc d ON cs.idDoc=d.idDoc WHERE ('$fec' BETWEEN DATE_FORMAT(cs.FechaIni,'%Y-%m-%d') AND DATE_FORMAT(cs.FechaFin,'%Y-%m-%d')) AND cs.idEmpleado=$emp AND cs.Estado=1;");
                 if($rcs=mysqli_fetch_assoc($ccs)){
                   $dj=true;
-                  $nj="<small style='font-size:70%;'>Com. Servicios<br>".$rcs['Numero']."-".$rcs['Ano']."-".$rcs['Siglas']."</small>";
+                  $nj="<small style='font-size:70%;'>Com. Servicios<br>".$rcs['Numero']."-".$rcs['Ano']."-".$rcs['Siglas']."</small><br>";
                 }else{
                   //consultamos si el día esta considerado como día libre
                   $cdl=mysqli_query($cone, "SELECT * FROM dialibre WHERE Fecha='$fec' AND Estado=1;");
                   if(($rdl=mysqli_fetch_assoc($cdl)) && $rdlib){
                     $dj=true;
-                    $nj="<small style='font-size:70%;'>".$rdl['Descripcion']."</small>";
+                    $nj="<small style='font-size:70%;'>".$rdl['Descripcion']."</small><br>";
                   }else{
                     //Consultamos permiso por onomastico
                     $cpe=mysqli_query($cone, "SELECT idTipPermiso FROM permiso WHERE DATE_FORMAT(FechaIni,'%Y-%m-%d')='$fec' AND idEmpleado=$emp AND idTipPermiso=5");
                     if($rpe=mysqli_fetch_assoc($cpe)){
                       $dj=true;
-                      $nj="<small style='font-size:70%;'> (P) Onomástico</small>";
+                      $nj="<small style='font-size:70%;'> (P) Onomástico</small><br>";
                     }
                     mysqli_free_result($cpe);
                   }
@@ -190,7 +183,7 @@ if(accesocon($cone,$_SESSION['identi'],2)){
           mysqli_free_result($cv);
         }else{
           $dj=true;
-          $nj="<small style='font-size:70%;'></small>";
+          $nj="<small style='font-size:70%;'></small><br>";
         }
         
         //validamos si su día tiene justificación
@@ -216,7 +209,7 @@ if(accesocon($cone,$_SESSION['identi'],2)){
                     $cper=mysqli_query($cone,"SELECT TipPermiso FROM permiso p INNER JOIN tippermiso tp ON p.idTipPermiso=tp.idTipPermiso WHERE FechaIni='$fting' AND p.idTipPermiso=7 AND p.idEmpleado=$emp AND p.Estado=1;");
                     if($rper=mysqli_fetch_assoc($cper)){
                       $ti=60;
-                      $nj.="<small style='font-size:70%;'> (P) ".$rper['TipPermiso']."</small>";
+                      $nj.="<small style='font-size:70%;'> (P) ".$rper['TipPermiso']."</small><br>";
                     }else{
                       $incd="En Falta";
                     }
@@ -230,9 +223,9 @@ if(accesocon($cone,$_SESSION['identi'],2)){
                   if($rper=mysqli_fetch_assoc($cper)){
                     if($rper['idTipPermiso']==7){
                       $ti=60;
-                      $nj.="<small style='font-size:70%;'> (P) ".$rper['TipPermiso']."</small>";
+                      $nj.="<small style='font-size:70%;'> (P) ".$rper['TipPermiso']."</small><br>";
                     }else{
-                      $nj.="<small style='font-size:70%;'> (P) ".$rper['TipPermiso']."</small>";
+                      $nj.="<small style='font-size:70%;'> (P) ".$rper['TipPermiso']."</small><br>";
                     }
                     
                   }else{
@@ -263,7 +256,7 @@ if(accesocon($cone,$_SESSION['identi'],2)){
                         //buscamos si tiene algún tipo de permiso
                         $cper=mysqli_query($cone,"SELECT TipPermiso FROM permiso p INNER JOIN tippermiso tp ON p.idTipPermiso=tp.idTipPermiso WHERE FechaIni='$ftingref' AND p.idEmpleado=$emp AND p.Estado=1;");
                         if($rper=mysqli_fetch_assoc($cper)){
-                            $nj.="<small style='font-size:70%;'> (P) ".$rper['TipPermiso']."</small>";                        
+                            $nj.="<small style='font-size:70%;'> (P) ".$rper['TipPermiso']."</small><br>";                        
                         }else{
                           $tir=floor((strtotime($mir)-strtotime($ftingref))/60);
                         }
@@ -274,7 +267,7 @@ if(accesocon($cone,$_SESSION['identi'],2)){
                       //buscamos si tiene algún tipo de permiso
                       $cper=mysqli_query($cone,"SELECT TipPermiso FROM permiso p INNER JOIN tippermiso tp ON p.idTipPermiso=tp.idTipPermiso WHERE FechaIni='$ftingref' AND p.idEmpleado=$emp AND p.Estado=1;");
                       if($rper=mysqli_fetch_assoc($cper)){
-                          $nj.="<small style='font-size:70%;'> (P) ".$rper['TipPermiso']."</small>";                        
+                          $nj.="<small style='font-size:70%;'> (P) ".$rper['TipPermiso']."</small><br>";                        
                       }else{
                         $incd="En Falta";
                       }
@@ -285,7 +278,7 @@ if(accesocon($cone,$_SESSION['identi'],2)){
                     //Como no marcó buscamos algun tipo de permiso
                     $cper=mysqli_query($cone,"SELECT TipPermiso FROM permiso p INNER JOIN tippermiso tp ON p.idTipPermiso=tp.idTipPermiso WHERE FechaFin='$ftsalref' AND p.idEmpleado=$emp AND p.Estado=1;;");
                     if($rper=mysqli_fetch_assoc($cper)){
-                      $nj.="<small style='font-size:70%;'> (P) ".$rper['TipPermiso']."</small>";
+                      $nj.="<small style='font-size:70%;'> (P) ".$rper['TipPermiso']."</small><br>";
                       //buscamos la marcación de ingreso de refrigerio
                       $ftingref=$fec." ".$ingref;
                       $ingr1=date('Y-m-d H:i:s',strtotime('-30 minute', strtotime($ftingref)));
@@ -304,7 +297,7 @@ if(accesocon($cone,$_SESSION['identi'],2)){
                         //buscamos si tiene algún tipo de permiso
                         $cper1=mysqli_query($cone,"SELECT TipPermiso FROM permiso p INNER JOIN tippermiso tp ON p.idTipPermiso=tp.idTipPermiso WHERE FechaIni='$ftingref' AND p.idEmpleado=$emp AND p.Estado=1;");
                         if($rper1=mysqli_fetch_assoc($cper1)){
-                            $nj.="<small style='font-size:70%;'> (P) ".$rper1['TipPermiso']."</small>";                        
+                            $nj.="<small style='font-size:70%;'> (P) ".$rper1['TipPermiso']."</small><br>";                        
                         }else{
                           $incd="En Falta";
                         }
@@ -333,7 +326,7 @@ if(accesocon($cone,$_SESSION['identi'],2)){
                   //Buscar si tiene permiso
                   $cper=mysqli_query($cone,"SELECT TipPermiso FROM permiso p INNER JOIN tippermiso tp ON p.idTipPermiso=tp.idTipPermiso WHERE FechaFin='$ftsal' AND p.idEmpleado=$emp AND p.Estado=1;;");
                   if($rper=mysqli_fetch_assoc($cper)){
-                      $nj.="<small style='font-size:70%;'> (P) ".$rper['TipPermiso']."</small>";                    
+                      $nj.="<small style='font-size:70%;'> (P) ".$rper['TipPermiso']."</small><br>";                    
                   }else{
                     $incd="En Falta";
                   }
@@ -376,7 +369,6 @@ if(accesocon($cone,$_SESSION['identi'],2)){
               <th><small><?php echo $tmes; ?> Min.</small></th>
               <th colspan="2"><small><?php echo $nf; ?> Falta(s)</small></th>
             </tr>
-          </tbody>
         </table>
         <?php
         $cpp=mysqli_query($cone,"SELECT * FROM permiso WHERE idEmpleado=$emp AND DATE_FORMAT(FechaIni,'%Y-%m')='$fm' AND idTipPermiso=6 AND Estado=1;");
@@ -384,9 +376,9 @@ if(accesocon($cone,$_SESSION['identi'],2)){
         ?>
         <br>
         <table class="tabla">
-          <thead>
+
           <tr>
-            <th colspan="5"><small>Permisos Particulares</small></th>
+            <th colspan="5" style="width: 100%;"><small>Permisos Particulares</small></th>
           </tr>
           <tr>
             <th><small>#</small></th>
@@ -395,7 +387,7 @@ if(accesocon($cone,$_SESSION['identi'],2)){
             <th><small>Aprobador</small></th>
             <th><small>Minutos</small></th>
           </tr>
-          </thead>
+
         <?php
           $npsg=0;
           $ttmin=0;
@@ -424,7 +416,7 @@ if(accesocon($cone,$_SESSION['identi'],2)){
         }
         mysqli_free_result($cpp);
         ?>
-        <div>
+        <table class="tablasb">
           <?php
           $fo=$fm."-01";
           $cob=mysqli_query($cone,"SELECT Observacion FROM amobservacion WHERE idEmpleado=$emp AND Mes='$fo';");
@@ -434,19 +426,20 @@ if(accesocon($cone,$_SESSION['identi'],2)){
             $obs="";
           }
           ?>
-          <div>
-              <?php echo "$obs"; ?>
-          </div>
-        </div>
-</body>
-</html>
+          <tr>
+            <td><?php echo "$obs"; ?></td>
+          </tr>
+        </table>
+
+
 <?php
       }
     }else{
-      echo mensajewa("Error: El mes/año no es válido.");
+      echo "Error: El mes/año no es válido.";
     }
 
 }else{
-  echo accrestringidoa();
+  echo "Acceso restringido.";
 }
 ?>
+</page>

@@ -56,7 +56,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                       <input type="text" class="form-control" id="mesano" name="mesano" placeholder="Mes/Año">
                   </div>
                   <div class="form-group valida">
-                      <select class="form-control select2peract" name="emp" id="emp" style="width: 350px;">
+                      <select class="form-control select2pertot" name="emp" id="emp" style="width: 350px;">
                       </select>
                   </div>
 
