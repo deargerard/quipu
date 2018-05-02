@@ -59,9 +59,10 @@ if(acceso($cone,$idusu,3)){
                             </div>
                           </div>
                           <div class="col-3">
-                            <button type="button" class="btn btn-primary" id="b_indoc">Ingresar</button>
-                            <a href="php/e_guia.php?guia=<?php echo $guia; ?>" class="btn btn-secondary" title="Exportar"> <i class="fa fa-file-excel-o"></i> </a>
-                            <a href="reguia.php" class="btn btn-secondary" title="Regresar a guías"><i class="fa fa-chevron-circle-left"></i></a>
+                            <button type="button" class="btn btn-primary btn-sm" id="b_indoc">Ingresar</button>
+                            <a href="php/e_guia.php?guia=<?php echo $guia; ?>" class="btn btn-secondary btn-sm" title="Exportar excel"> <i class="fa fa-file-excel-o"></i> </a>
+                            <a href="php/e_guiapdf.php?guia=<?php echo $guia; ?>" class="btn btn-secondary btn-sm" title="Exportar pdf" target="_blank"> <i class="fa fa-file-pdf-o"></i> </a>
+                            <a href="reguia.php" class="btn btn-secondary btn-sm" title="Regresar a guías"><i class="fa fa-chevron-circle-left"></i></a>
                           </div>
                         </div>
                       </form>

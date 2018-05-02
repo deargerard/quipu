@@ -13,7 +13,7 @@ $("#mesano, #mesanoc").datepicker({
   minViewMode: "months",
   maxViewMode: "months",
   startDate: '01/2000',
-  endDate: new Date(),
+  //endDate: new Date(),
   startView: "month" //does not work
 });
 $("#anop, #anodl").datepicker({

@@ -52,7 +52,7 @@ if(accesocon($cone,$_SESSION['identi'],2)){
     <?php if(accesoadm($cone,$_SESSION['identi'],2) && $cm){ ?>
     <a href="#" class="btn btn-sm bg-aqua" onclick="hormen(<?php echo "'".$fm."', ".$ndias.", ".$emp; ?>);" data-toggle="modal" data-target="#m_hmensual"><i class="fa fa-calendar-check-o"></i> Horario mensual</a>
     <?php } ?>
-    <a href="m_exportar/e_asistenciapdf.php?mesanoc=<?php echo $mesanoj; ?>&per=<?php echo $emp; ?>&car=<?php echo $car; ?>" class="btn btn-sm bg-teal" target="_blank"><i class="fa fa-file-pdf-o"></i> Exportar</a>
+    <a href="m_exportar/e_casistencia.php?mesanoc=<?php echo $mesanoj; ?>&per=<?php echo $emp; ?>&car=<?php echo $car; ?>" class="btn btn-sm bg-teal" target="_blank"><i class="fa fa-file-pdf-o"></i> Exportar</a>
     <a href="#" class="btn btn-sm bg-orange" onclick="acasistencia(<?php echo "'".$mesanoj."', ".$emp.", ".$car; ?>);"><i class="fa fa-refresh"></i> Actualizar</a>
   </div>
 </div>
