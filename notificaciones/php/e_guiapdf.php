@@ -82,9 +82,9 @@ if(isset($_GET['guia']) && !empty($_GET['guia'])){
 		<tr>
 			<td align="center"><?php echo $n; ?></td>
 			<td align="center"><?php echo $guia; ?></td>
-			<td align="center"><?php echo wordwrap($rdg['Tipo'],16,"<br/>\n",true); ?></td>
-			<td align="center"><?php echo wordwrap($rdg['Numero'],16,"<br/>\n",true); ?></td>
-			<td><?php echo wordwrap($rdg['Origen'],36,"<br/>\n",true); ?></td>
+			<td align="center"><?php echo wordwrap(html_entity_decode($rdg['Tipo']),16,"<br/>\n",true); ?></td>
+			<td align="center"><?php echo wordwrap(html_entity_decode($rdg['Numero']),16,"<br/>\n",true); ?></td>
+			<td><?php echo wordwrap(html_entity_decode($rdg['Origen']),36,"<br/>\n",true); ?></td>
 			<td><?php echo wordwrap($rdg['Remitente'],36,"<br/>\n",true); ?></td>
 			<td><?php echo wordwrap($rdg['Destino'],36,"<br/>\n",true); ?></td>
 			<td><?php echo wordwrap($rdg['Destinatario'],36,"<br/>\n",true); ?></td>
@@ -119,12 +119,12 @@ if(isset($_GET['guia']) && !empty($_GET['guia'])){
 		<tr>
 			<td align="center"><?php echo $n; ?></td>
 			<td align="center"><?php echo $guia; ?></td>
-			<td align="center"><?php echo wordwrap($rdg1['Tipo'],16,"<br/>\n",true); ?></td>
-			<td align="center"><?php echo wordwrap($rdg1['Numero'],16,"<br/>\n",true); ?></td>
-			<td><?php echo wordwrap($rdg1['Origen'],36,"<br/>\n",true); ?></td>
-			<td><?php echo wordwrap($rdg1['Remitente'],36,"<br/>\n",true); ?></td>
-			<td><?php echo wordwrap($rdg1['Destino'],36,"<br/>\n",true); ?></td>
-			<td><?php echo wordwrap($rdg1['Destinatario'],36,"<br/>\n",true); ?></td>
+			<td align="center"><?php echo wordwrap(html_entity_decode($rdg1['Tipo']),16,"<br/>\n",true); ?></td>
+			<td align="center"><?php echo wordwrap(html_entity_decode($rdg1['Numero']),16,"<br/>\n",true); ?></td>
+			<td><?php echo wordwrap(html_entity_decode($rdg1['Origen']),36,"<br/>\n",true); ?></td>
+			<td><?php echo wordwrap(html_entity_decode($rdg1['Remitente']),36,"<br/>\n",true); ?></td>
+			<td><?php echo wordwrap(html_entity_decode($rdg1['Destino']),36,"<br/>\n",true); ?></td>
+			<td><?php echo wordwrap(html_entity_decode($rdg1['Destinatario']),36,"<br/>\n",true); ?></td>
 			<td align="center"><?php echo date("d/m/Y", strtotime($rg['Fecha'])); ?></td>
 		</tr>
 <?php
@@ -139,7 +139,7 @@ if(isset($_GET['guia']) && !empty($_GET['guia'])){
 <?php
 		$html=ob_get_clean();
 
-		$html2pdf=new Html2Pdf('L','A4','es','true','UTF-8', array(5,5,5,1));
+		$html2pdf=new Html2Pdf('L','A4','es','true','UTF-8', array(5,5,5,2));
 		$html2pdf->writeHTML($html);
 		$html2pdf->output('guia.pdf');
 	}else{
