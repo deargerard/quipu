@@ -85,9 +85,9 @@ if(isset($_GET['guia']) && !empty($_GET['guia'])){
 			<td align="center"><?php echo wordwrap(html_entity_decode($rdg['Tipo']),16,"<br/>\n",true); ?></td>
 			<td align="center"><?php echo wordwrap(html_entity_decode($rdg['Numero']),16,"<br/>\n",true); ?></td>
 			<td><?php echo wordwrap(html_entity_decode($rdg['Origen']),36,"<br/>\n",true); ?></td>
-			<td><?php echo wordwrap($rdg['Remitente'],36,"<br/>\n",true); ?></td>
-			<td><?php echo wordwrap($rdg['Destino'],36,"<br/>\n",true); ?></td>
-			<td><?php echo wordwrap($rdg['Destinatario'],36,"<br/>\n",true); ?></td>
+			<td><?php echo wordwrap(html_entity_decode($rdg['Remitente']),36,"<br/>\n",true); ?></td>
+			<td><?php echo wordwrap(html_entity_decode($rdg['Destino']),36,"<br/>\n",true); ?></td>
+			<td><?php echo wordwrap(html_entity_decode($rdg['Destinatario']),36,"<br/>\n",true); ?></td>
 			<td align="center"><?php echo date("d/m/Y", strtotime($rg['Fecha'])); ?></td>
 		</tr>
 <?php
@@ -133,13 +133,13 @@ if(isset($_GET['guia']) && !empty($_GET['guia'])){
 		mysqli_free_result($cdg1);
 ?>
 	</table>
-	<p>DEVOLVER CARGO EXTERNO CON CURIER</p>
+	<p>DEVOLVER CARGO EXTERNO CON COURIER</p>
 
 </page> 
 <?php
 		$html=ob_get_clean();
 
-		$html2pdf=new Html2Pdf('L','A4','es','true','UTF-8', array(5,5,5,2));
+		$html2pdf=new Html2Pdf('L','A4','es','true','UTF-8', array(5,5,5,3));
 		$html2pdf->writeHTML($html);
 		$html2pdf->output('guia.pdf');
 	}else{
