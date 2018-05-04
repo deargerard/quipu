@@ -396,7 +396,7 @@ if(isset($_GET['mesanoc']) && !empty($_GET['mesanoc']) && isset($_GET['per']) &&
               <td><?php echo $nj; ?></td>
               <td align="center"><?php echo "<small style='font-size: 80%;'>".$tdia."</small>"; ?></td>
               <td><?php echo "<small style='font-size: 80%;'>".$incd."</small>"; ?></td>
-              <td><?php echo "<small style='font-size: 80%;'>".wordwrap(nomhorario($cone, $idh),28,"<br/>\n",true)."</small>"; ?></td>
+              <td><?php echo "<small style='font-size: 80%;'>".wordwrap(html_entity_decode(nomhorario($cone, $idh)),28,"<br/>\n",true)."</small>"; ?></td>
             </tr>
 <?php
       }
