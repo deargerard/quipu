@@ -29,7 +29,7 @@
                 <a href="/sisper/" target="_blank"><i class="fa fa-group"></i> Quipu</a>
             </li>
             <li>
-                <a href="https://djmail.mpfn.gob.pe" target="_blank"><i class="fa fa-envelope"></i> Correo</a>
+                <a href="https://mail.google.com" target="_blank"><i class="fa fa-envelope"></i> Correo</a>
             </li>
             <li>
                 <a href="http://sistemas2.mpfn.gob.pe/" target="_blank"><i class="fa fa-dashboard"></i> Sistemas2</a>

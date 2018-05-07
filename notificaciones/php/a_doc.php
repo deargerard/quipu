@@ -11,7 +11,7 @@ if(acceso($cone,$idusu,3)){
                       $cd=mysqli_query($cone, "SELECT idDoc, Numero, Origen, Destino, Tipo, Cargo FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc WHERE idGuia=$guia ORDER BY idDoc DESC;");
                       if(mysqli_num_rows($cd)>0){
                       ?>
-                      <table class="table table-bordered table-hover">
+                      <table class="table table-bordered table-hover" id="dt_gdoc">
                         <thead>
                           <tr>
                             <th>#</th>
@@ -52,6 +52,38 @@ if(acceso($cone,$idusu,3)){
                       ?>
                         </tbody>
                       </table>
+                      <script>
+                        $("#dt_gdoc").DataTable({
+                          dom: 'Bfrtip',
+                          buttons: [
+                            {
+                                extend: 'copy',
+                                text: '<i class="fa fa-copy"></i>',
+                                titleAttr: 'Copiar'
+                            },
+                            {
+                                extend: 'csv',
+                                text: '<i class="fa fa-file-text-o"></i>',
+                                titleAttr: 'CSV'
+                            },
+                            {
+                                extend: 'excel',
+                                text: '<i class="fa fa-file-excel-o"></i>',
+                                titleAttr: 'Excel'
+                            },
+                            {
+                                extend: 'pdf',
+                                text: '<i class="fa fa-file-pdf-o"></i>',
+                                titleAttr: 'PDF'
+                            },
+                            {
+                                extend: 'print',
+                                text: '<i class="fa fa-print"></i>',
+                                titleAttr: 'Imprimir'
+                            }
+                          ]
+                        });
+                      </script>
                       <?php
                       }else{
                         echo mensajewa("Aún no ha resgistrado ningún documento");

@@ -17,7 +17,7 @@ if(acceso($cone,$idusu,2)){
                       $cd=mysqli_query($cone, "SELECT * FROM documento WHERE idResponsable=$idusu AND (Estado=1 OR Estado=4) ORDER BY FecRegistro, idDocumento DESC;");
                       if(mysqli_num_rows($cd)>0){
                       ?>
-                      <table class="table table-bordered table-hover">
+                      <table class="table table-bordered table-hover" id="dt_reportar">
                         <thead>
                           <tr>
                             <th>#</th>

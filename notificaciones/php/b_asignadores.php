@@ -54,7 +54,7 @@ if(isset($_SESSION['nusu']) && !empty($_SESSION['nusu']) && isset($_SESSION['idu
                       $cd=mysqli_query($cone, $q);
                       if(mysqli_num_rows($cd)>0){
                       ?>
-                      <table class="table table-bordered table-hover">
+                      <table class="table table-bordered table-hover" id="dt_asignadores">
                         <thead>
                           <tr>
                             <th>#</th>
@@ -103,6 +103,38 @@ if(isset($_SESSION['nusu']) && !empty($_SESSION['nusu']) && isset($_SESSION['idu
                       ?>
                         </tbody>
                       </table>
+                      <script>
+                        $("#dt_asignadores").DataTable({
+                          dom: 'Bfrtip',
+                          buttons: [
+                            {
+                                extend: 'copy',
+                                text: '<i class="fa fa-copy"></i>',
+                                titleAttr: 'Copiar'
+                            },
+                            {
+                                extend: 'csv',
+                                text: '<i class="fa fa-file-text-o"></i>',
+                                titleAttr: 'CSV'
+                            },
+                            {
+                                extend: 'excel',
+                                text: '<i class="fa fa-file-excel-o"></i>',
+                                titleAttr: 'Excel'
+                            },
+                            {
+                                extend: 'pdf',
+                                text: '<i class="fa fa-file-pdf-o"></i>',
+                                titleAttr: 'PDF'
+                            },
+                            {
+                                extend: 'print',
+                                text: '<i class="fa fa-print"></i>',
+                                titleAttr: 'Imprimir'
+                            }
+                          ]
+                        });
+                      </script>
                       <?php
                       }else{
                         echo mensajewa("No se hallaron resultados");

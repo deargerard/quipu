@@ -85,7 +85,7 @@ if(acceso($cone,$idusu,3)){
                       $cd=mysqli_query($cone, "SELECT idDoc, Numero, Origen, Destino, Tipo, Cargo FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc WHERE idGuia=$guia ORDER BY idDoc DESC;");
                       if(mysqli_num_rows($cd)>0){
                       ?>
-                      <table class="table table-bordered table-hover">
+                      <table class="table table-bordered table-hover" id="dt_gdoc">
                         <thead>
                           <tr>
                             <th>#</th>

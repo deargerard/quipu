@@ -61,9 +61,9 @@ if(accesocon($cone,$_SESSION['identi'],2)){
         echo mensajewa("No le corresponde asistencia.");
       }else{
         //validamos si se selecciono el mes actual de modo que la fecha final sera en día actual.
-        if(date('Y-m')==$fm){
-          $ff=date('Y-m-d');
-        }
+        //if(date('Y-m')==$fm){
+          //$ff=date('Y-m-d');
+        //}
 ?>
         <input type="hidden" name="mesanoa" id="mesanoa" value="<?php echo $mesanoj; ?>">
         <table class="table table-bordered table-hover" id="catable">

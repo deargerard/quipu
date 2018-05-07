@@ -6,10 +6,10 @@ include '../const.php';
 $idusu=$_SESSION['idusu'];
 if(acceso($cone,$idusu,3)){
 
-                      $cd=mysqli_query($cone, "SELECT g.*, d.Destino FROM guia g INNER JOIN destino d ON g.idDestino=d.idDestino ORDER BY idGuia DESC LIMIT 20;");
+                      $cd=mysqli_query($cone, "SELECT g.*, d.Destino FROM guia g INNER JOIN destino d ON g.idDestino=d.idDestino ORDER BY idGuia DESC LIMIT 50;");
                       if(mysqli_num_rows($cd)>0){
                       ?>
-                      <table class="table table-bordered table-hover">
+                      <table class="table table-bordered table-hover" id="dt_guia">
                         <thead>
                           <tr>
                             <th>#</th>
@@ -45,6 +45,38 @@ if(acceso($cone,$idusu,3)){
                       ?>
                         </tbody>
                       </table>
+                      <script>
+                        $("#dt_guia").DataTable({
+                          dom: 'Bfrtip',
+                          buttons: [
+                            {
+                                extend: 'copy',
+                                text: '<i class="fa fa-copy"></i>',
+                                titleAttr: 'Copiar'
+                            },
+                            {
+                                extend: 'csv',
+                                text: '<i class="fa fa-file-text-o"></i>',
+                                titleAttr: 'CSV'
+                            },
+                            {
+                                extend: 'excel',
+                                text: '<i class="fa fa-file-excel-o"></i>',
+                                titleAttr: 'Excel'
+                            },
+                            {
+                                extend: 'pdf',
+                                text: '<i class="fa fa-file-pdf-o"></i>',
+                                titleAttr: 'PDF'
+                            },
+                            {
+                                extend: 'print',
+                                text: '<i class="fa fa-print"></i>',
+                                titleAttr: 'Imprimir'
+                            }
+                          ]
+                        });
+                      </script>
                       <?php
                       }else{
                         echo mensajewa("Aún no ha resgistrado ninguna guía");

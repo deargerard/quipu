@@ -19,6 +19,9 @@
     <link rel="shortcut icon" href="img/favicon.ico">
     <!-- datepicker -->
     <link rel="stylesheet" href="vendor/datepicker/datepicker3.css">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="vendor/datatables/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="vendor/datatables/buttons.dataTables.min.css">
     <!-- Tweaks for older IEs--><!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->

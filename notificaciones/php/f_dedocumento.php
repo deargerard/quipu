@@ -19,19 +19,15 @@ if(isset($_SESSION['nusu']) && !empty($_SESSION['nusu']) && isset($_SESSION['idu
 		</tr>
 		<tr>
 			<th>Responsable</th>
-			<td><small><?php echo nomusuario($cone, $rd['idResponsable']); ?></small>
-</small></td>
+			<td><small><?php echo nomusuario($cone, $rd['idResponsable']); ?></small></td>
 			<th>Asignada por</th>
-			<td><small><?php echo nomusuario($cone, $rd['idAsignador']); ?></small>
-</small></td>
+			<td><small><?php echo nomusuario($cone, $rd['idAsignador']); ?></small></td>
 		</tr>
 		<tr>
 			<th>Origen</th>
-			<td><small><?php echo $rd['Origen']; ?></small>
-</small></td>
+			<td><small><?php echo $rd['Origen']; ?></small></td>
 			<th>Destino</th>
-			<td><small><?php echo $rd['Destino']; ?></small>
-</small></td>
+			<td><small><?php echo $rd['Destino']; ?></small></td>
 		</tr>
 		<tr>
 			<th>F. Recepción</th>

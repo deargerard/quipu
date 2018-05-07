@@ -133,7 +133,7 @@ if(isset($_GET['guia']) && !empty($_GET['guia'])){
 		mysqli_free_result($cdg1);
 ?>
 	</table>
-	<p>DEVOLVER CARGO EXTERNO CON COURIER</p>
+	<span>DEVOLVER CARGO EXTERNO CON COURIER</span>
 
 </page> 
 <?php

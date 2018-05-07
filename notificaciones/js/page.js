@@ -11,6 +11,39 @@ $("#fec").datepicker({
     todayHighlight: true
 });
 
+
+$("#dt_reportar,#dt_guia,#dt_gdoc").DataTable({
+  dom: 'Bfrtip',
+  buttons: [
+    {
+        extend: 'copy',
+        text: '<i class="fa fa-copy"></i>',
+        titleAttr: 'Copiar'
+    },
+    {
+        extend: 'csv',
+        text: '<i class="fa fa-file-text-o"></i>',
+        titleAttr: 'CSV'
+    },
+    {
+        extend: 'excel',
+        text: '<i class="fa fa-file-excel-o"></i>',
+        titleAttr: 'Excel'
+    },
+    {
+        extend: 'pdf',
+        text: '<i class="fa fa-file-pdf-o"></i>',
+        titleAttr: 'PDF'
+    },
+    {
+        extend: 'print',
+        text: '<i class="fa fa-print"></i>',
+        titleAttr: 'Imprimir'
+    }
+  ]
+});
+
+
 $("#b_regasi").click(function(){
 	var datos = $("#f_regasi").serializeArray();
 	$.ajax({
@@ -511,10 +544,11 @@ $("#b_indoc").click(function(){
 				$("#rem").val("");
 				$("#des").val("");
 				$("#dest").val("");
-				$("#dcar").prop("checked", false);
+				//$("#dcar").prop("checked", false);
 				var guia =$("#guia").val();
 				adoc(guia);
 			}
+			$("#tip").focus().select();
 		}
 	});
 });
@@ -627,6 +661,22 @@ $("#f_eldoc").submit(function(e){
 				$("#r_eldoc").html(e.mensaje);
 				$("#b_eldoc").show();
 			}
+		}
+	});
+});
+$("#f_bdocumento").submit(function(e){
+	e.preventDefault();
+	var datos = $("#f_bdocumento").serializeArray();
+	$.ajax({
+		method: "POST",
+		url: "php/b_documento.php",
+		data: datos,
+		dataType: 'html',
+		beforeSend: function(){
+			$("#d_reportes").html('<i class="fa fa-spinner fa-spin"></i>');
+		},
+		success: function(e){
+			$("#d_reportes").html(e);
 		}
 	});
 });

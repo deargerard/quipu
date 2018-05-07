@@ -23,6 +23,9 @@ if(isset($_SESSION['nusu']) && !empty($_SESSION['nusu']) && isset($_SESSION['idu
                         <li class="nav-item">
                           <a class="nav-link" id="profile-tab" data-toggle="tab" href="#asignadores" role="tab" aria-controls="profile" aria-selected="false">Asignadores</a>
                         </li>
+                        <li class="nav-item">
+                          <a class="nav-link" id="profile-tab" data-toggle="tab" href="#bdocumento" role="tab" aria-controls="profile" aria-selected="false">Buscar Documento</a>
+                        </li>
                       </ul>
                       <div class="tab-content" id="myTabContent">
                         <div class="tab-pane fade show active" id="responsables" role="tabpanel" aria-labelledby="home-tab">
@@ -172,6 +175,16 @@ if(isset($_SESSION['nusu']) && !empty($_SESSION['nusu']) && isset($_SESSION['idu
                               <br><br>
                               <div id="r_asignadores"></div>
                             </form>
+                        </div>
+                        <div class="tab-pane fade" id="bdocumento" role="tabpanel" aria-labelledby="profile-tab">
+                          <br>
+                          <form id="f_bdocumento" class="form-inline">
+                            <div class="form-group mx-sm-3 mb-2">
+                              <label for="bdoc">Documento: D-</label>
+                              <input type="text" class="form-control" name="bdoc" id="bdoc" placeholder="1234">
+                            </div>
+                            <button type="submit" class="btn btn-primary mb-2" id="b_bdocumento">Buscar</button>
+                          </form>
                         </div>
                       </div>
 
