@@ -50,7 +50,7 @@ if(acceso($cone,$idusu,3)){
                     <div class="card-body" id="d_guia">
             
                       <?php
-                      $cd=mysqli_query($cone, "SELECT g.*, d.Destino FROM guia g INNER JOIN destino d ON g.idDestino=d.idDestino ORDER BY idGuia DESC LIMIT 50;");
+                      $cd=mysqli_query($cone, "SELECT g.*, d.Destino FROM guia g INNER JOIN destino d ON g.idDestino=d.idDestino ORDER BY idGuia DESC LIMIT 400;");
                       if(mysqli_num_rows($cd)>0){
                       ?>
                       <table class="table table-bordered table-hover" id="dt_guia">
