@@ -191,6 +191,9 @@ function modnotificacion($mnot){
         case 5:
             return "Mesa de partes";
             break;
+        case 6:
+            return "Familiar";
+            break;
         default:
             return "Sin modo";
             break;
