@@ -164,6 +164,10 @@ if(isset($_GET['mesanoc']) && !empty($_GET['mesanoc']) && isset($_GET['per']) &&
           $esab=$rdh['ExcSabado'];
           $edom=$rdh['ExcDomingo'];
           $rdlib=$rdh['RDLibre'];
+          if($ssd){
+            $fec=strtotime('+1 day', strtotime($fec));
+          }
+          $fsal=$fec." ".$sal;
         }
         mysqli_free_result($cdh);
 
@@ -193,7 +197,7 @@ if(isset($_GET['mesanoc']) && !empty($_GET['mesanoc']) && isset($_GET['per']) &&
                 }
               }else{
                 //Consultamos Comisión de servicio
-                $ccs=mysqli_query($cone, "SELECT d.Numero, d.Ano, d.Siglas FROM comservicios cs INNER JOIN doc d ON cs.idDoc=d.idDoc WHERE ('$fec' BETWEEN DATE_FORMAT(cs.FechaIni,'%Y-%m-%d') AND DATE_FORMAT(cs.FechaFin,'%Y-%m-%d')) AND cs.idEmpleado=$emp AND cs.Estado=1;");
+                $ccs=mysqli_query($cone, "SELECT d.Numero, d.Ano, d.Siglas FROM comservicios cs INNER JOIN doc d ON cs.idDoc=d.idDoc WHERE ('$fsal' BETWEEN cs.FechaIni AND cs.FechaFin) AND cs.idEmpleado=$emp AND cs.Estado=1;");
                 if($rcs=mysqli_fetch_assoc($ccs)){
                   $dj=true;
                   $nj="<small style='font-size:70%;'>Com. Servicios<br>".$rcs['Numero']."-".$rcs['Ano']."-".$rcs['Siglas']."</small><br>";
@@ -304,7 +308,7 @@ if(isset($_GET['mesanoc']) && !empty($_GET['mesanoc']) && isset($_GET['per']) &&
                     }else{
                       //acciones cuando no marco el ingreso de refrigerio
                       //buscamos si tiene algún tipo de permiso
-                      $cper=mysqli_query($cone,"SELECT TipPermiso FROM permiso p INNER JOIN tippermiso tp ON p.idTipPermiso=tp.idTipPermiso WHERE FechaIni='$ftingref' AND p.idEmpleado=$emp AND p.Estado=1;");
+                      $cper=mysqli_query($cone,"SELECT TipPermiso FROM permiso p INNER JOIN tippermiso tp ON p.idTipPermiso=tp.idTipPermiso WHERE ('$ftingref' BETWEEN FechaIni AND FechaFin) AND p.idEmpleado=$emp AND p.Estado=1;");
                       if($rper=mysqli_fetch_assoc($cper)){
                           $nj.="<small style='font-size:70%;'> (P) ".$rper['TipPermiso']."</small><br>";                        
                       }else{
