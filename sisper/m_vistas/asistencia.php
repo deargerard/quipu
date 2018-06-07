@@ -27,6 +27,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
               <li><a href="#tab_5" data-toggle="tab">Horarios</a></li>
               <li><a href="#tab_6" data-toggle="tab">Días Libres</a></li>
               <li><a href="#tab_7" data-toggle="tab">Vigilantes</a></li>
+              <li><a href="#tab_8" data-toggle="tab">Incidencias/Mes</a></li>
             </ul>
             <div class="tab-content">
               <div class="tab-pane active" id="tab_1">
@@ -35,7 +36,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 <form class="form-inline" id="f_badiaria">
                   <div class="form-group has-feedback valida">
                       <span class="fa fa-calendar form-control-feedback"></span>
-                      <input type="text" class="form-control" id="fec" name="fec" placeholder="Fecha">
+                      <input type="text" class="form-control" id="fec" name="fec" placeholder="Fecha" autocomplete="off">
                   </div>
                   <button type="submit" class="btn btn-default" id="b_badiaria">Buscar</button>
                 </form>
@@ -53,7 +54,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 <form class="form-inline" id="f_baempleado">
                   <div class="form-group has-feedback valida">
                       <span class="fa fa-calendar form-control-feedback"></span>
-                      <input type="text" class="form-control" id="mesano" name="mesano" placeholder="Mes/Año">
+                      <input type="text" class="form-control" id="mesano" name="mesano" placeholder="Mes/Año" autocomplete="off">
                   </div>
                   <div class="form-group valida">
                       <select class="form-control select2pertot" name="emp" id="emp" style="width: 350px;">
@@ -75,7 +76,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 <form class="form-inline" id="f_bcaempleado">
                   <div class="form-group has-feedback valida">
                       <span class="fa fa-calendar form-control-feedback"></span>
-                      <input type="text" class="form-control" id="mesanoc" name="mesanoc" placeholder="Mes/Año">
+                      <input type="text" class="form-control" id="mesanoc" name="mesanoc" placeholder="Mes/Año" autocomplete="off">
                   </div>
                   <div class="form-group valida">
                       <select class="form-control select2pertot" name="per" id="per" style="width: 350px;">
@@ -104,7 +105,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                     <form class="form-inline" id="f_bpermisos">
                       <div class="form-group has-feedback valida">
                           <span class="fa fa-calendar form-control-feedback"></span>
-                          <input type="text" class="form-control" id="anop" name="anop" placeholder="Año">
+                          <input type="text" class="form-control" id="anop" name="anop" placeholder="Año" autocomplete="off">
                       </div>
                       <div class="form-group valida">
                           <select class="form-control select2peract" name="perp" id="perp" style="width: 350px;">
@@ -150,7 +151,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                     <form class="form-inline" id="f_bdlibres">
                       <div class="form-group has-feedback valida">
                           <span class="fa fa-calendar form-control-feedback"></span>
-                          <input type="text" class="form-control" id="anodl" name="anodl" placeholder="Año">
+                          <input type="text" class="form-control" id="anodl" name="anodl" placeholder="Año" autocomplete="off">
                       </div>
                       <button type="button" class="btn btn-default" id="b_bdlibres" onclick="actdlib();">Buscar</button>
                       <?php if(accesoadm($cone,$_SESSION['identi'],2)){ ?>
@@ -187,6 +188,39 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                     <!--Fin div resultados-->
                   </div>
                 </div>
+              </div>
+              <!-- /.tab-pane -->
+              <div class="tab-pane" id="tab_8">
+                <!--Formulario busqueda-->
+                <form class="form-inline" id="f_bincidencias">
+                  <div class="form-group has-feedback valida">
+                      <span class="fa fa-calendar form-control-feedback"></span>
+                      <input type="text" class="form-control" id="mesanoi" name="mesanoi" placeholder="Mes/Año" autocomplete="off">
+                  </div>
+                  <div class="form-group valida">
+                      <select class="form-control" name="loc" id="slocal" style="width: 500px;">
+                    <?php
+                    $clo=mysqli_query($cone, "SELECT l.idLocal, l.Direccion, d.NombreDis FROM local l INNER JOIN distrito d ON l.idDistrito=d.idDistrito WHERE l.Estado=1 ORDER BY d.NombreDis, l.Direccion ASC;");
+                    if(mysqli_num_rows($clo)>0){
+                      while($rlo=mysqli_fetch_assoc($clo)){
+                    ?>
+                        <option value="<?php echo $rlo['idLocal']; ?>"><?php echo $rlo['NombreDis']." - ".$rlo['Direccion']; ?></option>
+                    <?php
+                      }
+                    }
+
+                    ?>
+                      </select>
+                  </div>
+
+                  <button type="submit" class="btn btn-default" id="b_bincidencias">Buscar</button>
+                </form>
+                <!--Fin formulario busqueda-->
+                <!--Div resultados-->
+                <div class="d_incidencias">
+                  <h4><i class="fa fa-calendar text-gray"></i> <span class="text-orange">Buscar</span></h4>
+                </div>
+                <!--Fin div resultados-->
               </div>
               <!-- /.tab-pane -->
             </div>

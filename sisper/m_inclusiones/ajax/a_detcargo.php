@@ -5,7 +5,7 @@ include("../php/funciones.php");
 if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi'],9)){
 	$idc=iseguro($cone,$_POST["idc"]);
 	if(isset($idc) && !empty($idc)){
-		$cc=mysqli_query($cone,"SELECT idEmpleado, c.Denominacion AS Cargo, Rol, Concurso, CondicionCar, idModAcceso, FechaAsu, FechaJur, FechaVen, Reemplazado, Motivo, Tipo, NumResolucion, NumContrato, e.EstadoCar FROM empleadocargo AS ec INNER JOIN cargo AS c ON ec.idCargo=c.idCargo INNER JOIN condicionlab AS cl ON ec.idCondicionLab=cl.idCondicionLab INNER JOIN condicioncar AS cc ON ec.idCondicionCar=cc.idCondicionCar INNER JOIN estadocar AS e ON ec.idEstadoCar=e.idEstadoCar WHERE idEmpleadoCargo=$idc");
+		$cc=mysqli_query($cone,"SELECT idEmpleado, c.Denominacion AS Cargo, Rol, Concurso, CondicionCar, idModAcceso, FechaAsu, FechaJur, FechaVen, FechaVac, Reemplazado, Motivo, Tipo, NumResolucion, NumContrato, e.EstadoCar FROM empleadocargo AS ec INNER JOIN cargo AS c ON ec.idCargo=c.idCargo INNER JOIN condicionlab AS cl ON ec.idCondicionLab=cl.idCondicionLab INNER JOIN condicioncar AS cc ON ec.idCondicionCar=cc.idCondicionCar INNER JOIN estadocar AS e ON ec.idEstadoCar=e.idEstadoCar WHERE idEmpleadoCargo=$idc");
 		$rc=mysqli_fetch_assoc($cc);
 		if($rc['EstadoCar']=='ACTIVO'){
 			$est="<span class='label label-success'>ACTIVO</span>";
@@ -15,23 +15,23 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
 			$est="<span class='label label-danger'>CESADO</span>";
 		}
 	?>
-	<div class="table-responsive">
+
+		<input type="hidden" name="iec" id="iec" value="<?php echo $idc; ?>">
 		<table class="table table-hover table-bordered">
 			<thead>
 				<tr>
-					<th colspan="<?php echo $rc['CondicionCar']=="NINGUNO" ? 4 : 2; ?>"><i class="fa fa-black-tie"></i> Cargo</th>
-					<?php if($rc['CondicionCar']!='NINGUNO'){ ?>
-					<th colspan="2">Condición</th>
-					<?php } ?>
+					<th>
+						<i class="fa fa-black-tie"></i> Cargo
+					</th>
+					<th colspan="3" class="text-aqua">
+						<?php echo $rc['Cargo']; ?>
+						<?php if($rc['CondicionCar']!='NINGUNO'){ ?>
+						<small><?php echo " - ".$rc['CondicionCar'] ?></small>
+						<?php } ?>
+					</th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
-					<th colspan="<?php echo $rc['CondicionCar']=="NINGUNO" ? 4 : 2; ?>" class="text-aqua"><h5><strong><?php echo $rc['Cargo']; ?></strong></h5></th>
-					<?php if($rc['CondicionCar']!='NINGUNO'){ ?>
-					<th colspan="2" class="text-red"><?php echo $rc['CondicionCar'] ?></th>
-					<?php } ?>
-				</tr>
 				<tr>
 					<th>Mod. Acceso</th>
 					<?php
@@ -86,38 +86,72 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
 					<th>Estado</th>
 					<td><?php echo $est ?></td>
 				</tr>
+				<tr>
+					<th colspan="2">Fecha para el computo de vacaciones</th>
+					<td colspan="2">
+						<?php echo fnormal($rc['FechaVac']); ?> 
+						<?php if(accesoadm($cone,$_SESSION['identi'],1)){ ?>
+						<button type="button" class="btn btn-xs btn-default" title="Editar" onclick="edifv(<?php echo $idc; ?>);"><i class="fa fa-pencil"></i></button>
+						<?php } ?>
+					</td>
+				</tr>
 			</tbody>
 		</table>
 		<?php
-		$ce=mysqli_query($cone, "SELECT * FROM estadocargo ec INNER JOIN estadocar ecar ON ec.idEstadoCar=ecar.idEstadoCar WHERE idEmpleadoCargo=$idc ORDER BY idEstadoCargo ASC");
+		$ce=mysqli_query($cone, "SELECT ec.*, ecar.EstadoCar FROM estadocargo ec INNER JOIN estadocar ecar ON ec.idEstadoCar=ecar.idEstadoCar WHERE idEmpleadoCargo=$idc ORDER BY idEstadoCargo DESC");
 		if(mysqli_num_rows($ce)>0){
 		?>
 			<table class="table table-hover table-bordered">
 				<thead>
 					<tr>
-						<th colspan="5"><i class="fa fa-toggle-on"></i> Estado del cargo</th>
+						<th colspan="7"><i class="fa fa-toggle-on"></i> Estados del cargo</th>
 					</tr>
 					<tr>
 						<th>Estado</th>
-						<th>Desde</th>
-						<th>Prob. Hasta</th>
-						<th># Resolución</th>
+						<th>F. Inicio</th>
+						<th>F. Fin</th>
+						<th>Vence</th>
+						<th>Resolución</th>
 						<th>Motivo</th>
+						<th>Acción</th>
 					</tr>
 				</thead>
 				<tbody>
 		<?php
 			while ($re=mysqli_fetch_assoc($ce)) {
-		?>
-				
+		?>	
 					<tr>
 						<td><?php echo estadocar($re['EstadoCar']); ?></td>
 						<td><?php echo fnormal($re['FechaIni']); ?></td>
 						<td><?php echo fnormal($re['FechaFin']); ?></td>
+						<td><?php echo fnormal($re['Vence']); ?></td>
 						<td><?php echo $re['NumResolucion']; ?></td>
 						<td><?php echo $re['Motivo']; ?></td>
-					</tr>
-				
+						<td>
+							<div class="btn-group">
+    							<button class="btn bg-purple btn-xs dropdown-toggle" data-toggle="dropdown">
+    								<i class="fa fa-cog"></i>&nbsp;
+    								<span class="caret"></span>
+    								<span class="sr-only">Desplegar menú</span>
+    							</button>
+    							<ul class="dropdown-menu pull-right" role="menu">
+    								<?php
+    								if(accesoadm($cone,$_SESSION['identi'],1)){    									
+    								?>
+    									<?php if($re['Motivo']!="ESTADO INICIAL"){ ?>
+    								<li><a href="#" data-toggle="modal" data-target="#m_ediestcargo" onclick="ediestcargo(<?php echo $re['idEstadoCargo'].", 'edidat'" ?>)">Editar Datos</a></li>
+    								<li><a href="#" data-toggle="modal" data-target="#m_ediestcargo" onclick="ediestcargo(<?php echo $re['idEstadoCargo'].", 'edifin'" ?>)">Editar Fecha Inicio</a></li>
+										<?php } ?>
+										<?php if($re['Estado']!=1){ ?>
+    								<li><a href="#" data-toggle="modal" data-target="#m_ediestcargo" onclick="ediestcargo(<?php echo $re['idEstadoCargo'].", 'ediffi'" ?>)">Editar Fecha Fin</a></li>
+    									<?php } ?>
+    								<?php
+    								}
+    								?>
+    							</ul>
+    						</div>
+						</td>
+					</tr>	
 		<?php
 			}
 		?>
@@ -125,8 +159,13 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
 			</table>
 		<?php
 		}
+		mysqli_free_result($ce);
 		?>
-	</div>
+
+	<script>
+
+	</script>
+
 	<?php
 		mysqli_free_result($cc);
 		mysqli_close($cone);

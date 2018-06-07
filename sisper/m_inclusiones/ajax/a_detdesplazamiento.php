@@ -5,7 +5,7 @@ include("../php/funciones.php");
 if(accesocon($cone,$_SESSION['identi'],1)  || accesocon($cone,$_SESSION['identi'],9)){
 	$idcd=iseguro($cone,$_POST["idcd"]);
 	if(isset($idcd) && !empty($idcd)){
-		$ccd=mysqli_query($cone,"SELECT Denominacion, TipoDesplaza, FecInicio, FecFin, NumResolucion, Motivo, cd.Estado, Oficial FROM cardependencia AS cd INNER JOIN dependencia AS d ON cd.idDependencia=d.idDependencia INNER JOIN tipodesplaza AS td ON cd.idTipoDesplaza=td.idTipoDesplaza WHERE idCarDependencia=$idcd");
+		$ccd=mysqli_query($cone,"SELECT Denominacion, TipoDesplaza, FecInicio, FecFin, Vence, NumResolucion, Motivo, cd.Estado, Oficial FROM cardependencia AS cd INNER JOIN dependencia AS d ON cd.idDependencia=d.idDependencia INNER JOIN tipodesplaza AS td ON cd.idTipoDesplaza=td.idTipoDesplaza WHERE idCarDependencia=$idcd");
 		$rcd=mysqli_fetch_assoc($ccd);
 		if($rcd['Estado']==1){
 			$est="<span class='label label-success'>Activo</span>";
@@ -15,7 +15,7 @@ if(accesocon($cone,$_SESSION['identi'],1)  || accesocon($cone,$_SESSION['identi'
 		if($rcd['Oficial']==1){
 			$ofi="<span class='label label-success'>Sí</span>";
 		}else{
-			$ofi="<span class='label label-danger'>No</span>";
+			$ofi="<span class='label label-default'>No</span>";
 		}
 	?>
 	<div class="table-responsive">
@@ -34,12 +34,16 @@ if(accesocon($cone,$_SESSION['identi'],1)  || accesocon($cone,$_SESSION['identi'
 					<td><?php echo $rcd['TipoDesplaza'] ?></td>
 				</tr>
 				<tr>
-					<th>Inició</th>
+					<th>F. Inicio</th>
 					<td><?php echo fnormal($rcd['FecInicio']) ?></td>
 				</tr>
 				<tr>
-					<th>Probable Fin</th>
+					<th>F. Fin</th>
 					<td><?php echo fnormal($rcd['FecFin']) ?></td>
+				</tr>
+				<tr>
+					<th>Vence</th>
+					<td><?php echo fnormal($rcd['Vence']) ?></td>
 				</tr>
 				<tr>
 					<th>N° Resolución</th>

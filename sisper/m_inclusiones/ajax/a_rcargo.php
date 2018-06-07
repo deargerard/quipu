@@ -43,9 +43,9 @@ $idp=$_SESSION['idperper'];
             							case 6:
             								$mod='SUPLENCIA';
             								break;
-            							
+
             							default:
-            								$mod='--';
+            								$mod='-';
             								break;
             						}
             						if($rc['EstadoCar']=="ACTIVO"){
@@ -62,7 +62,7 @@ $idp=$_SESSION['idperper'];
 		                			<tr>
 		                				<th>COND. LAB.</th>
 		                				<th>MOD.</th>
-		                				<th>REEMPAZA A</th>
+		                				<th>REEMPLAZA A</th>
 		                				<th>F. ASUME</th>
 		                				<th>ESTADO</th>
 		                			<?php if($rc['EstadoCar']!="ACTIVO"){ ?>
@@ -97,13 +97,7 @@ $idp=$_SESSION['idperper'];
 	                								<li class="divider"></li>
 	                								<li><a href="#" data-toggle="modal" data-target="#m_edicarpersonal" onclick="edicarpersonal(<?php echo $rc['idEmpleadoCargo'] ?>)">Editar Cargo</a></li>
 	                								<li><a href="#" data-toggle="modal" data-target="#m_nueestcargo" onclick="nueestcargo(<?php echo $rc['idEmpleadoCargo'] ?>)">Cambiar Estado</a></li>
-	                								<?php 
-	                										if ($rc['FechaIni']!=$rc['FechaAsu']) {
-
-	                								?>
-	                								<li><a href="#" data-toggle="modal" data-target="#m_ediestcargo" onclick="ediestcargo(<?php echo $rc['idEstadoCargo'] ?>)">Editar Estado</a></li>
 	                								<?php
-	                										}
 	                									}
 	                								}
 	                								?>
@@ -119,7 +113,7 @@ $idp=$_SESSION['idperper'];
 			                	  <div class="box-header">
 			                		<h4 class="box-title text-orange"><i class="fa fa-bus"></i> Desplazamientos</h4>
 			                		<?php
-			                		if(accesoadm($cone,$_SESSION['identi'],1)){ 
+			                		if(accesoadm($cone,$_SESSION['identi'],1)){
 			                		if($rc['EstadoCar']=="ACTIVO"){
 			                		?>
 			                		<a href="" class="btn btn-info pull-right btn-xs" data-toggle="modal" data-target="#m_nuedesplazamiento" onclick="nuedesplazamiento(<?php echo $idec ?>)"><i class="fa fa-plane"></i> Desplazar</a>
@@ -129,7 +123,7 @@ $idp=$_SESSION['idperper'];
 			                		?>
 			                	  </div>
 			                		<?php
-			                		$cde=mysqli_query($cone,"SELECT idCarDependencia, Denominacion, FecInicio, Oficial, cd.Estado, tde.TipoDesplaza FROM cardependencia AS cd INNER JOIN dependencia AS d ON cd.idDependencia=d.idDependencia INNER JOIN tipodesplaza AS tde ON cd.idTipoDesplaza=tde.idTipoDesplaza WHERE cd.idEmpleadoCargo=$idec ORDER BY FecInicio DESC");
+			                		$cde=mysqli_query($cone,"SELECT idCarDependencia, Denominacion, FecInicio, FecFin, Oficial, cd.Estado, tde.TipoDesplaza, tde.idTipoDesplaza FROM cardependencia AS cd INNER JOIN dependencia AS d ON cd.idDependencia=d.idDependencia INNER JOIN tipodesplaza AS tde ON cd.idTipoDesplaza=tde.idTipoDesplaza WHERE cd.idEmpleadoCargo=$idec ORDER BY FecInicio DESC");
 			                		if(mysqli_num_rows($cde)>0){
 			                		?>
 			                		<table class="table table-hover table-bordered">
@@ -138,7 +132,8 @@ $idp=$_SESSION['idperper'];
 				                				<th>DEPENDENCIA</th>
 				                				<th>T. DESPLAZ.</th>
 				                				<th>OFICIAL</th>
-				                				<th>DESDE</th>
+				                				<th>F. INICIO</th>
+				                				<th>F. FIN</th>
 				                				<th>ACCIÓN</th>
 				                			</tr>
 				                		</thead>
@@ -151,6 +146,7 @@ $idp=$_SESSION['idperper'];
 				                				<td><?php echo $rde['TipoDesplaza'] ?></td>
 				                				<td><?php echo $rde['Oficial']==1 ? "<span class='label label-success'>Sí</span>" : "<span class='label label-default'>No</span>" ?></td>
 				                				<td><?php echo fnormal($rde['FecInicio']) ?></td>
+				                				<td><?php echo fnormal($rde['FecFin']) ?></td>
 				                				<td>
 				                					<div class="btn-group">
 			                							<button class="btn bg-purple btn-xs dropdown-toggle" data-toggle="dropdown">
@@ -162,12 +158,19 @@ $idp=$_SESSION['idperper'];
 			                								<li><a href="#" data-toggle="modal" data-target="#m_detdesplazamiento" onclick="detdesplazamiento(<?php echo $rde['idCarDependencia'] ?>)">Detalle</a></li>
 			                								<?php
 			                								if(accesoadm($cone,$_SESSION['identi'],1)){
-			                									if(($rc['EstadoCar']=='ACTIVO') AND $rde['Oficial']==1){
 			                								?>
 			                								<li class="divider"></li>
-			                								<li><a href="#" data-toggle="modal" data-target="#m_edidesplazamiento" onclick="edidesplazamiento(<?php echo $rde['idCarDependencia'] ?>)">Editar</a></li>
+			                								<li><a href="#" data-toggle="modal" data-target="#m_edidesplazamiento" onclick="edidesplazamiento(<?php echo $rde['idCarDependencia'].", 'edat'" ?>)">Editar Datos</a></li>
+			                								<?php if($rde['Oficial']!=1){ ?>
+			                								<li><a href="#" data-toggle="modal" data-target="#m_edidesplazamiento" onclick="edidesplazamiento(<?php echo $rde['idCarDependencia'].", 'eofi'" ?>)">Oficializar</a></li>
+			                								<?php } ?>
+			                								<?php if($rde['idTipoDesplaza']!=1){ ?>
+			                								<li><a href="#" data-toggle="modal" data-target="#m_edidesplazamiento" onclick="edidesplazamiento(<?php echo $rde['idCarDependencia'].", 'efin'" ?>)">Editar Fecha Inicio</a></li>
+			                								<?php } ?>
+			                								<?php if($rde['Estado']!=1){ ?>
+			                								<li><a href="#" data-toggle="modal" data-target="#m_edidesplazamiento" onclick="edidesplazamiento(<?php echo $rde['idCarDependencia'].", 'effi'" ?>)">Editar Fecha Fin</a></li>
+			                								<?php } ?>
 			                								<?php
-			                									}
 			                								}
 			                								?>
 			                							</ul>

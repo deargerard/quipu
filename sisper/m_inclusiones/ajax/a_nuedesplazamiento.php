@@ -34,15 +34,15 @@ if(accesoadm($cone,$_SESSION['identi'],1)){
                     </div>
                   </div>
                   <div class="form-group">
-                    <label for="ini" class="col-sm-3 control-label">Inicia</label>
+                    <label for="ini" class="col-sm-3 control-label">Fecha Inicio</label>
                     <div class="col-sm-3 valida">
-                      <input type="text" id="ini" name="ini" class="form-control" placeholder="dd/mm/aaaa">
+                      <input type="text" id="ini" name="ini" class="form-control" placeholder="dd/mm/aaaa" autocomplete="off">
                     </div>
                   </div>
                   <div class="form-group">
-                    <label for="fin" class="col-sm-3 control-label">Probable fin</label>
+                    <label for="fven" class="col-sm-3 control-label">Fecha Vencimiento</label>
                     <div class="col-sm-3 valida">
-                      <input type="text" id="fin" name="fin" class="form-control" placeholder="dd/mm/aaaa">
+                      <input type="text" id="fven" name="fven" class="form-control" placeholder="dd/mm/aaaa" autocomplete="off">
                     </div>
                   </div>
                   <div class="form-group">
@@ -64,7 +64,7 @@ if(accesoadm($cone,$_SESSION['identi'],1)){
                     </div>
                   </div>
 <script>
-  $('#ini,#fin').datepicker({
+  $('#ini,#fven').datepicker({
     format: "dd/mm/yyyy",
     language: "es",
     autoclose: true,

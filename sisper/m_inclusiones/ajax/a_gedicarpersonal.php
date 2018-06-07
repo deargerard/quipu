@@ -13,14 +13,14 @@ if(accesoadm($cone,$_SESSION['identi'],1)){
             $conlab=iseguro($cone,$_POST['conlab']);
             $rol=imseguro($cone,$_POST['rol']);
             $fecasu=fmysql(iseguro($cone,$_POST['fecasu']));
-            $fecjur=fmysql(iseguro($cone,$_POST['fecjur']));
-            $fecven=fmysql(iseguro($cone,$_POST['fecven']));
+            $fecjur=vacio(fmysql(iseguro($cone,$_POST['fecjur'])));
+            $fecven=vacio(fmysql(iseguro($cone,$_POST['fecven'])));
             $rem=iseguro($cone,$_POST['rem']);
             $numres=imseguro($cone,$_POST['numres']);
             $numcont=imseguro($cone,$_POST['numcont']);
             $mot=iseguro($cone,$_POST['mot']);
             if(isset($idec) && !empty($idec) && isset($sislab) && !empty($sislab) && isset($car) && !empty($car) && isset($fecasu) && !empty($fecasu)){
-                  $sql="UPDATE empleadocargo SET idCargo=$car, Rol='$rol', Concurso='$numcon', idCondicionCar=$concar, idModAcceso=$tiping, FechaAsu='$fecasu', FechaJur='$fecjur', FechaVen='$fecven', Reemplazado=$rem, Motivo='$mot', idCondicionLab=$conlab, NumResolucion='$numres', NumContrato='$numcont' WHERE idEmpleadoCargo=$idec";
+                  $sql="UPDATE empleadocargo SET idCargo=$car, Rol='$rol', Concurso='$numcon', idCondicionCar=$concar, idModAcceso=$tiping, FechaAsu='$fecasu', FechaJur=$fecjur, FechaVen=$fecven, Reemplazado=$rem, Motivo='$mot', idCondicionLab=$conlab, NumResolucion='$numres', NumContrato='$numcont' WHERE idEmpleadoCargo=$idec";
                   if(mysqli_query($cone,$sql)){              
                         echo mensajesu("Listo: Cargo editado correctamente.");
                         $q1="UPDATE cardependencia SET FecInicio='$fecasu', NumResolucion='$numres' WHERE idEmpleadoCargo=$idec AND idTipoDesplaza=1";
@@ -36,7 +36,7 @@ if(accesoadm($cone,$_SESSION['identi'],1)){
                              echo mensajeda("Error: No se pudo actualizar la dependencia inicial."); 
                         }
                   }else{
-                        echo mensajeda("Error: ". mysqli_error($cone));
+                        echo mensajeda("Error: ". mysqli_error($cone)." - ".$sql);
                   }
                   mysqli_close($cone);
                   

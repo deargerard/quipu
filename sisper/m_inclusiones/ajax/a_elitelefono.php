@@ -8,10 +8,10 @@ if(accesoadm($cone,$_SESSION['identi'],1) || accesoadm($cone,$_SESSION['identi']
     $cte=mysqli_query($cone,"SELECT TipoTelefono, Numero FROM telefonoemp AS te INNER JOIN tipotelefono AS tt ON te.idTipoTelefono=tt.idTipoTelefono WHERE idTelefonoEmp=$idt");
     $rte=mysqli_fetch_assoc($cte);
   ?>
-    <table class="table table-striped table-bordered">
+    <table class="table">
       <thead>
         <tr>
-          <th>Esta seguro que desea desactivar el siguiente teléfono:</th>
+          <th>Esta seguro que desea eliminar el siguiente teléfono:</th>
         </tr>
       </thead>
       <tbody>
@@ -25,7 +25,7 @@ if(accesoadm($cone,$_SESSION['identi'],1) || accesoadm($cone,$_SESSION['identi']
     mysqli_free_result($cte);
     mysqli_close($cone);
   }else{
-    echo "<h4 class='text-maroon'>Error: No se eligio ningún teléfono.</h4>";
+    echo mensajewa("Error: No se eligio ningún teléfono.");
   }
 }else{
   echo accrestringidoa();

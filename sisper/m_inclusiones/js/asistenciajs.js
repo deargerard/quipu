@@ -6,13 +6,13 @@ $('#fec').datepicker({
   todayHighlight: true,
   endDate: new Date()
 });
-$("#mesano, #mesanoc").datepicker({
+$("#mesano, #mesanoc, #mesanoi").datepicker({
   autoclose: true,
   format: "mm/yyyy",
   language: "es",
   minViewMode: "months",
   maxViewMode: "months",
-  startDate: '01/2000',
+  startDate: '03/2018',
   //endDate: new Date(),
   startView: "month" //does not work
 });
@@ -1064,3 +1064,22 @@ $("#f_elmarcacion").submit(function(e){
   });
   e.preventDefault();
 });
+
+$("#f_bincidencias").submit(function(e){
+  var datos = $("#f_bincidencias").serializeArray();
+  $.ajax({
+     type: "POST",
+     url: "m_inclusiones/a_asistencia/bincidencias.php",
+     dataType: "html",
+     data: datos,   // I WANT TO ADD EXTRA DATA + SERIALIZE DATA
+     beforeSend: function () {
+        $(".d_incidencias").html("<p class='text-center'><img src='m_images/loader.gif'></p>");
+     },
+     success: function(data){
+        $(".d_incidencias").slideDown();
+        $(".d_incidencias").html(data);
+     }
+  });
+  e.preventDefault();
+});
+$("#slocal").select2();
