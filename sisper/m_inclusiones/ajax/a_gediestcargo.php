@@ -32,21 +32,27 @@ if(accesoadm($cone,$_SESSION['identi'],1)){
             $idemca=iseguro($cone,$_POST['idemca']);
             $finise=fmysql(iseguro($cone,$_POST['finise']));
             $fini=fmysql(iseguro($cone,$_POST['fini']));
+            $ec=iseguro($cone,$_POST['ec']);
             if(isset($fini) && !empty($fini)){
                   if($finise!=$fini){
-                        $finia=date("Y-m-d", strtotime("-1 day", strtotime($fini)));
                         if(mysqli_query($cone,"UPDATE estadocargo SET FechaIni='$fini' WHERE idEstadoCargo=$idec;")){
-                              if($finise!=""){
-                                    $finisea=date("Y-m-d", strtotime("-1 day", strtotime($finise)));
-                                    if(mysqli_query($cone,"UPDATE estadocargo SET FechaFin='$finia' WHERE idEmpleadoCargo=$idemca AND FechaFin='$finisea';")){
-                                          $r['m']=mensajesu("Se actualizó la fecha de inicio junto con la fecha fin del estado anterior.");
+                              $cea=mysqli_query($cone,"SELECT idEstadoCargo FROM estadocargo WHERE idEmpleadoCargo=$idemca AND idEstadoCargo<$idec ORDER BY idEstadoCargo DESC LIMIT 1;");
+                              if($rea=mysqli_fetch_assoc($cea)){
+                                    $iea=$rea['idEstadoCargo'];
+                                    if($ec==3){
+                                          $ff=$fini;
+                                    }else{
+                                          $ff=date("Y-m-d",strtotime("-1 day", strtotime($fini)));
+                                    }
+                                    if(mysqli_query($cone,"UPDATE estadocargo SET FechaFin='$ff' WHERE idEstadoCargo=$iea;")){
+                                          $r['m']=mensajesu("Se cambio la fecha inicio del estado junto con la fecha fin del estado anterior.");
                                           $r['e']=true;
                                     }else{
-                                          $r['m']=mensajesu("Se actualizó la fecha de inicio, pero no la fecha fin del estado anterior.");
+                                          $r['m']=mensajesu("Se cambio la fecha inicio del estado pero no la fecha fin del estado anterior.");
                                           $r['e']=true;
                                     }
                               }else{
-                                    $r['m']=mensajesu("Se actualizó la fecha de inicio.");
+                                    $r['m']=mensajesu("Se cambio la fecha inicio del estado pero no la fecha fin del estado anterior.");
                                     $r['e']=true;
                               }
                         }else{
@@ -68,9 +74,10 @@ if(accesoadm($cone,$_SESSION['identi'],1)){
             $ffin=fmysql(iseguro($cone,$_POST['ffin']));
             if(isset($ffin) && !empty($ffin)){
                   if($ffinse!=$ffin){
-                        $ffinp=date("Y-m-d", strtotime("+1 day", strtotime($ffin)));
                         if(mysqli_query($cone,"UPDATE estadocargo SET FechaFin='$ffin' WHERE idEstadoCargo=$idec;")){
                               if($ffinse!=""){
+
+                                    $ffinp=date("Y-m-d", strtotime("+1 day", strtotime($ffin)));
                                     $ffinsep=date("Y-m-d", strtotime("+1 day", strtotime($ffinse)));
                                     if(mysqli_query($cone,"UPDATE estadocargo SET FechaIni='$ffinp' WHERE idEmpleadoCargo=$idemca AND FechaIni='$ffinsep';")){
                                           $r['m']=mensajesu("Se actualizó la fecha de fin junto con la fecha inicio del estado posterior.");

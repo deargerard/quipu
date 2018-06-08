@@ -62,6 +62,7 @@ if(accesoadm($cone,$_SESSION['identi'],1)){
                       <input type="hidden" name="idec" value="<?php echo $idec; ?>">
                       <input type="hidden" name="idemca" value="<?php echo $r['idEmpleadoCargo']; ?>">
                       <input type="hidden" name="finise" value="<?php echo fnormal($r['FechaIni']); ?>">
+                      <input type="hidden" name="ec" value="<?php echo $r['idEstadoCar']; ?>">
                       <input type="text" id="fini" name="fini" class="form-control" placeholder="dd/mm/aaaa" value="<?php echo fnormal($r['FechaIni']); ?>" autocomplete="off">
                     </div>
                   </div>

@@ -129,9 +129,10 @@ if(accesocon($cone,$_SESSION['identi'],2)){
                             $edom=$rdh['ExcDomingo'];
                             $rdlib=$rdh['RDLibre'];
                             if($ssd){
-                              $fec=strtotime('+1 day', strtotime($fec));
+                              $fsal=date('Y-m-d',strtotime('+1 day', strtotime($fec)))." ".$sal;
+                            }else{
+                              $fsal=$fec." ".$sal;
                             }
-                            $fsal=$fec." ".$sal;
                           }
                           mysqli_free_result($cdh);
 
