@@ -24,7 +24,7 @@
                     <li id="guiap"><a href="#guiah" aria-expanded="false" data-toggle="collapse"> <i class="fa fa-archive"></i>Guía </a>
                       <ul id="guiah" class="collapse list-unstyled ">
                         <li id="reguia"><a href="reguia.php">Generar/Ingresar</a></li>
-                        <!--<li id="consultas"><a href="consultas.php">Consultas</a></li>-->
+                        <li id="consultas"><a href="consultas.php">Consultas</a></li>
                       </ul>
                     </li>
                     <?php } ?>

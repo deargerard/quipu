@@ -51,10 +51,18 @@ if(accesoadm($cone,$_SESSION['identi'],1)){
                                           $r['m']=mensajesu("Se cambio la fecha inicio del estado pero no la fecha fin del estado anterior.");
                                           $r['e']=true;
                                     }
+                                    if($ec==3){
+                                          if(mysqli_query($cone,"UPDATE cardependencia SET FecFin='$ff' WHERE idEmpleadoCargo=$idemca AND Estado=1;")){
+                                                $r['m'].=mensajesu("Se actualizó la fecha fin del último desplazamiento.");
+                                          }else{
+                                                $r['m'].=mensajewa("No se pudo actualizar la fecha fin del último desplazamiento. Contacte al administrador.");
+                                          }
+                                    }
                               }else{
                                     $r['m']=mensajesu("Se cambio la fecha inicio del estado pero no la fecha fin del estado anterior.");
                                     $r['e']=true;
                               }
+                              mysqli_free_result($cea);
                         }else{
                               $r['m']=mensajewa("Error: No se pudo editar, vuelva a intentarlo.");
                               $r['e']=false;  
@@ -75,21 +83,34 @@ if(accesoadm($cone,$_SESSION['identi'],1)){
             if(isset($ffin) && !empty($ffin)){
                   if($ffinse!=$ffin){
                         if(mysqli_query($cone,"UPDATE estadocargo SET FechaFin='$ffin' WHERE idEstadoCargo=$idec;")){
-                              if($ffinse!=""){
-
-                                    $ffinp=date("Y-m-d", strtotime("+1 day", strtotime($ffin)));
-                                    $ffinsep=date("Y-m-d", strtotime("+1 day", strtotime($ffinse)));
-                                    if(mysqli_query($cone,"UPDATE estadocargo SET FechaIni='$ffinp' WHERE idEmpleadoCargo=$idemca AND FechaIni='$ffinsep';")){
-                                          $r['m']=mensajesu("Se actualizó la fecha de fin junto con la fecha inicio del estado posterior.");
+                              $cea=mysqli_query($cone,"SELECT idEstadoCargo, idEstadoCar FROM estadocargo WHERE idEmpleadoCargo=$idemca AND idEstadoCargo>$idec ORDER BY idEstadoCargo ASC LIMIT 1;");
+                              if($rea=mysqli_fetch_assoc($cea)){
+                                    $iea=$rea['idEstadoCargo'];
+                                    $ec=$rea['idEstadoCar'];
+                                    if($ec==3){
+                                          $fi=$ffin;
+                                    }else{
+                                          $fi=date("Y-m-d",strtotime("+1 day", strtotime($ffin)));
+                                    }
+                                    if(mysqli_query($cone,"UPDATE estadocargo SET FechaIni='$fi' WHERE idEstadoCargo=$iea;")){
+                                          $r['m']=mensajesu("Se cambio la fecha fin del estado junto con la fecha inicio del estado posterior.");
                                           $r['e']=true;
                                     }else{
-                                          $r['m']=mensajesu("Se actualizó la fecha de inicio, pero no la fecha inicio del estado posterior.");
+                                          $r['m']=mensajesu("Se cambio la fecha fin del estado pero no la fecha inicio del estado posterior.");
                                           $r['e']=true;
                                     }
+                                    if($ec==3){
+                                          if(mysqli_query($cone,"UPDATE cardependencia SET FecFin='$fi' WHERE idEmpleadoCargo=$idemca AND Estado=1;")){
+                                                $r['m'].=mensajesu("Se actualizó la fecha fin del último desplazamiento.");
+                                          }else{
+                                                $r['m'].=mensajewa("No se pudo actualizar la fecha fin del último desplazamiento. Contacte al administrador.");
+                                          }
+                                    }
                               }else{
-                                    $r['m']=mensajesu("Se actualizó la fecha de inicio.");
+                                    $r['m']=mensajesu("Se cambio la fecha fin del estado pero no la fecha inicio del estado posterior.");
                                     $r['e']=true;
                               }
+                              mysqli_free_result($cea);
                         }else{
                               $r['m']=mensajewa("Error: No se pudo editar, vuelva a intentarlo.");
                               $r['e']=false;  

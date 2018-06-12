@@ -45,23 +45,21 @@ if(accesoadm($cone,$_SESSION['identi'],1)){
             $fini=fmysql(iseguro($cone,$_POST['fini']));
             $finise=fmysql(iseguro($cone,$_POST['finise']));
             if($fini==$finise){
-                  $r['m']=mensajesu("Escogió la misma fecha.");
+                  $r['m']=mensajesu("Escogió la misma fecha, no se realizó cambios.");
                   $r['e']=true;
             }else{
-                  $finia=date('Y-m-d',strtotime('-1 day',strtotime($fini)));
                   if(mysqli_query($cone,"UPDATE cardependencia SET FecInicio='$fini' WHERE idCarDependencia=$id;")){
-                        if($finise!=""){
-                              $finisea=date('Y-m-d',strtotime('-1 day',strtotime($finise)));
-                              if(mysqli_query($cone,"UPDATE cardependencia SET FecFin='$finia' WHERE idEmpleadoCargo=$iec AND FecFin='$finisea';")){
-                                    $r['m']=mensajesu("Fecha de inicio actualizada. (Se actualizó la fecha fin del desplazamiento anterior).");
-                                    $r['e']=true;
+                        $r['m']=mensajesu("Fecha de inicio actualizada.");
+                        $r['e']=true;
+                        $cd=mysqli_query($cone,"SELECT idCarDependencia FROM cardependencia WHERE idEmpleadoCargo=$iec AND idCarDependencia<$id ORDER BY idCarDependencia DESC LIMIT 1;");
+                        if($rd=mysqli_fetch_assoc($cd)){
+                              $icd=$rd['idCarDependencia'];
+                              $ff=date('Y-m-d',strtotime('-1 day',strtotime($fini)));
+                              if(mysqli_query($cone,"UPDATE cardependencia SET FecFin='$ff' WHERE idCarDependencia=$icd;")){
+                                    $r['m'].=mensajesu("Se actualizó la fecha fin del desplazamiento anterior.");
                               }else{
-                                    $r['m']=mensajesu("Fecha de inicio actualizada. (No se actualizó la fecha fin del desplazamiento anterior).");
-                                    $r['e']=true; 
+                                    $r['m'].=mensajesu("No se pudo actualizar la fecha fin del desplazamiento anterior.");
                               }
-                        }else{
-                              $r['m']=mensajesu("Fecha de inicio actualizada.");
-                              $r['e']=true;
                         }
                   }else{
                         $r['m']=mensajewa("Error: No se pudo editar, vuelva a intentarlo.");
@@ -74,23 +72,21 @@ if(accesoadm($cone,$_SESSION['identi'],1)){
             $ffin=fmysql(iseguro($cone,$_POST['ffin']));
             $ffinse=fmysql(iseguro($cone,$_POST['ffinse']));
             if($ffin==$ffinse){
-                  $r['m']=mensajesu("Escogió la misma fecha.");
+                  $r['m']=mensajesu("Escogió la misma fecha, no se realizó cambios.");
                   $r['e']=true;
             }else{
-                  $ffinp=date('Y-m-d',strtotime('+1 day',strtotime($ffin)));
                   if(mysqli_query($cone,"UPDATE cardependencia SET FecFin='$ffin' WHERE idCarDependencia=$id;")){
-                        if($ffinse!=""){
-                              $ffinsep=date('Y-m-d',strtotime('+1 day',strtotime($ffinse)));
-                              if(mysqli_query($cone,"UPDATE cardependencia SET FecInicio='$ffinp' WHERE idEmpleadoCargo=$iec AND FecInicio='$ffinsep';")){
-                                    $r['m']=mensajesu("Fecha de fin actualizada. (Se actualizó la fecha inicio del desplazamiento posterior).");
-                                    $r['e']=true;
+                        $r['m']=mensajesu("Fecha de fin actualizada.");
+                        $r['e']=true;
+                        $cd=mysqli_query($cone,"SELECT idCarDependencia FROM cardependencia WHERE idEmpleadoCargo=$iec AND idCarDependencia>$id ORDER BY idCarDependencia ASC LIMIT 1;");
+                        if($rd=mysqli_fetch_assoc($cd)){
+                              $icd=$rd['idCarDependencia'];
+                              $fi=date('Y-m-d',strtotime('+1 day',strtotime($ffin)));
+                              if(mysqli_query($cone,"UPDATE cardependencia SET FecInicio='$fi' WHERE idCarDependencia=$icd;")){
+                                    $r['m'].=mensajesu("Se actualizó la fecha inicio del desplazamiento posterior.");
                               }else{
-                                    $r['m']=mensajesu("Fecha de inicio actualizada. (No se actualizó la fecha inicio del desplazamiento posterior).");
-                                    $r['e']=true; 
+                                    $r['m'].=mensajesu("No se pudo actualizar la fecha inicio del desplazamiento posterior.");
                               }
-                        }else{
-                              $r['m']=mensajesu("Fecha de fin actualizada.");
-                              $r['e']=true;
                         }
                   }else{
                         $r['m']=mensajewa("Error: No se pudo editar, vuelva a intentarlo.");
