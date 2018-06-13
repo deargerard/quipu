@@ -82,19 +82,19 @@ if(accesoadm($cone,$_SESSION['identi'],1)){
                   <div class="form-group">
                     <label for="fecasu" class="col-sm-3 control-label">Fecha Asume</label>
                     <div class="col-sm-3 valida">
-                      <input type="text" id="fecasu" name="fecasu" class="form-control" placeholder="dd/mm/aaaa">
+                      <input type="text" id="fecasu" name="fecasu" class="form-control" placeholder="dd/mm/aaaa" autocomplete="off">
                     </div>
                   </div>
                   <div class="form-group">
                     <label for="fecjur" class="col-sm-3 control-label">Fecha Juramentación</label>
                     <div class="col-sm-3 valida">
-                      <input type="text" id="fecjur" name="fecjur" class="form-control" placeholder="dd/mm/aaaa">
+                      <input type="text" id="fecjur" name="fecjur" class="form-control" placeholder="dd/mm/aaaa" autocomplete="off">
                     </div>
                   </div>
                   <div class="form-group">
                     <label for="fecven" class="col-sm-3 control-label">Fecha Vencimiento</label>
                     <div class="col-sm-3 valida">
-                      <input type="text" id="fecven" name="fecven" class="form-control" placeholder="dd/mm/aaaa">
+                      <input type="text" id="fecven" name="fecven" class="form-control" placeholder="dd/mm/aaaa" autocomplete="off">
                     </div>
                   </div>
                   <div class="form-group">

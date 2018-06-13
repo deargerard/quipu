@@ -825,6 +825,7 @@ $( "#f_agrcarpersonal" ).validate( {
             $("#b_gagrcarpersonal").hide();
          },
          success: function(data){
+            $("#l_agrcarpersonal").html("");
             $("#r_agrcarpersonal").html(data);
             $("#r_agrcarpersonal").slideDown();
          }
