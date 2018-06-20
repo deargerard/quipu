@@ -670,6 +670,7 @@ function estadocar($est){
 	    case "ACTIVO": return "<span class='label label-success'>ACTIVO</span>"; break;
 	    case "RESERVADO": return "<span class='label label-warning'>RESERVADO</span>"; break;
 	    case "CESADO": return "<span class='label label-danger'>CESADO</span>"; break;
+	    case "SUSPENDIDO": return "<span class='label label-default'>SUSPENDIDO</span>"; break;
 	}
 }
 function estadolic($est){
@@ -677,6 +678,7 @@ function estadolic($est){
 	    case "ACTIVO": return "<span class='label label-success'>ACTIVO</span>"; break;
 	    case "RESERVADO": return "<span class='label label-warning'>RESERVADO</span>"; break;
 	    case "CESADO": return "<span class='label label-danger'>CESADO</span>"; break;
+	    case "SUSPENDIDO": return "<span class='label label-default'>SUSPENDIDO</span>"; break;
 	}
 }
 //funcion intervalo de fechas

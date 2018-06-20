@@ -826,7 +826,7 @@ $( "#f_agrcarpersonal" ).validate( {
          },
          success: function(data){
             $("#l_agrcarpersonal").html("");
-            $("#r_agrcarpersonal").html(data);
+            $("#r_agrcarpersonal").html(data)
             $("#r_agrcarpersonal").slideDown();
          }
       });

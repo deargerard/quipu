@@ -5,6 +5,11 @@ include("../php/funciones.php");
 if(accesoadm($cone,$_SESSION['identi'],1)){
   if(isset($_POST["idec"]) && !empty($_POST["idec"])){
     $idec=iseguro($cone,$_POST["idec"]);
+    $cd=mysqli_query($cone,"SELECT FecInicio FROM cardependencia WHERE idEmpleadoCargo=$idec AND Estado=1;");
+    if($rd=mysqli_fetch_assoc($cd)){
+      $f=$rd['FecInicio'];
+    }
+    mysqli_free_result($cd);
   ?>
                   <div class="form-group">
                     <label for="dep" class="col-sm-3 control-label">Dependencia</label>
@@ -68,7 +73,8 @@ if(accesoadm($cone,$_SESSION['identi'],1)){
     format: "dd/mm/yyyy",
     language: "es",
     autoclose: true,
-    todayHighlight: true
+    todayHighlight: true,
+    startDate: <?php echo '"'.fnormal($f).'"'; ?>
   });
   $(".select2").select2();
 </script>
