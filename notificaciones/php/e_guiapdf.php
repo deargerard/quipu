@@ -43,7 +43,10 @@ if(isset($_GET['guia']) && !empty($_GET['guia'])){
     <page_footer> 
         <table class="page_footer">
             <tr>
-                <td style="width: 100%; text-align: right">
+            	<td style="width: 70%; text-align: left">
+            		(076)-365577 Anexo 1085 | Anexo IP 2410 | Jr. Sor Manuela Gil S/N Urb. La Alameda | Cajamarca-Perú
+            	</td>
+                <td style="width: 30%; text-align: right">
                     Página [[page_cu]]/[[page_nb]]
                 </td>
             </tr>
