@@ -296,90 +296,54 @@ $('#m_editelefono').on('hidden.bs.modal', function () {
  $("#dcontacto").load("m_inclusiones/ajax/a_rdcontacto.php");
 })
   //fin funciones editar telefono
-  //funciones desactivar telefono
-function destelefono(id){
+  //funciones eliminar telefono
+function elitelefonop(id){
 $.ajax({
   type: "post",
-  url: "m_inclusiones/ajax/a_destelefono.php",
+  url: "m_inclusiones/ajax/a_elitelefono.php",
   data: {idt:id},
   beforeSend: function () {
-    $("#r_editelefono").html("<img scr='m_images/cargando.gif'>");
+    $("#r_elitelefono").html("<img scr='m_images/cargando.gif'>");
   },
   success:function(a){
-    $("#r_destelefono").html(a);
-    $("#b_gdestelefono").show();
+    $("#r_elitelefono").html(a);
+    $("#b_gelitelefono").show();
   }
 });
 };
-$("#f_destelefono").submit(function(e){
+$("#f_elitelefonop").submit(function(e){
   e.preventDefault();
-  var datos = $("#f_destelefono").serializeArray();
-  datos.push({name: "NomForm", value: "f_destelefono"});
+  var datos = $("#f_elitelefonop").serializeArray();
+  datos.push({name: "NomForm", value: "f_elitelefonop"});
   $.ajax({
         data:  datos,
-        url:   "m_inclusiones/ajax/a_gdestelefono.php",
+        url:   "m_inclusiones/ajax/a_gelitelefono.php",
         type:  "post",
         beforeSend: function () {
-          $("#b_gdestelefono").hide();
-          $("#r_destelefono").html("<img scr='m_images/cargando.gif'>");
+          $("#b_gelitelefono").hide();
+          $("#r_elitelefono").html("<img scr='m_images/cargando.gif'>");
         },
         success:  function (response) {
-          $("#r_destelefono").html(response);
+          $("#r_elitelefono").html(response);
         }
     });
 });
-$('#m_destelefono').on('hidden.bs.modal', function () {
+$('#m_elitelefono').on('hidden.bs.modal', function () {
  $("#dcontacto").load("m_inclusiones/ajax/a_rdcontacto.php");
 })
-  //fin funciones desactivar telefono
-  //funciones activar telefono
-function acttelefono(id){
-$.ajax({
-  type: "post",
-  url: "m_inclusiones/ajax/a_acttelefono.php",
-  data: {idt:id},
-  beforeSend: function () {
-    $("#r_acttelefono").html("<img scr='m_images/cargando.gif'>");
-  },
-  success:function(a){
-    $("#r_acttelefono").html(a);
-    $("#b_gacttelefono").show();
-  }
-});
-};
-$("#f_acttelefono").submit(function(e){
-  e.preventDefault();
-  var datos = $("#f_acttelefono").serializeArray();
-  datos.push({name: "NomForm", value: "f_acttelefono"});
-  $.ajax({
-        data:  datos,
-        url:   "m_inclusiones/ajax/a_gacttelefono.php",
-        type:  "post",
-        beforeSend: function () {
-          $("#b_gacttelefono").hide();
-          $("#r_acttelefono").html("<img scr='m_images/cargando.gif'>");
-        },
-        success:  function (response) {
-          $("#r_acttelefono").html(response);
-        }
-    });
-});
-$('#m_acttelefono').on('hidden.bs.modal', function () {
- $("#dcontacto").load("m_inclusiones/ajax/a_rdcontacto.php");
-})
-  //fin funciones activar telefono
+  //fin funciones eliminar telefono
 function detcargo(id){
-$.ajax({
-  type: "post",
-  url: "m_inclusiones/ajax/a_detcargo.php",
-  data: { idc : id },
-  beforeSend: function () {
-    $("#r_detdependencia").html("<img src='m_images/cargando.gif'>");
-  },
-  success:function(a){
-    $("#r_detcargo").html(a);
-  }
-});
+  $.ajax({
+    type: "post",
+    url: "m_inclusiones/ajax/a_detcargo.php",
+    data: { idc : id },
+    beforeSend: function () {
+      $("#r_detdependencia").html("<img src='m_images/cargando.gif'>");
+    },
+    success:function(a){
+      $("#r_detcargo").html(a);
+    }
+  });
 };
 //funciones editar perfil personal
 function edidatpersonales(id){
@@ -768,18 +732,19 @@ $('#m_edidomicilio').on('hidden.bs.modal', function () {
 //fin funciones editar sistema de pension
 //funciones Agregar cargo
 function agrcarpersonal(id){
-$.ajax({
-  type: "post",
-  url: "m_inclusiones/ajax/a_agrcarpersonal.php",
-  data: { idp : id },
-  beforeSend: function () {
-    $("#r_agrcarpersonal").html("<img src='m_images/cargando.gif'>");
-  },
-  success:function(a){
-    $("#r_agrcarpersonal").html(a);
-    $("#b_gagrcarpersonal").show();
-  }
-});
+  $.ajax({
+    type: "post",
+    url: "m_inclusiones/ajax/a_agrcarpersonal.php",
+    data: { idp : id },
+    beforeSend: function () {
+      $("#r_agrcarpersonal").html("<img src='m_images/cargando.gif'>");
+      $("#b_gagrcarpersonal").hide();
+    },
+    success:function(a){
+      $("#r_agrcarpersonal").html(a);
+      $("#b_gagrcarpersonal").show();
+    }
+  });
 };
 function ccargo(val){
   $('#car').html('<option value="">Cargando...</option>');
@@ -856,14 +821,12 @@ $( "#f_agrcarpersonal" ).validate( {
          dataType: "html",
          data: datos,   // I WANT TO ADD EXTRA DATA + SERIALIZE DATA
          beforeSend: function () {
-            $("#b_gagrcarpersonal").html("<i class='fa fa-spinner fa-spin'></i> Enviando");
-            $("#b_gagrcarpersonal").addClass("disabled");
+            $("#l_agrcarpersonal").html("<i class='fa fa-spinner fa-spin'></i> Enviando");
+            $("#b_gagrcarpersonal").hide();
          },
          success: function(data){
-            $("#b_gagrcarpersonal").hide();
-            $("#b_gagrcarpersonal").html("Guardar");
-            $("#b_gagrcarpersonal").removeClass("disabled");
-            $("#r_agrcarpersonal").html(data);
+            $("#l_agrcarpersonal").html("");
+            $("#r_agrcarpersonal").html(data)
             $("#r_agrcarpersonal").slideDown();
          }
       });
@@ -1164,18 +1127,18 @@ $.ajax({
 //fin funciones detalle estado cargo
 //funcion nuevo desplazamiento
 function nuedesplazamiento(id){
-$.ajax({
-  type: "post",
-  url: "m_inclusiones/ajax/a_nuedesplazamiento.php",
-  data: { idec : id },
-  beforeSend: function () {
-    $("#r_nuedesplazamiento").html("<img src='m_images/cargando.gif'>");
-  },
-  success:function(a){
-    $("#r_nuedesplazamiento").html(a);
-    $("#b_gnuedesplazamiento").show();
-  }
-});
+  $.ajax({
+    type: "post",
+    url: "m_inclusiones/ajax/a_nuedesplazamiento.php",
+    data: { idec : id },
+    beforeSend: function () {
+      $("#r_nuedesplazamiento").html("<img src='m_images/cargando.gif'>");
+    },
+    success:function(a){
+      $("#r_nuedesplazamiento").html(a);
+      $("#b_gnuedesplazamiento").show();
+    }
+  });
 };
 //funcion validar nuevo desplazamiento
 $( "#f_nuedesplazamiento" ).validate( {
@@ -1183,7 +1146,7 @@ $( "#f_nuedesplazamiento" ).validate( {
       dep:"required",
       tipdes:"required",
       ini:{required:true, datePE:true},
-      fin:{required:false, datePE:true},
+      fven:{required:false, datePE:true},
       numres:{required:true, minlength:5},
       mot:{required:true, minlength:5},
       ofi:{required:false}
@@ -1192,7 +1155,7 @@ $( "#f_nuedesplazamiento" ).validate( {
       dep:"Elija una dependencia.",
       tipdes:"Elija un tipo de desplazamiento.",
       ini: {required:"Ingrese fecha de inicio del desplazamiento.",datePE:"Ingrese una fecha válida."},
-      fin: {datePE:"Ingrese una fecha válida."},
+      fven: {datePE:"Ingrese una fecha válida."},
       numres: {required:"Ingrese número de documento que autoriza el desplazamiento.",minlength:"Mínimo 5 caracteres."},
       mot: {required:"Ingrese motivo del desplazamiento.",minlength:"Mínimo 5 caracteres"}
     },
@@ -1240,13 +1203,28 @@ $( "#f_nuedesplazamiento" ).validate( {
   } );
 
 //funcion nuevo desplazamiento
-function edidesplazamiento(id){
+function edidesplazamiento(id, acc){
+  if(acc=="edat"){
+    $(".t_edesplazamiento").html("Editar Datos Desplazamiento");
+    $("#m_edesplazamiento").addClass("modal-lg")
+  }else if(acc=="eofi"){
+    $(".t_edesplazamiento").html("Oficializar");
+    $("#m_edesplazamiento").removeClass("modal-lg")
+  }else if(acc=="efin"){
+    $(".t_edesplazamiento").html("Editar Fecha Inicio");
+    $("#m_edesplazamiento").removeClass("modal-lg")
+  }else if(acc=="effi"){
+    $(".t_edesplazamiento").html("Editar Fecha Fin");
+    $("#m_edesplazamiento").removeClass("modal-lg")
+  }
   $.ajax({
     type: "post",
     url: "m_inclusiones/ajax/a_edidesplazamiento.php",
-    data: { id : id },
+    data: { id : id, acc : acc },
+    dataType: "html",
     beforeSend: function () {
       $("#r_edidesplazamiento").html("<img src='m_images/cargando.gif'>");
+      $("#b_gedidesplazamiento").hide();
     },
     success:function(a){
       $("#r_edidesplazamiento").html(a);
@@ -1255,66 +1233,28 @@ function edidesplazamiento(id){
   });
 };
 //funcion validar nuevo desplazamiento
-$( "#f_edidesplazamiento" ).validate( {
-    rules: {
-      dep:"required",
-      tipdes:"required",
-      ini:{required:true, datePE:true},
-      fin:{required:false, datePE:true},
-      numres:{required:true, minlength:5},
-      mot:{required:true, minlength:5},
-      ofi:{required:false}
-    },
-    messages: {
-      dep:"Elija una dependencia.",
-      tipdes:"Elija un tipo de desplazamiento.",
-      ini: {required:"Ingrese fecha de inicio del desplazamiento.",datePE:"Ingrese una fecha válida."},
-      fin: {datePE:"Ingrese una fecha válida."},
-      numres: {required:"Ingrese número de documento que autoriza el desplazamiento.",minlength:"Mínimo 5 caracteres."},
-      mot: {required:"Ingrese motivo del desplazamiento.",minlength:"Mínimo 5 caracteres"}
-    },
-    errorElement: "em",
-    errorPlacement: function ( error, element ) {
-      // Add the `help-block` class to the error element
-      error.addClass( "help-block" );
-
-      if ( element.prop( "type" ) === "checkbox" ) {
-        error.insertAfter( element.parent( "label" ) );
-      } else if ( element.prop( "type" ) === "radio" ){
-        error.insertAfter( element.parent( "label" ) );
-      }
-      else {
-        error.insertAfter( element );
-      }
-    },
-    highlight: function ( element, errorClass, validClass ) {
-      $( element ).parents( ".valida" ).addClass( "has-error" ).removeClass( "has-success" );
-    },
-    unhighlight: function (element, errorClass, validClass) {
-      $( element ).parents( ".valida" ).addClass( "has-success" ).removeClass( "has-error" );
-    },
-    submitHandler: function(form){
+$("#f_edidesplazamiento").submit(function(e){
+      e.preventDefault();
       var datos = $("#f_edidesplazamiento").serializeArray();
-      datos.push({name: "NomForm", value: "f_edidesplazamiento"});
       $.ajax({
          type: "POST",
          url: "m_inclusiones/ajax/a_gedidesplazamiento.php",
-         dataType: "html",
+         dataType: "json",
          data: datos,   // I WANT TO ADD EXTRA DATA + SERIALIZE DATA
          beforeSend: function () {
-            $("#b_gedidesplazamiento").html("<i class='fa fa-spinner fa-spin'></i> Enviando");
-            $("#b_gedidesplazamiento").addClass("disabled");
-         },
-         success: function(data){
+            $("#r_edesplazamiento").html("<i class='fa fa-spinner fa-spin'></i> Enviando");
             $("#b_gedidesplazamiento").hide();
-            $("#b_gedidesplazamiento").html("Guardar");
-            $("#b_gedidesplazamiento").removeClass("disabled");
-            $("#r_edidesplazamiento").html(data);
-            $("#r_edidesplazamiento").slideDown();
+         },
+         success: function(d){
+          if(d.e){
+            $("#r_edidesplazamiento").html(d.m);
+          }else{
+            $("#r_edesplazamiento").html(d.m);
+            $("#b_gedidesplazamiento").show();
+          }
          }
       });
-    }
-  } );
+});
 
 $('#m_nuedesplazamiento').on('hidden.bs.modal', function () {
  $("#cargoe").load("m_inclusiones/ajax/a_rcargo.php");
@@ -1342,14 +1282,14 @@ $( "#f_nueestcargo" ).validate( {
     rules: {
       estcar:"required",
       ini:{required:true, datePE:true},
-      fin:{required:false, datePE:true},
+      fven:{required:false, datePE:true},
       numres:{required:true, minlength:5},
       mot:{required:true, minlength:5},
     },
     messages: {
       estcar:"Elija un nuevo estado.",
       ini: {required:"Ingrese fecha de inicio del nuevo estado.",datePE:"Ingrese una fecha válida."},
-      fin: {datePE:"Ingrese una fecha válida."},
+      fven: {datePE:"Ingrese una fecha válida."},
       numres: {required:"Ingrese número de documento que autoriza el nuevo estado.",minlength:"Mínimo 5 caracteres."},
       mot: {required:"Ingrese motivo del nuevo estado.",minlength:"Mínimo 5 caracteres"}
     },
@@ -1397,83 +1337,67 @@ $( "#f_nueestcargo" ).validate( {
   } );
 
 //funcion nuevo estado cargo
-function ediestcargo(id){
-$.ajax({
-  type: "post",
-  url: "m_inclusiones/ajax/a_ediestcargo.php",
-  data: { idec : id },
-  beforeSend: function () {
-    $("#r_ediestcargo").html("<img src='m_images/cargando.gif'>");
-    $("#b_gediestcargo").hide();
-  },
-  success:function(a){
-    $("#r_ediestcargo").html(a);
-    $("#b_gediestcargo").show();
+function ediestcargo(id, acc){
+  switch(acc) {
+    case "edidat":
+        $(".teecargo").html("Edidar datos del estado");
+        break;
+    case "edifin":
+        $(".teecargo").html("Edidar fecha inicio del estado");
+        break;
+    case "ediffi":
+        $(".teecargo").html("Edidar fecha fin del estado");
+        break;
+    default:
+        $(".teecargo").html("Edidar");
   }
-});
+  $.ajax({
+    type: "post",
+    url: "m_inclusiones/ajax/a_ediestcargo.php",
+    data: { idec: id, acc: acc },
+    beforeSend: function () {
+      $("#r_ediestcargo").html("<img src='m_images/cargando.gif'>");
+      $("#b_gediestcargo").hide();
+    },
+    success:function(a){
+      $("#r_ediestcargo").html(a);
+      $("#b_gediestcargo").show();
+    }
+  });
 };
 //funcion validar nuevo estado cargo
-$( "#f_ediestcargo" ).validate( {
-    rules: {
-      estcar:"required",
-      ini:{required:true, datePE:true},
-      fin:{required:false, datePE:true},
-      numres:{required:true, minlength:5},
-      mot:{required:true, minlength:5},
-    },
-    messages: {
-      estcar:"Elija un nuevo estado.",
-      ini: {required:"Ingrese fecha de inicio del nuevo estado.",datePE:"Ingrese una fecha válida."},
-      fin: {datePE:"Ingrese una fecha válida."},
-      numres: {required:"Ingrese número de documento que autoriza el nuevo estado.",minlength:"Mínimo 5 caracteres."},
-      mot: {required:"Ingrese motivo del nuevo estado.",minlength:"Mínimo 5 caracteres"}
-    },
-    errorElement: "em",
-    errorPlacement: function ( error, element ) {
-      // Add the `help-block` class to the error element
-      error.addClass( "help-block" );
 
-      if ( element.prop( "type" ) === "checkbox" ) {
-        error.insertAfter( element.parent( "label" ) );
-      } else if ( element.prop( "type" ) === "radio" ){
-        error.insertAfter( element.parent( "label" ) );
-      }
-      else {
-        error.insertAfter( element );
-      }
-    },
-    highlight: function ( element, errorClass, validClass ) {
-      $( element ).parents( ".valida" ).addClass( "has-error" ).removeClass( "has-success" );
-    },
-    unhighlight: function (element, errorClass, validClass) {
-      $( element ).parents( ".valida" ).addClass( "has-success" ).removeClass( "has-error" );
-    },
-    submitHandler: function(form){
+$("#f_ediestcargo").submit(function(e){
+      e.preventDefault();
       var datos = $("#f_ediestcargo").serializeArray();
-      datos.push({name: "NomForm", value: "f_ediestcargo"});
       $.ajax({
          type: "POST",
          url: "m_inclusiones/ajax/a_gediestcargo.php",
-         dataType: "html",
+         dataType: "json",
          data: datos,   // I WANT TO ADD EXTRA DATA + SERIALIZE DATA
          beforeSend: function () {
-            $("#b_gediestcargo").html("<i class='fa fa-spinner fa-spin'></i> Enviando");
-            $("#b_gediestcargo").addClass("disabled");
+            $("#r_eecargo").html("<i class='fa fa-spinner fa-spin'></i> Enviando");
+            $("#b_gediestcargo").hide("disabled");
          },
-         success: function(data){
-            $("#b_gediestcargo").hide();
-            $("#b_gediestcargo").html("Guardar");
-            $("#b_gediestcargo").removeClass("disabled");
-            $("#r_ediestcargo").html(data);
-            $("#r_ediestcargo").slideDown();
+         success: function(d){
+            if(d.e){
+              $("#r_ediestcargo").html(d.m);
+              $("#f_efvac").html(d.m);
+              var iec=$("#iec").val();
+              detcargo(iec);
+            }else{
+              $("#r_eecargo").html(d.m);
+              $("#b_gediestcargo").show("disabled");
+            }
          }
       });
-    }
-  } );
+});
+
 $('#m_nueestcargo, #m_ediestcargo, #m_edidesplazamiento').on('hidden.bs.modal', function () {
  $("#cargoe").load("m_inclusiones/ajax/a_rcargo.php");
  $("#nomcare").load("m_inclusiones/ajax/a_rnomcar.php");
 })
+
 //fin funcion nuevo desplazamiento
 //funcion editar movimiento
 function edimovpersonal(id){
@@ -3270,3 +3194,45 @@ $('#m_ntelefono, #m_editeld, #m_elitelefono').on('hidden.bs.modal', function () 
       });
 })
 //fin funcion actualizar lista de telefonos
+
+    function edifv(idec){
+      $('#m_fvac').modal('show');
+        $.ajax({
+           type: "POST",
+           url: "m_inclusiones/ajax/a_edifvac.php",
+           dataType: "html",
+           data: {idec: idec},   // I WANT TO ADD EXTRA DATA + SERIALIZE DATA
+           beforeSend: function () {
+              $("#f_efvac").html("<i class='fa fa-spinner fa-spin text-center'></i>");
+              $("#b_gefvac").hide();
+           },
+           success: function(d){
+              $("#f_efvac").html(d);
+           }
+        });
+    }
+
+      $("#b_gefvac").on("click",function(){
+          var datos = $("#f_efvac").serializeArray();
+          $.ajax({
+             type: "POST",
+             url: "m_inclusiones/ajax/a_gedifvac.php",
+             dataType: "json",
+             data: datos,   // I WANT TO ADD EXTRA DATA + SERIALIZE DATA
+             beforeSend: function () {
+                $("#r_fvac").html("<i class='fa fa-spinner fa-spin'></i>");
+                $("#b_gefvac").hide();
+             },
+             success: function(d){
+                if(d.e){
+                  $("#f_efvac").html(d.m);
+                  var iec=$("#iec").val();
+                  detcargo(iec);
+                  console.log(iec);
+                }else{
+                  $("#r_fvac").html(d.m);
+                  $("#b_gefvac").show();
+                }
+             }
+          });
+      })

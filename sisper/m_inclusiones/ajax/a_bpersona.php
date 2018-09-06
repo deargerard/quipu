@@ -28,7 +28,7 @@
 			if(mysqli_num_rows($quet)>0){
 ?>
 					<div class="table-responsive">
-						<table class="table table-bordered table-striped">
+						<table class="table table-bordered table-hover">
 							<thead>
 								<tr>
 									<th>Tipo</th>
@@ -58,7 +58,7 @@
 				<div class="col-md-6">
 					<h4 class="text-orange"><i class="fa fa-envelope-square"></i> Correo</h4>
 						<div class="table-responsive">
-							<table class="table table-bordered table-striped">
+							<table class="table table-bordered table-hover">
 								<thead>
 									<tr>
 										<th>Correo</th>
@@ -94,7 +94,7 @@
 			<div class="col-md-12">
 				<h4 class="text-orange"><i class="fa fa-ambulance"></i> Contacto Emergencia</h4>
 					<div class="table-responsive">
-						<table class="table table-bordered table-striped">
+						<table class="table table-bordered table-hover">
 							<thead>
 								<tr>
 									<th>Nombre</th>
@@ -143,12 +143,12 @@
 		</div>
 <?php
 		}else{
-			echo "<h4 class='text-maroon'>Error: No se encontraron resultados.</h4>";
+			echo mensajewa("Error: No se encontraron resultados.");
 		}
 		mysqli_free_result($que);
 		mysqli_close($cone);
 	}else{
-		echo "<h4 class='text-maroon'>Error: Ingrese un número de documento válido.</h4>";
+		echo mensajewa("Error: Ingrese un número de documento válido.");
 	}
 	}else{
 		echo accrestringidoa();

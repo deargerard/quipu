@@ -19,7 +19,7 @@ $idp=$_SESSION['idperper'];
 		                	if(mysqli_num_rows($cgt)>0){
 		                	?>
 		                	
-		                	<table class="table table-striped table-bordered">
+		                	<table class="table table-hover table-bordered">
 		                		<thead>
 		                			<th>GRADO/TITULO</th>
 		                			<th>DENOMINACIÓN</th>

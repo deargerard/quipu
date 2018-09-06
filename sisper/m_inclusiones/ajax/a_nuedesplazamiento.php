@@ -5,6 +5,11 @@ include("../php/funciones.php");
 if(accesoadm($cone,$_SESSION['identi'],1)){
   if(isset($_POST["idec"]) && !empty($_POST["idec"])){
     $idec=iseguro($cone,$_POST["idec"]);
+    $cd=mysqli_query($cone,"SELECT FecInicio FROM cardependencia WHERE idEmpleadoCargo=$idec AND Estado=1;");
+    if($rd=mysqli_fetch_assoc($cd)){
+      $f=$rd['FecInicio'];
+    }
+    mysqli_free_result($cd);
   ?>
                   <div class="form-group">
                     <label for="dep" class="col-sm-3 control-label">Dependencia</label>
@@ -34,15 +39,15 @@ if(accesoadm($cone,$_SESSION['identi'],1)){
                     </div>
                   </div>
                   <div class="form-group">
-                    <label for="ini" class="col-sm-3 control-label">Inicia</label>
+                    <label for="ini" class="col-sm-3 control-label">Fecha Inicio</label>
                     <div class="col-sm-3 valida">
-                      <input type="text" id="ini" name="ini" class="form-control" placeholder="dd/mm/aaaa">
+                      <input type="text" id="ini" name="ini" class="form-control" placeholder="dd/mm/aaaa" autocomplete="off">
                     </div>
                   </div>
                   <div class="form-group">
-                    <label for="fin" class="col-sm-3 control-label">Probable fin</label>
+                    <label for="fven" class="col-sm-3 control-label">Fecha Vencimiento</label>
                     <div class="col-sm-3 valida">
-                      <input type="text" id="fin" name="fin" class="form-control" placeholder="dd/mm/aaaa">
+                      <input type="text" id="fven" name="fven" class="form-control" placeholder="dd/mm/aaaa" autocomplete="off">
                     </div>
                   </div>
                   <div class="form-group">
@@ -64,11 +69,12 @@ if(accesoadm($cone,$_SESSION['identi'],1)){
                     </div>
                   </div>
 <script>
-  $('#ini,#fin').datepicker({
+  $('#ini,#fven').datepicker({
     format: "dd/mm/yyyy",
     language: "es",
     autoclose: true,
-    todayHighlight: true
+    todayHighlight: true,
+    startDate: <?php echo '"'.fnormal($f).'"'; ?>
   });
   $(".select2").select2();
 </script>

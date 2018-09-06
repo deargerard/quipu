@@ -43,7 +43,7 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
 
               <p class="text-muted text-center"><strong><?php echo cargoe($cone,$idp) ?></strong></p>
               <p class="text-muted text-center"><small><?php echo dependenciae($cone,$idp) ?></small></p>
-              <?php if(accesoadm($cone,$_SESSION['identi'],1) || $_SESSION['mo']){ ?>
+              <?php if(accesoadm($cone,$_SESSION['identi'],1) || accesoadm($cone,$_SESSION['identi'],9)){ ?>
               <button class="btn btn-info btn-block btn-xs" data-toggle="modal" data-target="#m_camfoto" onclick="camfoto(<?php echo "'$numdoc'" ?>)">Cambiar foto</button>
               <?php } ?>
             </div>
@@ -60,26 +60,26 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
             <div class="box-body" id="dcontacto">
             	<div>
               		<strong class="text-orange"><i class="fa fa-phone-square margin-r-5"></i> Teléfonos</strong>
-              		<?php if(accesoadm($cone,$_SESSION['identi'],1) || $_SESSION['mo']){ ?>
+              		<?php if(accesoadm($cone,$_SESSION['identi'],1) || accesoadm($cone,$_SESSION['identi'],9)){ ?>
               		<a href="" class="btn btn-info pull-right btn-xs" data-toggle="modal" data-target="#m_agrtelefono" onclick="agrtelefono(<?php echo $idp ?>)"><i class="fa fa-plus"></i> Agregar</a>
               		<?php } ?>
 				</div>
 				<div class="clearfix"></div>
 				<div class="table-responsive">
 					<br>
-					<table class="table table-striped table-bordered">
+					<table class="table table-hover table-bordered">
 						<thead>
 							<tr>
 								<th>Tipo</th>
 								<th>Número</th>
-								<?php if(accesoadm($cone,$_SESSION['identi'],1) || $_SESSION['mo']){ ?>
+								<?php if(accesoadm($cone,$_SESSION['identi'],1) || accesoadm($cone,$_SESSION['identi'],9)){ ?>
 								<th>Acción</th>
 								<?php } ?>
 							</tr>
 						</thead>
 						<tbody>
 						<?php
-							if(accesoadm($cone,$_SESSION['identi'],1) || $_SESSION['mo']){
+							if(accesoadm($cone,$_SESSION['identi'],1) || accesoadm($cone,$_SESSION['identi'],9)){
 							$cte=mysqli_query($cone,"SELECT idTelefonoEmp, TipoTelefono, Numero, te.Estado FROM telefonoemp as te RIGHT JOIN tipotelefono AS tt ON te.idTipoTelefono=tt.idTipoTelefono WHERE idEmpleado=$idp");
 							}else{
 							$cte=mysqli_query($cone,"SELECT TipoTelefono, Numero FROM telefonoemp as te RIGHT JOIN tipotelefono AS tt ON te.idTipoTelefono=tt.idTipoTelefono WHERE idEmpleado=$idp AND te.Estado=1");
@@ -89,15 +89,10 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
 							<tr>
 								<td><?php echo $rte["TipoTelefono"] ?></td>
 								<td><?php echo $rte["Numero"] ?></td>
-								<?php if(accesoadm($cone,$_SESSION['identi'],1) || $_SESSION['mo']){ ?>
+								<?php if(accesoadm($cone,$_SESSION['identi'],1) || accesoadm($cone,$_SESSION['identi'],9)){ ?>
 								<td>
-									<a href="" class="text-purple" title="Editar" data-toggle="modal" data-target="#m_editelefono" onclick="editelefono(<?php echo $rte["idTelefonoEmp"] ?>)"><i class="fa fa-pencil-square"></i></a>
-									<?php if($rte["Estado"]==1){ ?>
-									<a href="" class="text-red" title="Desactivar" data-toggle="modal" data-target="#m_destelefono" onclick="destelefono(<?php echo $rte["idTelefonoEmp"] ?>)"><i class="fa fa-minus-square"></i></a>
-									<?php } ?>
-									<?php if($rte["Estado"]==0){ ?>
-									<a href="" class="text-olive" title="Activar" data-toggle="modal" data-target="#m_acttelefono" onclick="acttelefono(<?php echo $rte["idTelefonoEmp"] ?>)"><i class="fa fa-check-square"></i></a>
-									<?php } ?>
+									<a href="" class="text-purple" title="Editar" data-toggle="modal" data-target="#m_editelefono" onclick="editelefono(<?php echo $rte["idTelefonoEmp"] ?>)"><i class="fa fa-pencil"></i></a>&nbsp;
+									<a href="" class="text-red" title="Eliminar" data-toggle="modal" data-target="#m_elitelefono" onclick="elitelefonop(<?php echo $rte["idTelefonoEmp"] ?>)"><i class="fa fa-trash"></i></a>
 								</td>
 								<?php } ?>
 							</tr>
@@ -138,12 +133,12 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
                 	<div class="col-md-6">
                 		<div class="box-header">
 		                	<h3 class="box-title text-orange"><i class="fa fa-user"></i> Datos Personales</h3>
-		                	<?php if(accesoadm($cone,$_SESSION['identi'],1) || $_SESSION['mo']){ ?>
+		                	<?php if(accesoadm($cone,$_SESSION['identi'],1) || accesoadm($cone,$_SESSION['identi'],9)){ ?>
 		                	<a href="" class="btn btn-info pull-right btn-xs" data-toggle="modal" data-target="#m_edidatpersonales" onclick="edidatpersonales(<?php echo $idp ?>)"><i class="fa fa-pencil"></i> Editar</a>
 		                	<?php } ?>
 		                </div>
 		                <div class="table-responsive">
-		                	<table class="table table-striped table-bordered">
+		                	<table class="table table-hover">
 		                		<tbody>
 		                			<tr>
 		                				<th><?php echo $remp["TipoDoc"] ?></th>
@@ -211,12 +206,12 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
 		            <div class="col-md-6">
                 		<div class="box-header">
 		                	<h3 class="box-title text-orange"><i class="fa fa-graduation-cap"></i> Grado Instrucción</h3>
-		                	<?php if(accesoadm($cone,$_SESSION['identi'],1) || $_SESSION['mo']){ ?>
+		                	<?php if(accesoadm($cone,$_SESSION['identi'],1) || accesoadm($cone,$_SESSION['identi'],9)){ ?>
 		                	<a href="" class="btn btn-info pull-right btn-xs" data-toggle="modal" data-target="#m_edigrainstruccion" onclick="edigrainstruccion(<?php echo $idp ?>)"><i class="fa fa-pencil"></i> Editar</a>
 		                	<?php } ?>
 		                </div>
 		                <div class="table-responsive">
-		                	<table class="table table-striped table-bordered">
+		                	<table class="table table-hover">
 		                		<tbody>
 		                			<tr>
 		                				<th>Grado</th>
@@ -240,12 +235,12 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
 		                <!--Nueva Tabla-->
 		                <div class="box-header">
 		                	<h3 class="box-title text-orange"><i class="fa fa-hospital-o"></i> Sistema Pensión</h3>
-		                	<?php if(accesoadm($cone,$_SESSION['identi'],1) || $_SESSION['mo']){ ?>
+		                	<?php if(accesoadm($cone,$_SESSION['identi'],1) || accesoadm($cone,$_SESSION['identi'],9)){ ?>
 		                	<a href="" class="btn btn-info pull-right btn-xs" data-toggle="modal" data-target="#m_edisispension" onclick="edisispension(<?php echo $idp ?>)"><i class="fa fa-pencil"></i> Editar</a>
 		                	<?php } ?>
 		                </div>
 		                <div class="table-responsive">
-		                	<table class="table table-striped table-bordered">
+		                	<table class="table table-hover">
 		                		<?php
 		                		$cpe=mysqli_query($cone,"SELECT CUSPP, FecAfiliacion FROM pensionempleado WHERE idEmpleado=$idp");
 		                		$rpe=mysqli_fetch_assoc($cpe);
@@ -272,16 +267,16 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
 		                <!--Nueva Tabla-->
 		                <div class="box-header">
 		                	<h3 class="box-title text-orange"><i class="fa fa-building-o"></i> Domicilio</h3>
-		                	<?php if(accesoadm($cone,$_SESSION['identi'],1) || $_SESSION['mo']){ ?>
+		                	<?php if(accesoadm($cone,$_SESSION['identi'],1) || accesoadm($cone,$_SESSION['identi'],9)){ ?>
 		                	<a href="" class="btn btn-info pull-right btn-xs" data-toggle="modal" data-target="#m_edidomicilio" onclick="edidomicilio(<?php echo $idp ?>)"><i class="fa fa-pencil"></i> Editar</a>
 		                	<?php } ?>
 		                </div>
-		                <div class="table-responsive table-bordered">
+		                <div class="table-responsive">
 		                	<?php
 		                		$cdom=mysqli_query($cone,"SELECT * FROM domicilio WHERE idEmpleado=$idp");
 		                		$rdom=mysqli_fetch_assoc($cdom);
 		                	?>
-		                	<table class="table table-striped">
+		                	<table class="table table-hover">
 		                		<tbody>
 		                			<tr>
 		                				<th>Condición</th>
@@ -351,7 +346,7 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
             								break;
 
             							default:
-            								$mod='--';
+            								$mod='-';
             								break;
             						}
             						if($rc['EstadoCar']=="ACTIVO"){
@@ -404,12 +399,6 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
 	                								<li><a href="#" data-toggle="modal" data-target="#m_edicarpersonal" onclick="edicarpersonal(<?php echo $rc['idEmpleadoCargo'] ?>)">Editar Cargo</a></li>
 	                								<li><a href="#" data-toggle="modal" data-target="#m_nueestcargo" onclick="nueestcargo(<?php echo $rc['idEmpleadoCargo'] ?>)">Cambiar Estado</a></li>
 	                								<?php
-	                										if ($rc['FechaIni']!=$rc['FechaAsu']) {
-
-	                								?>
-	                								<li><a href="#" data-toggle="modal" data-target="#m_ediestcargo" onclick="ediestcargo(<?php echo $rc['idEstadoCargo'] ?>)">Editar Estado</a></li>
-	                								<?php
-	                										}
 	                									}
 	                								}
 	                								?>
@@ -435,7 +424,7 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
 			                		?>
 			                	  </div>
 			                		<?php
-			                		$cde=mysqli_query($cone,"SELECT idCarDependencia, Denominacion, FecInicio, Oficial, cd.Estado, tde.TipoDesplaza FROM cardependencia AS cd INNER JOIN dependencia AS d ON cd.idDependencia=d.idDependencia INNER JOIN tipodesplaza AS tde ON cd.idTipoDesplaza=tde.idTipoDesplaza WHERE cd.idEmpleadoCargo=$idec ORDER BY FecInicio DESC");
+			                		$cde=mysqli_query($cone,"SELECT idCarDependencia, Denominacion, FecInicio, FecFin, Oficial, cd.Estado, tde.TipoDesplaza, tde.idTipoDesplaza FROM cardependencia AS cd INNER JOIN dependencia AS d ON cd.idDependencia=d.idDependencia INNER JOIN tipodesplaza AS tde ON cd.idTipoDesplaza=tde.idTipoDesplaza WHERE cd.idEmpleadoCargo=$idec ORDER BY FecInicio DESC");
 			                		if(mysqli_num_rows($cde)>0){
 			                		?>
 			                		<table class="table table-hover table-bordered">
@@ -444,7 +433,8 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
 				                				<th>DEPENDENCIA</th>
 				                				<th>T. DESPLAZ.</th>
 				                				<th>OFICIAL</th>
-				                				<th>DESDE</th>
+				                				<th>F. INICIO</th>
+				                				<th>F. FIN</th>
 				                				<th>ACCIÓN</th>
 				                			</tr>
 				                		</thead>
@@ -457,6 +447,7 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
 				                				<td><?php echo $rde['TipoDesplaza'] ?></td>
 				                				<td><?php echo $rde['Oficial']==1 ? "<span class='label label-success'>Sí</span>" : "<span class='label label-default'>No</span>" ?></td>
 				                				<td><?php echo fnormal($rde['FecInicio']) ?></td>
+				                				<td><?php echo fnormal($rde['FecFin']) ?></td>
 				                				<td>
 				                					<div class="btn-group">
 			                							<button class="btn bg-purple btn-xs dropdown-toggle" data-toggle="dropdown">
@@ -468,12 +459,19 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
 			                								<li><a href="#" data-toggle="modal" data-target="#m_detdesplazamiento" onclick="detdesplazamiento(<?php echo $rde['idCarDependencia'] ?>)">Detalle</a></li>
 			                								<?php
 			                								if(accesoadm($cone,$_SESSION['identi'],1)){
-			                									if(($rc['EstadoCar']=='ACTIVO') AND $rde['Oficial']==1){
 			                								?>
 			                								<li class="divider"></li>
-			                								<li><a href="#" data-toggle="modal" data-target="#m_edidesplazamiento" onclick="edidesplazamiento(<?php echo $rde['idCarDependencia'] ?>)">Editar</a></li>
+			                								<li><a href="#" data-toggle="modal" data-target="#m_edidesplazamiento" onclick="edidesplazamiento(<?php echo $rde['idCarDependencia'].", 'edat'" ?>)">Editar Datos</a></li>
+			                								<?php if($rde['Oficial']!=1){ ?>
+			                								<li><a href="#" data-toggle="modal" data-target="#m_edidesplazamiento" onclick="edidesplazamiento(<?php echo $rde['idCarDependencia'].", 'eofi'" ?>)">Oficializar</a></li>
+			                								<?php } ?>
+			                								<?php if($rde['idTipoDesplaza']!=1){ ?>
+			                								<li><a href="#" data-toggle="modal" data-target="#m_edidesplazamiento" onclick="edidesplazamiento(<?php echo $rde['idCarDependencia'].", 'efin'" ?>)">Editar Fecha Inicio</a></li>
+			                								<?php } ?>
+			                								<?php if($rde['Estado']!=1){ ?>
+			                								<li><a href="#" data-toggle="modal" data-target="#m_edidesplazamiento" onclick="edidesplazamiento(<?php echo $rde['idCarDependencia'].", 'effi'" ?>)">Editar Fecha Fin</a></li>
+			                								<?php } ?>
 			                								<?php
-			                									}
 			                								}
 			                								?>
 			                							</ul>
@@ -516,7 +514,7 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
                 	<div class="col-md-12">
                 		<div class="box-header">
 		                	<h3 class="box-title text-orange"><i class="fa fa-child"></i> Parientes</h3>
-		                	<?php if(accesoadm($cone,$_SESSION['identi'],1) || $_SESSION['mo']){ ?>
+		                	<?php if(accesoadm($cone,$_SESSION['identi'],1) || accesoadm($cone,$_SESSION['identi'],9)){ ?>
 		                	<a href="" class="btn btn-info pull-right btn-xs" data-toggle="modal" data-target="#m_agrparpersonal" onclick="agrparpersonal(<?php echo $idp ?>)"><i class="fa fa-plus"></i> Agregar</a>
 		                	<?php } ?>
 		                </div>
@@ -526,7 +524,7 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
 		                	if(mysqli_num_rows($cp)>0){
 		                	?>
 
-		                	<table class="table table-striped table-bordered">
+		                	<table class="table table-hover table-bordered">
 		                		<thead>
 		                			<th>PARENTESCO</th>
 		                			<th>NOMBRE</th>
@@ -558,7 +556,7 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
 	                							</button>
 	                							<ul class="dropdown-menu pull-right" role="menu">
 	                								<li><a href="#" data-toggle="modal" data-target="#m_detparpersonal" onclick="detparpersonal(<?php echo $rp['idPariente'] ?>)">Detalle</a></li>
-	                								<?php if(accesoadm($cone,$_SESSION['identi'],1)  || $_SESSION['mo']){ ?>
+	                								<?php if(accesoadm($cone,$_SESSION['identi'],1)  || accesoadm($cone,$_SESSION['identi'],9)){ ?>
 	                								<li class="divider"></li>
 	                								<li><a href="#" data-toggle="modal" data-target="#m_ediparpersonal" onclick="ediparpersonal(<?php echo $rp['idPariente'] ?>)">Editar</a></li>
 	                								<?php } ?>
@@ -590,7 +588,7 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
                 	<div class="col-md-12">
                 		<div class="box-header">
 		                	<h3 class="box-title text-orange"><i class="fa fa-graduation-cap"></i> Grados y Titulos</h3>
-		                	<?php if(accesoadm($cone,$_SESSION['identi'],1) || $_SESSION['mo']){ ?>
+		                	<?php if(accesoadm($cone,$_SESSION['identi'],1) || accesoadm($cone,$_SESSION['identi'],9)){ ?>
 		                	<a href="" class="btn btn-info pull-right btn-xs" data-toggle="modal" data-target="#m_agrgrapersonal" onclick="agrgrapersonal(<?php echo $idp ?>)"><i class="fa fa-plus"></i> Agregar</a>
 		                	<?php } ?>
 		                </div>
@@ -600,7 +598,7 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
 		                	if(mysqli_num_rows($cgt)>0){
 		                	?>
 
-		                	<table class="table table-striped table-bordered">
+		                	<table class="table table-hover table-bordered">
 		                		<thead>
 		                			<th>GRADO/TITULO</th>
 		                			<th>DENOMINACIÓN</th>
@@ -626,7 +624,7 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
 	                							</button>
 	                							<ul class="dropdown-menu pull-right" role="menu">
 	                								<li><a href="#" data-toggle="modal" data-target="#m_detgrapersonal" onclick="detgrapersonal(<?php echo $rgt['idGradoTitulo'] ?>)">Detalle</a></li>
-	                								<?php if(accesoadm($cone,$_SESSION['identi'],1)  || $_SESSION['mo']){ ?>
+	                								<?php if(accesoadm($cone,$_SESSION['identi'],1)  || accesoadm($cone,$_SESSION['identi'],9)){ ?>
 	                								<li class="divider"></li>
 	                								<li><a href="#" data-toggle="modal" data-target="#m_edigrapersonal" onclick="edigrapersonal(<?php echo $rgt['idGradoTitulo'] ?>)">Editar</a></li>
 	                								<?php } ?>
@@ -657,7 +655,7 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
                 	<div class="col-md-12">
                 		<div class="box-header">
 		                	<h3 class="box-title text-orange"><i class="fa fa-file-text-o"></i> Capacitaciones</h3>
-		                	<?php if(accesoadm($cone,$_SESSION['identi'],1) || $_SESSION['mo']){ ?>
+		                	<?php if(accesoadm($cone,$_SESSION['identi'],1) || accesoadm($cone,$_SESSION['identi'],9)){ ?>
 		                	<a href="#" class="btn btn-info pull-right btn-xs" data-toggle="modal" data-target="#m_agrcappersonal" onclick="agrcappersonal(<?php echo $idp ?>)"><i class="fa fa-plus"></i> Agregar</a>
 		                	<?php } ?>
 		                </div>
@@ -667,7 +665,7 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
 		                	if(mysqli_num_rows($cca)>0){
 		                	?>
 
-		                	<table class="table table-striped table-bordered">
+		                	<table class="table table-hover table-bordered">
 		                		<thead>
 		                			<th>DENOMINACIÓN</th>
 		                			<th>TIPO</th>
@@ -691,7 +689,7 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
 	                							</button>
 	                							<ul class="dropdown-menu pull-right" role="menu">
 	                								<li><a href="#" data-toggle="modal" data-target="#m_detcappersonal" onclick="detcappersonal(<?php echo $rca['idCapacitacion'] ?>)">Detalle</a></li>
-	                								<?php if(accesoadm($cone,$_SESSION['identi'],1) || $_SESSION['mo']){ ?>
+	                								<?php if(accesoadm($cone,$_SESSION['identi'],1) || accesoadm($cone,$_SESSION['identi'],9)){ ?>
 	                								<li class="divider"></li>
 	                								<li><a href="#" data-toggle="modal" data-target="#m_edicappersonal" onclick="edicappersonal(<?php echo $rca['idCapacitacion'] ?>)">Editar</a></li>
 	                								<?php } ?>
@@ -723,7 +721,7 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
                 	<div class="col-md-12">
                 		<div class="box-header">
 		                	<h3 class="box-title text-orange"><i class="fa fa-industry"></i> Experiencia Laboral</h3>
-		                	<?php if(accesoadm($cone,$_SESSION['identi'],1) || $_SESSION['mo']){ ?>
+		                	<?php if(accesoadm($cone,$_SESSION['identi'],1) || accesoadm($cone,$_SESSION['identi'],9)){ ?>
 		                	<a href="#" class="btn btn-info pull-right btn-xs" data-toggle="modal" data-target="#m_agrexppersonal" onclick="agrexppersonal(<?php echo $idp ?>)"><i class="fa fa-plus"></i> Agregar</a>
 		                	<?php } ?>
 		                </div>
@@ -733,7 +731,7 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
 		                	if(mysqli_num_rows($cel)>0){
 		                	?>
 
-		                	<table class="table table-striped table-bordered">
+		                	<table class="table table-hover table-bordered">
 		                		<thead>
 		                			<th>INSTITUCIÓN</th>
 		                			<th>CARGO</th>
@@ -765,7 +763,7 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
 	                							</button>
 	                							<ul class="dropdown-menu pull-right" role="menu">
 	                								<li><a href="#" data-toggle="modal" data-target="#m_detexppersonal" onclick="detexppersonal(<?php echo $rel['idExpLaboral'] ?>)">Detalle</a></li>
-	                								<?php if(accesoadm($cone,$_SESSION['identi'],1) || $_SESSION['mo']){ ?>
+	                								<?php if(accesoadm($cone,$_SESSION['identi'],1) || accesoadm($cone,$_SESSION['identi'],9)){ ?>
 	                								<li class="divider"></li>
 	                								<li><a href="#" data-toggle="modal" data-target="#m_ediexppersonal" onclick="ediexppersonal(<?php echo $rel['idExpLaboral'] ?>)">Editar</a></li>
 	                								<?php } ?>
@@ -992,48 +990,27 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
   </form>
 </div>
 <!--Fin Modal Editar teléfono-->
-<!--Modal Desactivar Teléfono-->
-<div class="modal fade" id="m_destelefono" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <form id="f_destelefono" action="" class="form-horizontal">
+<!--Modal Eliminar Teléfono-->
+<div class="modal fade" id="m_elitelefono" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <form id="f_elitelefonop" action="" class="form-horizontal">
   <div class="modal-dialog modal-sm" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Desactivar Teléfono</h4>
+        <h4 class="modal-title" id="myModalLabel">Eliminar Teléfono</h4>
       </div>
-      <div class="modal-body" id="r_destelefono">
+      <div class="modal-body" id="r_elitelefono">
 
       </div>
       <div class="modal-footer">
-        <button type="submit" class="btn btn-danger" id="b_gdestelefono">Sí</button>
+        <button type="submit" class="btn btn-danger" id="b_gelitelefono">Sí</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
       </div>
     </div>
   </div>
   </form>
 </div>
-<!--Fin Modal Desactivar teléfono-->
-<!--Modal Activar Teléfono-->
-<div class="modal fade" id="m_acttelefono" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <form id="f_acttelefono" action="" class="form-horizontal">
-  <div class="modal-dialog modal-sm" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Activar Teléfono</h4>
-      </div>
-      <div class="modal-body" id="r_acttelefono">
-
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-success" id="b_gacttelefono">Sí</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-      </div>
-    </div>
-  </div>
-  </form>
-</div>
-<!--Fin Modal Activar teléfono-->
+<!--Fin Modal eliminar teléfono-->
 <!--Modal Editar Datos Personales-->
 <div class="modal fade" id="m_edidatpersonales" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <form id="f_edidatpersonales" action="" class="form-horizontal" accept-charset="UTF-8">
@@ -1131,6 +1108,7 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
 
       </div>
       <div class="modal-footer">
+      	<div id="l_agrcarpersonal"></div>
         <button type="submit" class="btn bg-teal" id="b_gagrcarpersonal">Guardar</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
       </div>
@@ -1244,11 +1222,11 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
 <!--Modal Agregar Desplazamiento-->
 <div class="modal fade" id="m_edidesplazamiento" role="dialog" aria-labelledby="myModalLabel">
   <form id="f_edidesplazamiento" action="" class="form-horizontal" accept-charset="UTF-8">
-  <div class="modal-dialog modal-lg" role="document">
+  <div class="modal-dialog modal-lg" id="m_edesplazamiento" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Editar Desplazamiento</h4>
+        <h4 class="modal-title t_edesplazamiento" id="myModalLabel">Editar Desplazamiento</h4>
       </div>
       <div class="modal-body" id="r_edidesplazamiento">
 
@@ -1290,7 +1268,7 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Editar Estado Cargo</h4>
+        <h4 class="modal-title teecargo" id="myModalLabel">Editar Estado Cargo</h4>
       </div>
       <div class="modal-body" id="r_ediestcargo">
 
@@ -1493,6 +1471,26 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
   </form>
 </div>
 <!--Fin Modal Editar Experiencia Personal-->
+<!-- Modal editar fecha de vacaciones-->
+<div class="modal fade" id="m_fvac" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Editar Fecha Vacaciones</h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal" id="f_efvac">
+        	
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="b_gefvac">Guardar</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
 <?php }
 		mysqli_free_result($cemp);
 	}else{

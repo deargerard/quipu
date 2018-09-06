@@ -5,10 +5,16 @@ include("../php/funciones.php");
 if(accesoadm($cone,$_SESSION['identi'],1)){
   if(isset($_POST["idec"]) && !empty($_POST["idec"])){
     $idec=iseguro($cone,$_POST["idec"]);
-    $c=mysqli_query($cone,"SELECT idEstadoCar FROM estadocargo WHERE idEmpleadoCargo=$idec AND Estado=1");
+    $c=mysqli_query($cone,"SELECT idEstadoCar, FechaIni FROM estadocargo WHERE idEmpleadoCargo=$idec AND Estado=1");
     if($r=mysqli_fetch_assoc($c)){
-      $idecar=$r['idEstadoCar'];
+      if($r['idEstadoCar']=="1"){
+        $pc="AND idEstadoCar!=".$r['idEstadoCar'];
+      }else{
+        $pc="";
+      }
+      $f=$r['FechaIni'];
     }
+    mysqli_free_result($c);
   ?>
     
                   <div class="form-group">
@@ -18,7 +24,7 @@ if(accesoadm($cone,$_SESSION['identi'],1)){
                       <select name="estcar" id="estcar" class="form-control">
                         <option value="">ESTADO CARGO</option>
                         <?php
-                        $cecar=mysqli_query($cone,"SELECT * FROM estadocar WHERE Estado=1 AND idEstadoCar!=$idecar");
+                        $cecar=mysqli_query($cone,"SELECT * FROM estadocar WHERE Estado=1 $pc;");
                         while ($rec=mysqli_fetch_assoc($cecar)) {
                         ?>
                         <option value="<?php echo $rec['idEstadoCar']; ?>"><?php echo $rec['EstadoCar']; ?></option>
@@ -30,15 +36,15 @@ if(accesoadm($cone,$_SESSION['identi'],1)){
                     </div>
                   </div>
                   <div class="form-group">
-                    <label for="ini" class="col-sm-3 control-label">Desde</label>
+                    <label for="ini" class="col-sm-3 control-label">Fecha Inicio</label>
                     <div class="col-sm-3 valida">
-                      <input type="text" id="ini" name="ini" class="form-control" placeholder="dd/mm/aaaa">
+                      <input type="text" id="ini" name="ini" class="form-control" placeholder="dd/mm/aaaa" autocomplete="off">
                     </div>
                   </div>
                   <div class="form-group hidden" id="pfin">
-                    <label for="fin" class="col-sm-3 control-label">Probable fin</label>
+                    <label for="fven" class="col-sm-3 control-label">Fecha Vencimiento</label>
                     <div class="col-sm-3 valida">
-                      <input type="text" id="fin" name="fin" class="form-control" placeholder="dd/mm/aaaa">
+                      <input type="text" id="fven" name="fven" class="form-control" placeholder="dd/mm/aaaa" autocomplete="off">
                     </div>
                   </div>
                   <div class="form-group">
@@ -54,11 +60,12 @@ if(accesoadm($cone,$_SESSION['identi'],1)){
                     </div>
                   </div>
 <script>
-  $('#ini,#fin').datepicker({
+  $('#ini,#fven').datepicker({
     format: "dd/mm/yyyy",
     language: "es",
     autoclose: true,
-    todayHighlight: true
+    todayHighlight: true,
+    startDate: <?php echo '"'.fnormal($f).'"'; ?>
   });
   $("#estcar").change(function(){
     var ve = this.value;
@@ -66,7 +73,7 @@ if(accesoadm($cone,$_SESSION['identi'],1)){
       $("#pfin").removeClass("hidden");
     }else{
       $("#pfin").addClass("hidden");
-      $("#fin").val("");
+      $("#fven").val("");
     }
   });
 </script>

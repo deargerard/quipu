@@ -43,7 +43,7 @@
 			}
 
 
-    		$c1=mysqli_query($cone, "SELECT TipoTelefono, Numero FROM telefonoemp te INNER JOIN tipotelefono tt ON te.idTipoTelefono=tt.idTipoTelefono WHERE idEmpleado=$id AND (te.idTipoTelefono=17 OR te.idTipoTelefono=18 OR te.idTipoTelefono=20 OR te.idTipoTelefono=21) AND te.Estado=1 ORDER BY TipoTelefono ASC;");
+    		$c1=mysqli_query($cone, "SELECT TipoTelefono, Numero FROM telefonoemp te INNER JOIN tipotelefono tt ON te.idTipoTelefono=tt.idTipoTelefono WHERE idEmpleado=$id AND (te.idTipoTelefono=17 OR te.idTipoTelefono=18 OR te.idTipoTelefono=20 OR te.idTipoTelefono=21 OR te.idTipoTelefono=22) AND te.Estado=1 ORDER BY TipoTelefono ASC;");
     		if(mysqli_num_rows($c1)>0){
     			while ($r1=mysqli_fetch_assoc($c1)) {
 ?>

@@ -6,19 +6,19 @@ if(accesoadm($cone,$_SESSION['identi'],1) || accesoadm($cone,$_SESSION['identi']
 $idp=$_SESSION['idperper'];
 ?>
 				<div class="row">
-                	<?php 
+                	<?php
 	              		$cemp=mysqli_query($cone,"SELECT * FROM empleado WHERE idEmpleado=$idp");
 	              		$remp=mysqli_fetch_assoc($cemp);
 	              	?>
                 	<div class="col-md-6">
                 		<div class="box-header">
 		                	<h3 class="box-title text-orange"><i class="fa fa-user"></i> Datos Personales</h3>
-		                	<?php if(accesoadm($cone,$_SESSION['identi'],1) || $_SESSION['mo']){ ?>
+		                	<?php if(accesoadm($cone,$_SESSION['identi'],1) || accesoadm($cone,$_SESSION['identi'],9)){ ?>
 		                	<a href="" class="btn btn-info pull-right btn-xs" data-toggle="modal" data-target="#m_edidatpersonales" onclick="edidatpersonales(<?php echo $idp ?>)"><i class="fa fa-pencil"></i> Editar</a>
 		                	<?php } ?>
 		                </div>
 		                <div class="table-responsive">
-		                	<table class="table table-striped table-bordered">
+		                	<table class="table table-hover">
 		                		<tbody>
 		                			<tr>
 		                				<th><?php echo $remp["TipoDoc"] ?></th>
@@ -80,18 +80,18 @@ $idp=$_SESSION['idperper'];
 		                	</table>
 		                </div>
 		                <!--Nueva Tabla-->
-		                
+
 		            </div>
 					<!--Siguiente Columna-->
 		            <div class="col-md-6">
                 		<div class="box-header">
 		                	<h3 class="box-title text-orange"><i class="fa fa-graduation-cap"></i> Grado Instrucción</h3>
-		                	<?php if(accesoadm($cone,$_SESSION['identi'],1) || $_SESSION['mo']){ ?>
+		                	<?php if(accesoadm($cone,$_SESSION['identi'],1) || accesoadm($cone,$_SESSION['identi'],9)){ ?>
 		                	<a href="" class="btn btn-info pull-right btn-xs" data-toggle="modal" data-target="#m_edigrainstruccion" onclick="edigrainstruccion(<?php echo $idp ?>)"><i class="fa fa-pencil"></i> Editar</a>
 		                	<?php } ?>
 		                </div>
 		                <div class="table-responsive">
-		                	<table class="table table-striped table-bordered">
+		                	<table class="table table-hover">
 		                		<tbody>
 		                			<tr>
 		                				<th>Grado</th>
@@ -115,12 +115,12 @@ $idp=$_SESSION['idperper'];
 		                <!--Nueva Tabla-->
 		                <div class="box-header">
 		                	<h3 class="box-title text-orange"><i class="fa fa-hospital-o"></i> Sistema Pensión</h3>
-		                	<?php if(accesoadm($cone,$_SESSION['identi'],1) || $_SESSION['mo']){ ?>
+		                	<?php if(accesoadm($cone,$_SESSION['identi'],1) || accesoadm($cone,$_SESSION['identi'],9)){ ?>
 		                	<a href="" class="btn btn-info pull-right btn-xs" data-toggle="modal" data-target="#m_edisispension" onclick="edisispension(<?php echo $idp ?>)"><i class="fa fa-pencil"></i> Editar</a>
 		                	<?php } ?>
 		                </div>
 		                <div class="table-responsive">
-		                	<table class="table table-striped table-bordered">
+		                	<table class="table table-hover">
 		                		<?php
 		                		$cpe=mysqli_query($cone,"SELECT CUSPP, FecAfiliacion FROM pensionempleado WHERE idEmpleado=$idp");
 		                		$rpe=mysqli_fetch_assoc($cpe);
@@ -147,16 +147,16 @@ $idp=$_SESSION['idperper'];
 		                <!--Nueva Tabla-->
 		                <div class="box-header">
 		                	<h3 class="box-title text-orange"><i class="fa fa-building-o"></i> Domicilio</h3>
-		                	<?php if(accesoadm($cone,$_SESSION['identi'],1) || $_SESSION['mo']){ ?>
+		                	<?php if(accesoadm($cone,$_SESSION['identi'],1) || accesoadm($cone,$_SESSION['identi'],9)){ ?>
 		                	<a href="" class="btn btn-info pull-right btn-xs" data-toggle="modal" data-target="#m_edidomicilio" onclick="edidomicilio(<?php echo $idp ?>)"><i class="fa fa-pencil"></i> Editar</a>
 		                	<?php } ?>
 		                </div>
-		                <div class="table-responsive table-bordered">
-		                	<?php 
+		                <div class="table-responsive">
+		                	<?php
 		                		$cdom=mysqli_query($cone,"SELECT * FROM domicilio WHERE idEmpleado=$idp");
 		                		$rdom=mysqli_fetch_assoc($cdom);
 		                	?>
-		                	<table class="table table-striped">
+		                	<table class="table table-hover">
 		                		<tbody>
 		                			<tr>
 		                				<th>Condición</th>

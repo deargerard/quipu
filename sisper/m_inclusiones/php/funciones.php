@@ -46,11 +46,13 @@ function sexo($s){
 function fnormal($fecha){
 	if(is_null($fecha)){
 		return "";
-	}elseif($fecha=='1969-12-31'){
+	}elseif($fecha==""){
 		return "";
-	}elseif($fecha=='1970-01-01'){
+	}elseif($fecha=="1969-12-31"){
 		return "";
-	}elseif($fecha=='0000-00-00'){
+	}elseif($fecha=="1970-01-01"){
+		return "";
+	}elseif($fecha=="0000-00-00"){
 		return "";
 	}else{
 		$fec=@date("d/m/Y",strtotime($fecha));
@@ -60,9 +62,13 @@ function fnormal($fecha){
 function fnormalsin($fecha){
 	if(is_null($fecha)){
 		return "";
-	}elseif($fecha=='1970-01-01'){
+	}elseif($fecha==""){
 		return "";
-	}elseif($fecha=='0000-00-00'){
+	}elseif($fecha=="1969-12-31"){
+		return "";
+	}elseif($fecha=="1970-01-01"){
+		return "";
+	}elseif($fecha=="0000-00-00"){
 		return "";
 	}else{
 		$fec=@date("d/m/Y",strtotime($fecha));
@@ -72,7 +78,7 @@ function fnormalsin($fecha){
 function fmysql($fecha){
 	if(is_null($fecha)){
 		return "";
-	}if($fecha=="1969-12-31"){
+	}elseif($fecha==""){
 		return "";
 	}else{
 		$fec=@date("Y-m-d",strtotime(str_replace('/', '-',$fecha)));
@@ -82,11 +88,13 @@ function fmysql($fecha){
 function ftnormal($fecha){
 	if(is_null($fecha)){
 		return "";
-	}elseif($fecha=='1969-12-31 00:00:00'){
+	}elseif($fecha==""){
 		return "";
-	}elseif($fecha=='1970-01-01 00:00:00'){
+	}elseif($fecha=="1969-12-31 00:00:00"){
 		return "";
-	}elseif($fecha=='0000-00-00 00:00:00'){
+	}elseif($fecha=="1970-01-01 00:00:00"){
+		return "";
+	}elseif($fecha=="0000-00-00 00:00:00"){
 		return "";
 	}else{
 		$fec=@date("d/m/Y H:i:s",strtotime($fecha));
@@ -96,7 +104,7 @@ function ftnormal($fecha){
 function ftmysql($fecha){
 	if(is_null($fecha)){
 		return "";
-	}if($fecha=="1969-12-31 00:00:00"){
+	}if($fecha==""){
 		return "";
 	}else{
 		$fec=@date("Y-m-d H:i:s",strtotime(str_replace('/', '-',$fecha)));
@@ -662,6 +670,7 @@ function estadocar($est){
 	    case "ACTIVO": return "<span class='label label-success'>ACTIVO</span>"; break;
 	    case "RESERVADO": return "<span class='label label-warning'>RESERVADO</span>"; break;
 	    case "CESADO": return "<span class='label label-danger'>CESADO</span>"; break;
+	    case "SUSPENDIDO": return "<span class='label label-default'>SUSPENDIDO</span>"; break;
 	}
 }
 function estadolic($est){
@@ -669,6 +678,7 @@ function estadolic($est){
 	    case "ACTIVO": return "<span class='label label-success'>ACTIVO</span>"; break;
 	    case "RESERVADO": return "<span class='label label-warning'>RESERVADO</span>"; break;
 	    case "CESADO": return "<span class='label label-danger'>CESADO</span>"; break;
+	    case "SUSPENDIDO": return "<span class='label label-default'>SUSPENDIDO</span>"; break;
 	}
 }
 //funcion intervalo de fechas
@@ -867,6 +877,25 @@ function nomhorario($con, $idh){
 		return $rh['Descripcion'];
 	}else{
 		return "Sin horario";
+	}
+}
+
+function dirlocal($con, $idl){
+	$idl=iseguro($con, $idl);
+	$r="-";
+	if(!is_null($idl)){
+		$cl=mysqli_query($con,"SELECT l.Direccion, d.NombreDis FROM local l INNER JOIN distrito d ON l.idDistrito=d.idDistrito WHERE idLocal=$idl;");
+		if($rl=mysqli_fetch_assoc($cl)){
+			$r=$rl['NombreDis']." - ".$rl['Direccion'];
+		}
+	}
+	return $r;
+}
+function vacio($data){
+	if($data != ''){
+		return "'$data'";
+	} else {
+		return "NULL";
 	}
 }
 ?>
