@@ -20,9 +20,12 @@ if(isset($_SESSION['nusu']) && !empty($_SESSION['nusu']) && isset($_SESSION['idu
                         <li class="nav-item">
                           <a class="nav-link active" id="bdoc-tab" data-toggle="tab" href="#bdoc" role="tab" aria-controls="home" aria-selected="true">Buscar Documento</a>
                         </li>
+                        <li class="nav-item">
+                          <a class="nav-link" id="bguia-tab" data-toggle="tab" href="#bguia" role="tab" aria-controls="home" aria-selected="false">Buscar Guía</a>
+                        </li>
                       </ul>
                       <div class="tab-content" id="myTabContent">
-                        <div class="tab-pane fade show active" id="bdoc" role="tabpanel" aria-labelledby="profile-tab">
+                        <div class="tab-pane fade show active" id="bdoc" role="tabpanel" aria-labelledby="bdoc-tab">
                           <br>
                           <form id="f_bdoc" class="form-inline">
                             <div class="form-group mx-sm-3 mb-2">
@@ -34,12 +37,19 @@ if(isset($_SESSION['nusu']) && !empty($_SESSION['nusu']) && isset($_SESSION['idu
                             <button type="submit" class="btn btn-primary mb-2" id="b_bdocumento">Buscar</button>
                           </form>
                         </div>
+                        <div class="tab-pane fade" id="bguia" role="tabpanel" aria-labelledby="bguia-tab">
+                          <br>
+                          <form id="f_bguia" class="form-inline">
+                            <div class="form-group mx-sm-3 mb-2">
+                              <label for="nguia">N° Guía&nbsp;&nbsp;</label>
+                              <input type="text" class="form-control" name="nguia" id="nguia" placeholder="n-aaaa">
+                            </div>
+                            <button type="submit" class="btn btn-primary mb-2" id="b_bguia">Buscar</button>
+                          </form>
+                        </div>
                       </div>
 
 
-
-
-  
 
 
                     </div>

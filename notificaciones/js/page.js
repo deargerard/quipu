@@ -696,3 +696,19 @@ $("#f_bdoc").submit(function(e){
 		}
 	});
 });
+$("#f_bguia").submit(function(e){
+	e.preventDefault();
+	var datos = $("#f_bguia").serializeArray();
+	$.ajax({
+		method: "POST",
+		url: "php/b_guia.php",
+		data: datos,
+		dataType: 'html',
+		beforeSend: function(){
+			$("#d_consultas").html('<i class="fa fa-spinner fa-spin"></i>');
+		},
+		success: function(e){
+			$("#d_consultas").html(e);
+		}
+	});
+});
