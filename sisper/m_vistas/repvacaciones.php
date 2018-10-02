@@ -55,7 +55,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                   </div>
                   <div class="form-group">
                     <label for="bbb" class="sr-only">Estado </label>
-                    <select data-actions-box="true" name="estvac[]" class="form-control selectpicker" multiple="multiple" multiple data-selected-text-format="count" title="ESTADO" >
+                    <select data-actions-box="true" name="estvac[]" id="estva" class="form-control selectpicker" multiple="multiple" multiple data-selected-text-format="count" title="ESTADO" >
                       <option value="4">PLANIFICADAS</option>
                       <option value="0">PENDIENTES</option>
                       <option value="3">EJECUTANDOSE</option>
@@ -68,12 +68,14 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
 
                   <div class="form-group">
                     <label for="aaa" class="sr-only">Condición</label>
-                    <select name="convac[]" class="form-control selectpicker" multiple="multiple" multiple data-selected-text-format="count" title="CONDICIÓN">
+                    <select name="convac[]" id="conva" class="form-control selectpicker" multiple="multiple" multiple data-selected-text-format="count" title="CONDICIÓN">
                       <option value="1">PROGRAMADAS</option>
                       <option value="0">REPROGRAMADAS</option>
                     </select>
                     </div>
                     <button type="submit" id="b_breva" class="btn btn-default">Buscar</button>
+                    <button type="button" id="b_evxp" class="btn bg-aqua">Exportar</button>
+
                 </form>
                 <!--Fin Formulario-->
 
