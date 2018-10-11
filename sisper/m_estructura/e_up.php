@@ -355,6 +355,7 @@ if(!empty($css)){
           </a>
           <ul class="treeview-menu">
             <li id="pagcomservicios"><a href="pagcomservicios.php"><i class="fa fa-circle-o"></i> Registro</a></li>
+            <li id="csplanilla"><a href="csplanilla.php"><i class="fa fa-circle-o"></i> Planilla Viáticos</a></li>
             <li id="repcomservicios"><a href="repcomservicios.php"><i class="fa fa-circle-o"></i> Reportes</a></li>
           </ul>
         </li>
@@ -371,6 +372,22 @@ if(!empty($css)){
           <ul class="treeview-menu">
             <li id="maatenciones"><a href="maatenciones.php"><i class="fa fa-circle-o"></i> Atenciones</a></li>
             <li id="mareportes"><a href="mareportes.php"><i class="fa fa-circle-o"></i> Reportes</a></li>
+          </ul>
+        </li>
+        <?php
+        }
+        if(accesocon($cone,$_SESSION['identi'],16)){
+        ?>
+        <li class="treeview" id="tesoreria">
+          <a href="#">
+            <i class="fa fa-money"></i>
+            <span>Tesorería</span>
+            <i class="fa fa-angle-left pull-right"></i>
+          </a>
+          <ul class="treeview-menu">
+            <li id="teasignaciones"><a href="teasignaciones.php"><i class="fa fa-circle-o"></i> Asignaciones</a></li>
+            <li id="terendiciones"><a href="terendiciones.php"><i class="fa fa-circle-o"></i> Rendiciones</a></li>
+            <li id="tereportes"><a href="tereportes.php"><i class="fa fa-circle-o"></i> Reportes</a></li>
           </ul>
         </li>
         <?php
