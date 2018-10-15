@@ -387,6 +387,7 @@ if(!empty($css)){
           <ul class="treeview-menu">
             <li id="teasignaciones"><a href="teasignaciones.php"><i class="fa fa-circle-o"></i> Asignaciones</a></li>
             <li id="terendiciones"><a href="terendiciones.php"><i class="fa fa-circle-o"></i> Rendiciones</a></li>
+            <li id="teentregas"><a href="teentregas.php"><i class="fa fa-circle-o"></i> Entregas</a></li>
             <li id="tereportes"><a href="tereportes.php"><i class="fa fa-circle-o"></i> Reportes</a></li>
           </ul>
         </li>
