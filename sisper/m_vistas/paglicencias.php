@@ -46,7 +46,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                       <div class="form-group has-feedback">
                         <label for="ano" class="sr-only">Año</label>
                           <span class="fa fa-calendar form-control-feedback"></span>
-                          <input type="text" class="form-control" name="ano" id="ano" value="<?php echo date('Y'); ?>" style="width: 90px;">
+                          <input type="text" class="form-control" name="ano" id="ano" value="<?php echo date('Y'); ?>" style="width: 90px;" autocomplete="off">
                       </div>
                       <div class="form-group">
                         <label for="est" class="sr-only">Estado</label>
@@ -71,7 +71,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
               </div>
               <!-- /.box-body -->
               <div class="box-footer">
-                
+
               </div>
               <!-- /.box-footer-->
             </div>

@@ -135,7 +135,7 @@ $z=true;
                       }
               $dt=intervalo ($rvac['FechaFin'], $rvac['FechaIni']);
               $tot= $tot + $sol;
-              if ($mpp>10) { //el valor de $mpp está en a_ofechas.php
+              if ($mpp>9) { //el valor de $mpp está en a_ofechas.php
                 if ($tot<31){
                   $res=30-$tot;
                   if ($res>0) {

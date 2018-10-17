@@ -30,14 +30,14 @@ if(escoordinador($cone,$_SESSION['identi'])){
             <div class="col-sm-6" >
               <label for="inivac" class="col-sm-4 control-label">Inicia</label>
               <div class="input-group col-sm-8">
-                <input type="text" id="inivac" name="inivac" class="form-control" placeholder="dd/mm/aaaa">
+                <input type="text" id="inivac" name="inivac" class="form-control" placeholder="dd/mm/aaaa" autocomplete="off">
                 <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
               </div>
             </div>
             <div class="col-sm-6" id="divter">
               <label for="finvac" class="col-sm-4 control-label">Termina</label>
               <div class="input-group col-sm-8">
-              <input type="text" id="finvac" name="finvac" class="form-control disabled" placeholder="dd/mm/aaaa" readonly="readonly">
+              <input type="text" id="finvac" name="finvac" class="form-control disabled" placeholder="dd/mm/aaaa" readonly="readonly" autocomplete="off">
               <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
               </div>
             </div>
@@ -67,7 +67,7 @@ if(escoordinador($cone,$_SESSION['identi'])){
       var aFecha1 = fechai.split('/');
       var fFecha1 = Date.UTC(aFecha1[2],aFecha1[1]-1,aFecha1[0]);
       var nd = <?php echo $nd; ?>
-      
+
       if(nd==30){
         if (aFecha1[0]==1) {
 

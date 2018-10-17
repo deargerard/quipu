@@ -32,11 +32,11 @@ if(accesoadm($cone,$_SESSION['identi'],4)){
         <div class="form-group">
           <label for="des" class="col-sm-2 control-label">Desde</label>
           <div class="col-sm-3 valida">
-            <input type="text" name="des" id="des" class="form-control" placeholder="dd/mm/aaaa">
+            <input type="text" name="des" id="des" class="form-control" placeholder="dd/mm/aaaa" autocomplete="off">
           </div>
           <label for="has" class="col-sm-2 control-label">Hasta</label>
           <div class="col-sm-3 valida">
-            <input type="text" name="has" id="has" class="form-control" placeholder="dd/mm/aaaa">
+            <input type="text" name="has" id="has" class="form-control" placeholder="dd/mm/aaaa" autocomplete="off">
           </div>
           <div class="col-sm-2">
             <h5><strong class="ndias text-maroon"></strong></h5>
@@ -58,8 +58,8 @@ if(accesoadm($cone,$_SESSION['identi'],4)){
             if(f1!="" && f2!=""){
 
               var aFecha1 = f1.split('/');
-              var aFecha2 = f2.split('/'); 
-              var fFecha1 = Date.UTC(aFecha1[2],aFecha1[1]-1,aFecha1[0]); 
+              var aFecha2 = f2.split('/');
+              var fFecha1 = Date.UTC(aFecha1[2],aFecha1[1]-1,aFecha1[0]);
               var fFecha2 = Date.UTC(aFecha2[2],aFecha2[1]-1,aFecha2[0]);
               var dif = fFecha2 - fFecha1;
               var dias = Math.floor(dif / (1000 * 60 * 60 * 24))+1;
@@ -70,7 +70,7 @@ if(accesoadm($cone,$_SESSION['identi'],4)){
                 $(".ndias").html('Error de Fechas');
                 $("#des").val("");
                 $("#has").val("");
-              }  
+              }
             }else{
               $(".ndias").html('');
             }
