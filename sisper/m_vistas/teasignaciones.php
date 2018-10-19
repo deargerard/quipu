@@ -20,6 +20,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
         <div class="col-md-12">
            <!-- Default box -->
             <div class="box box-info">
+
               <div class="box-header with-border">
                 <h3 class="box-title">Asignaciones</h3>
                 <div class="box-tools pull-right">
@@ -35,13 +36,13 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                     <input type="text" class="form-control" id="fecb" placeholder="mm/aaaa" value="<?php echo date("m/Y"); ?>" autocomplete="off">
                     <span class="fa fa-calendar form-control-feedback"></span>
                   </div>
-                  <button type="submit" id="b_basig" class="btn btn-default"><i class="fa fa-search"></i> Buscar</button>
+                  <button type="button" id="b_basig" class="btn btn-default"><i class="fa fa-search"></i> Buscar</button>
                   
                 </form>
 
                 <div class="row">
 
-                  <div class="col-md-12" id="r_rasignaciones">
+                  <div class="col-md-12" id="resultado">
 
                   </div>
                 </div>

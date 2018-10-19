@@ -33,7 +33,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
               <li><a href="#tab_2" data-toggle="tab">Vacaciones por Período</a></li>
               <li><a href="#tab_3" data-toggle="tab">Vacaciones por Meses</a></li>
               <li><a href="#tab_4" data-toggle="tab">Vacaciones por Resolución</a></li>
-              <?php if ($mpp>10): ?>
+              <?php if ($mpp>9): ?>
                 <li><a href="#tab_5" data-toggle="tab">Programación de Vacaciones <?php echo $pv ?></a></li>
               <?php endif; ?>
             </ul>

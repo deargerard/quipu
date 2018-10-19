@@ -3,21 +3,35 @@ session_start();
 include("../php/conexion_sp.php");
 include("../php/funciones.php");
 if(accesocon($cone,$_SESSION['identi'],16)){
-  if(isset($_POST['fecb']) && !empty($_POST['fecb'])){
+  if(isset($_POST['fecb']) && !empty($_POST['fecb'])){    
     $ids=$_SESSION['identi'];
-    $fec=iseguro($cone, $_POST["fec"]);
+    $fec=iseguro($cone, $_POST["fecb"]);
     $fecini=fmysql("01/".$fec);
     $fecfin=strtotime('+ 1 month',strtotime ($fecini) );
     $fecfin=date('Y-m-j', $fecfin);
     $fecfin=strtotime('- 1 day',strtotime ($fecfin) );
     $fecfin=date('Y-m-j', $fecfin);
+    $fecb=explode('/',iseguro($cone,$_POST['fecb']));
+    $mes=$fecb[0];
+    $anio=$fecb[1];    
     ?>   
+      <div class="col-md-10">
+                    <h4 class="text-orange"><i class="fa fa-calendar text-gray"></i> <?php echo ucfirst(nombremes($mes))." de ".$anio; ?></h4>
+                  </div>
+                  <div class="col-md-2">
+                    <?php if(accesoadm($cone,$_SESSION['identi'],16)){ ?>
+                    <button type="button" class="btn btn-info btn-sm" onclick="fo_asignaciones('agrasig',<?php echo $mes.",".$anio; ?>)"><i class="fa fa-plus"></i> Agregar</button>
+                    <?php } ?>
+                  </div>
+                  <div class="clearfix"></div>
+
+
       <div class="row">
         <div class="col-md-12" id="r_basig">
           <?php
             $ca=mysqli_query($cone,"SELECT * FROM teasignacion WHERE (Fecha BETWEEN '$fecini' AND '$fecfin') ;");
           ?>
-            <table id="dtasig" class="table table-bordered table-hover">
+            <table id="dtable" class="table table-bordered table-hover">
               <thead>
                 <tr>
                   <th>#</th>
@@ -36,26 +50,18 @@ if(accesocon($cone,$_SESSION['identi'],16)){
           ?>
                 <tr>
                   <td><?php echo $n; ?></td>
-                  <td><?php echo ftnormal($ra["Fecha"]) ?></td>
+                  <td><?php echo fnormal($ra["fecha"]) ?></td>
                   <td><?php echo $ra["tipo"]; ?></td>
-                  <td><?php echo $ra["meta"]; ?></td>
+                  <td><?php echo $ra["idtemeta"]; ?></td>
                   <td><?php echo $ra["monto"]; ?></td> 
-                  <td>
-                    
-                    <div class="btn-group">
-                      <button class="btn btn-info btn-xs dropdown-toggle" data-toggle="dropdown">
-                        <i class="fa fa-cog"></i>&nbsp;
-                        <span class="caret"></span>
-                        <span class="sr-only">Desplegar menú</span>
-                      </button>
-                      <ul class="dropdown-menu pull-right" role="menu">                                    
-                        <li><a href="#" onclick="easignacion(<?php echo $ra['idAtencion']; ?>)" data-toggle="modal" data-target="#m_eatencion"><i class="fa fa-pencil"></i> Editar</a></li>
-                        <li><a href="#" onclick="dasignacion(<?php echo $ra['idAtencion']; ?>)" data-toggle="modal" data-target="#m_ratencion"><i class="fa fa-share"></i> Reasignar</a></li>
-                        
-                      </ul>
-                    </div>
-
-
+                  <td>                    
+                    <td>
+                      <div class="btn-group btn-group-xs" role="group" aria-label="Basic">
+                        <button type="button" class="btn btn-default" title="Editar" onclick="fo_asignaciones('ediasig',<?php echo $ra['idteasignacion'].",0"; ?>)"><i class="fa fa-pencil"></i></button>
+                        <button type="button" class="btn btn-default" title="Eliminar" onclick="fo_asignaciones('eliasig',<?php echo $ra['idteasignacion'].",0"; ?>)"><i class="fa fa-times-circle"></i></button>
+                        <button type="button" class="btn btn-default" title="Ir" onclick="fo_asignaciones('infasig',<?php echo $ra['idteasignacion'].",0"; ?>)"><i class="fa fa-chevron-circle-right"></i></button>
+                      </div>
+                    </td>
                   </td>
                 </tr>
           <?php
@@ -67,7 +73,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
         </div>
       </div>
 <script>
-	  $('#dtasig').DataTable();
+	  $('#dtable').DataTable();
 </script>
 <?php
   }else{

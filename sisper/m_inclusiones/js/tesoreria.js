@@ -18,7 +18,7 @@ $(document).ready(function(){
 function basignaciones(mb){
   $.ajax({
     type: "post",
-    url: "m_inclusiones/a_tesoreria/li_rendiciones.php",
+    url: "m_inclusiones/a_tesoreria/b_asignaciones.php",
     data: {fecb : mb},
     dataType: "html",
     beforeSend: function () {
@@ -41,7 +41,7 @@ $('#b_basig').click(function(){
 
 // FIN FUNCIÓN BUSCAR ASIGNACIONES
 
-function fo_rendiciones(acc, v1, v2){
+function fo_asignaciones(acc, v1, v2){
   
   switch(acc) {
     case 'agrren':
@@ -56,7 +56,7 @@ function fo_rendiciones(acc, v1, v2){
 
   $.ajax({
     type: "post",
-    url: "m_inclusiones/a_tesoreria/fo_rendiciones.php",
+    url: "m_inclusiones/a_tesoreria/fo_asignaciones.php",
     data: {acc: acc, v1: v1, v2: v2},
     dataType: "html",
     beforeSend: function () {
@@ -75,7 +75,7 @@ $('#f_modal').submit(function(e){
   var datos = $("#f_modal").serializeArray();
   $.ajax({
     type: "post",
-    url: "m_inclusiones/a_tesoreria/gu_rendiciones.php",
+    url: "m_inclusiones/a_tesoreria/gu_asignaciones.php",
     data: datos,
     dataType: "json",
     beforeSend: function () {
