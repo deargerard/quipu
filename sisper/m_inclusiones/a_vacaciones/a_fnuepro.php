@@ -157,7 +157,7 @@ if(accesoadm($cone,$_SESSION['identi'],9)){
             $("#msg").html("");
           }
         }else {
-          $("#msg").html("¡ERROR!, sólo puede seleccionar como fecha de fin el 02 ó el 03 de Marzo");
+          $("#msg").html("¡ERROR!, sólo puede seleccionar como fecha de fin el 01 ó el 02 de Marzo");
           $("#finvac").val("");
         }
       }else {

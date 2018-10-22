@@ -147,7 +147,7 @@ if(accesoadm($cone,$_SESSION['identi'],9)){
                        }
 
                      }else if (aFecha1[1]==2) {
-                       if  (aFecha2[0]==2 || aFecha2[0]==3 ) {
+                       if  (aFecha2[0]==1 || aFecha2[0]==2 ) {
                          if (fechai!="" && fechaf!="") {
                            if(dias > 0){
                              var df=parseInt($("#df").val());
@@ -168,7 +168,7 @@ if(accesoadm($cone,$_SESSION['identi'],9)){
                            $("#msg").html("");
                          }
                        }else {
-                         $("#msg").html("¡ERROR!, sólo puede seleccionar como fecha de fin el 02 ó el 03 de marzo ");
+                         $("#msg").html("¡ERROR!, sólo puede seleccionar como fecha de fin el 01 ó el 02 de marzo ");
                          $("#finvac").val("");
                        }
                      }else {
