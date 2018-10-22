@@ -138,7 +138,7 @@ if(accesoadm($cone,$_SESSION['identi'],9)){
            $("#msg").html("");
          }
       }else if (aFecha1[1]==2) {
-        if  (aFecha2[0]==2 || aFecha2[0]==3 ) {
+        if  (aFecha2[0]==1 || aFecha2[0]==2 ) {
           if (fechai!="" && fechaf!="") {
             if(dias > 0){
               var df=$("#df").val();
