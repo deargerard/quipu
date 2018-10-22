@@ -42,7 +42,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
 
                 <div class="row">
 
-                  <div class="col-md-12" id="resultado">
+                  <div class="col-md-12" id="a_resultado">
 
                   </div>
                 </div>

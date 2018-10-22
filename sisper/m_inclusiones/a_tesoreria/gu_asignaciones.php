@@ -35,7 +35,7 @@ if(accesoadm($cone,$_SESSION['identi'],16)){
 				$met=iseguro($cone,$_POST['met']);
 				$ida=iseguro($cone,$_POST['ida']);
 				$feca=fmysql(iseguro($cone,$_POST['feca']));
-				if(mysqli_query($cone,"UPDATE teasignacion SET fecha='$feca', monto=$mon, tipo=$tip, idtemeta=$met, empleado=$idu, medio=$med, nummedio=$med WHERE idteasignacion=$ida;")){
+				if(mysqli_query($cone,"UPDATE teasignacion SET fecha='$feca', monto=$mon, tipo=$tip, idtemeta=$met, empleado=$idu, medio=$med, nummedio=$num WHERE idteasignacion=$ida;")){
 					$r['e']=true;
 					$r['m']=mensajesu("Listo, asignación actualizada");
 				}else{

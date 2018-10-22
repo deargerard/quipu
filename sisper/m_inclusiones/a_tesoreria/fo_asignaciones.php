@@ -152,9 +152,6 @@ if(accesoadm($cone,$_SESSION['identi'],16)){
 
 				$c5=mysqli_query($cone, "SELECT m.*, f.nombre AS fondo FROM temeta m INNER JOIN tefondo f ON m.idtefondo=f.idtefondo WHERE m.estado=1 ORDER BY fondo, nombre DESC;");									
 ?>
-				<script>
-      			$("#b_guardar").html("Sí eliminar");      			
-      			</script>
 				<div class="form-group">	
 					<input type="hidden" name="acc" value="<?php echo $acc; ?>">
 					<input type="hidden" name="ida" value="<?php echo $v2; ?>">

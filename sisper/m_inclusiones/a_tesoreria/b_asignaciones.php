@@ -27,7 +27,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
       <div class="row">
         <div class="col-md-12" id="r_basig">
           <?php
-            $ca=mysqli_query($cone,"SELECT a.idtemeta, a.fecha, a.monto, a.tipo, f.nombre as fondo, m.nombre as meta, m.mnemonico, a.medio, a.nummedio FROM teasignacion a INNER JOIN temeta m ON a.idtemeta=m.idtemeta INNER JOIN tefondo f ON m.idtefondo=f.idtefondo WHERE (Fecha BETWEEN '2018-10-01' AND '2018-10-31');");
+            $ca=mysqli_query($cone,"SELECT a.idteasignacion, a.idtemeta, a.fecha, a.monto, a.tipo, f.nombre as fondo, m.nombre as meta, m.mnemonico, a.medio, a.nummedio FROM teasignacion a INNER JOIN temeta m ON a.idtemeta=m.idtemeta INNER JOIN tefondo f ON m.idtefondo=f.idtefondo WHERE (Fecha BETWEEN '2018-10-01' AND '2018-10-31');");
 
           ?>
             <table id="dtable" class="table table-bordered table-hover">
@@ -69,7 +69,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
                   <td>
                     <div class="btn-group btn-group-xs" role="group" aria-label="Basic">
                       <button type="button" class="btn btn-default" title="Editar" onclick="fo_asignaciones('ediasig',0,<?php echo $ra['idteasignacion'] ?>)"><i class="fa fa-pencil"></i></button>
-                      <button type="button" class="btn btn-default" title="Eliminar" onclick="fo_asignaciones('eliasig',0,<?php echo $ra['idteasignacion'] ?>)"><i class="fa fa-times-circle"></i></button>
+                      <button type="button" class="btn btn-default" title="Eliminar" onclick="fo_asignaciones('eliasig',0,<?php echo $ra['idteasignacion'] ?>)"><i class="fa fa-trash"></i></button>
                     </div>
                   </td>                 
                 </tr>

@@ -121,10 +121,10 @@ function basignaciones(mb){
     data: {fecb : mb},
     dataType: "html",
     beforeSend: function () {
-      $("#resultado").html("<img scr='m_images/cargando.gif'>");
+      $("#a_resultado").html("<img scr='m_images/cargando.gif'>");
     },
     success:function(a){
-      $("#resultado").html(a);
+      $("#a_resultado").html(a);
     }
   });
 }
@@ -193,10 +193,11 @@ $('#f_modal').submit(function(e){
       if(a.e){
         $("#f_modal").html(a.m);
         var mb=$('#fecb').val();
-      basignaciones(mb);
+        basignaciones(mb);
+        $('#b_guardar').hide();
       }else{
-      $("#d_frespuesta").html(a.m);
-      $("#b_guardar").show();
+        $("#d_frespuesta").html(a.m);
+        $("#b_guardar").show();
       }
     }
   });
