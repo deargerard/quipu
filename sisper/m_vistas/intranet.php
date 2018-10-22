@@ -33,11 +33,11 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 <form class="form-inline" id="f_bcomunicado">
                   <div class="form-group has-feedback valida">
                       <span class="fa fa-calendar form-control-feedback"></span>
-                      <input type="text" class="form-control" id="fech1" name="fech1" placeholder="Fecha de inicio">
+                      <input type="text" class="form-control" id="fech1" name="fech1" placeholder="Fecha de inicio" autocomplete="off">
                   </div>
                   <div class="form-group has-feedback valida">
                       <span class="fa fa-calendar form-control-feedback"></span>
-                      <input type="text" class="form-control" id="fech2" name="fech2" placeholder="Fecha de fin">
+                      <input type="text" class="form-control" id="fech2" name="fech2" placeholder="Fecha de fin" autocomplete="off">
                   </div>
 
                   <button type="submit" class="btn btn-default" id="b_bcomunicado">Buscar</button>
@@ -372,11 +372,11 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 <form class="form-inline" id="f_bnoticia">
                   <div class="form-group has-feedback valida">
                       <span class="fa fa-calendar form-control-feedback"></span>
-                      <input type="text" class="form-control" id="fecha1" name="fecha1" placeholder="Fecha de inicio">
+                      <input type="text" class="form-control" id="fecha1" name="fecha1" placeholder="Fecha de inicio" autocomplete="off">
                   </div>
                   <div class="form-group has-feedback valida">
                       <span class="fa fa-calendar form-control-feedback"></span>
-                      <input type="text" class="form-control" id="fecha2" name="fecha2" placeholder="Fecha de fin">
+                      <input type="text" class="form-control" id="fecha2" name="fecha2" placeholder="Fecha de fin" autocomplete="off">
                   </div>
 
                   <button type="submit" class="btn btn-default" id="b_bnoticia">Buscar</button>

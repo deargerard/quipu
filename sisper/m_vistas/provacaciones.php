@@ -52,7 +52,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                       <div class="box-body">
                         <?php
                         $mpp=date('m');
-                        if(!enviopv($cone, $idcoo) && ($mpp>10)){
+                        if(!enviopv($cone, $idcoo) && ($mpp>9)){
 
                           if (mysqli_num_rows($csv)>0) {
 
@@ -169,7 +169,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                         ?>
                         <div class="col-sm-12">
                           <p class="text-olive"><i class="fa fa-check-square"></i> Ya envió su programación de vacaciones.</p>
-                          <?php if ($mpp>10): ?>
+                          <?php if ($mpp>9): ?>
                             <a class="btn btn-info" href="pdf/exppdf/provaccoo.php?c=<?php echo $idcoo; ?>" target="_blank">Imprimir programación</a>
                           <?php endif; ?>
                         </div>

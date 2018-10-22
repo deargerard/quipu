@@ -32,12 +32,12 @@ if(accesoadm($cone,$_SESSION['identi'],15)){
           <label for="inienc" class="col-sm-2 control-label">Inicia:</label>
           <div class="col-sm-4 has-feedback">
             <span class="fa fa-calendar form-control-feedback"></span>
-            <input type="text" id="inienc" name="inienc" class="form-control" value="<?php echo date('d/m/Y H:m', strtotime($rcs['FechaIni']))?>" placeholder="dd/mm/aaaa H:i">
+            <input type="text" id="inienc" name="inienc" class="form-control" value="<?php echo date('d/m/Y H:m', strtotime($rcs['FechaIni']))?>" placeholder="dd/mm/aaaa H:i" autocomplete="off">
           </div>
           <label for="finenc" class="col-sm-2 control-label">Termina:</label>
           <div class="col-sm-4 has-feedback">
             <span class="fa fa-calendar form-control-feedback"></span>
-            <input type="text" id="finenc" name="finenc" class="form-control" value="<?php echo date('d/m/Y H:m', strtotime($rcs['FechaFin']))?>" placeholder="dd/mm/aaaa H:i">
+            <input type="text" id="finenc" name="finenc" class="form-control" value="<?php echo date('d/m/Y H:m', strtotime($rcs['FechaFin']))?>" placeholder="dd/mm/aaaa H:i" autocomplete="off">
           </div>
         </div>
 

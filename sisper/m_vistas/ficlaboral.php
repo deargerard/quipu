@@ -210,7 +210,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                                           }
                                   $dt=intervalo ($rvac['FechaFin'], $rvac['FechaIni']);
                                   $tot= $tot + $sol;
-                                  if ($mpp>10) { //el valor de $mpp está en a_ofechas.php
+                                  if ($mpp>9) { //el valor de $mpp está en a_ofechas.php
                                     if ($tot<31){
                                       $res=30-$tot;
                                       if ($res>0) {
@@ -530,7 +530,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 <?php
 
                 $fini = date("Y-m-d",strtotime("- 1 month", strtotime(date("Y-m")."-01")));
-                
+
                 $cm=mysqli_query($cone,"SELECT * FROM marcacion WHERE idEmpleado=$idper AND Marcacion>='$fini' ORDER BY Marcacion DESC;");
                   if(mysqli_num_rows($cm)>0){
 

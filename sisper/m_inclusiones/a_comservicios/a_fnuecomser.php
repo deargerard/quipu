@@ -17,12 +17,12 @@ if(accesoadm($cone,$_SESSION['identi'],15)){
       <label for="inicom" class="col-sm-2 control-label">Inicia:</label>
       <div class="col-sm-4 has-feedback">
         <span class="fa fa-calendar form-control-feedback"></span>
-        <input type="text" id="inicom" name="inicom" class="form-control" placeholder="dd/mm/aaaa H:m">
+        <input type="text" id="inicom" name="inicom" class="form-control" placeholder="dd/mm/aaaa H:m" autocomplete="off">
       </div>
       <label for="fincom" class="col-sm-2 control-label">Termina:</label>
       <div class="col-sm-4 has-feedback">
         <span class="fa fa-calendar form-control-feedback"></span>
-        <input type="text" id="fincom" name="fincom" class="form-control" placeholder="dd/mm/aaaa H:m">
+        <input type="text" id="fincom" name="fincom" class="form-control" placeholder="dd/mm/aaaa H:m" autocomplete="off">
       </div>
     </div>
 

@@ -33,7 +33,7 @@ if(accesoadm($cone,$_SESSION['identi'],4)||accesoadm($cone,$_SESSION['identi'],3
         <div class="form-group valida">
           <label for="adoc" class="col-sm-3 control-label">Año</label>
           <div class="col-sm-9">
-            <input type="text" name="adoc" id="adoc" class="form-control" value="<?php echo $ano; ?>">
+            <input type="text" name="adoc" id="adoc" class="form-control" value="<?php echo $ano; ?>" autocomplete="off">
           </div>
         </div>
         <div class="form-group valida">
@@ -45,7 +45,7 @@ if(accesoadm($cone,$_SESSION['identi'],4)||accesoadm($cone,$_SESSION['identi'],3
         <div class="form-group valida">
           <label for="fec" class="col-sm-3 control-label">Fecha</label>
           <div class="col-sm-9">
-            <input type="text" name="fec" id="fec" class="form-control">
+            <input type="text" name="fec" id="fec" class="form-control" autocomplete="off">
           </div>
         </div>
         <div class="form-group valida">

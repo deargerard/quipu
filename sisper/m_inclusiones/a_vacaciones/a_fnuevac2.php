@@ -30,14 +30,14 @@ if(accesoadm($cone,$_SESSION['identi'],3)){
             <div class="col-sm-6" >
               <label for="inivac" class="col-sm-4 control-label">Inicia</label>
               <div class="input-group col-sm-8">
-                <input type="text" id="inivac" name="inivac" class="form-control" placeholder="dd/mm/aaaa">
+                <input type="text" id="inivac" name="inivac" class="form-control" placeholder="dd/mm/aaaa" autocomplete="off">
                 <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
               </div>
             </div>
             <div class="col-sm-6" id="divter">
               <label for="finvac" class="col-sm-4 control-label">Termina</label>
               <div class="input-group col-sm-8">
-              <input type="text" id="finvac" name="finvac" class="form-control" placeholder="dd/mm/aaaa">
+              <input type="text" id="finvac" name="finvac" class="form-control" placeholder="dd/mm/aaaa" autocomplete="off">
               <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
               </div>
             </div>

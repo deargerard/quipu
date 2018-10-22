@@ -62,7 +62,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                     </div>
                     <div class="form-group">
                       <label for="aaa" class="sr-only">Mes</label>
-                      <input class="form-control" id="meseje" name="mes" placeholder="MM//AAAA">
+                      <input class="form-control" id="meseje" name="mes" placeholder="MM//AAAA" autocomplete="off">
                     </div>
                     <button type="submit" id="b_bejva" class="btn btn-default">Buscar</button>
                 </form>
