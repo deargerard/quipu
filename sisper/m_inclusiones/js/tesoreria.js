@@ -6,4 +6,8 @@ $(document).ready(function(){
 	    maxViewMode: 2,
 	    todayHighlight: true
 	});
+
+	var mai=$('#fecb').val();
+	lrendiciones(mai);
+
 });

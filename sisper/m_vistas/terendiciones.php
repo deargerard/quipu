@@ -35,8 +35,11 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                     <input type="text" class="form-control" id="fecb" placeholder="mm/aaaa" value="<?php echo date("m/Y"); ?>" autocomplete="off">
                     <span class="fa fa-calendar form-control-feedback"></span>
                   </div>
-                  <button type="submit" class="btn btn-default"><i class="fa fa-search"></i> Buscar</button>
+                  <button type="button" class="btn btn-default" id="b_buscar"><i class="fa fa-search"></i> Buscar</button>
                 </form>
+                <div id="resultado">
+                  
+                </div>
 
               </div>
               <!-- /.box-body -->
@@ -56,10 +59,10 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
     <div class="modal-content" id="m_tamaño">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel m_titulo">Titulo</h4>
+        <h4 class="modal-title" id="myModalLabel">Titulo</h4>
       </div>
       <div class="modal-body">
-        <form id="f_modal">
+        <form class="form-horizontal" id="f_modal">
           
         </form>
       </div>
