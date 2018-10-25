@@ -155,7 +155,7 @@ $( "#f_ocon" ).validate( {
        dataType: "html",
        data: datos,   // I WANT TO ADD EXTRA DATA + SERIALIZE DATA
        beforeSend: function () {
-          $("#r_ocon").html("<img scr='m_images/loader.gif'>");
+          $("#r_ocon").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
           $("#b_gocon").hide();
        },
        success: function(data){
