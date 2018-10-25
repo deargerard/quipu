@@ -1,7 +1,7 @@
 <?php
 include ("m_inclusiones/php/conexion_sp.php");
 include ("m_inclusiones/php/funciones.php");
-include("m_email/fcorreo.php");
+include("m_email/gcorreo.php");
 if(isset($_POST['NomForm']) && $_POST['NomForm']='f_ocon'){
 	if(isset($_POST['odni']) && !empty($_POST['odni']) && isset($_POST['ocor']) && !empty($_POST['ocor'])){
 		$odni=iseguro($cone,$_POST['odni']);
@@ -105,10 +105,10 @@ if(isset($_POST['NomForm']) && $_POST['NomForm']='f_ocon'){
 	</table>
 </body>
 </html>";
-				$cdes="informatica.cajamarca@djmail.mpfn.gob.pe";
-				$ndes="Informática Cajamarca";
-				$asu="SISPER - Nueva contraseña";
-				$acue="SISPER - Nueva contraseña";
+				$cdes="informatica.cajamarcadj@mpfn.gob.pe";
+				$ndes=utf8_decode("Informática Cajamarca");
+				$asu=utf8_decode("QUIPU - Nueva contraseña");
+				$acue=utf8_decode("QUIPU - Nueva contraseña");
 
 				$msg=ecorreo($cdes, $ndes, $cpar, $npar, $asu, $cue, $acue);
 				$archivo=fopen("logs/log_ocontrasena.txt", "a") or die("Problemas al crear");
@@ -122,7 +122,7 @@ if(isset($_POST['NomForm']) && $_POST['NomForm']='f_ocon'){
             	echo mensajewa("Error: Vuelva a intentarlo.");
             }
 		}else{
-			echo mensajewa("Error: Los datos ingresados no corresponden. Contáctese con informática al 365577 Anexo 1003.");
+			echo mensajewa("Error: Los datos ingresados no corresponden. Contáctese con informática al 365577 Anexo 1015.");
 		}
 		mysqli_free_result($c);
 
