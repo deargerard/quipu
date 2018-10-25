@@ -111,7 +111,7 @@ if(isset($_POST['NomForm']) && $_POST['NomForm']='f_ocon'){
 				$acue=utf8_decode("QUIPU - Nueva contraseña");
 
 				$msg=ecorreo($cdes, $ndes, $cpar, $npar, $asu, $cue, $acue);
-				$archivo=fopen("logs/log_ocontrasena.txt", "a") or die("Problemas al crear");
+				$archivo=fopen("/var/www/html/sisper/logs/log_ocontrasena.txt", "a") or die("Problemas al crear");
 				fwrite($archivo,$msg);
 				fwrite($archivo,"\n");
 				fclose($archivo);
