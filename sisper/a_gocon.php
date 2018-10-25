@@ -14,7 +14,7 @@ if(isset($_POST['NomForm']) && $_POST['NomForm']='f_ocon'){
 			$pas=RandomString(8);
 			$pas1=sha1($pas);
             $fec=@date("Y-m-d");
-            $fec=strtotime('-4 month', strtotime($fec));
+            $fec=strtotime('-8 month', strtotime($fec));
             $fec=date("Y-m-d", $fec);
             $q="UPDATE empleado SET Contrasena='$pas1', FecCamContra='$fec' WHERE idEmpleado=$ide;";
             if(mysqli_query($cone,$q)){
