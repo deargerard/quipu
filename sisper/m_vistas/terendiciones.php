@@ -55,11 +55,11 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
     <!-- /.content -->
 <!--Modal-->
 <div class="modal fade" id="m_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content" id="m_tamaño">
+  <div class="modal-dialog" role="document" id="m_tamaño">
+    <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Titulo</h4>
+        <h4 class="modal-title m_titulo" id="myModalLabel">Titulo</h4>
       </div>
       <div class="modal-body">
         <form class="form-horizontal" id="f_modal">
@@ -74,6 +74,27 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
   </div>
 </div>
 <!--Fin Modal Detalle Dependencia-->
+<!--Modal1-->
+<div class="modal fade" id="m1_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content modal-sm" id="m1_tamaño">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title m1_titulo" id="myModalLabel">Titulo</h4>
+      </div>
+      <div class="modal-body">
+        <form id="f1_modal">
+          
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn bg-teal" id="b1_guardar" form="f1_modal">Guardar</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Fin Modal1 Detalle Dependencia-->
 
 
 <?php

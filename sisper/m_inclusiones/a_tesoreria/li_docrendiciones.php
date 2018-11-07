@@ -9,21 +9,22 @@ if(accesocon($cone,$_SESSION['identi'],16)){
     if($r2=mysqli_fetch_assoc($c2)){
 ?>
       <br>
-      <table class="table table-hover table-bordered">
+      <table class="table table-hover">
         <tr>
-          <th><?php echo $r2['codigo']; ?></th>
-          <th><?php echo $r2['fondo']."-".$r2['meta']." (".$r2['mnemonico'].")"; ?></th>
+          <th><?php echo strtoupper(nombremes($r2['mes']))." / ".$r2['anio']; ?></th>
+          <th><?php echo $r2['trendicion']==1 ? "FOND. Y PROG." : ($r2['trendicion']==2 ? "VIÁTICOS" : ""); ?></th>
           <td><?php echo $r2['estado']==1 ? "<span class='label label-success'>Abierta</span>" : "<span class='label label-danger'>Cerrada</span>"; ?></td>
           <td align="right">
-            <div class="btn-group btn-group-sm" role="group" aria-label="...">
-              <button type="button" class="btn btn-info" title="Agregar" onclick="fo_rendiciones('agrdoc',<?php echo $idr.",".$r2['idtefondo']; ?>)"><i class="fa fa-plus"></i> Agregar</button>
-              <button type="button" class="btn btn-info" title="Cerrar" onclick="fo_rendiciones('cerren',<?php echo $idr.",0"; ?>)"><i class="fa fa-times-circle"> Cerrar</i></button>
+            <div class="btn-group btn-group-sm" role="group">
+              <button type="button" class="btn btn-info" title="Agregar" onclick="fo_rendiciones('agrdoc',<?php echo $idr.",".$r2['trendicion']; ?>)"><i class="fa fa-plus"></i> Agregar</button>
+              <button type="button" class="btn btn-info" title="Cerrar" onclick="fo_rendiciones('cerren',<?php echo $idr.",0"; ?>)"><i class="fa fa-archive"> Cerrar</i></button>
               <button type="button" class="btn btn-info" title="Regresar" onclick="lrendiciones(<?php echo "'".$r2['mes']."/".$r2['anio']."'"; ?>);"><i class="fa fa-chevron-circle-left"></i></button>
             </div>
           </td>
         </tr>
         <tr>
-          <th colspan="2"><?php echo ucfirst(nombremes($r2['mes']))." de ".$r2['anio']; ?></th>
+          <th class="text-orange"><?php echo $r2['codigo']; ?></th>
+          <th class="text-orange"><?php echo $r2['fondo']." / ".$r2['meta']." (".$r2['mnemonico'].")"; ?></th>  
           <td colspan="2"><?php echo nomempleado($cone,$r2['empleado']); ?></td>
         </tr>
       </table>

@@ -23,7 +23,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
                     </tr>
                   </table>
 <?php
-                  $c1=mysqli_query($cone,"SELECT r.*, m.nombre AS meta, f.nombre AS fondo FROM terendicion r INNER JOIN temeta m ON r.idtemeta=m.idtemeta INNER JOIN tefondo f ON m.idtefondo=f.idtefondo WHERE r.anio=$anio AND r.mes=$mes ORDER BY codigo DESC;");
+                  $c1=mysqli_query($cone,"SELECT r.*, m.nombre AS meta, f.nombre AS fondo, m.mnemonico FROM terendicion r INNER JOIN temeta m ON r.idtemeta=m.idtemeta INNER JOIN tefondo f ON m.idtefondo=f.idtefondo WHERE r.anio=$anio AND r.mes=$mes ORDER BY codigo DESC;");
                   if(mysqli_num_rows($c1)>0){
                   ?>
                   
@@ -32,8 +32,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
                       <tr>
                         <th>#</th>
                         <th>CÓDIGO</th>
-                        <th>FONDO</th>
-                        <th>META</th>
+                        <th>FONDO / META</th>
                         <th>T. RENDICIÓN</th>
                         <th>POR</th>
                         <th>ACCIÓN</th>
@@ -48,9 +47,8 @@ if(accesocon($cone,$_SESSION['identi'],16)){
                       <tr>
                         <td><?php echo $c; ?></td>
                         <td><?php echo $r1['codigo']; ?></td>
-                        <td><?php echo $r1['fondo']; ?></td>
-                        <td><?php echo $r1['meta']; ?></td>
-                        <td><?php echo $r1['trendicion']==2 ? "VIÁTICOS" : ($r1['trendicion']==1 ? "VARIOS" : "" ); ?></td>
+                        <td><?php echo $r1['fondo']." / ".$r1['meta']." (".$r1['mnemonico'].")"; ?></td>
+                        <td><?php echo $r1['trendicion']==2 ? "VIÁTICOS" : ($r1['trendicion']==1 ? "FOND. Y PROG." : "" ); ?></td>
                         <td><?php echo nomempleado($cone, $r1['empleado']); ?></td>
                         <td>
                           <div class="btn-group btn-group-xs" role="group" aria-label="Basic">

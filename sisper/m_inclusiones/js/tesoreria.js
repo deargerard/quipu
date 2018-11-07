@@ -51,8 +51,11 @@ function fo_rendiciones(acc, v1, v2){
     case 'ediren':
         var mt="<i class='fa fa-pencil text-gray'></i> Editar rendición";
         break;
+    case 'agrdoc':
+        var mt="<i class='fa fa-plus text-gray'></i> Agregar documento rendición";
+        break;
 	}
-	$(".modal-title").html(mt);
+	$(".m_titulo").html(mt);
 	$("#m_modal").modal("show");
 
 	$.ajax({
@@ -62,11 +65,11 @@ function fo_rendiciones(acc, v1, v2){
 	  dataType: "html",
 	  beforeSend: function () {
 	    $("#f_modal").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
-	    $("#b_guardar").hide();
+	    $("#b_guardar").addClass("hidden");
 	  },
 	  success:function(a){
 	    $("#f_modal").html(a);
-	    $("#b_guardar").show();
+	    $("#b_guardar").removeClass("hidden");
 	  }
 	});
 }
@@ -81,16 +84,17 @@ $('#f_modal').submit(function(e){
 	  dataType: "json",
 	  beforeSend: function () {
 	    $("#d_frespuesta").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
-	    $("#b_guardar").hide();
+	    $("#b_guardar").addClass("hidden");
 	  },
 	  success:function(a){
 	  	if(a.e){
 	  		$("#f_modal").html(a.m);
 	  		var ma=$('#fecb').val();
 			lrendiciones(ma);
+			$("#b_guardar").addClass("hidden");
 	  	}else{
 			$("#d_frespuesta").html(a.m);
-			$("#b_guardar").show();
+			$("#b_guardar").removeClass("hidden");
 	  	}
 	  }
 	});
@@ -205,7 +209,54 @@ $('#f_modal').submit(function(e){
 // FIN FUNCIÓN QUE LLAMA ARVHIBO GUARDAR ASIGNACIONES
 //fin marco
 //inicio gerardo
+function fo_rendiciones1(acc, v1, v2){
+	
+	switch(acc) {
+    case 'agrpro':
+        var mt="<i class='fa fa-plus text-gray'></i> Agregar proveedor";
+        break;
+	}
+	$(".m1_titulo").html(mt);
+	$("#m1_modal").modal("show");
 
+	$.ajax({
+	  type: "post",
+	  url: "m_inclusiones/a_tesoreria/fo_rendiciones1.php",
+	  data: {acc: acc, v1: v1, v2: v2},
+	  dataType: "html",
+	  beforeSend: function () {
+	    $("#f1_modal").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
+	    $("#b1_guardar").hide();
+	  },
+	  success:function(a){
+	    $("#f1_modal").html(a);
+	    $("#b1_guardar").show();
+	  }
+	});
+}
+
+$('#f1_modal').submit(function(e){
+	e.preventDefault();
+	var datos = $("#f_modal").serializeArray();
+	$.ajax({
+	  type: "post",
+	  url: "m_inclusiones/a_tesoreria/gu_rendiciones1.php",
+	  data: datos,
+	  dataType: "json",
+	  beforeSend: function () {
+	    $("#d1_frespuesta").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
+	    $("#b1_guardar").hide();
+	  },
+	  success:function(a){
+	  	if(a.e){
+	  		$("#f1_modal").html(a.m);
+	  	}else{
+			$("#d1_frespuesta").html(a.m);
+			$("#b1_guardar").show();
+	  	}
+	  }
+	});
+})
 //fin gerardo
 //inicio marco
 
