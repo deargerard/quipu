@@ -20,7 +20,7 @@ if(valaccasi($cone,$_SESSION['iden'],$_SESSION['docv'])){
 			$idv=$_SESSION['iden'];
 			$cod=iseguro($cone,$_POST['cod']);
 			$mar=@date("Y-m-d H:i:s");
-			$lim1=date("Y-m-d")." 18:06:00";
+			$lim1=date("Y-m-d")." 18:30:00";
 			$lim2=date("Y-m-d")." 19:45:00";
 			if($mar>=$lim1 && $mar<=$lim2){
 				echo mensajeda("Error: <br><br>Fuera de Horario.");
