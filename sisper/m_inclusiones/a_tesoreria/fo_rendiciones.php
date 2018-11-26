@@ -10,14 +10,15 @@ if(accesoadm($cone,$_SESSION['identi'],16)){
 
 		if($acc=="agrren"){
 ?>
-		  <div class="form-group">
-		    <label for="met" class="col-sm-2 control-label">Meta</label>
-		    <div class="col-sm-6">
-		      <input type="hidden" name="acc" value="<?php echo $acc; ?>">
-		      <input type="hidden" name="mes" value="<?php echo $v1; ?>">
-		      <input type="hidden" name="anio" value="<?php echo $v2; ?>">
-		      <select class="form-control" name="met" id="met">
-		      	<option value="">META</option>
+		  <div class="row">
+			<div class="col-sm-8">
+		    	<div class="form-group">
+			      <label for="met">Meta</label>
+			      <input type="hidden" name="acc" value="<?php echo $acc; ?>">
+			      <input type="hidden" name="mes" value="<?php echo $v1; ?>">
+			      <input type="hidden" name="anio" value="<?php echo $v2; ?>">
+			      <select class="form-control" name="met" id="met">
+			      	<option value="">META</option>
 <?php
 				$c1=mysqli_query($cone, "SELECT m.*, f.nombre AS fondo FROM temeta m INNER JOIN tefondo f ON m.idtefondo=f.idtefondo WHERE m.estado=1 ORDER BY fondo, nombre DESC;");
 				if(mysqli_num_rows($c1)>0){
@@ -29,14 +30,17 @@ if(accesoadm($cone,$_SESSION['identi'],16)){
 				}
 				mysqli_free_result($c1);
 ?>
-		      </select>
+		      	  </select>
+		    	</div>
 		    </div>
 		    <div class="col-sm-4">
-		    	<select class="form-control" name="tr" id="tr">
-		    		<option value="">TIPO RENDICIÓN</option>
-		    		<option value="1">FOND. Y PROG.</option>
-		    		<option value="2">VIÁTICOS</option>
-		    	</select>
+		    	<div class="form-group">
+		    		<label for="tr">Tipo Rendición</label>
+			    	<select class="form-control" name="tr" id="tr">
+			    		<option value="1">FONDOS Y PROGRAMAS</option>
+			    		<option value="2">VIÁTICOS</option>
+			    	</select>
+		    	</div>
 		    </div>
 		  </div>
 		  <div id="d_frespuesta">
@@ -58,14 +62,15 @@ if(accesoadm($cone,$_SESSION['identi'],16)){
 				};
 				mysqli_free_result($c4);
 ?>
-		  <div class="form-group">
-		    <label for="met" class="col-sm-2 control-label">Meta</label>
-		    <div class="col-sm-6">
-		      <input type="hidden" name="acc" value="<?php echo $acc; ?>">
-		      <input type="hidden" name="idr" value="<?php echo $v1; ?>">
-		      <input type="hidden" name="po" value="<?php echo $pev ? "si" : "no"; ?>">
-		      <select class="form-control" name="met" id="met">
-		      	<option value="">Meta</option>
+		  <div class="row">
+		    <div class="col-sm-8">
+		    	<div class="form-group">
+			      <input type="hidden" name="acc" value="<?php echo $acc; ?>">
+			      <input type="hidden" name="idr" value="<?php echo $v1; ?>">
+			      <input type="hidden" name="po" value="<?php echo $pev ? "si" : "no"; ?>">
+			      <label for="met">Meta</label>
+			      <select class="form-control" name="met" id="met">
+			      	<option value="">Meta</option>
 <?php
 				$c1=mysqli_query($cone, "SELECT m.*, f.nombre AS fondo FROM temeta m INNER JOIN tefondo f ON m.idtefondo=f.idtefondo WHERE m.estado=1 ORDER BY fondo, nombre DESC;");
 				if(mysqli_num_rows($c1)>0){
@@ -77,14 +82,18 @@ if(accesoadm($cone,$_SESSION['identi'],16)){
 				}
 				mysqli_free_result($c1);
 ?>
-		      </select>
+		      	  </select>
+		      	</div>
 		    </div>
 		    <div class="col-sm-4 <?php echo !$pev ? "hidden" : "" ?>">
-		    	<select class="form-control" name="tr" id="tr">
-		    		<option value="">TIPO RENDICIÓN</option>
-		    		<option value="1" <?php echo $r2['trendicion']==1 ? "selected" : ""; ?>>FOND. Y PROG.</option>
-		    		<option value="2" <?php echo $r2['trendicion']==2 ? "selected" : ""; ?>>VIÁTICOS</option>
-		    	</select>
+		    	<div class="form-group">
+		    		<label for="tr">Tipo Rendición</label>
+			    	<select class="form-control" name="tr" id="tr">
+			    		<option value="">TIPO RENDICIÓN</option>
+			    		<option value="1" <?php echo $r2['trendicion']==1 ? "selected" : ""; ?>>FONDOS Y PROGRAMAS</option>
+			    		<option value="2" <?php echo $r2['trendicion']==2 ? "selected" : ""; ?>>VIÁTICOS</option>
+			    	</select>
+			    </div>
 		    </div>
 		  </div>
 		  <div id="d_frespuesta">
