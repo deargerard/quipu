@@ -53,48 +53,48 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
       </div>
     </section>
     <!-- /.content -->
-<!--Modal-->
+
+<!-- Modal -->
 <div class="modal fade" id="m_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document" id="m_tamaño">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title m_titulo" id="myModalLabel">Titulo</h4>
+        <h4 class="modal-title m_titulo" id="myModalLabel">Modal title</h4>
       </div>
       <div class="modal-body">
-        <form id="f_modal">
+        <form id="f_rendiciones">
           
         </form>
       </div>
       <div class="modal-footer">
-        <button type="submit" class="btn bg-teal" id="b_guardar" form="f_modal">Guardar</button>
+        <button type="submit" class="btn btn-primary" id="b_guardar" form="f_rendiciones">Guardar</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
       </div>
     </div>
   </div>
 </div>
-<!--Fin Modal Detalle Dependencia-->
-<!--Modal1-->
+<!-- Modal1 -->
 <div class="modal fade" id="m1_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content modal-sm" id="m1_tamaño">
+  <div class="modal-dialog modal-sm" role="document" id="m1_tamaño">
+    <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title m1_titulo" id="myModalLabel">Titulo</h4>
+        <h4 class="modal-title m1_titulo" id="myModalLabel">Modal title</h4>
       </div>
       <div class="modal-body">
-        <form id="f1_modal">
+        <form id="f1_rendiciones">
           
         </form>
       </div>
       <div class="modal-footer">
-        <button type="submit" class="btn bg-teal" id="b1_guardar" form="f1_modal">Guardar</button>
+        <button type="submit" class="btn btn-primary" id="b1_guardar" form="f1_rendiciones">Guardar</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
       </div>
     </div>
   </div>
 </div>
-<!--Fin Modal1 Detalle Dependencia-->
+<!--Modal1-->
 
 
 <?php

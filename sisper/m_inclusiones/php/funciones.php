@@ -549,13 +549,13 @@ function colort($n){
 	return $rand[$n];
 }
 function mensajesu($text){
-	return "<h4 class='text-success text-center'><i class='fa fa-check-circle'></i> $text</h4>";
+	return "<h4 class='text-muted text-center'><i class='fa fa-check-circle text-green'></i> $text</h4>";
 }
 function mensajeda($text){
-	return "<h4 class='text-danger text-center'><i class='fa fa-times-circle'></i> $text</h4>";
+	return "<h4 class='text-muted text-center'><i class='fa fa-times-circle text-red'></i> $text</h4>";
 }
 function mensajewa($text){
-	return "<h4 class='text-warning text-center'><i class='fa fa-warning'></i> $text</h4>";
+	return "<h4 class='text-muted text-center'><i class='fa fa-warning text-yellow'></i> $text</h4>";
 }
 function estado($est){
 	if($est==1){

@@ -494,3 +494,161 @@ $("#f_camcontrasena").validate({
       });
     }
   } );
+
+  //TESORERÍA
+  //GERARDO
+
+$(document).ready(function(){
+  $('#fecb').datepicker({
+      format: 'mm/yyyy',
+      autoclose: true,
+      minViewMode: 1,
+      maxViewMode: 2,
+      todayHighlight: true
+  });
+
+  var mai=$('#fecb').val();
+  lrendiciones(mai);
+
+});
+
+function lrendiciones(ma){
+  $.ajax({
+    type: "post",
+    url: "m_inclusiones/a_tesoreria/li_rendiciones.php",
+    data: {fecb : ma},
+    dataType: "html",
+    beforeSend: function () {
+      $("#resultado").html("<img scr='m_images/cargando.gif'>");
+    },
+    success:function(a){
+      $("#resultado").html(a);
+    }
+  });
+}
+
+$('#b_buscar').click(function(){
+  var ma=$('#fecb').val();
+  lrendiciones(ma);
+})
+
+function fo_rendiciones(acc, v1, v2){
+  switch(acc) {
+    case 'agrren':
+        var mt="<i class='fa fa-plus text-gray'></i> Agregar rendición";
+        break;
+    case 'ediren':
+        var mt="<i class='fa fa-pencil text-gray'></i> Editar rendición";
+        break;
+    case 'agrdoc':
+        var mt="<i class='fa fa-plus text-gray'></i> Agregar documento rendición";
+        break;
+  }
+  $(".m_titulo").html(mt);
+  $("#m_modal").modal("show");
+
+  $.ajax({
+    type: "post",
+    url: "m_inclusiones/a_tesoreria/fo_rendiciones.php",
+    data: {acc: acc, v1: v1, v2: v2},
+    dataType: "html",
+    beforeSend: function () {
+      $("#f_rendiciones").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
+      $("#b_guardar").addClass("hidden");
+    },
+    success:function(a){
+      $("#f_rendiciones").html(a);
+      $("#b_guardar").removeClass("hidden");
+    }
+  });
+}
+
+$('#f_rendiciones').submit(function(e){
+  e.preventDefault();
+  var datos = $("#f_rendiciones").serializeArray();
+  $.ajax({
+    type: "post",
+    url: "m_inclusiones/a_tesoreria/gu_rendiciones.php",
+    data: datos,
+    dataType: "json",
+    beforeSend: function () {
+      $("#d_frespuesta").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
+      $("#b_guardar").addClass("hidden");
+    },
+    success:function(a){
+      if(a.e){
+        $("#f_rendiciones").html(a.m);
+        var ma=$('#fecb').val();
+      lrendiciones(ma);
+      $("#b_guardar").addClass("hidden");
+      }else{
+      $("#d_frespuesta").html(a.m);
+      $("#b_guardar").removeClass("hidden");
+      }
+    }
+  });
+})
+
+function ldocrendiciones(idr){
+  $.ajax({
+    type: "post",
+    url: "m_inclusiones/a_tesoreria/li_docrendiciones.php",
+    data: {idr : idr},
+    dataType: "html",
+    beforeSend: function () {
+      $("#resultado").html("<img scr='m_images/cargando.gif'>");
+    },
+    success:function(a){
+      $("#resultado").html(a);
+    }
+  });
+}
+
+function fo_rendiciones1(acc, v1, v2){
+  
+  switch(acc) {
+    case 'agrpro':
+        var mt="<i class='fa fa-plus text-gray'></i> Agregar proveedor";
+        break;
+  }
+  $(".m1_titulo").html(mt);
+  $("#m1_modal").modal("show");
+
+  $.ajax({
+    type: "post",
+    url: "m_inclusiones/a_tesoreria/fo_rendiciones1.php",
+    data: {acc: acc, v1: v1, v2: v2},
+    dataType: "html",
+    beforeSend: function () {
+      $("#f1_rendiciones").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
+      $("#b1_guardar").hide();
+    },
+    success:function(a){
+      $("#f1_rendiciones").html(a);
+      $("#b1_guardar").show();
+    }
+  });
+}
+
+$('#f1_rendiciones').submit(function(e){
+  e.preventDefault();
+  var datos = $("#f1_rendiciones").serializeArray();
+  $.ajax({
+    type: "post",
+    url: "m_inclusiones/a_tesoreria/gu_rendiciones.php",
+    data: datos,
+    dataType: "json",
+    beforeSend: function () {
+      $("#d1_frespuesta").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
+      $("#b1_guardar").hide();
+    },
+    success:function(a){
+      if(a.e){
+        $("#f1_rendiciones").html(a.m);
+      }else{
+      $("#d1_frespuesta").html(a.m);
+      $("#b1_guardar").show();
+      }
+    }
+  });
+})

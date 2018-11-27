@@ -27,14 +27,14 @@ if(accesoadm($cone,$_SESSION['identi'],16)){
 					$r['m']=mensajewa("Error, intentelo nuevamente");
 				}
 			}else{
-				$r['m']=mensajewa("Ambos campos son obligatorios, vuelva a intentarlo");
+				$r['m']=mensajewa("Los campos marcados con <b class='text-red'>*</b> son obligatorios.");
 			}
-		}if($acc=="ediren"){
+		}elseif($acc=="ediren"){
 			$idr=iseguro($cone,$_POST['idr']);
 			$met=iseguro($cone,$_POST['met']);
 			$tr=iseguro($cone,$_POST['tr']);
 			$po=iseguro($cone,$_POST['po']);
-			if($po=="si"){
+			if($po){
 				if(isset($idr) && !empty($idr) && isset($met) && !empty($met) && isset($tr) && !empty($tr)){
 					if(mysqli_query($cone,"UPDATE terendicion SET idtemeta=$met, empleado=$idu, trendicion=$tr WHERE idterendicion=$idr;")){
 						$r['e']=true;
@@ -43,9 +43,9 @@ if(accesoadm($cone,$_SESSION['identi'],16)){
 						$r['m']=mensajewa("Error, intentelo nuevamente");
 					}
 				}else{
-					$r['m']=mensajewa("Ambos campos son obligatorios, vuelva a intentarlo");
+					$r['m']=mensajewa("Los campos marcados con <b class='text-red'>*</b> son obligatorios.");
 				}
-			}elseif($po=="no"){
+			}else{
 				if(isset($idr) && !empty($idr) && isset($met) && !empty($met)){
 					if(mysqli_query($cone,"UPDATE terendicion SET idtemeta=$met, empleado=$idu WHERE idterendicion=$idr;")){
 						$r['e']=true;
@@ -54,9 +54,16 @@ if(accesoadm($cone,$_SESSION['identi'],16)){
 						$r['m']=mensajewa("Error, intentelo nuevamente");
 					}
 				}else{
-					$r['m']=mensajewa("No eligió una meta, vuelva a intentarlo");
+					$r['m']=mensajewa("Los campos marcados con <b class='text-red'>*</b> son obligatorios.");
 				}
 			}
+		}elseif($acc=="agrdoc"){
+			if(isset($_POST['esp']) && !empty($_POST['esp']) && isset($_POST['feccom']) && !empty($_POST['feccom']) && isset($_POST['tcom']) && !empty($_POST['tcom']) && isset($_POST['numcom']) && !empty($_POST['numcom']) && isset($_POST['des']) && !empty($_POST['des']) && isset($_POST['imp']) && !empty($_POST['imp']) && isset($_POST['pro']) && !empty($_POST['pro']) && isset($_POST['dep']) && !empty($_POST['dep'])){
+			}else{
+				$r['m']=mensajewa("Los campos marcados con <b class='text-red'>*</b> son obligatorios.");
+			}
+		}elseif($acc=="agrpro"){
+			if()
 		}//acafin
 	}else{
 		$r['m']=mensajewa("Faltan datos");

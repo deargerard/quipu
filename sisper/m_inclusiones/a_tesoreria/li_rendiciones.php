@@ -10,7 +10,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
       $anio=$fecb[1];
 ?>
                   <br>
-                  <table class="table">
+                  <table class="table table-bordered table-hover">
                     <tr>
                       <td>
                         <h4 class="text-orange"><i class="fa fa-calendar text-gray"></i> <?php echo ucfirst(nombremes($mes))." de ".$anio; ?></h4>

@@ -12,8 +12,7 @@ if(accesoadm($cone,$_SESSION['identi'],16)){
 ?>
 		  <div class="row">
 			<div class="col-sm-8">
-		    	<div class="form-group">
-			      <label for="met">Meta</label>
+			      <label for="met">Meta<small class="text-red">*</small></label>
 			      <input type="hidden" name="acc" value="<?php echo $acc; ?>">
 			      <input type="hidden" name="mes" value="<?php echo $v1; ?>">
 			      <input type="hidden" name="anio" value="<?php echo $v2; ?>">
@@ -31,16 +30,13 @@ if(accesoadm($cone,$_SESSION['identi'],16)){
 				mysqli_free_result($c1);
 ?>
 		      	  </select>
-		    	</div>
 		    </div>
 		    <div class="col-sm-4">
-		    	<div class="form-group">
-		    		<label for="tr">Tipo Rendición</label>
+		    		<label for="tr">Tipo Rendición<small class="text-red">*</small></label>
 			    	<select class="form-control" name="tr" id="tr">
 			    		<option value="1">FONDOS Y PROGRAMAS</option>
 			    		<option value="2">VIÁTICOS</option>
 			    	</select>
-		    	</div>
 		    </div>
 		  </div>
 		  <div id="d_frespuesta">
@@ -67,8 +63,8 @@ if(accesoadm($cone,$_SESSION['identi'],16)){
 		    	<div class="form-group">
 			      <input type="hidden" name="acc" value="<?php echo $acc; ?>">
 			      <input type="hidden" name="idr" value="<?php echo $v1; ?>">
-			      <input type="hidden" name="po" value="<?php echo $pev ? "si" : "no"; ?>">
-			      <label for="met">Meta</label>
+			      <input type="hidden" name="po" value="<?php echo $pev; ?>">
+			      <label for="met">Meta<small class="text-red">*</small></label>
 			      <select class="form-control" name="met" id="met">
 			      	<option value="">Meta</option>
 <?php
@@ -87,7 +83,7 @@ if(accesoadm($cone,$_SESSION['identi'],16)){
 		    </div>
 		    <div class="col-sm-4 <?php echo !$pev ? "hidden" : "" ?>">
 		    	<div class="form-group">
-		    		<label for="tr">Tipo Rendición</label>
+		    		<label for="tr">Tipo Rendición<small class="text-red">*</small></label>
 			    	<select class="form-control" name="tr" id="tr">
 			    		<option value="">TIPO RENDICIÓN</option>
 			    		<option value="1" <?php echo $r2['trendicion']==1 ? "selected" : ""; ?>>FONDOS Y PROGRAMAS</option>
@@ -107,35 +103,38 @@ if(accesoadm($cone,$_SESSION['identi'],16)){
 		}elseif($acc=="agrdoc"){
 			if($v2==1){
 ?>
-			  <div class="form-group">
-			    <label for="esp" class="col-sm-2 control-label">Especifica</label>
-			    <div class="col-sm-5">
+			<div class="row">
+			    <div class="col-sm-7 esin">
+		    	  <label for="esp">Especifica<small class="text-red">*</small></label>
+			      <input type="hidden" name="acc" value="<?php echo $acc; ?>">
+			      <input type="hidden" name="v1" value="<?php echo $v1; ?>">
+			      <input type="hidden" name="v2" value="<?php echo $v2; ?>">
 			      <select class="form-control select2" id="esp" name="esp" style="width: 100%;">
 			      	<option value="">ESPECIFICA</option>
-<?php
-					$ce=mysqli_query($cone,"SELECT * FROM teespecifica WHERE estado=1 ORDER BY nombre ASC;");
-					if(mysqli_num_rows($ce)>0){
-						while($re=mysqli_fetch_assoc($ce)){
-?>
-					<option value="<?php echo $re['idteespecifica'] ?>"><?php echo $re['nombre']; ?></option>
-<?php
+	<?php
+						$ce=mysqli_query($cone,"SELECT * FROM teespecifica WHERE estado=1 ORDER BY nombre ASC;");
+						if(mysqli_num_rows($ce)>0){
+							while($re=mysqli_fetch_assoc($ce)){
+	?>
+						<option value="<?php echo $re['idteespecifica'] ?>"><?php echo $re['nombre']; ?></option>
+	<?php
+							}
 						}
-					}
-					mysqli_free_result($ce);
-?>
-			      </select>
+						mysqli_free_result($ce);
+	?>
+				  </select>
 			    </div>
-			    <label for="feccom" class="col-sm-2 control-label">Fec. Comp.</label>
-			    <div class="col-sm-3">
-			      <input type="text" class="form-control" id="feccom" name="feccom" placeholder="dd/mm/aaaa" autocomplete="off">
-			      <!--<span class="fa fa-calendar form-control-feedback"></span>-->
+			    <div class="col-sm-5 esin">
+				    <label for="feccom">Fecha Comprobante<small class="text-red">*</small></label>
+				    <div class="has-feedback">
+				      <input type="text" class="form-control" id="feccom" name="feccom" placeholder="dd/mm/aaaa" autocomplete="off">
+				      <span class="fa fa-calendar form-control-feedback"></span>
+					</div>
 			    </div>
-			  </div>
-			  <div class="form-group">
-			  	<label for="tcom" class="col-sm-2 control-label">Tip. Comp.</label>
-			    <div class="col-sm-5">
-			      <select class="form-control select2" id="tcom" name="tcom" style="width: 100%;">
-			      	<option value="">TIPO COMPROBANTE</option>
+			    <div class="col-sm-7 esin">
+			      	<label for="tcom">Tipo Comprobante<small class="text-red">*</small></label>
+			      	<select class="form-control select2" id="tcom" name="tcom" style="width: 100%;">
+			      		<option value="">TIPO COMPROBANTE</option>
 <?php
 					$ctd=mysqli_query($cone,"SELECT * FROM tetipocom WHERE estado=1 ORDER BY tipo ASC;");
 					if(mysqli_num_rows($ctd)>0){
@@ -147,56 +146,52 @@ if(accesoadm($cone,$_SESSION['identi'],16)){
 					}
 					mysqli_free_result($ctd);
 ?>
-			      </select>
+			      	</select>
 			    </div>
-			    <label for="numcom" class="col-sm-2 control-label">N° Comp.</label>
-			    <div class="col-sm-3">
+			    <div class="col-sm-5 esin">
+			      <label for="numcom">N° Comprobante<small class="text-red">*</small></label>
 			      <input type="text" class="form-control" id="numcom" name="numcom" placeholder="1-123">
 			    </div>
-			  </div>
-			  <div class="form-group">
-			    <label for="des" class="col-sm-2 control-label">Descripción</label>
-			    <div class="col-sm-10">
+			    <div class="col-sm-12 esin">
+			      <label for="des">Descripción<small class="text-red">*</small></label>
 			      <input type="text" class="form-control" id="des" name="des" placeholder="Descripción">
 			    </div>
-			  </div>
-			  <div class="form-group">
-			    <label for="imp" class="col-sm-2 control-label">Importe</label>
-			    <div class="col-sm-4">
+			    <div class="col-sm-3 esin">
+			      <label for="imp">Importe<small class="text-red">*</small></label>
 			      <input type="number" class="form-control" id="imp" name="imp" placeholder="0.00" autocomplete="off">
 			    </div>
-			    <label for="codser" class="col-sm-2 control-label">Cod. Serv.</label>
-			    <div class="col-sm-4">
-			      <input type="text" class="form-control" id="codser" name="codser" placeholder="F524Y">
-			    </div>
-			  </div>
-			  <div class="form-group">
-			    <label for="can" class="col-sm-2 control-label">Cantidad</label>
-			    <div class="col-sm-4">
+			    <div class="col-sm-3 esin">
+			      <label for="can">Cantidad</label>
 			      <input type="number" class="form-control" id="can" name="can" placeholder="0.00">
 			    </div>
-			    <label for="uni" class="col-sm-2 control-label">Unid. Med.</label>
-			    <div class="col-sm-4">
+			    <div class="col-sm-3 esin">
+			      <label for="uni">Unidad Medida</label>
 			      <input type="text" class="form-control" id="uni" name="uni" placeholder="Kg">
 			    </div>
-			  </div>
-			  <div class="form-group">
-			    <label for="pro" class="col-sm-2 control-label">Proveedor</label>
-			    <div class="col-sm-8">
+			    <div class="col-sm-3 esin">
+			      <label for="codser">Cod. Serv.</label>
+			      <input type="text" class="form-control" id="codser" name="codser" placeholder="F524Y">
+			    </div>
+			    <div class="col-sm-9 esin">
+			      <label for="pro">Proveedor<small class="text-red">*</small></label>
 			      <select class="form-control select2pro" id="pro" name="pro" style="width: 100%;">
-			      	<option value="">PROVEEDOR</option>
+
 			      </select>
 			    </div>
-			    <button type="button" class="btn btn-default" onclick="fo_rendiciones1('agrpro',1,0);"><i class="fa fa-plus"></i> Agregar</button>
-			  </div>
-			  <div class="form-group">
-			    <label for="dep" class="col-sm-2 control-label">Dependencia</label>
-			    <div class="col-sm-10">
+			    <div class="col-sm-3 esin">
+			    	<label>&nbsp;</label>
+			    	<button type="button" class="btn btn-default btn-block" onclick="fo_rendiciones1('agrpro',1,0);"><i class="fa fa-plus"></i> Agregar</button>
+			    </div>
+			    <div class="col-sm-12 esin">
+			      <label for="dep">Dependencia<small class="text-red">*</small></label>
 			      <select class="form-control select2dep" id="dep" name="dep" style="width: 100%;">
-			      	<option value="">DEPENDENCIA</option>
+
 			      </select>
 			    </div>
-			  </div>
+				<div id="d_frespuesta">
+				  	
+				</div>
+			</div>
 			  <script>
 			  	$(".select2").select2({
 			  		dropdownParent: $("#m_modal")
@@ -245,6 +240,29 @@ if(accesoadm($cone,$_SESSION['identi'],16)){
 			}elseif($v2==2){
 				echo "VIÁTICOS";
 			}
+		}elseif($acc=="agrpro"){
+?>
+		  <div class="form-group">
+		    <label for="razsoc">Razón Social</label>
+		    <input type="hidden" name="acc" value="<?php echo $acc; ?>">
+		    <input type="text" class="form-control" id="razsoc" name="razsoc" placeholder="Razón Social">
+		  </div>
+		  <div class="form-group">
+		    <label for="">RUC</label>
+		    <input type="text" class="form-control" id="" name="" placeholder="12345678">
+		  </div>
+		  <div class="form-group">
+		    <label for="dir">Dirección</label>
+		    <input type="text" class="form-control" id="dir" name="dir" placeholder="Dirección">
+		  </div>
+		  <div class="form-group">
+		    <label for="tel">Teléfono</label>
+		    <input type="text" class="form-control" id="tel" name="tel" placeholder="Teléfono">
+		  </div>
+		  <div id="d_frespuesta">
+				  	
+		  </div>
+<?php
 		}//acafin
 	}else{
 		echo mensajewa("Error: Faltan datos.");
