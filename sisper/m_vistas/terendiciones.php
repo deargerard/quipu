@@ -55,7 +55,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
     <!-- /.content -->
 
 <!-- Modal -->
-<div class="modal fade" id="m_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="m_modal" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document" id="m_tamaño">
     <div class="modal-content">
       <div class="modal-header">
@@ -63,7 +63,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
         <h4 class="modal-title m_titulo" id="myModalLabel">Modal title</h4>
       </div>
       <div class="modal-body">
-        <form id="f_rendiciones">
+        <form id="f_rendiciones" autocomplete="off">
           
         </form>
       </div>
@@ -75,7 +75,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
   </div>
 </div>
 <!-- Modal1 -->
-<div class="modal fade" id="m1_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="m1_modal" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog modal-sm" role="document" id="m1_tamaño">
     <div class="modal-content">
       <div class="modal-header">
@@ -83,7 +83,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
         <h4 class="modal-title m1_titulo" id="myModalLabel">Modal title</h4>
       </div>
       <div class="modal-body">
-        <form id="f1_rendiciones">
+        <form id="f1_rendiciones" autocomplete="off">
           
         </form>
       </div>

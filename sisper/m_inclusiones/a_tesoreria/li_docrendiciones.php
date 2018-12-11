@@ -3,6 +3,7 @@ session_start();
 include("../php/conexion_sp.php");
 include("../php/funciones.php");
 if(accesocon($cone,$_SESSION['identi'],16)){
+  $idu=$_SESSION['identi'];
 	if(isset($_POST['idr']) && !empty($_POST['idr'])){
 		$idr=iseguro($cone,$_POST['idr']);
     $c2=mysqli_query($cone,"SELECT r.*, m.nombre AS meta, m.mnemonico, f.nombre AS fondo, f.idtefondo FROM terendicion r INNER JOIN temeta m ON r.idtemeta=m.idtemeta INNER JOIN tefondo f ON m.idtefondo=f.idtefondo WHERE idterendicion=$idr");
@@ -11,25 +12,45 @@ if(accesocon($cone,$_SESSION['identi'],16)){
       <br>
       <table class="table table-bordered table-hover">
         <tr>
-          <td><i class="fa fa-calendar text-gray"></i> <?php echo strtoupper(nombremes($r2['mes']))." / ".$r2['anio']; ?></td>
-          <td><?php echo $r2['trendicion']==1 ? "FONDOS Y PROGRAMAS" : ($r2['trendicion']==2 ? "VIÁTICOS" : ""); ?></td>
-          <td><?php echo $r2['estado']==1 ? "<span class='label label-success'>Abierta</span>" : "<span class='label label-danger'>Cerrada</span>"; ?></td>
+          <th class="text-orange">
+            <i class="fa fa-file-text-o text-gray"></i> DOCUMENTOS
+            <input type="hidden" id="ir" value="<?php echo $idr; ?>">
+          </th>
+          <th class="text-orange">
+            <?php echo $r2['fondo']." / ".$r2['meta']." (".$r2['mnemonico'].")"; ?>
+          </th>
+          <th class="text-orange">
+            <?php echo $r2['codigo']; ?>
+          </th>
           <td align="right">
               <div class="btn-group btn-group-sm" role="group" aria-label="...">
+                <?php if(accesoadm($cone,$_SESSION['identi'],16) && $idu==$r2['empleado']){ ?>
+                  <?php if($r2['estado']==1){ ?>
                 <button type="button" class="btn btn-info" title="Agregar" onclick="fo_rendiciones('agrdoc',<?php echo $idr.",".$r2['trendicion']; ?>)"><i class="fa fa-plus"></i> Agregar</button>
-                <button type="button" class="btn btn-info" title="Cerrar" onclick="fo_rendiciones('cerren',<?php echo $idr.",0"; ?>)"><i class="fa fa-archive"></i> Cerrar</button>
-                <button type="button" class="btn btn-info" title="Regresar" onclick="lrendiciones(<?php echo "'".$r2['mes']."/".$r2['anio']."'"; ?>);"><i class="fa fa-chevron-circle-left"></i> Regresar</button>
+                  <?php } ?>
+                <button type="button" class="btn btn-info" title="<?php echo $r2['estado']==1 ? "Archivar" : "Reabrir"; ?>" onclick="fo_rendiciones('estren',<?php echo $idr.",0"; ?>)"><i class="fa <?php echo $r2['estado']==1 ? "fa-folder" : "fa-folder-open"; ?>"></i> <?php echo $r2['estado']==1 ? "Archivar" : "Reabrir"; ?></button>
+                <?php } ?>
+                <a href="m_inclusiones/a_tesoreria/xls_anexo11.php?ren=<?php echo $idr; ?>" class="btn btn-info" title="Exportar" target="_blank"><i class="fa fa-cloud-download"></i> A 11</a>
+                <a href="m_inclusiones/a_tesoreria/xls_anexo12.php?ren=<?php echo $idr; ?>&ti=<?php echo $r2['trendicion']; ?>" class="btn btn-info" title="Exportar" target="_blank"><i class="fa fa-cloud-download"></i> A 12</a>
+                <a href="m_inclusiones/a_tesoreria/xls_anexo16.php?ren=<?php echo $idr; ?>&ti=<?php echo $r2['trendicion']; ?>" class="btn btn-info" title="Exportar" target="_blank"><i class="fa fa-cloud-download"></i> A 16</a>
+                <button type="button" class="btn btn-info" title="Regresar" onclick="lrendiciones(<?php echo "'".$r2['mes']."/".$r2['anio']."'"; ?>);"><i class="fa fa-chevron-circle-left"></i></button>
               </div>
           </td>
         </tr>
         <tr>
-          <td class="text-orange"><?php echo $r2['codigo']; ?></td>
-          <th class="text-orange"><?php echo $r2['fondo']." / ".$r2['meta']." (".$r2['mnemonico'].")"; ?></th>  
-          <td colspan="2"><?php echo nomempleado($cone,$r2['empleado']); ?></td>
+          <td>
+            <?php echo strtoupper(nombremes($r2['mes']))." / ".$r2['anio']; ?>
+          </td>
+          <td>
+            <?php echo $r2['trendicion']==1 ? "FONDOS Y PROGRAMAS" : ($r2['trendicion']==2 ? "VIÁTICOS" : ""); ?>
+          </td>  
+          <td><?php echo $r2['estado']==1 ? "<span class='label label-warning'>Abierta</span>" : "<span class='label label-success'>Archivada</span>"; ?></td>
+          <td><?php echo nomempleado($cone,$r2['empleado']); ?></td>
         </tr>
       </table>
+      <div class="table-responsive">
 <?php
-        if($r2['idtefondo']==3){
+        if($r2['trendicion']==1){
                   $c1=mysqli_query($cone,"SELECT g.*, tc.tipo, p.razsocial, e.nombre, e.codigo, m.mnemonico, p.ruc FROM tegasto g INNER JOIN tetipocom tc ON g.idtetipocom=tc.idtetipocom INNER JOIN teespecifica e ON g.idteespecifica=e.idteespecifica INNER JOIN terendicion r ON g.idterendicion=r.idterendicion INNER JOIN temeta m ON r.idtemeta=m.idtemeta LEFT JOIN teproveedor p ON g.idteproveedor=p.idteproveedor WHERE g.idterendicion=$idr;");
                   echo mysqli_error($cone);
                   if(mysqli_num_rows($c1)>0){
@@ -44,42 +65,51 @@ if(accesocon($cone,$_SESSION['identi'],16)){
                         <th>NUM.</th>
                         <th>PROVEEDOR</th>
                         <th>RUC</th>
+                        <th>DETALLE GASTO</th>
                         <th>ESPECIFICA</th>
-                        <th>MNEMOTECNICO</th>
                         <th>TOTAL</th>
-                        <th>POR</th>
+                        <?php if($r2['estado']==1 && accesoadm($cone,$_SESSION['identi'],16) && $idu==$r2['empleado']){ ?>
                         <th>ACCIÓN</th>
+                        <?php } ?>
                       </tr>
                     </thead>
                     <tbody>
 <?php
                       $c=0;
+                      $t=0;
                       while($r1=mysqli_fetch_assoc($c1)){
                         $c++;
 ?>
                       <tr>
                         <td><?php echo $c; ?></td>
-                        <td><?php echo $r1['fechacom']; ?></td>
+                        <td><?php echo fnormal($r1['fechacom']); ?></td>
                         <td><?php echo $r1['tipo']; ?></td>
                         <td><?php echo $r1['numerocom']; ?></td>
                         <td><?php echo $r1['razsocial']; ?></td>
                         <td><?php echo $r1['ruc']; ?></td>
-                        <td><?php echo $r1['mnemonico']; ?></td>
+                        <td><?php echo $r1['glosacom']; ?></td>
+                        <td><?php echo $r1['codigo']."<br>".$r1['nombre']; ?></td>
                         <td><?php echo $r1['totalcom']; ?></td>
-                        <td><?php echo nomempleado($cone, $r1['empleado']); ?></td>
+                        <?php if($r2['estado']==1 && accesoadm($cone,$_SESSION['identi'],16) && $idu==$r2['empleado']){ ?>
                         <td>
                           <div class="btn-group btn-group-xs" role="group" aria-label="Basic">
-                            <?php if(accesocon($cone,$_SESSION['identi'],16)){ ?>
-                            <button type="button" class="btn btn-default" title="Editar" onclick="fo_rendiciones('ediren',<?php echo $r1['idterendicion'].",0"; ?>)"><i class="fa fa-pencil"></i></button>
-                            <?php } ?>
-                            <button type="button" class="btn btn-default" title="Ir"><i class="fa fa-chevron-circle-right"></i></button>
+                            <button type="button" class="btn btn-default" title="Editar" onclick="fo_rendiciones('edidoc',<?php echo $r1['idtegasto'].", ".$r2['trendicion']; ?>)"><i class="fa fa-pencil"></i></button>
+                            <button type="button" class="btn btn-default" title="Eliminar" onclick="fo_rendiciones('elidoc',<?php echo $r1['idtegasto'].", ".$r2['trendicion']; ?>)"><i class="fa fa-trash"></i></button>
                           </div>
                         </td>
+                        <?php } ?>
                       </tr>
 <?php
+                        $t=$t+$r1['totalcom'];
                       }
 ?>
                     </tbody>
+                    <table class="table table-bordered table-hover">
+                      <tr>
+                        <th>TOTAL</th>
+                        <th><?php echo number_format((float)$t, 2, '.', ''); ?></th>
+                      </tr>
+                    </table>
                   </table>
                   <script>
                     $('#dtable').DataTable();
@@ -89,7 +119,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
                     echo mensajewa("No se encontraron documentos para la rendición seleccionada.");
                   }
                   mysqli_free_result($c1);
-        }else{
+        }elseif($r2['trendicion']==2){
                   $c1=mysqli_query($cone,"SELECT g.*, tc.tipo, p.razsocial, e.nombre, e.codigo, m.mnemonico, p.ruc FROM tegasto g INNER JOIN tetipocom tc ON g.idtetipocom=tc.idtetipocom INNER JOIN teespecifica e ON g.idteespecifica=e.idteespecifica INNER JOIN terendicion r ON g.idterendicion=r.idterendicion INNER JOIN temeta m ON r.idtemeta=m.idtemeta LEFT JOIN teproveedor p ON g.idteproveedor=p.idteproveedor WHERE g.idterendicion=$idr;");
                   echo mysqli_error($cone);
                   if(mysqli_num_rows($c1)>0){
@@ -104,10 +134,9 @@ if(accesocon($cone,$_SESSION['identi'],16)){
                         <th>NUM.</th>
                         <th>PROVEEDOR</th>
                         <th>RUC</th>
+                        <th>DETALLE GASTO</th>
                         <th>ESPECIFICA</th>
-                        <th>MNEMOTECNICO</th>
                         <th>TOTAL</th>
-                        <th>POR</th>
                         <th>ACCIÓN</th>
                       </tr>
                     </thead>
@@ -119,20 +148,19 @@ if(accesocon($cone,$_SESSION['identi'],16)){
 ?>
                       <tr>
                         <td><?php echo $c; ?></td>
-                        <td><?php echo $r1['fechacom']; ?></td>
+                        <td><?php echo fnormal($r1['fechacom']); ?></td>
                         <td><?php echo $r1['tipo']; ?></td>
                         <td><?php echo $r1['numerocom']; ?></td>
                         <td><?php echo $r1['razsocial']; ?></td>
                         <td><?php echo $r1['ruc']; ?></td>
-                        <td><?php echo $r1['mnemonico']; ?></td>
+                        <td><?php echo $r1['glosacom']; ?></td>
+                        <td><?php echo $r1['codigo']." - ".$r1['nombre']; ?></td>
                         <td><?php echo $r1['totalcom']; ?></td>
-                        <td><?php echo nomempleado($cone, $r1['empleado']); ?></td>
                         <td>
                           <div class="btn-group btn-group-xs" role="group" aria-label="Basic">
                             <?php if(accesocon($cone,$_SESSION['identi'],16)){ ?>
-                            <button type="button" class="btn btn-default" title="Editar" onclick="fo_rendiciones('ediren',<?php echo $r1['idterendicion'].",0"; ?>)"><i class="fa fa-pencil"></i></button>
+                            <button type="button" class="btn btn-default" title="Editar" onclick="fo_rendiciones('edidoc',<?php echo $r1['idterendicion'].",0"; ?>)"><i class="fa fa-pencil"></i></button>
                             <?php } ?>
-                            <button type="button" class="btn btn-default" title="Ir"><i class="fa fa-chevron-circle-right"></i></button>
                           </div>
                         </td>
                       </tr>
@@ -150,6 +178,9 @@ if(accesocon($cone,$_SESSION['identi'],16)){
                   }
                   mysqli_free_result($c1);
         }
+?>
+      </div>
+<?php
     }else{
       echo mensajewa("Error, datos inválidos");
     }
