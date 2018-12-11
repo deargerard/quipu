@@ -12,14 +12,14 @@ if(accesocon($cone,$_SESSION['identi'],16)){
     $fecfin=date('Y-m-j', $fecfin);
     $fecb=explode('/',iseguro($cone,$_POST['fecb']));
     $mes=$fecb[0];
-    $anio=$fecb[1];    
+    $anio=$fecb[1];        
     ?>   
       <div class="col-md-10">
           <h4 class="text-orange"><i class="fa fa-calendar text-gray"></i> <?php echo ucfirst(nombremes($mes))." de ".$anio; ?></h4>
       </div>
       <div class="col-md-2">
       <?php if(accesoadm($cone,$_SESSION['identi'],16)){ ?>
-                <button type="button" class="btn btn-info btn-sm" onclick="fo_asignaciones('agrasig',0,0)"><i class="fa fa-plus"></i> Agregar</button>
+                <button type="button" class="btn btn-info btn-sm" onclick="fo_asignaciones('agrasig',<?php echo"'".$fecini."'"?>,0)"><i class="fa fa-plus"></i> Agregar</button>
       <?php } ?>
       </div>
       <div class="clearfix"></div>
@@ -27,8 +27,9 @@ if(accesocon($cone,$_SESSION['identi'],16)){
       <div class="row">
         <div class="col-md-12" id="r_basig">
           <?php
-            $ca=mysqli_query($cone,"SELECT a.idteasignacion, a.idtemeta, a.fecha, a.monto, a.tipo, f.nombre as fondo, m.nombre as meta, m.mnemonico, a.medio, a.nummedio FROM teasignacion a INNER JOIN temeta m ON a.idtemeta=m.idtemeta INNER JOIN tefondo f ON m.idtefondo=f.idtefondo WHERE (Fecha BETWEEN '2018-10-01' AND '2018-10-31');");
+            $ca=mysqli_query($cone,"SELECT a.idteasignacion, a.idtemeta, a.fecha, a.monto, a.tipo, f.nombre as fondo, m.nombre as meta, m.mnemonico, a.medio, a.nummedio FROM teasignacion a INNER JOIN temeta m ON a.idtemeta=m.idtemeta INNER JOIN tefondo f ON m.idtefondo=f.idtefondo WHERE (mes BETWEEN '$fecini' AND '$fecfin');");
 
+            //echo "SELECT a.idteasignacion, a.idtemeta, a.fecha, a.monto, a.tipo, f.nombre as fondo, m.nombre as meta, m.mnemonico, a.medio, a.nummedio FROM teasignacion a INNER JOIN temeta m ON a.idtemeta=m.idtemeta INNER JOIN tefondo f ON m.idtefondo=f.idtefondo WHERE (Fecha BETWEEN (Fecha BETWEEN '$fecini' AND '$fecfin');";
           ?>
             <table id="dtable" class="table table-bordered table-hover">
               <thead>
@@ -36,18 +37,20 @@ if(accesocon($cone,$_SESSION['identi'],16)){
                   <th>#</th>
                   <th>FECHA</th>
                   <th>TIPO</th>
-                  <th>META</th>
-                  <th>MONTO S/</th>
+                  <th>META</th>                  
                   <th>MEDIO</th>
                   <th>NÚMERO</th>
+                  <th>MONTO S/</th>
                   <th>ACCIÓN</th>
                 </tr>
               </thead>
               <tbody>
           <?php
               $n=0;
+              $t=0;
               while($ra=mysqli_fetch_assoc($ca)){
                 $n++;
+                $t=$t+$ra["monto"];
                 $me;
                 if ($ra["medio"]==1) {
                    $me="Cheque";                         
@@ -61,12 +64,11 @@ if(accesocon($cone,$_SESSION['identi'],16)){
                   <td><?php echo $n; ?></td>
                   <td><?php echo fnormal($ra["fecha"]) ?></td>
                   <td><?php echo $ra['tipo']==1 ? "Apertura" : "Reembolso"; ?></td>
-                  <td><?php echo $ra["fondo"]."-".$ra["meta"]." (".$ra["mnemonico"].")"; ?></td>
-                  <td><?php echo $ra["monto"]; ?></td>
+                  <td><?php echo $ra["fondo"]."-".$ra["meta"]." (".$ra["mnemonico"].")"; ?></td>                  
                   <td><?php echo $me; ?></td>
                   <td><?php echo $ra["nummedio"]; ?></td>
-                                                      
-                  <td>
+                  <td><?php echo $ra["monto"]; ?></td>                                    
+                  <td>                  
                     <div class="btn-group btn-group-xs" role="group" aria-label="Basic">
                       <button type="button" class="btn btn-default" title="Editar" onclick="fo_asignaciones('ediasig',0,<?php echo $ra['idteasignacion'] ?>)"><i class="fa fa-pencil"></i></button>
                       <button type="button" class="btn btn-default" title="Eliminar" onclick="fo_asignaciones('eliasig',0,<?php echo $ra['idteasignacion'] ?>)"><i class="fa fa-trash"></i></button>
@@ -74,11 +76,17 @@ if(accesocon($cone,$_SESSION['identi'],16)){
                   </td>                 
                 </tr>
           <?php
-              }
+              }          
               mysqli_free_result($ca);
           ?>
               </tbody>
-            </table>
+            </table>          
+            <div class="col-md-9">
+              <h4 class="text-orange">Total Asignaciones</h4>
+            </div>
+            <div class="col-md-3">
+              <h4><strong> <?php echo "S/ ".number_format($t,2,'.',' '); ?></strong></h4>             
+            </div>        
         </div>
       </div>
 <script>

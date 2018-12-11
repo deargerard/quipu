@@ -1,0 +1,307 @@
+<?php
+session_start();
+include("../php/conexion_sp.php");
+include("../php/funciones.php");
+
+if(accesoadm($cone,$_SESSION['identi'],9)){
+	if(isset($_POST['acc']) && !empty($_POST['acc']) && isset($_POST['idcs']) && !empty($_POST['idcs'])){
+		$acc=iseguro($cone,$_POST['acc']);
+		$idcs=iseguro($cone,$_POST['idcs']);				
+		if($acc=="agrre"){
+		$cc=mysqli_query($cone,"SELECT csivia FROM comservicios WHERE idComServicios=$idcs;");
+            if ($rc=mysqli_fetch_assoc($cc)) {              
+              $c=is_null($rc['csivia']);
+        }         						                                     
+?>
+	      	<div class="row">
+	        <div class="col-sm-9"> comisión de</div>	        
+	        <div class="col-sm-3">
+	        	<a href="m_inclusiones/a_tesoreria/te_anexo04pdf.php?idcs=<?php echo $idcs;?>" type="button" class="btn btn-warning" title="Formato 04" target="_blank">F04</a>
+	        	<a href="m_inclusiones/a_tesoreria/te_anexo02pdf.php?idcs=<?php echo $idcs;?>" type="button" class="btn btn-warning" title="Declaración Jurada" target="_blank">DJ</a>
+	        	<?php if($c){ ?>
+	          		<button type="button" class="btn bg-teal" title="Agregar Comprobante" onclick="fo_drendicion('agrdr',<?php echo $idcs ?>,0)"><i class="fa fa-plus"></i> Agregar</button>
+	          	<?php } ?>
+	        </div>        
+	      	</div>
+<?php 
+		    $c2=mysqli_query($cone,"SELECT idtegasto FROM tegasto WHERE idComServicios=$idcs;");
+		    if (mysqli_num_rows($c2)>0) {
+?>   
+		    <table class="table table-hover table-bordered" id="dtable">
+		        <thead>
+		          	<tr>
+			            <th>FECHA</th>
+			            <th>TIPO</th>
+			            <th>NUMERO</th> 
+			            <th>CONCEPTO</th>                       
+			            <th>MONTO S/</th>
+		<?php if($c){ ?><th>ACCIÓN</th> <?php } ?>
+
+		          	</tr>
+		        </thead>
+		        <tbody>
+<?php
+          		$c2=mysqli_query($cone,"SELECT g.idtegasto, g.fechacom, tc.abreviatura, cv.conceptov, g.numerocom, g.totalcom FROM tegasto g INNER JOIN tetipocom tc ON tc.idtetipocom=g.idtetipocom INNER JOIN teconceptov cv ON g.idteconceptov=cv.idteconceptov WHERE g.idComServicios=$idcs;");      
+          			while($r2=mysqli_fetch_assoc($c2)){            
+?>
+			            <tr>              
+				            <td><?php echo fnormal($r2['fechacom']); ?></td>
+				            <td><?php echo $r2['abreviatura']; ?></td>
+				            <td><?php echo $r2['numerocom']; ?></td>
+				            <td><?php echo $r2['conceptov']; ?></td>              
+				            <td><?php echo $r2['totalcom']; ?></td>              
+				            <td>
+				                <div class="btn-group btn-group-xs" role="group" aria-label="Basic">
+				                  	<?php if($c){ ?>
+				                  	<button type="button" class="btn btn-default" title="Editar" onclick="fo_drendicion('edidr',<?php echo $idcs.",".$r2['idtegasto']; ?>)"><i class="fa fa-pencil"></i></button>
+				                  	<button type="button" class="btn btn-default" title="Eliminar" onclick="fo_drendicion('elidr',<?php echo $idcs.",". $r2['idtegasto']; ?>)"><i class="fa fa-trash"></i></button>
+				                	<?php } ?>
+				                  
+				                </div>
+			              	</td>
+			            </tr>
+<?php
+         			}
+?>
+        		</tbody>
+      		</table>    
+<?php  
+    		mysqli_free_result($c2);
+    		}else{
+      			echo mensajewa("No se han registrado comprobantes de gasto.");
+    		}
+		}elseif($acc=="agrdr"){
+			$idcs=iseguro($cone,$_POST['idcs']);
+?>
+			<div class="form-group">
+				<input type="hidden" name="acc" value="<?php echo $acc; ?>">
+				<input type="hidden" name="idcs" value="<?php echo $idcs; ?>">
+				<label for="doc" class="col-sm-2 control-label">Documento <small class="text-red">*</small></label>
+				<div class="col-sm-4">		    
+					<select class="form-control select2doc" name="doc" id="doc" style="width: 100%;">
+					<option value="">Seleccione el tipo</option>					
+<?php
+						$c1=mysqli_query($cone, "SELECT * FROM tetipocom WHERE estado=1 ORDER BY tipo ASC;");
+							if(mysqli_num_rows($c1)>0){
+								while($r1=mysqli_fetch_assoc($c1)){
+?>
+								<option value="<?php echo $r1['idtetipocom']; ?>"><?php echo $r1['tipo'];?></option>
+<?php
+								}
+							}
+							mysqli_free_result($c1);
+?>				
+					</select>
+				</div>
+				<label for="num" class="col-sm-2 control-label ocu">Número <small class="text-red">*</small></label>
+				<div class="col-sm-4">				
+					<input type="text" name="num" id="num" class="form-control ocu" placeholder="Digite el número">									
+				</div>					
+			</div>
+			<div class="form-group">
+				<label for="con" class="col-sm-2 control-label">Concepto <small class="text-red">*</small></label>
+				<div class="col-sm-4">		    
+					<select class="form-control select2" name="con" id="con" style="width: 100%;">
+					<option value=""> Seleccione el Concepto</option>					
+<?php
+						$c2=mysqli_query($cone, "SELECT * FROM teconceptov ORDER BY conceptov ASC;");
+							if(mysqli_num_rows($c2)>0){
+								while($r2=mysqli_fetch_assoc($c2)){
+?>
+									<option value="<?php echo $r2['idteconceptov']; ?>"><?php echo $r2['conceptov'];?></option>
+<?php
+								}
+							}
+							mysqli_free_result($c2);
+?>				
+					</select>
+				</div>
+				<label for="mon" class="col-sm-2 control-label">Monto <small class="text-red">*</small></label>
+				<div class="col-sm-4">
+					<div class="input-group">
+						<span class="input-group-addon">S/</span>
+						<input type="text" name="mon" id="mon" class="form-control" placeholder="Digite el monto">			
+					</div>				
+				</div>			
+			</div>
+			<div class="form-group">			
+				<label for="glo" class="col-sm-2 control-label">Glosa</label>
+				<div class="col-sm-10">									
+					<input type="text" name="glo" id="glo" class="form-control" placeholder="Digite la glosa del comprobante">		
+				</div>			
+			</div>
+
+			<div class="form-group ocu">
+				<label for="pro" class="col-sm-2 control-label">Proveedor <small class="text-red">*</small></label>
+				<div class="col-sm-8">								
+					<select class="form-control select2pro" name="pro" id="pro" style="width: 100%;">
+						<option value="sd">Ninguno</option>
+									
+		
+					</select>
+				</div>
+					<button type="button" class="btn bg-teal" title="Agregar" onclick="fo_aproveedor('agrpro',<?php echo $idcs; ?>)"><i class="fa fa-plus"></i> Agregar</button>			
+			</div>
+			<div class="form-group">
+				<label for="fecg" class="col-sm-2 control-label">Fecha <small class="text-red">*</small></label>
+			    <div class="col-sm-4">
+			    	<div class="input-group">
+			    		<input type="text" id="fecg" name="fecg" class="form-control" placeholder="dd/mm/aaaa" autocomplete="off">
+			        	<div class="input-group-addon"><i class="fa fa-calendar"></i></div>
+			    	</div>		    	
+			    </div>
+			</div>
+			<div class="form-group" id="d_frespuesta">
+			  	
+			</div>
+		
+<?php 
+		}elseif($acc=="edidr"){
+		$idg=iseguro($cone,$_POST['idg']);
+		$c3=mysqli_query($cone,"SELECT g.idtegasto, tc.tipo, tc.idtetipocom, cv.conceptov, g.numerocom, g.totalcom, g.idteproveedor, g.glosacom, g.fechacom, p.razsocial FROM tegasto g INNER JOIN teconceptov cv ON g.idteconceptov=cv.idteconceptov LEFT JOIN teproveedor p ON g.idteproveedor=p.idteproveedor LEFT JOIN tetipocom tc ON tc.idtetipocom=g.idtetipocom WHERE idtegasto=$idg");
+			if ($r3=mysqli_fetch_assoc($c3)) {					
+?> 
+			<div class="form-group">
+				<input type="hidden" name="acc" value="<?php echo $acc; ?>">
+				<input type="hidden" name="idcs" value="<?php echo $idcs; ?>">
+				<input type="hidden" name="idg" value="<?php echo $idg; ?>">
+				<label for="doc" class="col-sm-2 control-label">Documento <small class="text-red">*</small></label>
+				<div class="col-sm-4">		    
+					<select class="form-control select2doc" name="doc" id="doc" style="width: 100%;">			
+<?php
+						$c1=mysqli_query($cone, "SELECT * FROM tetipocom WHERE estado=1 ORDER BY tipo ASC;");
+							if(mysqli_num_rows($c1)>0){
+								while($r1=mysqli_fetch_assoc($c1)){
+?>
+								<option value="<?php echo $r1['idtetipocom']; ?>" <?php echo $r1['idtetipocom']==$r3['idtetipocom'] ? "selected" : ""; ?>><?php echo $r1['tipo'];?></option>
+<?php
+								}
+							}
+							mysqli_free_result($c1);
+?>				
+					</select>
+				</div>
+				<label for="num" class="col-sm-2 control-label ocu <?php echo $r3['idtetipocom']==2 ? "hidden" : "" ?>">Número <small class="text-red">*</small></label>
+				<div class="col-sm-4">				
+					<input type="text" name="num" id="num" class="form-control ocu <?php echo $r3['idtetipocom']==2 ? "hidden" : "" ?>" value="<?php echo $r3['numerocom']=="" ? "sd" : $r3['numerocom']; ?>">									
+				</div>					
+			</div>
+			<div class="form-group">
+				<label for="con" class="col-sm-2 control-label">Concepto <small class="text-red">*</small></label>
+				<div class="col-sm-4">		    
+					<select class="form-control select2" name="con" id="con" style="width: 100%;">						
+<?php
+						$c2=mysqli_query($cone, "SELECT * FROM teconceptov ORDER BY conceptov ASC;");
+							if(mysqli_num_rows($c2)>0){
+								while($r2=mysqli_fetch_assoc($c2)){
+?>
+									<option value="<?php echo $r2['idteconceptov']; ?>" <?php echo $r2['idteconceptov']==$r3['idteconceptov'] ? "selected" : ""; ?>><?php echo $r2['conceptov'];?></option>
+<?php
+								}
+							}
+							mysqli_free_result($c2);
+?>				
+					</select>
+				</div>
+				<label for="mon" class="col-sm-2 control-label">Monto <small class="text-red">*</small></label>
+				<div class="col-sm-4">
+					<div class="input-group">
+						<span class="input-group-addon">S/</span>
+						<input type="text" name="mon" id="mon" class="form-control" value="<?php echo $r3['totalcom'] ?>">			
+					</div>				
+				</div>			
+			</div>
+			<div class="form-group">			
+				<label for="glo" class="col-sm-2 control-label">Glosa</label>
+				<div class="col-sm-10">									
+					<input type="text" name="glo" id="glo" class="form-control" value="<?php echo $r3['glosacom'] ?>">		
+				</div>			
+			</div>
+			<div class="form-group ocu <?php echo $r3['idtetipocom']==2 ? "hidden" : "" ?>">
+				<label for="pro" class="col-sm-2 control-label">Proveedor <small class="text-red">*</small></label>
+				<div class="col-sm-8">								
+					<select class="form-control select2pro" name="pro" id="pro" style="width: 100%;">
+						<option value="<?php echo $r3['idteproveedor'] ?>"><?php echo $r3['razsocial']; ?></option>
+						<option value="sd" <?php echo $r3['idtetipocom']==2 ? "selected" : "" ?>>Ninguno</option>		
+					</select>
+				</div>
+					<button type="button" class="btn bg-teal" title="Agregar" onclick="fo_aproveedor('agrpro',<?php echo $idcs; ?>)"><i class="fa fa-plus"></i> Agregar</button>			
+			</div>
+			<div class="form-group">
+				<label for="fecg" class="col-sm-2 control-label">Fecha <small class="text-red">*</small></label>
+			    <div class="col-sm-4">
+			    	<div class="input-group">
+			    		<input type="text" id="fecg" name="fecg" class="form-control" value="<?php echo fnormal($r3['fechacom'])?>" placeholder="dd/mm/aaaa" autocomplete="off">
+			        	<div class="input-group-addon"><i class="fa fa-calendar"></i></div>
+			    	</div>		    	
+			    </div>
+			</div>
+			<div class="form-group" id="d_frespuesta">
+			  	
+			</div>
+<?php
+			mysqli_free_result($c3);
+    		}
+		}elseif($acc=="elidr"){			
+			$idcs=iseguro($cone,$_POST['idcs']);
+			$idg=iseguro($cone,$_POST['idg']);
+			$c4=mysqli_query($cone,"SELECT tc.idtetipocom, tc.tipo, g.numerocom, g.fechacom FROM tegasto g INNER JOIN tetipocom tc ON tc.idtetipocom=g.idtetipocom WHERE idtegasto=$idg");
+			if ($r4=mysqli_fetch_assoc($c4)) {
+
+				$n=$r4['idtetipocom']==2 ? " s/n " : " N° ";
+?>
+				<div class="form-group">	
+					<input type="hidden" name="acc" value="<?php echo $acc; ?>">
+					<input type="hidden" name="idcs" value="<?php echo $idcs; ?>">					
+					<input type="hidden" name="idg" value="<?php echo $idg; ?>">					
+			        <h4 class="text-maroon text-center">¿Está seguro que desea eliminar <?php echo $r4['tipo']. $n . $r4['numerocom']." del ". fnormal($r4['fechacom'])."." ?> </h4>
+			    </div>
+<?php 
+			}
+			mysqli_free_result($c4);			
+		}//acafin
+	}else{
+		echo mensajewa("Error: Faltan datos.");
+	}
+}else{
+  echo accrestringidoa();
+}
+mysqli_close($cone);
+
+?>
+<script>
+$(' #fecg').datepicker({
+  format: "dd/mm/yyyy",
+  language: "es",
+  autoclose: true,
+  todayHighlight: true,
+})
+$(".select2").select2();
+$(".select2doc").select2()
+.on("change",function(e){
+var tip=$(this).val();
+if (tip==2) {
+  $(".ocu").addClass("hidden");
+  $("#num").val("sd");  
+  $("#pro").select2("val", "sd");  
+}else{
+  $(".ocu").removeClass("hidden");   
+}
+});
+
+$(".select2pro").select2({
+	placeholder: 'Seleccione proveedor',
+	ajax: {
+	url: 'm_inclusiones/a_tesoreria/bu_proveedores.php',
+	dataType: 'json',
+	delay: 250,
+		processResults: function (data) {
+		    return {
+		    	results: data
+		    };
+		},
+		    cache: true
+	},
+		minimumInputLength: 3
+});
+</script>

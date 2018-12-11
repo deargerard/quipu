@@ -5,7 +5,7 @@ include("../php/funciones.php");
 if(accesoadm($cone,$_SESSION['identi'],15)){
   if (isset($_POST['idcs']) && !empty($_POST['idcs'])) {
     $idcs=iseguro($cone,$_POST['idcs']);
-    $ccs=mysqli_query($cone, "SELECT e.idEmpleado, ec.idEmpleadoCargo, cd.idDependencia, cs.FechaIni, cs.FechaFin, cs.Descripcion, concat(d.Numero,'-',d.Ano,'-',d.Siglas) AS Resolucion, cs.Estado, cs.Vehiculo from comservicios cs INNER JOIN empleado e ON e.idEmpleado=cs.idEmpleado INNER JOIN empleadocargo ec ON e.idEmpleado=ec.idEmpleadoCargo  INNER JOIN cardependencia cd ON ec.idEmpleadoCargo=cd.idEmpleadoCargo INNER JOIN doc d ON cs.idDoc=d.idDoc where cs.idComServicios=$idcs;");
+    $ccs=mysqli_query($cone, "SELECT e.idEmpleado, ec.idEmpleadoCargo, cd.idDependencia, cs.FechaIni, cs.FechaFin, cs.Descripcion, concat(d.Numero,'-',d.Ano,'-',d.Siglas) AS Resolucion, cs.Estado, cs.Vehiculo, di.NombreDis, p.NombrePro, de.NombreDep FROM comservicios cs INNER JOIN empleado e ON e.idEmpleado=cs.idEmpleado INNER JOIN empleadocargo ec ON e.idEmpleado=ec.idEmpleadoCargo  INNER JOIN cardependencia cd ON ec.idEmpleadoCargo=cd.idEmpleadoCargo INNER JOIN doc d ON cs.idDoc=d.idDoc LEFT JOIN distrito di ON cs.iddistrito=di.iddistrito LEFT JOIN provincia p ON di.idprovincia=p.idprovincia LEFT JOIN departamento de ON de.iddepartamento=p.iddepartamento WHERE cs.idComServicios=$idcs;");
 
     if($rcs=mysqli_fetch_assoc($ccs)){
     $dt=intervalo ($rcs['FechaFin'], $rcs['FechaIni']);
@@ -58,13 +58,25 @@ if(accesoadm($cone,$_SESSION['identi'],15)){
                 <th><span class="text-<?php echo $color;?>">Fin </span></th>
                 <!-- <th><span class="text-<?php //echo $color;?>">Días</span></th> -->
                 <th colspan="2"><span class="text-<?php echo $color;?>">Vehículo </span></th>
-              </tr>
+              </tr>              
               <tr>
                 <td><?php echo date('d/m/Y H:i', strtotime($rcs['FechaIni'])); ?></th>
                 <td><?php echo date('d/m/Y H:i', strtotime($rcs['FechaFin'])); ?></th>
                 <!-- <td><?php //echo $dt?></th> -->
                 <td colspan="2"><?php echo $veh?></th>
               </tr>
+              <tr>
+                <th><span class="text-<?php echo $color;?>">Departamento</span></th>
+                <th><span class="text-<?php echo $color;?>">Provincia </span></th>                
+                <th colspan="2"><span class="text-<?php echo $color;?>">Distrito </span></th>
+              </tr>
+              <tr>
+                <td><?php echo $rcs['NombreDep']; ?></th>
+                <td><?php echo $rcs['NombrePro']; ?></th>
+                <!-- <td><?php //echo $dt?></th> -->
+                <td colspan="2"><?php echo $rcs['NombreDis']; ?></th>
+              </tr>
+
               <tr>
                 <th colspan="4"><span class="text-<?php echo $color;?>">Descripción</span></th>
               </tr>

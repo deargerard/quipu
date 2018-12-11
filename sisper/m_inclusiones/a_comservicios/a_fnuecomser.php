@@ -14,37 +14,61 @@ if(accesoadm($cone,$_SESSION['identi'],15)){
     </div>
 
     <div class="form-group valida">
-      <label for="inicom" class="col-sm-2 control-label">Inicia:</label>
-      <div class="col-sm-4 has-feedback">
-        <span class="fa fa-calendar form-control-feedback"></span>
-        <input type="text" id="inicom" name="inicom" class="form-control" placeholder="dd/mm/aaaa H:m" autocomplete="off">
+      <div class="col-sm-6 valida">
+        <label for="inicom">Inicia:</label>
+        <div class="has-feedback">
+          <span class="fa fa-calendar form-control-feedback"></span>
+          <input type="text" id="inicom" name="inicom" class="form-control" placeholder="dd/mm/aaaa H:m" autocomplete="off">
+        </div>        
       </div>
-      <label for="fincom" class="col-sm-2 control-label">Termina:</label>
-      <div class="col-sm-4 has-feedback">
-        <span class="fa fa-calendar form-control-feedback"></span>
-        <input type="text" id="fincom" name="fincom" class="form-control" placeholder="dd/mm/aaaa H:m" autocomplete="off">
-      </div>
-    </div>
-
+      <div class="col-sm-6 valida">
+        <label for="fincom">Termina:</label>
+        <div class="has-feedback">
+          <span class="fa fa-calendar form-control-feedback"></span>
+          <input type="text" id="fincom" name="fincom" class="form-control" placeholder="dd/mm/aaaa H:m" autocomplete="off">
+        </div>
+      </div>      
+    </div>          
+      <div class="form-group">                    
+        <div class="col-sm-4 valida">
+        <label for="loc">Departamento:</label>
+        <select name="depnac" id="depnac" class="form-control" onChange="cprovincia(this.value)">
+          <option value="">DEPARTAMENTO</option>
+              <?php echo listadep($cone) ?>
+        </select>
+        </div>
+        <div class="col-sm-4 valida">
+          <label for="loc">Provincia:</label>
+            <select name="pronac" id="pronac" class="form-control" onChange="cdistrito(this.value)">
+              <option value="">PROVINCIA</option>
+            </select>
+        </div>
+        <div class="col-sm-4 valida">
+          <label for="loc">Distrito:</label>
+            <select name="disnac" id="disnac" class="form-control">
+              <option value="">DISTRITO</option>
+            </select>
+        </div>       
+    </div>        
     <div class="text-center col-md-12">
       <p id="msg" class="text-maroon"></p>
     </div>
 
     <div class="form-group valida">
-      <label for="desc" class="col-sm-2 control-label" >Descripcion</label>
+      <label for="desc" class="col-sm-2 control-label" >Descripcion:</label>
       <div class="col-sm-10">
         <textarea class="form-control" id="desc" name="desc" rows="3"></textarea>
       </div>
     </div>
     <div class="form-group">
-      <label for="veh" class="col-sm-2 control-label" >Vehículo</label>
+      <label for="veh" class="col-sm-2 control-label" >Vehículo:</label>
       <div class="checkbox col-sm-10">
         <label><input type="checkbox" value="1" id="veh" name="veh"></label><small>  * Marcar sólo si la comisión incluye vehículo</small>
       </div>
     </div>
 
     <div class="form-group valida">
-      <label for="doc" class="col-sm-2 control-label" >Documento</label>
+      <label for="doc" class="col-sm-2 control-label" >Documento:</label>
       <div class="col-sm-8">
         <select name="doc" id="doc" class="form-control select2doc" style="width:100%">
         </select>

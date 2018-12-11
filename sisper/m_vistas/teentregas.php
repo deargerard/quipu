@@ -5,12 +5,12 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Entregas
+        Adelantos
       </h1>
       <ol class="breadcrumb">
         <li><a href="dboard.php"><i class="fa fa-home"></i> Inicio</a></li>
         <li class="active"><a href="depmante.php">Tesorería</a></li>
-        <li class="active">Entregas</li>
+        <li class="active">Adelantos</li>
       </ol>
     </section>
 
@@ -21,7 +21,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
            <!-- Default box -->
             <div class="box box-info">
               <div class="box-header with-border">
-                <h3 class="box-title">Entregas</h3>
+                <h3 class="box-title">Adelantos</h3>
                 <div class="box-tools pull-right">
                   <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
                     <i class="fa fa-minus"></i></button>
@@ -29,14 +29,20 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
               </div>
               <div class="box-body">
 
-                <form class="form-inline">
-                  <div class="form-group has-feedback">
-                    <label for="fecb">Mes/Año</label>
-                    <input type="text" class="form-control" id="fecb" placeholder="mm/aaaa" value="<?php echo date("m/Y"); ?>" autocomplete="off">
-                    <span class="fa fa-calendar form-control-feedback"></span>
-                  </div>
-                  <button type="submit" class="btn btn-default"><i class="fa fa-search"></i> Buscar</button>
+                <form class="form-inline">                  
+                  <label for="tra" class="col-sm-1" >Trabajador </label>
+                  <select name="tra" id="tra" class="form-control select2pertot col-sm-6" style="width: 300px;">
+                    <option value="t">TODOS</option>
+                  </select>
+                  
+                  <button type="button" class="btn btn-default" id="b_btra" name="b_btra"><i class="fa fa-search"></i> Buscar</button>
                 </form>
+
+                <div class="row">
+                  <div class="col-md-12" id="en_resultado">
+
+                  </div>
+                </div>
 
               </div>
               <!-- /.box-body -->
@@ -59,12 +65,12 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
         <h4 class="modal-title" id="myModalLabel m_titulo">Titulo</h4>
       </div>
       <div class="modal-body">
-        <form id="f_modal">
+        <form id="f_entregas" class="form-horizontal">
           
         </form>
       </div>
       <div class="modal-footer">
-        <button type="submit" class="btn bg-teal" id="b_guardar" form="f_modal">Guardar</button>
+        <button type="submit" class="btn bg-teal" id="b_guardar" form="f_entregas">Guardar</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
       </div>
     </div>

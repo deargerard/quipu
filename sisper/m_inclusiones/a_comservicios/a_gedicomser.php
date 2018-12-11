@@ -5,15 +5,16 @@ include ("../php/funciones.php");
 if(accesoadm($cone,$_SESSION['identi'],15)){
 	$r=array();
 	if(isset($_POST["NomForm"]) && $_POST["NomForm"]=="f_ecomservicios"){
-		if(isset($_POST['idcs']) && !empty($_POST['idcs']) && isset($_POST['inicom']) && !empty($_POST['inicom']) && isset($_POST['fincom']) && !empty($_POST['fincom']) && isset($_POST['desc']) && !empty($_POST['desc']) && isset($_POST['doc']) && !empty($_POST['doc'])){
+		if(isset($_POST['idcs']) && !empty($_POST['idcs']) && isset($_POST['inicom']) && !empty($_POST['inicom']) && isset($_POST['fincom']) && !empty($_POST['fincom']) && isset($_POST['desc']) && !empty($_POST['desc']) && isset($_POST['doc']) && !empty($_POST['doc']) && isset($_POST['disnac']) && !empty($_POST['disnac'])){
 			$inicom=ftmysql(iseguro($cone,$_POST['inicom']));
 			$fincom=ftmysql(iseguro($cone,$_POST['fincom']));
 			$desc=iseguro($cone,$_POST['desc']);
 			$veh=iseguro($cone,$_POST['veh'])== 1 ? 1 : 2;
 			$doc=iseguro($cone,$_POST['doc']);
 			$idcs=iseguro($cone,$_POST['idcs']);
+			$disnac=iseguro($cone,$_POST['disnac']);
 
-			$sql="UPDATE comservicios SET FechaIni='$inicom', FechaFin='$fincom', Descripcion='$desc', Vehiculo=$veh, idDoc=$doc WHERE idComServicios=$idcs";
+			$sql="UPDATE comservicios SET FechaIni='$inicom', FechaFin='$fincom', Descripcion='$desc', Vehiculo=$veh, idDoc=$doc, idDistrito=$disnac WHERE idComServicios=$idcs";
 
 				if(mysqli_query($cone,$sql)){
 					$r["msg"]= mensajesu("Listo: se actualizó correctamente la comisión de servicios");

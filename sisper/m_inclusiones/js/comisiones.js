@@ -476,3 +476,155 @@ $("#b_ecomsermes").click(function(){
 })
 
 // Fin exportar comisiones por mes
+
+// FUNCIÓN QUE ENVÍA PARÁMETROS PARA FORMULARIO RENDICIÓN DE COMISIONES
+function fo_rendir(acc,idcs){  
+  switch(acc) {
+    case 'agrre':
+        var mt="<i class='fa fa-money text-gray'></i> Comprobantes de gasto de Comisión de Servicios ";
+        break;        
+  }
+  $("#modal1").modal("show");
+  $(".ti_modal1").html(mt);
+  $('#ta_modal1').addClass('modal-lg');
+
+  $.ajax({
+    type: "post",
+    url: "m_inclusiones/a_tesoreria/fo_rdocumento.php",
+    data: {acc : acc, idcs: idcs},
+    dataType: "html",
+    beforeSend: function () {
+      $("#fo_rcomision").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
+      $("#gu_modal1").addClass("hidden");
+    },
+    success:function(a){
+      $("#fo_rcomision").html(a);
+      //$("#gu_modal1").removeClass("hidden");
+    }
+  });
+}
+
+// FIN FUNCIÓN QUE ENVÍA PARÁMETROS PARA FORMULARIO RENDICIÓN DE COMISIONES
+
+// FUNCIÓN QUE CARGA FORMULARIO PARA EL INGRESO DE DOCUMENTOS DE GASTOS
+function fo_drendicion(acc, idcs, idg){
+
+ switch(acc) {
+    case 'agrdr':
+        var mt="<i class='fa fa-plus text-gray'></i> Agregar documento";
+        break;
+    case 'edidr':
+        var mt="<i class='fa fa-pencil text-gray'></i> Editar documento";
+        break;
+    case 'elidr':
+        var mt="<i class='fa fa-times-circle text-gray'></i> Eliminar documento";
+        break;    
+  }
+  $("#modal2").modal("show");   
+  $(".ti_modal2").html(mt); 
+   
+
+  $.ajax({
+    type: "post",
+    url: "m_inclusiones/a_tesoreria/fo_rdocumento.php",
+    data: {acc : acc, idcs: idcs, idg: idg},
+    dataType: "html",
+    beforeSend: function () {      
+      $("#fo_drendicion").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
+      $("#gu_modal2").addClass("hidden");
+    },
+    success:function(a){
+      $("#fo_drendicion").html(a);
+      $("#gu_modal2").removeClass("hidden");
+    }
+  });
+}
+// FIN FUNCIÓN QUE CARGA FORMULARIO PARA EL INGRESO DE DOCUMENTOS DE GASTOS
+
+
+// FUNCIÓN QUE LLAMA EL FORMULARIO AGREGAR PROVEEDOR
+function fo_aproveedor(acc,v1){  
+  switch(acc) {
+    case 'agrpro':
+        var mt="<i class='fa fa-plus text-gray'></i> Agregar Proveedor";
+        break;        
+  }
+  $("#modal3").modal("show");
+  $(".ti_modal3").html(mt);
+  $('#ta_modal3').addClass('modal-sm');
+
+  $.ajax({
+    type: "post",
+    url: "m_inclusiones/a_tesoreria/fo_rendiciones.php",
+    data: {acc : acc, v1: v1},
+    dataType: "html",
+    beforeSend: function () {
+      $("#fo_aprov").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
+      $("#gu_modal3").addClass("hidden");
+    },
+    success:function(a){
+      $("#fo_aprov").html(a);
+      $("#gu_modal3").removeClass("hidden");
+    }
+  });
+}
+
+// FIN FUNCIÓN QUE LLAMA EL FORMULARIO AGREGAR PROVEEDOR
+
+// FUNCIÓN QUE LLAMA ARCHIVO GUARDAR PROVEEDOR
+
+$('#fo_aprov').submit(function(e){
+  e.preventDefault();
+  var datos = $("#fo_aprov").serializeArray();
+  $.ajax({
+    type: "post",
+    url: "m_inclusiones/a_tesoreria/gu_rendiciones.php",
+    data: datos,
+    dataType: "json",
+    beforeSend: function () {
+      $("#d_frespuesta").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
+      $("#b_guardar").addClass("hidden");
+    },
+    success:function(a){
+      if(a.e){
+        $("#fo_aprov").html(a.m);        
+        $("#gu_modal3").addClass("hidden");
+      }else{
+        $("#d_frespuesta").html(a.m);
+        $("#gu_modal3").removeClass("hidden");
+      }
+    }
+  });
+})
+// FIN FUNCIÓN QUE LLAMA ARCHIVO GUARDAR PROVEEDOR
+
+// FUNCIÓN QUE LLAMA ARCHIVO GUARDAR COMPROBANTE
+
+$('#fo_drendicion').submit(function(e){
+  e.preventDefault();
+  var datos = $("#fo_drendicion").serializeArray();
+  $.ajax({
+    type: "post",
+    url: "m_inclusiones/a_tesoreria/gu_rcomision.php",
+    data: datos,
+    dataType: "json",
+    beforeSend: function () {
+
+      $("#d_frespuesta").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
+      $("#gu_modal2").addClass("hidden");
+    },
+    success:function(a){
+      console.log(datos);
+      if(a.e){
+        $("#fo_drendicion").html(a.m);        
+        $("#gu_modal2").addClass("hidden");
+        fo_rendir('agrre',datos[1].value);
+      }else{
+        $("#d_frespuesta").html(a.m);
+        $("#gu_modal2").removeClass("hidden");
+
+      }
+    }
+  });
+})
+// FIN FUNCIÓN QUE LLAMA ARCHIVO GUARDAR COMPROBANTE

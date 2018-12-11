@@ -287,11 +287,11 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                   }
 
                   ?>
+                  </div>
                 </div>
+                <!--fin div resultados-->
               </div>
-              <!--fin div resultados-->
-            </div>
-            <!-- /.tab-pane 1 -->
+              <!-- /.tab-pane 1 -->
 
             <div class="tab-pane" id="tab_2">
               <!--Formulario de encabezado-->
@@ -447,11 +447,11 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 <div class="col-md-12" id="vac">
                   <?php
 
-                    $q="SELECT cs.idComServicios, concat(d.Numero,'-',d.Ano,'-',d.Siglas) AS Resolucion, d.FechaDoc, cs.FechaIni, cs.FechaFin, cs.Estado, SUBSTRING(cs.Descripcion, 1, 100) as Descripcion FROM comservicios cs INNER JOIN doc d ON cs.idDoc=d.idDoc WHERE cs.idEmpleado=$idper AND cs.Estado=1";
+                    $q="SELECT cs.csivia, cs.idComServicios, concat(d.Numero,'-',d.Ano,'-',d.Siglas) AS Resolucion, d.FechaDoc, cs.FechaIni, cs.FechaFin, cs.Estado, SUBSTRING(cs.Descripcion, 1, 100) as Descripcion FROM comservicios cs INNER JOIN doc d ON cs.idDoc=d.idDoc WHERE cs.idEmpleado=$idper AND cs.Estado=1";
 
                     $ccs=mysqli_query($cone,$q);
 
-                      if (mysqli_num_rows($ccs)>0){
+                      if (mysqli_num_rows($ccs)>0){                        
                         ?>
                         <div class="row">
                            <div class="col-sm-4">
@@ -470,7 +470,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                   		        <th>TERMINA</th>
                   						<th>NÚMERO DE RESOLUCIÓN</th>
                   						<th>FECHA RES.</th>
-                  		        <!-- <th>ESTADO</th> -->
+                  		        <th>RENDIR</th>
                   					</tr>
                   				</thead>
                           <tbody>
@@ -478,6 +478,16 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                       			$est="";
                       			$cap="";
                       			while($rcs=mysqli_fetch_assoc($ccs)){
+                              $c=is_null($rcs['csivia']);
+
+                              if($c){
+                                $v="danger";
+                                $c="<i class='fa fa-thumbs-down'></i> Pendiente";
+                              }else{
+                                $v="success";
+                                $c="<i class='fa fa-thumbs-up'></i> Rendido";
+                              }
+
                       				if ($rcs['Estado']==1) {
                       					$est="success";
                       					$cap="Activa";
@@ -493,7 +503,9 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                       					<td><?php echo $rcs['Resolucion']?></td> <!--columna NÚMERO DE RESOLUCIÓN-->
                       					<td><?php echo fnormal($rcs['FechaDoc'])?></td> <!--columna FECHA DOCUMENTO-->
                       					<!-- <td><?php //echo $dt ?></td> columna CAMTIDAD DE DIAS-->
-                      					<!-- <td><span class='label label-<?php //echo $est?>'><?php //echo $cap?></span></td> --> <!--columna ESTADO-->
+                      					<td>               
+                                  <button type="button" class="btn btn-<?php echo $v;?> btn-xs" title="Rendición" onclick="fo_rendir('agrre',<?php echo $rcs['idComServicios']; ?>)"><?php echo $c; ?></button>                                  
+                                </td> <!--columna RENDIR-->
                               </tr>
                     				<?php
                     				}
@@ -837,3 +849,68 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
   </form>
 </div>
 <!--Fin Modal editar programacion-->
+
+<!-- Modal1 -->
+<div class="modal fade" id="modal1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document" id="ta_modal1">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title ti_modal1" id="myModalLabel">Modal title</h4>
+      </div>
+      <div class="modal-body">
+        <form id="fo_rcomision" role="form" autocomplete="off" class="form-horizontal">
+          
+        </form>        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <button type="submit" class="btn bg-teal" id="gu_modal1" form="fo_rcomision" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Procesando">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal2 -->
+<div class="modal fade" id="modal2" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document" id="ta_modal2">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title ti_modal2" id="myModalLabel">Modal title</h4>
+      </div>
+      <div class="modal-body">
+        <form id="fo_drendicion" role="form" autocomplete="off" class="form-horizontal">
+          
+        </form>        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <button type="submit" class="btn bg-teal" id="gu_modal2" form="fo_drendicion" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Procesando"></i> Guardar</button>
+      </div>
+    </div>
+  </div>
+</div> 
+<!--Fin Modal-->
+
+<!-- Modal3 -->
+<div class="modal fade" id="modal3" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document" id="ta_modal3">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title ti_modal3" id="myModalLabel">Modal title</h4>
+      </div>
+      <div class="modal-body">
+        <form id="fo_aprov" role="form" autocomplete="off" >
+          
+        </form>        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <button type="submit" class="btn bg-teal" id="gu_modal3" form="fo_aprov" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Procesando"></i> Guardar</button>
+      </div>
+    </div>
+  </div>
+</div> 
+<!--Fin Modal-->

@@ -6,10 +6,12 @@ if(accesoadm($cone,$_SESSION['identi'],16)){
 	if(isset($_POST['acc']) && !empty($_POST['acc'])){
 		$acc=iseguro($cone,$_POST['acc']);		
 		$v2=iseguro($cone,$_POST['v2']);
+		$mes=iseguro($cone,$_POST['v1']);
 		if($acc=="agrasig"){
 ?>		  
 		<div class="form-group">
 			<input type="hidden" name="acc" value="<?php echo $acc; ?>">
+			<input type="hidden" name="mes" value="<?php echo $mes; ?>">
 			<label for="mon" class="col-sm-2 control-label">Monto</label>
 			<div class="col-sm-4">
 				<div class="input-group">
@@ -176,7 +178,6 @@ if(accesoadm($cone,$_SESSION['identi'],16)){
 	        		</table>
 	        	</div>
 <?php 
-
 			}else{
 				echo mensajewa("Datos inválidos");
 			}
@@ -189,4 +190,13 @@ if(accesoadm($cone,$_SESSION['identi'],16)){
   echo accrestringidoa();
 }
 mysqli_close($cone);
+
 ?>
+<script>
+$(' #feca').datepicker({
+  format: "dd/mm/yyyy",
+  language: "es",
+  autoclose: true,
+  todayHighlight: true,
+})
+</script>

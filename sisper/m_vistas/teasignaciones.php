@@ -68,12 +68,12 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
         <h4 class="modal-title" id="myModalLabel m_titulo">Titulo</h4>
       </div>
       <div class="modal-body">
-        <form id="f_modal" class="form-horizontal">
+        <form id="f_asignaciones" class="form-horizontal">
           
         </form>
       </div>
       <div class="modal-footer">
-        <button type="submit" class="btn bg-teal" id="b_guardar" form="f_modal">Guardar</button>
+        <button type="submit" class="btn bg-teal" id="b_guardar" form="f_asignaciones">Guardar</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
       </div>
     </div>

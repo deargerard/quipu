@@ -5,7 +5,7 @@ include ("../php/funciones.php");
 if(accesoadm($cone,$_SESSION['identi'],15)){
   if(isset($_POST['idcs']) && !empty($_POST['idcs'])){
     $idcs=iseguro($cone,$_POST['idcs']);
-    $ccs=mysqli_query($cone,"SELECT * FROM comservicios WHERE idComServicios=$idcs");
+    $ccs=mysqli_query($cone,"SELECT cs.idComServicios, cs.FechaIni, cs.FechaFin, cs.Descripcion, cs.Vehiculo, cs.idDoc, d.NombreDis, p.NombrePro, de.NombreDep FROM comservicios cs LEFT JOIN distrito d ON cs.iddistrito=d.iddistrito LEFT JOIN provincia p ON d.idprovincia=p.idprovincia LEFT JOIN departamento de ON de.iddepartamento=p.iddepartamento WHERE cs.idComServicios=$idcs");
     if($rcs=mysqli_fetch_assoc($ccs)){
     ?>
         <div class="col-sm-12 text-center">
@@ -15,17 +15,45 @@ if(accesoadm($cone,$_SESSION['identi'],15)){
         </div>
 
         <div class="form-group valida">
-          <label for="inicom" class="col-sm-2 control-label">Inicia:</label>
-          <div class="col-sm-4 has-feedback">
-            <span class="fa fa-calendar form-control-feedback"></span>
-            <input type="text" id="inicom" name="inicom" class="form-control" value="<?php echo date('d/m/Y H:i', strtotime($rcs['FechaIni']))?>" placeholder="dd/mm/aaaa H:i">
+          <div class="col-sm-6 valida">
+            <label for="inicom" class="control-label">Inicia:</label>
+            <div class="has-feedback">
+              <span class="fa fa-calendar form-control-feedback"></span>
+              <input type="text" id="inicom" name="inicom" class="form-control" value="<?php echo date('d/m/Y H:i', strtotime($rcs['FechaIni']))?>" placeholder="dd/mm/aaaa H:i">
+            </div>
           </div>
-          <label for="fincom" class="col-sm-2 control-label">Termina:</label>
-          <div class="col-sm-4 has-feedback">
-            <span class="fa fa-calendar form-control-feedback"></span>
-            <input type="text" id="fincom" name="fincom" class="form-control" value="<?php echo date('d/m/Y H:i', strtotime($rcs['FechaFin']))?>" placeholder="dd/mm/aaaa H:i">
+          <div class="col-sm-6 valida">
+            <label for="fincom" class="control-label">Termina:</label>
+            <div class="has-feedback">
+              <span class="fa fa-calendar form-control-feedback"></span>
+              <input type="text" id="fincom" name="fincom" class="form-control" value="<?php echo date('d/m/Y H:i', strtotime($rcs['FechaFin']))?>" placeholder="dd/mm/aaaa H:i">
+            </div>
+          </div>         
+        </div>
+
+        <div class="form-group">                    
+          <div class="col-sm-4 valida">
+          <label for="loc">Departamento</label>
+          <select name="depnac" id="depnac" class="form-control" onChange="cprovincia(this.value)">
+            <option value="<?php echo $rcs['idDepartamento'] ?>"><?php echo $rcs['NombreDep'] ?></option>
+                <?php echo listadep($cone) ?>
+          </select>
+          </div>
+          <div class="col-sm-4 valida">
+            <label for="loc">Provincia</label>
+              <select name="pronac" id="pronac" class="form-control" onChange="cdistrito(this.value)">
+                <option value="<?php echo $rcs['idProvincia'] ?>"><?php echo $rcs['NombrePro'] ?></option>
+              </select>
+          </div>
+          <div class="col-sm-4 valida">
+            <label for="loc">Distrito</label>
+              <select name="disnac" id="disnac" class="form-control">
+                <option value="<?php echo $rcs['idDistrito'] ?>"><?php echo $rcs['NombreDis'] ?></option>
+              </select>
           </div>
         </div>
+
+
 
         <div class="text-center col-md-12">
           <p id="msg" class="text-maroon">

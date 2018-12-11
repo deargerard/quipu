@@ -61,11 +61,11 @@ function fo_asignaciones(acc, v1, v2){
     data: {acc: acc, v1: v1, v2: v2},
     dataType: "html",
     beforeSend: function () {
-      $("#f_modal").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
+      $("#f_asignaciones").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
       $("#b_guardar").addClass("hidden");
     },
     success:function(a){
-      $("#f_modal").html(a);
+      $("#f_asignaciones").html(a);
       $("#b_guardar").removeClass("hidden");
     }
   });
@@ -134,13 +134,22 @@ function fo_entregas(acc, v1, v2){
   
   switch(acc) {
     case 'agrent':
-        var mt="<i class='fa fa-plus text-gray'></i> Agregar Entrega";
+        var mt="<i class='fa fa-plus text-gray'></i> Agregar Adelanto";
         break;
     case 'edient':
-        var mt="<i class='fa fa-pencil text-gray'></i> Editar Entrega";
+        var mt="<i class='fa fa-pencil text-gray'></i> Editar Adelanto";
         break;
     case 'elient':
-        var mt="<i class='fa fa-times-circle text-gray'></i> Eliminar Entrega";
+        var mt="<i class='fa fa-times-circle text-gray'></i> Eliminar Adelanto";
+        break;
+    case 'agrdent':
+        var mt="<i class='fa fa-plus text-gray'></i> Agregar Comprobante";
+        break;
+    case 'edident':
+        var mt="<i class='fa fa-pencil text-gray'></i> Editar Comprobante";
+        break;
+    case 'elident':
+        var mt="<i class='fa fa-times-circle text-gray'></i> Eliminar Comprobante";
         break;        
   }
   $(".modal-title").html(mt);
@@ -152,46 +161,17 @@ function fo_entregas(acc, v1, v2){
     data: {acc: acc, v1: v1, v2: v2},
     dataType: "html",
     beforeSend: function () {
-      $("#f_modal").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
+      $("#f_entregas").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
       $("#b_guardar").addClass("hidden");
     },
     success:function(a){
-      $("#f_modal").html(a);
+      $("#f_entregas").html(a);
       $("#b_guardar").removeClass("hidden");
     }
   });
 }
 
 // FIN FUNCIÓN QUE ENVÍA PARÁMETROS PARA FORMULARIOS DE ENTREGAS
-
-// FUNCIÓN QUE LLAMA ARVHIVO GUARDAR ENTREGAS
-
-$('#f_entregas').submit(function(e){
-  e.preventDefault();
-  var datos = $("#f_entregas").serializeArray();
-  $.ajax({
-    type: "post",
-    url: "m_inclusiones/a_tesoreria/gu_entregas.php",
-    data: datos,
-    dataType: "json",
-    beforeSend: function () {
-      $("#d_frespuesta").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
-      $("#b_guardar").addClass("hidden");
-    },
-    success:function(a){
-      if(a.e){
-        $("#f_entregas").html(a.m);
-        var mb=$('#tra').val();
-        bentregas(mb);
-        $("#b_guardar").addClass("hidden");
-      }else{
-        $("#d_frespuesta").html(a.m);
-        $("#b_guardar").removeClass("hidden");
-      }
-    }
-  });
-})
-// FIN FUNCIÓN QUE LLAMA ARVHIBO GUARDAR ENTREGAS
 
 // FUNCIÓN QUE LLAMA VENTANA DE DOCUMENTOS DE ENTREGA
 function ldocentregas(ide){
@@ -210,60 +190,36 @@ function ldocentregas(ide){
 }
 // FIN FUNCIÓN QUE LLAMA VENTANA DE DOCUMENTOS DE ENTREGA
 
-// FUNCIÓN QUE ENVÍA PARÁMETROS PARA FORMULARIOS DE DOCUMENTOS DE ENTREGAS
-function fo_docentregas(acc, v1, v2){
-  
-  switch(acc) {
-    case 'agrdent':
-        var mt="<i class='fa fa-plus text-gray'></i> Agregar Comprobante de Entrega";
-        break;
-    case 'edident':
-        var mt="<i class='fa fa-pencil text-gray'></i> Editar Comprobante de Entrega";
-        break;
-    case 'elident':
-        var mt="<i class='fa fa-times-circle text-gray'></i> Eliminar Comprobante de Entrega";
-        break;        
-  }
-  $(".modal-title").html(mt);
-  $("#m_modal").modal("show");
+// FUNCIÓN QUE LLAMA ARVHIVO GUARDAR ENTREGAS
 
-  $.ajax({
-    type: "post",
-    url: "m_inclusiones/a_tesoreria/fo_docentregas.php",
-    data: {acc: acc, v1 : v1, v2  : v2},
-    dataType: "html",
-    beforeSend: function () {
-      $("#f_modal").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
-      $("#b_guardar").addClass("hidden");
-    },
-    success:function(a){
-      $("#f_modal").html(a);
-      $("#b_guardar").removeClass("hidden");
-    }
-  });
-}
-
-// FIN FUNCIÓN QUE ENVÍA PARÁMETROS PARA FORMULARIOS DE DOCUMENTOS DE ENTREGAS
-
-// FUNCIÓN QUE LLAMA ARVHIVO GUARDAR DOCUMENTOS DE ENTREGAS
-
-$('#f_modal').submit(function(e){
+$('#f_entregas').submit(function(e){
   e.preventDefault();
-  var datos=$("#f_modal").serializeArray();
+  var datos = $("#f_entregas").serializeArray();
   $.ajax({
     type: "post",
-    url: "m_inclusiones/a_tesoreria/gu_docentregas.php",
+    url: "m_inclusiones/a_tesoreria/gu_entregas.php",
     data: datos,
     dataType: "json",
-    beforeSend: function () {      
+    beforeSend: function () {
       $("#d_frespuesta").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
       $("#b_guardar").addClass("hidden");
     },
     success:function(a){
+
       if(a.e){
-        var ide=$('#ide').val();
-        $("#f_modal").html(a.m);        
-        ldocentregas(ide);
+        $("#f_entregas").html(a.m);
+
+        if (datos[0].value=="agrent"){          
+          bentregas(datos[1].value);
+          fo_entregas('agrdent',a.i,0);
+        }else if (datos[0].value=="edient"){          
+          bentregas(datos[1].value);
+        }else if (datos[0].value=="elient") {
+          bentregas('t');
+        }else if (datos[0].value=="agrdent" || datos[0].value=="edident" || datos[0].value=="elident") {
+          ldocentregas(datos[1].value);
+        }
+        
         $("#b_guardar").addClass("hidden");
       }else{
         $("#d_frespuesta").html(a.m);
@@ -272,4 +228,4 @@ $('#f_modal').submit(function(e){
     }
   });
 })
-// FIN FUNCIÓN QUE LLAMA ARVHIBO GUARDAR DOCUMENTOS DE ENTREGAS
+// FIN FUNCIÓN QUE LLAMA ARHIVO GUARDAR ENTREGAS

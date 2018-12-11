@@ -5,15 +5,16 @@ include ("../php/funciones.php");
 if(accesoadm($cone,$_SESSION['identi'],15)){
 	$r=array();
 	if(isset($_POST["NomForm"]) && $_POST["NomForm"]=="f_ncomservicios"){
-		if(isset($_POST['ide']) && !empty($_POST['ide']) && isset($_POST['inicom']) && !empty($_POST['inicom']) && isset($_POST['fincom']) && !empty($_POST['fincom']) && isset($_POST['desc']) && !empty($_POST['desc']) && isset($_POST['doc']) && !empty($_POST['doc'])){
+		if(isset($_POST['ide']) && !empty($_POST['ide']) && isset($_POST['inicom']) && !empty($_POST['inicom']) && isset($_POST['fincom']) && !empty($_POST['fincom']) && isset($_POST['desc']) && !empty($_POST['desc']) && isset($_POST['doc']) && !empty($_POST['doc']) && isset($_POST['disnac']) && !empty($_POST['disnac'])){
 			$inicom=ftmysql(iseguro($cone,$_POST['inicom']));
 			$fincom=ftmysql(iseguro($cone,$_POST['fincom']));
 			$desc=iseguro($cone,$_POST['desc']);
 			$veh=iseguro($cone,$_POST['veh'])== 1 ? 1 : 2;
 			$doc=iseguro($cone,$_POST['doc']);
 			$ide=iseguro($cone,$_POST['ide']);
+			$disnac=iseguro($cone,$_POST['disnac']);
 
-			$sql="INSERT INTO comservicios (FechaIni, FechaFin, Descripcion, Vehiculo, idDoc, idEmpleado, Estado) VALUES ('$inicom', '$fincom', '$desc', $veh, $doc, $ide, 1 )";
+			$sql="INSERT INTO comservicios (FechaIni, FechaFin, Descripcion, Vehiculo, idDoc, idEmpleado, Estado, idDistrito) VALUES ('$inicom', '$fincom', '$desc', $veh, $doc, $ide, 1, $disnac)";
 
 				if(mysqli_query($cone,$sql)){
 					$r["msg"]= mensajesu("Listo: se guardó correctamente la comisión de servicios");
