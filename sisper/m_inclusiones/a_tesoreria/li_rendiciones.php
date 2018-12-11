@@ -13,7 +13,8 @@ if(accesocon($cone,$_SESSION['identi'],16)){
                   <table class="table table-bordered table-hover">
                     <tr>
                       <td>
-                        <h4 class="text-orange"><i class="fa fa-calendar text-gray"></i> <?php echo ucfirst(nombremes($mes))." de ".$anio; ?></h4>
+                        <h4 class="text-orange"><i class="fa fa-calendar text-gray"></i> Rendiciones | <?php echo ucfirst(nombremes($mes))." de ".$anio; ?></h4>
+                        <input type="hidden" id="ma" value="<?php echo $mes."/".$anio; ?>">
                       </td>
                       <td>
                         <?php if(accesoadm($cone,$_SESSION['identi'],16)){ ?>
@@ -35,6 +36,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
                         <th>FONDO / META</th>
                         <th>T. RENDICIÓN</th>
                         <th>POR</th>
+                        <th>ESTADO</th>
                         <th>ACCIÓN</th>
                       </tr>
                     </thead>
@@ -50,12 +52,13 @@ if(accesocon($cone,$_SESSION['identi'],16)){
                         <td><?php echo $r1['fondo']." / ".$r1['meta']." (".$r1['mnemonico'].")"; ?></td>
                         <td><?php echo $r1['trendicion']==2 ? "VIÁTICOS" : ($r1['trendicion']==1 ? "FOND. Y PROG." : "" ); ?></td>
                         <td><?php echo nomempleado($cone, $r1['empleado']); ?></td>
+                        <td><?php echo $r1['estado']==1 ? "<span class='label label-warning'>Abierta</span>" : "<span class='label label-success'>Archivada</span>"; ?></td>
                         <td>
                           <div class="btn-group btn-group-xs" role="group" aria-label="Basic">
-                            <?php if(accesocon($cone,$_SESSION['identi'],16)){ ?>
+                            <?php if(accesoadm($cone,$_SESSION['identi'],16)){ ?>
                             <button type="button" class="btn btn-default" title="Editar" onclick="fo_rendiciones('ediren',<?php echo $r1['idterendicion'].",0"; ?>)"><i class="fa fa-pencil"></i></button>
                             <?php } ?>
-                            <button type="button" class="btn btn-default" title="Ir" onclick="ldocrendiciones(<?php echo $r1['idterendicion']; ?>);"><i class="fa fa-chevron-circle-right"></i></button>
+                            <button type="button" class="btn btn-default" title="Ir a documentos" onclick="ldocrendiciones(<?php echo $r1['idterendicion']; ?>);"><i class="fa fa-chevron-circle-right"></i></button>
                           </div>
                         </td>
                       </tr>

@@ -13,6 +13,9 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
         <li class="active">Adelantos</li>
       </ol>
     </section>
+    <style type="text/css">
+      
+    </style>
 
     <!-- Main content -->
     <section class="content">

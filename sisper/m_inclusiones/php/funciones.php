@@ -24,7 +24,7 @@ function disprodep($co,$dis){
 	if(isset($dis) && !empty($dis)){
 		$cu=mysqli_query($co,"SELECT NombreDis, NombrePro, NombreDep FROM distrito AS di INNER JOIN provincia AS pr ON di.idProvincia=pr.idProvincia INNER JOIN departamento AS de ON pr.idDepartamento=de.idDepartamento WHERE di.idDistrito=$dis");
 		$ru=mysqli_fetch_assoc($cu);
-		return $ru['NombreDis'].'-'.$ru['NombrePro'].'-'.$ru['NombreDep'];
+		return $ru['NombreDis'].'/'.$ru['NombrePro'].'/'.$ru['NombreDep'];
 		mysqli_free_result($cu);
 	}else{
 		return "No registra";
@@ -897,5 +897,27 @@ function vacio($data){
 	} else {
 		return "NULL";
 	}
+}
+function idecxfecha($cone, $ide, $fec){
+	$ide=iseguro($cone,$ide);
+	$fec=iseguro($cone,$fec);
+	$cd=array();
+	$c1=mysqli_query($cone, "SELECT emc.idEmpleadoCargo FROM empleadocargo emc INNER JOIN estadocargo esc ON emc.idEmpleadoCargo=esc.idEmpleadoCargo WHERE emc.idEmpleado=$ide AND idEstadoCar=1 AND esc.FechaIni<='$fec' ORDER BY FechaIni DESC LIMIT 1;");
+	if($r1=mysqli_fetch_assoc($c1)){
+		$idec=$r1['idEmpleadoCargo'];
+		$c2=mysqli_query($cone, "SELECT FechaIni FROM estadocargo WHERE idEmpleadoCargo=$idec AND idEstadoCar=3;");
+		if($r2=mysqli_fetch_assoc($c2)){
+			if($r2['FechaIni']>=$fec){
+				return $idec;
+			}else{
+				return NULL;
+			}
+		}else{
+			return NULL;
+		}
+	}else{
+		return NULL;
+	}
+	mysqli_free_result($cc);
 }
 ?>

@@ -58,12 +58,110 @@ if(accesoadm($cone,$_SESSION['identi'],16)){
 				}
 			}
 		}elseif($acc=="agrdoc"){
-			if(isset($_POST['esp']) && !empty($_POST['esp']) && isset($_POST['feccom']) && !empty($_POST['feccom']) && isset($_POST['tcom']) && !empty($_POST['tcom']) && isset($_POST['numcom']) && !empty($_POST['numcom']) && isset($_POST['des']) && !empty($_POST['des']) && isset($_POST['imp']) && !empty($_POST['imp']) && isset($_POST['pro']) && !empty($_POST['pro']) && isset($_POST['dep']) && !empty($_POST['dep'])){
+		  $v1=iseguro($cone, $_POST['v1']);
+		  $v2=iseguro($cone, $_POST['v2']);
+		  if($v2==1){
+			if(isset($_POST['esp']) && !empty($_POST['esp']) && isset($_POST['feccom']) && !empty($_POST['feccom']) && isset($_POST['tcom']) && !empty($_POST['tcom']) && isset($_POST['sercom']) && !empty($_POST['sercom']) && isset($_POST['numcom']) && !empty($_POST['numcom']) && isset($_POST['des']) && !empty($_POST['des']) && isset($_POST['imp']) && !empty($_POST['imp']) && isset($_POST['pro']) && !empty($_POST['pro']) && isset($_POST['dep']) && !empty($_POST['dep'])){				
+					$esp=iseguro($cone, $_POST['esp']);
+					$feccom=fmysql(iseguro($cone, $_POST['feccom']));
+					$tcom=iseguro($cone, $_POST['tcom']);
+					$numcom=ltrim(iseguro($cone, $_POST['numcom']),"0");
+					$sercom=imseguro($cone, $_POST['sercom']);
+					$des=imseguro($cone, $_POST['des']);
+					$imp=iseguro($cone, $_POST['imp']);
+					$can=vacio(iseguro($cone, $_POST['can']));
+					$uni=vacio(iseguro($cone, $_POST['uni']));
+					$codser=vacio(imseguro($cone, $_POST['codser']));
+					$pro=iseguro($cone, $_POST['pro']);
+					$dep=iseguro($cone, $_POST['dep']);
+					$nc=$sercom."-".$numcom;
+					$q="INSERT INTO tegasto (fechacom, numerocom, glosacom, totalcom, cantidadcom, codservicio, idtetipocom, idteproveedor, idteespecifica, idterendicion, idDependencia, empleado, idteumedida) VALUES ('$feccom', '$nc', '$des', $imp, $can, $codser, $tcom, $pro, $esp, $v1, $dep, $idu, $uni);";
+					if(mysqli_query($cone, $q)){
+						$r['m']=mensajesu("Listo, documento agregado.");
+						$r['e']=true;
+						$r['i']=$v1;
+					}else{
+						$r['m']=mensajewa("Error, vuelva a intentarlo. ".$q);
+					}
 			}else{
 				$r['m']=mensajewa("Los campos marcados con <b class='text-red'>*</b> son obligatorios.");
 			}
+		  }elseif($v=2){
+			$r['m']=mensajewa("Viáticos");
+		  }
+		}elseif($acc=="edidoc"){
+		  $v1=iseguro($cone, $_POST['v1']);
+		  $v2=iseguro($cone, $_POST['v2']);
+		  if($v2==1){
+			if(isset($_POST['esp']) && !empty($_POST['esp']) && isset($_POST['feccom']) && !empty($_POST['feccom']) && isset($_POST['tcom']) && !empty($_POST['tcom']) && isset($_POST['sercom']) && !empty($_POST['sercom']) && isset($_POST['numcom']) && !empty($_POST['numcom']) && isset($_POST['des']) && !empty($_POST['des']) && isset($_POST['imp']) && !empty($_POST['imp']) && isset($_POST['pro']) && !empty($_POST['pro']) && isset($_POST['dep']) && !empty($_POST['dep'])){			
+					$esp=iseguro($cone, $_POST['esp']);
+					$feccom=fmysql(iseguro($cone, $_POST['feccom']));
+					$tcom=iseguro($cone, $_POST['tcom']);
+					$numcom=iseguro($cone, $_POST['numcom']);
+					$sercom=imseguro($cone, $_POST['sercom']);
+					$des=imseguro($cone, $_POST['des']);
+					$imp=iseguro($cone, $_POST['imp']);
+					$can=vacio(iseguro($cone, $_POST['can']));
+					$uni=vacio(iseguro($cone, $_POST['uni']));
+					$codser=vacio(imseguro($cone, $_POST['codser']));
+					$pro=iseguro($cone, $_POST['pro']);
+					$dep=iseguro($cone, $_POST['dep']);
+					$idre=iseguro($cone, $_POST['idre']);
+					$nc=$sercom."-".$numcom;
+					$q="UPDATE tegasto SET fechacom='$feccom', numerocom='$nc', glosacom='$des', totalcom=$imp, idteumedida=$uni, cantidadcom=$can, codservicio=$codser, idtetipocom=$tcom, idteproveedor=$pro, idteespecifica=$esp, idDependencia=$dep, empleado=$idu WHERE idtegasto=$v1;";
+					if(mysqli_query($cone, $q)){
+						$r['m']=mensajesu("Listo, documento editado.");
+						$r['e']=true;
+						$r['i']=$idre;
+					}else{
+						$r['m']=mensajewa("Error, vuelva a intentarlo. ".$q);
+					}
+			}else{
+				$r['m']=mensajewa("Los campos marcados con <b class='text-red'>*</b> son obligatorios.");
+			}
+		  }elseif($v=2){
+			$r['m']=mensajewa("Viáticos");
+		  }
+		}elseif($acc=="elidoc"){
+			$v1=iseguro($cone, $_POST['v1']);
+			$idre=iseguro($cone, $_POST['idre']);
+			if(mysqli_query($cone, "DELETE FROM tegasto WHERE idtegasto=$v1")){
+				$r['m']=mensajesu("Listo, documento eliminado");
+				$r['e']=true;
+				$r['i']=$idre;
+			}else{
+				$r['m']=mensajewa("Error, vuelva a intentarlo");
+			}
 		}elseif($acc=="agrpro"){
-			if()
+			if(isset($_POST['razsoc']) && !empty($_POST['razsoc']) && isset($_POST['ruc']) && !empty($_POST['ruc'])){
+				$razsoc=imseguro($cone, $_POST['razsoc']);
+				$ruc=iseguro($cone, $_POST['ruc']);
+				$dir=vacio(iseguro($cone, $_POST['dir']));
+				$tel=vacio(iseguro($cone, $_POST['tel']));
+				$ce=mysqli_query($cone, "SELECT idteproveedor FROM teproveedor WHERE ruc='$ruc';");
+				if(mysqli_num_rows($ce)>0){
+					$r['m']=mensajewa("El RUC ingresado ya existe.");
+				}else{
+					if(mysqli_query($cone, "INSERT INTO teproveedor (razsocial, ruc, direccion, telefono) VALUES ('$razsoc', '$ruc', $dir, $tel);")){
+						$r['e']=true;
+						$r['m']=mensajesu("Listo, proveedor registrado.");
+					}else{
+						$r['m']=mensajewa("Error, intentelo denuevo.");
+					}
+				}
+				mysqli_free_result($ce);
+			}else{
+				$r['m']=mensajewa("Los campos marcados con <b class='text-red'>*</b> son obligatorios.");
+			}
+		}elseif($acc=="estren"){
+			$v1=iseguro($cone, $_POST['v1']);
+			$es=iseguro($cone, $_POST['es'])==1 ? 0 : 1;
+			if(mysqli_query($cone, "UPDATE terendicion SET estado=$es WHERE idterendicion=$v1")){
+				$r['m']=mensajesu("Listo, estado de rendición cambiada");
+				$r['e']=true;
+			}else{
+				$r['m']=mensajewa("Error, vuelva a intentarlo ".mysqli_error($cone));
+			}
 		}//acafin
 	}else{
 		$r['m']=mensajewa("Faltan datos");

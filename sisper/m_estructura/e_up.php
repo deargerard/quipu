@@ -355,7 +355,6 @@ if(!empty($css)){
           </a>
           <ul class="treeview-menu">
             <li id="pagcomservicios"><a href="pagcomservicios.php"><i class="fa fa-circle-o"></i> Registro</a></li>
-            <li id="csplanilla"><a href="csplanilla.php"><i class="fa fa-circle-o"></i> Planilla Viáticos</a></li>
             <li id="repcomservicios"><a href="repcomservicios.php"><i class="fa fa-circle-o"></i> Reportes</a></li>
           </ul>
         </li>
@@ -387,7 +386,8 @@ if(!empty($css)){
           <ul class="treeview-menu">
             <li id="teasignaciones"><a href="teasignaciones.php"><i class="fa fa-circle-o"></i> Asignaciones</a></li>
             <li id="terendiciones"><a href="terendiciones.php"><i class="fa fa-circle-o"></i> Rendiciones</a></li>
-            <li id="teentregas"><a href="teentregas.php"><i class="fa fa-circle-o"></i> Entregas</a></li>
+            <li id="teadelantos"><a href="teadelantos.php"><i class="fa fa-circle-o"></i> Adelantos</a></li>
+            <li id="teviaticos"><a href="teviaticos.php"><i class="fa fa-circle-o"></i> Viáticos</a></li>
             <li id="tereportes"><a href="tereportes.php"><i class="fa fa-circle-o"></i> Reportes</a></li>
           </ul>
         </li>
