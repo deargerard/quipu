@@ -5,7 +5,7 @@ include ("../php/funciones.php");
 if(accesoadm($cone,$_SESSION['identi'],15)){
   if(isset($_POST['idcs']) && !empty($_POST['idcs'])){
     $idcs=iseguro($cone,$_POST['idcs']);
-    $ccs=mysqli_query($cone,"SELECT cs.idComServicios, cs.FechaIni, cs.FechaFin, cs.Descripcion, cs.Vehiculo, cs.idDoc, d.NombreDis, p.NombrePro, de.NombreDep FROM comservicios cs LEFT JOIN distrito d ON cs.iddistrito=d.iddistrito LEFT JOIN provincia p ON d.idprovincia=p.idprovincia LEFT JOIN departamento de ON de.iddepartamento=p.iddepartamento WHERE cs.idComServicios=$idcs");
+    $ccs=mysqli_query($cone,"SELECT cs.idComServicios, cs.FechaIni, cs.FechaFin, cs.Descripcion, cs.Vehiculo, cs.idDoc, d.NombreDis, p.NombrePro, de.NombreDep, d.idDistrito, de.idDepartamento, p.idProvincia FROM comservicios cs LEFT JOIN distrito d ON cs.idDistrito=d.idDistrito LEFT JOIN provincia p ON d.idProvincia=p.idProvincia LEFT JOIN departamento de ON de.idDepartamento=p.idDepartamento WHERE cs.idComServicios=$idcs");
     if($rcs=mysqli_fetch_assoc($ccs)){
     ?>
         <div class="col-sm-12 text-center">
@@ -36,19 +36,49 @@ if(accesoadm($cone,$_SESSION['identi'],15)){
           <label for="loc">Departamento</label>
           <select name="depnac" id="depnac" class="form-control" onChange="cprovincia(this.value)">
             <option value="<?php echo $rcs['idDepartamento'] ?>"><?php echo $rcs['NombreDep'] ?></option>
-                <?php echo listadep($cone) ?>
+<?php 
+          $cd=mysqli_query($cone, "SELECT * FROM departamento");
+          if (mysqli_num_rows($cd)>0) {
+            while ($rd=mysqli_fetch_assoc($cd)) {
+?>
+              <option value="<?php echo $rd['idDepartamento']; ?>" <?php echo $rd['idDepartamento']==$rcs['idDepartamento'] ? "selected" : ""; ?>><?php echo $rd['NombreDep']; ?></option>
+<?php 
+            }
+          }
+          mysqli_free_result($cd);
+ ?>
           </select>
           </div>
           <div class="col-sm-4 valida">
             <label for="loc">Provincia</label>
               <select name="pronac" id="pronac" class="form-control" onChange="cdistrito(this.value)">
-                <option value="<?php echo $rcs['idProvincia'] ?>"><?php echo $rcs['NombrePro'] ?></option>
+<?php 
+          $cp=mysqli_query($cone, "SELECT * FROM provincia WHERE idDepartamento=".$rcs['idDepartamento'].";");
+          if (mysqli_num_rows($cp)>0) {
+            while ($rp=mysqli_fetch_assoc($cp)) {
+?>
+              <option value="<?php echo $rp['idProvincia']; ?>" <?php echo $rp['idProvincia']==$rcs['idProvincia'] ? "selected" : ""; ?>><?php echo $rp['NombrePro']; ?></option>
+<?php 
+            }
+          }
+          mysqli_free_result($cp);
+ ?>
               </select>
           </div>
           <div class="col-sm-4 valida">
             <label for="loc">Distrito</label>
               <select name="disnac" id="disnac" class="form-control">
-                <option value="<?php echo $rcs['idDistrito'] ?>"><?php echo $rcs['NombreDis'] ?></option>
+<?php 
+          $cdi=mysqli_query($cone, "SELECT * FROM distrito WHERE idProvincia=".$rcs['idProvincia'].";");
+          if (mysqli_num_rows($cdi)>0) {
+            while ($rdi=mysqli_fetch_assoc($cdi)) {
+?>
+              <option value="<?php echo $rdi['idDistrito']; ?>" <?php echo $rdi['idDistrito']==$rcs['idDistrito'] ? "selected" : ""; ?>><?php echo $rdi['NombreDis']; ?></option>
+<?php 
+            }
+          }
+          mysqli_free_result($cdi);
+ ?>
               </select>
           </div>
         </div>

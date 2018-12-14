@@ -518,7 +518,10 @@ function fo_drendicion(acc, idcs, idg){
         break;
     case 'elidr':
         var mt="<i class='fa fa-times-circle text-gray'></i> Eliminar documento";
-        break;    
+        break;
+    case 'envre':
+        var mt="<i class='fa fa-send text-gray'></i> Enviar Rendición";
+        break;        
   }
   $("#modal2").modal("show");   
   $(".ti_modal2").html(mt); 

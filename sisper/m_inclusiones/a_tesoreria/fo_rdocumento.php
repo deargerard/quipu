@@ -8,19 +8,34 @@ if(accesoadm($cone,$_SESSION['identi'],9)){
 		$acc=iseguro($cone,$_POST['acc']);
 		$idcs=iseguro($cone,$_POST['idcs']);				
 		if($acc=="agrre"){
-		$cc=mysqli_query($cone,"SELECT csivia FROM comservicios WHERE idComServicios=$idcs;");
+		$cc=mysqli_query($cone,"SELECT estadoren FROM comservicios WHERE idComServicios=$idcs;");
             if ($rc=mysqli_fetch_assoc($cc)) {              
-              $c=is_null($rc['csivia']);
+               if ($rc['estadoren']==0 || $rc['estadoren']==2) {
+               	$c=true;
+               }else{
+               	$c=false;
+               };
+               
         }         						                                     
 ?>
 	      	<div class="row">
-	        <div class="col-sm-9"> comisión de</div>	        
-	        <div class="col-sm-3">
-	        	<a href="m_inclusiones/a_tesoreria/te_anexo04pdf.php?idcs=<?php echo $idcs;?>" type="button" class="btn btn-warning" title="Formato 04" target="_blank">F04</a>
-	        	<a href="m_inclusiones/a_tesoreria/te_anexo02pdf.php?idcs=<?php echo $idcs;?>" type="button" class="btn btn-warning" title="Declaración Jurada" target="_blank">DJ</a>
-	        	<?php if($c){ ?>
-	          		<button type="button" class="btn bg-teal" title="Agregar Comprobante" onclick="fo_drendicion('agrdr',<?php echo $idcs ?>,0)"><i class="fa fa-plus"></i> Agregar</button>
-	          	<?php } ?>
+	        <div class="col-sm-7"> comisión de</div>	        
+	        <div class="col-sm-5">	        		        	
+	        	<?php
+	        	if($c){ 
+	        	?>
+	          		<button type="button" class="btn bg-teal" title="Agregar Comprobante" onclick="fo_drendicion('agrdr',<?php echo $idcs ?>,0)"><i class="fa fa-plus"></i> Agregar comprobante</button>
+	          		<button type="button" class="btn bg-primary" title="Enviar Rendición" onclick="fo_drendicion('envre',<?php echo $idcs ?>,0)"><i class="fa fa-send"></i> Enviar Rendición</button>
+	          	<?php
+	          	}else{
+	          	?>
+	          		<a href="m_inclusiones/a_tesoreria/te_anexo04pdf.php?idcs=<?php echo $idcs;?>" type="button" class="btn btn-warning" title="Anexo 01 Planilla" target="_blank">A01</a>
+	        		<a href="m_inclusiones/a_tesoreria/te_anexo02pdf.php?idcs=<?php echo $idcs;?>" type="button" class="btn btn-warning" title="Declaración Jurada" target="_blank">DJ</a>
+	        		<a href="m_inclusiones/a_tesoreria/te_anexo04pdf.php?idcs=<?php echo $idcs;?>" type="button" class="btn btn-warning" title="Anexo 04" target="_blank">A04</a>
+	        		<a href="m_inclusiones/a_tesoreria/te_anexo04pdf.php?idcs=<?php echo $idcs;?>" type="button" class="btn btn-warning" title="Anexo 07 Planilla" target="_blank">A07</a>
+	          	<?php
+	          	}
+	          	?>
 	        </div>        
 	      	</div>
 <?php 
@@ -104,7 +119,7 @@ if(accesoadm($cone,$_SESSION['identi'],9)){
 					<select class="form-control select2" name="con" id="con" style="width: 100%;">
 					<option value=""> Seleccione el Concepto</option>					
 <?php
-						$c2=mysqli_query($cone, "SELECT * FROM teconceptov ORDER BY conceptov ASC;");
+						$c2=mysqli_query($cone, "SELECT * FROM teconceptov WHERE nanexo=4 ORDER BY conceptov ASC;");
 							if(mysqli_num_rows($c2)>0){
 								while($r2=mysqli_fetch_assoc($c2)){
 ?>
@@ -191,7 +206,7 @@ if(accesoadm($cone,$_SESSION['identi'],9)){
 				<div class="col-sm-4">		    
 					<select class="form-control select2" name="con" id="con" style="width: 100%;">						
 <?php
-						$c2=mysqli_query($cone, "SELECT * FROM teconceptov ORDER BY conceptov ASC;");
+						$c2=mysqli_query($cone, "SELECT * FROM teconceptov WHERE nanexo=4 ORDER BY conceptov ASC;");
 							if(mysqli_num_rows($c2)>0){
 								while($r2=mysqli_fetch_assoc($c2)){
 ?>
@@ -259,6 +274,22 @@ if(accesoadm($cone,$_SESSION['identi'],9)){
 <?php 
 			}
 			mysqli_free_result($c4);			
+		}elseif($acc=="envre"){			
+			$idcs=iseguro($cone,$_POST['idcs']);
+			$idg=iseguro($cone,$_POST['idg']);
+?>
+			<div class="form-group">	
+					<input type="hidden" name="acc" value="<?php echo $acc; ?>">
+					<input type="hidden" name="idcs" value="<?php echo $idcs; ?>">								
+			        <h4 class="text-maroon text-center">Debe cargar al sistema sus comprobantes escaneados </h4>
+			    </div>
+			<div class="form-group">			
+				<label for="glo" class="col-sm-2 control-label"></label>
+				<div class="col-sm-12">									
+					<input type="file" name="docs" id="docs">		
+				</div>			
+			</div>
+<?php					
 		}//acafin
 	}else{
 		echo mensajewa("Error: Faltan datos.");

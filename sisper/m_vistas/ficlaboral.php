@@ -447,7 +447,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 <div class="col-md-12" id="vac">
                   <?php
 
-                    $q="SELECT cs.csivia, cs.idComServicios, concat(d.Numero,'-',d.Ano,'-',d.Siglas) AS Resolucion, d.FechaDoc, cs.FechaIni, cs.FechaFin, cs.Estado, SUBSTRING(cs.Descripcion, 1, 100) as Descripcion FROM comservicios cs INNER JOIN doc d ON cs.idDoc=d.idDoc WHERE cs.idEmpleado=$idper AND cs.Estado=1";
+                    $q="SELECT cs.estadoren, cs.idComServicios, concat(d.Numero,'-',d.Ano,'-',d.Siglas) AS Resolucion, d.FechaDoc, cs.FechaIni, cs.FechaFin, cs.Estado, SUBSTRING(cs.Descripcion, 1, 100) as Descripcion FROM comservicios cs INNER JOIN doc d ON cs.idDoc=d.idDoc WHERE cs.idEmpleado=$idper AND cs.Estado=1;";
 
                     $ccs=mysqli_query($cone,$q);
 
@@ -470,31 +470,41 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                   		        <th>TERMINA</th>
                   						<th>NÚMERO DE RESOLUCIÓN</th>
                   						<th>FECHA RES.</th>
-                  		        <th>RENDIR</th>
+                  		        <th>RENDICIÓN</th>
                   					</tr>
                   				</thead>
                           <tbody>
                       			<?php
-                      			$est="";
-                      			$cap="";
-                      			while($rcs=mysqli_fetch_assoc($ccs)){
-                              $c=is_null($rcs['csivia']);
-
-                              if($c){
-                                $v="danger";
-                                $c="<i class='fa fa-thumbs-down'></i> Pendiente";
-                              }else{
-                                $v="success";
-                                $c="<i class='fa fa-thumbs-up'></i> Rendido";
-                              }
-
-                      				if ($rcs['Estado']==1) {
-                      					$est="success";
-                      					$cap="Activa";
-                      				}elseif ($rcs['Estado']==2){
-                      					$est="danger";
-                      					$cap="Cancelada";
-                      				}
+                      			$v="";
+                      			$c="";
+                      			while($rcs=mysqli_fetch_assoc($ccs)){                     
+                              //if ($rcs['Estado']==1) {
+                      					switch ($rcs['estadoren']) {
+                                  case 0:
+                                    $v="danger";
+                                    $c="<i class='fa fa-thumbs-down'></i> Pendiente";
+                                    break;                
+                                  case 1:
+                                    $v="primary";
+                                    $c="<i class='fa fa-hand-peace-o'></i> Enviada";
+                                    break;
+                                  case 2:
+                                    $v="warning";
+                                    $c="<i class='fa fa-hand-o-left'></i> Observada";
+                                    break;
+                                  case 3:
+                                    $v="info";
+                                    $c="<i class='fa fa-thumbs-up'></i> Aceptada";
+                                    break;  
+                                  case 4:
+                                    $v="success";
+                                    $c="<i class='fa fa-thumbs-up'></i> Rendida";
+                                    break;                                
+                                } 
+                      				 //}elseif ($rcs['Estado']==2){
+                      					//$v="danger";
+                      					//$c="Cancelada";
+                      				 //}
                       			?>
                       			<tr> <!--Fila de comisiones-->
                       					<td><?php echo $rcs['Descripcion']?></td> <!--columna DESCRIPCIÓN-->
@@ -504,7 +514,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                       					<td><?php echo fnormal($rcs['FechaDoc'])?></td> <!--columna FECHA DOCUMENTO-->
                       					<!-- <td><?php //echo $dt ?></td> columna CAMTIDAD DE DIAS-->
                       					<td>               
-                                  <button type="button" class="btn btn-<?php echo $v;?> btn-xs" title="Rendición" onclick="fo_rendir('agrre',<?php echo $rcs['idComServicios']; ?>)"><?php echo $c; ?></button>                                  
+                                  <button type="button" class="btn btn-<?php echo $v;?> btn-xs" title="Estado Rendición" onclick="fo_rendir('agrre',<?php echo $rcs['idComServicios']; ?>)"><?php echo $c; ?></button>                                  
                                 </td> <!--columna RENDIR-->
                               </tr>
                     				<?php
@@ -566,35 +576,32 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                       </tr>
                     </thead>
                     <tbody>
-                  <?php
-                          $n=0;
-                          while ($rm=mysqli_fetch_assoc($cm)) {
-                            $n++;
-                  ?>
+                    <?php
+                      $n=0;
+                      while ($rm=mysqli_fetch_assoc($cm)){
+                      $n++;
+                    ?>
                       <tr>
                         <td><?php echo $n; ?></td>
                         <td><?php echo nombredia($rm['Marcacion']); ?></td>
                         <td><span class="hidden"> <?php echo $rm['Marcacion'] ?></span> <?php echo date('d/m/Y', strtotime($rm['Marcacion'])); ?></td>
                         <td><?php echo date('h:i:s A', strtotime($rm['Marcacion'])); ?></td>
-
-                  <?php
-                          }
-                  ?>
+                      <?php
+                      }
+                      ?>
                     </tbody>
                   </table>
                   <?php
-                        }else{
-                          echo mensajewa("No se encontraron marcaciones.");
-                        }
-                        mysqli_free_result($cm);
-
+                  }else{
+                    echo mensajewa("No se encontraron marcaciones.");
+                  }
+                    mysqli_free_result($cm);
                   ?>
                 </div>
               </div>
               <!--fin div resultados-->
             </div>
             <!-- /.tab-pane 4 -->
-
           </div>
           <!-- /.tab-content -->
         </div>
@@ -602,209 +609,12 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
       </div> <!-- /.col-md-12 -->
     </div> <!-- /.row -->
   </section>
-
   <!-- /.content -->
-  <?php
-
+<?php
 }else{
   header('Location: ../index.php');
 }
 ?>
-
-<!--Modal entrega de Cargo-->
-<div class="modal fade" id="m_entregacargo" role="dialog" aria-labelledby="myModalLabel">
-  <form id="f_entregacargo" action="" class="form-horizontal">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Entrega de Cargo (Anexo 1)</h4>
-      </div>
-      <div class="modal-body" id="r_entregacargo">
-
-        <div class="form-group valida">
-          <div class="col-sm-12 text-center">
-            <h4 class="text-danger">ACTA DE ENTREGA DE CARGO</h4>
-          </div>
-
-          <div class="col-sm-12">
-            <div class="col-sm-4">
-              <span>1. Lugar y Fecha: </span>
-            </div>
-            <div class="col-sm-4">
-              <span>Cajamarca</span>
-            </div>
-            <div class="col-sm-4">
-              <span>20 de Julio de 2017</span>
-            </div>
-          </div>
-          <hr>
-          <div class="col-sm-12">
-            <div class="col-sm-3">
-              <span>2. Dependencia: </span>
-            </div>
-            <div class="col-sm-3">
-              <span>Administración - Informática</span>
-            </div>
-            <div class="col-sm-3">
-              <span>Distrito Judicial: </span>
-            </div>
-            <div class="col-sm-3">
-              <span>Cajamarca</span>
-            </div>
-          </div>
-          <div class="col-sm-12">
-            <div class="col-sm-12">
-              <div class="">
-                <span>3. Datos del Cargo que se entrega: </span>
-              </div>
-                <div class="col-sm-6">
-                  <span>3.1. Denominacion</span>
-                </div>
-                <div class="col-sm-6">
-                  <span>Analista: </span>
-                </div>
-                <div class="col-sm-6">
-                  <span>3.2. Grado y Sub grado o Nivel</span>
-                </div>
-                <div class="col-sm-6">
-                  <span>Analista: </span>
-                </div>
-                <div class="col-sm-4">
-                  <span>3.3. Funciones según ROF</span>
-                </div>
-                <div class="col-sm-12">
-                  <textarea class="form-control" rows="3" id="comment1"></textarea>
-                </div>
-            </div>
-          </div>
-          <div class="col-sm-12">
-            <div class="col-sm-12">
-              <div class="">
-                <span>4. Datos del trabajador que entregael cargo: </span>
-              </div>
-                <div class="col-sm-2">
-                  <span>4.1.</span>
-                </div>
-                <div class="col-sm-10">
-                  <span>MARCO WILSON COTRINA VARGAS </span>
-                </div>
-                <div class="col-sm-12">
-                  <span>4.2. Situación de los trabajos encomendados (Incluir trabajos pendientes si los hubiera)</span>
-                </div>
-                <div class="col-sm-12">
-                  <textarea class="form-control" rows="3" id="comment2"></textarea>
-                </div>
-                <div class="col-sm-12">
-                  <span>4.3. Relación de Expedientes, denuncias y/o documentos a mi cargo</span>
-                </div>
-                <div class="col-sm-12">
-                  <textarea class="form-control" rows="3" id="comment3"></textarea>
-                </div>
-                <div class="col-sm-12">
-                  <span>4.4. Relación de útiles de escritorio</span>
-                </div>
-                <div class="col-sm-12">
-                  <textarea class="form-control" rows="1" id="comment4">Anexo: Cargo de bienes en uso</textarea>
-                </div>
-                <div class="col-sm-12">
-                  <span>4.5. Relación de mobiliario, enseres y equipos de oficina</span>
-                </div>
-                <div class="col-sm-12">
-                  <textarea class="form-control" rows="1" id="comment5">Anexo: Cargo de bienes en uso</textarea>
-                </div>
-                <div class="col-sm-12">
-                  <span>4.6. Relación de documentos normativos o instructivos a su cargo</span>
-                </div>
-                <div class="col-sm-12">
-                  <textarea class="form-control" rows="3" id="comment6"></textarea>
-                </div>
-            </div>
-          </div>
-          <hr>
-          <div class="col-sm-12">
-            <div class="col-sm-12">
-              <div class="">
-                <span>5. Documentos y bienes que se adjuntan</span>
-              </div>
-                <div class="col-sm-12">
-                  <span>5.1. Evaluación del rendimiento del personal a mi cargo (solo en caso de jefes y cuando la separación es definitiva opor un periodo de tres (03) meses o más)</span>
-                </div>
-                <div class="col-sm-12">
-                  <span>Se adjuntan  </span>
-                </div>
-                <div class="col-sm-12">
-                  <span>5.2. Otros (Carnet de identidad, sello, placas, tarjetas institucioanles, fotocheck, credencial, etc.  )</span>
-                </div>
-                <div class="col-sm-12">
-                  <textarea class="form-control" rows="3" id="comment7"></textarea>
-                </div>
-                <div class="col-sm-12">
-                  <span>5.3. Constancia de no estar incurso dentro del compromiso de permanencia y capacitación (sólo en caso de renuncia)</span>
-                </div>
-                <div class="col-sm-12">
-                  <textarea class="form-control" rows="3" id="comment8"></textarea>
-                </div>
-            </div>
-          </div>
-          <hr>
-          <div class="col-sm-12">
-            <div class="col-sm-12">
-              <div class="">
-                <span>6. Datos del trebajador que recibe el cargo</span>
-              </div>
-              <div class="">
-                <input type="text" name="" value="" class="col-sm-12">
-              </div>
-            </div>
-          </div>
-          <hr>
-          <div class="col-sm-12">
-            <div class="col-sm-12">
-              <div class="">
-                <span>7. Observaciones</span>
-              </div>
-                <div class="col-sm-12">
-                  <span>7.1. Datos del trabajador que entrega el cargo</span>
-                </div>
-                <div class="">
-                  <div class="col-sm-12">
-                    <textarea class="form-control" rows="3" id="comment9"></textarea>
-                  </div>
-                </div>
-                <div class="col-sm-12">
-                  <span>7.2. Datos del trabajador que recibe el cargo</span>
-                </div>
-                <div class="col-sm-12">
-                  <textarea class="form-control" rows="3" id="comment10"></textarea>
-                </div>
-            </div>
-          </div>
-          <hr>
-          <br>
-          <div class="col-sm-12">
-            <div class="col-sm-6 text-center">
-              <span>Marco Cotrina Vargas</span>
-            </div>
-            <div class="col-sm-6 text-center">
-              <span>Gerardo Intor Osorio</span>
-            </div>
-          </div>
-
-        </div>
-
-
-
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn bg-teal" id="b_gentcar">Guardar</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-      </div>
-    </div>
-  </div>
-  </form>
-</div>
-<!--Fin Modal Entrega de Cargo-->
 
 <!--Modal Nuevas programacion-->
 <div class="modal fade" id="m_programarvacaciones" role="dialog" aria-labelledby="myModalLabel">

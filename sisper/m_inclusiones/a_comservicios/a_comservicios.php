@@ -27,11 +27,11 @@ if(accesocon($cone,$_SESSION['identi'],15)){
 				<tr>
 					<th>DESCRIPCIÓN</th>
 					<th>INICIA</th>
-	        <th>TERMINA</th>
+	        		<th>TERMINA</th>
 					<th>NÚMERO DE RESOLUCIÓN</th>
 					<th>FECHA RES.</th>
 					<!-- <th>DÍAS</th> -->
-	        <th>ESTADO</th>
+	        		<th>ESTADO</th>
 					<th>ACCIÓN</th>
 				</tr>
 			</thead>
@@ -53,13 +53,13 @@ if(accesocon($cone,$_SESSION['identi'],15)){
 			?>
 					<tr> <!--Fila de vacaciones-->
 						<td><?php echo $rcs['Descripcion']?></td> <!--columna DESCRIPCIÓN-->
-						<td><?php echo date('d/m/Y H:i', strtotime($rcs['FechaIni']))?></td> <!--columna INICIO-->
+						<td><?php echo "<span class='hidden'>".$rcs['FechaIni']." </span>".date('d/m/Y H:i', strtotime($rcs['FechaIni']))?></td> <!--columna INICIO-->
 						<td><?php echo date('d/m/Y H:i', strtotime($rcs['FechaFin']))?></td> <!--columna FIN-->
 						<td><?php echo $rcs['Resolucion']?></td> <!--columna NÚMERO DE RESOLUCIÓN-->
 						<td><?php echo fnormal($rcs['FechaDoc'])?></td> <!--columna FECHA DOCUMENTO-->
 						<!-- <td><?php //echo $dt ?></td> columna CAMTIDAD DE DIAS-->
 						<td><span class='label label-<?php echo $est?>'><?php echo $cap?></span></td> <!--columna ESTADO-->
-	          <td> <!--columna ACCIÓN-->
+	          			<td> <!--columna ACCIÓN-->
 							<div class="btn-group">  <!--menu desplegable-->
 		              <button class="btn btn-warning btn-xs dropdown-toggle" data-toggle="dropdown">
 		                <i class="fa fa-cog"></i>&nbsp;
@@ -98,7 +98,7 @@ if(accesocon($cone,$_SESSION['identi'],15)){
 		</table>
 	<script>
 	$('#dtcomser').DataTable({
-		"order": [[2,"desc"]]
+		"order": [[1,"desc"]]
 	});
 	</script>
 	<?php
