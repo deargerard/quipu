@@ -692,12 +692,14 @@ function intervalo($f1, $f2) {
 //Fin Funcion intervalo de fechas
 //funcion cargo por idEmpleadocargo
 function cargoiec($con, $idec){
+	$idec=iseguro($con, $idec);
 	$c=mysqli_query($con, "SELECT c.Denominacion, cc.CondicionCar FROM empleadocargo ec INNER JOIN cargo c ON ec.idCargo=c.idCargo INNER JOIN condicioncar cc ON ec.idCondicionCar=cc.idCondicionCar WHERE ec.idEmpleadoCargo=$idec");
 	if($r=mysqli_fetch_assoc($c)){
 		return $r['CondicionCar']=="NINGUNO" ? $r['Denominacion'] : $r['Denominacion']." (".substr($r['CondicionCar'],0,1).")";
 	}else{
-		return "Error";
+		return "Sin Cargo";
 	}
+	mysqli_free_result($c);
 }
 //funcion cargo por idEmpleadocargo
 //funcion coordinador
@@ -709,6 +711,7 @@ function escoordinador($con, $ide){
   	}else{
   		return false;
   	}
+  	mysqli_free_result($cc);
 }
 
 function enviopv($con, $idcoo){
@@ -719,6 +722,7 @@ function enviopv($con, $idcoo){
 	}else{
 		return false;
 	}
+	mysqli_free_result($c7);
 }
 
 function nomcoordinacion($con, $idcoo){
@@ -898,11 +902,11 @@ function vacio($data){
 		return "NULL";
 	}
 }
-function idecxfecha($cone, $ide, $fec){
+function idecxidexfecha($cone, $ide, $fec){
 	$ide=iseguro($cone,$ide);
 	$fec=iseguro($cone,$fec);
 	$cd=array();
-	$c1=mysqli_query($cone, "SELECT emc.idEmpleadoCargo FROM empleadocargo emc INNER JOIN estadocargo esc ON emc.idEmpleadoCargo=esc.idEmpleadoCargo WHERE emc.idEmpleado=$ide AND idEstadoCar=1 AND esc.FechaIni<='$fec' ORDER BY FechaIni DESC LIMIT 1;");
+	$c1=mysqli_query($cone, "SELECT emc.idEmpleadoCargo FROM empleadocargo emc INNER JOIN estadocargo esc ON emc.idEmpleadoCargo=esc.idEmpleadoCargo WHERE emc.idEmpleado=$ide AND esc.idEstadoCar=1 AND esc.FechaIni<='$fec' ORDER BY FechaIni DESC LIMIT 1;");
 	if($r1=mysqli_fetch_assoc($c1)){
 		$idec=$r1['idEmpleadoCargo'];
 		$c2=mysqli_query($cone, "SELECT FechaIni FROM estadocargo WHERE idEmpleadoCargo=$idec AND idEstadoCar=3;");
@@ -913,11 +917,44 @@ function idecxfecha($cone, $ide, $fec){
 				return NULL;
 			}
 		}else{
-			return NULL;
+			return $idec;
 		}
 	}else{
 		return NULL;
 	}
 	mysqli_free_result($cc);
+}
+function dependenciaxiecxfecha($con, $idec, $fec){
+	if(!is_null($idec)){
+		$idec=iseguro($con, $idec);
+		$fec=iseguro($con, $fec);
+		$c=mysqli_query($con, "SELECT cd.FecFin, d.Denominacion FROM cardependencia cd INNER JOIN dependencia d ON cd.idDependencia=d.idDependencia WHERE cd.idEmpleadoCargo=$idec AND cd.FecInicio<='$fec' ORDER BY FecInicio DESC LIMIT 1;");
+		if($r=mysqli_fetch_assoc($c)){
+			if(!is_null($r['FecFin'])){
+				if($r['FecFin']>='$fec'){
+					return $r['Denominacion'];
+				}else{
+					return "Sin Dependencia";
+				}
+			}else{
+				return $r['Denominacion'];
+			}
+		}else{
+			return "Sin Dependencia";
+		}
+		mysqli_free_result($c);
+	}else{
+		return "Sin Dependencia";
+	}
+}
+function condicionlabxiec($con, $idec){
+	$idec=iseguro($con, $idec);
+	$c=mysqli_query($con, "SELECT cl.tipo FROM empleadocargo ec INNER JOIN condicionlab cl ON ec.idCondicionLab=cl.idCondicionLab WHERE ec.idEmpleadoCargo=$idec;");
+	if($r=mysqli_fetch_assoc($c)){
+		return $r['tipo'];
+	}else{
+		return "Error";
+	}
+	mysqli_free_result($c);
 }
 ?>
