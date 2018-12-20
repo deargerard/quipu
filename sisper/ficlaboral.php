@@ -32,7 +32,7 @@ $(document).ready(function(){
   <?php } ?>
 
   $('#dtcomser').DataTable({
-    "order": [[4,"asc"]]
+    "order": [[3,"asc"]]
   });
   $('#dtrepasi').DataTable({
     "order": [[2,"desc"]]

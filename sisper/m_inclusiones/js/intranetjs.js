@@ -934,7 +934,7 @@ $( "#f_nboletin" ).validate( {
             $("#b_gnboletin").html("Guardar");
             $("#b_gnboletin").removeClass("disabled");
             $("#d_nboletin").html(data);
-            $("#d_nboletin").slideDown();
+            $("#d_nboletin").slideDown();            
          }
       });
     }

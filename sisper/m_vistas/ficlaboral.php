@@ -443,11 +443,11 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
               </div>
               <!--Fin Encabezado-->
               <!--div resultados-->
-              <div class="row" id="reva">
-                <div class="col-md-12" id="vac">
+              <div class="row" id="comser">
+                <div class="col-md-12" id="cs">
                   <?php
 
-                    $q="SELECT cs.estadoren, cs.idComServicios, concat(d.Numero,'-',d.Ano,'-',d.Siglas) AS Resolucion, d.FechaDoc, cs.FechaIni, cs.FechaFin, cs.Estado, SUBSTRING(cs.Descripcion, 1, 100) as Descripcion FROM comservicios cs INNER JOIN doc d ON cs.idDoc=d.idDoc WHERE cs.idEmpleado=$idper AND cs.Estado=1;";
+                    $q="SELECT cs.estadoren, cs.idComServicios, concat(d.Numero,'-',d.Ano,'-',d.Siglas) AS Resolucion, d.FechaDoc, cs.FechaIni, cs.FechaFin, cs.Estado, SUBSTRING(cs.Descripcion, 1, 100) as Descripcion, di.NombreDis FROM comservicios cs INNER JOIN doc d ON cs.idDoc=d.idDoc INNER JOIN distrito di ON cs.idDistrito=di.idDistrito WHERE cs.idEmpleado=$idper AND cs.Estado=1;";
 
                     $ccs=mysqli_query($cone,$q);
 
@@ -466,39 +466,39 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                   			  <thead>
                   					<tr>
                   						<th>DESCRIPCIÓN DE LA COMISIÓN</th>
+                              <th>LUGAR</th>
                   						<th>INICIA</th>
                   		        <th>TERMINA</th>
                   						<th>NÚMERO DE RESOLUCIÓN</th>
-                  						<th>FECHA RES.</th>
-                  		        <th>RENDICIÓN</th>
+                  		        <!--<th>RENDICIÓN</th>-->
                   					</tr>
                   				</thead>
                           <tbody>
                       			<?php
-                      			$v="";
-                      			$c="";
+                      			$vv="";
+                      			$cv="";
                       			while($rcs=mysqli_fetch_assoc($ccs)){                     
                               //if ($rcs['Estado']==1) {
                       					switch ($rcs['estadoren']) {
                                   case 0:
-                                    $v="danger";
-                                    $c="<i class='fa fa-thumbs-down'></i> Pendiente";
+                                    $vv="danger";
+                                    $cv="<i class='fa fa-thumbs-down'></i> Pendiente";
                                     break;                
                                   case 1:
-                                    $v="primary";
-                                    $c="<i class='fa fa-hand-peace-o'></i> Enviada";
+                                    $vv="primary";
+                                    $cv="<i class='fa fa-hand-peace-o'></i> Enviada";
                                     break;
                                   case 2:
-                                    $v="warning";
-                                    $c="<i class='fa fa-hand-o-left'></i> Observada";
+                                    $vv="warning";
+                                    $cv="<i class='fa fa-hand-o-left'></i> Observada";
                                     break;
                                   case 3:
-                                    $v="info";
-                                    $c="<i class='fa fa-thumbs-up'></i> Aceptada";
+                                    $vv="info";
+                                    $cv="<i class='fa fa-thumbs-up'></i> Aceptada";
                                     break;  
                                   case 4:
-                                    $v="success";
-                                    $c="<i class='fa fa-thumbs-up'></i> Rendida";
+                                    $vv="success";
+                                    $cv="<i class='fa fa-thumbs-up'></i> Rendida";
                                     break;                                
                                 } 
                       				 //}elseif ($rcs['Estado']==2){
@@ -508,14 +508,13 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                       			?>
                       			<tr> <!--Fila de comisiones-->
                       					<td><?php echo $rcs['Descripcion']?></td> <!--columna DESCRIPCIÓN-->
+                                <td><?php echo $rcs['NombreDis']?></td> <!--columna LUGAR-->
                       					<td><?php echo date('d/m/Y H:i', strtotime($rcs['FechaIni']))?></td> <!--columna INICIO-->
                       					<td><?php echo date('d/m/Y H:i', strtotime($rcs['FechaFin']))?></td> <!--columna FIN-->
                       					<td><?php echo $rcs['Resolucion']?></td> <!--columna NÚMERO DE RESOLUCIÓN-->
-                      					<td><?php echo fnormal($rcs['FechaDoc'])?></td> <!--columna FECHA DOCUMENTO-->
-                      					<!-- <td><?php //echo $dt ?></td> columna CAMTIDAD DE DIAS-->
-                      					<td>               
-                                  <button type="button" class="btn btn-<?php echo $v;?> btn-xs" title="Estado Rendición" onclick="fo_rendir('agrre',<?php echo $rcs['idComServicios']; ?>)"><?php echo $c; ?></button>                                  
-                                </td> <!--columna RENDIR-->
+                      					<!--<td>               
+                                  <button type="button" class="btn btn-<?php //echo $vv;?> btn-xs" title="Estado Rendición" onclick="fo_rendir('agrre',<?php //echo $rcs['idComServicios']; ?>)"><?php //echo $cv; ?></button>                                  
+                                </td> columna RENDIR-->
                               </tr>
                     				<?php
                     				}

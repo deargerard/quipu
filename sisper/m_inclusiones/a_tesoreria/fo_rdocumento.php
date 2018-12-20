@@ -6,34 +6,59 @@ include("../php/funciones.php");
 if(accesoadm($cone,$_SESSION['identi'],9)){
 	if(isset($_POST['acc']) && !empty($_POST['acc']) && isset($_POST['idcs']) && !empty($_POST['idcs'])){
 		$acc=iseguro($cone,$_POST['acc']);
-		$idcs=iseguro($cone,$_POST['idcs']);				
-		if($acc=="agrre"){
-		$cc=mysqli_query($cone,"SELECT estadoren FROM comservicios WHERE idComServicios=$idcs;");
-            if ($rc=mysqli_fetch_assoc($cc)) {              
-               if ($rc['estadoren']==0 || $rc['estadoren']==2) {
-               	$c=true;
-               }else{
-               	$c=false;
-               };
-               
-        }         						                                     
+		$idcs=iseguro($cone,$_POST['idcs']);
+		$cc=mysqli_query($cone,"SELECT cs.estadoren, cs.fechaini, cs.fechafin, cs.aneplanilla, d.NombreDis FROM comservicios cs INNER JOIN distrito d ON cs.idDistrito=d.idDistrito WHERE cs.idComServicios=$idcs;");
+		if ($rc=mysqli_fetch_assoc($cc)) {              
+            $fi=fnormal($rc['fechaini']);   
+            $ff=fnormal($rc['fechafin']);
+            $di=$rc['NombreDis'];
+            $er=$rc['estadoren'];
+            $ap=$rc['aneplanilla'];           
+            mysqli_free_result($cc);   
+        	}				
+		if($acc=="agrre"){		
+			$c2=mysqli_query($cone,"SELECT idtegasto, idtetipocom FROM tegasto WHERE idComServicios=$idcs;");           
+	        	if (mysqli_num_rows($c2)!==0) {
+	        		$e=true;
+	        		while ($r2=mysqli_fetch_assoc($c2)) {
+	        			if ($r2['idtetipocom']==2) {
+	        				$dj=true;
+	        			}
+	        		}
+	        mysqli_free_result($c2);
+    		}    		
 ?>
 	      	<div class="row">
-	        <div class="col-sm-7"> comisión de</div>	        
-	        <div class="col-sm-5">	        		        	
+	        <div class="col-sm-7">
+				<h6 class="text-maroon text-center"><i class="fa fa fa-automobile text-gray"></i> Comisión de servicios a <?php echo $di." del ". $fi." al ".$ff ?></h6>
+	         </div>	        
+	        <div class="col-sm-5 text-right">	        		        	
 	        	<?php
-	        	if($c){ 
+	        	if($er==0 || $er==2){ 
 	        	?>
 	          		<button type="button" class="btn bg-teal" title="Agregar Comprobante" onclick="fo_drendicion('agrdr',<?php echo $idcs ?>,0)"><i class="fa fa-plus"></i> Agregar comprobante</button>
-	          		<button type="button" class="btn bg-primary" title="Enviar Rendición" onclick="fo_drendicion('envre',<?php echo $idcs ?>,0)"><i class="fa fa-send"></i> Enviar Rendición</button>
+	          		<?php if ($e){ ?>
+	          			<button type="button" class="btn bg-primary" title="Enviar Rendición" onclick="fo_drendicion('envre',<?php echo $idcs ?>,0)"><i class="fa fa-send"></i> Enviar Rendición</button>
+	          		<?php } ?>
+	          		
 	          	<?php
-	          	}else{
+	          	}elseif(($er==3 || $er==4) && $e){
+	          		if ($ap==1) {          		
 	          	?>
-	          		<a href="m_inclusiones/a_tesoreria/te_anexo04pdf.php?idcs=<?php echo $idcs;?>" type="button" class="btn btn-warning" title="Anexo 01 Planilla" target="_blank">A01</a>
-	        		<a href="m_inclusiones/a_tesoreria/te_anexo02pdf.php?idcs=<?php echo $idcs;?>" type="button" class="btn btn-warning" title="Declaración Jurada" target="_blank">DJ</a>
+	          		<a href="m_inclusiones/a_tesoreria/te_anexo04pdf.php?idcs=<?php echo $idcs;?>" type="button" class="btn btn-warning" title="Anexo 01 Planilla" target="_blank">A01</a> <?php } ?>     		
+	        	<?php
+	        		if ($dj) {
+	        	?>
+						<a href="m_inclusiones/a_tesoreria/te_anexo02pdf.php?idcs=<?php echo $idcs;?>" type="button" class="btn btn-warning" title="Declaración Jurada" target="_blank">DJ</a>
+	        	<?php 
+	        		} 
+	        	?>
 	        		<a href="m_inclusiones/a_tesoreria/te_anexo04pdf.php?idcs=<?php echo $idcs;?>" type="button" class="btn btn-warning" title="Anexo 04" target="_blank">A04</a>
+	        		<?php if ($ap==7) {       			
+	        		 ?>
 	        		<a href="m_inclusiones/a_tesoreria/te_anexo04pdf.php?idcs=<?php echo $idcs;?>" type="button" class="btn btn-warning" title="Anexo 07 Planilla" target="_blank">A07</a>
 	          	<?php
+	          		}
 	          	}
 	          	?>
 	        </div>        
@@ -67,7 +92,7 @@ if(accesoadm($cone,$_SESSION['identi'],9)){
 				            <td><?php echo $r2['totalcom']; ?></td>              
 				            <td>
 				                <div class="btn-group btn-group-xs" role="group" aria-label="Basic">
-				                  	<?php if($c){ ?>
+				                  	<?php if($er==0 || $er==2){ ?>
 				                  	<button type="button" class="btn btn-default" title="Editar" onclick="fo_drendicion('edidr',<?php echo $idcs.",".$r2['idtegasto']; ?>)"><i class="fa fa-pencil"></i></button>
 				                  	<button type="button" class="btn btn-default" title="Eliminar" onclick="fo_drendicion('elidr',<?php echo $idcs.",". $r2['idtegasto']; ?>)"><i class="fa fa-trash"></i></button>
 				                	<?php } ?>
@@ -91,8 +116,9 @@ if(accesoadm($cone,$_SESSION['identi'],9)){
 			<div class="form-group">
 				<input type="hidden" name="acc" value="<?php echo $acc; ?>">
 				<input type="hidden" name="idcs" value="<?php echo $idcs; ?>">
-				<label for="doc" class="col-sm-2 control-label">Documento <small class="text-red">*</small></label>
-				<div class="col-sm-4">		    
+				
+				<div class="col-sm-6">
+					<label for="doc" class="control-label">Tipo de comprobante <small class="text-red">*</small></label>	    
 					<select class="form-control select2doc" name="doc" id="doc" style="width: 100%;">
 					<option value="">Seleccione el tipo</option>					
 <?php
@@ -108,14 +134,19 @@ if(accesoadm($cone,$_SESSION['identi'],9)){
 ?>				
 					</select>
 				</div>
-				<label for="num" class="col-sm-2 control-label ocu">Número <small class="text-red">*</small></label>
-				<div class="col-sm-4">				
-					<input type="text" name="num" id="num" class="form-control ocu" placeholder="Digite el número">									
+				
+				<div class="col-sm-3">
+					<label for="ser" class="control-label ocu">Serie: <small class="text-red">*</small></label>		
+					<input type="text" name="ser" id="ser" class="form-control ocu" placeholder="Digite serie">									
+				</div>
+				<div class="col-sm-3">
+					<label for="num" class="control-label ocu">Número: <small class="text-red">*</small></label>		
+					<input type="text" name="num" id="num" class="form-control ocu" placeholder="Digite número">									
 				</div>					
 			</div>
-			<div class="form-group">
-				<label for="con" class="col-sm-2 control-label">Concepto <small class="text-red">*</small></label>
-				<div class="col-sm-4">		    
+			<div class="form-group">				
+				<div class="col-sm-8">		    
+					<label for="con" class="control-label">Concepto: <small class="text-red">*</small></label>
 					<select class="form-control select2" name="con" id="con" style="width: 100%;">
 					<option value=""> Seleccione el Concepto</option>					
 <?php
@@ -131,8 +162,9 @@ if(accesoadm($cone,$_SESSION['identi'],9)){
 ?>				
 					</select>
 				</div>
-				<label for="mon" class="col-sm-2 control-label">Monto <small class="text-red">*</small></label>
+				
 				<div class="col-sm-4">
+					<label for="mon" class="control-label">Monto: <small class="text-red">*</small></label>
 					<div class="input-group">
 						<span class="input-group-addon">S/</span>
 						<input type="text" name="mon" id="mon" class="form-control" placeholder="Digite el monto">			
@@ -140,26 +172,29 @@ if(accesoadm($cone,$_SESSION['identi'],9)){
 				</div>			
 			</div>
 			<div class="form-group">			
-				<label for="glo" class="col-sm-2 control-label">Glosa</label>
-				<div class="col-sm-10">									
+				
+				<div class="col-sm-12">									
+					<label for="glo" class="control-label">Glosa:</label>
 					<input type="text" name="glo" id="glo" class="form-control" placeholder="Digite la glosa del comprobante">		
 				</div>			
 			</div>
 
-			<div class="form-group ocu">
-				<label for="pro" class="col-sm-2 control-label">Proveedor <small class="text-red">*</small></label>
-				<div class="col-sm-8">								
+			<div class="form-group ocu">				
+				<div class="col-sm-9">								
+					<label for="pro" class=" control-label">Proveedor: <small class="text-red">*</small></label>
 					<select class="form-control select2pro" name="pro" id="pro" style="width: 100%;">
-						<option value="sd">Ninguno</option>
-									
-		
+						<option value="sd">Ninguno</option>		
 					</select>
 				</div>
-					<button type="button" class="btn bg-teal" title="Agregar" onclick="fo_aproveedor('agrpro',<?php echo $idcs; ?>)"><i class="fa fa-plus"></i> Agregar</button>			
+				<div class="col-sm-3">
+					<label class="control-label">&nbsp;</label>
+					<button type="button" class="btn bg-teal btn-block" title="Agregar" onclick="fo_aproveedor('agrpro',<?php echo $idcs; ?>)"><i class="fa fa-plus"></i> Agregar</button>
+				</div>
+							
 			</div>
-			<div class="form-group">
-				<label for="fecg" class="col-sm-2 control-label">Fecha <small class="text-red">*</small></label>
+			<div class="form-group">				
 			    <div class="col-sm-4">
+			    	<label for="fecg" class="control-label">Fecha <small class="text-red">*</small></label>
 			    	<div class="input-group">
 			    		<input type="text" id="fecg" name="fecg" class="form-control" placeholder="dd/mm/aaaa" autocomplete="off">
 			        	<div class="input-group-addon"><i class="fa fa-calendar"></i></div>
@@ -168,8 +203,7 @@ if(accesoadm($cone,$_SESSION['identi'],9)){
 			</div>
 			<div class="form-group" id="d_frespuesta">
 			  	
-			</div>
-		
+			</div>		
 <?php 
 		}elseif($acc=="edidr"){
 		$idg=iseguro($cone,$_POST['idg']);
@@ -180,8 +214,9 @@ if(accesoadm($cone,$_SESSION['identi'],9)){
 				<input type="hidden" name="acc" value="<?php echo $acc; ?>">
 				<input type="hidden" name="idcs" value="<?php echo $idcs; ?>">
 				<input type="hidden" name="idg" value="<?php echo $idg; ?>">
-				<label for="doc" class="col-sm-2 control-label">Documento <small class="text-red">*</small></label>
-				<div class="col-sm-4">		    
+				
+				<div class="col-sm-6">		    
+					<label for="doc" class="control-label">Tipo de comprobante: <small class="text-red">*</small></label>
 					<select class="form-control select2doc" name="doc" id="doc" style="width: 100%;">			
 <?php
 						$c1=mysqli_query($cone, "SELECT * FROM tetipocom WHERE estado=1 ORDER BY tipo ASC;");
@@ -196,14 +231,23 @@ if(accesoadm($cone,$_SESSION['identi'],9)){
 ?>				
 					</select>
 				</div>
-				<label for="num" class="col-sm-2 control-label ocu <?php echo $r3['idtetipocom']==2 ? "hidden" : "" ?>">Número <small class="text-red">*</small></label>
-				<div class="col-sm-4">				
-					<input type="text" name="num" id="num" class="form-control ocu <?php echo $r3['idtetipocom']==2 ? "hidden" : "" ?>" value="<?php echo $r3['numerocom']=="" ? "sd" : $r3['numerocom']; ?>">									
+				<?php 
+				$m=explode('-', $r3['numerocom']);
+				?>
+				<div class="col-sm-3">
+					<label for="ser" class="control-label ocu <?php echo $r3['idtetipocom']==2 ? "hidden" : "" ?>">Serie: <small class="text-red">*</small></label>		
+					<input type="text" name="ser" id="ser" class="form-control ocu <?php echo $r3['idtetipocom']==2 ? "hidden" : "" ?>" value="<?php echo $r3['numerocom']=="" ? "sd" : $m[0]; ?>">									
+				</div>
+				
+				<div class="col-sm-3">
+					<label for="num" class="control-label ocu <?php echo $r3['idtetipocom']==2 ? "hidden" : "" ?>">Número: <small class="text-red">*</small></label>				
+					<input type="text" name="num" id="num" class="form-control ocu <?php echo $r3['idtetipocom']==2 ? "hidden" : "" ?>" value="<?php echo $r3['numerocom']=="" ? "sd" : $m[1]; ?>">
 				</div>					
 			</div>
 			<div class="form-group">
-				<label for="con" class="col-sm-2 control-label">Concepto <small class="text-red">*</small></label>
-				<div class="col-sm-4">		    
+				
+				<div class="col-sm-8">		    
+					<label for="con" class="control-label">Concepto: <small class="text-red">*</small></label>
 					<select class="form-control select2" name="con" id="con" style="width: 100%;">						
 <?php
 						$c2=mysqli_query($cone, "SELECT * FROM teconceptov WHERE nanexo=4 ORDER BY conceptov ASC;");
@@ -218,8 +262,9 @@ if(accesoadm($cone,$_SESSION['identi'],9)){
 ?>				
 					</select>
 				</div>
-				<label for="mon" class="col-sm-2 control-label">Monto <small class="text-red">*</small></label>
+				
 				<div class="col-sm-4">
+					<label for="mon" class="control-label">Monto: <small class="text-red">*</small></label>
 					<div class="input-group">
 						<span class="input-group-addon">S/</span>
 						<input type="text" name="mon" id="mon" class="form-control" value="<?php echo $r3['totalcom'] ?>">			
@@ -227,24 +272,29 @@ if(accesoadm($cone,$_SESSION['identi'],9)){
 				</div>			
 			</div>
 			<div class="form-group">			
-				<label for="glo" class="col-sm-2 control-label">Glosa</label>
-				<div class="col-sm-10">									
+				
+				<div class="col-sm-12">
+				<label for="glo" class="control-label">Glosa:</label>									
 					<input type="text" name="glo" id="glo" class="form-control" value="<?php echo $r3['glosacom'] ?>">		
 				</div>			
 			</div>
-			<div class="form-group ocu <?php echo $r3['idtetipocom']==2 ? "hidden" : "" ?>">
-				<label for="pro" class="col-sm-2 control-label">Proveedor <small class="text-red">*</small></label>
-				<div class="col-sm-8">								
+			<div class="form-group ocu <?php echo $r3['idtetipocom']==2 ? "hidden" : "" ?>">				
+				<div class="col-sm-9">
+					<label for="pro" class="control-label">Proveedor: <small class="text-red">*</small></label>	
 					<select class="form-control select2pro" name="pro" id="pro" style="width: 100%;">
 						<option value="<?php echo $r3['idteproveedor'] ?>"><?php echo $r3['razsocial']; ?></option>
-						<option value="sd" <?php echo $r3['idtetipocom']==2 ? "selected" : "" ?>>Ninguno</option>		
+						<option value="sd" <?php echo $r3['idtetipocom']==2 ? "selected" : "" ?>>Ninguno</option>	
 					</select>
 				</div>
-					<button type="button" class="btn bg-teal" title="Agregar" onclick="fo_aproveedor('agrpro',<?php echo $idcs; ?>)"><i class="fa fa-plus"></i> Agregar</button>			
+				<div class="col-sm-3">
+					<label class="control-label">&nbsp;</label>
+					<button type="button" class="btn bg-teal btn-block" title="Agregar" onclick="fo_aproveedor('agrpro',<?php echo $idcs; ?>)"><i class="fa fa-plus"></i> Agregar</button>
+				</div>								
 			</div>
 			<div class="form-group">
-				<label for="fecg" class="col-sm-2 control-label">Fecha <small class="text-red">*</small></label>
+				
 			    <div class="col-sm-4">
+			    	<label for="fecg" class="control-label">Fecha: <small class="text-red">*</small></label>
 			    	<div class="input-group">
 			    		<input type="text" id="fecg" name="fecg" class="form-control" value="<?php echo fnormal($r3['fechacom'])?>" placeholder="dd/mm/aaaa" autocomplete="off">
 			        	<div class="input-group-addon"><i class="fa fa-calendar"></i></div>
@@ -280,15 +330,22 @@ if(accesoadm($cone,$_SESSION['identi'],9)){
 ?>
 			<div class="form-group">	
 					<input type="hidden" name="acc" value="<?php echo $acc; ?>">
-					<input type="hidden" name="idcs" value="<?php echo $idcs; ?>">								
-			        <h4 class="text-maroon text-center">Debe cargar al sistema sus comprobantes escaneados </h4>
-			    </div>
-			<div class="form-group">			
-				<label for="glo" class="col-sm-2 control-label"></label>
-				<div class="col-sm-12">									
-					<input type="file" name="docs" id="docs">		
-				</div>			
+					<input type="hidden" id='idcs' name="idcs" value="<?php echo $idcs; ?>">								
+			        <h4 class="text-maroon text-center"><i class="fa fa-info-circle text-gray"></i> Cargue en un solo archivo sus comprobantes escaneados.</h4>
+			</div>			
+			<div class="form-group">
+						
+				<div class="col-sm-8">
+					<input class="form-control" type="file" name="desc" id="desc" accept="application/pdf">
+					<p class="help-block">Hasta 6Mb.</p>		
+				</div>
+				<div class="col-sm-4">
+					<button type="button" class="btn btn-primary btn-block" onclick="enviarr();">Enviar</button>
+				</div>						
 			</div>
+			<div class="form-group" id="d_frespuesta">
+			  	
+			</div>			
 <?php					
 		}//acafin
 	}else{
@@ -306,6 +363,8 @@ $(' #fecg').datepicker({
   language: "es",
   autoclose: true,
   todayHighlight: true,
+  startDate: "<?php echo $fi ?>",
+  endDate: "<?php echo $ff ?>",
 })
 $(".select2").select2();
 $(".select2doc").select2()

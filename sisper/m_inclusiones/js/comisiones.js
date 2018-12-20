@@ -538,7 +538,11 @@ function fo_drendicion(acc, idcs, idg){
     },
     success:function(a){
       $("#fo_drendicion").html(a);
-      $("#gu_modal2").removeClass("hidden");
+      if (acc!='envre') {
+        $("#gu_modal2").removeClass("hidden");
+      }
+      
+
     }
   });
 }
@@ -610,14 +614,13 @@ $('#fo_drendicion').submit(function(e){
     type: "post",
     url: "m_inclusiones/a_tesoreria/gu_rcomision.php",
     data: datos,
-    dataType: "json",
+    dataType: "json",    
     beforeSend: function () {
-
       $("#d_frespuesta").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
       $("#gu_modal2").addClass("hidden");
     },
     success:function(a){
-      console.log(datos);
+      
       if(a.e){
         $("#fo_drendicion").html(a.m);        
         $("#gu_modal2").addClass("hidden");
@@ -625,9 +628,57 @@ $('#fo_drendicion').submit(function(e){
       }else{
         $("#d_frespuesta").html(a.m);
         $("#gu_modal2").removeClass("hidden");
-
+        //console.log(datos);
       }
     }
   });
 })
 // FIN FUNCIÓN QUE LLAMA ARCHIVO GUARDAR COMPROBANTE
+// FUNCIÓN RECARGAR COMISIONES
+function lcomser(){
+  $.ajax({    
+    //type: "POST",
+    url: "m_inclusiones/a_comservicios/li_comser.php",    
+    dataType: "html",      
+    beforeSend: function () {      
+      $("#comser").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");      
+    },
+    success:function(a){     
+        $("#comser").html(a);
+        //$("#comser").slideDown();      
+      
+    }
+  });
+}
+// FIN FUNCIÓN RECARGAR COMISIONES.
+
+// FUNCIÓN QUE ENVÍA RENDICIÓN
+
+function enviarr(){    
+  var formData = new FormData($("#fo_drendicion")[0]);
+  var cs=$("#idcs").val();
+
+  $.ajax({    
+    type: "POST",
+    url: "m_inclusiones/a_tesoreria/gu_rcomision.php",
+    data: formData,
+    dataType: "json",
+    cache: false,   
+    contentType: false,
+    processData: false,
+    beforeSend: function () {      
+      $("#d_frespuesta").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");      
+    },
+    success:function(a){
+      //console.log(cs);
+      if(a.e){
+        $("#fo_drendicion").html(a.m);       
+        fo_rendir('agrre', cs);
+        lcomser();
+      }else{
+        $("#d_frespuesta").html(a.m);       
+      }
+    }
+  });
+}
+// FIN FUNCIÓN QUE ENVÍA RENDICIÓN.

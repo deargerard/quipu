@@ -79,7 +79,18 @@ use Spipu\Html2Pdf\Html2Pdf;
           
         </tr>        
   <?php 
-          $cc=mysqli_query($cone,"SELECT cv.idteconceptov, cv.idteconceptov, g.idtegasto, g.fechacom, g.glosacom, tc.abreviatura, cv.conceptov, g.numerocom, g.totalcom FROM tegasto g INNER JOIN tetipocom tc ON tc.idtetipocom=g.idtetipocom INNER JOIN teconceptov cv ON g.idteconceptov=cv.idteconceptov WHERE g.idComServicios=$idcs AND tc.idtetipocom=2;");         
+          $cc=mysqli_query($cone,"SELECT cv.idteconceptov, cv.idteconceptov, g.idtegasto, g.fechacom, g.glosacom, tc.abreviatura, cv.conceptov, g.numerocom, g.totalcom FROM tegasto g INNER JOIN tetipocom tc ON tc.idtetipocom=g.idtetipocom INNER JOIN teconceptov cv ON g.idteconceptov=cv.idteconceptov WHERE g.idComServicios=$idcs AND tc.idtetipocom=2;"); 
+
+          $c2=mysqli_query($cone,"SELECT idtegasto, idteconceptov FROM tegasto WHERE idComServicios=$idcs;");           
+            if (mysqli_num_rows($c2)!==0) {
+              $e=true;
+              while ($r2=mysqli_fetch_assoc($c2)) {
+                if ($r2['idtetipocom']==2) {
+                  $dj=true;
+                }
+              }
+          mysqli_free_result($c2);
+        }         
             
   ?>
           <tr>
@@ -87,7 +98,7 @@ use Spipu\Html2Pdf\Html2Pdf;
             <td><?php //echo fnormal($rc['fechacom']); ?></td>
             <td>Alojamiento y Alimentación (*)</td>
             <td class="de"><?php //echo $rc['totalcom']; ?></td>
-            <td rowspan="5" class="de" style="text-align: center;">Estos conceptos solo<br>son aplicables en<br>lugares donde no se <br> emitan comprobantes <br> de pago autorizados <br> por SUNAT.</td>            
+            <td rowspan="5" class="de" style="text-align: center;">Estos conceptos solo son aplicables en<br>lugares donde no se emitan comprobantes <br> de pago autorizados por SUNAT.</td>            
           </tr>
           <tr>
             <td class="ce">2</td>
