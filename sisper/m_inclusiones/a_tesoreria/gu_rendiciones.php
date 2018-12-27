@@ -4,11 +4,11 @@ include("../php/conexion_sp.php");
 include("../php/funciones.php");
 $r=array();
 $r['e']=false;
-if(accesoadm($cone,$_SESSION['identi'],16)){
 	$idu=$_SESSION['identi'];
 	if(isset($_POST['acc']) && !empty($_POST['acc'])){
 		$acc=iseguro($cone,$_POST['acc']);
 		if($acc=="agrren"){
+		  if(accesoadm($cone,$_SESSION['identi'],16)){
 			if(isset($_POST['mes']) && !empty($_POST['mes']) && isset($_POST['anio']) && !empty($_POST['anio']) && isset($_POST['met']) && !empty($_POST['met']) && isset($_POST['tr']) && !empty($_POST['tr'])){
 				$mes=iseguro($cone,$_POST['mes']);
 				$anio=iseguro($cone,$_POST['anio']);
@@ -29,7 +29,11 @@ if(accesoadm($cone,$_SESSION['identi'],16)){
 			}else{
 				$r['m']=mensajewa("Los campos marcados con <b class='text-red'>*</b> son obligatorios.");
 			}
+		  }else{
+		  	$r['m']=mensajewa("Acceso restringido");
+		  }
 		}elseif($acc=="ediren"){
+		  if(accesoadm($cone,$_SESSION['identi'],16)){
 			$idr=iseguro($cone,$_POST['idr']);
 			$met=iseguro($cone,$_POST['met']);
 			$tr=iseguro($cone,$_POST['tr']);
@@ -57,7 +61,11 @@ if(accesoadm($cone,$_SESSION['identi'],16)){
 					$r['m']=mensajewa("Los campos marcados con <b class='text-red'>*</b> son obligatorios.");
 				}
 			}
+		  }else{
+		  	$r['m']=mensajewa("Acceso restringido");
+		  }
 		}elseif($acc=="agrdoc"){
+		  if(accesoadm($cone,$_SESSION['identi'],16)){
 		  $v1=iseguro($cone, $_POST['v1']);
 		  $v2=iseguro($cone, $_POST['v2']);
 		  if($v2==1){
@@ -89,7 +97,11 @@ if(accesoadm($cone,$_SESSION['identi'],16)){
 		  }elseif($v=2){
 			$r['m']=mensajewa("Viáticos");
 		  }
+		  }else{
+		  	$r['m']=mensajewa("Acceso restringido");
+		  }
 		}elseif($acc=="edidoc"){
+		  if(accesoadm($cone,$_SESSION['identi'],16)){
 		  $v1=iseguro($cone, $_POST['v1']);
 		  $v2=iseguro($cone, $_POST['v2']);
 		  if($v2==1){
@@ -122,7 +134,11 @@ if(accesoadm($cone,$_SESSION['identi'],16)){
 		  }elseif($v=2){
 			$r['m']=mensajewa("Viáticos");
 		  }
+		  }else{
+		  	$r['m']=mensajewa("Acceso restringido");
+		  }
 		}elseif($acc=="elidoc"){
+		  if(accesoadm($cone,$_SESSION['identi'],16)){
 			$v1=iseguro($cone, $_POST['v1']);
 			$idre=iseguro($cone, $_POST['idre']);
 			if(mysqli_query($cone, "DELETE FROM tegasto WHERE idtegasto=$v1")){
@@ -132,7 +148,11 @@ if(accesoadm($cone,$_SESSION['identi'],16)){
 			}else{
 				$r['m']=mensajewa("Error, vuelva a intentarlo");
 			}
+		  }else{
+		  	$r['m']=mensajewa("Acceso restringido");
+		  }
 		}elseif($acc=="agrpro"){
+		  if(accesoadm($cone,$_SESSION['identi'],9)){
 			if(isset($_POST['razsoc']) && !empty($_POST['razsoc']) && isset($_POST['ruc']) && !empty($_POST['ruc'])){
 				$razsoc=imseguro($cone, $_POST['razsoc']);
 				$ruc=iseguro($cone, $_POST['ruc']);
@@ -153,7 +173,11 @@ if(accesoadm($cone,$_SESSION['identi'],16)){
 			}else{
 				$r['m']=mensajewa("Los campos marcados con <b class='text-red'>*</b> son obligatorios.");
 			}
+		  }else{
+		  	$r['m']=mensajewa("Acceso restringido");
+		  }
 		}elseif($acc=="estren"){
+		  if(accesoadm($cone,$_SESSION['identi'],16)){
 			$v1=iseguro($cone, $_POST['v1']);
 			$es=iseguro($cone, $_POST['es'])==1 ? 0 : 1;
 			if(mysqli_query($cone, "UPDATE terendicion SET estado=$es WHERE idterendicion=$v1")){
@@ -162,13 +186,14 @@ if(accesoadm($cone,$_SESSION['identi'],16)){
 			}else{
 				$r['m']=mensajewa("Error, vuelva a intentarlo ".mysqli_error($cone));
 			}
+		  }else{
+		  	$r['m']=mensajewa("Acceso restringido");
+		  }
 		}//acafin
 	}else{
 		$r['m']=mensajewa("Faltan datos");
 	}
-}else{
-  $r['m']=mensajewa("Acceso restringido");
-}
+
 header('Content-type: application/json; charset=utf-8');
 echo json_encode($r);
 mysqli_close($cone);
