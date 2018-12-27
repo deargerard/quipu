@@ -2,13 +2,14 @@
 session_start();
 include("../php/conexion_sp.php");
 include("../php/funciones.php");
-if(accesoadm($cone,$_SESSION['identi'],16)){
+
 	if(isset($_POST['acc']) && !empty($_POST['acc']) && isset($_POST['v1']) && !empty($_POST['v1'])){
 		$acc=iseguro($cone,$_POST['acc']);
 		$v1=iseguro($cone,$_POST['v1']);
 		$v2=iseguro($cone,$_POST['v2']);
 
 		if($acc=="agrren"){
+		  if(accesoadm($cone,$_SESSION['identi'],16)){
 ?>
 		  <div class="row">
 			<div class="col-sm-8">
@@ -45,7 +46,11 @@ if(accesoadm($cone,$_SESSION['identi'],16)){
 		  	
 		  </div>
 <?php
+		  }else{
+		  	echo accrestringidoa();
+		  }
 		}elseif($acc=="ediren"){
+		  if(accesoadm($cone,$_SESSION['identi'],16)){
 			$c2=mysqli_query($cone,"SELECT idtemeta, trendicion FROM terendicion WHERE idterendicion=$v1;");
 			if($r2=mysqli_fetch_assoc($c2)){
 				$pev=true;
@@ -102,7 +107,11 @@ if(accesoadm($cone,$_SESSION['identi'],16)){
 				echo mensajewa("Datos inválidos");
 			}
 			mysqli_free_result($c2);
+		  }else{
+		  	echo accrestringidoa();
+		  }
 		}elseif($acc=="agrdoc"){
+		  if(accesoadm($cone,$_SESSION['identi'],16)){
 			if($v2==1){
 ?>
 			<div class="row">
@@ -281,7 +290,11 @@ if(accesoadm($cone,$_SESSION['identi'],16)){
 			}elseif($v2==2){
 				echo "VIÁTICOS";
 			}
+		  }else{
+		  	echo accrestringidoa();
+		  }
 		}elseif($acc=="edidoc"){
+		  if(accesoadm($cone,$_SESSION['identi'],16)){
 			if($v2==1){
 				$cg=mysqli_query($cone, "SELECT * FROM tegasto WHERE idtegasto=$v1;");
 				if($rg=mysqli_fetch_assoc($cg)){
@@ -489,7 +502,11 @@ if(accesoadm($cone,$_SESSION['identi'],16)){
 			}elseif($v2==2){
 				echo "VIÁTICOS";
 			}
+		  }else{
+		  	echo accrestringidoa();
+		  }
 		}elseif($acc=="elidoc"){
+		  if(accesoadm($cone,$_SESSION['identi'],16)){
 			$cg=mysqli_query($cone, "SELECT glosacom, totalcom, idterendicion FROM tegasto WHERE idtegasto=$v1;");
 			if($rg=mysqli_fetch_assoc($cg)){
 ?>
@@ -517,7 +534,11 @@ if(accesoadm($cone,$_SESSION['identi'],16)){
 				echo mensajewa("Error, datos inválidos.");
 			}
 			mysqli_free_result($cg);
+		  }else{
+		  	echo accrestringidoa();
+		  }
 		}elseif($acc=="agrpro"){
+		  if(accesoadm($cone,$_SESSION['identi'],9)){
 ?>
 		  <div class="form-group">
 		    <label for="razsoc">Razón Social<small class="text-red">*</small></label>
@@ -540,7 +561,11 @@ if(accesoadm($cone,$_SESSION['identi'],16)){
 				  	
 		  </div>
 <?php
+		  }else{
+		  	echo accrestringidoa();
+		  }
 		}elseif($acc=="estren"){
+		  if(accesoadm($cone,$_SESSION['identi'],16)){
 			$cg=mysqli_query($cone, "SELECT codigo, mes, anio, estado FROM terendicion WHERE idterendicion=$v1;");
 			if($rg=mysqli_fetch_assoc($cg)){
 ?>
@@ -567,12 +592,13 @@ if(accesoadm($cone,$_SESSION['identi'],16)){
 				echo mensajewa("Error, datos inválidos.");
 			}
 			mysqli_free_result($cg);
+		  }else{
+		  	echo accrestringidoa();
+		  }
 		}//acafin
 	}else{
 		echo mensajewa("Error: Faltan datos.");
 	}
-}else{
-  echo accrestringidoa();
-}
+
 mysqli_close($cone);
 ?>
