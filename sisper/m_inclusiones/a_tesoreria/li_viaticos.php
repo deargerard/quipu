@@ -8,22 +8,6 @@ if(accesocon($cone,$_SESSION['identi'],16)){
 		if(checkdate($fecb[0],1,$fecb[1])){
       $mes=$fecb[0];
       $anio=$fecb[1];
-      function erviaticos($est){
-        switch ($est) {
-          case 0:
-            return "<span class='label label-danger'>Pendiente</span>";
-            break;
-          case 1:
-            return "<span class='label label-info'>Enviado</span>";
-            break;
-          case 2:
-            return "<span class='label label-warning'>Observado</span>";
-            break;
-          case 3:
-            return "<span class='label label-success'>Rendido</span>";
-            break;
-        }
-      }
 ?>
 
                   <br>

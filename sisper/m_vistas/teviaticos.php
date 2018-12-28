@@ -87,7 +87,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
         </form>
       </div>
       <div class="modal-footer">
-        <button type="submit" class="btn btn-primary" id="b1_guardar" form="f1_rendiciones">Guardar</button>
+        <button type="submit" class="btn btn-primary" id="b1_guardar" form="f1_viaticos">Guardar</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
       </div>
     </div>

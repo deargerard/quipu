@@ -692,9 +692,10 @@ $('#f_lviaticos').submit(function(e){
 })
 
 function fo_viaticos(acc, v1, v2){
+  $("#m_tamaño").removeClass("modal-lg");
   switch(acc) {
     case 'verpla':
-        var mt="<i class='fa fa-file-text text-gray'></i> Ver Planilla";
+        var mt="<i class='fa fa-file-text text-gray'></i> Ver conceptos planilla";
         $("#m_tamaño").addClass("modal-lg");
         break;
     case 'ediren':
@@ -716,22 +717,23 @@ function fo_viaticos(acc, v1, v2){
   $(".m_titulo").html(mt);
   $("#m_modal").modal("show");
 
-  $.ajax({
-    type: "post",
-    url: "m_inclusiones/a_tesoreria/fo_viaticos.php",
-    data: {acc: acc, v1: v1, v2: v2},
-    dataType: "html",
-    beforeSend: function () {
-      $("#f_viaticos").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
-      $("#b_guardar").addClass("hidden");
-    },
-    success:function(a){
-      $("#f_viaticos").html(a);
-      if(acc.substr(0, 3)!="ver"){
-        $("#b_guardar").removeClass("hidden");
+  
+    $.ajax({
+      type: "post",
+      url: "m_inclusiones/a_tesoreria/fo_viaticos.php",
+      data: {acc: acc, v1: v1, v2: v2},
+      dataType: "html",
+      beforeSend: function () {
+        $("#f_viaticos").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
+        $("#b_guardar").addClass("hidden");
+      },
+      success:function(a){
+        $("#f_viaticos").html(a);
+        if(acc.substr(0, 3)!="ver"){
+          $("#b_guardar").removeClass("hidden");
+        }
       }
-    }
-  });
+    });
 }
 
 $('#f_viaticos').submit(function(e){
@@ -765,3 +767,90 @@ $('#f_viaticos').submit(function(e){
     }
   });
 })
+//viaticos pequeña
+function fo_viaticos1(acc, v1, v2){
+  switch(acc) {
+    case 'agrcon':
+        var mt="<i class='fa fa-plus text-gray'></i> Agregar Concepto";
+        break;
+    case 'tipane':
+        var mt="<i class='fa fa-folder-open text-gray'></i> Tipo Anexo";
+        break;
+    case 'edicon':
+        var mt="<i class='fa fa-pencil text-gray'></i> Editar Concepto";
+        break;
+    case 'elicon':
+        var mt="<i class='fa fa-pencil text-gray'></i> Eliminar Concepto";
+        break;
+    case 'agrdoc':
+        var mt="<i class='fa fa-plus text-gray'></i> Agregar documento rendición";
+        break;
+    case 'edidoc':
+        var mt="<i class='fa fa-pencil text-gray'></i> Editar documento rendición";
+        break;
+    case 'estdoc':
+        var mt="<i class='fa fa-pencil text-gray'></i> Estado rendición";
+        break;
+  }
+  $(".m1_titulo").html(mt);
+  $("#m1_modal").modal("show");
+
+  $.ajax({
+    type: "post",
+    url: "m_inclusiones/a_tesoreria/fo_viaticos.php",
+    data: {acc: acc, v1: v1, v2: v2},
+    dataType: "html",
+    beforeSend: function () {
+      $("#f1_viaticos").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
+      $("#b1_guardar").addClass("hidden");
+    },
+    success:function(a){
+      $("#f1_viaticos").html(a);
+      if(acc.substr(0, 3)!="ver"){
+        $("#b1_guardar").removeClass("hidden");
+      }
+    }
+  });
+}
+
+$('#f1_viaticos').submit(function(e){
+  e.preventDefault();
+  var datos = $("#f1_viaticos").serializeArray();
+  $.ajax({
+    type: "post",
+    url: "m_inclusiones/a_tesoreria/gu_viaticos.php",
+    data: datos,
+    dataType: "json",
+    beforeSend: function () {
+      $("#d1_frespuesta").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
+      $("#b1_guardar").addClass("hidden");
+    },
+    success:function(a){
+      if(a.e){
+        $("#f1_viaticos").html(a.m);
+        $("#b1_guardar").addClass("hidden");
+        if(datos[0].value=="tipane" || datos[0].value=="agrcon" || datos[0].value=="edicon" || datos[0].value=="elicon"){
+          fo_viaticos('verpla', datos[1].value, 0);
+        }
+      }else{
+        $("#d1_frespuesta").html(a.m);
+        $("#b1_guardar").removeClass("hidden");
+      }
+    }
+  });
+})
+
+function l_planillav(v1){
+  $.ajax({
+    type: "post",
+    url: "m_inclusiones/a_tesoreria/li_planillav.php",
+    data: {v1: v1},
+    dataType: "html",
+    beforeSend: function () {
+      $("#f_viaticos").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
+    },
+    success:function(a){
+      $("#f_viaticos").html(a);
+    }
+  });
+}

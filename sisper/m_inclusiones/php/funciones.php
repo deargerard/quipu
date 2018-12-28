@@ -957,4 +957,26 @@ function condicionlabxiec($con, $idec){
 	}
 	mysqli_free_result($c);
 }
+function erviaticos($est){
+	switch ($est) {
+	  case 0:
+	    return "<span class='label label-danger'><i class='fa fa-thumbs-down'></i> Pendiente</span>";
+	    break;
+	  case 1:
+	    return "<span class='label label-primary'><i class='fa fa-hand-peace-o'></i> Enviada</span>";
+	    break;
+	  case 2:
+	    return "<span class='label label-warning'><i class='fa fa-hand-o-left'></i> Observada</span>";
+	    break;
+	  case 3:
+	    return "<span class='label label-info'><i class='fa fa-thumbs-up'></i> Aceptada</span>";
+	    break;
+	  case 4:
+	    return "<span class='label label-success'><i class='fa fa-thumbs-up'></i> Rendida</span>";
+	    break;
+	}
+}
+function n_2decimales($num){
+	return number_format((float)$num, 2, '.', '');
+}
 ?>
