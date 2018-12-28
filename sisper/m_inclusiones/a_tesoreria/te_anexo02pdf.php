@@ -75,56 +75,71 @@ use Spipu\Html2Pdf\Html2Pdf;
           <td class="ce" rowspan="1" style="width: 10%;">FECHA</td>
           <td class="ce" rowspan="1" style="width: 35%;">DETALLE</td>
           <td class="ce" rowspan="1" style="width: 15%;">IMPORTE</td>
-          <td class="ce" rowspan="1" style="width: 38%;">OBSERVACIONES(*)</td>                               
-          
+          <td class="ce" rowspan="1" style="width: 38%;">OBSERVACIONES(*)</td>         
         </tr>        
   <?php 
-          $cc=mysqli_query($cone,"SELECT cv.idteconceptov, cv.idteconceptov, g.idtegasto, g.fechacom, g.glosacom, tc.abreviatura, cv.conceptov, g.numerocom, g.totalcom FROM tegasto g INNER JOIN tetipocom tc ON tc.idtetipocom=g.idtetipocom INNER JOIN teconceptov cv ON g.idteconceptov=cv.idteconceptov WHERE g.idComServicios=$idcs AND tc.idtetipocom=2;"); 
-
-          $c2=mysqli_query($cone,"SELECT idtegasto, idteconceptov FROM tegasto WHERE idComServicios=$idcs;");           
-            if (mysqli_num_rows($c2)!==0) {
-              $e=true;
-              while ($r2=mysqli_fetch_assoc($c2)) {
-                if ($r2['idtetipocom']==2) {
-                  $dj=true;
-                }
-              }
-          mysqli_free_result($c2);
-        }         
-            
+        $c2=mysqli_query($cone,"SELECT idtegasto, idteconceptov, idtetipocom, totalcom, fechacom FROM tegasto WHERE idtetipocom=2 AND idComServicios=$idcs;");           
+        if (mysqli_num_rows($c2)>0) {             
+          while ($r2=mysqli_fetch_assoc($c2)) {
+            $tdj=$tdj+$r2['totalcom'];                
+              switch ($r2['idteconceptov']) {                
+                case 9 :
+                  $tah=$tah+$r2['totalcom'];
+                  $fah=$r2['fechacom'];
+                  break;
+                case 10 :
+                  $tah=$tah+$r2['totalcom'];
+                  $fah=$r2['fechacom'];
+                  break;                   
+                case 11:
+                  $tml=$tml+$r2['totalcom'];
+                  $fml=$r2['fechacom'];
+                  break;
+                case 20:
+                  $tme=$tme+$r2['totalcom'];
+                  $fme=$r2['fechacom'];
+                  break;
+                case 8:
+                  $tpt=$tpt+$r2['totalcom'];
+                  $fpt=$r2['fechacom'];
+                  break;                   
+              }                
+          }
+        mysqli_free_result($c2);
+        }                    
   ?>
           <tr>
             <td class="ce">1</td>
-            <td><?php //echo fnormal($rc['fechacom']); ?></td>
+            <td><?php echo fnormal($fah); ?></td>
             <td>Alojamiento y Alimentación (*)</td>
-            <td class="de"><?php //echo $rc['totalcom']; ?></td>
+            <td class="de"><?php echo $tah==""? "" : n_2decimales($tah);?></td>
             <td rowspan="5" class="de" style="text-align: center;">Estos conceptos solo son aplicables en<br>lugares donde no se emitan comprobantes <br> de pago autorizados por SUNAT.</td>            
           </tr>
           <tr>
             <td class="ce">2</td>
-            <td><?php //echo fnormal($rc['fechacom']); ?></td>
+            <td><?php echo fnormal($fml); ?></td>
             <td>Movilidad local</td>
-            <td class="de"><?php //echo $rc['totalcom']; ?></td>
+            <td class="de"><?php echo $tml=="" ? "" : n_2decimales($tml); ?></td>
                         
           </tr>
           <tr>
             <td class="ce">3</td>
-            <td><?php //echo fnormal($rc['fechacom']); ?></td>
+            <td><?php echo fnormal($fme); ?></td>
             <td>Movilidad de embarque</td>
-            <td class="de"><?php //echo $rc['totalcom']; ?></td>
+            <td class="de"><?php echo $tme=="" ? "" : n_2decimales($tme); ?></td>
                        
           </tr>
           <tr>
             <td class="ce">4</td>
-            <td><?php //echo fnormal($rc['fechacom']); ?></td>
+            <td><?php echo fnormal($fpt); ?></td>
             <td>Pasaje Terrestre (*)</td>
-            <td class="de"><?php //echo $rc['totalcom']; ?></td>
+            <td class="de"><?php echo $tpt=="" ? "" : n_2decimales($tpt); ?></td>
                         
           </tr>
 
           <tr>
             <td colspan="3">TOTAL S/</td>
-            <td class="de" style="mso-number-format:'0.00';"><?php //echo $th;?></td>            
+            <td class="de"><?php echo $tdj=="" ? "" : n_2decimales($tdj);?></td>            
           </tr>          
         </table>
         <table class="st">

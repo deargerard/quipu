@@ -7,7 +7,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
 ?>
 <div class="col-md-12" id="cs">
 <?php
-$q="SELECT cs.estadoren, cs.idComServicios, concat(d.Numero,'-',d.Ano,'-',d.Siglas) AS Resolucion, d.FechaDoc, cs.FechaIni, cs.FechaFin, cs.Estado, SUBSTRING(cs.Descripcion, 1, 100) as Descripcion, di.NombreDis FROM comservicios cs INNER JOIN doc d ON cs.idDoc=d.idDoc INNER JOIN distrito di ON cs.idDistrito=di.idDistrito WHERE cs.idEmpleado=$idper AND cs.Estado=1;";
+$q="SELECT cs.estadoren, cs.idComServicios, concat(d.Numero,'-',d.Ano,'-',d.Siglas) AS Resolucion, d.FechaDoc, cs.FechaIni, cs.FechaFin, cs.Estado, SUBSTRING(cs.Descripcion, 1, 100) as Descripcion, di.NombreDis FROM comservicios cs INNER JOIN doc d ON cs.idDoc=d.idDoc LEFT JOIN distrito di ON cs.idDistrito=di.idDistrito WHERE cs.idEmpleado=$idper AND cs.Estado=1;";
 
 $ccs=mysqli_query($cone,$q);
 
@@ -35,30 +35,30 @@ if (mysqli_num_rows($ccs)>0){
     </thead>
     <tbody>
       <?php
-      $v="";
-      $c="";
+      $vv="";
+      $cv="";
       while($rcs=mysqli_fetch_assoc($ccs)){                     
         //if ($rcs['Estado']==1) {
           switch ($rcs['estadoren']) {
             case 0:
-              $v="danger";
-              $c="<i class='fa fa-thumbs-down'></i> Pendiente";
+              $vv="danger";
+              $cv="<i class='fa fa-thumbs-down'></i> Pendiente";
               break;                
             case 1:
-              $v="primary";
-              $c="<i class='fa fa-hand-peace-o'></i> Enviada";
+              $vv="primary";
+              $cv="<i class='fa fa-hand-peace-o'></i> Enviada";
               break;
             case 2:
-              $v="warning";
-              $c="<i class='fa fa-hand-o-left'></i> Observada";
+              $vv="warning";
+              $cv="<i class='fa fa-hand-o-left'></i> Observada";
               break;
             case 3:
-              $v="info";
-              $c="<i class='fa fa-thumbs-up'></i> Aceptada";
+              $vv="info";
+              $cv="<i class='fa fa-thumbs-up'></i> Aceptada";
               break;  
             case 4:
-              $v="success";
-              $c="<i class='fa fa-thumbs-up'></i> Rendida";
+              $vv="success";
+              $cv="<i class='fa fa-thumbs-up'></i> Rendida";
               break;                                
           } 
          //}elseif ($rcs['Estado']==2){
@@ -73,7 +73,7 @@ if (mysqli_num_rows($ccs)>0){
           <td><?php echo date('d/m/Y H:i', strtotime($rcs['FechaFin']))?></td> <!--columna FIN-->
           <td><?php echo $rcs['Resolucion']?></td> <!--columna NÚMERO DE RESOLUCIÓN-->         
           <td>               
-            <button type="button" class="btn btn-<?php echo $v;?> btn-xs" title="Estado Rendición" onclick="fo_rendir('agrre',<?php echo $rcs['idComServicios']; ?>)"><?php echo $c; ?></button>                                  
+            <button type="button" class="btn btn-<?php echo $vv;?> btn-xs" title="Estado Rendición" onclick="fo_rendir('agrre',<?php echo $rcs['idComServicios']; ?>)"><?php echo $cv; ?></button>                                  
           </td> <!--columna RENDIR-->
         </tr>
       <?php

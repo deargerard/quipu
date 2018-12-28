@@ -56,7 +56,7 @@ use Spipu\Html2Pdf\Html2Pdf;
       </table>
     </page_footer>      
 <?php 
-    $c1=mysqli_query($cone,"SELECT cs.FechaIni, cs.FechaFin, cs.idEmpleado, e.NumeroDoc, d.NombreDis FROM comservicios cs INNER JOIN empleado e ON cs.idEmpleado=e.idEmpleado INNER JOIN distrito d ON cs.idDistrito=d.idDistrito WHERE idComServicios=$idcs;");
+    $c1=mysqli_query($cone,"SELECT cs.FechaIni, cs.FechaFin, cs.idEmpleado, e.NumeroDoc, d.NombreDis FROM comservicios cs INNER JOIN empleado e ON cs.idEmpleado=e.idEmpleado LEFT JOIN distrito d ON cs.idDistrito=d.idDistrito WHERE idComServicios=$idcs;");
       if($r1=mysqli_fetch_assoc($c1)){
  ?>   
       <table class="st">      
@@ -81,11 +81,30 @@ use Spipu\Html2Pdf\Html2Pdf;
                 <td class="ce" style="width: 20%;">Devolución</td>
                 <td class="ce" style="width: 20%;">Saldo</td>
               </tr>
+<?php 
+              $ct=mysqli_query($cone,"SELECT SUM(monto) as tasignado FROM tedetplanillav where idComServicios=$idcs;");
+              $cr=mysqli_query($cone,"SELECT SUM(totalcom) as trendido FROM tegasto where idComServicios=$idcs;");
+              $tav="";
+              $trv="";                         
+              if ($rt=mysqli_fetch_assoc($ct)) {             
+                $tav=$rt['tasignado'];
+              mysqli_free_result($ct);
+              }else{
+                $tav="";
+              }
+
+              if ($rr=mysqli_fetch_assoc($cr)) {             
+                $trv=$rr['trendido'];
+              mysqli_free_result($cr);
+              }else{
+                $trv="";
+              }
+ ?>
               <tr>                        
-                <td>S/</td>
-                <td>S/</td>
-                <td>S/</td>
-                <td>S/</td>
+                <td class="de"><?php echo n_2decimales($tav); ?></td>
+                <td class="de"><?php echo n_2decimales($trv); ?></td>
+                <td class="de"><?php echo n_2decimales($tav-$trv); ?></td>
+                <td></td>
               </tr>       
             </table>
           </td>
@@ -112,7 +131,7 @@ use Spipu\Html2Pdf\Html2Pdf;
           <td class="ce" style="width: 5%;">Otros</td>
         </tr>
   <?php 
-          $cc=mysqli_query($cone,"SELECT cv.idteconceptov, g.idtegasto, g.fechacom, g.glosacom, tc.abreviatura, cv.conceptov, g.numerocom, g.totalcom FROM tegasto g INNER JOIN tetipocom tc ON tc.idtetipocom=g.idtetipocom INNER JOIN teconceptov cv ON g.idteconceptov=cv.idteconceptov WHERE g.idComServicios=$idcs;");
+          $cc=mysqli_query($cone,"SELECT cv.idteconceptov, g.idtegasto, g.fechacom, g.glosacom, tc.abreviatura, cv.conceptov, g.numerocom, g.totalcom FROM tegasto g INNER JOIN tetipocom tc ON tc.idtetipocom=g.idtetipocom INNER JOIN teconceptov cv ON g.idteconceptov=cv.idteconceptov WHERE g.idComServicios=$idcs ORDER BY g.fechacom ASC;");
           if(mysqli_num_rows($cc)>0){
             $n=0;
             $t=0;
@@ -171,24 +190,24 @@ use Spipu\Html2Pdf\Html2Pdf;
           ?>
           <tr>
             <td colspan="4">SUB TOTAL RENDICI&Oacute;N DE GASTOS</td>
-            <td class="de" style="mso-number-format:'0.00';"><?php echo $th;?></td>
-            <td class="de" style="mso-number-format:'0.00';"><?php echo $ta;?></td>
-            <td class="de" style="mso-number-format:'0.00';"><?php echo $tm;?></td>
-            <td class="de" style="mso-number-format:'0.00';"><?php echo $tp;?></td>
-            <td class="de" style="mso-number-format:'0.00';"><?php echo $tc;?></td>
-            <td class="de" style="mso-number-format:'0.00';"><?php echo $tt;?></td>
-            <td class="de" style="mso-number-format:'0.00';"><?php echo $to;?></td>
-            <td class="de" style="mso-number-format:'0.00';"><?php echo $t;?></td>
+            <td class="de"><?php echo n_2decimales($th);?></td>
+            <td class="de"><?php echo n_2decimales($ta);?></td>
+            <td class="de"><?php echo n_2decimales($tm);?></td>
+            <td class="de"><?php echo n_2decimales($tp);?></td>
+            <td class="de"><?php echo n_2decimales($tc);?></td>
+            <td class="de"><?php echo n_2decimales($tt);?></td>
+            <td class="de"><?php echo n_2decimales($to);?></td>
+            <td class="de"><?php echo n_2decimales($t);?></td>
           </tr>
           <tr>
             <td colspan="4">MONTO ASIGNADO</td>
             <td colspan="7"></td>
-            <td class="de" style="mso-number-format:'0.00';"></td>                        
+            <td class="de"></td>                        
           </tr>
           <tr>
             <td colspan="4">SALDO</td>
             <td colspan="7"></td>
-            <td class="de" style="mso-number-format:'0.00';"></td>                        
+            <td class="de"></td>                        
           </tr>
         </table>
         
@@ -232,19 +251,19 @@ use Spipu\Html2Pdf\Html2Pdf;
             <table class="tablep">
               <tr>
                 <td style="width: 50%">Monto Recibido</td>
-                <td style="width: 50%">S/</td>
+                <td style="text-align: right; width: 50%;"><?php echo n_2decimales($tav); ?></td>  
               </tr>
               <tr>
                 <td >Monto Rendido</td>
-                <td >S/</td>
+                <td style="text-align: right; width: 50%;"><?php echo n_2decimales($trv); ?></td>
               </tr>
               <tr>
                 <td >Devoluci&oacute;n</td>
-                <td >S/</td>
+                <td style="text-align: right; width: 50%;"><?php echo n_2decimales($tav-$trv); ?></td>
               </tr>
               <tr>
                 <td >Total</td>
-                <td >S/</td>
+                <td ></td>
               </tr>              
             </table>
           </td>

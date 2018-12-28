@@ -447,7 +447,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 <div class="col-md-12" id="cs">
                   <?php
 
-                    $q="SELECT cs.estadoren, cs.idComServicios, concat(d.Numero,'-',d.Ano,'-',d.Siglas) AS Resolucion, d.FechaDoc, cs.FechaIni, cs.FechaFin, cs.Estado, SUBSTRING(cs.Descripcion, 1, 100) as Descripcion, di.NombreDis FROM comservicios cs INNER JOIN doc d ON cs.idDoc=d.idDoc INNER JOIN distrito di ON cs.idDistrito=di.idDistrito WHERE cs.idEmpleado=$idper AND cs.Estado=1;";
+                    $q="SELECT cs.estadoren, cs.idComServicios, concat(d.Numero,'-',d.Ano,'-',d.Siglas) AS Resolucion, d.FechaDoc, cs.FechaIni, cs.FechaFin, cs.Estado, SUBSTRING(cs.Descripcion, 1, 100) as Descripcion, di.NombreDis FROM comservicios cs INNER JOIN doc d ON cs.idDoc=d.idDoc LEFT JOIN distrito di ON cs.idDistrito=di.idDistrito WHERE cs.idEmpleado=$idper AND cs.Estado=1;";
 
                     $ccs=mysqli_query($cone,$q);
 
@@ -470,7 +470,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                   						<th>INICIA</th>
                   		        <th>TERMINA</th>
                   						<th>NÚMERO DE RESOLUCIÓN</th>
-                  		        <!--<th>RENDICIÓN</th>-->
+                  		        <th>RENDICIÓN</th>
                   					</tr>
                   				</thead>
                           <tbody>
@@ -512,9 +512,9 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                       					<td><?php echo date('d/m/Y H:i', strtotime($rcs['FechaIni']))?></td> <!--columna INICIO-->
                       					<td><?php echo date('d/m/Y H:i', strtotime($rcs['FechaFin']))?></td> <!--columna FIN-->
                       					<td><?php echo $rcs['Resolucion']?></td> <!--columna NÚMERO DE RESOLUCIÓN-->
-                      					<!--<td>               
-                                  <button type="button" class="btn btn-<?php //echo $vv;?> btn-xs" title="Estado Rendición" onclick="fo_rendir('agrre',<?php //echo $rcs['idComServicios']; ?>)"><?php //echo $cv; ?></button>                                  
-                                </td> columna RENDIR-->
+                      					<td>               
+                                  <button type="button" class="btn btn-<?php echo $vv;?> btn-xs" title="Estado Rendición" onclick="fo_rendir('agrre',<?php echo $rcs['idComServicios']; ?>)"><?php echo $cv; ?></button>                                  
+                                </td> <!--columna RENDIR-->
                               </tr>
                     				<?php
                     				}

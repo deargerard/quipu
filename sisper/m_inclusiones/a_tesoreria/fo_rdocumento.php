@@ -7,11 +7,11 @@ if(accesoadm($cone,$_SESSION['identi'],9)){
 	if(isset($_POST['acc']) && !empty($_POST['acc']) && isset($_POST['idcs']) && !empty($_POST['idcs'])){
 		$acc=iseguro($cone,$_POST['acc']);
 		$idcs=iseguro($cone,$_POST['idcs']);
-		$cc=mysqli_query($cone,"SELECT cs.estadoren, cs.fechaini, cs.fechafin, cs.aneplanilla, d.NombreDis FROM comservicios cs INNER JOIN distrito d ON cs.idDistrito=d.idDistrito WHERE cs.idComServicios=$idcs;");
+		$cc=mysqli_query($cone,"SELECT cs.estadoren, cs.FechaIni, cs.FechaFin, cs.aneplanilla, cs.observacion, d.idDistrito FROM comservicios cs INNER JOIN distrito d ON cs.idDistrito=d.idDistrito WHERE cs.idComServicios=$idcs;");
 		if ($rc=mysqli_fetch_assoc($cc)) {              
-            $fi=fnormal($rc['fechaini']);   
-            $ff=fnormal($rc['fechafin']);
-            $di=$rc['NombreDis'];
+            //$fi=fnormal($rc['Fechaini']);   
+            //$ff=fnormal($rc['Fechafin']);
+            //$di=$rc['NombreDis'];
             $er=$rc['estadoren'];
             $ap=$rc['aneplanilla'];           
             mysqli_free_result($cc);   
@@ -28,41 +28,44 @@ if(accesoadm($cone,$_SESSION['identi'],9)){
 	        mysqli_free_result($c2);
     		}    		
 ?>
-	      	<div class="row">
-	        <div class="col-sm-7">
-				<h6 class="text-maroon text-center"><i class="fa fa fa-automobile text-gray"></i> Comisión de servicios a <?php echo $di." del ". $fi." al ".$ff ?></h6>
-	         </div>	        
-	        <div class="col-sm-5 text-right">	        		        	
-	        	<?php
-	        	if($er==0 || $er==2){ 
-	        	?>
-	          		<button type="button" class="btn bg-teal" title="Agregar Comprobante" onclick="fo_drendicion('agrdr',<?php echo $idcs ?>,0)"><i class="fa fa-plus"></i> Agregar comprobante</button>
-	          		<?php if ($e){ ?>
-	          			<button type="button" class="btn bg-primary" title="Enviar Rendición" onclick="fo_drendicion('envre',<?php echo $idcs ?>,0)"><i class="fa fa-send"></i> Enviar Rendición</button>
-	          		<?php } ?>
-	          		
-	          	<?php
-	          	}elseif(($er==3 || $er==4) && $e){
-	          		if ($ap==1) {          		
-	          	?>
-	          		<a href="m_inclusiones/a_tesoreria/te_anexo04pdf.php?idcs=<?php echo $idcs;?>" type="button" class="btn btn-warning" title="Anexo 01 Planilla" target="_blank">A01</a> <?php } ?>     		
-	        	<?php
-	        		if ($dj) {
-	        	?>
-						<a href="m_inclusiones/a_tesoreria/te_anexo02pdf.php?idcs=<?php echo $idcs;?>" type="button" class="btn btn-warning" title="Declaración Jurada" target="_blank">DJ</a>
-	        	<?php 
-	        		} 
-	        	?>
-	        		<a href="m_inclusiones/a_tesoreria/te_anexo04pdf.php?idcs=<?php echo $idcs;?>" type="button" class="btn btn-warning" title="Anexo 04" target="_blank">A04</a>
-	        		<?php if ($ap==7) {       			
-	        		 ?>
-	        		<a href="m_inclusiones/a_tesoreria/te_anexo04pdf.php?idcs=<?php echo $idcs;?>" type="button" class="btn btn-warning" title="Anexo 07 Planilla" target="_blank">A07</a>
-	          	<?php
-	          		}
-	          	}
-	          	?>
-	        </div>        
-	      	</div>
+			<table class="table table-bordered table-hover">
+			  <tr>
+			    <td><i class="fa fa-map-marker text-orange"></i> <?php echo disprodep($cone, $rc['idDistrito']); ?></td>
+			    <td><?php echo fnormal($rc['FechaIni']); ?></td>
+			    <td><?php echo fnormal($rc['FechaFin']); ?></td>
+
+			    <td align="right">
+					<?php
+		        	if($er==0 || $er==2){ 
+		        	?>
+		          		<button type="button" class="btn bg-teal" title="Agregar Comprobante" onclick="fo_drendicion('agrdr',<?php echo $idcs ?>,0)"><i class="fa fa-plus"></i> Agregar comprobante</button>
+		          		<?php if ($e){ ?>
+		          			<button type="button" class="btn bg-primary" title="Enviar Rendición" onclick="fo_drendicion('envre',<?php echo $idcs ?>,0)"><i class="fa fa-send"></i> Enviar Rendición</button>
+		          		<?php } ?>
+		          		
+		          	<?php
+		          	}elseif(($er==3 || $er==4) && $e){
+		          		if ($ap==1) {          		
+		          	?>
+		          		<a href="m_inclusiones/a_tesoreria/pdf_anexo01.php?idcs=<?php echo $idcs;?>" type="button" class="btn btn-warning" title="Anexo 01 Planilla" target="_blank">A01</a> <?php } ?>				  	
+		        	<?php
+		        		if ($dj) {
+		        	?>
+							<a href="m_inclusiones/a_tesoreria/te_anexo02pdf.php?idcs=<?php echo $idcs;?>" type="button" class="btn btn-warning" title="Declaración Jurada" target="_blank">DJ</a>
+		        	<?php 
+		        		} 
+		        	?>
+		        		<a href="m_inclusiones/a_tesoreria/te_anexo04pdf.php?idcs=<?php echo $idcs;?>" type="button" class="btn btn-warning" title="Anexo 04" target="_blank">A04</a>
+		        		<?php if ($ap==7) {       			
+		        		 ?>
+		        		<a href="m_inclusiones/a_tesoreria/pdf_anexo07.php?idcs=<?php echo $idcs;?>" type="button" class="btn btn-warning" title="Anexo 07 Planilla" target="_blank">A07</a>
+		          	<?php
+		          		}
+		          	}
+		          	?>			      
+			    </td>
+			  </tr>			  
+			</table>
 <?php 
 		    $c2=mysqli_query($cone,"SELECT idtegasto FROM tegasto WHERE idComServicios=$idcs;");
 		    if (mysqli_num_rows($c2)>0) {
@@ -104,8 +107,21 @@ if(accesoadm($cone,$_SESSION['identi'],9)){
          			}
 ?>
         		</tbody>
-      		</table>    
-<?php  
+      		</table>      		    
+<?php
+		if ($er==2) {
+?>
+		<table class="table table-bordered table-hover">		  
+		  <tr>
+		    <td><i class="fa fa-warning text-orange"></i> OBSERVACIÓN:</td>
+		  </tr>
+		  <tr>
+		  	<td><?php echo $rc['observacion']; ?></td>
+		  </tr> 
+		  
+		</table>
+<?php
+		  }  
     		mysqli_free_result($c2);
     		}else{
       			echo mensajewa("No se han registrado comprobantes de gasto.");
@@ -372,10 +388,13 @@ $(".select2doc").select2()
 var tip=$(this).val();
 if (tip==2) {
   $(".ocu").addClass("hidden");
-  $("#num").val("sd");  
+  $("#num").val("sd");
+  $("#ser").val("sd");  
   $("#pro").select2("val", "sd");  
 }else{
-  $(".ocu").removeClass("hidden");   
+  $(".ocu").removeClass("hidden");
+  $("#num").val("");
+  $("#ser").val("");   
 }
 });
 
