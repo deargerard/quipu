@@ -5,7 +5,7 @@ include("../php/funciones.php");
 if(accesoadm($cone,$_SESSION['identi'],15)){
   if (isset($_POST['idcs']) && !empty($_POST['idcs'])) {
     $idcs=iseguro($cone,$_POST['idcs']);
-    $ccs=mysqli_query($cone, "SELECT e.idEmpleado, ec.idEmpleadoCargo, cd.idDependencia, cs.FechaIni, cs.FechaFin, cs.Descripcion, concat(d.Numero,'-',d.Ano,'-',d.Siglas) AS Resolucion, cs.Estado, cs.Vehiculo, di.NombreDis, p.NombrePro, de.NombreDep FROM comservicios cs INNER JOIN empleado e ON e.idEmpleado=cs.idEmpleado INNER JOIN empleadocargo ec ON e.idEmpleado=ec.idEmpleadoCargo  INNER JOIN cardependencia cd ON ec.idEmpleadoCargo=cd.idEmpleadoCargo INNER JOIN doc d ON cs.idDoc=d.idDoc LEFT JOIN distrito di ON cs.iddistrito=di.iddistrito LEFT JOIN provincia p ON di.idprovincia=p.idprovincia LEFT JOIN departamento de ON de.iddepartamento=p.iddepartamento WHERE cs.idComServicios=$idcs;");
+    $ccs=mysqli_query($cone, "SELECT e.idEmpleado, ec.idEmpleadoCargo, cd.idDependencia, cs.FechaIni, cs.FechaFin, cs.Descripcion, concat(d.Numero,'-',d.Ano,'-',d.Siglas) AS Resolucion, cs.Estado, cs.Vehiculo, di.NombreDis, p.NombrePro, de.NombreDep FROM comservicios cs INNER JOIN empleado e ON e.idEmpleado=cs.idEmpleado INNER JOIN empleadocargo ec ON e.idEmpleado=ec.idEmpleadoCargo  INNER JOIN cardependencia cd ON ec.idEmpleadoCargo=cd.idEmpleadoCargo INNER JOIN doc d ON cs.idDoc=d.idDoc LEFT JOIN distrito di ON cs.idDistrito=di.idDistrito LEFT JOIN provincia p ON di.idProvincia=p.idProvincia LEFT JOIN departamento de ON de.idDepartamento=p.idDepartamento WHERE cs.idComServicios=$idcs;");
 
     if($rcs=mysqli_fetch_assoc($ccs)){
     $dt=intervalo ($rcs['FechaFin'], $rcs['FechaIni']);
