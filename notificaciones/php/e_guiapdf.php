@@ -121,7 +121,7 @@ if(isset($_GET['guia']) && !empty($_GET['guia'])){
 ?>
 		<tr>
 			<td align="center"><?php echo $n; ?></td>
-			<td align="center"><?php echo $guia; ?></td>
+			<td align="center"><?php echo $rg['Numero']; ?></td>
 			<td align="center"><?php echo wordwrap(html_entity_decode($rdg1['Tipo']),16,"<br/>\n",true); ?></td>
 			<td align="center"><?php echo wordwrap(html_entity_decode($rdg1['Numero']),16,"<br/>\n",true); ?></td>
 			<td><?php echo wordwrap(html_entity_decode($rdg1['Origen']),36,"<br/>\n",true); ?></td>
