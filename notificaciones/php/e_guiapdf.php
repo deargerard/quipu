@@ -22,7 +22,7 @@ if(isset($_GET['guia']) && !empty($_GET['guia'])){
 
 -->
 </style>
-<page backtop="18mm" backbottom="5mm" backleft="2mm" backright="2mm" style="font-size: 9px;"> 
+<page backtop="18mm" backbottom="5mm" backleft="2mm" backright="2mm" style="font-size: 9px;">
     <page_header> 
         <table class="page_header">
             <tr>
@@ -55,7 +55,7 @@ if(isset($_GET['guia']) && !empty($_GET['guia'])){
     <table class="st">
     	<tr>
     		<td style="width: 50%; text-align: left;">DESTINO: <?php echo $rg['Destino']; ?></td>
-    		<td style="width: 50%; text-align: right;">GUÍA: <?php echo $guia."-".date("Y",strtotime($rg['Fecha'])); ?></td>
+    		<td style="width: 50%; text-align: right;">GUÍA: <?php echo $rg['Numero']."-".date("Y",strtotime($rg['Fecha'])); ?></td>
     	</tr>
     </table>
 	<table class="tablep">
