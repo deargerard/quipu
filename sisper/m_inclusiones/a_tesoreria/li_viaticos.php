@@ -20,7 +20,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
                     </tr>
                   </table>
 <?php
-                  $c1=mysqli_query($cone,"SELECT cs.idComServicios, cs.FechaIni, cs.FechaFin, cs.estadoren, cs.idDistrito, e.ApellidoPat, e.ApellidoMat, e.nombres FROM comservicios cs INNER JOIN empleado e ON cs.idEmpleado=e.idEmpleado WHERE DATE_FORMAT(FechaIni, '%Y-%m')='$anio-$mes' ORDER BY FechaIni DESC;");
+                  $c1=mysqli_query($cone,"SELECT cs.idComServicios, cs.FechaIni, cs.FechaFin, cs.estadoren, cs.origen, cs.destino, e.ApellidoPat, e.ApellidoMat, e.nombres, d.Numero, d.Ano, d.Siglas FROM comservicios cs INNER JOIN empleado e ON cs.idEmpleado=e.idEmpleado INNER JOIN doc d ON cs.idDoc=d.idDoc WHERE DATE_FORMAT(FechaIni, '%Y-%m')='$anio-$mes' ORDER BY FechaIni DESC;");
                   if(mysqli_num_rows($c1)>0){
                   ?>
                   <table class="table table-hover table-bordered" id="dtable">
@@ -28,9 +28,10 @@ if(accesocon($cone,$_SESSION['identi'],16)){
                       <tr>
                         <th>#</th>
                         <th>NOMBRE</th>
-                        <th>DESDE</th>
-                        <th>HASTA</th>
-                        <th>LUGAR</th>
+                        <th>FECHAS</th>
+                        <th>DOCUMENTO</th>
+                        <th>ORIGEN</th>
+                        <th>DESTINO</th>
                         <th>ESTADO RENDICIÓN</th>
                         <th>ACCIÓN</th>
                       </tr>
@@ -44,15 +45,15 @@ if(accesocon($cone,$_SESSION['identi'],16)){
                       <tr>
                         <td><?php echo $c; ?></td>
                         <td><?php echo $r1['ApellidoPat']." ".$r1['ApellidoMat']." ".$r1['nombres']; ?></td>
-                        <td><?php echo ftnormal($r1['FechaIni']); ?></td>
-                        <td><?php echo ftnormal($r1['FechaFin']); ?></td>
-                        <td><?php echo disprodep($cone, $r1['idDistrito']); ?></td>
+                        <td><?php echo fnormal($r1['FechaIni'])."<br>".fnormal($r1['FechaFin']); ?></td>
+                        <td><?php echo $r1['Numero']."-".$r1['Ano']."<br>".$r1['Siglas']; ?></td>
+                        <td><?php echo $r1['origen']; ?></td>
+                        <td><?php echo $r1['destino']; ?></td>
                         <td><?php echo erviaticos($r1['estadoren']); ?></td>
                         <td>
                           <div class="btn-group btn-group-xs" role="group" aria-label="Basic">
                             <button type="button" class="btn btn-default" title="Planilla" onclick="fo_viaticos('verpla',<?php echo $r1['idComServicios']; ?>,0);"><i class="fa fa-file-text"></i></button>
-                            <button type="button" class="btn btn-default" title="Rendición" onclick="fo_viaticos('vercom',<?php echo $r1['idComServicios']; ?>,0);"><i class="fa fa-file-text-o"></i></button>
-                            <button type="button" class="btn btn-default" title="Info" onclick="fo_viaticos('verinf',<?php echo $r1['idComServicios']; ?>,0);"><i class="fa fa-info-circle"></i></button>
+                            <button type="button" class="btn btn-default" title="Comprobantes Rendición" onclick="fo_viaticos('vercom',<?php echo $r1['idComServicios']; ?>,0);"><i class="fa fa-file-text-o"></i></button>
                           </div>
                         </td>
                       </tr>

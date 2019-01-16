@@ -5,7 +5,7 @@ include("../php/funciones.php");
 if(accesoadm($cone,$_SESSION['identi'],15)){
   if (isset($_POST['idcs']) && !empty($_POST['idcs'])) {
     $idcs=iseguro($cone,$_POST['idcs']);
-    $ccs=mysqli_query($cone, "SELECT e.idEmpleado, cs.FechaIni, cs.FechaFin, cs.Descripcion, concat(d.Numero,'-',d.Ano,'-',d.Siglas) AS Resolucion, cs.Estado, cs.Vehiculo, di.NombreDis, p.NombrePro, de.NombreDep FROM comservicios cs INNER JOIN empleado e ON e.idEmpleado=cs.idEmpleado INNER JOIN doc d ON cs.idDoc=d.idDoc LEFT JOIN distrito di ON cs.idDistrito=di.idDistrito LEFT JOIN provincia p ON di.idProvincia=p.idProvincia LEFT JOIN departamento de ON de.idDepartamento=p.idDepartamento WHERE cs.idComServicios=$idcs;");
+    $ccs=mysqli_query($cone, "SELECT e.idEmpleado, cs.FechaIni, cs.FechaFin, cs.Descripcion, cs.origen, cs.destino, concat(d.Numero,'-',d.Ano,'-',d.Siglas) AS Resolucion, cs.Estado, cs.Vehiculo FROM comservicios cs INNER JOIN empleado e ON e.idEmpleado=cs.idEmpleado INNER JOIN doc d ON cs.idDoc=d.idDoc WHERE cs.idComServicios=$idcs;");
 
     if($rcs=mysqli_fetch_assoc($ccs)){
     $dt=intervalo ($rcs['FechaFin'], $rcs['FechaIni']);
@@ -67,15 +67,12 @@ if(accesoadm($cone,$_SESSION['identi'],15)){
                 <td colspan="2"><?php echo $veh?></th>
               </tr>
               <tr>
-                <th><span class="text-<?php echo $color;?>">Departamento</span></th>
-                <th><span class="text-<?php echo $color;?>">Provincia </span></th>                
-                <th colspan="2"><span class="text-<?php echo $color;?>">Distrito </span></th>
+                <th><span class="text-<?php echo $color;?>">Origen</span></th>
+                <th colspan="3"><span class="text-<?php echo $color;?>">Destino</span></th>
               </tr>
               <tr>
-                <td><?php echo $rcs['NombreDep']; ?></th>
-                <td><?php echo $rcs['NombrePro']; ?></th>
-                <!-- <td><?php //echo $dt?></th> -->
-                <td colspan="2"><?php echo $rcs['NombreDis']; ?></th>
+                <td><?php echo $rcs['origen']; ?></th>
+                <td colspan="3"><?php echo $rcs['destino']; ?></th>
               </tr>
 
               <tr>

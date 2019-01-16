@@ -102,6 +102,51 @@ if(accesoadm($cone,$_SESSION['identi'],16)){
 			}else{
 				$r['m']=mensajewa("Faltan datos");
 			}
+		}elseif($acc=="estren"){
+			if(isset($_POST['idcs']) && !empty($_POST['idcs']) && isset($_POST['est']) && !empty($_POST['est'])){
+				$idcs=iseguro($cone, $_POST['idcs']);
+				$est=iseguro($cone, $_POST['est']);
+				$obs=vacio(iseguro($cone, $_POST['obs']));
+				if(mysqli_query($cone, "UPDATE comservicios SET estadoren=$est, observacion=$obs WHERE idComServicios=$idcs;")){
+					$r['m']=mensajesu("Listo, se cambió el estado");
+					$r['e']=true;
+					if($est==4){
+						$cco=mysqli_query($cone, "SELECT docrendicion FROM comservicios WHERE idComServicios=$idcs;");
+						if($rco=mysqli_fetch_assoc($cco)){
+							$dr=$rco['docrendicion'];
+							if(mysqli_query($cone, "UPDATE comservicios SET docrendicion=NULL WHERE idComServicios=$idcs;")){
+								if(file_exists("comp_escan/$dr")){
+									if(unlink("comp_escan/$dr")){
+										$r['m'].=mensajesu("Comprobantes eliminados del servidor");
+									}else{
+										$r['m'].=mensajewa("Error al eliminar comprobantes del servidor");
+									}
+								}
+							}else{
+								$r['m'].=mensajewa("Error al eliminar comprobantes de la BD");
+							}
+						}
+						mysqli_free_result($cco);
+					}
+				}else{
+					$r['m']=mensajewa("Error, vuelva a intentarlo");
+				}
+			}else{
+				$r['m']=mensajewa("Los campos marcados con <b class='text-red'>*</b> son obligatorios.");
+			}
+		}elseif($acc=="numsiv"){
+			if(isset($_POST['idcs']) && !empty($_POST['idcs']) && isset($_POST['siv']) && !empty($_POST['siv'])){
+				$idcs=iseguro($cone, $_POST['idcs']);
+				$siv=iseguro($cone, $_POST['siv']);
+				if(mysqli_query($cone, "UPDATE comservicios SET csivia='$siv' WHERE idComServicios=$idcs;")){
+					$r['e']=true;
+					$r['m']=mensajesu("# SIVIA registrado correctamente");
+				}else{
+					$r['m']=mensajewa("Error al registrar # SIVIA, vuelva a intentarlo");
+				}
+			}else{
+				$r['m']=mensajewa("Los campos marcados con <b class='text-red'>*</b> son obligatorios.");
+			}
 		}//acafin
 	}else{
 		$r['m']=mensajewa("Faltan datos");

@@ -47,7 +47,6 @@ use Spipu\Html2Pdf\Html2Pdf;
       <table class="page_footer">
         <tr>
           <td style="width: 70%; text-align: left">
-            (076)-365577 Anexo 1085 | Anexo IP 2410 | Jr. Sor Manuela Gil S/N Urb. La Alameda | Cajamarca-Perú
           </td>
           <td style="width: 30%; text-align: right">
               Página [[page_cu]]/[[page_nb]]
@@ -56,14 +55,14 @@ use Spipu\Html2Pdf\Html2Pdf;
       </table>
     </page_footer>      
 <?php 
-    $c1=mysqli_query($cone,"SELECT cs.FechaIni, cs.FechaFin, cs.idEmpleado, e.NumeroDoc, d.NombreDis FROM comservicios cs INNER JOIN empleado e ON cs.idEmpleado=e.idEmpleado INNER JOIN distrito d ON cs.idDistrito=d.idDistrito WHERE idComServicios=$idcs;");
+    $c1=mysqli_query($cone,"SELECT cs.FechaIni, cs.FechaFin, cs.idEmpleado, cs.destino, e.NumeroDoc FROM comservicios cs INNER JOIN empleado e ON cs.idEmpleado=e.idEmpleado WHERE idComServicios=$idcs;");
       if($r1=mysqli_fetch_assoc($c1)){
  ?>   
       <table class="st">      
         <tr>
         <td style="width: 5%;"></td>                    
           <td style="width: 90%; text-align: center;">
-            <span style="font-size: 12px;">Yo <?php echo nomempleado($cone, $r1['idEmpleado']); ?> identificado con DNI N° <?php echo $r1['NumeroDoc']; ?> en el cargo de <?php echo cargoe($cone, $r1['idEmpleado']); ?>  del Ministerio Público, DECLARO BAJO JURAMENTO, haber efectuado la comisión de servicios, llevada a cabo a la ciudad de <?php echo $r1['NombreDis']; ?> del <?php echo fnormal($r1['FechaIni']); ?> al <?php echo fnormal($r1['FechaFin']); ?> en cumplimiento del numeral 71.3 del articulo 71° de la Directiva N° 001-2017-EF/77.15 modificada por Resolución directoral N° 017-2017-EF/77.15, por los siguientes conceptos:</span> 
+            <span style="font-size: 12px;">Yo <b><?php echo nomempleado($cone, $r1['idEmpleado']); ?></b> identificado con DNI N° <?php echo $r1['NumeroDoc']; ?> en el cargo de <?php echo cargoe($cone, $r1['idEmpleado']); ?>  del Ministerio Público, DECLARO BAJO JURAMENTO, haber efectuado la comisión de servicios, llevada a cabo a la ciudad de <b><?php echo $r1['destino']; ?></b> del <?php echo fnormal($r1['FechaIni']); ?> al <?php echo fnormal($r1['FechaFin']); ?> en cumplimiento del numeral 71.3 del articulo 71° de la Directiva N° 001-2017-EF/77.15 modificada por Resolución directoral N° 017-2017-EF/77.15, por los siguientes conceptos:</span> 
           </td>
           <td style="width: 5%;"></td>
         </tr>
@@ -158,21 +157,19 @@ use Spipu\Html2Pdf\Html2Pdf;
         <table class="st">
         <tr> 
           <td style="width: 50%">
-            
             <span>Ciudad de Cajamarca <?php echo date('d')." de ".nombremes(date('m'))." de ".date('Y')."."; ?></span>
           </td>
-          
           <td style="width: 50%">
             <table class="re">             
-              <tr class="ce">
-                <td style="width: 15%;"></td>
-                <td colspan="2" style="width: 85%;">________________________</td>                                  
+              <tr>
+                <td colspan="2">_________________________________________</td>                                  
               </tr>
-              <tr style="text-align: center;">
-                <td>                  
-                </td>
-                <td>Firma del Comisionado  </td>                
-              </tr>                           
+              <tr>
+                <td colspan="2">Firma del Comisionado  </td>                
+              </tr>
+              <tr>
+                <td colspan="2">&nbsp;</td>
+              </tr>                        
               <tr>
                 <td style="width: 15%;">Nombre:</td>
                 <td style="width: 85%;"><?php echo nomempleado($cone, $r1['idEmpleado']);?></td>               

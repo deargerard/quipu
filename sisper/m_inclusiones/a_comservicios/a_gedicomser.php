@@ -5,16 +5,17 @@ include ("../php/funciones.php");
 if(accesoadm($cone,$_SESSION['identi'],15)){
 	$r=array();
 	if(isset($_POST["NomForm"]) && $_POST["NomForm"]=="f_ecomservicios"){
-		if(isset($_POST['idcs']) && !empty($_POST['idcs']) && isset($_POST['inicom']) && !empty($_POST['inicom']) && isset($_POST['fincom']) && !empty($_POST['fincom']) && isset($_POST['desc']) && !empty($_POST['desc']) && isset($_POST['doc']) && !empty($_POST['doc']) && isset($_POST['disnac']) && !empty($_POST['disnac'])){
-			$inicom=ftmysql(iseguro($cone,$_POST['inicom']));
-			$fincom=ftmysql(iseguro($cone,$_POST['fincom']));
+		if(isset($_POST['idcs']) && !empty($_POST['idcs']) && isset($_POST['inicome']) && !empty($_POST['inicome']) && isset($_POST['fincome']) && !empty($_POST['fincome']) && isset($_POST['desc']) && !empty($_POST['desc']) && isset($_POST['doc']) && !empty($_POST['doc']) && isset($_POST['ori']) && !empty($_POST['ori']) && isset($_POST['des']) && !empty($_POST['des'])){
+			$inicom=ftmysql(iseguro($cone,$_POST['inicome']));
+			$fincom=ftmysql(iseguro($cone,$_POST['fincome']));
 			$desc=iseguro($cone,$_POST['desc']);
 			$veh=iseguro($cone,$_POST['veh'])== 1 ? 1 : 2;
 			$doc=iseguro($cone,$_POST['doc']);
 			$idcs=iseguro($cone,$_POST['idcs']);
-			$disnac=iseguro($cone,$_POST['disnac']);
+			$ori=imseguro($cone,$_POST['ori']);
+			$des=imseguro($cone,$_POST['des']);
 
-			$sql="UPDATE comservicios SET FechaIni='$inicom', FechaFin='$fincom', Descripcion='$desc', Vehiculo=$veh, idDoc=$doc, idDistrito=$disnac WHERE idComServicios=$idcs";
+			$sql="UPDATE comservicios SET FechaIni='$inicom', FechaFin='$fincom', Descripcion='$desc', Vehiculo=$veh, idDoc=$doc, origen='$ori', destino='$des' WHERE idComServicios=$idcs";
 
 				if(mysqli_query($cone,$sql)){
 					$r["msg"]= mensajesu("Listo: se actualizó correctamente la comisión de servicios");

@@ -63,7 +63,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
             <tr>
               <td><?php echo $n; ?></td>
               <td><?php echo $rc['Denominacion']; ?></td>
-              <td><?php echo $rc['numerocom']; ?></td>
+              <td><?php echo '&nbsp;'.$rc['numerocom']; ?></td>
               <td><?php echo $rc['codservicio']; ?></td>
               <td><?php echo $rc['razsocial']; ?></td>
               <td><?php echo $rc['CondicionLocal']; ?></td>

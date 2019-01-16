@@ -87,7 +87,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
               <td><?php echo $n; ?></td>
               <td><?php echo fnormal($rc['fechacom']); ?></td>
               <td><?php echo $rc['tipo']; ?></td>
-              <td><?php echo $rc['numerocom']; ?></td>
+              <td><?php echo '&nbsp;'.$rc['numerocom']; ?></td>
               <td><?php echo $rc['razsocial']; ?></td>
               <td><?php echo $rc['ruc']; ?></td>
               <td><?php echo $rc['glosacom']; ?></td>
@@ -155,8 +155,170 @@ if(accesocon($cone,$_SESSION['identi'],16)){
 				echo "Datos incorrectos";
 			}
 			mysqli_free_result($cr);
-		}else{
-			echo "Víaticos";
+		}elseif($ti==2){
+
+
+
+
+
+
+        $cr=mysqli_query($cone, "SELECT r.codigo, r.mes, r.anio, m.nombre AS meta, f.nombre AS fondo, m.mnemonico FROM terendicion r INNER JOIN temeta m ON r.idtemeta=m.idtemeta INNER JOIN tefondo f ON m.idtefondo=f.idtefondo WHERE r.idterendicion=$ren;");
+        if($rr=mysqli_fetch_assoc($cr)){
+
+          header("Content-Type: application/vnd.ms-excel; charset=utf-8");
+          header("Content-Disposition: attachment; filename=Anexo16_$fecha.xls");
+          header("Pragma: no-cache");
+          header("Expires: 0");
+
+          
+?>
+    <style type="text/css">
+.tabla {
+    border-collapse: collapse;
+}
+
+.tabla>th>td {
+    border: 1px solid black;
+}
+    </style>
+          <table cellpadding="0" cellspacing="0" style="font-size:12px; width: 100%; padding: 0;">
+            <tr>
+              <th colspan="2"></th>
+              <th colspan="4">ANEXO N&deg; 16</th>
+              <th colspan="2"></th>
+            </tr>
+            <tr>
+              <th colspan="2"></th>
+              <th colspan="4">RENDICI&Oacute;N N&deg; <?php echo $rr['codigo']."-".$rr['anio']."-".$rr['fondo']."-".$rr['meta']; ?> <br>DISTRITO FISCAL DE CAJAMARCA</th>
+              <th colspan="2" align="center"></th>
+            </tr>
+          </table>
+          <table border="1" cellpadding="0" cellspacing="0" bordercolor="#999999" style="font-size:10px; width: 100%; padding: 0;" class="tabla">
+            <tr style="background-color: #CCCCCC;" style="font-size: 10px; vertical-align: middle; text-align: center;">
+              <td rowspan="2">N&deg;</td>
+              <td colspan="3">DOCUMENTO</td>
+              <td rowspan="2">ESPECIFICA DE GASTO</td>
+              <td colspan="2"><?php echo substr($rr['fondo'], 0, 4)."/".substr($rr['meta'], 0, 4); ?></td>
+              <td rowspan="2">TOTAL</td>
+            </tr>
+            <tr style="background-color: #CCCCCC;" style="font-size: 10px; vertical-align: middle; text-align: center;">
+              <td>FECHA</td>
+              <td>CLASE</td>
+              <td>N&deg;</td>
+              <td>NM</td>
+              <td>S/</td>
+            </tr>
+<?php
+          $cct=mysqli_query($cone, "SELECT SUM(g.totalcom) tot, cs.idEmpleado, cs.csivia, cs.idComServicios FROM comservicios cs INNER JOIN tegasto g ON cs.idComServicios=g.idComServicios WHERE cs.idterendicion=$ren GROUP BY g.idComServicios ORDER BY cs.csivia ASC;");
+          if(mysqli_num_rows($cct)>0){
+            $n=0;
+            $st=0;
+            $se=array();
+            while($rct=mysqli_fetch_assoc($cct)){
+              $st=$st+$rct['tot'];
+              $n++;
+              $idcs=$rct['idComServicios'];
+?>
+            <tr style="background-color: #DDDDDD; font-size: 12px; vertical-align: middle;">
+              <td colspan="7"><b><?php echo $n.".- ".nomempleado($cone, $rct['idEmpleado'])." - ".$rct['csivia']; ?></b></td>
+              <td style="mso-number-format:'0.00';"><b><?php echo n_2decimales($rct['tot']); ?></b></td>
+            </tr>
+<?php
+              $cte=mysqli_query($cone, "SELECT SUM(g.totalcom) totesp, e.nombre, e.codigo, g.idteespecifica FROM teespecifica e INNER JOIN tegasto g ON e.idteespecifica=g.idteespecifica WHERE g.idComServicios=$idcs GROUP BY g.idteespecifica ORDER BY e.codigo ASC;");
+              if(mysqli_num_rows($cte)>0){
+                while($rte=mysqli_fetch_assoc($cte)){
+                  $ide=$rte['idteespecifica'];
+                  $se[$ide]=$se[$ide]+$rte['totesp'];
+?>
+            <tr style="background-color: #EEEEEE; font-size: 10px;">
+              <td colspan="4"></td>
+              <td><b><?php echo $rte['codigo']." ".$rte['nombre']; ?></b></td>
+              <td></td>
+              <td style="mso-number-format:'0.00';"><b><?php echo $rte['totesp']; ?></b></td>
+              <td></td>
+            </tr>
+<?php
+                  $cga=mysqli_query($cone, "SELECT g.fechacom, tc.tipo, g.numerocom, g.glosacom, g.totalcom FROM tegasto g INNER JOIN tetipocom tc ON g.idtetipocom=tc.idtetipocom WHERE g.idComServicios=$idcs AND g.idteespecifica=$ide ORDER BY g.fechacom ASC;");
+                  if(mysqli_num_rows($cga)>0){
+                    while($rga=mysqli_fetch_assoc($cga)){
+?>
+            <tr style="font-size: 10px;">
+              <td></td>
+              <td><?php echo fnormal($rga['fechacom']); ?></td>
+              <td><?php echo $rga['tipo']; ?></td>
+              <td><?php echo is_null($rga['numerocom']) ? "&nbsp;S/N" : "&nbsp;".$rga['numerocom']; ?></td>
+              <td><?php echo $rga['glosacom']; ?></td>
+              <td><?php echo $rr['mnemonico']; ?></td>
+              <td style="mso-number-format:'0.00';"><?php echo $rga['totalcom']; ?></td>
+              <td style="mso-number-format:'0.00';"><?php echo $rga['totalcom']; ?></td>
+            </tr>
+<?php
+                    }
+                  }
+                  mysqli_free_result($cga);
+                }
+              }
+              mysqli_free_result($cte);
+            }
+?>
+            <tr style="font-size: 12px;">
+              <td colspan="7" style="text-align: center;"><b>TOTAL</b></td>
+              <td style="mso-number-format:'0.00';"><b><?php echo $st; ?></b></td>
+            </tr>
+<?php
+          }else{
+?>
+            <tr>
+              <td colspan="8">Aún sin registros</td>
+            </tr>
+<?php
+          }
+          mysqli_free_result($cct);
+?>
+
+          </table>
+          <table cellpadding="0" cellspacing="0" style="font-size:12px; width: 100%; padding: 0;">
+            <tr>
+              <td colspan="8"></td>
+            </tr>
+          </table>
+          <table border="1" cellpadding="0" cellspacing="0" bordercolor="#999999" style="font-size:11px; width: 100%; padding: 0;" class="tabla">
+            <tr style="background-color: #CCCCCC;" style="font-size: 10px; vertical-align: middle; text-align: center;">
+              <td colspan="6" rowspan="2">ESPECIFICA DE GASTO</td>
+              <td colspan="2">MNEMONICO</td>
+            </tr>
+            <tr style="background-color: #CCCCCC;" style="font-size: 10px; vertical-align: middle; text-align: center;">
+              <td colspan="2"><?php echo $rr['mnemonico']; ?></td>
+            </tr>
+<?php
+          ksort($se);
+          foreach ($se as $key => $value) {
+            $ces=mysqli_query($cone, "SELECT nombre, codigo FROM teespecifica WHERE idteespecifica=$key;");
+            if($res=mysqli_fetch_assoc($ces)){
+?>
+            <tr>
+              <td colspan="6"><?php echo $res['codigo']." ".$res['nombre']; ?></td>
+              <td colspan="2" style="mso-number-format:'0.00';"><?php echo $value; ?></td>
+            </tr>
+<?php
+            }
+            mysqli_free_result($ces);
+          }
+?>
+            <tr style="font-size: 12px;">
+              <td colspan="6" style="text-align: center;"><b>TOTAL</b></td>
+              <td colspan="2" style="mso-number-format:'0.00';"><b><?php echo $st; ?></b></td>
+            </tr>
+          </table>
+<?php
+      }else{
+        echo "Datos incorrectos";
+      }
+      mysqli_free_result($cr);
+
+
+
+
 		}
 	}else{
 		echo "Faltan datos";

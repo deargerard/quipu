@@ -44,11 +44,12 @@ if(accesocon($cone,$_SESSION['identi'],16)){
 <?php 
                   if ($tra=="t") {
 ?>
-                  <th>EMPLEADO</th>
+                  <th>NOMBRE</th>
 <?php      
         }
 ?>
                   <th>MOTIVO</th>
+                  <th>POR</th>
                   <th>ACCIÓN</th>
                 </tr>
               </thead>
@@ -68,7 +69,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
         }
 ?>                  
                   <td><?php echo $ra["motivo"]; ?></td>
-                  
+                  <td><?php echo nomempleado($cone, $ra['empleado']); ?></td>
                                                       
                   <td>
                     <div class="btn-group btn-group-xs" role="group" aria-label="Basic">

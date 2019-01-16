@@ -9,30 +9,34 @@ include("../php/funciones.php");
 
 		if($acc=="verpla"){
 			if(accesocon($cone,$_SESSION['identi'],16)){
-				$cc=mysqli_query($cone, "SELECT FechaIni, FechaFin, idEmpleado, idDistrito, aneplanilla, estadoren FROM comservicios WHERE idComServicios=$v1;");
+				$cc=mysqli_query($cone, "SELECT FechaIni, FechaFin, idEmpleado, origen, destino, aneplanilla, estadoren, csivia FROM comservicios WHERE idComServicios=$v1;");
 				if($rc=mysqli_fetch_assoc($cc)){
 ?>
 		<table class="table table-bordered table-hover">
 			<tr>
 				<td><i class="fa fa-user text-orange"></i> <?php echo nomempleado($cone, $rc['idEmpleado']); ?></td>
 				<td><?php echo erviaticos($rc['estadoren']); ?></td>
-				<td align="right">
+				<td colspan="2" align="right">
 <?php if(accesoadm($cone, $_SESSION['identi'], 16) && $rc['estadoren']!=4){ ?>
-					<button type="button" class="btn btn-info btn-sm" title="Tipo Anexo" onclick="fo_viaticos1('tipane', <?php echo $v1; ?>, 0);"><i class="fa fa-folder-open"></i> Tipo Anexo</button>
+					<button type="button" class="btn bg-purple btn-sm" title="Tipo Anexo" onclick="fo_viaticos1('tipane', <?php echo $v1; ?>, 0);"><i class="fa fa-folder-open"></i> Tipo Anexo</button>
 <?php } ?>
 <?php if(!is_null($rc['aneplanilla'])){ ?>
 <?php if(accesoadm($cone, $_SESSION['identi'], 16) && $rc['estadoren']!=4){ ?>
-					<button type="button" class="btn btn-info btn-sm" title="Agregar Concepto" onclick="fo_viaticos1('agrcon', <?php echo $v1.", ".$rc['aneplanilla']; ?>);"><i class="fa fa-plus"></i> Concepto</button>
+					<button type="button" class="btn bg-purple btn-sm" title="Agregar Concepto" onclick="fo_viaticos1('agrcon', <?php echo $v1.", ".$rc['aneplanilla']; ?>);"><i class="fa fa-plus"></i> Concepto</button>
 <?php } ?>
+<?php 	if(accesoadm($cone, $_SESSION['identi'], 16)){ ?>
+					<button type="button" class="btn bg-maroon btn-sm" title="Número SIVIA" onclick="fo_viaticos1('numsiv', <?php echo $v1.", 0"; ?>);"><i class="fa fa-slack"></i> SIVIA</button>
+<?php 	} ?>
 					<a href="m_inclusiones/a_tesoreria/pdf_anexo0<?php echo $rc['aneplanilla']; ?>.php?idcs=<?php echo $v1; ?>" class="btn btn-info btn-sm" target="_blank"><i class="fa fa-cloud-download"></i> A <?php echo $rc['aneplanilla']; ?></a>
 <?php } ?>
 					
 				</td>
 			</tr>
 			<tr>
-				<td><i class="fa fa-map-marker text-orange"></i> <?php echo disprodep($cone, $rc['idDistrito']); ?></td>
+				<td><i class="fa fa-map-marker text-orange"></i> <?php echo $rc['origen']." a ".$rc['destino']; ?></td>
 				<td><?php echo ftnormal($rc['FechaIni']); ?></td>
 				<td><?php echo ftnormal($rc['FechaFin']); ?></td>
+				<td>SIVIA: <?php echo is_null($rc['csivia']) ? "SN" : $rc['csivia']; ?></td>
 			</tr>
 		</table>
 <?php
@@ -47,7 +51,7 @@ include("../php/funciones.php");
 				<th>#</th>
 				<th>DÍA</th>
 				<th>CONCEPTO</th>
-				<th>MONTO</th>
+				<th style="text-align: right;">MONTO</th>
 <?php if(accesoadm($cone, $_SESSION['identi'], 16) && $rc['estadoren']!=4){ ?>
 				<th>ACCIÓN</th>
 <?php } ?>
@@ -55,14 +59,16 @@ include("../php/funciones.php");
 			</thead>
 <?php
 							$n=0;
+							$su=0;
 							while($rd=mysqli_fetch_assoc($cd)){
 								$n++;
+								$su=$su+$rd['monto'];
 ?>
 			<tr>
 				<td><?php echo $n; ?></td>
 				<td><?php echo $rd['dia']; ?></td>
 				<td><?php echo $rd['conceptov']; ?></td>
-				<td><?php echo $rd['monto']; ?></td>
+				<td style="text-align: right;"><?php echo n_2decimales($rd['monto']); ?></td>
 <?php if(accesoadm($cone, $_SESSION['identi'], 16) && $rc['estadoren']!=4){ ?>
 				<td>
 					<button type="button" class="btn btn-default btn-xs" title="Editar" onclick="fo_viaticos1('edicon', <?php echo $rd['idtedetplanillav'].", ".$rc['aneplanilla']; ?>);"><i class="fa fa-pencil"></i></button>
@@ -73,7 +79,13 @@ include("../php/funciones.php");
 <?php
 							}
 ?>
-		</table>	
+		</table>
+		<table class="table table-hover table-bordered">
+			<tr>
+				<th style="width: 85%;">TOTAL</th>
+				<th style="text-align: right;"><?php echo n_2decimales($su); ?></th>
+			</tr>
+		</table>
 <?php
 						}else{
 							echo mensajewa("No se encontró ningún registro.");
@@ -81,6 +93,109 @@ include("../php/funciones.php");
 						mysqli_free_result($cd);
 					}else{
 						echo mensajewa("Aún no registró el tipo de anexo.");
+					}
+				}else{
+					echo mensajewa("Datos inválidos.");
+				}
+				mysqli_free_result($cc);
+			}else{
+				echo mensajewa("Acceso restringido.");
+			}
+		}elseif($acc=="vercom"){
+			if(accesocon($cone,$_SESSION['identi'],16)){
+				$cc=mysqli_query($cone, "SELECT FechaIni, FechaFin, idEmpleado, origen, destino, aneplanilla, estadoren, docrendicion, observacion FROM comservicios WHERE idComServicios=$v1;");
+				if($rc=mysqli_fetch_assoc($cc)){
+?>
+		<table class="table table-bordered table-hover">
+			<tr>
+				<td><i class="fa fa-user text-orange"></i> <?php echo nomempleado($cone, $rc['idEmpleado']); ?></td>
+				<td><?php echo erviaticos($rc['estadoren']); ?></td>
+				<td align="right">
+				<?php
+				if($rc['estadoren']!=0 && $rc['estadoren']!=4){
+				?>
+					<a href="m_inclusiones/a_tesoreria/comp_escan/<?php echo $rc['docrendicion']; ?>" class="btn bg-purple btn-sm" target="_blank" title="Comprobantes"><i class="fa fa-cloud-download"></i> Comprobantes</a>
+				<?php
+				}
+				if($rc['estadoren']!=0){
+				?>
+					<a href="m_inclusiones/a_tesoreria/te_anexo04pdf.php?idcs=<?php echo $v1; ?>" class="btn btn-info btn-sm" target="_blank" title="Anexo 4"><i class="fa fa-cloud-download"></i> A 4</a>
+					<a href="m_inclusiones/a_tesoreria/te_anexo02pdf.php?idcs=<?php echo $v1; ?>" class="btn btn-info btn-sm" target="_blank" title="Anexo 2"><i class="fa fa-cloud-download"></i> A 2</a>
+					<a href="m_inclusiones/a_tesoreria/pdf_anexo05.php?idcs=<?php echo $v1; ?>" class="btn btn-info btn-sm" target="_blank" title="Anexo 5"><i class="fa fa-cloud-download"></i> A 5</a>
+					<?php if($rc['aneplanilla']==1){ ?>
+					<a href="m_inclusiones/a_tesoreria/pdf_anexo06.php?idcs=<?php echo $v1; ?>" class="btn btn-info btn-sm" target="_blank" title="Anexo 6"><i class="fa fa-cloud-download"></i> A 6</a>
+					<?php } ?>
+				<?php
+				}
+				if(accesoadm($cone,$_SESSION['identi'],16) && $rc['estadoren']!=0){
+				?>
+					<button class="btn btn-sm bg-yellow" title="Cambiar estado" onclick="fo_viaticos1('estren', <?php echo $v1.", ".$rc['estadoren']; ?>)"><i class="fa fa-retweet"></i> Estado</button>
+				<?php
+				}
+				?>
+				</td>
+			</tr>
+			<tr>
+				<td><i class="fa fa-map-marker text-orange"></i> <?php echo $rc['origen']." a ".$rc['destino']; ?></td>
+				<td><?php echo ftnormal($rc['FechaIni']); ?></td>
+				<td><?php echo ftnormal($rc['FechaFin']); ?></td>
+			</tr>
+		</table>
+<?php
+						$cd=mysqli_query($cone, "SELECT g.fechacom, g.numerocom, g.totalcom, tc.tipo, c.conceptov FROM tegasto g INNER JOIN tetipocom tc ON g.idtetipocom=tc.idtetipocom INNER JOIN teconceptov c ON g.idteconceptov=c.idteconceptov WHERE g.idComServicios=$v1 ORDER BY g.fechacom, c.conceptov ASC;");
+						if(mysqli_num_rows($cd)>0){
+	
+?>
+		<table class="table table-bordered table-hover">
+			<thead>
+			<tr>
+				<th>#</th>
+				<th>FECHA</th>
+				<th>CONCEPTO</th>
+				<th>N° COMPROBANTE</th>
+				<th>TIPO</th>
+				<th style="text-align: right;">MONTO</th>
+			</tr>
+			</thead>
+<?php
+							$n=0;
+							$su=0;
+							while($rd=mysqli_fetch_assoc($cd)){
+								$n++;
+								$su=$su+$rd['totalcom'];
+?>
+			<tr>
+				<td><?php echo $n; ?></td>
+				<td><?php echo fnormal($rd['fechacom']); ?></td>
+				<td><?php echo $rd['conceptov']; ?></td>
+				<td><?php echo $rd['numerocom']; ?></td>
+				<td><?php echo $rd['tipo']; ?></td>
+				<td style="text-align: right;"><?php echo n_2decimales($rd['totalcom']); ?></td>
+			</tr>
+<?php
+							}
+?>
+			<tr>
+				<th colspan="5">TOTAL</th>
+				<th style="text-align: right;"><?php echo n_2decimales($su); ?></th>
+			</tr>
+		</table>
+<?php
+						}else{
+							echo mensajewa("No se encontró ningún registro.");
+						}
+						mysqli_free_result($cd);
+						if(!is_null($rc['observacion'])){
+?>
+		<table class="table table-bordered table-hover">
+			<tr>
+				<td><i class="fa fa-info-circle text-orange"></i> OBSERVACIONES</td>
+			</tr>
+			<tr>
+				<td><?php echo $rc['observacion']; ?></td>
+			</tr>
+		</table>
+<?php
 					}
 				}else{
 					echo mensajewa("Datos inválidos.");
@@ -206,6 +321,7 @@ include("../php/funciones.php");
 				echo mensajewa("Acceso restringido");
 			}
 		}elseif($acc=="tipane"){
+		  if(accesoadm($cone,$_SESSION['identi'],16)){
 			$c2=mysqli_query($cone,"SELECT aneplanilla FROM comservicios WHERE idcomservicios=$v1;");
 			if($r2=mysqli_fetch_assoc($c2)){
 ?>
@@ -231,7 +347,11 @@ include("../php/funciones.php");
 				echo mensajewa("Datos inválidos");
 			}
 			mysqli_free_result($c2);
+		  }else{
+			echo mensajewa("Acceso restringido");
+		  }
 		}elseif($acc=="elicon"){
+		  if(accesoadm($cone,$_SESSION['identi'],16)){
 			$cg=mysqli_query($cone, "SELECT dp.dia, dp.monto, dp.idComServicios, c.conceptov FROM tedetplanillav dp INNER JOIN teconceptov c ON dp.idteconceptov=c.idteconceptov WHERE idtedetplanillav=$v1;");
 			if($rg=mysqli_fetch_assoc($cg)){
 ?>
@@ -258,6 +378,75 @@ include("../php/funciones.php");
 				echo mensajewa("Error, datos inválidos.");
 			}
 			mysqli_free_result($cg);
+		  }else{
+			echo mensajewa("Acceso restringido");
+		  }
+		}elseif($acc=="estren"){
+		  if(accesoadm($cone,$_SESSION['identi'],16)){
+			$c2=mysqli_query($cone,"SELECT observacion FROM comservicios WHERE idcomservicios=$v1;");
+			if($r2=mysqli_fetch_assoc($c2)){
+?>
+		  <div class="row">
+		    <div class="col-sm-12">
+		    	<div class="form-group">
+			      <input type="hidden" name="acc" value="<?php echo $acc; ?>">
+			      <input type="hidden" name="idcs" value="<?php echo $v1; ?>">
+			      <label for="est">Estado<small class="text-red">*</small></label>
+			      <select class="form-control" name="est" id="est">
+			      	<option value="">Estado</option>
+<?php if($v2==3){ ?>
+					<option value="4">Rendido</option>
+<?php }else{ ?>
+					<option value="2">Observado</option>
+					<option value="3">Aceptado</option>
+<?php } ?>
+		      	  </select>
+		      	</div>
+		    </div>
+		    <div class="col-sm-12">
+		    	<div class="form-group">
+			      <label for="obs">Observación</label>
+			      <textarea id="obs" name="obs" class="form-control" rows="6"><?php echo $r2['observacion']; ?></textarea>
+		      	</div>
+		    </div>
+		  </div>
+		  <div id="d1_frespuesta">
+		  	
+		  </div>
+<?php
+			}else{
+				echo mensajewa("Datos inválidos");
+			}
+			mysqli_free_result($c2);
+		  }else{
+			echo mensajewa("Acceso restringido");
+		  }
+		}elseif($acc=="numsiv"){
+		  if(accesoadm($cone,$_SESSION['identi'],16)){
+			$c2=mysqli_query($cone,"SELECT csivia FROM comservicios WHERE idcomservicios=$v1;");
+			if($r2=mysqli_fetch_assoc($c2)){
+?>
+		  <div class="row">
+		    <div class="col-sm-12">
+		    	<div class="form-group">
+			      <input type="hidden" name="acc" value="<?php echo $acc; ?>">
+			      <input type="hidden" name="idcs" value="<?php echo $v1; ?>">
+			      <label for="siv"># SIVIA<small class="text-red">*</small></label>
+				  <input type="text" class="form-control" name="siv" id="siv" value="<?php echo $r2['csivia'] ?>">
+		      	</div>
+		    </div>
+		  </div>
+		  <div id="d1_frespuesta">
+		  	
+		  </div>
+<?php
+			}else{
+				echo mensajewa("Datos inválidos");
+			}
+			mysqli_free_result($c2);
+		  }else{
+			echo mensajewa("Acceso restringido");
+		  }
 		}//acafin
 	}else{
 		echo mensajewa("Error: Faltan datos.");

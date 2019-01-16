@@ -5,86 +5,26 @@ include ("../php/funciones.php");
 if(accesoadm($cone,$_SESSION['identi'],15)){
   if(isset($_POST['idcs']) && !empty($_POST['idcs'])){
     $idcs=iseguro($cone,$_POST['idcs']);
-    $ccs=mysqli_query($cone,"SELECT cs.idComServicios, cs.FechaIni, cs.FechaFin, cs.Descripcion, cs.Vehiculo, cs.idDoc, d.NombreDis, p.NombrePro, de.NombreDep, d.idDistrito, de.idDepartamento, p.idProvincia FROM comservicios cs LEFT JOIN distrito d ON cs.idDistrito=d.idDistrito LEFT JOIN provincia p ON d.idProvincia=p.idProvincia LEFT JOIN departamento de ON de.idDepartamento=p.idDepartamento WHERE cs.idComServicios=$idcs");
+    $ccs=mysqli_query($cone,"SELECT idComServicios, FechaIni, FechaFin, Descripcion, Vehiculo, idDoc, origen, destino FROM comservicios WHERE idComServicios=$idcs");
     if($rcs=mysqli_fetch_assoc($ccs)){
     ?>
-        <div class="col-sm-12 text-center">
-          <input type="hidden" name="idcs" value="<?php echo $idcs ?>"> <!--envía id de comisión de servicios-->
-          <h4 class="text-danger"><?php echo "EDITAR COMISIÓN DE SERVICIOS"?></h4>
-          <br>
-        </div>
-
         <div class="form-group valida">
           <div class="col-sm-6 valida">
-            <label for="inicom" class="control-label">Inicia:</label>
+            <label for="inicome" class="control-label">Inicia:</label>
             <div class="has-feedback">
+              <input type="hidden" name="idcs" value="<?php echo $idcs; ?>">
               <span class="fa fa-calendar form-control-feedback"></span>
-              <input type="text" id="inicom" name="inicom" class="form-control" value="<?php echo date('d/m/Y H:i', strtotime($rcs['FechaIni']))?>" placeholder="dd/mm/aaaa H:i">
+              <input type="text" id="inicome" name="inicome" class="form-control" value="<?php echo date('d/m/Y H:i', strtotime($rcs['FechaIni']))?>" placeholder="dd/mm/aaaa H:i">
             </div>
           </div>
           <div class="col-sm-6 valida">
-            <label for="fincom" class="control-label">Termina:</label>
+            <label for="fincome" class="control-label">Termina:</label>
             <div class="has-feedback">
               <span class="fa fa-calendar form-control-feedback"></span>
-              <input type="text" id="fincom" name="fincom" class="form-control" value="<?php echo date('d/m/Y H:i', strtotime($rcs['FechaFin']))?>" placeholder="dd/mm/aaaa H:i">
+              <input type="text" id="fincome" name="fincome" class="form-control" value="<?php echo date('d/m/Y H:i', strtotime($rcs['FechaFin']))?>" placeholder="dd/mm/aaaa H:i">
             </div>
           </div>         
         </div>
-
-        <div class="form-group">                    
-          <div class="col-sm-4 valida">
-          <label for="loc">Departamento</label>
-          <select name="depnac" id="depnac" class="form-control" onChange="cprovincia(this.value)">
-            <option value="<?php echo $rcs['idDepartamento'] ?>"><?php echo $rcs['NombreDep'] ?></option>
-<?php 
-          $cd=mysqli_query($cone, "SELECT * FROM departamento");
-          if (mysqli_num_rows($cd)>0) {
-            while ($rd=mysqli_fetch_assoc($cd)) {
-?>
-              <option value="<?php echo $rd['idDepartamento']; ?>" <?php echo $rd['idDepartamento']==$rcs['idDepartamento'] ? "selected" : ""; ?>><?php echo $rd['NombreDep']; ?></option>
-<?php 
-            }
-          }
-          mysqli_free_result($cd);
- ?>
-          </select>
-          </div>
-          <div class="col-sm-4 valida">
-            <label for="loc">Provincia</label>
-              <select name="pronac" id="pronac" class="form-control" onChange="cdistrito(this.value)">
-<?php 
-          $cp=mysqli_query($cone, "SELECT * FROM provincia WHERE idDepartamento=".$rcs['idDepartamento'].";");
-          if (mysqli_num_rows($cp)>0) {
-            while ($rp=mysqli_fetch_assoc($cp)) {
-?>
-              <option value="<?php echo $rp['idProvincia']; ?>" <?php echo $rp['idProvincia']==$rcs['idProvincia'] ? "selected" : ""; ?>><?php echo $rp['NombrePro']; ?></option>
-<?php 
-            }
-          }
-          mysqli_free_result($cp);
- ?>
-              </select>
-          </div>
-          <div class="col-sm-4 valida">
-            <label for="loc">Distrito</label>
-              <select name="disnac" id="disnac" class="form-control">
-<?php 
-          $cdi=mysqli_query($cone, "SELECT * FROM distrito WHERE idProvincia=".$rcs['idProvincia'].";");
-          if (mysqli_num_rows($cdi)>0) {
-            while ($rdi=mysqli_fetch_assoc($cdi)) {
-?>
-              <option value="<?php echo $rdi['idDistrito']; ?>" <?php echo $rdi['idDistrito']==$rcs['idDistrito'] ? "selected" : ""; ?>><?php echo $rdi['NombreDis']; ?></option>
-<?php 
-            }
-          }
-          mysqli_free_result($cdi);
- ?>
-              </select>
-          </div>
-        </div>
-
-
-
         <div class="text-center col-md-12">
           <p id="msg" class="text-maroon">
           <?php
@@ -96,13 +36,28 @@ if(accesoadm($cone,$_SESSION['identi'],15)){
             $dcs=$tie->format('%a')+1;
 
            ?>
-           <span class='text-success'>La comisión de servicios registrada tiene <?php echo $dcs ?> días. </span>
+           <span class='text-success'>La comisión de servicios registrada tiene <b><?php echo $dcs ?></b> días. </span>
           </p>
         </div>
-
         <div class="form-group valida">
-          <label for="desc" class="col-sm-2 control-label" >Descripcion</label>
-          <div class="col-sm-10">
+          <div class="col-sm-5 valida">
+            <label for="ori">Origen:</label>
+            <div class="has-feedback">
+              <span class="fa fa-map-marker form-control-feedback"></span>
+              <input type="text" id="ori" name="ori" class="form-control" placeholder="Cajamarca" value="<?php echo $rcs['origen'] ?>">
+            </div>        
+          </div>
+          <div class="col-sm-7 valida">
+            <label for="des">Destino:</label>
+            <div class="has-feedback">
+              <span class="fa fa-map-marker form-control-feedback"></span>
+              <input type="text" id="des" name="des" class="form-control" placeholder="Cliclayo-La Florida" value="<?php echo $rcs['destino'] ?>">
+            </div>
+          </div>      
+        </div>
+        <div class="form-group valida">
+          <div class="col-sm-12">
+            <label for="desc">Descripcion</label>
             <textarea class="form-control" id="desc" name="desc" rows="3" ><?php echo $rcs['Descripcion']?></textarea>
           </div>
         </div>
@@ -128,24 +83,24 @@ if(accesoadm($cone,$_SESSION['identi'],15)){
             </div>
 
         <script>
-          $('#inicom').datetimepicker({
+          $('#inicome').datetimepicker({
             locale:'es',
             useCurrent: false,
             sideBySide:true,
             format:'DD/MM/YYYY HH:mm',
           }).on('dp.change', function(e){
-            $('#fincom').data('DateTimePicker').minDate(e.date.format ('DD-MM-YYYY'));
+            $('#fincome').data('DateTimePicker').minDate(e.date.format ('DD-MM-YYYY'));
 
           });
 
 
-          $('#fincom').datetimepicker({
+          $('#fincome').datetimepicker({
             locale:'es',
             format:'DD/MM/YYYY HH:mm',
             useCurrent: false,
             sideBySide:true,
           }).on('dp.change', function(e){
-            $('#inicom').data('DateTimePicker').maxDate(e.date.format ('DD-MM-YYYY'));
+            $('#inicome').data('DateTimePicker').maxDate(e.date.format ('DD-MM-YYYY'));
           });
         //funcion seleccionar documento
            $(".select2doc").select2({

@@ -74,7 +74,7 @@ $r['e']=false;
 					$feccom=fmysql(iseguro($cone, $_POST['feccom']));
 					$tcom=iseguro($cone, $_POST['tcom']);
 					$numcom=ltrim(iseguro($cone, $_POST['numcom']),"0");
-					$sercom=imseguro($cone, $_POST['sercom']);
+					$sercom=ltrim(iseguro($cone, $_POST['sercom']),"0");
 					$des=imseguro($cone, $_POST['des']);
 					$imp=iseguro($cone, $_POST['imp']);
 					$can=vacio(iseguro($cone, $_POST['can']));
@@ -109,8 +109,8 @@ $r['e']=false;
 					$esp=iseguro($cone, $_POST['esp']);
 					$feccom=fmysql(iseguro($cone, $_POST['feccom']));
 					$tcom=iseguro($cone, $_POST['tcom']);
-					$numcom=iseguro($cone, $_POST['numcom']);
-					$sercom=imseguro($cone, $_POST['sercom']);
+					$numcom=ltrim(iseguro($cone, $_POST['numcom']),"0");
+					$sercom=ltrim(iseguro($cone, $_POST['sercom']),"0");
 					$des=imseguro($cone, $_POST['des']);
 					$imp=iseguro($cone, $_POST['imp']);
 					$can=vacio(iseguro($cone, $_POST['can']));
@@ -185,6 +185,35 @@ $r['e']=false;
 				$r['e']=true;
 			}else{
 				$r['m']=mensajewa("Error, vuelva a intentarlo ".mysqli_error($cone));
+			}
+		  }else{
+		  	$r['m']=mensajewa("Acceso restringido");
+		  }
+		}elseif($acc=="libvia"){
+		  if(accesoadm($cone,$_SESSION['identi'],16)){
+			$v1=iseguro($cone, $_POST['v1']);
+			if(mysqli_query($cone, "UPDATE comservicios SET idterendicion=NULL WHERE idComServicios=$v1")){
+				$r['m']=mensajesu("Listo, víatico liberado de la rendición");
+				$r['e']=true;
+			}else{
+				$r['m']=mensajewa("Error, vuelva a intentarlo ".mysqli_error($cone));
+			}
+		  }else{
+		  	$r['m']=mensajewa("Acceso restringido");
+		  }
+		}elseif($acc=="movdoc"){
+		  if(accesoadm($cone,$_SESSION['identi'],16)){
+		  	if(isset($_POST['idnr']) && !empty($_POST['idnr'])){
+				$idg=iseguro($cone, $_POST['idg']);
+				$idnr=iseguro($cone, $_POST['idnr']);
+				if(mysqli_query($cone, "UPDATE tegasto SET idterendicion=$idnr WHERE idtegasto=$idg;")){
+					$r['m']=mensajesu("Listo, documento movido");
+					$r['e']=true;
+				}else{
+					$r['m']=mensajewa("Error, vuelva a intentarlo ".mysqli_error($cone));
+				}
+			}else{
+				$r['m']=mensajewa("Elija una rendición");
 			}
 		  }else{
 		  	$r['m']=mensajewa("Acceso restringido");

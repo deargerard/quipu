@@ -47,7 +47,6 @@ use Spipu\Html2Pdf\Html2Pdf;
       <table class="page_footer">
         <tr>
           <td style="width: 70%; text-align: left">
-            (076)-365577 Anexo 1085 | Anexo IP 2410 | Jr. Sor Manuela Gil S/N Urb. La Alameda | Cajamarca-Perú
           </td>
           <td style="width: 30%; text-align: right">
               Página [[page_cu]]/[[page_nb]]
@@ -56,14 +55,14 @@ use Spipu\Html2Pdf\Html2Pdf;
       </table>
     </page_footer>      
 <?php 
-    $c1=mysqli_query($cone,"SELECT cs.FechaIni, cs.FechaFin, cs.idEmpleado, e.NumeroDoc, d.NombreDis FROM comservicios cs INNER JOIN empleado e ON cs.idEmpleado=e.idEmpleado LEFT JOIN distrito d ON cs.idDistrito=d.idDistrito WHERE idComServicios=$idcs;");
+    $c1=mysqli_query($cone,"SELECT cs.FechaIni, cs.FechaFin, cs.idEmpleado, cs.destino, e.NumeroDoc FROM comservicios cs INNER JOIN empleado e ON cs.idEmpleado=e.idEmpleado WHERE idComServicios=$idcs;");
       if($r1=mysqli_fetch_assoc($c1)){
  ?>   
       <table class="st">      
         <tr>
         <td style="width: 5%;"></td>                    
           <td style="width: 90%; text-align: center;">
-            <span style="font-size: 12px;">Yo <?php echo nomempleado($cone, $r1['idEmpleado']); ?> identificado con DNI N° <?php echo $r1['NumeroDoc']; ?> en el cargo de <?php echo cargoe($cone, $r1['idEmpleado']); ?>  manifiesto haber efectuado todos los gastos en la comisión de servicios, llevada a cabo a la ciudad de <?php echo $r1['NombreDis']; ?> del <?php echo fnormal($r1['FechaIni']); ?> al <?php echo fnormal($r1['FechaFin']); ?> que a continuación se detallan y sustentan con la documentación que se adjunta al presente.</span> 
+            <span style="font-size: 12px;">Yo <b><?php echo nomempleado($cone, $r1['idEmpleado']); ?></b> identificado con DNI N° <?php echo $r1['NumeroDoc']; ?> en el cargo de <b><?php echo cargoe($cone, $r1['idEmpleado']); ?></b>  manifiesto haber efectuado todos los gastos en la comisión de servicios, llevada a cabo a la ciudad de <b><?php echo $r1['destino']; ?></b> del <?php echo fnormal($r1['FechaIni']); ?> al <?php echo fnormal($r1['FechaFin']); ?> que a continuación se detallan y sustentan con la documentación que se adjunta al presente.</span> 
           </td>
           <td style="width: 5%;"></td>
         </tr>
@@ -104,7 +103,7 @@ use Spipu\Html2Pdf\Html2Pdf;
                 <td class="de"><?php echo n_2decimales($tav); ?></td>
                 <td class="de"><?php echo n_2decimales($trv); ?></td>
                 <td class="de"><?php echo n_2decimales($tav-$trv); ?></td>
-                <td></td>
+                <td class="de"><?php echo n_2decimales($tav-($trv+($tav-$trv))); ?></td>
               </tr>       
             </table>
           </td>
@@ -131,7 +130,7 @@ use Spipu\Html2Pdf\Html2Pdf;
           <td class="ce" style="width: 5%;">Otros</td>
         </tr>
   <?php 
-          $cc=mysqli_query($cone,"SELECT cv.idteconceptov, g.idtegasto, g.fechacom, g.glosacom, tc.abreviatura, cv.conceptov, g.numerocom, g.totalcom FROM tegasto g INNER JOIN tetipocom tc ON tc.idtetipocom=g.idtetipocom INNER JOIN teconceptov cv ON g.idteconceptov=cv.idteconceptov WHERE g.idComServicios=$idcs ORDER BY g.fechacom ASC;");
+          $cc=mysqli_query($cone,"SELECT cv.idteconceptov, g.idtegasto, g.fechacom, g.glosacom, tc.abreviatura, tc.tipo, cv.conceptov, g.numerocom, g.totalcom FROM tegasto g INNER JOIN tetipocom tc ON tc.idtetipocom=g.idtetipocom INNER JOIN teconceptov cv ON g.idteconceptov=cv.idteconceptov WHERE g.idComServicios=$idcs ORDER BY g.fechacom ASC;");
           if(mysqli_num_rows($cc)>0){
             $n=0;
             $t=0;
@@ -172,15 +171,15 @@ use Spipu\Html2Pdf\Html2Pdf;
           <tr>
             <td class="ce"><?php echo $n; ?></td>
             <td><?php echo fnormal($rc['fechacom']); ?></td>
-            <td><?php echo $rc['conceptov']; ?></td>
-            <td class="de"><?php echo $rc['numerocom']; ?></td>
+            <td><?php echo $rc['tipo']; ?></td>
+            <td class="de"><?php echo is_null($rc['numerocom']) ? "--" : $rc['numerocom']; ?></td>
             <td class="de"><?php echo $rc['idteconceptov']==10 ? $rc['totalcom'] : "";?></td>
             <td class="de"><?php echo $rc['idteconceptov']==9  ? $rc['totalcom'] : ""; ?></td>
-            <td class="de"><?php echo $rc['idteconceptov']==11 ? $rc['totalcom'] : ""; ?></td>
+            <td class="de"><?php echo ($rc['idteconceptov']==11 || $rc['idteconceptov']==20) ? $rc['totalcom'] : ""; ?></td>
             <td class="de"><?php echo $rc['idteconceptov']==8  ? $rc['totalcom'] : ""; ?></td>
             <td class="de"><?php echo $rc['idteconceptov']==12 ? $rc['totalcom'] : ""; ?></td>
             <td class="de"><?php echo $rc['idteconceptov']==13 ? $rc['totalcom'] : ""; ?></td>
-            <td class="de"><?php echo $rc['idteconceptov']==14 ? $rc['totalcom'] : ""; ?></td>            
+            <td class="de"><?php echo ($rc['idteconceptov']==14 || $rc['idteconceptov']==21) ? $rc['totalcom'] : ""; ?></td>            
             <td class="de" style="mso-number-format:'0.00';"><?php echo $rc['totalcom']; ?></td>
           </tr>
           <?php
@@ -189,7 +188,7 @@ use Spipu\Html2Pdf\Html2Pdf;
             mysqli_free_result($cc);
           ?>
           <tr>
-            <td colspan="4">SUB TOTAL RENDICI&Oacute;N DE GASTOS</td>
+            <td colspan="4" style="text-align: center;">SUB TOTAL RENDICI&Oacute;N DE GASTOS</td>
             <td class="de"><?php echo n_2decimales($th);?></td>
             <td class="de"><?php echo n_2decimales($ta);?></td>
             <td class="de"><?php echo n_2decimales($tm);?></td>
@@ -197,57 +196,59 @@ use Spipu\Html2Pdf\Html2Pdf;
             <td class="de"><?php echo n_2decimales($tc);?></td>
             <td class="de"><?php echo n_2decimales($tt);?></td>
             <td class="de"><?php echo n_2decimales($to);?></td>
-            <td class="de"><?php echo n_2decimales($t);?></td>
+            <th class="de"><?php echo n_2decimales($t);?></th>
           </tr>
           <tr>
-            <td colspan="4">MONTO ASIGNADO</td>
-            <td colspan="7"></td>
-            <td class="de"></td>                        
+            <td colspan="4" style="text-align: center;">MONTO ASIGNADO</td>
+            <td colspan="2" class="de"><?php echo n_2decimales($tav-$tm-$tp-$tc-$tt-$to); ?></td>
+            <td class="de"><?php echo n_2decimales($tm);?></td>
+            <td class="de"><?php echo n_2decimales($tp);?></td>
+            <td class="de"><?php echo n_2decimales($tc);?></td>
+            <td class="de"><?php echo n_2decimales($tt);?></td>
+            <td class="de"><?php echo n_2decimales($to);?></td>
+            <td class="de"><?php echo n_2decimales($tav-$tm-$tp-$tc-$tt-$to+$tm+$tp+$tc+$tt+$to);?></td>                        
           </tr>
           <tr>
-            <td colspan="4">SALDO</td>
-            <td colspan="7"></td>
-            <td class="de"></td>                        
+            <td colspan="4" style="text-align: center;">SALDO</td>
+            <td colspan="2" class="de"><?php echo n_2decimales($tav-$tm-$tp-$tc-$tt-$to-$th-$ta); ?></td>
+            <td class="de"><?php echo n_2decimales($tm-$tm);?></td>
+            <td class="de"><?php echo n_2decimales($tp-$tp);?></td>
+            <td class="de"><?php echo n_2decimales($tc-$tc);?></td>
+            <td class="de"><?php echo n_2decimales($tt-$tt);?></td>
+            <td class="de"><?php echo n_2decimales($to-$to);?></td>
+            <td class="de"><?php echo n_2decimales($tav-$tm-$tp-$tc-$tt-$to-$th-$ta+$tm-$tm+$tp-$tp+$tc-$tc+$tt-$tt+$to-$to);?></td>                        
           </tr>
         </table>
         
         <table class="st">
         <tr> 
-          <td style="width: 84%">
+          <td style="width: 83%">
             <table class="st">             
-              <tr class="ce">
-                <td style="width: 10%;">              
-                </td>
-                <td colspan="2" style="width: 90%;">________________________
-                </td>
-                                              
+              <tr align="center">
+                <td colspan="2">_________________________________________________</td>                        
               </tr>
-              <tr style="text-align: center;">
-                <td>                  
-                </td>
-                <td>Firma del Comisionado</td>
-                
+              <tr align="center">
+                <td colspan="2">Firma del Comisionado</td>
               </tr>
-              
+              <tr>
+                <td colspan="2">&nbsp;</td>
+              </tr>
               <tr>
                 <td style="width: 10%;">Nombre:</td>
-                <td style="width: 30%;"><?php echo nomempleado($cone, $r1['idEmpleado']); ?></td>    
-                
+                <td style="width: 30%;"><?php echo nomempleado($cone, $r1['idEmpleado']); ?></td>
               </tr>
               <tr>
                 <td style="width: 10%;">DNI N°:</td>
-                <td><?php echo $r1['NumeroDoc']; ?></td>              
+                <td><?php echo $r1['NumeroDoc']; ?></td>
                 
               </tr>
               <tr>
-                <td colspan="2">Ciudad de Cajamarca <?php echo date('d')." de ".nombremes(date('m'))." de ".date('Y')."."; ?></td>      
-  
-              </tr>                  
-              
+                <td colspan="2">Ciudad de Cajamarca <?php echo date('d')." de ".nombremes(date('m'))." de ".date('Y')."."; ?></td>
+              </tr>
             </table>
 
           </td>
-          <td style="width: 16%">
+          <td style="width: 17%">
             <table class="tablep">
               <tr>
                 <td style="width: 50%">Monto Recibido</td>
@@ -263,7 +264,7 @@ use Spipu\Html2Pdf\Html2Pdf;
               </tr>
               <tr>
                 <td >Total</td>
-                <td ></td>
+                <td style="text-align: right; width: 50%;"><?php echo n_2decimales($tav); ?></td>
               </tr>              
             </table>
           </td>

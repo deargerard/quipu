@@ -131,7 +131,7 @@ $('#b_btra').click(function(){
 
 // FUNCIÓN QUE ENVÍA PARÁMETROS PARA FORMULARIOS DE ENTREGAS
 function fo_entregas(acc, v1, v2){
-  
+  $("#m_tamaño").removeClass("modal-lg");
   switch(acc) {
     case 'agrent':
         var mt="<i class='fa fa-plus text-gray'></i> Agregar Adelanto";
@@ -150,7 +150,21 @@ function fo_entregas(acc, v1, v2){
         break;
     case 'elident':
         var mt="<i class='fa fa-times-circle text-gray'></i> Eliminar Comprobante";
-        break;        
+        break;
+    case 'agrcomp':
+        var mt="<i class='fa fa-plus text-gray'></i> Agregar comprobantes";
+        $("#m_tamaño").addClass("modal-lg");
+        break;
+    case 'agrviat':
+        var mt="<i class='fa fa-plus text-gray'></i> Agregar viático";
+        $("#m_tamaño").addClass("modal-lg");
+        break;
+    case 'libcomp':
+        var mt="<i class='fa fa-external-link text-gray'></i> Liberar comprobante";
+        break;
+    case 'libviat':
+        var mt="<i class='fa fa-external-link text-gray'></i> Liberar viático";
+        break;
   }
   $(".modal-title").html(mt);
   $("#m_modal").modal("show");
@@ -166,7 +180,11 @@ function fo_entregas(acc, v1, v2){
     },
     success:function(a){
       $("#f_entregas").html(a);
-      $("#b_guardar").removeClass("hidden");
+      if(acc=="agrcomp" || acc=="agrviat"){
+        
+      }else{
+        $("#b_guardar").removeClass("hidden");
+      }
     }
   });
 }
@@ -209,14 +227,14 @@ $('#f_entregas').submit(function(e){
       if(a.e){
         $("#f_entregas").html(a.m);
 
-        if (datos[0].value=="agrent"){          
+        if (datos[0].value=="agrent"){
           bentregas(datos[1].value);
           fo_entregas('agrdent',a.i,0);
         }else if (datos[0].value=="edient"){          
           bentregas(datos[1].value);
         }else if (datos[0].value=="elient") {
           bentregas('t');
-        }else if (datos[0].value=="agrdent" || datos[0].value=="edident" || datos[0].value=="elident") {
+        }else if (datos[0].value=="agrdent" || datos[0].value=="edident" || datos[0].value=="elident" || datos[0].value=="libcomp" || datos[0].value=="libviat") {
           ldocentregas(datos[1].value);
         }
         
@@ -229,3 +247,47 @@ $('#f_entregas').submit(function(e){
   });
 })
 // FIN FUNCIÓN QUE LLAMA ARHIVO GUARDAR ENTREGAS
+
+function comaent(idg, ide){
+  $.ajax({
+    type: "post",
+    url: "m_inclusiones/a_tesoreria/gu_comaent.php",
+    data: {idg: idg, ide: ide},
+    dataType: "json",
+    beforeSend: function () {
+      $("#var"+idg).removeClass('hidden');
+    },
+    success:function(a){
+      if(a.e){
+        fo_entregas('agrcomp', ide, 0);
+        ldocentregas(ide);
+        alert(a.m);
+      }else{
+        alert(a.m);
+        $("#var"+idg).addClass('hidden');
+      }
+    }
+  });
+}
+
+function viaaent(idcs, ide){
+  $.ajax({
+    type: "post",
+    url: "m_inclusiones/a_tesoreria/gu_viaaent.php",
+    data: {idcs: idcs, ide: ide},
+    dataType: "json",
+    beforeSend: function () {
+      $("#var"+idcs).removeClass('hidden');
+    },
+    success:function(a){
+      if(a.e){
+        fo_entregas('agrviat', ide, 0);
+        ldocentregas(ide);
+        alert(a.m);
+      }else{
+        alert(a.m);
+        $("#var"+idcs).addClass('hidden');
+      }
+    }
+  });
+}

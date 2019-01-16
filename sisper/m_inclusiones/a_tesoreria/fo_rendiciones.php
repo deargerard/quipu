@@ -198,7 +198,7 @@ include("../php/funciones.php");
 			    <div class="col-sm-3 esin">
 			    	<div class="form-group">
 				      <label for="uni">Unidad Medida</label>
-				      <select name="uni" id="uni" class="form-control" style="width: 100%;">
+				      <select name="uni" id="uni" class="form-control select2" style="width: 100%;">
 				      		<option value="">Ninguno</option>
 <?php
 						$cum=mysqli_query($cone, "SELECT idteumedida, umedida, abreviatura FROM teumedida WHERE estado=1 ORDER BY umedida ASC;");
@@ -288,7 +288,51 @@ include("../php/funciones.php");
 			  </script>
 <?php
 			}elseif($v2==2){
-				echo "VIÁTICOS";
+				$cco=mysqli_query($cone, "SELECT cs.idComServicios, cs.FechaIni, cs.FechaFin, cs.idEmpleado, cs.idDistrito, d.Numero, d.Ano, d.Siglas FROM comservicios cs INNER JOIN doc d ON cs.idDoc=d.idDoc WHERE estadoren=4 AND ISNULL(idterendicion);");
+				if(mysqli_num_rows($cco)>0){
+?>
+			<div class="table-responsive">
+			<table class="table table-bordered table-hover" id="dt_viaticos">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>NOMBRE</th>
+						<th>DESDE</th>
+						<th>HASTA</th>
+						<th>DESTINO</th>
+						<th>DOCUMENTO</th>
+						<th></th>
+					</tr>
+				</thead>
+<?php
+					$n=0;
+					while($rco=mysqli_fetch_assoc($cco)){
+						$n++;
+?>
+					<tr>
+						<td><?php echo $n; ?></td>
+						<td><?php echo nomempleado($cone, $rco['idEmpleado']); ?></td>
+						<td><?php echo ftnormal($rco['FechaIni']); ?></td>
+						<td><?php echo ftnormal($rco['FechaFin']); ?></td>
+						<td><?php echo $rco['destino']; ?></td>
+						<td><?php echo $rco['Numero']."-".$rco['Ano']."-".$rco['Siglas']; ?></td>
+						<td>
+							<button class="btn bg-yellow btn-xs" onclick="viaaren(<?php echo $rco['idComServicios'].", ".$v1; ?>);" title="Agregar a rendición"><i class="fa fa-plus"></i></button><i class='fa fa-spinner fa-spin hidden' id="var<?php echo $rco['idComServicios']; ?>"></i>
+						</td>
+					</tr>
+<?php
+					}
+?>
+			</table>
+			</div>
+			<script>
+				//$("#dt_viaticos").DataTable();
+			</script>
+<?php
+				}else{
+					echo mensajewa("No se encontraron viaticos por rendir");
+				}
+				mysqli_free_result($cco);
 			}
 		  }else{
 		  	echo accrestringidoa();
@@ -387,7 +431,7 @@ include("../php/funciones.php");
 			    <div class="col-sm-3 esin">
 			    	<div class="form-group">
 				      <label for="uni">Unidad Medida</label>
-				      <select name="uni" id="uni" class="form-control" style="width: 100%;">
+				      <select name="uni" id="uni" class="form-control select2" style="width: 100%;">
 				      		<option value="">Ninguno</option>
 <?php
 						$cum=mysqli_query($cone, "SELECT idteumedida, umedida, abreviatura FROM teumedida WHERE estado=1 ORDER BY umedida ASC;");
@@ -499,8 +543,6 @@ include("../php/funciones.php");
 					echo mensajewa("Error, datos inválidos.");
 				}
 				mysqli_free_result($cg);
-			}elseif($v2==2){
-				echo "VIÁTICOS";
 			}
 		  }else{
 		  	echo accrestringidoa();
@@ -592,6 +634,72 @@ include("../php/funciones.php");
 				echo mensajewa("Error, datos inválidos.");
 			}
 			mysqli_free_result($cg);
+		  }else{
+		  	echo accrestringidoa();
+		  }
+		}elseif($acc=="libvia"){
+		  if(accesoadm($cone,$_SESSION['identi'],16)){
+			$cv=mysqli_query($cone, "SELECT idEmpleado, FechaIni, FechaFin, destino, idterendicion FROM comservicios WHERE idComServicios=$v1;");
+			if($rv=mysqli_fetch_assoc($cv)){
+?>
+			      <input type="hidden" name="acc" value="<?php echo $acc; ?>">
+			      <input type="hidden" name="v1" value="<?php echo $v1; ?>">
+			      <input type="hidden" name="v2" value="<?php echo $v2; ?>">
+			      <input type="hidden" name="idre" value="<?php echo $rv['idterendicion']; ?>">
+				<table class="table table-bordered">
+					<tr>
+						<td align="center">
+							<i class="fa fa-warning text-red"></i> <b>Liberará el víatico de:</b>
+						</td>
+					</tr>
+					<tr>
+						<td align="center">
+							<?php echo "<span class='text-orange'>".nomempleado($cone, $rv['idEmpleado'])."</span><br>".$rv['destino']." | ".fnormal($rv['FechaIni'])." al ".fnormal($rv['FechaFin']); ?>
+						</td>
+					</tr>
+				</table>
+				<div id="d_frespuesta">
+				  	
+				</div>
+<?php
+			}else{
+				echo mensajewa("Error, datos inválidos.");
+			}
+			mysqli_free_result($cv);
+		  }else{
+		  	echo accrestringidoa();
+		  }
+		}if($acc=="movdoc"){
+		  if(accesoadm($cone,$_SESSION['identi'],16)){
+?>
+		  <div class="row">
+			<div class="col-sm-12">
+				<div class="form-group">
+			      <label for="idnr">Rendición<small class="text-red">*</small></label>
+			      <input type="hidden" name="acc" value="<?php echo $acc; ?>">
+			      <input type="hidden" name="idg" value="<?php echo $v1; ?>">
+			      <input type="hidden" name="idr" value="<?php echo $v2; ?>">
+			      <select class="form-control" name="idnr" id="idnr">
+			      	<option value="">RENDICIÓN</option>
+<?php
+				$c1=mysqli_query($cone, "SELECT r.idterendicion, r.codigo, r.mes, r.anio, m.nombre meta, f.nombre fondo FROM terendicion r INNER JOIN temeta m ON r.idtemeta=m.idtemeta INNER JOIN tefondo f ON m.idtefondo=f.idtefondo WHERE r.estado=1 AND r.trendicion=1 AND r.idterendicion!=$v2;");
+				if(mysqli_num_rows($c1)>0){
+					while($r1=mysqli_fetch_assoc($c1)){
+?>
+						<option value="<?php echo $r1['idterendicion']; ?>"><?php echo $r1['codigo']." - ".$r1['meta']." - ".$r1['fondo']." [".nombremes($r1['mes'])." - ".$r1['anio']."]"; ?></option>
+<?php
+					}
+				}
+				mysqli_free_result($c1);
+?>
+		      	  </select>
+		      	</div>
+		    </div>
+		  </div>
+		  <div id="d_frespuesta">
+		  	
+		  </div>
+<?php
 		  }else{
 		  	echo accrestringidoa();
 		  }

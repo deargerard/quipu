@@ -19,7 +19,18 @@ if(isset($_GET['idcs']) && !empty($_GET['idcs'])){
 
 -->
 </style>
-<page backtop="18mm" backbottom="5mm" backleft="2mm" backright="2mm" style="font-size: 9px;"> 
+<page backtop="20mm" backbottom="5mm" backleft="2mm" backright="2mm" style="font-size: 9px;">
+<?php
+$v1=iseguro($cone, $_GET['idcs']);
+$cc=mysqli_query($cone, "SELECT cs.*, d.Numero, d.Ano, d.Siglas, e.ApellidoPat, e.ApellidoMat, e.Nombres, e.NumeroDoc, td.TipoDoc FROM comservicios cs INNER JOIN doc d ON cs.idDoc=d.idDoc INNER JOIN empleado e ON cs.idEmpleado=e.idEmpleado INNER JOIN tipodoc td ON d.idTipoDoc=d.idTipoDoc WHERE idComServicios=$v1;");
+  if($rc=mysqli_fetch_assoc($cc)){
+    $idec=idecxidexfecha($cone, $rc['idEmpleado'], date('Y-m-d', strtotime($rc['FechaIni'])));
+    //calculamos el numerde horas
+    $d1=new DateTime($rc['FechaIni']);
+    $d2=new DateTime($rc['FechaFin']);
+    $dif=$d1->diff($d2);
+    $ho=($dif->days)*60+$dif->h;
+?>
     <page_header> 
         <table class="page_header">
             <tr>
@@ -35,7 +46,7 @@ if(isset($_GET['idcs']) && !empty($_GET['idcs'])){
                   <table class="tablec" align="center">
                     <tr>
                       <td style="width: 40%;" align="center">N°</td>
-                      <td style="width: 50%;"></td>
+                      <td style="width: 50%;" align="center"><?php echo $rc['csivia']; ?></td>
                     </tr>
                   </table>
                 </td>
@@ -51,17 +62,7 @@ if(isset($_GET['idcs']) && !empty($_GET['idcs'])){
             </tr>
         </table>
     </page_footer>
-<?php
-$v1=iseguro($cone, $_GET['idcs']);
-$cc=mysqli_query($cone, "SELECT cs.*, d.Numero, d.Ano, d.Siglas, e.ApellidoPat, e.ApellidoMat, e.Nombres, e.NumeroDoc, td.TipoDoc FROM comservicios cs INNER JOIN doc d ON cs.idDoc=d.idDoc INNER JOIN empleado e ON cs.idEmpleado=e.idEmpleado INNER JOIN tipodoc td ON d.idTipoDoc=d.idTipoDoc WHERE idComServicios=$v1;");
-  if($rc=mysqli_fetch_assoc($cc)){
-    $idec=idecxidexfecha($cone, $rc['idEmpleado'], date('Y-m-d', strtotime($rc['FechaIni'])));
-    //calculamos el numerde horas
-    $d1=new DateTime($rc['FechaIni']);
-    $d2=new DateTime($rc['FechaFin']);
-    $dif=$d1->diff($d2);
-    $ho=($dif->days)*60+$dif->h;
-?>
+
   <table class="tablec">
     <tr>
       <th style="width: 18%;">Apellidos y Nombres</th>
@@ -87,7 +88,7 @@ $cc=mysqli_query($cone, "SELECT cs.*, d.Numero, d.Ano, d.Siglas, e.ApellidoPat, 
     </tr>
     <tr>
       <th>Lugar de la comisión</th>
-      <td style="width: 33%;" align="center"><?php echo disprodep($cone, $rc['idDistrito']); ?></td>
+      <td style="width: 33%;" align="center"><?php echo $rc['destino']; ?></td>
       <th colspan="2">Doc. Autoriza</th>
       <td colspan="5" align="center"><?php echo substr($rc['TipoDoc'],0,3).". ".$rc['Numero']."-".$rc['Ano']."-".$rc['Siglas']; ?></td>
     </tr>
@@ -236,6 +237,7 @@ $cc=mysqli_query($cone, "SELECT cs.*, d.Numero, d.Ano, d.Siglas, e.ApellidoPat, 
   </table>
 <?php
   }
+  mysqli_free_result($cc);
 ?>
 
 

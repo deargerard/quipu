@@ -7,30 +7,27 @@ if(accesoadm($cone,$_SESSION['identi'],9)){
 	if(isset($_POST['acc']) && !empty($_POST['acc']) && isset($_POST['idcs']) && !empty($_POST['idcs'])){
 		$acc=iseguro($cone,$_POST['acc']);
 		$idcs=iseguro($cone,$_POST['idcs']);
-		$cc=mysqli_query($cone,"SELECT cs.estadoren, cs.FechaIni, cs.FechaFin, cs.aneplanilla, cs.observacion, d.idDistrito FROM comservicios cs INNER JOIN distrito d ON cs.idDistrito=d.idDistrito WHERE cs.idComServicios=$idcs;");
-		if ($rc=mysqli_fetch_assoc($cc)) {              
-            //$fi=fnormal($rc['Fechaini']);   
-            //$ff=fnormal($rc['Fechafin']);
-            //$di=$rc['NombreDis'];
+		$cc=mysqli_query($cone,"SELECT estadoren, FechaIni, FechaFin, aneplanilla, observacion, origen, destino FROM comservicios WHERE idComServicios=$idcs;");
+		if($rc=mysqli_fetch_assoc($cc)){              
             $er=$rc['estadoren'];
-            $ap=$rc['aneplanilla'];           
-            mysqli_free_result($cc);   
-        	}				
+            $ap=$rc['aneplanilla'];
+        }
+        mysqli_free_result($cc);			
 		if($acc=="agrre"){		
 			$c2=mysqli_query($cone,"SELECT idtegasto, idtetipocom FROM tegasto WHERE idComServicios=$idcs;");           
-	        	if (mysqli_num_rows($c2)!==0) {
-	        		$e=true;
-	        		while ($r2=mysqli_fetch_assoc($c2)) {
-	        			if ($r2['idtetipocom']==2) {
-	        				$dj=true;
-	        			}
-	        		}
-	        mysqli_free_result($c2);
-    		}    		
+        	if (mysqli_num_rows($c2)>0){
+        		$e=true;
+        		while ($r2=mysqli_fetch_assoc($c2)){
+        			if($r2['idtetipocom']==2){
+        				$dj=true;
+        			}
+	        	}
+	    	}
+    		mysqli_free_result($c2);		
 ?>
-			<table class="table table-bordered table-hover">
+			<table class="table table-hover">
 			  <tr>
-			    <td><i class="fa fa-map-marker text-orange"></i> <?php echo disprodep($cone, $rc['idDistrito']); ?></td>
+			    <td><i class="fa fa-map-marker text-orange"></i> <?php echo $rc['origen']."-".$rc['destino']; ?></td>
 			    <td><?php echo fnormal($rc['FechaIni']); ?></td>
 			    <td><?php echo fnormal($rc['FechaFin']); ?></td>
 
@@ -70,42 +67,52 @@ if(accesoadm($cone,$_SESSION['identi'],9)){
 		    $c2=mysqli_query($cone,"SELECT idtegasto FROM tegasto WHERE idComServicios=$idcs;");
 		    if (mysqli_num_rows($c2)>0) {
 ?>   
-		    <table class="table table-hover table-bordered" id="dtable">
+		    <table class="table table-hover" id="dtable">
 		        <thead>
 		          	<tr>
 			            <th>FECHA</th>
 			            <th>TIPO</th>
 			            <th>NUMERO</th> 
 			            <th>CONCEPTO</th>                       
-			            <th>MONTO S/</th>
-		<?php if($c){ ?><th>ACCIÓN</th> <?php } ?>
+			            <th style="text-align: right;">MONTO S/</th>
+						<?php if($er==0 || $er==2){ ?>
+						<th>ACCIÓN</th>
+						<?php } ?>
 
 		          	</tr>
 		        </thead>
 		        <tbody>
 <?php
-          		$c2=mysqli_query($cone,"SELECT g.idtegasto, g.fechacom, tc.abreviatura, cv.conceptov, g.numerocom, g.totalcom FROM tegasto g INNER JOIN tetipocom tc ON tc.idtetipocom=g.idtetipocom INNER JOIN teconceptov cv ON g.idteconceptov=cv.idteconceptov WHERE g.idComServicios=$idcs;");      
-          			while($r2=mysqli_fetch_assoc($c2)){            
+          			$c2=mysqli_query($cone,"SELECT g.idtegasto, g.fechacom, tc.abreviatura, cv.conceptov, g.numerocom, g.totalcom FROM tegasto g INNER JOIN tetipocom tc ON tc.idtetipocom=g.idtetipocom INNER JOIN teconceptov cv ON g.idteconceptov=cv.idteconceptov WHERE g.idComServicios=$idcs;");
+          			$st=0; 
+          			while($r2=mysqli_fetch_assoc($c2)){
+          				$st=$st+$r2['totalcom'];
 ?>
 			            <tr>              
 				            <td><?php echo fnormal($r2['fechacom']); ?></td>
 				            <td><?php echo $r2['abreviatura']; ?></td>
 				            <td><?php echo $r2['numerocom']; ?></td>
 				            <td><?php echo $r2['conceptov']; ?></td>              
-				            <td><?php echo $r2['totalcom']; ?></td>              
+				            <td style="text-align: right;"><?php echo $r2['totalcom']; ?></td>   
+				            <?php if($er==0 || $er==2){ ?>           
 				            <td>
 				                <div class="btn-group btn-group-xs" role="group" aria-label="Basic">
-				                  	<?php if($er==0 || $er==2){ ?>
 				                  	<button type="button" class="btn btn-default" title="Editar" onclick="fo_drendicion('edidr',<?php echo $idcs.",".$r2['idtegasto']; ?>)"><i class="fa fa-pencil"></i></button>
 				                  	<button type="button" class="btn btn-default" title="Eliminar" onclick="fo_drendicion('elidr',<?php echo $idcs.",". $r2['idtegasto']; ?>)"><i class="fa fa-trash"></i></button>
-				                	<?php } ?>
-				                  
 				                </div>
 			              	</td>
+			              	<?php } ?>
 			            </tr>
 <?php
          			}
 ?>
+						<tr class="text-maroon">
+							<th colspan="4" style="text-align: right;">TOTAL</th>
+							<th style="text-align: right;"><?php echo n_2decimales($st); ?></th>
+							<?php if($er==0 || $er==2){ ?>  
+							<th></th>
+							<?php } ?>
+						</tr>
         		</tbody>
       		</table>      		    
 <?php
@@ -335,7 +342,7 @@ if(accesoadm($cone,$_SESSION['identi'],9)){
 					<input type="hidden" name="acc" value="<?php echo $acc; ?>">
 					<input type="hidden" name="idcs" value="<?php echo $idcs; ?>">					
 					<input type="hidden" name="idg" value="<?php echo $idg; ?>">					
-			        <h4 class="text-maroon text-center">¿Está seguro que desea eliminar <?php echo $r4['tipo']. $n . $r4['numerocom']." del ". fnormal($r4['fechacom'])."." ?> </h4>
+			        <h4 class="text-center">Eliminará el comprobante:<br><br><b><span class="text-maroon"><?php echo $r4['tipo']. $n . $r4['numerocom']."<br>del ". fnormal($r4['fechacom'])."." ?></span></b></h4>
 			    </div>
 <?php 
 			}

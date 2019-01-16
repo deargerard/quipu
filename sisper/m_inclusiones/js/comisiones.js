@@ -85,6 +85,8 @@ $( "#f_ncomservicios").validate( {
    fincom:"required",
    desc:"required",
    doc:"required",
+   ori:"required",
+   des:"required"
   },
  messages: {
    ide:"Debe seleccionar un trabajador para agregar la comisión de servicios",
@@ -92,6 +94,8 @@ $( "#f_ncomservicios").validate( {
    fincom:"Seleccione el final de la comisión de servicios",
    desc:"Escriba una descripción para la comisión de servicios",
    doc:"Seleccione el documento de aprobación de la comisión de servicios",
+   ori:"Ingrese el origen",
+   des:"Ingrese el destino"
   },
  errorElement: "em",
  errorPlacement: function ( error, element ) {
@@ -163,17 +167,21 @@ function edicomser(idcs){
 $( "#f_ecomservicios" ).validate( {
   rules: {
     idcs:"required",
-    inicom:"required",
-    fincom:"required",
+    inicome:"required",
+    fincome:"required",
     desc:"required",
     doc:"required",
+    ori:"required",
+    des:"required"
    },
   messages: {
     idcs:"Debe seleccionar una comisión de servicios",
-    inicom:"Seleccione el inicio de la comisión de servicios",
-    fincom:"Seleccione el final de la comisión de servicios",
+    inicome:"Seleccione el inicio de la comisión de servicios",
+    fincome:"Seleccione el final de la comisión de servicios",
     desc:"Escriba una descripción para la comisión de servicios",
     doc:"Seleccione el documento de aprobación de la comisión de servicios",
+    ori:"Ingrese el origen",
+    des:"Ingrese el destino"
    },
  errorElement: "em",
  errorPlacement: function ( error, element ) {

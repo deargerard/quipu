@@ -54,8 +54,9 @@ if(accesoadm($cone,$_SESSION['identi'],16)){
 				$num=iseguro($cone,$_POST['num']);
 				$mov=iseguro($cone,$_POST['mov']);
 				$mon=iseguro($cone,$_POST['mon']);
-				$fecc=fmysql(iseguro($cone,$_POST['fecc']));			
-				if(mysqli_query($cone,"INSERT INTO tedocentrega (tipo, numero, monto, fecha, idteentrega, tipmov, empleado) VALUES ($tip, '$num', $mon, '$fecc', $ide, $mov, $idu);")){
+				$fecc=fmysql(iseguro($cone,$_POST['fecc']));
+				$ben=vacio(imseguro($cone,$_POST['ben']));
+				if(mysqli_query($cone,"INSERT INTO tedocentrega (tipo, numero, monto, fecha, idteentrega, tipmov, empleado, beneficiario) VALUES ($tip, '$num', $mon, '$fecc', $ide, $mov, $idu, $ben);")){
 					$r['e']=true;
 					$r['m']=mensajesu("Listo, comprobante registrado");					
 				}else{
@@ -63,7 +64,7 @@ if(accesoadm($cone,$_SESSION['identi'],16)){
 				}
 
 			}else{
-				$r['m']=mensajewa("Todos los campos son obligatorios");
+				$r['m']=mensajewa("Los campos marcados con <span class='text-red'>*</span> son obligatorios");
 			}
 		}if($acc=="edident"){
 			if(isset($_POST['idce']) && !empty($_POST['idce']) && isset($_POST['tip']) && !empty($_POST['tip']) && isset($_POST['num']) && !empty($_POST['num']) && isset($_POST['mov']) && !empty($_POST['mov']) && isset($_POST['mon']) && !empty($_POST['mon']) && isset($_POST['fecc']) && !empty($_POST['fecc']) ){
@@ -74,16 +75,17 @@ if(accesoadm($cone,$_SESSION['identi'],16)){
 				$mov=iseguro($cone,$_POST['mov']);
 				$mon=iseguro($cone,$_POST['mon']);
 				$fecc=fmysql(iseguro($cone,$_POST['fecc']));
-				$q="UPDATE tedocentrega SET fecha='$fecc', monto=$mon, tipo=$tip, tipmov=$mov, empleado=$idu, numero='$num' WHERE idtedocentrega=$idce;";
+				$ben=vacio(imseguro($cone,$_POST['ben']));
+				$q="UPDATE tedocentrega SET fecha='$fecc', monto=$mon, tipo=$tip, tipmov=$mov, empleado=$idu, numero='$num', beneficiario=$ben WHERE idtedocentrega=$idce;";
 				if(mysqli_query($cone,$q)){
 					$r['e']=true;
 					$r['m']=mensajesu("Listo, comprobante editado");					
 				}else{
-					$r['m']=mensajewa("Error, intentelo nuevamente ".$q);
+					$r['m']=mensajewa("Error, intentelo nuevamente ");
 				}
 
 			}else{
-				$r['m']=mensajewa("Todos los campos son obligatorios");
+				$r['m']=mensajewa("Los campos marcados con <span class='text-red'>*</span> son obligatorios");
 			}
 		}if($acc=="elident"){
 			if(isset($_POST['idce']) && !empty($_POST['idce'])){				 
@@ -99,6 +101,30 @@ if(accesoadm($cone,$_SESSION['identi'],16)){
 			}else{
 				$r['m']=mensajewa("Elija el comprobante que desea eliminar");
 			}
+		}elseif($acc=="libcomp"){
+		  if(accesoadm($cone,$_SESSION['identi'],16)){
+			$v2=iseguro($cone, $_POST['v2']);
+			if(mysqli_query($cone, "UPDATE tegasto SET idteentrega=NULL WHERE idtegasto=$v2")){
+				$r['m']=mensajesu("Listo, comprobante liberado de la entrega");
+				$r['e']=true;
+			}else{
+				$r['m']=mensajewa("Error, vuelva a intentarlo ".mysqli_error($cone));
+			}
+		  }else{
+		  	$r['m']=mensajewa("Acceso restringido");
+		  }
+		}elseif($acc=="libviat"){
+		  if(accesoadm($cone,$_SESSION['identi'],16)){
+			$v2=iseguro($cone, $_POST['v2']);
+			if(mysqli_query($cone, "UPDATE comservicios SET idteentrega=NULL WHERE idComServicios=$v2")){
+				$r['m']=mensajesu("Listo, víatico liberado de la entrega");
+				$r['e']=true;
+			}else{
+				$r['m']=mensajewa("Error, vuelva a intentarlo ".mysqli_error($cone));
+			}
+		  }else{
+		  	$r['m']=mensajewa("Acceso restringido");
+		  }
 		}//acafin
 	}else{
 		$r['m']=mensajewa("Faltan datos");
