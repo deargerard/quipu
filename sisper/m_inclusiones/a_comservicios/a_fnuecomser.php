@@ -11,6 +11,7 @@ if(accesoadm($cone,$_SESSION['identi'],15)){
         <label for="inicom">Inicia:</label>
         <div class="has-feedback">
           <span class="fa fa-calendar form-control-feedback"></span>
+          <input type="hidden" name="ide" value="<?php echo $ide; ?>">
           <input type="text" id="inicom" name="inicom" class="form-control" placeholder="dd/mm/aaaa H:m" autocomplete="off">
         </div>        
       </div>
