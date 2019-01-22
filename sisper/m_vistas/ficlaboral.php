@@ -513,7 +513,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                       					<td><?php echo date('d/m/Y H:i', strtotime($rcs['FechaFin']))." ".date('d/m/Y H:i', strtotime($rcs['FechaIni'])); ?></td> <!--columna FIN-->
                       					<td><?php echo $rcs['Resolucion']?></td> <!--columna NÚMERO DE RESOLUCIÓN-->
                       					<td>
-                                  <?php if($rcs['FechaIni']>'2019-01-01'){ ?>            
+                                  <?php if($rcs['FechaIni']>'2018-12-01'){ ?>            
                                   <button type="button" class="btn btn-<?php echo $vv;?> btn-xs" title="Estado Rendición" onclick="fo_rendir('agrre',<?php echo $rcs['idComServicios']; ?>)"><?php echo $cv; ?></button>
                                   <?php } ?>                              
                                 </td> <!--columna RENDIR-->
