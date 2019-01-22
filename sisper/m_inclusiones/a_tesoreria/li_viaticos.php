@@ -44,11 +44,11 @@ if(accesocon($cone,$_SESSION['identi'],16)){
                       ?>
                       <tr>
                         <td><?php echo $c; ?></td>
-                        <td><?php echo $r1['ApellidoPat']." ".$r1['ApellidoMat']." ".$r1['nombres']; ?></td>
-                        <td><?php echo fnormal($r1['FechaIni'])."<br>".fnormal($r1['FechaFin']); ?></td>
-                        <td><?php echo $r1['Numero']."-".$r1['Ano']."<br>".$r1['Siglas']; ?></td>
-                        <td><?php echo $r1['origen']; ?></td>
-                        <td><?php echo $r1['destino']; ?></td>
+                        <td style="font-size: 12px;"><?php echo $r1['ApellidoPat']." ".$r1['ApellidoMat']." ".$r1['nombres']; ?></td>
+                        <td style="font-size: 9px;"><?php echo ftnormal($r1['FechaIni'])."<br>".ftnormal($r1['FechaFin']); ?></td>
+                        <td style="font-size: 10px;"><?php echo $r1['Numero']."-".$r1['Ano']."<br>".$r1['Siglas']; ?></td>
+                        <td style="font-size: 11px;"><?php echo $r1['origen']; ?></td>
+                        <td style="font-size: 11px;"><?php echo $r1['destino']; ?></td>
                         <td><?php echo erviaticos($r1['estadoren']); ?></td>
                         <td>
                           <div class="btn-group btn-group-xs" role="group" aria-label="Basic">

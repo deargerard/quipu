@@ -117,12 +117,60 @@ $cc=mysqli_query($cone, "SELECT cs.*, d.Numero, d.Ano, d.Siglas, e.ApellidoPat, 
     </tr>
     <tr>
       <th colspan="2">Viáticos</th>
-      <th style="width: 7%;" align="center">1</th>
-      <th style="width: 7%;" align="center">2</th>
-      <th style="width: 7%;" align="center">3</th>
-      <th style="width: 7%;" align="center">4</th>
-      <th style="width: 7%;" align="center">5</th>
-      <th style="width: 7%;" align="center">6</th>
+      <th style="width: 7%;" align="center">
+        <?php
+        if(date('G',strtotime($rc['FechaIni']))>18){
+          $feci=sumdias($rc['FechaIni'],1);
+          echo date('d', strtotime($feci));
+        }else{
+          $feci=date('Y-m-d', strtotime($rc['FechaIni']));
+          echo date('d', strtotime($feci));
+        }
+        ?>
+      </th>
+      <th style="width: 7%;" align="center">
+        <?php
+          if(date('Y-m-d', strtotime($rc['FechaFin']))>=sumdias($feci, 1)){
+            echo date('d', strtotime(sumdias($feci, 1)));
+          }else{
+            echo 2;
+          }
+        ?>
+      </th>
+      <th style="width: 7%;" align="center">
+        <?php
+          if(date('Y-m-d', strtotime($rc['FechaFin']))>=sumdias($feci, 2)){
+            echo date('d', strtotime(sumdias($feci, 2)));
+          }else{
+            echo 3;
+          }
+        ?>
+      </th>
+      <th style="width: 7%;" align="center">
+        <?php
+          if(date('Y-m-d', strtotime($rc['FechaFin']))>=sumdias($feci, 3)){
+            echo date('d', strtotime(sumdias($feci, 3)));
+          }else{
+            echo 4;
+          }
+        ?>
+      </th>
+      <th style="width: 7%;" align="center">
+        <?php
+          if(date('Y-m-d', strtotime($rc['FechaFin']))>=sumdias($feci, 4)){
+            echo date('d', strtotime(sumdias($feci, 4)));
+          }else{
+            echo 5;
+          }
+        ?>
+      </th>
+      <th style="width: 7%;" align="center"><?php
+          if(date('Y-m-d', strtotime($rc['FechaFin']))>=sumdias($feci, 5)){
+            echo date('d', strtotime(sumdias($feci, 5)));
+          }else{
+            echo 6;
+          }
+        ?></th>
     </tr>
 <?php
     $cco=mysqli_query($cone, "SELECT idteconceptov, conceptov FROM teconceptov WHERE nanexo=1 AND tipo=1;");

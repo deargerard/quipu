@@ -989,8 +989,6 @@ function n_2decimales($num){
 	return number_format((float)$num, 2, '.', '');
 }
 
-
-
 function basico($numero) {
 $valor = array ('uno','dos','tres','cuatro','cinco','seis','siete','ocho','nueve','diez', 'once', 'doce', 'trece', 'catorce', 'quince', 'dieciséis', 'diecisiete', 'dieciocho', 'diecinueve', 'veinte', 'veintiuno', 'veintidós', 'veintitrés','veinticuatro','veinticinco',
 'veintiséis','veintisiete','veintiocho','veintinueve');
@@ -1076,6 +1074,11 @@ function tipdocent($tde){
 	    return "DEPOSITO";
 	    break;
 	}
+}
+
+function sumdias($fec, $nd){
+	$nuevafecha = strtotime ( '+'.$nd.' day' , strtotime ( $fec ) ) ;
+	return date('Y-m-d', $nuevafecha);
 }
 
 ?>
