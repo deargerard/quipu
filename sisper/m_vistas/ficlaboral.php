@@ -29,14 +29,82 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
         <!-- Custom Tabs -->
         <div class="nav-tabs-custom">
           <ul class="nav nav-tabs">
-            <li class="active"><a href="#tab_1" data-toggle="tab">Mis Vacaciones</a></li>
-            <li><a href="#tab_2" data-toggle="tab">Mis Licencias</a></li>
+            <li class="active"><a href="#tab_1" data-toggle="tab">Mis Asistencia</a></li>
+            <li><a href="#tab_2" data-toggle="tab">Mis Vacaciones</a></li>
             <li><a href="#tab_3" data-toggle="tab">Mis Comisiones de Servicio</a></li>
-            <li><a href="#tab_4" data-toggle="tab">Mi Asistencia</a></li>
+            <li><a href="#tab_4" data-toggle="tab">Mis Licencias</a></li>
           </ul>
           <div class="tab-content">
-
+            
             <div class="tab-pane active" id="tab_1">
+              <!--Encabezado-->
+              <div class="row">
+                <div class="col-sm-9">
+                  <p><h4 class="text-blue"><strong><i class="fa fa-user"></i> <?php echo nomempleado($cone,$idper); ?> </strong></h4></p>
+                </div>
+                <div class="col-sm-3">
+                  <input type="hidden" id="idper" value="<?php echo $idper?>"> <!--envía id de personal-->
+                </div>
+              </div>
+              <!--Fin Encabezado-->
+              <!--div resultados-->
+              <div class="row" id="repasi">
+                <div class="col-md-12" id="repasi">
+                <?php
+
+                $fini = date("Y-m-d",strtotime("- 1 month", strtotime(date("Y-m")."-01")));
+
+                $cm=mysqli_query($cone,"SELECT * FROM marcacion WHERE idEmpleado=$idper AND Marcacion>='$fini' ORDER BY Marcacion DESC;");
+                  if(mysqli_num_rows($cm)>0){
+
+                  ?>
+                  <div class="row">
+                     <div class="col-sm-4">
+                       <h4 ><small class="<?php echo $col ?> text-center" style="font-weight: bold"><i class="fa fa-black-tie"></i> <?php echo cargoe($cone, $idper)." (ACTIVO)";?></small></h4>
+                     </div>
+                     <div class="col-sm-5">
+                        <h4 ><small class="<?php echo $col ?> text-center" style="font-weight: bold"><i class="fa fa-institution"></i> <?php echo dependenciae($cone, $idper);?></small></h4>
+                     </div>
+                  </div>
+
+                  <table id="dtrepasi" class="table table-bordered table-hover">
+                    <thead>
+                      <tr>
+                        <th width="30">Nro</th>
+                        <th>DÍA</th>
+                        <th>FECHA</th>
+                        <th>MARCACIÓN</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    <?php
+                      $n=0;
+                      while ($rm=mysqli_fetch_assoc($cm)){
+                      $n++;
+                    ?>
+                      <tr>
+                        <td><?php echo $n; ?></td>
+                        <td><?php echo nombredia($rm['Marcacion']); ?></td>
+                        <td><span class="hidden"> <?php echo $rm['Marcacion'] ?></span> <?php echo date('d/m/Y', strtotime($rm['Marcacion'])); ?></td>
+                        <td><?php echo date('h:i:s A', strtotime($rm['Marcacion'])); ?></td>
+                      <?php
+                      }
+                      ?>
+                    </tbody>
+                  </table>
+                  <?php
+                  }else{
+                    echo mensajewa("No se encontraron marcaciones.");
+                  }
+                    mysqli_free_result($cm);
+                  ?>
+                </div>
+              </div>
+              <!--fin div resultados-->
+            </div>
+            <!-- /.tab-pane 1 -->
+
+            <div class="tab-pane " id="tab_2">
               <!--Encabezado-->
               <div class="row">
                 <div class="col-sm-9">
@@ -291,9 +359,115 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 </div>
                 <!--fin div resultados-->
               </div>
-              <!-- /.tab-pane 1 -->
+              
+            <!-- /.tab-pane 2 -->
 
-            <div class="tab-pane" id="tab_2">
+            <div class="tab-pane" id="tab_3">
+              <!--Encabezado-->
+              <div class="row">
+                <div class="col-sm-9">
+                  <p><h4 class="text-blue"><strong><i class="fa fa-user"></i> <?php echo nomempleado($cone,$idper); ?> </strong></h4></p>
+                </div>
+                <div class="col-sm-3">
+                  <input type="hidden" id="idper" value="<?php echo $idper?>"> <!--envía id de personal-->
+                </div>
+              </div>
+              <!--Fin Encabezado-->
+              <!--div resultados-->
+              <div class="row" id="comser">
+                <div class="col-md-12" id="cs">
+                  <?php
+
+                    $q="SELECT cs.estadoren, cs.idComServicios, concat(d.Numero,'-',d.Ano,'-',d.Siglas) AS Resolucion, d.FechaDoc, cs.FechaIni, cs.FechaFin, cs.Estado, cs.origen, cs.destino, cs.Descripcion FROM comservicios cs INNER JOIN doc d ON cs.idDoc=d.idDoc WHERE cs.idEmpleado=$idper AND cs.Estado=1;";
+
+                    $ccs=mysqli_query($cone,$q);
+
+                      if (mysqli_num_rows($ccs)>0){                        
+                        ?>
+                        <div class="row">
+                           <div class="col-sm-4">
+                             <h4 ><small class="<?php echo $col ?> text-center" style="font-weight: bold"><i class="fa fa-black-tie"></i> <?php echo cargoe($cone, $idper)." (ACTIVO)";?></small></h4>
+                           </div>
+                           <div class="col-sm-5">
+                              <h4 ><small class="<?php echo $col ?> text-center" style="font-weight: bold"><i class="fa fa-institution"></i> <?php echo dependenciae($cone, $idper);?></small></h4>
+                           </div>
+                        </div>
+                        <!--Fin div row-->
+                        <table id="dtcomser" class="table table-bordered table-hover"> <!--Tabla que Lista las comisiones-->
+                          <thead>
+                            <tr>
+                              <th>DESCRIPCIÓN DE LA COMISIÓN</th>
+                              <th>ORIGEN</th>
+                              <th>DESTINO</th>
+                              <th>FECHAS</th>
+                              <th>DOCUMENTO</th>
+                              <th>RENDICIÓN</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <?php
+                            $vv="";
+                            $cv="";
+                            while($rcs=mysqli_fetch_assoc($ccs)){                     
+                              //if ($rcs['Estado']==1) {
+                                switch ($rcs['estadoren']) {
+                                  case 0:
+                                    $vv="danger";
+                                    $cv="<i class='fa fa-thumbs-down'></i> Pendiente";
+                                    break;                
+                                  case 1:
+                                    $vv="primary";
+                                    $cv="<i class='fa fa-hand-peace-o'></i> Enviada";
+                                    break;
+                                  case 2:
+                                    $vv="warning";
+                                    $cv="<i class='fa fa-hand-o-left'></i> Observada";
+                                    break;
+                                  case 3:
+                                    $vv="info";
+                                    $cv="<i class='fa fa-thumbs-up'></i> Aceptada";
+                                    break;  
+                                  case 4:
+                                    $vv="success";
+                                    $cv="<i class='fa fa-thumbs-up'></i> Rendida";
+                                    break;                                
+                                } 
+                               //}elseif ($rcs['Estado']==2){
+                                //$v="danger";
+                                //$c="Cancelada";
+                               //}
+                            ?>
+                            <tr> <!--Fila de comisiones-->
+                                <td><?php echo strlen($rcs['Descripcion'])>100 ? substr(html_entity_decode($rcs['Descripcion']), 0, 100)."..." : $rcs['Descripcion']; ?></td> <!--columna DESCRIPCIÓN-->
+                                <td><?php echo $rcs['origen']; ?></td> <!--columna LUGAR-->
+                                <td><?php echo $rcs['destino']; ?></td> <!--columna INICIO-->
+                                <td><?php echo date('d/m/Y H:i', strtotime($rcs['FechaFin']))." ".date('d/m/Y H:i', strtotime($rcs['FechaIni'])); ?></td> <!--columna FIN-->
+                                <td><?php echo $rcs['Resolucion']?></td> <!--columna NÚMERO DE RESOLUCIÓN-->
+                                <td>
+                                  <?php if($rcs['FechaIni']>'2018-12-01'){ ?>            
+                                  <button type="button" class="btn btn-<?php echo $vv;?> btn-xs" title="Estado Rendición" onclick="fo_rendir('agrre',<?php echo $rcs['idComServicios']; ?>)"><?php echo $cv; ?></button>
+                                  <?php } ?>                              
+                                </td> <!--columna RENDIR-->
+                              </tr>
+                            <?php
+                            }
+                            ?>
+                          </tbody>
+                          <!--fin tbody-->
+                        </table>
+                        <!--fin table-->
+                        <?php
+                        }else {
+                          echo mensajewa("No tiene Programadas Comisiones de Servicio");
+                        }
+                      ?>
+                </div>
+              </div>
+              <!--fin div resultados-->
+            </div>
+            <!-- /.tab-pane 3 -->
+
+            <div class="tab-pane" id="tab_4">
               <!--Formulario de encabezado-->
               <form action="" id="f_rreva" class="form-inline">
                 <p><h4 class="text-blue"><strong><i class="fa fa-user"></i> <?php echo nomempleado($cone,$idper); ?> </strong></h4></p>
@@ -429,180 +603,12 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
               </div>
               <!--fin div resultados-->
             </div>
-            <!-- /.tab-pane 2 -->
-
-            <div class="tab-pane" id="tab_3">
-              <!--Encabezado-->
-              <div class="row">
-                <div class="col-sm-9">
-                  <p><h4 class="text-blue"><strong><i class="fa fa-user"></i> <?php echo nomempleado($cone,$idper); ?> </strong></h4></p>
-                </div>
-                <div class="col-sm-3">
-                  <input type="hidden" id="idper" value="<?php echo $idper?>"> <!--envía id de personal-->
-                </div>
-              </div>
-              <!--Fin Encabezado-->
-              <!--div resultados-->
-              <div class="row" id="comser">
-                <div class="col-md-12" id="cs">
-                  <?php
-
-                    $q="SELECT cs.estadoren, cs.idComServicios, concat(d.Numero,'-',d.Ano,'-',d.Siglas) AS Resolucion, d.FechaDoc, cs.FechaIni, cs.FechaFin, cs.Estado, cs.origen, cs.destino, cs.Descripcion FROM comservicios cs INNER JOIN doc d ON cs.idDoc=d.idDoc WHERE cs.idEmpleado=$idper AND cs.Estado=1;";
-
-                    $ccs=mysqli_query($cone,$q);
-
-                      if (mysqli_num_rows($ccs)>0){                        
-                        ?>
-                        <div class="row">
-                           <div class="col-sm-4">
-                             <h4 ><small class="<?php echo $col ?> text-center" style="font-weight: bold"><i class="fa fa-black-tie"></i> <?php echo cargoe($cone, $idper)." (ACTIVO)";?></small></h4>
-                           </div>
-                           <div class="col-sm-5">
-                              <h4 ><small class="<?php echo $col ?> text-center" style="font-weight: bold"><i class="fa fa-institution"></i> <?php echo dependenciae($cone, $idper);?></small></h4>
-                           </div>
-                        </div>
-                        <!--Fin div row-->
-                        <table id="dtcomser" class="table table-bordered table-hover"> <!--Tabla que Lista las comisiones-->
-                  			  <thead>
-                  					<tr>
-                  						<th>DESCRIPCIÓN DE LA COMISIÓN</th>
-                              <th>ORIGEN</th>
-                  		        <th>DESTINO</th>
-                              <th>FECHAS</th>
-                  						<th>DOCUMENTO</th>
-                  		        <th>RENDICIÓN</th>
-                  					</tr>
-                  				</thead>
-                          <tbody>
-                      			<?php
-                      			$vv="";
-                      			$cv="";
-                      			while($rcs=mysqli_fetch_assoc($ccs)){                     
-                              //if ($rcs['Estado']==1) {
-                      					switch ($rcs['estadoren']) {
-                                  case 0:
-                                    $vv="danger";
-                                    $cv="<i class='fa fa-thumbs-down'></i> Pendiente";
-                                    break;                
-                                  case 1:
-                                    $vv="primary";
-                                    $cv="<i class='fa fa-hand-peace-o'></i> Enviada";
-                                    break;
-                                  case 2:
-                                    $vv="warning";
-                                    $cv="<i class='fa fa-hand-o-left'></i> Observada";
-                                    break;
-                                  case 3:
-                                    $vv="info";
-                                    $cv="<i class='fa fa-thumbs-up'></i> Aceptada";
-                                    break;  
-                                  case 4:
-                                    $vv="success";
-                                    $cv="<i class='fa fa-thumbs-up'></i> Rendida";
-                                    break;                                
-                                } 
-                      				 //}elseif ($rcs['Estado']==2){
-                      					//$v="danger";
-                      					//$c="Cancelada";
-                      				 //}
-                      			?>
-                      			<tr> <!--Fila de comisiones-->
-                      					<td><?php echo strlen($rcs['Descripcion'])>100 ? substr(html_entity_decode($rcs['Descripcion']), 0, 100)."..." : $rcs['Descripcion']; ?></td> <!--columna DESCRIPCIÓN-->
-                                <td><?php echo $rcs['origen']; ?></td> <!--columna LUGAR-->
-                      					<td><?php echo $rcs['destino']; ?></td> <!--columna INICIO-->
-                      					<td><?php echo date('d/m/Y H:i', strtotime($rcs['FechaFin']))." ".date('d/m/Y H:i', strtotime($rcs['FechaIni'])); ?></td> <!--columna FIN-->
-                      					<td><?php echo $rcs['Resolucion']?></td> <!--columna NÚMERO DE RESOLUCIÓN-->
-                      					<td>
-                                  <?php if($rcs['FechaIni']>'2018-12-01'){ ?>            
-                                  <button type="button" class="btn btn-<?php echo $vv;?> btn-xs" title="Estado Rendición" onclick="fo_rendir('agrre',<?php echo $rcs['idComServicios']; ?>)"><?php echo $cv; ?></button>
-                                  <?php } ?>                              
-                                </td> <!--columna RENDIR-->
-                              </tr>
-                    				<?php
-                    				}
-                    				?>
-                      		</tbody>
-                          <!--fin tbody-->
-                        </table>
-                        <!--fin table-->
-                        <?php
-                        }else {
-                          echo mensajewa("No tiene Programadas Comisiones de Servicio");
-                        }
-                      ?>
-                </div>
-              </div>
-              <!--fin div resultados-->
-            </div>
-            <!-- /.tab-pane 3 -->
-
-            <div class="tab-pane" id="tab_4">
-              <!--Encabezado-->
-              <div class="row">
-                <div class="col-sm-9">
-                  <p><h4 class="text-blue"><strong><i class="fa fa-user"></i> <?php echo nomempleado($cone,$idper); ?> </strong></h4></p>
-                </div>
-                <div class="col-sm-3">
-                  <input type="hidden" id="idper" value="<?php echo $idper?>"> <!--envía id de personal-->
-                </div>
-              </div>
-              <!--Fin Encabezado-->
-              <!--div resultados-->
-              <div class="row" id="repasi">
-                <div class="col-md-12" id="repasi">
-                <?php
-
-                $fini = date("Y-m-d",strtotime("- 1 month", strtotime(date("Y-m")."-01")));
-
-                $cm=mysqli_query($cone,"SELECT * FROM marcacion WHERE idEmpleado=$idper AND Marcacion>='$fini' ORDER BY Marcacion DESC;");
-                  if(mysqli_num_rows($cm)>0){
-
-                  ?>
-                  <div class="row">
-                     <div class="col-sm-4">
-                       <h4 ><small class="<?php echo $col ?> text-center" style="font-weight: bold"><i class="fa fa-black-tie"></i> <?php echo cargoe($cone, $idper)." (ACTIVO)";?></small></h4>
-                     </div>
-                     <div class="col-sm-5">
-                        <h4 ><small class="<?php echo $col ?> text-center" style="font-weight: bold"><i class="fa fa-institution"></i> <?php echo dependenciae($cone, $idper);?></small></h4>
-                     </div>
-                  </div>
-
-                  <table id="dtrepasi" class="table table-bordered table-hover">
-                    <thead>
-                      <tr>
-                        <th width="30">Nro</th>
-                        <th>DÍA</th>
-                        <th>FECHA</th>
-                        <th>MARCACIÓN</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                    <?php
-                      $n=0;
-                      while ($rm=mysqli_fetch_assoc($cm)){
-                      $n++;
-                    ?>
-                      <tr>
-                        <td><?php echo $n; ?></td>
-                        <td><?php echo nombredia($rm['Marcacion']); ?></td>
-                        <td><span class="hidden"> <?php echo $rm['Marcacion'] ?></span> <?php echo date('d/m/Y', strtotime($rm['Marcacion'])); ?></td>
-                        <td><?php echo date('h:i:s A', strtotime($rm['Marcacion'])); ?></td>
-                      <?php
-                      }
-                      ?>
-                    </tbody>
-                  </table>
-                  <?php
-                  }else{
-                    echo mensajewa("No se encontraron marcaciones.");
-                  }
-                    mysqli_free_result($cm);
-                  ?>
-                </div>
-              </div>
-              <!--fin div resultados-->
-            </div>
             <!-- /.tab-pane 4 -->
+
+            
+
+            
+            
           </div>
           <!-- /.tab-content -->
         </div>

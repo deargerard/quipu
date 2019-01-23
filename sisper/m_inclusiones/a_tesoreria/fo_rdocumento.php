@@ -11,6 +11,8 @@ if(accesoadm($cone,$_SESSION['identi'],9)){
 		if($rc=mysqli_fetch_assoc($cc)){              
             $er=$rc['estadoren'];
             $ap=$rc['aneplanilla'];
+            $fi=fnormal($rc['FechaIni']);
+            $ff=fnormal($rc['FechaFin']);
         }
         mysqli_free_result($cc);			
 		if($acc=="agrre"){		
@@ -42,6 +44,7 @@ if(accesoadm($cone,$_SESSION['identi'],9)){
 		          		
 		          	<?php
 		          	}elseif(($er==3 || $er==4) && $e){
+		          	
 		          		if ($ap==1) {          		
 		          	?>
 		          		<a href="m_inclusiones/a_tesoreria/pdf_anexo01.php?idcs=<?php echo $idcs;?>" type="button" class="btn btn-warning" title="Anexo 01 Planilla" target="_blank">A01</a> <?php } ?>				  	
@@ -58,6 +61,9 @@ if(accesoadm($cone,$_SESSION['identi'],9)){
 		        		<a href="m_inclusiones/a_tesoreria/pdf_anexo07.php?idcs=<?php echo $idcs;?>" type="button" class="btn btn-warning" title="Anexo 07 Planilla" target="_blank">A07</a>
 		          	<?php
 		          		}
+		          	?>
+						<a href="m_inclusiones/a_tesoreria/pdf_anexo05.php?idcs=<?php echo $idcs;?>" type="button" class="btn btn-warning" title="Anexo 05 Recibo" target="_blank">A05</a>
+		          	<?php
 		          	}
 		          	?>			      
 			    </td>
