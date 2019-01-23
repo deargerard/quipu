@@ -93,7 +93,7 @@ $cc=mysqli_query($cone, "SELECT cs.*, d.Numero, d.Ano, d.Siglas, e.ApellidoPat, 
     </tr>
     <tr>
       <th>LUGAR DE LA COMISIÓN</th>
-      <td colspan="5" align="center"><?php echo disprodep($cone, $rc['idDistrito']); ?></td>
+      <td colspan="5" align="center"><?php echo $rc['destino']; ?></td>
     </tr>
     <tr>
       <td colspan="6"></td>
