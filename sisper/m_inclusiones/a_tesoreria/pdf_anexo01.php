@@ -164,13 +164,15 @@ $cc=mysqli_query($cone, "SELECT cs.*, d.Numero, d.Ano, d.Siglas, e.ApellidoPat, 
           }
         ?>
       </th>
-      <th style="width: 7%;" align="center"><?php
+      <th style="width: 7%;" align="center">
+        <?php
           if(date('Y-m-d', strtotime($rc['FechaFin']))>=sumdias($feci, 5)){
             echo date('d', strtotime(sumdias($feci, 5)));
           }else{
             echo 6;
           }
-        ?></th>
+        ?>
+      </th>
     </tr>
 <?php
     $cco=mysqli_query($cone, "SELECT idteconceptov, conceptov FROM teconceptov WHERE nanexo=1 AND tipo=1;");

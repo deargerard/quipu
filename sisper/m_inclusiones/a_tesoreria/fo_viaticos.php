@@ -11,6 +11,11 @@ include("../php/funciones.php");
 			if(accesocon($cone,$_SESSION['identi'],16)){
 				$cc=mysqli_query($cone, "SELECT FechaIni, FechaFin, idEmpleado, origen, destino, aneplanilla, estadoren, csivia FROM comservicios WHERE idComServicios=$v1;");
 				if($rc=mysqli_fetch_assoc($cc)){
+			        if(date('G',strtotime($rc['FechaIni']))>18){
+			          $fi=sumdias($rc['FechaIni'],1);
+			        }else{
+			          $fi=date('Y-m-d', strtotime($rc['FechaIni']));
+			        }
 ?>
 		<table class="table table-bordered table-hover">
 			<tr>
@@ -66,7 +71,7 @@ include("../php/funciones.php");
 ?>
 			<tr>
 				<td><?php echo $n; ?></td>
-				<td><?php echo $rd['dia']; ?></td>
+				<td><?php echo date('d', strtotime(sumdias($fi ,($rd['dia']-1)))); ?></td>
 				<td><?php echo $rd['conceptov']; ?></td>
 				<td style="text-align: right;"><?php echo n_2decimales($rd['monto']); ?></td>
 <?php if(accesoadm($cone, $_SESSION['identi'], 16) && $rc['estadoren']!=4){ ?>
@@ -206,6 +211,10 @@ include("../php/funciones.php");
 			}
 		}elseif($acc=="agrcon"){
 			if(accesoadm($cone,$_SESSION['identi'],16)){
+				$cd=mysqli_query($cone, "SELECT FechaIni, FechaFin FROM comservicios WHERE idComServicios=$v1;");
+				if($rd=mysqli_fetch_assoc($cd)){
+
+				
 ?>
 		  <div class="row">
 		  	<div class="col-sm-12">
@@ -236,19 +245,65 @@ include("../php/funciones.php");
 			      <label for="dia">Día<small class="text-red">*</small></label>
 			      <select class="form-control" name="dia" id="dia">
 			      	<option value="">Día</option>
-					<option value="1" <?php echo $v2==7 ? "selected" : ""; ?>>1</option>
-					<option value="2">2</option>
-					<option value="3">3</option>
-					<option value="4">4</option>
-					<option value="5">5</option>
-					<option value="6">6</option>
+					<option value="1" <?php echo $v2==7 ? "selected" : ""; ?>>
+					<?php
+			        if(date('G',strtotime($rd['FechaIni']))>18){
+			          $feci=sumdias($rd['FechaIni'],1);
+			          echo date('d', strtotime($feci));
+			        }else{
+			          $feci=date('Y-m-d', strtotime($rd['FechaIni']));
+			          echo date('d', strtotime($feci));
+			        }
+			        ?>
+					</option>
+					
+			        <?php
+			          if(date('Y-m-d', strtotime($rd['FechaFin']))>=sumdias($feci, 1)){
+			        ?>
+			        <option value="2"><?php echo date('d', strtotime(sumdias($feci, 1)));; ?></option>
+			        <?php
+			          }
+			        ?>
+					
+			        <?php
+			          if(date('Y-m-d', strtotime($rd['FechaFin']))>=sumdias($feci, 2)){
+			        ?>
+			        <option value="3"><?php echo date('d', strtotime(sumdias($feci, 2))); ?></option>
+			        <?php
+			          }
+			        ?>
+					
+			        <?php
+			          if(date('Y-m-d', strtotime($rd['FechaFin']))>=sumdias($feci, 3)){
+			        ?>
+			        <option value="4"><?php echo date('d', strtotime(sumdias($feci, 3))); ?></option>
+			        <?php
+			          }
+			        ?>
+					
+			        <?php
+			          if(date('Y-m-d', strtotime($rd['FechaFin']))>=sumdias($feci, 4)){
+			        ?>
+			        <option value="5"><?php echo date('d', strtotime(sumdias($feci, 4))); ?></option>
+			        <?php
+			          }
+			        ?>
+					
+			        <?php
+			          if(date('Y-m-d', strtotime($rd['FechaFin']))>=sumdias($feci, 5)){
+			        ?>
+			        <option value="6"><?php echo date('d', strtotime(sumdias($feci, 5))); ?></option>
+			        <?php
+			          }
+			        ?>
+					
 		      	  </select>
 		      	</div>
 		    </div>
 		    <div class="col-sm-6">
 		    	<div class="form-group">
 			      <label for="mon">Monto<small class="text-red">*</small></label>
-			      <input type="number" name="mon" id="mon" class="form-control" step=".01">
+			      <input type="number" name="mon" id="mon" class="form-control" step="any">
 		      	</div>
 		    </div>
 		    <div class="clearfix"></div>
@@ -256,6 +311,10 @@ include("../php/funciones.php");
 		  	</div>
 		  </div>
 <?php
+				}else{
+					echo mensajewa("Datos inválidos");
+				}
+				mysqli_free_result($cd);
 			}else{
 				echo mensajewa("Acceso restringido");
 			}
