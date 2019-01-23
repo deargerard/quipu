@@ -166,6 +166,9 @@ use Spipu\Html2Pdf\Html2Pdf;
                 case 14:
                   $to=$to+$rc['totalcom'];
                   break;
+                case 20:
+                  $tm=$tm+$rc['totalcom'];
+                  break;
               }
   ?>
           <tr>
