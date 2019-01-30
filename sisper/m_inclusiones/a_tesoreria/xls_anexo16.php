@@ -28,13 +28,18 @@ if(accesocon($cone,$_SESSION['identi'],16)){
 .tabla>th>td {
     border: 1px solid black;
 }
+.formato{
+    font-family: Arial;
+    font-size: 16px;
+}
 		</style>
-          <table cellpadding="0" cellspacing="0" style="font-size:10px; width: 100%; padding: 0;">
+          <table cellpadding="0" cellspacing="0" style="width: 100%; padding: 0;" class="formato">
             <tr>
               <th colspan="2"></th>
               <th colspan="7" style="font-size: 16px;">ANEXO N&deg; 16</th>
+              <th></th>
               <th style="text-align: center;">N&deg;</th>
-              <th style="text-align: center;" colspan="2"><?php echo $rr['codigo']; ?></th>
+              <th style="text-align: center;"><?php echo $rr['codigo']; ?></th>
             </tr>
             <tr>
               <td colspan="12"></td>
@@ -57,8 +62,8 @@ if(accesocon($cone,$_SESSION['identi'],16)){
               <td colspan="12"></td>
             </tr>
           </table>
-          <table border="1" cellpadding="0" cellspacing="0" bordercolor="#999999" style="font-size:8px; width: 100%; padding: 0;" class="tabla">
-            <tr style="background-color: #DDDDDD;" style="font-size: 10px; vertical-align: middle; text-align: center;">
+          <table border="1" cellpadding="0" cellspacing="0" bordercolor="#999999" style="width: 100%; padding: 0;" class="formato">
+            <tr style="background-color: #DDDDDD;" style="vertical-align: middle; text-align: center;">
               <td rowspan="2">N&deg;</td>
               <td colspan="3">Documento</td>
               <td rowspan="2">Proveedor</td>
@@ -68,7 +73,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
               <td colspan="2"><?php echo substr($rr['fondo'], 0, 4)."/".substr($rr['meta'], 0, 4); ?></td>
               <td rowspan="2">TOTAL</td>
             </tr>
-            <tr style="background-color: #DDDDDD;" style="font-size: 10px; vertical-align: middle; text-align: center;">
+            <tr style="background-color: #DDDDDD;" style="vertical-align: middle; text-align: center;">
               <td>Fecha</td>
               <td>Clase</td>
               <td>N&deg;</td>
@@ -83,11 +88,11 @@ if(accesocon($cone,$_SESSION['identi'],16)){
 			  	$ide=$re['idteespecifica'];
 			  	$t=$t+$re['tot'];
 ?>
-			<tr style="background-color: #EEEEEE;" style="font-size: 9px; vertical-align: middle;">
+			<tr style="background-color: #EEEEEE;" style="vertical-align: middle;">
         <td colspan="6"></td>
 				<td style="text-align: right;"><?php echo $re['codigo']; ?></td>
 				<td colspan="4"><?php echo $re['nombre']; ?></td>
-				<th style="mso-number-format:'0.00';"><?php echo $re['tot']; ?></th>
+				<th style="mso-number-format:'0.00'; text-align: right;"><?php echo $re['tot']; ?></th>
 			</tr>
 <?php
 				$cc=mysqli_query($cone,"SELECT g.fechacom, g.numerocom, g.glosacom, g.totalcom, tc.tipo, p.razsocial, p.ruc FROM tegasto g INNER JOIN tetipocom tc ON g.idtetipocom=tc.idtetipocom INNER JOIN teproveedor p ON g.idteproveedor=p.idteproveedor WHERE g.idterendicion=$ren AND g.idteespecifica=$ide ORDER BY g.fechacom ASC;");
@@ -110,7 +115,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
               <td><?php echo '&nbsp;'.$rc['ruc']; ?></td>
               <td colspan="3"><?php echo $rc['glosacom']; ?></td>
               <td colspan="2" style="mso-number-format:'0.00';"><?php echo $rc['totalcom']; ?></td>
-              <td style="mso-number-format:'0.00';"><?php echo $rc['totalcom']; ?></td>
+              <td style="mso-number-format:'0.00'; text-align: right;"><?php echo $rc['totalcom']; ?></td>
             </tr>
             <?php
             		}
@@ -120,12 +125,12 @@ if(accesocon($cone,$_SESSION['identi'],16)){
             }
             mysqli_free_result($ce);
             ?>
-            <tr style="background-color: #DDDDDD;" style="font-size: 10px;">
+            <tr style="background-color: #DDDDDD;">
             	<th colspan="11" style="text-align: right;">TOTAL</th>
-            	<th style="mso-number-format:'0.00';"><?php echo $t; ?></th>
+            	<th style="mso-number-format:'0.00'; text-align: right;"><?php echo $t; ?></th>
             </tr>
           </table>
-          <table cellpadding="0" cellspacing="0" style="font-size:8px; width: 100%; padding: 0;">
+          <table cellpadding="0" cellspacing="0" style="width: 100%; padding: 0;" class="formato">
           	<tr>
           		<td colspan="11">&nbsp;</td>
           	</tr>
@@ -197,7 +202,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
     border: 1px solid black;
 }
     </style>
-          <table cellpadding="0" cellspacing="0" style="font-size:12px; width: 100%; padding: 0;">
+          <table cellpadding="0" cellspacing="0" style="width: 100%; padding: 0;">
             <tr>
               <th colspan="2"></th>
               <th colspan="4">ANEXO N&deg; 16</th>
@@ -209,15 +214,15 @@ if(accesocon($cone,$_SESSION['identi'],16)){
               <th colspan="2" align="center"></th>
             </tr>
           </table>
-          <table border="1" cellpadding="0" cellspacing="0" bordercolor="#999999" style="font-size:10px; width: 100%; padding: 0;" class="tabla">
-            <tr style="background-color: #CCCCCC;" style="font-size: 10px; vertical-align: middle; text-align: center;">
+          <table border="1" cellpadding="0" cellspacing="0" bordercolor="#999999" style="width: 100%; padding: 0;" class="tabla">
+            <tr style="background-color: #CCCCCC;" style="vertical-align: middle; text-align: center;">
               <td rowspan="2">N&deg;</td>
               <td colspan="3">DOCUMENTO</td>
               <td rowspan="2">ESPECIFICA DE GASTO</td>
               <td colspan="2"><?php echo substr($rr['fondo'], 0, 4)."/".substr($rr['meta'], 0, 4); ?></td>
               <td rowspan="2">TOTAL</td>
             </tr>
-            <tr style="background-color: #CCCCCC;" style="font-size: 10px; vertical-align: middle; text-align: center;">
+            <tr style="background-color: #CCCCCC;" style="vertical-align: middle; text-align: center;">
               <td>FECHA</td>
               <td>CLASE</td>
               <td>N&deg;</td>
@@ -235,7 +240,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
               $n++;
               $idcs=$rct['idComServicios'];
 ?>
-            <tr style="background-color: #DDDDDD; font-size: 12px; vertical-align: middle;">
+            <tr style="background-color: #DDDDDD; vertical-align: middle;">
               <td colspan="7"><b><?php echo $n.".- ".nomempleado($cone, $rct['idEmpleado'])." - ".$rct['csivia']; ?></b></td>
               <td style="mso-number-format:'0.00';"><b><?php echo n_2decimales($rct['tot']); ?></b></td>
             </tr>
@@ -246,7 +251,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
                   $ide=$rte['idteespecifica'];
                   $se[$ide]=$se[$ide]+$rte['totesp'];
 ?>
-            <tr style="background-color: #EEEEEE; font-size: 10px;">
+            <tr style="background-color: #EEEEEE;">
               <td colspan="4"></td>
               <td><b><?php echo $rte['codigo']." ".$rte['nombre']; ?></b></td>
               <td></td>
@@ -258,7 +263,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
                   if(mysqli_num_rows($cga)>0){
                     while($rga=mysqli_fetch_assoc($cga)){
 ?>
-            <tr style="font-size: 10px;">
+            <tr>
               <td></td>
               <td><?php echo fnormal($rga['fechacom']); ?></td>
               <td><?php echo $rga['tipo']; ?></td>
@@ -277,7 +282,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
               mysqli_free_result($cte);
             }
 ?>
-            <tr style="font-size: 12px;">
+            <tr>
               <td colspan="7" style="text-align: center;"><b>TOTAL</b></td>
               <td style="mso-number-format:'0.00';"><b><?php echo $st; ?></b></td>
             </tr>
@@ -293,17 +298,17 @@ if(accesocon($cone,$_SESSION['identi'],16)){
 ?>
 
           </table>
-          <table cellpadding="0" cellspacing="0" style="font-size:12px; width: 100%; padding: 0;">
+          <table cellpadding="0" cellspacing="0" style="width: 100%; padding: 0;">
             <tr>
               <td colspan="8"></td>
             </tr>
           </table>
-          <table border="1" cellpadding="0" cellspacing="0" bordercolor="#999999" style="font-size:11px; width: 100%; padding: 0;" class="tabla">
-            <tr style="background-color: #CCCCCC;" style="font-size: 10px; vertical-align: middle; text-align: center;">
+          <table border="1" cellpadding="0" cellspacing="0" bordercolor="#999999" style="width: 100%; padding: 0;" class="tabla">
+            <tr style="background-color: #CCCCCC;" style="vertical-align: middle; text-align: center;">
               <td colspan="6" rowspan="2">ESPECIFICA DE GASTO</td>
               <td colspan="2">MNEMONICO</td>
             </tr>
-            <tr style="background-color: #CCCCCC;" style="font-size: 10px; vertical-align: middle; text-align: center;">
+            <tr style="background-color: #CCCCCC;" style="vertical-align: middle; text-align: center;">
               <td colspan="2"><?php echo $rr['mnemonico']; ?></td>
             </tr>
 <?php
@@ -321,7 +326,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
             mysqli_free_result($ces);
           }
 ?>
-            <tr style="font-size: 12px;">
+            <tr>
               <td colspan="6" style="text-align: center;"><b>TOTAL</b></td>
               <td colspan="2" style="mso-number-format:'0.00';"><b><?php echo $st; ?></b></td>
             </tr>
