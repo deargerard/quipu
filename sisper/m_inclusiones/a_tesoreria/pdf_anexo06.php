@@ -129,7 +129,7 @@ use Spipu\Html2Pdf\Html2Pdf;
           <th colspan="4">a) ALOJAMIENTO Y ALIMENTACION</th>
           <td style="text-align: right;">S/</td>
 <?php
-              $caao=mysqli_query($cone,"SELECT SUM(monto) as tasignado FROM tedetplanillav where idComServicios=$idcs AND (idteconceptov=1 OR idteconceptov=2);");
+              $caao=mysqli_query($cone,"SELECT SUM(monto) as tasignado FROM tedetplanillav where idComServicios=$idcs AND (idteconceptov=1 OR idteconceptov=2 OR idteconceptov=3);");
               $caar=mysqli_query($cone,"SELECT SUM(totalcom) as trendido FROM tegasto where idComServicios=$idcs AND (idteconceptov=9 OR idteconceptov=10 OR idteconceptov=11);");
               $taao=0;
               $taar=0;                         
