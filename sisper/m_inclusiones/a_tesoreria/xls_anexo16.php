@@ -94,14 +94,20 @@ if(accesocon($cone,$_SESSION['identi'],16)){
 				if(mysqli_num_rows($cc)>0){
 					while($rc=mysqli_fetch_assoc($cc)){
 						$n++;
+            $nc=explode('-', $rc['numerocom']);
+            if($nc[0]=='S'){
+              $nnc=$nc['1'];
+            }else{
+              $nnc=$rc['numerocom'];
+            }
 ?>
             <tr>
               <td><?php echo $n; ?></td>
               <td><?php echo fnormal($rc['fechacom']); ?></td>
               <td><?php echo $rc['tipo']; ?></td>
-              <td><?php echo '&nbsp;'.$rc['numerocom']; ?></td>
+              <td><?php echo '&nbsp;'.$nnc; ?></td>
               <td><?php echo $rc['razsocial']; ?></td>
-              <td><?php echo $rc['ruc']; ?></td>
+              <td><?php echo '&nbsp;'.$rc['ruc']; ?></td>
               <td colspan="3"><?php echo $rc['glosacom']; ?></td>
               <td colspan="2" style="mso-number-format:'0.00';"><?php echo $rc['totalcom']; ?></td>
               <td style="mso-number-format:'0.00';"><?php echo $rc['totalcom']; ?></td>
