@@ -73,7 +73,7 @@ $cc=mysqli_query($cone, "SELECT cs.*, d.Numero, d.Ano, d.Siglas, e.ApellidoPat, 
     </tr>
     <tr>
       <th>DEPENDENCIA</th>
-      <td colspan="3" align="center"><?php echo substr(html_entity_decode(dependenciaxiecxfecha($cone, $idec, date('Y-m-d', strtotime($rc['FechaIni'])))),0,60); ?></td>
+      <td colspan="3" align="center"><?php echo wordwrap(html_entity_decode(dependenciaxiecxfecha($cone, $idec, date('Y-m-d', strtotime($rc['FechaIni'])))),45,"<br/>\n",true); ?></td>
       <th>REGIMEN</th>
       <td align="center"><?php echo condicionlabxiec($cone, $idec); ?></td>
     </tr>
