@@ -62,6 +62,45 @@ if(accesocon($cone,$_SESSION['identi'],16)){
                       ?>
                     </tbody>
                   </table>
+<?php
+                  $cmr=mysqli_query($cone, "SELECT SUM(g.totalcom) tr FROM comservicios cs INNER JOIN tegasto g ON cs.idComServicios=g.idComServicios WHERE DATE_FORMAT(cs.FechaIni, '%Y-%m')='$anio-$mes' AND estadoren=4");
+                  if($rmr=mysqli_fetch_assoc($cmr)){
+                    $mr=$rmr['tr'];
+                  }else{
+                    $mr=0;
+                  }
+                  mysqli_free_result($cmr);
+                  $cma=mysqli_query($cone, "SELECT SUM(g.totalcom) ta FROM comservicios cs INNER JOIN tegasto g ON cs.idComServicios=g.idComServicios WHERE DATE_FORMAT(cs.FechaIni, '%Y-%m')='$anio-$mes' AND estadoren=3");
+                  if($rma=mysqli_fetch_assoc($cma)){
+                    $ma=$rma['ta'];
+                  }else{
+                    $ma=0;
+                  }
+                  mysqli_free_result($cma);
+                  $cmo=mysqli_query($cone, "SELECT SUM(g.totalcom) tob FROM comservicios cs INNER JOIN tegasto g ON cs.idComServicios=g.idComServicios WHERE DATE_FORMAT(cs.FechaIni, '%Y-%m')='$anio-$mes' AND estadoren=2");
+                  if($rmo=mysqli_fetch_assoc($cmo)){
+                    $mo=$rmo['tob'];
+                  }else{
+                    $mo=0;
+                  }
+                  mysqli_free_result($cmo);
+?>
+                  <table class="table table-hover table-bordered">
+                    <thead>
+                      <tr>
+                        <th class="text-green">M. RENDIDO</th>
+                        <th class="text-aqua">M. ACEPTADO</th>
+                        <th class="text-yellow">M. OBSERVADO</th>
+                        <th>TOTAL</th>
+                      </tr>
+                    </thead>
+                      <tr>
+                        <th class="text-green"><?php echo n_2decimales($mr); ?></th>
+                        <th class="text-aqua"><?php echo n_2decimales($ma); ?></th>
+                        <th class="text-yellow"><?php echo n_2decimales($mo); ?></th>
+                        <th><?php echo n_2decimales($mr+$ma+$mo); ?></th>
+                      </tr>
+                  </table>
                   <script>
                   	$('#dtable').DataTable();
                   </script>
