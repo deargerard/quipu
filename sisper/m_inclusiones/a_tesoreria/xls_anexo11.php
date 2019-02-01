@@ -56,7 +56,9 @@ if(accesocon($cone,$_SESSION['identi'],16)){
               <td>N&deg; RENDICI&Oacute;N</td>
             </tr>
 <?php
-				$cc=mysqli_query($cone,"SELECT DISTINCT g.numerocom, g.codservicio, g.totalcom, p.razsocial, e.nombre, e.codigo, d.Denominacion, l.Alias, cl.CondicionLocal FROM tegasto g INNER JOIN tetipocom tc ON g.idtetipocom=tc.idtetipocom INNER JOIN teproveedor p ON g.idteproveedor=p.idteproveedor INNER JOIN teespecifica e ON g.idteespecifica=e.idteespecifica INNER JOIN dependencia d ON g.idDependencia=d.idDependencia LEFT JOIN local l ON g.idLocal=l.idLocal LEFT JOIN condicionloc cl ON l.idCondicionLoc=cl.idCondicionLoc WHERE g.idterendicion=$ren AND (e.idteespecifica=38 OR e.idteespecifica=39) ORDER BY g.fechacom, g.numerocom ASC;");
+        $q="SELECT g.numerocom, g.codservicio, g.totalcom, p.razsocial, e.nombre, e.codigo, d.Denominacion, l.Alias, cl.CondicionLocal FROM tegasto g INNER JOIN tetipocom tc ON g.idtetipocom=tc.idtetipocom INNER JOIN teproveedor p ON g.idteproveedor=p.idteproveedor INNER JOIN teespecifica e ON g.idteespecifica=e.idteespecifica INNER JOIN dependencia d ON g.idDependencia=d.idDependencia LEFT JOIN local l ON g.idLocal=l.idLocal LEFT JOIN condicionloc cl ON l.idCondicionLoc=cl.idCondicionLoc WHERE g.idterendicion=$ren AND (e.idteespecifica=38 OR e.idteespecifica=39) ORDER BY e.codigo, g.fechacom, g.numerocom ASC;";
+        echo $q;
+				$cc=mysqli_query($cone,$q);
 				if(mysqli_num_rows($cc)>0){
 					$n=0;
 					$t=0;

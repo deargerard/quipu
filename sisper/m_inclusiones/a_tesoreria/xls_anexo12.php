@@ -19,15 +19,19 @@ if(accesocon($cone,$_SESSION['identi'],16)){
 	   			
 ?>
 		<style type="text/css">
-.tabla {
-    border-collapse: collapse;
-}
+      .tabla {
+          border-collapse: collapse;
+      }
 
-.tabla>th>td {
-    border: 1px solid black;
-}
+      .tabla>th>td {
+          border: 1px solid black;
+      }
+      .formato{
+          font-family: Arial;
+          font-size: 16px;
+      }
 		</style>
-          <table cellpadding="0" cellspacing="0" style="font-size:10px; width: 100%; padding: 0;">
+          <table cellpadding="0" cellspacing="0" style="width: 100%; padding: 0;" class="formato">
             <tr>
               <th colspan="8">ANEXO N&deg; 12</th>
             </tr>
@@ -40,8 +44,8 @@ if(accesocon($cone,$_SESSION['identi'],16)){
               <td colspan="1"><?php echo date('d/m/Y'); ?></td>
             </tr>
           </table>
-          <table border="1" cellpadding="0" cellspacing="0" bordercolor="#999999" style="font-size:8px; width: 100%; padding: 0;" class="tabla">
-            <tr style="background-color: #DDDDDD;" style="font-size: 10px; vertical-align: middle; text-align: center;">
+          <table border="1" cellpadding="0" cellspacing="0" bordercolor="#999999" style="width: 100%; padding: 0;" class="formato">
+            <tr style="background-color: #DDDDDD;" style="vertical-align: middle; text-align: center;">
               <td>N&deg;</td>
               <td>N&deg; RECIBO</td>
               <td>N&deg; SUMINISTRO</td>
@@ -51,7 +55,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
               <td>IMPORTE</td>
             </tr>
 <?php
-				$cc=mysqli_query($cone,"SELECT g.numerocom, g.codservicio, g.totalcom, e.nombre, e.codigo, d.Denominacion FROM tegasto g INNER JOIN tetipocom tc ON g.idtetipocom=tc.idtetipocom INNER JOIN teespecifica e ON g.idteespecifica=e.idteespecifica INNER JOIN dependencia d ON g.idDependencia=d.idDependencia WHERE g.idterendicion=$ren AND (e.idteespecifica=42 OR e.idteespecifica=43) ORDER BY e.codigo ASC;");
+				$cc=mysqli_query($cone,"SELECT g.numerocom, g.codservicio, g.totalcom, e.nombre, e.codigo, d.Denominacion FROM tegasto g INNER JOIN tetipocom tc ON g.idtetipocom=tc.idtetipocom INNER JOIN teespecifica e ON g.idteespecifica=e.idteespecifica INNER JOIN dependencia d ON g.idDependencia=d.idDependencia WHERE g.idterendicion=$ren AND (e.idteespecifica=42 OR e.idteespecifica=43) ORDER BY e.codigo, g.fechacom, g.numerocom ASC;");
 				if(mysqli_num_rows($cc)>0){
 					$n=0;
 					$t=0;
@@ -74,12 +78,12 @@ if(accesocon($cone,$_SESSION['identi'],16)){
             	}
             	mysqli_free_result($cc);
             ?>
-            <tr style="background-color: #DDDDDD;" style="font-size: 10px;">
+            <tr style="background-color: #DDDDDD;">
             	<td colspan="7" style="text-align: right;">TOTAL GENERAL</td>
             	<td style="mso-number-format:'0.00';"><?php echo $t; ?></td>
             </tr>
           </table>
-          <table cellpadding="0" cellspacing="0" style="font-size:8px; width: 100%; padding: 0;">
+          <table cellpadding="0" cellspacing="0" style="width: 100%; padding: 0;" class="formato">
           	<tr>
           		<td colspan="8">&nbsp;</td>
           	</tr>
