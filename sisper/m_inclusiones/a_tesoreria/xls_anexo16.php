@@ -230,7 +230,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
               <td>S/</td>
             </tr>
 <?php
-          $cct=mysqli_query($cone, "SELECT SUM(g.totalcom) tot, cs.idEmpleado, cs.csivia, cs.idComServicios FROM comservicios cs INNER JOIN tegasto g ON cs.idComServicios=g.idComServicios WHERE cs.idterendicion=$ren GROUP BY g.idComServicios ORDER BY cs.csivia ASC;");
+          $cct=mysqli_query($cone, "SELECT SUM(g.totalcom) tot, cs.idEmpleado, cs.csivia, cs.idComServicios FROM comservicios cs INNER JOIN tegasto g ON cs.idComServicios=g.idComServicios WHERE cs.idterendicion=$ren GROUP BY g.idComServicios ORDER BY cs.orden ASC;");
           if(mysqli_num_rows($cct)>0){
             $n=0;
             $st=0;

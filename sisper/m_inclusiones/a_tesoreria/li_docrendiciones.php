@@ -123,14 +123,14 @@ if(accesocon($cone,$_SESSION['identi'],16)){
                   }
                   mysqli_free_result($c1);
         }elseif($r2['trendicion']==2){
-                  $c1=mysqli_query($cone,"SELECT cs.idComServicios, cs.idEmpleado, cs.FechaIni, cs.FechaFin, cs.origen, cs.destino, cs.csivia, SUM(g.totalcom) monto FROM comservicios cs INNER JOIN doc d ON cs.idDoc=d.idDoc INNER JOIN tegasto g ON cs.idComServicios=g.idComServicios WHERE cs.idterendicion=$idr GROUP BY cs.idComServicios;");
+                  $c1=mysqli_query($cone,"SELECT cs.idComServicios, cs.idEmpleado, cs.FechaIni, cs.FechaFin, cs.origen, cs.destino, cs.csivia, cs.orden, SUM(g.totalcom) monto FROM comservicios cs INNER JOIN doc d ON cs.idDoc=d.idDoc INNER JOIN tegasto g ON cs.idComServicios=g.idComServicios WHERE cs.idterendicion=$idr GROUP BY cs.idComServicios ORDER BY cs.orden, cs.csivia ASC;");
                   echo mysqli_error($cone);
                   if(mysqli_num_rows($c1)>0){
 ?>
                   <table class="table table-hover table-bordered" id="dtable2">
                     <thead>
                       <tr>
-                        <th>N°</th>
+                        <th>ORDEN</th>
                         <th>SIVIA</th>
                         <th>NOMBRE</th>
                         <th>DESDE</th>
@@ -145,14 +145,12 @@ if(accesocon($cone,$_SESSION['identi'],16)){
                     </thead>
                     <tbody>
 <?php
-                      $c=0;
                       $su=0;
                       while($r1=mysqli_fetch_assoc($c1)){
-                        $c++;
                         $su=$su+$r1['monto'];
 ?>
                       <tr>
-                        <td><?php echo $c; ?></td>
+                        <td><?php echo $r1['orden'];; ?></td>
                         <td><?php echo $r1['csivia']; ?></td>
                         <td><?php echo nomempleado($cone, $r1['idEmpleado']); ?></td>
                         <td><?php echo ftnormal($r1['FechaIni']); ?></td>
@@ -163,6 +161,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
                         <?php if(accesocon($cone,$_SESSION['identi'],16) && $r2['estado']==1){ ?>
                         <td>
                           <div class="btn-group btn-group-xs" role="group" aria-label="Basic">
+                            <button type="button" class="btn btn-default" title="Orden" onclick="fo_rendiciones('ordvia',<?php echo $r1['idComServicios'].",0"; ?>)"><i class="fa fa-sort-numeric-asc"></i></button>
                             <button type="button" class="btn btn-default" title="Liberar" onclick="fo_rendiciones('libvia',<?php echo $r1['idComServicios'].",0"; ?>)"><i class="fa fa-external-link"></i></button>
                           </div>
                         </td>

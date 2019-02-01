@@ -56,7 +56,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
               <td>N&deg; RENDICI&Oacute;N</td>
             </tr>
 <?php
-				$cc=mysqli_query($cone,"SELECT DISTINCT g.numerocom, g.codservicio, g.totalcom, p.razsocial, e.nombre, e.codigo, d.Denominacion, cl.CondicionLocal FROM tegasto g INNER JOIN tetipocom tc ON g.idtetipocom=tc.idtetipocom INNER JOIN teproveedor p ON g.idteproveedor=p.idteproveedor INNER JOIN teespecifica e ON g.idteespecifica=e.idteespecifica INNER JOIN dependencia d ON g.idDependencia=d.idDependencia INNER JOIN dependencialocal dl ON d.idDependencia=dl.idDependencia INNER JOIN local l ON dl.idLocal=l.idLocal INNER JOIN condicionloc cl ON l.idCondicionLoc=cl.idCondicionLoc WHERE g.idterendicion=$ren AND (e.idteespecifica=38 OR e.idteespecifica=39) ORDER BY e.codigo ASC;");
+				$cc=mysqli_query($cone,"SELECT DISTINCT g.numerocom, g.codservicio, g.totalcom, p.razsocial, e.nombre, e.codigo, d.Denominacion, l.Alias, cl.CondicionLocal FROM tegasto g INNER JOIN tetipocom tc ON g.idtetipocom=tc.idtetipocom INNER JOIN teproveedor p ON g.idteproveedor=p.idteproveedor INNER JOIN teespecifica e ON g.idteespecifica=e.idteespecifica INNER JOIN dependencia d ON g.idDependencia=d.idDependencia LEFT JOIN local l ON g.idLocal=l.idLocal LEFT JOIN condicionloc cl ON l.idCondicionLoc=cl.idCondicionLoc WHERE g.idterendicion=$ren AND (e.idteespecifica=38 OR e.idteespecifica=39) ORDER BY e.codigo ASC;");
 				if(mysqli_num_rows($cc)>0){
 					$n=0;
 					$t=0;
@@ -65,7 +65,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
 ?>
             <tr>
               <td style="vertical-align: middle;"><?php echo $n; ?></td>
-              <td style="vertical-align: middle;"><?php echo $rc['Denominacion']; ?></td>
+              <td style="vertical-align: middle;"><?php echo $rc['Denominacion']." - ".$rc['Alias']; ?></td>
               <td style="vertical-align: middle;"><?php echo '&nbsp;'.$rc['numerocom']; ?></td>
               <td style="vertical-align: middle;"><?php echo '&nbsp;'.$rc['codservicio']; ?></td>
               <td style="vertical-align: middle;"><?php echo $rc['razsocial']; ?></td>

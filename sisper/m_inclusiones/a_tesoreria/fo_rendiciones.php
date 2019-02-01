@@ -234,10 +234,18 @@ include("../php/funciones.php");
 				    	<button type="button" class="btn btn-default btn-block" onclick="fo_rendiciones1('agrpro',1,0);"><i class="fa fa-plus"></i> Agregar</button>
 				    </div>
 			    </div>
-			    <div class="col-sm-12 esin">
+			    <div class="col-sm-7 esin">
 			    	<div class="form-group">
 				      <label for="dep">Dependencia<small class="text-red">*</small></label>
 				      <select class="form-control select2dep" id="dep" name="dep" style="width: 100%;">
+
+				      </select>
+				    </div>
+			    </div>
+			    <div class="col-sm-5 esin">
+			    	<div class="form-group">
+				      <label for="loc">Local</label>
+				      <select class="form-control select2loc" id="loc" name="loc" style="width: 100%;">
 
 				      </select>
 				    </div>
@@ -278,6 +286,21 @@ include("../php/funciones.php");
 				  },
 				  minimumInputLength: 3
 				});
+				$(".select2loc").select2({
+				  placeholder: 'Seleccione local',
+				  ajax: {
+				    url: 'm_inclusiones/a_tesoreria/bu_locales.php',
+				    dataType: 'json',
+				    delay: 250,
+				    processResults: function (data) {
+				      return {
+				        results: data
+				      };
+				    },
+				    cache: true
+				  },
+				  minimumInputLength: 3
+				});
 				$('#feccom').datepicker({
 				    format: 'dd/mm/yyyy',
 				    autoclose: true,
@@ -288,7 +311,7 @@ include("../php/funciones.php");
 			  </script>
 <?php
 			}elseif($v2==2){
-				$cco=mysqli_query($cone, "SELECT cs.idComServicios, cs.FechaIni, cs.FechaFin, cs.idEmpleado, cs.idDistrito, d.Numero, d.Ano, d.Siglas FROM comservicios cs INNER JOIN doc d ON cs.idDoc=d.idDoc WHERE estadoren=4 AND ISNULL(idterendicion);");
+				$cco=mysqli_query($cone, "SELECT cs.idComServicios, cs.FechaIni, cs.FechaFin, cs.idEmpleado, d.Numero, d.Ano, d.Siglas, cs.csivia, SUM(g.totalcom) tot FROM comservicios cs INNER JOIN doc d ON cs.idDoc=d.idDoc LEFT JOIN tegasto g ON cs.idComServicios=g.idComServicios WHERE estadoren=4 AND ISNULL(cs.idterendicion) GROUP BY cs.idComServicios;");
 				if(mysqli_num_rows($cco)>0){
 ?>
 			<div class="table-responsive">
@@ -296,10 +319,10 @@ include("../php/funciones.php");
 				<thead>
 					<tr>
 						<th>#</th>
+						<th>SIVIA</th>
 						<th>NOMBRE</th>
-						<th>DESDE</th>
-						<th>HASTA</th>
-						<th>DESTINO</th>
+						<th>FECHAS</th>
+						<th>MONTO</th>
 						<th>DOCUMENTO</th>
 						<th></th>
 					</tr>
@@ -310,12 +333,12 @@ include("../php/funciones.php");
 						$n++;
 ?>
 					<tr>
-						<td><?php echo $n; ?></td>
-						<td><?php echo nomempleado($cone, $rco['idEmpleado']); ?></td>
-						<td><?php echo ftnormal($rco['FechaIni']); ?></td>
-						<td><?php echo ftnormal($rco['FechaFin']); ?></td>
-						<td><?php echo $rco['destino']; ?></td>
-						<td><?php echo $rco['Numero']."-".$rco['Ano']."-".$rco['Siglas']; ?></td>
+						<td style="font-size: 10px;"><?php echo $n; ?></td>
+						<td style="font-size: 10px;"><?php echo $rco['csivia']; ?></td>
+						<td style="font-size: 10px;"><?php echo nomempleado($cone, $rco['idEmpleado']); ?></td>
+						<td style="font-size: 10px;"><?php echo ftnormal($rco['FechaIni'])."<br>".ftnormal($rco['FechaFin']); ?></td>
+						<td style="font-size: 10px;"><?php echo n_2decimales($rco['tot']); ?></td>
+						<td style="font-size: 10px;"><?php echo $rco['Numero']."-".$rco['Ano']."-".$rco['Siglas']; ?></td>
 						<td>
 							<button class="btn bg-yellow btn-xs" onclick="viaaren(<?php echo $rco['idComServicios'].", ".$v1; ?>);" title="Agregar a rendición"><i class="fa fa-plus"></i></button><i class='fa fa-spinner fa-spin hidden' id="var<?php echo $rco['idComServicios']; ?>"></i>
 						</td>
@@ -326,7 +349,7 @@ include("../php/funciones.php");
 			</table>
 			</div>
 			<script>
-				//$("#dt_viaticos").DataTable();
+				$("#dt_viaticos").DataTable();
 			</script>
 <?php
 				}else{
@@ -477,7 +500,7 @@ include("../php/funciones.php");
 				    	<button type="button" class="btn btn-default btn-block" onclick="fo_rendiciones1('agrpro',1,0);"><i class="fa fa-plus"></i> Agregar</button>
 				    </div>
 			    </div>
-			    <div class="col-sm-12 esin">
+			    <div class="col-sm-7 esin">
 			    	<div class="form-group">
 				      <label for="dep">Dependencia<small class="text-red">*</small></label>
 				      <select class="form-control select2dep" id="dep" name="dep" style="width: 100%;">
@@ -490,6 +513,25 @@ include("../php/funciones.php");
 <?php
 					}
 					mysqli_free_result($cd);
+?>
+				      </select>
+				    </div>
+			    </div>
+			    <div class="col-sm-5 esin">
+			    	<div class="form-group">
+				      <label for="loc">Local</label>
+				      <select class="form-control select2loc" id="loc" name="loc" style="width: 100%;">
+<?php
+				if(!is_null($rg['idLocal'])){
+					$idl=$rg['idLocal'];
+					$cd=mysqli_query($cone, "SELECT Alias, Direccion FROM local WHERE idLocal=$idl;");
+					if($rd=mysqli_fetch_assoc($cd)){
+?>
+						<option value="<?php echo $idl; ?>"><?php echo $rd['Alias']." [".$rd['Direccion']."]"; ?></option>
+<?php
+					}
+					mysqli_free_result($cd);
+				}
 ?>
 				      </select>
 				    </div>
@@ -519,6 +561,21 @@ include("../php/funciones.php");
 				  placeholder: 'Seleccione dependencia',
 				  ajax: {
 				    url: 'm_inclusiones/a_tesoreria/bu_dependencias.php',
+				    dataType: 'json',
+				    delay: 250,
+				    processResults: function (data) {
+				      return {
+				        results: data
+				      };
+				    },
+				    cache: true
+				  },
+				  minimumInputLength: 3
+				});
+				$(".select2loc").select2({
+				  placeholder: 'Seleccione local',
+				  ajax: {
+				    url: 'm_inclusiones/a_tesoreria/bu_locales.php',
 				    dataType: 'json',
 				    delay: 250,
 				    processResults: function (data) {
@@ -700,6 +757,32 @@ include("../php/funciones.php");
 		  	
 		  </div>
 <?php
+		  }else{
+		  	echo accrestringidoa();
+		  }
+		}if($acc=="ordvia"){
+		  if(accesoadm($cone,$_SESSION['identi'],16)){
+		  	$c=mysqli_query($cone, "SELECT orden FROM comservicios WHERE idComServicios=$v1;");
+		  	if($r=mysqli_fetch_assoc($c)){
+?>
+		  <div class="row">
+			<div class="col-sm-12">
+				<div class="form-group">
+			      <label for="idnr">Orden<small class="text-red">*</small></label>
+			      <input type="hidden" name="acc" value="<?php echo $acc; ?>">
+			      <input type="hidden" name="idcs" value="<?php echo $v1; ?>">
+			      <input type="number" name="ord" id="ord" class="form-control" placeholder="Orden" value="<?php echo $r['orden']; ?>">
+		      	</div>
+		    </div>
+		  </div>
+		  <div id="d_frespuesta">
+		  	
+		  </div>
+<?php
+			}else{
+				echo mensajewa("Error, datos inválidos.");
+			}
+			mysqli_free_result($c);
 		  }else{
 		  	echo accrestringidoa();
 		  }

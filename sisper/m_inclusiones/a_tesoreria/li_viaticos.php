@@ -63,7 +63,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
                     </tbody>
                   </table>
 <?php
-                  $cmr=mysqli_query($cone, "SELECT SUM(g.totalcom) tr FROM comservicios cs INNER JOIN tegasto g ON cs.idComServicios=g.idComServicios WHERE DATE_FORMAT(cs.FechaIni, '%Y-%m')='$anio-$mes' AND estadoren=4");
+                  $cmr=mysqli_query($cone, "SELECT SUM(g.totalcom) tr FROM comservicios cs INNER JOIN tegasto g ON cs.idComServicios=g.idComServicios WHERE DATE_FORMAT(cs.FechaIni, '%Y-%m')='$anio-$mes' AND estadoren=4 AND cs.idterendicion IS NULL");
                   if($rmr=mysqli_fetch_assoc($cmr)){
                     $mr=$rmr['tr'];
                   }else{

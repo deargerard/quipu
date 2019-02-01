@@ -565,6 +565,9 @@ function fo_rendiciones(acc, v1, v2){
     case 'movdoc':
         var mt="<i class='fa fa-retweet text-gray'></i> Mover documento";
         break;
+    case 'ordvia':
+        var mt="<i class='fa fa-sort-numeric-asc text-gray'></i> Orden víatico";
+        break;
   }
   $(".m_titulo").html(mt);
   $("#m_modal").modal("show");
@@ -604,7 +607,7 @@ $('#f_rendiciones').submit(function(e){
         if(datos[0].value=="agrren" || datos[0].value=="ediren"){
           var ma=$('#ma').val();
           lrendiciones(ma);
-        }else if(datos[0].value=="agrdoc" || datos[0].value=="edidoc" || datos[0].value=="elidoc" || datos[0].value=="estren" || datos[0].value=="libvia" || datos[0].value=="movdoc"){
+        }else if(datos[0].value=="agrdoc" || datos[0].value=="edidoc" || datos[0].value=="elidoc" || datos[0].value=="estren" || datos[0].value=="libvia" || datos[0].value=="movdoc" || datos[0].value=="ordvia"){
           var ir=$('#ir').val();
           ldocrendiciones(ir);
         }
@@ -682,25 +685,30 @@ $('#f1_rendiciones').submit(function(e){
 })
 
 function viaaren(idcs, idr){
-  $.ajax({
-    type: "post",
-    url: "m_inclusiones/a_tesoreria/gu_viaaren.php",
-    data: {idcs: idcs, idr: idr},
-    dataType: "json",
-    beforeSend: function () {
-      $("#var"+idcs).removeClass('hidden');
-    },
-    success:function(a){
-      if(a.e){
-        fo_rendiciones('agrdoc', idr, 2);
-        ldocrendiciones(idr);
-        alert(a.m);
-      }else{
-        alert(a.m);
-        $("#var"+idcs).addClass('hidden');
+  var ord = prompt("Ingrese el orden");
+  if(ord!=null){
+    $.ajax({
+      type: "post",
+      url: "m_inclusiones/a_tesoreria/gu_viaaren.php",
+      data: {idcs: idcs, idr: idr, ord: ord},
+      dataType: "json",
+      beforeSend: function () {
+        $("#var"+idcs).removeClass('hidden');
+      },
+      success:function(a){
+        if(a.e){
+          alert(a.m);
+          fo_rendiciones('agrdoc', idr, 2);
+          ldocrendiciones(idr);
+        }else{
+          alert(a.m);
+          $("#var"+idcs).addClass('hidden');
+        }
       }
-    }
-  });
+    });
+  }else{
+    alert("No ingreso el orden");
+  }
 }
 
 //Viaticos........................................................................

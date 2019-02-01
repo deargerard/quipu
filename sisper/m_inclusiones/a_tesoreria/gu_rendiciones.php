@@ -82,8 +82,9 @@ $r['e']=false;
 					$codser=vacio(imseguro($cone, $_POST['codser']));
 					$pro=iseguro($cone, $_POST['pro']);
 					$dep=iseguro($cone, $_POST['dep']);
+					$loc=vacio(iseguro($cone, $_POST['loc']));
 					$nc=$sercom."-".$numcom;
-					$q="INSERT INTO tegasto (fechacom, numerocom, glosacom, totalcom, cantidadcom, codservicio, idtetipocom, idteproveedor, idteespecifica, idterendicion, idDependencia, empleado, idteumedida) VALUES ('$feccom', '$nc', '$des', $imp, $can, $codser, $tcom, $pro, $esp, $v1, $dep, $idu, $uni);";
+					$q="INSERT INTO tegasto (fechacom, numerocom, glosacom, totalcom, cantidadcom, codservicio, idtetipocom, idteproveedor, idteespecifica, idterendicion, idDependencia, empleado, idteumedida, idLocal) VALUES ('$feccom', '$nc', '$des', $imp, $can, $codser, $tcom, $pro, $esp, $v1, $dep, $idu, $uni, $loc);";
 					if(mysqli_query($cone, $q)){
 						$r['m']=mensajesu("Listo, documento agregado.");
 						$r['e']=true;
@@ -118,9 +119,10 @@ $r['e']=false;
 					$codser=vacio(imseguro($cone, $_POST['codser']));
 					$pro=iseguro($cone, $_POST['pro']);
 					$dep=iseguro($cone, $_POST['dep']);
+					$loc=vacio(iseguro($cone, $_POST['loc']));
 					$idre=iseguro($cone, $_POST['idre']);
 					$nc=$sercom."-".$numcom;
-					$q="UPDATE tegasto SET fechacom='$feccom', numerocom='$nc', glosacom='$des', totalcom=$imp, idteumedida=$uni, cantidadcom=$can, codservicio=$codser, idtetipocom=$tcom, idteproveedor=$pro, idteespecifica=$esp, idDependencia=$dep, empleado=$idu WHERE idtegasto=$v1;";
+					$q="UPDATE tegasto SET fechacom='$feccom', numerocom='$nc', glosacom='$des', totalcom=$imp, idteumedida=$uni, cantidadcom=$can, codservicio=$codser, idtetipocom=$tcom, idteproveedor=$pro, idteespecifica=$esp, idDependencia=$dep, empleado=$idu, idLocal=$loc WHERE idtegasto=$v1;";
 					if(mysqli_query($cone, $q)){
 						$r['m']=mensajesu("Listo, documento editado.");
 						$r['e']=true;
@@ -214,6 +216,23 @@ $r['e']=false;
 				}
 			}else{
 				$r['m']=mensajewa("Elija una rendición");
+			}
+		  }else{
+		  	$r['m']=mensajewa("Acceso restringido");
+		  }
+		}elseif($acc=="ordvia"){
+		  if(accesoadm($cone,$_SESSION['identi'],16)){
+		  	if(isset($_POST['idcs']) && !empty($_POST['idcs']) && isset($_POST['ord']) && !empty($_POST['ord'])){
+				$idcs=iseguro($cone, $_POST['idcs']);
+				$ord=iseguro($cone, $_POST['ord']);
+				if(mysqli_query($cone, "UPDATE comservicios SET orden=$ord WHERE idComServicios=$idcs")){
+					$r['m']=mensajesu("Listo, número de orden asignado.");
+					$r['e']=true;
+				}else{
+					$r['m']=mensajewa("Error, vuelva a intentarlo ".mysqli_error($cone));
+				}
+			}else{
+				$r['m']=mensajewa("Los campos marcados con <b class='text-red'>*</b> son obligatorios.");
 			}
 		  }else{
 		  	$r['m']=mensajewa("Acceso restringido");
