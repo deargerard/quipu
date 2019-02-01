@@ -95,7 +95,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
 				<th style="mso-number-format:'0.00'; text-align: right;"><?php echo $re['tot']; ?></th>
 			</tr>
 <?php
-				$cc=mysqli_query($cone,"SELECT g.fechacom, g.numerocom, g.glosacom, g.totalcom, tc.tipo, p.razsocial, p.ruc FROM tegasto g INNER JOIN tetipocom tc ON g.idtetipocom=tc.idtetipocom INNER JOIN teproveedor p ON g.idteproveedor=p.idteproveedor WHERE g.idterendicion=$ren AND g.idteespecifica=$ide ORDER BY g.fechacom ASC;");
+				$cc=mysqli_query($cone,"SELECT g.fechacom, g.numerocom, g.glosacom, g.totalcom, tc.tipo, p.razsocial, p.ruc FROM tegasto g INNER JOIN tetipocom tc ON g.idtetipocom=tc.idtetipocom INNER JOIN teproveedor p ON g.idteproveedor=p.idteproveedor WHERE g.idterendicion=$ren AND g.idteespecifica=$ide ORDER BY g.fechacom, g.numerocom ASC;");
 				if(mysqli_num_rows($cc)>0){
 					while($rc=mysqli_fetch_assoc($cc)){
 						$n++;
