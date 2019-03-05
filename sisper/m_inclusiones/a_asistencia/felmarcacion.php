@@ -7,7 +7,7 @@ if(accesoadm($cone,$_SESSION['identi'],2)){
     $idm=iseguro($cone,$_POST['idm']);
     $mar=iseguro($cone,$_POST['mar']);
     $dni=$_SESSION['docide'];
-    $cv=mysqli_query($cone, "SELECT idVigilante FROM vigilante WHERE DNI='$dni';");
+    $cv=mysqli_query($cone, "SELECT idVigilante FROM vigilante WHERE DNI='$dni' AND Estado=1;");
     if($rv=mysqli_fetch_assoc($cv)){
 
 ?>
