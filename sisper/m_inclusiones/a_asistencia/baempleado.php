@@ -55,7 +55,7 @@ if(accesocon($cone,$_SESSION['identi'],2)){
       <?php if(accesoadm($cone,$_SESSION['identi'],2)){ ?>
       <td>
         <button class="btn btn-default btn-xs" data-toggle="modal" data-target="#m_emarcacion" onclick="edimar(<?php echo $rm['idMarcacion'].",'".$mesano[0]."','".$mesano[1]."'"; ?>);"><i class="fa fa-pencil"></i> Editar</button>
-        <button class="btn bg-red btn-xs" data-toggle="modal" data-target="#m_elmarcacion" onclick="elimar(<?php echo $rm['idMarcacion'].",'".$rm['Marcacion']."'"; ?>);"><i class="fa fa-trash"></i> Eliminar</button>
+        <button class="btn bg-red btn-xs hidden" data-toggle="modal" data-target="#m_elmarcacion" onclick="elimar(<?php echo $rm['idMarcacion'].",'".$rm['Marcacion']."'"; ?>);"><i class="fa fa-trash"></i> Eliminar</button>
       </td>
       <?php } ?>
     </tr>
