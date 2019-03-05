@@ -8,7 +8,7 @@ if(accesoadm($cone,$_SESSION['identi'],2)){
     $mes=iseguro($cone,$_POST['mes']);
     $ano=iseguro($cone,$_POST['ano']);
     $dni=$_SESSION['docide'];
-    $cv=mysqli_query($cone, "SELECT idVigilante FROM vigilante WHERE DNI='$dni';");
+    $cv=mysqli_query($cone, "SELECT idVigilante FROM vigilante WHERE DNI='$dni' AND Estado=1;");
     if($rv=mysqli_fetch_assoc($cv)){
       $idv=$rv['idVigilante'];
       $ndias=cal_days_in_month(CAL_GREGORIAN, $mes, $ano);
