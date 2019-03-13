@@ -291,3 +291,14 @@ function viaaent(idcs, ide){
     }
   });
 }
+//función exportar Libro Auxiliar
+$("#b_exla").click(function(){
+  var fecb=$("#fecb").val();
+  var fon=$("#fon").val();  
+  if (fecb==null || fon==null){
+    alert("Todos los campos son obligatorios");
+  }else {
+    window.location.href = "m_inclusiones/a_tesoreria/xls_libro_auxiliar.php?fecb="+fecb+"&fon="+fon;
+  }
+})
+//fin función exportar Libro Auxiliar

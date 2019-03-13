@@ -32,7 +32,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 <form class="form-inline" id="f_lviaticos">
                   <div class="form-group has-feedback">
                     <label for="fecb">Mes/Año</label>
-                    <input type="text" class="form-control" name="fecb" id="fecb" placeholder="mm/aaaa" value="<?php echo date("m/Y"); ?>" autocomplete="off">
+                    <input type="text" class="form-control" name="fecb" id="fecb" placeholder="mm/aaaa" value="<?php echo date("m/Y"); ?>" autocomplete="off" style="width: 300px;">
                     <span class="fa fa-calendar form-control-feedback"></span>
                   </div>
                   <button type="submit" class="btn btn-default"><i class="fa fa-search"></i> Buscar</button>
