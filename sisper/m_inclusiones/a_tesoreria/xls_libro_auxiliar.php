@@ -32,11 +32,11 @@ if(accesocon($cone,$_SESSION['identi'],16)){
   		$rin=mysqli_fetch_assoc($cin);
   		
 
-  		$q="SELECT a.idteasignacion, a.fecha, a.monto, a.medio, a.nummedio FROM teasignacion a INNER JOIN temeta m ON a.idtemeta=m.idtemeta INNER JOIN tefondo f ON m.idtefondo=f.idtefondo WHERE (mes BETWEEN '$fecini' AND '$fecfin') AND f.idtefondo=$fon;";
+  		$q="SELECT a.idteasignacion, a.fecha, a.monto, a.medio, a.nummedio FROM teasignacion a INNER JOIN temeta m ON a.idtemeta=m.idtemeta INNER JOIN tefondo f ON m.idtefondo=f.idtefondo WHERE (mes BETWEEN '$fecini' AND '$fecfin') AND f.idtefondo=$fon order by a.fecha asc;";
       if ($fon==3) {
-        $q1="SELECT g.idtegasto, g.fechacom, g.numerocom, g.glosacom,g.totalcom, cs.idEmpleado FROM tegasto g INNER JOIN comservicios cs ON g.idComServicios=cs.idComServicios INNER JOIN terendicion r on cs.idterendicion=r.idterendicion INNER JOIN temeta m on r.idtemeta=m.idtemeta WHERE r.mes = $mes AND r.anio=$anio;";
+        $q1="SELECT g.idtegasto, g.fechacom, c.abreviatura, g.numerocom, g.glosacom,g.totalcom, cs.idEmpleado FROM tegasto g INNER JOIN comservicios cs ON g.idComServicios=cs.idComServicios INNER JOIN terendicion r on cs.idterendicion=r.idterendicion INNER JOIN temeta m on r.idtemeta=m.idtemeta INNER JOIN tetipocom c ON g.idtetipocom=c.idtetipocom WHERE r.mes = $mes AND r.anio=$anio order by g.fechacom asc;";
       }else{
-        $q1="SELECT g.idtegasto, g.fechacom, g.numerocom, g.glosacom,g.totalcom, g.idDependencia FROM tegasto g INNER JOIN terendicion r on g.idterendicion=r.idterendicion INNER JOIN temeta m on r.idtemeta=m.idtemeta INNER JOIN tefondo f on m.idtefondo=f.idtefondo WHERE r.mes = $mes AND r.anio=$anio AND f.idtefondo=$fon;";
+        $q1="SELECT g.idtegasto, g.fechacom, c.abreviatura, g.numerocom, g.glosacom,g.totalcom, g.idDependencia FROM tegasto g INNER JOIN terendicion r on g.idterendicion=r.idterendicion INNER JOIN temeta m on r.idtemeta=m.idtemeta INNER JOIN tefondo f on m.idtefondo=f.idtefondo INNER JOIN tetipocom c ON g.idtetipocom=c.idtetipocom WHERE r.mes = $mes AND r.anio=$anio AND f.idtefondo=$fon order by g.fechacom asc;";
     	}
       //echo $q1;
   		$casi=mysqli_query($cone,$q);
@@ -116,9 +116,9 @@ if(accesocon($cone,$_SESSION['identi'],16)){
             while($rgas=mysqli_fetch_assoc($cgas)){
             $tgas=$tgas+$rgas['totalcom'];
             if ($fon==3) {
-              $con= $rgas['glosacom']."-".nomempleado_na($cone,$rgas['idEmpleado'])." segun comprobante ".$rgas['numerocom'];
+              $con= $rgas['glosacom']." DE ".nomempleado_na($cone,$rgas['idEmpleado'])." SEG&Uacute;N ". " ". $rgas['abreviatura']." ".$rgas['numerocom'];
             }else{
-              $con= $rgas['glosacom']."-".nomdependencia($cone,$rgas['idDependencia'])." segun comprobante ".$rgas['numerocom'];
+              $con= $rgas['glosacom']." DE ".nomdependencia($cone,$rgas['idDependencia'])." SEG&Uacute;N ". " ". $rgas['abreviatura']." ".$rgas['numerocom'];
             }                                  
 ?>
               <tr>
