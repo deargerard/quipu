@@ -219,6 +219,7 @@ if(accesoadm($cone,$_SESSION['identi'],16)){
 					<th>GLOSA</th>
 					<th>NÚMERO</th>
 					<th>FECHA</th>
+					<th>IMPORTE</th>
 					<th>ACCIÓN</th>
 				</tr>
 				</thead>
@@ -232,6 +233,7 @@ if(accesoadm($cone,$_SESSION['identi'],16)){
 					<td><?php echo $rg['glosacom']; ?></td>
 					<td><?php echo $rg['numerocom']; ?></td>
 					<td><?php echo fnormal($rg['fechacom']); ?></td>
+					<td><?php echo $rg['totalcom']; ?></td>
 					<td>
 						<button class="btn bg-yellow btn-xs" onclick="comaent(<?php echo $rg['idtegasto'].", ".$ide; ?>);" title="Agregar a entrega"><i class="fa fa-plus"></i></button><i class='fa fa-spinner fa-spin hidden' id="var<?php echo $rg['idtegasto']; ?>"></i>
 					</td>
