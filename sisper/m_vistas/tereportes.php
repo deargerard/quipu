@@ -1,6 +1,8 @@
 <?php
 if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
   if(accesoadm($cone,$_SESSION['identi'],16)){
+    $mes="2";
+    $anio="2019";
 ?>
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -21,14 +23,35 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
           <!-- Custom Tabs -->
           <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
-              <li class="active"><a href="#tab_1" data-toggle="tab">Reporte1</a></li>
+              <li class="active"><a href="#tab_1" data-toggle="tab">Libro Auxiliar</a></li>
               <li><a href="#tab_2" data-toggle="tab">Reporte2</a></li>
             </ul>
             <div class="tab-content">
               <div class="tab-pane active" id="tab_1">
 
                 <!--Formulario busqueda-->
-                <form id="f_rep1">
+                <form  action="" id="f_rep1" class="form-inline">
+                  
+                  <div class="form-group has-feedback">
+                    <label for="fecb">Mes/Año</label>
+                    <input type="text" class="form-control" name="fecb" id="fecb" placeholder="mm/aaaa" value="<?php echo date("m/Y"); ?>" autocomplete="off">
+                    <span class="fa fa-calendar form-control-feedback"></span>
+                  </div>
+                  <div class="form-group has-feedback">
+                    <label for="fon">Fondo</label>
+                    <select name="fon" id="fon" class="form-control" title="FONDO">
+                      <?php
+                        $cf=mysqli_query($cone,"SELECT idtefondo, nombre FROM tefondo");
+                        while($rf=mysqli_fetch_assoc($cf)){
+                      ?>
+                      <option value="<?php echo $rf['idtefondo']; ?>"><?php echo $rf['nombre']; ?></option>
+                      <?php
+                        }
+                        mysqli_free_result($cpv);
+                      ?>
+                    </select>
+                  </div>
+                  <button type="button" id="b_exla" class="btn btn-default"><i class="fa fa-file-excel-o"></i> Exportar</button>       
 
                 </form>
                 <!--Fin formulario busqueda-->
