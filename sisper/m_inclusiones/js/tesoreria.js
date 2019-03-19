@@ -7,6 +7,14 @@ $(document).ready(function(){
 	    todayHighlight: true
 	});
 
+  $('#anob').datepicker({
+      format: 'yyyy',
+      autoclose: true,
+      minViewMode: 2,
+      maxViewMode: 2,
+      todayHighlight: true
+  });
+
 	var mes=$('#fecb').val();
   	basignaciones(mes);
   	var tra=$('#tra').val();
@@ -302,3 +310,15 @@ $("#b_exla").click(function(){
   }
 })
 //fin función exportar Libro Auxiliar
+
+//función exportar gastos por específica
+$("#b_exge").click(function(){
+  var anob=$("#anob").val();
+  var esp=$("#esp").val();  
+  if (fecb==null || fon==null){
+    alert("Todos los campos son obligatorios");
+  }else {
+    window.location.href = "m_inclusiones/a_tesoreria/xls_gastos_especifica.php?anob="+anob+"&esp="+esp;
+  }
+})
+//fin función exportar gastos por específica

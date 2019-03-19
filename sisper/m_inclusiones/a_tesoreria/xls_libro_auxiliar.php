@@ -44,10 +44,10 @@ if(accesocon($cone,$_SESSION['identi'],16)){
 ?>
         <table>
           <tr>
-            <th colspan="7"><font face="arial" color="#FF8000" size="3">ANEXO 20</font></th>                  
+            <th colspan="6"><font face="arial" color="#FF8000" size="3">ANEXO 20</font></th>                  
           </tr>
           <tr>                    
-            <th colspan="7"><font face="arial" size="3">LIBRO CAJA <?php echo $anio;?> - <?php echo $rin['nombre']; ?>- MES DE <?php echo strtoupper(nombremes($mes)); ?></font></th>
+            <th colspan="6"><font face="arial" size="3">LIBRO CAJA <?php echo $anio;?> - <?php echo $rin['nombre']; ?>- MES DE <?php echo strtoupper(nombremes($mes)); ?></font></th>
           </tr>
         </table>
         <table border=1 bordercolor="#BFBFBF">
@@ -55,19 +55,19 @@ if(accesocon($cone,$_SESSION['identi'],16)){
           if (mysqli_num_rows($casi)>0) {
 ?>            
             <tr>
-              <td colspan="3" bgcolor= "#AFAFAF"><b><font color="#ffffff" size="2">INGRESOS</font></b></td>
-              <td bgcolor= "#AFAFAF"><b><font color="#ffffff" size="2"> </font></b></td>
-              <td colspan="3" bgcolor= "#AFAFAF"><b><font color="#ffffff" size="2">EGRESOS</font></b></td>        
+              <td colspan="3" bgcolor= "#AFAFAF" style="text-align: center;"><b><font color="#ffffff" size="2">INGRESOS</font></b></td>
+              
+              <td colspan="3" bgcolor= "#AFAFAF" style="text-align: center;"><b><font color="#ffffff" size="2">EGRESOS</font></b></td>        
             </tr>
 
             <tr>
-              <td bgcolor= "#AFAFAF"><b><font color="#ffffff" size="2">FECHA</font></b></td>
-              <td bgcolor= "#AFAFAF"><b><font color="#ffffff" size="2">CONCEPTO</font></b></td>
-              <td bgcolor= "#AFAFAF"><b><font color="#ffffff" size="2">MONTO S/</font></b></td>
-              <td bgcolor= "#AFAFAF"><b><font color="#ffffff" size="2"> </font></b></td>
-              <td bgcolor= "#AFAFAF"><b><font color="#ffffff" size="2">FECHA</font></b></td>
-              <td bgcolor= "#AFAFAF"><b><font color="#ffffff" size="2">CONCEPTO</font></b></td>
-              <td bgcolor= "#AFAFAF"><b><font color="#ffffff" size="2">MONTO S/</font></b></td>
+              <td bgcolor= "#AFAFAF" style="text-align: center;"><b><font color="#ffffff" size="2">FECHA</font></b></td>
+              <td bgcolor= "#AFAFAF" style="text-align: center;"><b><font color="#ffffff" size="2">CONCEPTO</font></b></td>
+              <td bgcolor= "#AFAFAF" style="text-align: center;"><b><font color="#ffffff" size="2">MONTO S/</font></b></td>
+              
+              <td bgcolor= "#AFAFAF" style="text-align: center;"><b><font color="#ffffff" size="2">FECHA</font></b></td>
+              <td bgcolor= "#AFAFAF" style="text-align: center;"><b><font color="#ffffff" size="2">CONCEPTO</font></b></td>
+              <td bgcolor= "#AFAFAF" style="text-align: center;"><b><font color="#ffffff" size="2">MONTO S/</font></b></td>
               
             </tr>
 <?php
@@ -87,11 +87,10 @@ if(accesocon($cone,$_SESSION['identi'],16)){
                 <tr>
                   <td><font color="#555555"><?php echo fnormal($rasi['fecha']); ?></font></td>
                   <td><font color="#555555"><?php echo $med. " ".  $rasi['nummedio']; ?></font></td>
-                  <td style="mso-number-format:'0.00'; text-align: right;"><font color="#000000"><?php echo $rasi['monto']; ?></font></td>
-                  <td><font color="#000000"><?php echo $per; ?></font></td>
-                  <td><font color="#555555"><?php echo fnormal($rgas['fechacom']); ?></font></td>
-                  <td><font color="#555555"><?php echo $per; ?></font></td>
-                  <td><font color="#000000"><?php echo $per; ?></font></td>                       
+                  <td style="mso-number-format:'0.00'; text-align: right;"><font color="#000000"><?php echo $rasi['monto']; ?></font></td>                  
+                  <td></td>
+                  <td></td>
+                  <td></td>                       
                   
                   
                 </tr>
@@ -124,8 +123,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
               <tr>
                 <td></td>
                 <td></td>
-                <td></td>
-                <td></td>
+                <td></td>               
                 <td><font color="#555555"><?php echo fnormal($rgas['fechacom']); ?></font></td>
                 <td><font color="#555555"><?php echo $con; ?></font></td>
                 <td style="mso-number-format:'0.00'; text-align: right;"><font color="#000000"><?php echo $rgas['totalcom']; ?></font></td>                              
@@ -144,10 +142,10 @@ if(accesocon($cone,$_SESSION['identi'],16)){
           </table>
           <table border=1 bordercolor="#BFBFBF">
             <tr>
-              <td colspan="2">TOTAL INGRESOS</td>
-              <td style="mso-number-format:'0.00'; text-align: right;"><b><?php echo $tasi; ?></font></b></td>
-              <td colspan="3" >TOTAL EGRESOS</font></td>
-              <td style="mso-number-format:'0.00'; text-align: right;"><b><?php echo $tgas; ?></b></td>  
+              <td colspan="2" bgcolor= "#AFAFAF" style="text-align: center;"><b><font color="#ffffff">TOTAL INGRESOS</font></b></td>
+              <td bgcolor= "#AFAFAF" style="mso-number-format:'0.00'; text-align: right;"><b><font color="#ffffff"><?php echo $tasi; ?></font></b></td>              
+              <td colspan="2" bgcolor= "#AFAFAF" style="text-align: center;"><b><font color="#ffffff">TOTAL EGRESOS</font></b></td>
+              <td bgcolor= "#AFAFAF" style="mso-number-format:'0.00'; text-align: right;"><b><font color="#ffffff"><?php echo $tgas; ?></font></b></td>  
             </tr>
 
             

@@ -1,8 +1,8 @@
 <?php
 if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
   if(accesoadm($cone,$_SESSION['identi'],16)){
-    $mes="2";
-    $anio="2019";
+    //$mes="2";
+    //$anio="2019";
 ?>
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -24,7 +24,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
           <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
               <li class="active"><a href="#tab_1" data-toggle="tab">Libro Auxiliar</a></li>
-              <li><a href="#tab_2" data-toggle="tab">Reporte2</a></li>
+              <li><a href="#tab_2" data-toggle="tab">Gastos por Específica</a></li>
             </ul>
             <div class="tab-content">
               <div class="tab-pane active" id="tab_1">
@@ -47,7 +47,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                       <option value="<?php echo $rf['idtefondo']; ?>"><?php echo $rf['nombre']; ?></option>
                       <?php
                         }
-                        mysqli_free_result($cpv);
+                        mysqli_free_result($cf);
                       ?>
                     </select>
                   </div>
@@ -66,7 +66,28 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
               <!-- /.tab-pane -->
               <div class="tab-pane" id="tab_2">
                 <!--Formulario busqueda-->
-                <form id="f_rep2">
+                <form  action="" id="f_rep2" class="form-inline">
+                  
+                  <div class="form-group has-feedback">
+                    <label for="anob">Año</label>
+                    <input type="text" class="form-control" name="anob" id="anob" placeholder="aaaa" value="<?php echo date("Y"); ?>" autocomplete="off">
+                    <span class="fa fa-calendar form-control-feedback"></span>
+                  </div>
+                  <div class="form-group has-feedback">
+                    <label for="fon">Específica</label>
+                    <select name="esp" id="esp" class="form-control" title="ESPECÍFICA">
+                      <?php
+                        $ce=mysqli_query($cone,"SELECT idteespecifica, nombre, codigo  FROM teespecifica");
+                        while($re=mysqli_fetch_assoc($ce)){
+                      ?>
+                      <option value="<?php echo $re['idteespecifica']; ?>"><?php echo $re['nombre'] . " - ". $re['codigo']; ?></option>
+                      <?php
+                        }
+                        mysqli_free_result($ce);
+                      ?>
+                    </select>
+                  </div>
+                  <button type="button" id="b_exge" class="btn btn-default"><i class="fa fa-file-excel-o"></i> Exportar</button>       
 
                 </form>
                 <!--Fin formulario busqueda-->
