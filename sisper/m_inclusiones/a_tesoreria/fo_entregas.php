@@ -208,7 +208,7 @@ if(accesoadm($cone,$_SESSION['identi'],16)){
 			mysqli_free_result($c3);
 		}elseif($acc=="agrcomp"){
 			$ide=iseguro($cone,$_POST['v1']);
-			$cg=mysqli_query($cone, "SELECT * FROM tegasto WHERE fechacom>'2019-01-01' AND ISNULL(idteentrega) AND ISNULL(idComServicios);");
+			$cg=mysqli_query($cone, "SELECT * FROM tegasto WHERE ISNULL(idteentrega) AND ISNULL(idComServicios);");
 			if(mysqli_num_rows($cg)>0){
 ?>
 			<span class="text-purple"> <i class="fa fa-stack-overflow"></i> Comprobantes</span>
