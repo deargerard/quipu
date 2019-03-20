@@ -315,7 +315,7 @@ if(accesocon($cone,$_SESSION['identi'],2)){
                 }
                 //buscamos la marcación de salida
                 $ftsal=$fec." ".$sal;
-                $sal2=date('Y-m-d H:i:s',strtotime('+75 minute', strtotime($ftsal)));
+                $sal2=date('Y-m-d H:i:s',strtotime('+90 minute', strtotime($ftsal)));
                 if($ssd){
                   $ftsal=date('Y-m-d H:i:s',strtotime('+1 day', strtotime($ftsal)));
                   $sal2=date('Y-m-d H:i:s',strtotime('+1 day', strtotime($sal2)));
