@@ -34,11 +34,10 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
 
                 <form class="form-inline">                  
                   <label for="tra" class="col-sm-1" >Trabajador </label>
-                  <select name="tra" id="tra" class="form-control select2pertot col-sm-6" style="width: 300px;">
+                  <select name="tra" id="tra" class="form-control select2pertot col-sm-5" style="width: 250px;">
                     <option value="t">TODOS</option>
-                  </select>
-                  
-                  <button type="button" class="btn btn-default" id="b_btra" name="b_btra"><i class="fa fa-search"></i> Buscar</button>
+                  </select>                  
+                  <button type="button" class="btn btn-default" id="b_btra" name="b_btra"><i class="fa fa-search"></i> Buscar</button>                  
                 </form>
 
                 <div class="row">

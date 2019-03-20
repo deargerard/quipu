@@ -75,14 +75,14 @@ if(accesocon($cone,$_SESSION['identi'],16)){
                       }
                     mysqli_free_result($ce);
                     $sdc=0;
-                    $cd=mysqli_query($cone,"SELECT g.idtegasto, g.numerocom, g.glosacom, g.totalcom, g.fechacom, tc.tipo FROM tegasto g INNER JOIN tetipocom tc ON g.idtetipocom = tc.idtetipocom WHERE g.idteentrega=$ide;");
+                    $cd=mysqli_query($cone,"SELECT g.idtegasto, g.numerocom, g.glosacom, g.totalcom, g.fechacom FROM tegasto g left JOIN comservicios cs ON g.idComServicios=cs.idComServicios WHERE g.idteentrega=$ide OR cs.idteentrega=$ide;");
                     if(mysqli_num_rows($cd)>0){           
                         while($rd=mysqli_fetch_assoc($cd)){            
                             $sdc=$sdc+$rd['totalcom'];
                         }
                     }
                     mysqli_free_result($cd);
-                    $ee=$sde-$sdc;
+                    $ee=n_2decimales($sde-$sdc);
                     if ($ee==0) {
                       $est="Pagado";
                       $col="success";      
@@ -115,8 +115,46 @@ if(accesocon($cone,$_SESSION['identi'],16)){
           <?php
               }
               mysqli_free_result($ca);
+              $anio = date("Y");
+              $tasi=0;  
+              $ca=mysqli_query($cone,"SELECT sum(monto) tasi FROM new_bdcaj.teasignacion WHERE date_format(fecha, '%Y')='$anio';");
+                if ($ra=mysqli_fetch_assoc($ca)) {
+                  $tasi=$ra['tasi'];
+                }     
+
+                mysqli_free_result($ca);
+             $tpag=0;
+              $cp=mysqli_query($cone,"SELECT SUM(de.monto) tpag FROM teentrega e INNER JOIN tedocentrega de ON e.idteentrega=de.idteentrega WHERE de.tipmov=1 AND date_format(fecha, '%Y')='$anio';");
+                if ($rp=mysqli_fetch_assoc($cp)){
+                  $tpag=$rp['tpag'];
+                }
+
+                mysqli_free_result($cp);
+              $tdev=0;  
+              $cd=mysqli_query($cone,"SELECT SUM(de.monto) tdev FROM teentrega e INNER JOIN tedocentrega de ON e.idteentrega=de.idteentrega WHERE de.tipmov=2 AND date_format(fecha, '%Y')='$anio';");
+                if($rd=mysqli_fetch_assoc($cd)){
+                  $tdev=$rd['tdev'];
+                }
+
+                mysqli_free_result($cd);
+              $sal=0;
+              $ttpa=$tpag-$tdev;
+              $sal=$tasi-$ttpa;
+
           ?>
               </tbody>
+            </table>
+            <table class="table table-hover table-bordered">               
+              <thead>
+                <tr>
+                  <th>ASIGNACIONES:</th>
+                  <th class="text-maroon"><?php  echo "S/  ".$tasi; ?></th>
+                  <th>PAGOS:</th>
+                  <th class="text-maroon"><?php echo "S/  ".$ttpa; ?></th>
+                  <th>SALDO:</th>
+                  <th class="text-maroon"><?php echo "S/  ".$sal; ?></th>
+                </tr>
+              </thead>
             </table>
         </div>
       </div>
