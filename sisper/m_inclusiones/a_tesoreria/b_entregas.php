@@ -34,8 +34,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
       <div class="row">
         <div class="col-md-12" id="r_bent">
 <?php
-            $ca=mysqli_query($cone,"SELECT * FROM teentrega $wtra ORDER BY idteentrega DESC LIMIT 100;");
-
+            $ca=mysqli_query($cone,"SELECT * FROM teentrega $wtra ORDER BY idteentrega DESC LIMIT 200;");
 ?>
             <table id="dtable" class="table table-bordered table-hover">
               <thead>
@@ -50,14 +49,47 @@ if(accesocon($cone,$_SESSION['identi'],16)){
 ?>
                   <th>MOTIVO</th>
                   <th>POR</th>
+                  <th>ESTADO</th>
                   <th>ACCIÓN</th>
                 </tr>
               </thead>
               <tbody>
           <?php
               $n=0;
+              $ee=0;
+              $est="";
+              $col="";
               while($ra=mysqli_fetch_assoc($ca)){
-                $n++;                          
+                $n++;
+                $ide=$ra['idteentrega'];
+                    $sde=0; 
+                    $ce=mysqli_query($cone,"SELECT de.*, e.motivo, e.idEmpleado, e.idteentrega, e.empleado FROM tedocentrega de INNER JOIN teentrega e ON e.idteentrega = de.idteentrega WHERE de.idteentrega=$ide");
+                    if(mysqli_num_rows($ce)>0){
+                          while($re=mysqli_fetch_assoc($ce)){            
+                            if($re['tipmov']==1){
+                              $sde=$sde+$re['monto'];
+                            }elseif($re['tipmov']==2){
+                              $sde=$sde-$re['monto'];
+                            }
+                        }
+                      }
+                    mysqli_free_result($ce);
+                    $sdc=0;
+                    $cd=mysqli_query($cone,"SELECT g.idtegasto, g.numerocom, g.glosacom, g.totalcom, g.fechacom, tc.tipo FROM tegasto g INNER JOIN tetipocom tc ON g.idtetipocom = tc.idtetipocom WHERE g.idteentrega=$ide;");
+                    if(mysqli_num_rows($cd)>0){           
+                        while($rd=mysqli_fetch_assoc($cd)){            
+                            $sdc=$sdc+$rd['totalcom'];
+                        }
+                    }
+                    mysqli_free_result($cd);
+                    $ee=$sde-$sdc;
+                    if ($ee==0) {
+                      $est="Pagado";
+                      $col="success";      
+                    }else{
+                      $est="Pendiente";
+                      $col="danger";
+                    }
           ?>
                 <tr>
                   <td><?php echo $n; ?></td>
@@ -70,6 +102,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
 ?>                  
                   <td><?php echo $ra["motivo"]; ?></td>
                   <td><?php echo nomempleado($cone, $ra['empleado']); ?></td>
+                  <td><span class="label label-<?php echo $col;?>"><?php echo $est; ?></span></td>
                                                       
                   <td>
                     <div class="btn-group btn-group-xs" role="group" aria-label="Basic">
