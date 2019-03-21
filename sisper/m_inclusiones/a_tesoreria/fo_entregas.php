@@ -253,7 +253,7 @@ if(accesoadm($cone,$_SESSION['identi'],16)){
 		}elseif($acc=="agrviat"){
 			$ide=iseguro($cone,$_POST['v1']);
 
-			$cg=mysqli_query($cone, "SELECT cs.idComServicios, cs.idEmpleado, cs.FechaIni, cs.FechaFin, cs.destino, d.Numero, d.Ano, d.Siglas FROM comservicios cs INNER JOIN doc d ON cs.idDoc=d.idDoc WHERE FechaIni>'2019-01-01' AND ISNULL(idteentrega);");
+			$cg=mysqli_query($cone, "SELECT cs.idComServicios, cs.idEmpleado, cs.FechaIni, cs.FechaFin, cs.destino, d.Numero, d.Ano, d.Siglas, cs.estadoren FROM comservicios cs INNER JOIN doc d ON cs.idDoc=d.idDoc WHERE FechaIni>='2018-12-01' AND ISNULL(idteentrega) AND cs.Estado=1;");
 			if(mysqli_num_rows($cg)>0){
 ?>
 			<span class="text-purple"> <i class="fa fa-stack-overflow"></i> Viáticos</span>
@@ -265,6 +265,7 @@ if(accesoadm($cone,$_SESSION['identi'],16)){
 					<th>DESTINO</th>
 					<th>FECHAS</th>
 					<th>DOCUMENTO</th>
+					<th>ESTADO</th>
 					<th>ACCIÓN</th>
 				</tr>
 				</thead>
@@ -279,6 +280,7 @@ if(accesoadm($cone,$_SESSION['identi'],16)){
 					<td><?php echo $rg['destino']; ?></td>
 					<td><?php echo fnormal($rg['FechaIni'])."<br>".fnormal($rg['FechaFin']); ?></td>
 					<td><?php echo $rg['Numero']."-".$rg['Ano']."<br>".$rg['Siglas']; ?></td>
+					<td><?php echo erviaticos($rg['estadoren']); ?></td>
 					<td>
 						<button class="btn bg-yellow btn-xs" onclick="viaaent(<?php echo $rg['idComServicios'].", ".$ide; ?>);" title="Agregar a entrega"><i class="fa fa-plus"></i></button><i class='fa fa-spinner fa-spin hidden' id="var<?php echo $rg['idComServicios']; ?>"></i>
 					</td>
