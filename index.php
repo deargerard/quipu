@@ -621,6 +621,7 @@
     $cu=mysqli_query($cone, "SELECT * FROM comunicado WHERE Estado=1 ORDER BY Fecha DESC LIMIT 1;");
     if($ru=mysqli_fetch_assoc($cu)){
     ?>
+      Notification.requestPermission();
       Push.create("¡Anuncio!", {
           body: "<?php echo html_entity_decode($ru['Descripcion']); ?>",
           icon: 'comuni.png',
