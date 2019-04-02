@@ -23,7 +23,7 @@ use Spipu\Html2Pdf\Html2Pdf;
 
 -->
 </style>
-<page backtop="23mm" backbottom="5mm" backleft="2mm" backright="2mm" style="font-size: 9px;"> 
+<page backtop="20mm" backbottom="5mm" backleft="2mm" backright="2mm" style="font-size: 9px;"> 
     <page_header> 
       <table class="page_header">
           <tr>
