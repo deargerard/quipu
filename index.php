@@ -576,7 +576,7 @@
   <!-- Portfolio Modals -->
 
   <!-- Modal 1 -->
-  <div class="portfolio-modal modal fade" id="imodal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="portfolio-modal modal fade" id="emodal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="close-modal" data-dismiss="modal">
@@ -587,10 +587,27 @@
         <div class="container">
           <div class="row">
             <div class="col-lg-8 mx-auto">
-              <div class="modal-body" id="resultado">
+              <div class="modal-body text-center" id="eresultado">
     
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="imodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-body text-center">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <br><br>
+          <div id="resultado">
+            
           </div>
         </div>
       </div>
@@ -626,12 +643,10 @@
           body: "<?php echo html_entity_decode($ru['Descripcion']); ?>",
           icon: 'comuni.png',
           timeout: 10000,
-          //link: "index.php",
 
           onClick: function () {
               window.focus();
               this.close();
-              anuncio(<?php echo $ru['idComunicado']; ?>);
           }
       });
 

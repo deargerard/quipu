@@ -21,6 +21,10 @@
               <td>
                 <small class="text-muted"><i class="fa fa-calendar text-primary"></i> <?php echo data_text(fnormal($rnot['Fecha'])); ?></small>
                 <img src="sisper/files_intranet/<?php echo $rnot['Imagen']; ?>" alt="<?php echo $rnot['Titular']; ?>" class="img-fluid">
+              </td>
+            </tr>
+            <tr>
+              <td>
                 <?php echo html_entity_decode($rnot['Cuerpo']); ?>
               </td>
             </tr>
