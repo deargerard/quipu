@@ -59,12 +59,10 @@ use Spipu\Html2Pdf\Html2Pdf;
       if($r1=mysqli_fetch_assoc($c1)){
  ?>   
       <table class="st">      
-        <tr>
-        <td style="width: 5%;"></td>                    
-          <td style="width: 90%; text-align: center;">
+        <tr>                  
+          <td style="width: 100%; text-align: center;">
             <span style="font-size: 12px;">Yo <b><?php echo nomempleado($cone, $r1['idEmpleado']); ?></b> identificado con DNI N° <?php echo $r1['NumeroDoc']; ?> en el cargo de <b><?php echo cargoe($cone, $r1['idEmpleado']); ?></b>  manifiesto haber efectuado todos los gastos en la comisión de servicios, llevada a cabo a la ciudad de <b><?php echo $r1['destino']; ?></b> del <?php echo fnormal($r1['FechaIni']); ?> al <?php echo fnormal($r1['FechaFin']); ?> que a continuación se detallan y sustentan con la documentación que se adjunta al presente.</span> 
           </td>
-          <td style="width: 5%;"></td>
         </tr>
       </table>
       <table class="re">
