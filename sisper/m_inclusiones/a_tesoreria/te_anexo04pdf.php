@@ -16,7 +16,7 @@ use Spipu\Html2Pdf\Html2Pdf;
     table.page_footer {width: 100%; border: none; padding: 1mm; font-size: 10px;}
     table.tablep {width: 100%; border-collapse: collapse;}
     table.tablep th, table.tablep td {border: 1px solid #AAAAAA; padding: 2px; white-space: nowrap; word-break: break-all;}
-    table.st {width: 100%; border-collapse: collapse; padding: 30px 0; font-size: 10px;}
+    table.st {width: 100%; border-collapse: collapse; padding: 30px 0 10px 0; font-size: 10px;}
     table.re {width: 100%; border-collapse: collapse; padding: 5px 0; font-size: 10px;}
     .de{text-align: right;}
     .ce{text-align: center;}
@@ -33,7 +33,7 @@ use Spipu\Html2Pdf\Html2Pdf;
             <td style="width: 60%; text-align: center;">
                 <span style="font-size: 16px;">ANEXO 04</span><br>
                 <br>
-                <span style="font-size: 12px;">RENDICION DOCUMENTARIA DE VIATICOS / NO VIÁTICOS Y ASIGNACIONES POR COMISION DE SERVICIOS</span><br>
+                <span style="font-size: 12px; font-weight: 300;">RENDICION DOCUMENTARIA DE VIATICOS / NO VIÁTICOS Y ASIGNACIONES POR COMISION DE SERVICIOS</span><br>
                 <br>
                 <span style="font-size: 12px;">DISTRITO FISCAL DE CAJAMARCA</span>
                 <br><br>
