@@ -288,6 +288,13 @@ function mfoto($doc){
 		return "m_fotos/sinfoto.jpg";
 	}
 }
+function ifoto($doc){
+	if(file_exists("sisper/m_fotos/".$doc.".jpg")){
+		return "sisper/m_fotos/$doc.jpg";
+	}else{
+		return "sisper/m_fotos/sinfoto.jpg";
+	}
+}
 function mfotop($doc){
 	if(file_exists("m_fotos/".$doc.".jpg")){
 		return "m_fotos/$doc.jpg";

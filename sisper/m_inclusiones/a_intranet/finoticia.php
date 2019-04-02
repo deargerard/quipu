@@ -18,7 +18,7 @@ if(accesoadm($cone,$_SESSION['identi'],11)){
           <div class="col-sm-10">
             <input type="file" name="img" id="img" class="form-control" accept="image/*">
             <input type="hidden" name="inot" value="<?php echo $inot; ?>">
-            <p class="help-block">Hasta 1Mb. (600x400 pixeles)</p>
+            <p class="help-block">Solo imagenes JPG y PNG de hasta 1Mb. (600x400 pixeles)</p>
           </div>
         </div>
 <?php

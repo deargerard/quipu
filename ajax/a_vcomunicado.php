@@ -10,7 +10,7 @@
 		<thead>
 			<tr>
 				<th>
-					<span class="text-orange" style="font-size: 18px;"><?php echo $rco['Descripcion']; ?></span>
+					<span class="text-info" style="font-size: 18px;"><?php echo $rco['Descripcion']; ?></span>
 				</th>
 			</tr>
 		</thead>
@@ -47,6 +47,9 @@
 			?>
 		</tbody>
 	</table>
+	<button class="btn btn-primary" data-dismiss="modal" type="button">
+	<i class="fas fa-times"></i>
+	Cerrar</button>
 
 <?php
 	mysqli_free_result($cco);

@@ -12,21 +12,21 @@
     		$fot = file_exists($fot) ? $fot1 : "/sisper/m_fotos/sinfoto.jpg";
 ?>
 	<div class="row">
-		<div class="col-sm-3">
-			<img src="<?php echo $fot; ?>" class="img-thumbnail img-responsive">
+		<div class="col-sm-2">
+			<img src="<?php echo $fot; ?>" class="img-thumbnail img-fluid">
 		</div>
 		<div class="col-sm-9">
-			<h4 class="text-aqua">
+			<h4 class="text-info">
 				<br>
-				<strong><?php echo nomempleado($cone,$id); ?></strong><br>
-				<small><strong><?php echo cargoe($cone,$id); ?></strong></small><br>
-				<small><?php echo dependenciae($cone,$id); ?></small>
+				<b><?php echo nomempleado($cone,$id); ?></b><br>
+				<small class="text-primary"><b><?php echo cargoe($cone,$id); ?></b></small><br>
+				<small class="text-muted"><?php echo dependenciae($cone,$id); ?></small>
 			</h4>
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-sm-6">
-				<h4 class="text-orange text-center"><i class="fa fa-phone-square"></i> TELÉFONOS</h4>
+				<h6 class="text-center text-muted"><i class="fa fa-phone-square text-info"></i> TELÉFONOS</h6>
 				<table class="table table-hover table-bordered">
 					<tbody>
 				
@@ -66,7 +66,7 @@
     		$r2=mysqli_fetch_assoc($c2);
 ?>
 
-				<h4 class="text-orange text-center"><i class="fa fa-envelope-square"></i> CORREO</h4>
+				<h6 class="text-center text-muted"><i class="fa fa-phone-square text-info"></i> CORREO</h6>
 				<table class="table table-hover table-bordered">
 					<tbody>
 						<tr>
@@ -80,8 +80,8 @@
 			mysqli_free_result($c2);
     	}elseif($tip==2){
 ?>
-	<h4 class="text-aqua text-center"><strong><?php echo nomdependencia($cone,$id); ?></strong></h4>
-			<h4 class="text-orange text-center"><i class="fa fa-phone-square"></i> TELÉFONOS</h4>
+	<h4 class="text-info text-center"><strong><?php echo nomdependencia($cone,$id); ?></strong></h4>
+			<h6 class="text-muted text-center"><i class="fa fa-phone-square text-info"></i> TELÉFONOS</h6>
 <?php
 			$c4=mysqli_query($cone, "SELECT DISTINCT l.idLocal, Telefono, Direccion, idDistrito FROM dependencialocal dl INNER JOIN local l ON dl.idLocal=l.idLocal WHERE idDependencia=$id;");
 			if(mysqli_num_rows($c4)>0){
