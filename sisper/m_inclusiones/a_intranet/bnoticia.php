@@ -14,7 +14,7 @@ if(accesoadm($cone,$_SESSION['identi'],11)){
                   if(mysqli_num_rows($cnot)>0){
                   ?>
                   <h3 class="text-maroon">Noticias del <?php echo $fec1; ?> al <?php echo $fec2; ?>.</h3>
-                  <table class="table" id="dtable">
+                  <table class="table table-hover table-bordered" id="dtable">
                     <thead>
                       <tr>
                         <th>#</th>

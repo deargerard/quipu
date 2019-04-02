@@ -9,7 +9,7 @@ if(accesoadm($cone,$_SESSION['identi'],11)){
                   if(mysqli_num_rows($ccom)>0){
                   ?>
                   <h3 class="text-maroon">Imagenes de carrusel.</h3>
-                  <table class="table">
+                  <table class="table table-hover table-bordered" id="dtslider">
                     <thead>
                       <tr>
                         <th>#</th>
@@ -53,6 +53,9 @@ if(accesoadm($cone,$_SESSION['identi'],11)){
                       ?>
                     </tbody>
                   </table>
+                  <script>
+                    $('#dtslider').DataTable();
+                  </script>
                   <?php
                   }else{
                     echo mensajewa("No existen imagenes.");

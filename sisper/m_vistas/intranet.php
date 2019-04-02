@@ -48,14 +48,11 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 <!--Div resultados-->
                 <div class="d_comunicado">
                   <?php
-                  $fecha = @date('Y-m-j');
-                  $nuevafecha = @strtotime ( '-10 day' , strtotime ( $fecha ) ) ;
-                  $nuevafecha = @date ( 'Y-m-j' , $nuevafecha );
-                  $ccom=mysqli_query($cone,"SELECT * FROM comunicado WHERE Fecha>='$nuevafecha' AND Fecha<='$fecha' ORDER BY Fecha DESC");
+                  $ccom=mysqli_query($cone,"SELECT * FROM comunicado ORDER BY Fecha DESC LIMIT 10;");
                   if(mysqli_num_rows($ccom)>0){
                   ?>
-                  <h3 class="text-maroon">Comunicados del <?php echo fnormal($nuevafecha); ?> al <?php echo fnormal($fecha); ?>.</h3>
-                  <table class="table" id="dtcomunicado">
+                  <h3 class="text-maroon">Últimos 10 comunicados.</h3>
+                  <table class="table table-bordered table-hover" id="dtcomunicado">
                     <thead>
                       <tr>
                         <th>#</th>
@@ -135,6 +132,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                         <option value="2017">2017</option>
                         <option value="2018">2018</option>
                         <option value="2019">2019</option>
+                        <option value="2020">2020</option>
                       </select>
                     </div>
                   </div>
@@ -146,11 +144,11 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 <div class="d_boletin">
                   <?php
                   $ano=@date("Y");
-                  $cbol=mysqli_query($cone,"SELECT * FROM boletin WHERE DATE_FORMAT(Fecha,'%Y')=$ano ORDER BY Fecha DESC");
+                  $cbol=mysqli_query($cone,"SELECT * FROM boletin ORDER BY Fecha DESC LIMIT 10;");
                   if(mysqli_num_rows($cbol)>0){
                   ?>
-                  <h3 class="text-maroon">Boletines del <?php echo $ano; ?>.</h3>
-                  <table class="table" id="dtboletin">
+                  <h3 class="text-maroon">Últimos 10 Boletines.</h3>
+                  <table class="table table-bordered table-hover" id="dtboletin">
                     <thead>
                       <tr>
                         <th>#</th>
@@ -251,7 +249,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                         $ccat=mysqli_query($cone,"SELECT * FROM catdocumento ORDER BY CatDocumento ASC");
                         if(mysqli_num_rows($ccat)>0){
                       ?>
-                        <table class="table" id="dtcategoria">
+                        <table class="table table-hover table-bordered" id="dtcategoria">
                           <thead>
                             <tr>
                               <th>#</th>
@@ -312,7 +310,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                   if(mysqli_num_rows($ccom)>0){
                   ?>
                   <h3 class="text-maroon">Imagenes de Slider.</h3>
-                  <table class="table">
+                  <table class="table table-bordered table-hover" id="dtslider">
                     <thead>
                       <tr>
                         <th>#</th>
@@ -387,14 +385,11 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 <!--Div resultados-->
                 <div class="d_noticia">
                   <?php
-                  $fecha = @date('Y-m-j');
-                  $nuevafecha = @strtotime ( '-10 day' , strtotime ( $fecha ) ) ;
-                  $nuevafecha = @date ( 'Y-m-j' , $nuevafecha );
-                  $cnot=mysqli_query($cone,"SELECT idNoticia, Fecha, Titular, Imagen, Estado, idEmpleado FROM noticia WHERE Fecha>='$nuevafecha' AND Fecha<='$fecha' ORDER BY Fecha DESC");
+                  $cnot=mysqli_query($cone,"SELECT idNoticia, Fecha, Titular, Imagen, Estado, idEmpleado FROM noticia ORDER BY Fecha DESC LIMIT 10;");
                   if(mysqli_num_rows($cnot)>0){
                   ?>
-                  <h3 class="text-maroon">Noticias del <?php echo fnormal($nuevafecha); ?> al <?php echo fnormal($fecha); ?>.</h3>
-                  <table class="table" id="dtcomunicado">
+                  <h3 class="text-maroon">Últimas 10 noticias.</h3>
+                  <table class="table table-bordered table-hover" id="dtcomunicado">
                     <thead>
                       <tr>
                         <th>#</th>

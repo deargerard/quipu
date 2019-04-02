@@ -186,13 +186,11 @@ $( "#f_enoticia" ).validate( {
 //actualizar noticias
 $('#m_nnoticia').on('hidden.bs.modal', function () {
     $.ajax({
-            data:  {"fecha1" : restardias(-10), "fecha2" : fechaactual()},
+            data:  {"fecha1" : restardias(-90), "fecha2" : fechaactual()},
             url:   'm_inclusiones/a_intranet/bnoticia.php',
             type:  'post',
             beforeSend: function () {
                     $(".d_noticia").html("<p class='text-center'><img src='m_images/loader.gif'/></p>");
-                    console.log(restardias(-10));
-                    console.log(fechaactual());
             },
             success:  function (response) {
                     $(".d_noticia").html(response);
@@ -203,7 +201,7 @@ $('#m_enoticia,#m_inoticia,#m_esnoticia').on('hidden.bs.modal', function () {
     var f1 = $("#fecha1").val();
     var f2 = $("#fecha2").val();
     if(f1=="" || f2==""){
-      f1 = restardias(-10);
+      f1 = restardias(-90);
       f2 = fechaactual();
     }
     $.ajax({
@@ -416,7 +414,7 @@ $('#fech1,#fech2,#fecha1,#fecha2').datepicker({
   todayHighlight: true
 });
 //fin fecha intranet
-$('#dtcomunicado,#dtboletin,#dtcategoria').DataTable();
+$('#dtcomunicado,#dtboletin,#dtcategoria,#dtslider').DataTable();
 //funcion validar formulario comunicado
 $( "#f_ncomunicado" ).validate( {
     rules: {
@@ -474,13 +472,11 @@ $( "#f_ncomunicado" ).validate( {
 //actualizar comunicados
 $('#m_ncomunicado,#m_ecomunicado,#m_acomunicado,#m_dcomunicado,#m_aadjunto,#m_qadjunto').on('hidden.bs.modal', function () {
     $.ajax({
-            data:  {"fech1" : restardias(-10), "fech2" : fechaactual()},
+            data:  {"fech1" : restardias(-90), "fech2" : fechaactual()},
             url:   'm_inclusiones/a_intranet/bcomunicado.php',
             type:  'post',
             beforeSend: function () {
                     $(".d_comunicado").html("<p class='text-center'><img src='m_images/loader.gif'/></p>");
-                    console.log(fechaactual());
-                    console.log(restardias(-10));
             },
             success:  function (response) {
                     $(".d_comunicado").html(response);

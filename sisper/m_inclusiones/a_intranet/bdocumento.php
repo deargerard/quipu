@@ -12,7 +12,7 @@ if(accesoadm($cone,$_SESSION['identi'],11)){
                   if(mysqli_num_rows($cdoc)>0){
                   ?>
                   <h3 class="text-maroon">Documentos de <?php echo $r['CatDocumento']; ?>.</h3>
-                  <table class="table" id="dtdocumento">
+                  <table class="table table-hover table-bordered" id="dtdocumento">
                     <thead>
                       <tr>
                         <th>#</th>

@@ -11,14 +11,15 @@ if(accesoadm($cone,$_SESSION['identi'],11)){
             $co="DELETE FROM slider WHERE idSlider=$id";
             if(mysqli_query($cone,$co)){
                 echo mensajesu("Listo: Se eliminó la imagen.");
-                unlink('../../files_intranet/'.$img);
+                if(file_exists('../../files_intranet/'.$img)){
+                    unlink('../../files_intranet/'.$img);
+                }
             }else{
                 echo mensajeda("Error: No se pudo eliminar la imagen.");
             }
         }else{
             echo mensajeda("Error: No se encontró el registro.");
         }
-        mysqli_free_result($co);
     }else{
         echo mensajeda("Error: No envió datos.");
     }

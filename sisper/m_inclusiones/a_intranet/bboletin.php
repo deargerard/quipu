@@ -10,7 +10,7 @@ if(accesoadm($cone,$_SESSION['identi'],11)){
                   if(mysqli_num_rows($cbol)>0){
                   ?>
                   <h3 class="text-maroon">Boletines del <?php echo $ano; ?>.</h3>
-                  <table class="table" id="dtboletin">
+                  <table class="table table-hover table-bordered" id="dtboletin">
                     <thead>
                       <tr>
                         <th>#</th>
