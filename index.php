@@ -541,7 +541,7 @@
             }else{
             ?>
               <tr>
-                <td><span class="text-muted">Hoy nadie cuemple años</span></td>
+                <td><span class="text-muted">Hoy nadie cumple años</span></td>
               </tr>
             <?php
             }
