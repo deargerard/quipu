@@ -568,6 +568,9 @@ function fo_rendiciones(acc, v1, v2){
     case 'ordvia':
         var mt="<i class='fa fa-sort-numeric-asc text-gray'></i> Orden víatico";
         break;
+    case 'mesren':
+        var mt="<i class='fa fa-calendar text-gray'></i> Cambiar de mes";
+        break;
   }
   $(".m_titulo").html(mt);
   $("#m_modal").modal("show");
@@ -604,7 +607,7 @@ $('#f_rendiciones').submit(function(e){
       if(a.e){
         $("#f_rendiciones").html(a.m);
         //console.log(datos);
-        if(datos[0].value=="agrren" || datos[0].value=="ediren"){
+        if(datos[0].value=="agrren" || datos[0].value=="ediren" || datos[0].value=="mesren"){
           var ma=$('#ma').val();
           lrendiciones(ma);
         }else if(datos[0].value=="agrdoc" || datos[0].value=="edidoc" || datos[0].value=="elidoc" || datos[0].value=="estren" || datos[0].value=="libvia" || datos[0].value=="movdoc" || datos[0].value=="ordvia"){

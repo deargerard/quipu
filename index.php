@@ -491,7 +491,7 @@
           <hr>
         </div>
       <?php
-      $cb=mysqli_query($cone, "SELECT * FROM boletin WHERE Estado=1 ORDER BY Descripcion DESC LIMIT 15;");
+      $cb=mysqli_query($cone, "SELECT * FROM boletin WHERE Estado=1 ORDER BY Fecha DESC LIMIT 15;");
       if(mysqli_num_rows($cb)>0){
         while($rb=mysqli_fetch_assoc($cb)){
       ?>

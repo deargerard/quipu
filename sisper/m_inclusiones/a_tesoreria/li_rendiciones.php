@@ -57,6 +57,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
                           <div class="btn-group btn-group-xs" role="group" aria-label="Basic">
                             <?php if(accesoadm($cone,$_SESSION['identi'],16)){ ?>
                             <button type="button" class="btn btn-default" title="Editar" onclick="fo_rendiciones('ediren',<?php echo $r1['idterendicion'].",0"; ?>)"><i class="fa fa-pencil"></i></button>
+                            <button type="button" class="btn btn-default" title="Cambiar de mes" onclick="fo_rendiciones('mesren',<?php echo $r1['idterendicion'].", ".$r1['codigo']; ?>)"><i class="fa fa-calendar"></i></button>
                             <?php } ?>
                             <button type="button" class="btn btn-default" title="Ir a documentos" onclick="ldocrendiciones(<?php echo $r1['idterendicion']; ?>);"><i class="fa fa-chevron-circle-right"></i></button>
                           </div>

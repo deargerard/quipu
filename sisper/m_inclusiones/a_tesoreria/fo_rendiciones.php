@@ -786,6 +786,40 @@ include("../php/funciones.php");
 		  }else{
 		  	echo accrestringidoa();
 		  }
+		}elseif($acc=="mesren"){
+		  if(accesoadm($cone,$_SESSION['identi'],16)){
+
+?>
+		  <div class="row">
+			<div class="col-sm-12">
+				<div class="form-group">
+				  <h4 class="text-center text-orange"><i class="fa fa-slack text-muted"></i> Rendición <b><?php echo $v2; ?></b></h4>
+			      <label for="idnr">Mes<small class="text-red">*</small></label>
+			      <input type="hidden" name="acc" value="<?php echo $acc; ?>">
+			      <input type="hidden" name="idr" value="<?php echo $v1; ?>">
+			      <div class="form-group has-feedback">
+                    <input type="text" class="form-control" id="mes" name="mes" placeholder="mm/aaaa" value="<?php echo date("m/Y"); ?>" autocomplete="off">
+                    <span class="fa fa-calendar form-control-feedback"></span>
+                  </div>
+		      	</div>
+		    </div>
+		  </div>
+		  <div id="d_frespuesta">
+		  	
+		  </div>
+		  <script>
+		  	$('#mes').datepicker({
+			    format: 'mm/yyyy',
+			    autoclose: true,
+			    minViewMode: 1,
+			    maxViewMode: 2,
+			    todayHighlight: true
+			});
+		  </script>
+<?php
+		  }else{
+		  	echo accrestringidoa();
+		  }
 		}//acafin
 	}else{
 		echo mensajewa("Error: Faltan datos.");

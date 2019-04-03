@@ -7,7 +7,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
 ?>
 <div class="col-md-12" id="cs">
 <?php
-$q="SELECT cs.estadoren, cs.idComServicios, concat(d.Numero,'-',d.Ano,'-',d.Siglas) AS Resolucion, d.FechaDoc, cs.FechaIni, cs.FechaFin, cs.Estado, SUBSTRING(cs.Descripcion, 1, 100) as Descripcion, di.NombreDis FROM comservicios cs INNER JOIN doc d ON cs.idDoc=d.idDoc LEFT JOIN distrito di ON cs.idDistrito=di.idDistrito WHERE cs.idEmpleado=$idper AND cs.Estado=1;";
+$q="SELECT cs.estadoren, cs.idComServicios, concat(d.Numero,'-',d.Ano,'-',d.Siglas) AS Resolucion, d.FechaDoc, cs.FechaIni, cs.FechaFin, cs.Estado, cs.origen, cs.destino, cs.Descripcion, cs.fecenvren FROM comservicios cs INNER JOIN doc d ON cs.idDoc=d.idDoc WHERE cs.idEmpleado=$idper AND cs.Estado=1 ORDER BY cs.FechaIni DESC;";
 
 $ccs=mysqli_query($cone,$q);
 
@@ -25,11 +25,13 @@ if (mysqli_num_rows($ccs)>0){
   <table id="dtcomser" class="table table-bordered table-hover"> <!--Tabla que Lista las comisiones-->
     <thead>
       <tr>
+        <th>#</th>
         <th>DESCRIPCIÓN DE LA COMISIÓN</th>
-        <th>LUGAR</th>
-        <th>INICIA</th>
-        <th>TERMINA</th>
-        <th>NÚMERO DE RESOLUCIÓN</th>        
+        <th>ORIGEN</th>
+        <th>DESTINO</th>
+        <th>FECHAS</th>
+        <th>DOCUMENTO</th>
+        <th>ENVIÓ</th>
         <th>RENDICIÓN</th>
       </tr>
     </thead>
@@ -37,7 +39,9 @@ if (mysqli_num_rows($ccs)>0){
       <?php
       $vv="";
       $cv="";
-      while($rcs=mysqli_fetch_assoc($ccs)){                     
+      $n=0;
+      while($rcs=mysqli_fetch_assoc($ccs)){
+        $n++;                    
         //if ($rcs['Estado']==1) {
           switch ($rcs['estadoren']) {
             case 0:
@@ -67,13 +71,17 @@ if (mysqli_num_rows($ccs)>0){
          //}
       ?>
       <tr> <!--Fila de comisiones-->
-          <td><?php echo $rcs['Descripcion']?></td> <!--columna DESCRIPCIÓN-->
-          <td><?php echo $rcs['NombreDis']?></td> <!--columna LUGAR-->
-          <td><?php echo date('d/m/Y H:i', strtotime($rcs['FechaIni']))?></td> <!--columna INICIO-->
-          <td><?php echo date('d/m/Y H:i', strtotime($rcs['FechaFin']))?></td> <!--columna FIN-->
+          <td><?php echo $n; ?></td>
+          <td><?php echo strlen($rcs['Descripcion'])>100 ? substr(html_entity_decode($rcs['Descripcion']), 0, 100)."..." : $rcs['Descripcion']; ?></td> <!--columna DESCRIPCIÓN-->
+          <td><?php echo $rcs['origen']; ?></td> <!--columna LUGAR-->
+          <td><?php echo $rcs['destino']; ?></td> <!--columna INICIO-->
+          <td><?php echo date('d/m/Y H:i', strtotime($rcs['FechaFin']))." ".date('d/m/Y H:i', strtotime($rcs['FechaIni'])); ?></td> <!--columna FIN-->
           <td><?php echo $rcs['Resolucion']?></td> <!--columna NÚMERO DE RESOLUCIÓN-->         
-          <td>               
-            <button type="button" class="btn btn-<?php echo $vv;?> btn-xs" title="Estado Rendición" onclick="fo_rendir('agrre',<?php echo $rcs['idComServicios']; ?>)"><?php echo $cv; ?></button>                                  
+          <td><?php echo ftnormal($rcs['fecenvren']); ?></td> <!--columna NÚMERO DE RESOLUCIÓN-->
+          <td>
+            <?php if($rcs['FechaIni']>'2018-12-01'){ ?>            
+            <button type="button" class="btn btn-<?php echo $vv;?> btn-xs" title="Estado Rendición" onclick="fo_rendir('agrre',<?php echo $rcs['idComServicios']; ?>)"><?php echo $cv; ?></button>
+            <?php } ?>                              
           </td> <!--columna RENDIR-->
         </tr>
       <?php
@@ -83,6 +91,9 @@ if (mysqli_num_rows($ccs)>0){
     <!--fin tbody-->
   </table>
   <!--fin table-->
+  <script>
+    $('#dtcomser').DataTable();
+  </script>
   <?php
   }else {
     echo mensajewa("No tiene Programadas Comisiones de Servicio");

@@ -20,7 +20,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
                     </tr>
                   </table>
 <?php
-                  $c1=mysqli_query($cone,"SELECT cs.idComServicios, cs.FechaIni, cs.FechaFin, cs.estadoren, cs.origen, cs.destino, e.ApellidoPat, e.ApellidoMat, e.nombres, d.Numero, d.Ano, d.Siglas FROM comservicios cs INNER JOIN empleado e ON cs.idEmpleado=e.idEmpleado INNER JOIN doc d ON cs.idDoc=d.idDoc WHERE DATE_FORMAT(FechaIni, '%Y-%m')='$anio-$mes' ORDER BY FechaIni DESC;");
+                  $c1=mysqli_query($cone,"SELECT cs.idComServicios, cs.FechaIni, cs.FechaFin, cs.estadoren, cs.origen, cs.destino, e.ApellidoPat, e.ApellidoMat, e.nombres, d.Numero, d.Ano, d.Siglas, cs.fecenvren FROM comservicios cs INNER JOIN empleado e ON cs.idEmpleado=e.idEmpleado INNER JOIN doc d ON cs.idDoc=d.idDoc WHERE DATE_FORMAT(FechaIni, '%Y-%m')='$anio-$mes' ORDER BY FechaIni DESC;");
                   if(mysqli_num_rows($c1)>0){
                   ?>
                   <table class="table table-hover table-bordered" id="dtable">
@@ -32,6 +32,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
                         <th>DOCUMENTO</th>
                         <th>ORIGEN</th>
                         <th>DESTINO</th>
+                        <th>ENVIÓ</th>
                         <th>ESTADO RENDICIÓN</th>
                         <th>ACCIÓN</th>
                       </tr>
@@ -49,6 +50,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
                         <td style="font-size: 10px;"><?php echo $r1['Numero']."-".$r1['Ano']."<br>".$r1['Siglas']; ?></td>
                         <td style="font-size: 11px;"><?php echo $r1['origen']; ?></td>
                         <td style="font-size: 11px;"><?php echo $r1['destino']; ?></td>
+                        <td style="font-size: 10px;"><?php echo ftnormal($r1['fecenvren']); ?></td>
                         <td><?php echo erviaticos($r1['estadoren']); ?></td>
                         <td>
                           <div class="btn-group btn-group-xs" role="group" aria-label="Basic">

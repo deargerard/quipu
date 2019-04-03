@@ -9,7 +9,7 @@ include("../php/funciones.php");
 
 		if($acc=="verpla"){
 			if(accesocon($cone,$_SESSION['identi'],16)){
-				$cc=mysqli_query($cone, "SELECT FechaIni, FechaFin, idEmpleado, origen, destino, aneplanilla, estadoren, csivia FROM comservicios WHERE idComServicios=$v1;");
+				$cc=mysqli_query($cone, "SELECT FechaIni, FechaFin, idEmpleado, origen, destino, aneplanilla, estadoren, csivia, fecenvren FROM comservicios WHERE idComServicios=$v1;");
 				if($rc=mysqli_fetch_assoc($cc)){
 			        if(date('G',strtotime($rc['FechaIni']))>18){
 			          $fi=sumdias($rc['FechaIni'],1);
@@ -39,8 +39,8 @@ include("../php/funciones.php");
 			</tr>
 			<tr>
 				<td><i class="fa fa-map-marker text-orange"></i> <?php echo $rc['origen']." a ".$rc['destino']; ?></td>
-				<td><?php echo ftnormal($rc['FechaIni']); ?></td>
-				<td><?php echo ftnormal($rc['FechaFin']); ?></td>
+				<td><?php echo ftnormal($rc['FechaIni'])."<br>".ftnormal($rc['FechaFin']); ?></td>
+				<td>ENVIÓ: <?php echo !is_null($rc['fecenvren']) ? ftnormal($rc['fecenvren']) : "-"; ?></td>
 				<td>SIVIA: <?php echo is_null($rc['csivia']) ? "SN" : $rc['csivia']; ?></td>
 			</tr>
 		</table>
@@ -108,7 +108,7 @@ include("../php/funciones.php");
 			}
 		}elseif($acc=="vercom"){
 			if(accesocon($cone,$_SESSION['identi'],16)){
-				$cc=mysqli_query($cone, "SELECT FechaIni, FechaFin, idEmpleado, origen, destino, aneplanilla, estadoren, docrendicion, observacion FROM comservicios WHERE idComServicios=$v1;");
+				$cc=mysqli_query($cone, "SELECT FechaIni, FechaFin, idEmpleado, origen, destino, aneplanilla, estadoren, docrendicion, observacion, fecenvren FROM comservicios WHERE idComServicios=$v1;");
 				if($rc=mysqli_fetch_assoc($cc)){
 ?>
 		<table class="table table-bordered table-hover">
@@ -142,8 +142,8 @@ include("../php/funciones.php");
 			</tr>
 			<tr>
 				<td><i class="fa fa-map-marker text-orange"></i> <?php echo $rc['origen']." a ".$rc['destino']; ?></td>
-				<td><?php echo ftnormal($rc['FechaIni']); ?></td>
-				<td><?php echo ftnormal($rc['FechaFin']); ?></td>
+				<td><?php echo ftnormal($rc['FechaIni'])."<br>".ftnormal($rc['FechaFin']); ?></td>
+				<td>ENVIÓ: <?php echo !is_null($rc['fecenvren']) ? ftnormal($rc['fecenvren']) : "-"; ?></td>
 			</tr>
 		</table>
 <?php

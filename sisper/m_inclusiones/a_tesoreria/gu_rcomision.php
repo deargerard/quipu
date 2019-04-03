@@ -111,7 +111,7 @@ $idu=$_SESSION['identi'];
                   $ruta="comp_escan/".$nomadj;
                   $subir=@move_uploaded_file($_FILES['desc']['tmp_name'], $ruta);
                   if($subir){                    
-                    if(mysqli_query($cone,"UPDATE comservicios SET estadoren=1, docrendicion='$nomadj' WHERE idComServicios=$idcs;")){
+                    if(mysqli_query($cone,"UPDATE comservicios SET estadoren=1, docrendicion='$nomadj', fecenvren=DATE_FORMAT(NOW(),'%Y-%m-%d %H:%i:%s') WHERE idComServicios=$idcs;")){
                       $r['e']=true;
                       $r['m']=mensajesu("Listo, Rendición Enviada"); 
                     }else{

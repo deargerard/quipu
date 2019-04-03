@@ -237,6 +237,26 @@ $r['e']=false;
 		  }else{
 		  	$r['m']=mensajewa("Acceso restringido");
 		  }
+		}elseif($acc=="mesren"){
+		  if(accesoadm($cone,$_SESSION['identi'],16)){
+		  	if(isset($_POST['idr']) && !empty($_POST['idr']) && isset($_POST['mes']) && !empty($_POST['mes'])){
+				$idr=iseguro($cone, $_POST['idr']);
+				$mes=explode('/', iseguro($cone, $_POST['mes']));
+				$m=$mes[0];
+				$a=$mes[1];
+
+				if(mysqli_query($cone, "UPDATE terendicion SET mes=$m, anio='$a' WHERE idterendicion=$idr;")){
+					$r['m']=mensajesu("Listo, mes de rendición cambiada.");
+					$r['e']=true;
+				}else{
+					$r['m']=mensajewa("Error, vuelva a intentarlo ".mysqli_error($cone));
+				}
+			}else{
+				$r['m']=mensajewa("Los campos marcados con <b class='text-red'>*</b> son obligatorios.");
+			}
+		  }else{
+		  	$r['m']=mensajewa("Acceso restringido");
+		  }
 		}//acafin
 	}else{
 		$r['m']=mensajewa("Faltan datos");
