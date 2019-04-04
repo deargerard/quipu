@@ -75,8 +75,8 @@
     <div class="container-fluid">
       <div class="row">
 
-        <div class="col-lg-3">
-          <h6 class="text-muted text-center" style="font-size: 14px; font-style: italic;"><i class="fa fa-street-view text-info"></i> Cajamarca <?php echo date('d'); ?> de <?php echo nombremes(date('m')); ?> de 2019</h6>
+        <div class="col-lg-3" style="border-right: 1px solid #dee2e6">
+          <p class="text-muted text-center" style="font-size: 14px; font-style: italic;"><i class="fa fa-street-view text-info"></i> Cajamarca, <?php echo date('d'); ?> de <?php echo nombremes(date('m')); ?> de 2019</p>
           <h5 class="section-heading text-center" style="font-style: italic;"><i class="fa fa-bullhorn text-primary"></i> Anuncios</h5>
           <hr>
           <div class="row">
