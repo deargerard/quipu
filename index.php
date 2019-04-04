@@ -76,9 +76,9 @@
       <div class="row">
 
         <div class="col-lg-3" style="border-right: 1px dotted #dee2e6">
-          <p class="text-muted text-center" style="font-size: 14px; font-style: italic;"><i class="fa fa-street-view text-info"></i> Cajamarca, <?php echo date('d'); ?> de <?php echo nombremes(date('m')); ?> de 2019</p>
-          <h5 class="section-heading text-center" style="font-style: italic;"><i class="fa fa-bullhorn text-primary"></i> Anuncios</h5>
+          <p class="text-center" style="font-size: 14px; font-style: italic;"><i class="fa fa-street-view text-info"></i> Cajamarca, <?php echo date('d'); ?> de <?php echo nombremes(date('m')); ?> de 2019</p>
           <hr>
+          <h5 class="section-heading text-center" style="font-style: italic;"><i class="fa fa-bullhorn text-primary"></i> Anuncios</h5><br>
           <div class="row">
           <?php
           $cc=mysqli_query($cone, "SELECT idComunicado, Fecha, Descripcion FROM comunicado WHERE Estado=1 ORDER BY Fecha DESC LIMIT 7;");
@@ -86,7 +86,8 @@
             while($rc=mysqli_fetch_assoc($cc)){
           ?>
               <div class="col-sm-12">
-                <span class="text-info"><i class="fa fa-calendar"></i> <?php echo fnormal($rc['Fecha']); ?></span> | <a href="#" onclick="anuncio(<?php echo $rc['idComunicado']; ?>);" data-toggle="modal" data-target="#imodal"><?php echo $rc['Descripcion']; ?></a><br>
+
+                <span class="text-info"><i class="fa fa-calendar"></i> <?php echo fnormal($rc['Fecha']); ?></span> | <a href="#" onclick="anuncio(<?php echo $rc['idComunicado']; ?>);" data-toggle="modal" data-target="#imodal"><?php echo $rc['Descripcion']; ?></a>
                 <hr>
               </div>
           <?php
