@@ -2468,6 +2468,43 @@ fieldset:disabled a.btn {
   box-shadow: 0 0 0 0.2rem rgba(23, 162, 184, 0.5);
 }
 
+//btn_personalizado
+.btn-azul {
+  color: #fff;
+  background-color: #002856;
+  border-color: #001D3F;
+}
+
+.btn-azul:hover {
+  color: #fff;
+  background-color: #001D3F;
+  border-color: #002856;
+}
+
+.btn-azul:focus, .btn-azul.focus {
+  box-shadow: 0 0 0 0.2rem rgba(23, 162, 184, 0.5);
+}
+
+.btn-azul.disabled, .btn-azul:disabled {
+  color: #fff;
+  background-color: #17a2b8;
+  border-color: #17a2b8;
+}
+
+.btn-azul:not(:disabled):not(.disabled):active, .btn-azul:not(:disabled):not(.disabled).active,
+.show > .btn-azul.dropdown-toggle {
+  color: #fff;
+  background-color: #117a8b;
+  border-color: #10707f;
+}
+
+.btn-azul:not(:disabled):not(.disabled):active:focus, .btn-azul:not(:disabled):not(.disabled).active:focus,
+.show > .btn-azul.dropdown-toggle:focus {
+  box-shadow: 0 0 0 0.2rem rgba(23, 162, 184, 0.5);
+}
+//fin_btn_personalizado
+
+
 .btn-warning {
   color: #212529;
   background-color: #ffc107;

@@ -18,7 +18,7 @@
   <title>Intranet - Ministerio Público - Distrito Fiscal de Cajamarca</title>
 
   <!-- Bootstrap core CSS -->
-  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
 
   <!-- Custom fonts for this template -->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -74,14 +74,10 @@
   <section id="anuncios">
     <div class="container-fluid">
       <div class="row">
-        <div class="col-lg-12 text-center">
-          <h2 class="section-heading"><i class="fa fa-bullhorn text-primary"></i> Anuncios</h2>
-        </div>
-      </div>
-      <div class="row">
 
         <div class="col-lg-3">
-          <h6 class="text-info"><i class="fa fa-street-view text-primary"></i> Cajamarca <?php echo date('d'); ?> de <?php echo nombremes(date('m')); ?> de 2019</h6>
+          <h6 class="text-muted text-center" style="font-size: 14px; font-style: italic;"><i class="fa fa-street-view text-info"></i> Cajamarca <?php echo date('d'); ?> de <?php echo nombremes(date('m')); ?> de 2019</h6>
+          <h5 class="section-heading text-center" style="font-style: italic;"><i class="fa fa-bullhorn text-primary"></i> Anuncios</h5>
           <hr>
           <div class="row">
           <?php
@@ -478,7 +474,7 @@
             <table class="table">
               <tr>
                 
-                <button class="btn btn-light btn-block" style="font-weight: 400;" data-toggle="modal" data-target="#imodal" onclick="documentos(<?php echo $rcd['idCatDocumento']; ?>);"><i class="fas fa-folder text-info"></i> <?php echo $rcd['CatDocumento']; ?></button>
+                <button class="btn btn-info btn-block" style="font-weight: 400;" data-toggle="modal" data-target="#imodal" onclick="documentos(<?php echo $rcd['idCatDocumento']; ?>);"><i class="fas fa-folder text-info"></i> <?php echo $rcd['CatDocumento']; ?></button>
               </tr>
             </table>
         </div>
@@ -499,7 +495,7 @@
             <table class="table">
               <tr>
                 
-                <a href="sisper/files_intranet/<?php echo $rb['Adjunto']; ?>" class="btn btn-light btn-block" style="font-weight: 400; color: #000000;" target="_blank"><i class="fas fa-file-invoice text-info"></i> <?php echo $rb['Descripcion']; ?></a>
+                <a href="sisper/files_intranet/<?php echo $rb['Adjunto']; ?>" class="btn btn-info btn-block" style="font-weight: 400; color: #ffffff;" target="_blank"><i class="fas fa-file-invoice text-info"></i> <?php echo $rb['Descripcion']; ?></a>
               </tr>
             </table>
         </div>
