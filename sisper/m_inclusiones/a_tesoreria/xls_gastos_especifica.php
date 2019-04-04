@@ -28,7 +28,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
       header("Expires: 0");
 
       // Obtener  idEmpleadoCargo, fechas para cálculo de vacaciones
-  		$cesp=mysqli_query($cone,"SELECT * FROM teespecifica;");
+  		$cesp=mysqli_query($cone,"SELECT * FROM teespecifica where idteespecifica=$esp;");
 
   		$resp=mysqli_fetch_assoc($cesp);      
 
