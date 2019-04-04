@@ -87,7 +87,7 @@
           ?>
               <div class="col-sm-12">
 
-                <span class="text-info"><i class="fa fa-calendar"></i> <?php echo fnormal($rc['Fecha']); ?></span> | <a href="#" onclick="anuncio(<?php echo $rc['idComunicado']; ?>);" data-toggle="modal" data-target="#imodal"><?php echo $rc['Descripcion']; ?></a>
+                <span class="text-info" style="font-size: 11px;"><i class="fas fa-calendar-alt text-primary" style="font-size: 16px;"></i> <?php echo fnormal($rc['Fecha']); ?></span> | <a href="#" onclick="anuncio(<?php echo $rc['idComunicado']; ?>);" data-toggle="modal" data-target="#imodal"><?php echo $rc['Descripcion']; ?></a>
                 <hr>
               </div>
           <?php
@@ -201,7 +201,7 @@
                                           <div class="position-absolute p-2 p-lg-3 b-0 w-100 bg-shadow">
                                               <!-- meta title -->
                                               <div class="news-meta">
-                                                  <span class="news-date text-primary" style="font-weight: 800;"><i class="fa fa-calendar"></i> <?php echo fnormal($rns['Fecha']); ?></span>
+                                                  <span class="news-date text-primary" style="font-weight: 800;"><i class="fas fa-calendar-alt"></i> <?php echo fnormal($rns['Fecha']); ?></span>
                                               </div>
                                               <!--title and description-->
                                               <a href="#" onclick="noticia(<?php echo $rns['idNoticia']; ?>);" data-toggle="modal" data-target="#imodal">
@@ -264,7 +264,7 @@
                                       <!--title-->
                                       <div class="position-absolute p-2 p-lg-3 b-0 w-100 bg-shadow">
                                           <!-- category -->
-                                          <span class="date_n_p text-primary"><i class="fa fa-calendar"></i> <?php echo fnormal($rn['Fecha']); ?></span>
+                                          <span class="date_n_p text-primary"><i class="fas fa-calendar-alt" style="font-size: 12px;"></i> <?php echo fnormal($rn['Fecha']); ?></span>
                                           <!--title and description-->
                                           <a href="#" onclick="noticia(<?php echo $rn['idNoticia']; ?>);" data-toggle="modal" data-target="#imodal">
                                               <h4 class="h5 text-white my-1"><?php echo $rn['Titular']; ?></h4>
