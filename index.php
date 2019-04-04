@@ -48,22 +48,22 @@
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav text-uppercase ml-auto">
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#anuncios"><i class="fa fa-bullhorn text-muted"></i> Anuncios</a>
+            <a class="nav-link js-scroll-trigger" href="#anuncios"><i class="fa fa-bullhorn"></i> Anuncios</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#noticias"><i class="fa fa-newspaper text-muted"></i> Noticias</a>
+            <a class="nav-link js-scroll-trigger" href="#noticias"><i class="fa fa-newspaper"></i> Noticias</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#directorio"><i class="fa fa-address-book text-muted"></i> Directorio</a>
+            <a class="nav-link js-scroll-trigger" href="#directorio"><i class="fa fa-address-book"></i> Directorio</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#enlaces"><i class="fa fa-link text-muted"></i> Enlaces</a>
+            <a class="nav-link js-scroll-trigger" href="#enlaces"><i class="fa fa-link"></i> Enlaces</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#documentos"><i class="fa fa-file-pdf text-muted"></i> Documentos/Boletines</a>
+            <a class="nav-link js-scroll-trigger" href="#documentos"><i class="fa fa-file-pdf"></i> Documentos/Boletines</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#cumpleanos"><i class="fa fa-birthday-cake text-muted"></i> Cumpleaños</a>
+            <a class="nav-link js-scroll-trigger" href="#cumpleanos"><i class="fa fa-birthday-cake"></i> Cumpleaños</a>
           </li>
         </ul>
       </div>
@@ -75,7 +75,7 @@
     <div class="container-fluid">
       <div class="row">
 
-        <div class="col-lg-3" style="border-right: 1px solid #dee2e6">
+        <div class="col-lg-3" style="border-right: 1px dotted #dee2e6">
           <p class="text-muted text-center" style="font-size: 14px; font-style: italic;"><i class="fa fa-street-view text-info"></i> Cajamarca, <?php echo date('d'); ?> de <?php echo nombremes(date('m')); ?> de 2019</p>
           <h5 class="section-heading text-center" style="font-style: italic;"><i class="fa fa-bullhorn text-primary"></i> Anuncios</h5>
           <hr>
