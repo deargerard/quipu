@@ -37,7 +37,7 @@ if(isset($_POST['NomForm']) && $_POST['NomForm']='f_ocon'){
 									<td>
 										<table width='100%' border='0' cellpadding='0' cellspacing='0' style='border-bottom: 1px dotted #CCCCCC;'>
 											<tr>
-												<td><img src='https://www.mpfn.gob.pe/Interface/Img/logo.png' width='200'></td>
+												<td><img src='https://sites.google.com/a/mpfn.gob.pe/yo-aprendo-apps-ministerio-publico/_/rsrc/1521219971697/config/customLogo.gif' width='200'></td>
 												<td style='font-family:Arial, Helvetica, sans-serif; color: #173963; font-size: 18px; font-weight: bold;'>DISTRITO FISCAL DE CAJAMARCA</td>
 											</tr>
 										</table>
