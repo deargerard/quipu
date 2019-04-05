@@ -11,9 +11,9 @@ if(mysqli_num_rows($cc)>0){
 		$npar=$nom." ".$ape;
 		$est=$rc['Sexo']=='M' ? "Estimado" : "Estimada";
 		$cdes="admcaj.mpfn@gmail.com";
-		$ndes="Administración Cajamarca MPFN";
-		$asu="¡Feliz Cumpleaños!";
-		$acue="¡Feliz Cumpleaños!";
+		$ndes="ADMINISTRACION CAJAMARCA MPFN";
+		$asu="Feliz Cumple...!!!";
+		$acue="Feliz Cumple...!!!";
 		$cue='<!DOCTYPE html>
 <html lang="en">
 <head>
