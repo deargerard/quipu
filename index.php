@@ -47,7 +47,7 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav text-uppercase ml-auto">
-          <li class="nav-item">
+          <li class="nav-item" style="border-left: 1px dotted #337299;">
             <a class="nav-link js-scroll-trigger" href="#anuncios"><i class="fa fa-bullhorn"></i> Anuncios</a>
           </li>
           <li class="nav-item">
