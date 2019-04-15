@@ -112,14 +112,15 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
         <div class="col-md-9">
           <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
-              <li class="active"><a href="#datose" data-toggle="tab">Datos Personales</a></li>
+              <li class="active"><a href="#datose" data-toggle="tab">Datos</a></li>
               <?php if(accesocon($cone,$_SESSION['identi'],1)){ ?>
               <li><a href="#cargoe" data-toggle="tab">Cargos</a></li>
               <?php } ?>
               <li><a href="#parientese" data-toggle="tab">Parientes</a></li>
-              <li><a href="#gradose" data-toggle="tab">Grados y Titulos</a></li>
+              <li><a href="#gradose" data-toggle="tab">Grados/Titulos</a></li>
               <li><a href="#capacitacionese" data-toggle="tab">Capacitaciones</a></li>
               <li><a href="#experienciae" data-toggle="tab">Experiencia</a></li>
+              <li><a href="#discapacidade" data-toggle="tab">Discapacidad</a></li>
             </ul>
             <div class="tab-content">
               <div class="active tab-pane" id="datose">
@@ -789,6 +790,11 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
 		        </div>
               </div>
               <!-- /.tab-pane -->
+              <div class="tab-pane" id="discapacidade">
+
+              </div>
+              <!-- /.tab-pane -->
+
             </div>
             <!-- /.tab-content -->
           </div>
@@ -1486,6 +1492,26 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" id="b_gefvac">Guardar</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal discapacidad-->
+<div class="modal fade" id="m_dis" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title tmodal" id="myModalLabel"><i class="fa fa-wheelchair text-orange"></i> Discapacidad</h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal" id="f_dis">
+        	
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="b_gdis">Guardar</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
       </div>
     </div>

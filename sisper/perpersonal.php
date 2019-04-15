@@ -15,6 +15,7 @@ if(vacceso($cone,$_SESSION['identi'],$_SESSION['docide'],$_SESSION['nomusu'])){
 ?>
 <script>
 $(document).ready(function(){
+  l_discapacidad(<?php echo $idp; ?>);
   $("ul.sidebar-menu li").removeClass("active");
 <?php if(isset($_GET['idp']) && !empty($_GET['idp'])){ ?>
   $("#personal").addClass("active");

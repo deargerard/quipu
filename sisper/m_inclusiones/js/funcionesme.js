@@ -886,3 +886,69 @@ $(".select2pertodos").select2({
 $('#r_entregacargo').slimScroll({
 	height:'600px'
 });
+
+//discapacidad
+function l_discapacidad(idp){
+  $.ajax({
+     type: "POST",
+     url: "m_inclusiones/ajax/a_rdiscapacidad.php",
+     dataType: "html",
+     data: {idp: idp},   // I WANT TO ADD EXTRA DATA + SERIALIZE DATA
+     beforeSend: function () {
+        $("#discapacidade").html("<img src='m_images/cargando.gif'>");
+     },
+     success: function(data){
+        $("#discapacidade").html(data);
+     }
+  });
+};
+
+function discapacidad(acc, idp){
+  $("#m_dis").modal("show");
+  switch (acc) {
+    case "agrdis":
+      tit='<i class="fa fa-wheelchair text-orange"></i> Discapacidad';
+      break;
+    case "elidis":
+      tit='<i class="fa fa-trash text-orange"></i> Eliminar discapacidad';
+      break;
+  }
+  $(".tmodal").html(tit);
+  $.ajax({
+     type: "POST",
+     url: "m_inclusiones/ajax/a_dis.php",
+     dataType: "html",
+     data: {acc: acc, idp: idp},   // I WANT TO ADD EXTRA DATA + SERIALIZE DATA
+     beforeSend: function () {
+        $("#f_dis").html("<img src='m_images/cargando.gif'>");
+        $("#b_gdis").hide();
+     },
+     success: function(data){
+        $("#f_dis").html(data);
+        $("#b_gdis").show();
+     }
+  });
+}
+
+$('#b_gdis').on('click', function(){
+  var datos = $("#f_dis").serializeArray();
+  $.ajax({
+     type: "POST",
+     url: "m_inclusiones/ajax/a_gdis.php",
+     dataType: "json",
+     data: datos,   // I WANT TO ADD EXTRA DATA + SERIALIZE DATA
+     beforeSend: function () {
+        $("#d_frespuesta").html("<h4 class='text-center'><i class='fa fa-spinner fa-spin'></i></h4>");
+        $("#b_gdis").hide();
+     },
+     success: function(d){
+        if(d.e){
+          $("#f_dis").html(d.m);
+          l_discapacidad(d.d);
+        }else{
+          $("#d_frespuesta").html(d.m);
+          $("#b_gdis").show();
+        }
+     }
+  });
+})

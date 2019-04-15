@@ -2932,6 +2932,19 @@ $("#b_rvencimientos").on("click",function(e){
     }
   });
 });
+//fin funcion reporte personal
+$("#b_rdiscapacidad").on("click",function(e){
+  $.ajax({
+    type:"post",
+    url:"m_inclusiones/ajax/a_rdiscapacitados.php",
+    beforeSend: function () {
+      $("#r_discapacidad").html("<img scr='m_images/cargando.gif'>");
+    },
+    success:function(a){
+      $("#r_discapacidad").html(a);
+    }
+  });
+});
 
 //validar seleccionar dependencia para mostrar directorio
 $("#f_bteldep").validate({

@@ -26,6 +26,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
               <li><a href="#tab_3" data-toggle="tab">Ubicación/Personal</a></li>
               <li><a href="#tab_4" data-toggle="tab">Parientes/Personal</a></li>
               <li><a href="#tab_5" data-toggle="tab">Vencimientos</a></li>
+              <li><a href="#tab_6" data-toggle="tab">Discapacidad</a></li>
             </ul>
             <div class="tab-content">
               <div class="tab-pane active" id="tab_1">
@@ -231,6 +232,15 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                   <button id="b_rvencimientos" class="btn btn-default">Ver Vencimientos</button>
                   <div class="row">
                     <div class="col-md-12" id="r_rvencimientos">
+
+                    </div>
+                  </div>
+              </div>
+              <!-- /.tab-pane -->
+              <div class="tab-pane" id="tab_6">
+                  <button id="b_rdiscapacidad" class="btn btn-default">Personal con discapacidad</button>
+                  <div class="row">
+                    <div class="col-md-12" id="r_discapacidad">
 
                     </div>
                   </div>
