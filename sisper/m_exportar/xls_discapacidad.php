@@ -2,7 +2,7 @@
 session_start();
 include ("../m_inclusiones/php/conexion_sp.php");
 include ("../m_inclusiones/php/funciones.php");
-if(accesocon($cone,$_SESSION['identi'],3)){
+if(accesocon($cone,$_SESSION['identi'],1)){
       $fecha = @date("dmYHis");
 
 
