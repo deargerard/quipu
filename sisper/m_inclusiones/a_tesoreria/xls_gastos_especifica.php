@@ -7,17 +7,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
   $esp=iseguro($cone,$_GET['esp']);     
 
   if (isset($anob) && !empty($anob) && isset($esp) && !empty($esp)){
-    
-    //$fecini=fmysql("01/01/".$anob);
-    //$fecfin=strtotime('+ 1 year',strtotime ($fecini));
-    //$fecfin=date('Y-m-j', $fecfin);
-    //$fecfin=strtotime('- 1 day',strtotime ($fecfin));
-    //$fecfin=date('Y-m-j', $fecfin);
-    //$fec=explode('/',$anob);
-    //$mes=$fec[0];
-    //$anio=$fec[1];
        
-
       $fecha = @date("d-m-Y");
 
       //Inicio de la instancia para la exportación en Excel

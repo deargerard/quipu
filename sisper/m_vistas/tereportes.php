@@ -25,6 +25,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
             <ul class="nav nav-tabs">
               <li class="active"><a href="#tab_1" data-toggle="tab">Libro Auxiliar</a></li>
               <li><a href="#tab_2" data-toggle="tab">Gastos por Específica</a></li>
+              <li><a href="#tab_3" data-toggle="tab">Pagos pendientes</a></li>
             </ul>
             <div class="tab-content">
               <div class="tab-pane active" id="tab_1">
@@ -99,6 +100,38 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 <!--Fin div resultados-->
               </div>
               <!-- /.tab-pane -->
+
+              <div class="tab-pane" id="tab_3">
+
+                <!--Formulario busqueda-->
+                <form  action="" id="f_rep3" class="form-inline">                
+                  <div class="form-group has-feedback">
+                    <label for="fon">Fondo: </label>
+                    <select name="fon1" id="fon1" class="form-control" title="FONDO">
+                      <?php
+                        $cf=mysqli_query($cone,"SELECT idtefondo, nombre FROM tefondo");
+                        while($rf=mysqli_fetch_assoc($cf)){
+                      ?>
+                      <option value="<?php echo $rf['idtefondo']; ?>"><?php echo $rf['nombre']; ?></option>
+                      <?php
+                        }
+                        mysqli_free_result($cf);
+                      ?>
+                    </select>
+                  </div>
+                  <button type="button" id="b_bpagpen" class="btn btn-default"><i class="fa fa-search"></i> buscar</button>       
+
+                </form>
+                <!--Fin formulario busqueda-->
+                <!--Div resultados-->                
+                <div id="r_rep3">
+                  
+                </div>
+                <!--Fin div resultados-->
+
+              </div>
+              <!-- /.tab-pane -->
+
             </div>
             <!-- /.tab-content -->
           </div>

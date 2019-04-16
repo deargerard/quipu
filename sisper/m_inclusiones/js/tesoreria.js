@@ -322,3 +322,31 @@ $("#b_exge").click(function(){
   }
 })
 //fin función exportar gastos por específica
+// FUNCION BUSCAR PAGOS PENDIENTES
+function b_bpagpen(fon){
+  
+  $.ajax({
+    type: "post",
+    url: "m_inclusiones/a_tesoreria/bpagpen.php",
+    data: {fon : fon},
+    dataType: "html",
+    beforeSend: function () {
+      $("#r_rep3").html("<img scr='m_images/cargando.gif'>");
+    },
+    success:function(a){
+      $("#r_rep3").html(a);      
+    }
+  });
+}
+// FIN FUNCION BUSCAR PAGOS PENDIENTES
+//LLAMA A LA FUNCIÓN PAGOS PENDIENTES
+$("#b_bpagpen").click(function(){
+  var fon=$("#fon1").val();
+  if (fon==null){
+    alert("Debe elegir un fondo");
+  }else {
+    b_bpagpen(fon);
+  }
+})
+// FIN LLAMA A LA FUNCIÓN PAGOS PENDIENTES
+
