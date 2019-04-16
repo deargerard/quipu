@@ -238,7 +238,8 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
               </div>
               <!-- /.tab-pane -->
               <div class="tab-pane" id="tab_6">
-                  <button id="b_rdiscapacidad" class="btn btn-default">Personal con discapacidad</button>
+                  <button id="b_rdiscapacidad" class="btn btn-default"><i class="fa fa-wheelchair"></i> Personal con discapacidad</button>
+                  <a href="m_exportar/xls_discapacidad.php" class="btn bg-purple" target="_blank"><i class="fa fa-file-excel-o"></i> Exportar</a>
                   <div class="row">
                     <div class="col-md-12" id="r_discapacidad">
 
