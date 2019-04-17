@@ -236,7 +236,7 @@ if(isset($_GET['mesanoc']) && !empty($_GET['mesanoc']) && isset($_GET['per']) &&
                 //buscamos la marcación de ingreso
                 $fting=$fec." ".$ing;
                 $ing1=date('Y-m-d H:i:s',strtotime('-75 minute', strtotime($fting)));
-                $ing2=date('Y-m-d H:i:s',strtotime('+60 minute', strtotime($fting)));
+                $ing2=date('Y-m-d H:i:s',strtotime('+61 minute', strtotime($fting)));
                 $ingt=date('Y-m-d H:i:s',strtotime('+6 minute', strtotime($fting)));
                 $ingf=date('Y-m-d H:i:s',strtotime('+11 minute', strtotime($fting)));
 

@@ -35,7 +35,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                           <select class="form-control select2" name="per" id="per" style="width: 100%;">
                             <option value="">PERSONAL</option>
                             <?php
-                            $c=mysqli_query($cone, "SELECT idEmpleado, concat(ApellidoPat, ' ', ApellidoMat, ', ', Nombres) as nombre FROM empleado WHERE Estado=1 ORDER BY nombre ASC;");
+                            $c=mysqli_query($cone, "SELECT e.idEmpleado, concat(e.ApellidoPat, ' ', e.ApellidoMat, ', ', e.Nombres) as nombre FROM empleado e INNER JOIN empleadocargo ec ON e.idEmpleado=ec.idEmpleado WHERE ec.idEstadoCar=1 ORDER BY nombre ASC;");
                             if(mysqli_num_rows($c)>0){
                               while($r=mysqli_fetch_assoc($c)){
                             ?>
@@ -72,7 +72,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                           <select class="form-control select2" name="per1" id="per1" style="width: 100%;">
                             <option value="">PERSONAL</option>
                             <?php
-                            $c=mysqli_query($cone, "SELECT idEmpleado, concat(ApellidoPat, ' ', ApellidoMat, ', ', Nombres) as nombre FROM empleado WHERE Estado=1 ORDER BY nombre ASC;");
+                            $c=mysqli_query($cone, "SELECT e.idEmpleado, concat(e.ApellidoPat, ' ', e.ApellidoMat, ', ', e.Nombres) as nombre FROM empleado e INNER JOIN empleadocargo ec ON e.idEmpleado=ec.idEmpleado WHERE ec.idEstadoCar=1 ORDER BY nombre ASC;");
                             if(mysqli_num_rows($c)>0){
                               while($r=mysqli_fetch_assoc($c)){
                             ?>
