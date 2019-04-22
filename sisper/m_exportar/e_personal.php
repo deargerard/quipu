@@ -3,7 +3,7 @@ session_start();
 include ("../m_inclusiones/php/conexion_sp.php");
 include ("../m_inclusiones/php/funciones.php");
 if(accesocon($cone,$_SESSION['identi'],1)){
-      $fecha = @date("d-m-Y");
+      $fecha = @date("dmY_His");
 
 
       //Inicio de la instancia para la exportación en Excel
@@ -16,7 +16,7 @@ if(accesocon($cone,$_SESSION['identi'],1)){
 ?>
           <table border=1>
               <tr>
-                    <th colspan="20"><font face="arial" color="#FF5C26" size="3">LISTADO DE PERSONAL ACTIVO - DISTRITO FISCAL DE CAJAMARCA</font></th>
+                    <th colspan="20"><font face="arial" color="#605ca8" size="3">LISTADO DE PERSONAL ACTIVO - DISTRITO FISCAL DE CAJAMARCA</font></th>
               </tr>
               <tr>
                     <td colspan="20"></td>
@@ -25,27 +25,27 @@ if(accesocon($cone,$_SESSION['identi'],1)){
               $cper=mysqli_query($cone,"SELECT e.idEmpleado, ApellidoPat, ApellidoMat, Nombres, Sexo, FechaNac, NumeroDoc, CorreoPer, CorreoIns, ec.idCargo, cd.Oficial, cd.idDependencia, ec.FechaAsu, ec.idModAcceso, ec.Reemplazado FROM empleado AS e INNER JOIN empleadocargo AS ec ON e.idEmpleado=ec.idEmpleado INNER JOIN cardependencia AS cd ON ec.idEmpleadoCargo=cd.idEmpleadoCargo WHERE ec.idEstadoCar=1 AND cd.Estado=1 ORDER BY ApellidoPat, ApellidoMat, Nombres ASC");
               if(mysqli_num_rows($cper)>0){
 ?>
-                <tr bgcolor= "#777777">
-                  <td><font color="#ffffff" size="2">N°</font></td>
-                  <td><font color="#ffffff" size="2">N° DNI</font></td>
-                  <td><font color="#ffffff" size="2">A. PATERNO</font></td>
-                  <td><font color="#ffffff" size="2">A. MATERNO</font></td>
-                  <td><font color="#ffffff" size="2">NOMBRES</font></td>
-                  <td><font color="#ffffff" size="2">SEXO</font></td>
-                  <td><font color="#ffffff" size="2">F. NACIMIENTO</font></td>
-                  <td><font color="#ffffff" size="2">CARGO</font></td>
-                  <td><font color="#ffffff" size="2">SIS. LABORAL</font></td>
-                  <td><font color="#ffffff" size="2">DEP. ACTUAL</font></td>
-                  <td><font color="#ffffff" size="2">DIST-PROV</font></td>
-                  <td><font color="#ffffff" size="2">DIR. TRABAJO</font></td>
-                  <td><font color="#ffffff" size="2">DEP. OFICIAL</font></td>
-                  <td><font color="#ffffff" size="2">COND. LABORAL</font></td>
-                  <td><font color="#ffffff" size="2">FEC. INGRESO</font></td>
-                  <td><font color="#ffffff" size="2">SUPLENCIA DE</font></td>
-                  <td><font color="#ffffff" size="2">CORREO PERS.</font></td>
-                  <td><font color="#ffffff" size="2">CORREO INST.</font></td>
-                  <td><font color="#ffffff" size="2">TELÉFONO INST.</font></td>
-                  <td><font color="#ffffff" size="2">TELÉFONO PERS.</font></td>
+                <tr>
+                  <td bgcolor= "#605ca8"><font color="#ffffff" size="2">N&deg;</font></td>
+                  <td bgcolor= "#605ca8"><font color="#ffffff" size="2">N&deg; DNI</font></td>
+                  <td bgcolor= "#605ca8"><font color="#ffffff" size="2">A. PATERNO</font></td>
+                  <td bgcolor= "#605ca8"><font color="#ffffff" size="2">A. MATERNO</font></td>
+                  <td bgcolor= "#605ca8"><font color="#ffffff" size="2">NOMBRES</font></td>
+                  <td bgcolor= "#605ca8"><font color="#ffffff" size="2">SEXO</font></td>
+                  <td bgcolor= "#605ca8"><font color="#ffffff" size="2">F. NACIMIENTO</font></td>
+                  <td bgcolor= "#605ca8"><font color="#ffffff" size="2">CARGO</font></td>
+                  <td bgcolor= "#605ca8"><font color="#ffffff" size="2">SIS. LABORAL</font></td>
+                  <td bgcolor= "#605ca8"><font color="#ffffff" size="2">DEP. ACTUAL</font></td>
+                  <td bgcolor= "#605ca8"><font color="#ffffff" size="2">DIST-PROV</font></td>
+                  <td bgcolor= "#605ca8"><font color="#ffffff" size="2">DIR. TRABAJO</font></td>
+                  <td bgcolor= "#605ca8"><font color="#ffffff" size="2">DEP. OFICIAL</font></td>
+                  <td bgcolor= "#605ca8"><font color="#ffffff" size="2">COND. LABORAL</font></td>
+                  <td bgcolor= "#605ca8"><font color="#ffffff" size="2">FEC. INGRESO</font></td>
+                  <td bgcolor= "#605ca8"><font color="#ffffff" size="2">SUPLENCIA DE</font></td>
+                  <td bgcolor= "#605ca8"><font color="#ffffff" size="2">CORREO PERS.</font></td>
+                  <td bgcolor= "#605ca8"><font color="#ffffff" size="2">CORREO INST.</font></td>
+                  <td bgcolor= "#605ca8"><font color="#ffffff" size="2">TEL&Eacute;FONO INST.</font></td>
+                  <td bgcolor= "#605ca8"><font color="#ffffff" size="2">TEL&Eacute;FONO PERS.</font></td>
                 </tr>
 <?php
                 $a=0;

@@ -45,12 +45,12 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                   </div>
                   <div class="form-group">
                     <label for="aaa" class="sr-only">Mes Inicial</label>
-                    <input class="form-control" id="mesini" name="mesini" placeholder="MM/AAAA (INICIO)">
+                    <input class="form-control" id="mesini" name="mesini" placeholder="dd/mm/aaaa (INICIO)">
                   </div>
 
                   <div class="form-group">
                     <label for="aaa" class="sr-only">Mes Final</label>
-                    <input class="form-control" id="mesfin" name="mesfin" placeholder="MM/AAAA (FIN)">
+                    <input class="form-control" id="mesfin" name="mesfin" placeholder="dd/mm/aaaa (FIN)">
                   </div>
                     <button type="button" id="b_bama" class="btn btn-default">Buscar</button>
                     <button type="button" id="b_eama" class="btn bg-aqua"><i class="fa fa-file-excel-o"></i> Exportar</button>

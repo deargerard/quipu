@@ -3,7 +3,7 @@ session_start();
 include ("../m_inclusiones/php/conexion_sp.php");
 include ("../m_inclusiones/php/funciones.php");
 if(accesocon($cone,$_SESSION['identi'],1)){
-      $fecha = @date("d-m-Y");
+      $fecha = @date("dmY_His");
 
 
       //Inicio de la instancia para la exportación en Excel
@@ -38,7 +38,7 @@ if(accesocon($cone,$_SESSION['identi'],1)){
                 if(mysqli_num_rows($cp)>0){
             ?>
               <tr>
-                <th><font color="#555555" size="2">N° DOC.</font></th>
+                <th><font color="#555555" size="2">N&deg; DOC.</font></th>
                 <th><font color="#555555" size="2">NOMBRE</font></th>
                 <th><font color="#555555" size="2">CARGO</font></th>
                 <th><font color="#555555" size="2">COND. LAB.</font></th>

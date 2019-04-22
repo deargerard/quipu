@@ -67,17 +67,14 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                   <div class="form-group">
                     <div class="col-sm-offset-1 col-sm-11">
                       <button type="submit" id="b_rperdependencia" class="btn btn-default">Buscar</button>
+                      <a href="m_exportar/e_personal.php" class="btn bg-purple" target="_blank"><i class="fa fa-file-excel-o"></i> Personal</a>
+                      <a href="m_exportar/e_perdependencia.php" class="btn bg-purple" target="_blank"><i class="fa fa-file-excel-o"></i> Personal/Dependencia</a>
                     </div>
                   </div>
                 </form>
                 <!--Fin Formulario-->
                 <!--div resultados-->
                 <div class="row">
-                  <div class="col-md-12">
-                    <a href="m_exportar/e_personal.php" class="btn bg-purple btn-xs" target="_blank"><i class="fa fa-file-excel-o"></i> Personal</a>
-                    <a href="m_exportar/e_perdependencia.php" class="btn bg-purple btn-xs" target="_blank"><i class="fa fa-file-excel-o"></i> Personal/Dependencia</a>
-                    <br><br>
-                  </div>
                   <div class="col-md-12" id="r_rperdependencia">
 
                   </div>
@@ -212,16 +209,13 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                   <div class="form-group">
                     <div class="col-sm-offset-1 col-sm-11">
                       <button type="submit" id="b_rhijos" class="btn btn-default">Buscar</button>
+                      <a href="m_exportar/e_perhijos.php" class="btn bg-purple" target="_blank"><i class="fa fa-file-excel-o"></i> Pers./Hijos</a>
+                      <a href="m_exportar/e_perhijos10.php" class="btn bg-purple" target="_blank"><i class="fa fa-file-excel-o"></i> Pers./Hijos <= 10</a>
                     </div>
                   </div>
                 </form>
                 <!--Fin Formulario-->
                 <div class="row">
-                  <div class="col-md-12">
-                    <a href="m_exportar/e_perhijos.php" class="btn bg-purple btn-xs" target="_blank"><i class="fa fa-file-excel-o"></i> Pers./Hijos</a>
-                    <a href="m_exportar/e_perhijos10.php" class="btn bg-purple btn-xs" target="_blank"><i class="fa fa-file-excel-o"></i> Pers./Hijos <= 10</a>
-                    <br><br>
-                  </div>
                   <div class="col-md-12" id="r_rhijos">
 
                   </div>

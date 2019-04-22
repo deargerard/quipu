@@ -790,7 +790,7 @@ function atemedio($med){
 			return "Presencial";
 			break;
 		case 2:
-			return "Teléfono";
+			return "Tel&eacute;fono";
 			break;
 		case 3:
 			return "Email";

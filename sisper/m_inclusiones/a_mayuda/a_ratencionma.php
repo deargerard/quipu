@@ -15,16 +15,14 @@ if(solucionador($cone,$_SESSION['identi'])){
 		}else {
 			$wsol="AND ms.idSolucionador=$soluc";
 		}
-
-			$cp=mysqli_query($cone,"SELECT ma.idAtencion, ma.Fecha, ma.idEmpleado, ma.FecSolucion, ma.Estado, mp.Producto, ma.Registrador, mt.Tipo, msc.SubCategoria, mc.Categoria, ms.idSolucionador, ms.idEmpleado as Solucionador FROM maatencion ma INNER JOIN maproducto mp ON ma.idProducto=mp.idProducto INNER JOIN matipo mt ON mp.idTipo=mt.idTipo INNER JOIN masubcategoria msc ON mt.idSubCategoria=msc.idSubCategoria INNER JOIN macategoria mc ON msc.idCategoria=mc.idCategoria INNER JOIN masolucionador ms ON ma.idSolucionador=ms.idSolucionador WHERE (DATE_FORMAT(ma.Fecha,'%Y-%m-%d') BETWEEN '$mesini' AND 'mesfin') $wsol ORDER BY ma.Fecha DESC;");
+			$cp=mysqli_query($cone, "SELECT ma.idAtencion, ma.Fecha, ma.idEmpleado, ma.FecSolucion, ma.Estado, mp.Producto, ma.Registrador, mt.Tipo, msc.SubCategoria, mc.Categoria, ms.idSolucionador, ms.idEmpleado as Solucionador FROM maatencion ma INNER JOIN maproducto mp ON ma.idProducto=mp.idProducto INNER JOIN matipo mt ON mp.idTipo=mt.idTipo INNER JOIN masubcategoria msc ON mt.idSubCategoria=msc.idSubCategoria INNER JOIN macategoria mc ON msc.idCategoria=mc.idCategoria INNER JOIN masolucionador ms ON ma.idSolucionador=ms.idSolucionador WHERE (DATE_FORMAT(ma.FecSolucion, '%Y-%m-%d') BETWEEN '$mesini' AND '$mesfin') $wsol ORDER BY ma.Fecha DESC;");
 ?>
 			<hr>
 			<table id="dtatenciones" class="table table-bordered table-hover">
 			<thead>
 				<tr>
-
-					<th>REGISTRO</th>
-					<th>ATENCIÓN</th>
+					<th>FECHA REPORTE</th>
+					<th>FECHA SOLUCIÓN</th>
 					<th>TIEMPO</th>
 					<th>USUARIO</th>
 					<th>CATEGORIA</th>
@@ -50,8 +48,8 @@ if(solucionador($cone,$_SESSION['identi'])){
 
 	?>
 					<tr>
-					<td><span class="hidden"><?php echo $rp["Fecha"] ?></span><?php echo ftnormal($rp["Fecha"]) ?></td>
-					<td><?php echo ftnormal($rp["FecSolucion"]) ?></td>
+					<td style="font-size: 11px;"><span class="hidden"><?php echo $rp["Fecha"] ?></span><?php echo ftnormal($rp["Fecha"]) ?></td>
+					<td style="font-size: 11px;"><?php echo ftnormal($rp["FecSolucion"]) ?></td>
 					<td><?php echo diftiempo($rp['Fecha'], $ffin) ?></td>
 					<td><?php echo nomempleado($cone,$rp["idEmpleado"]) ?></td>
 					<td><?php echo $rp['Categoria']." - ".$rp['SubCategoria']." - ".$rp['Tipo']." - ".$rp['Producto'] ?></td>

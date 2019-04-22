@@ -3,14 +3,14 @@ session_start();
 include ("../m_inclusiones/php/conexion_sp.php");
 include ("../m_inclusiones/php/funciones.php");
 if(accesocon($cone,$_SESSION['identi'],1)){
-      $fecha = @date("d-m-Y");
+      $fecha = @date("dmY_His");
 
 
       //Inicio de la instancia para la exportación en Excel
       //header('Content-type: application/vnd.ms-excel');
       header("Content-Type:   application/vnd.ms-excel; charset=utf-8");
       //header('Content-type: application/vnd.sun.xml.calc; charset=utf-8');
-      header("Content-Disposition: attachment; filename=Listado_$fecha.xls");
+      header("Content-Disposition: attachment; filename=ListaHijos10_$fecha.xls");
       header("Pragma: no-cache");
       header("Expires: 0");
 

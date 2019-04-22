@@ -279,7 +279,7 @@ $("#b_eama").click(function(){
 	var mesini=$("#mesini").val();
 	var mesfin=$("#mesfin").val();
 	var soluc=$("#soluc").val();
-  if (mesini==null & mesfin==null) {
+  if (mesini=='' || mesfin=='') {
     alert("Todos los campos son obligatorios");
   }else {
      window.location.href = "m_exportar/e_exatenciones.php?mesini="+mesini+"&mesfin="+mesfin+"&soluc="+soluc;
