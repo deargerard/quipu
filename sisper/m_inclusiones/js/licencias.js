@@ -1,3 +1,5 @@
+var fecha = new Date();
+fecha.setFullYear(fecha.getFullYear()+1);
 $("#ano,#anio").datepicker({
   autoclose: true,
   format: " yyyy",
@@ -5,7 +7,7 @@ $("#ano,#anio").datepicker({
   minViewMode: "years",
   maxViewMode: "years",
   startDate: '2000',
-  endDate: new Date(),
+  endDate: fecha,
   startView: "year" //does not work
 });
 $("#mes").datepicker({
