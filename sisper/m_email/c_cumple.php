@@ -7,6 +7,9 @@ if(mysqli_num_rows($cc)>0){
 	$npar="";
 	$cono=array();
 	while ($rc=mysqli_fetch_assoc($cc)) {
+		$ape=$rc['ApellidoPat']." ".$rc['ApellidoMat'];
+		$nom=$rc['Nombres'];
+		$cpar=$rc['CorreoIns'];
 		$npar.=$rc['Nombres']." ".$rc['ApellidoPat']." ".$rc['ApellidoMat']."<br>";
 		if(!is_null($rc['CorreoIns'])){
 			$cono[$rc['CorreoIns']]=$rc['Nombres']." ".$rc['ApellidoPat']." ".$rc['ApellidoMat'];
