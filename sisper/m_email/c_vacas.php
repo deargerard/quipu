@@ -58,7 +58,7 @@ if(mysqli_num_rows($cc)>0){
 								</tr>
 								<tr>
 									<td align="center">
-										<img src="https://www.travelexpress.cl/wp-content/uploads/2015/12/viaje-vector-297x300.png" width="250">
+										<img src="https://image.freepik.com/vector-gratis/fondo-vacaciones-dias-festivos-maleta-globo-realista-camara-fotos_1284-10476.jpg" width="250">
 									</td>
 								</tr>
 								<tr>

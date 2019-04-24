@@ -2,14 +2,19 @@
 include("/var/www/html/sisper/m_inclusiones/php/conexion_sp.php");
 include("/var/www/html/sisper/m_inclusiones/php/funciones.php");
 include("/var/www/html/sisper/m_email/fcorreo.php");
-$cc=mysqli_query($cone, "SELECT ApellidoPat, ApellidoMat, Nombres, CorreoIns, Sexo FROM empleado e INNER JOIN empleadocargo ec ON e.idEmpleado=ec.idEmpleado WHERE date_format(FechaNac,'%m-%d')=date_format(now(),'%m-%d') AND idEstadoCar=1;");
+$cc=mysqli_query($cone, "SELECT ApellidoPat, ApellidoMat, Nombres, CorreoIns FROM empleado e INNER JOIN empleadocargo ec ON e.idEmpleado=ec.idEmpleado WHERE date_format(FechaNac,'%m-%d')=date_format(now(),'%m-%d') AND idEstadoCar=1;");
 if(mysqli_num_rows($cc)>0){
+	$npar="";
+	$cono=array();
 	while ($rc=mysqli_fetch_assoc($cc)) {
 		$ape=$rc['ApellidoPat']." ".$rc['ApellidoMat'];
 		$nom=$rc['Nombres'];
 		$cpar=$rc['CorreoIns'];
-		$npar=$nom." ".$ape;
-		$est=$rc['Sexo']=='M' ? "Estimado" : "Estimada";
+		$npar.=$rc['Nombres']." ".$rc['ApellidoPat']." ".$rc['ApellidoMat']."<br>";
+		if(!is_null($rc['CorreoIns'])){
+			$cono[$rc['CorreoIns']]=$rc['Nombres']." ".$rc['ApellidoPat']." ".$rc['ApellidoMat'];
+		}
+	}
 		$cdes="admcaj.mpfn@gmail.com";
 		$ndes="ADMINISTRACION CAJAMARCA MPFN";
 		$asu="Feliz Cumple...!!!";
@@ -64,11 +69,11 @@ if(mysqli_num_rows($cc)>0){
 									</td>
 								</tr>
 								<tr>
-									<td align="center" style="font-size: 16px; color: #555555; font-family:Arial, Helvetica, sans-serif;"><br>'.$est.'<br><br></td>
+									<td align="center" style="font-size: 16px; color: #555555; font-family:Arial, Helvetica, sans-serif;"><br>Estimad@s:<br><br></td>
 								</tr>
 								<tr>
-									<td align="center" style="font-size: 40px; color: #0091B6; font-weight: bold; font-family:Arial, Helvetica, sans-serif;">
-										'.$nom.'<br>
+									<td align="center" style="font-size: 20px; color: #0091B6; font-weight: bold; font-family:Arial, Helvetica, sans-serif;">
+										'.$npar.'<br>
 									</td>
 								</tr>
 
@@ -78,7 +83,7 @@ if(mysqli_num_rows($cc)>0){
 											<tr>
 												<td align="center" style="font-family:Georgia, Times, serif; color: #777777; font-size:15px;">
 													
-													Es un honor tener a alguien ejemplar como Usted en la institución. En este día tan importante, le deseamos muchas felicidades y esperamos de corazón tenerlo con nosotros muchos cumpleaños más.
+													Es un honor tener personas ejemplares como Ustedes en la institución. En este día tan importante, les deseamos muchas felicidades y esperamos de corazón tenerlos con nosotros muchos cumpleaños más.
 													
 												</td>
 											</tr>
@@ -115,13 +120,13 @@ if(mysqli_num_rows($cc)>0){
 </body>
 </html>';
 		if(!empty($cpar)){
-			$msg=ecorreo($cdes, $ndes, $cpar, $npar, $asu, $cue, $acue);	
+			$msg=ecorreo($cdes, $ndes, $cono, $asu, $cue, $acue);	
 			$archivo=fopen("/var/www/html/sisper/logs/log_envio_cumples.txt", "a") or die("Problemas al crear");
 			fwrite($archivo,$msg);
 			fwrite($archivo,"\n");
 			fclose($archivo);
 		}
-	}
+
 }
 
 ?>

@@ -1,6 +1,6 @@
 <?php
 
-function ecorreo($cdes, $ndes, $cpar, $npar, $asu, $cue, $acue){
+function ecorreo($cdes, $ndes, $cono, $asu, $cue, $acue){
 	//SMTP needs accurate times, and the PHP time zone MUST be set
 	//This should be done in your php.ini, but this is how to do it if you don't have access to that
 	date_default_timezone_set('Etc/UTC');
@@ -50,7 +50,9 @@ function ecorreo($cdes, $ndes, $cpar, $npar, $asu, $cue, $acue){
 	$mail->addReplyTo($cdes, $ndes);
 
 	//Set who the message is to be sent to
-	$mail->addAddress($cpar, $npar);
+	foreach ($cono as $correo => $nombre) {
+		$mail->addAddress($correo, $nombre);
+	}
 
 	//Set the subject line
 	$mail->Subject = $asu;
