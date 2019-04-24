@@ -66,9 +66,9 @@ function ecorreo($cdes, $ndes, $cono, $asu, $cue, $acue){
 
 	//send the message, check for errors
 	if (!$mail->send()) {
-	    return date("d/m/Y H:i:s")." Mailer Error: " .$asu." - ".$npar." - ". $mail->ErrorInfo;
+	    return date("d/m/Y H:i:s")." Mailer Error: " .$asu." - ". $mail->ErrorInfo;
 	} else {
-	    return date("d/m/Y H:i:s")." Message sent! ".$asu." - ".$npar;
+	    return date("d/m/Y H:i:s")." Message sent! ".$asu;
 	}
 }
 

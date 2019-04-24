@@ -7,9 +7,6 @@ if(mysqli_num_rows($cc)>0){
 	$npar="";
 	$cono=array();
 	while ($rc=mysqli_fetch_assoc($cc)) {
-		$ape=$rc['ApellidoPat']." ".$rc['ApellidoMat'];
-		$nom=$rc['Nombres'];
-		$cpar=$rc['CorreoIns'];
 		$npar.=$rc['Nombres']." ".$rc['ApellidoPat']." ".$rc['ApellidoMat']."<br>";
 		if(!is_null($rc['CorreoIns'])){
 			$cono[$rc['CorreoIns']]=$rc['Nombres']." ".$rc['ApellidoPat']." ".$rc['ApellidoMat'];
@@ -69,10 +66,10 @@ if(mysqli_num_rows($cc)>0){
 									</td>
 								</tr>
 								<tr>
-									<td align="center" style="font-size: 16px; color: #555555; font-family:Arial, Helvetica, sans-serif;"><br>Estimad@s:<br><br></td>
+									<td align="center" style="font-size: 16px; color: #7da400; font-family:Arial, Helvetica, sans-serif;"><br>Estimad@(s):<br><br></td>
 								</tr>
 								<tr>
-									<td align="center" style="font-size: 20px; color: #0091B6; font-weight: bold; font-family:Arial, Helvetica, sans-serif;">
+									<td align="center" style="font-size: 18px; color: #0091B6; font-weight: bold; font-family:Arial, Helvetica, sans-serif;">
 										'.$npar.'<br>
 									</td>
 								</tr>

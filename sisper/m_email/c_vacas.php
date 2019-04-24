@@ -2,18 +2,20 @@
 include("/var/www/html/sisper/m_inclusiones/php/conexion_sp.php");
 include("/var/www/html/sisper/m_inclusiones/php/funciones.php");
 include("/var/www/html/sisper/m_email/fcorreo.php");
-$cc=mysqli_query($cone, "SELECT ApellidoPat, ApellidoMat, Nombres, CorreoIns, Sexo, pv.FechaIni FROM empleado e INNER JOIN empleadocargo ec ON e.idEmpleado=ec.idEmpleado INNER JOIN provacaciones pv ON ec.idEmpleadoCargo=pv.idEmpleadoCargo WHERE pv.FechaIni=date_format(date_add(now(), INTERVAL +5 DAY),'%Y-%m-%d') AND (pv.Estado='0' OR pv.Estado='4') AND idEstadoCar=1;");
+$cc=mysqli_query($cone, "SELECT ApellidoPat, ApellidoMat, Nombres, CorreoIns, pv.FechaIni FROM empleado e INNER JOIN empleadocargo ec ON e.idEmpleado=ec.idEmpleado INNER JOIN provacaciones pv ON ec.idEmpleadoCargo=pv.idEmpleadoCargo WHERE pv.FechaIni=date_format(date_add(now(), INTERVAL +5 DAY),'%Y-%m-%d') AND (pv.Estado='0' OR pv.Estado='4') AND idEstadoCar=1;");
 if(mysqli_num_rows($cc)>0){
+	$npar="";
+	$cono=array();
 	while ($rc=mysqli_fetch_assoc($cc)) {
-		$ape=$rc['ApellidoPat']." ".$rc['ApellidoMat'];
-		$nom=$rc['Nombres'];
-		$cpar=$rc['CorreoIns'];
-		$npar=$nom." ".$ape;
-		$est=$rc['Sexo']=='M' ? "Estimado" : "Estimada";
+		$npar.=$rc['Nombres']." ".$rc['ApellidoPat']." ".$rc['ApellidoMat']."<br>";
+		if(!is_null($rc['CorreoIns'])){
+			$cono[$rc['CorreoIns']]=$rc['Nombres']." ".$rc['ApellidoPat']." ".$rc['ApellidoMat'];
+		}
+	}
 		$cdes="admcaj.mpfn@gmail.com";
-		$ndes="Administración Cajamarca";
-		$asu="¡Vacaciones!";
-		$acue="¡Vacaciones!";
+		$ndes="ADMINISTRACION CAJAMARCA MPFN";
+		$asu="Vacaciones a la vista!";
+		$acue="Vacaciones a la vista!";
 		$fvac=fnormal($rc['FechaIni']);
 		$cue='<!DOCTYPE html>
 <html lang="es-PE">
@@ -62,11 +64,11 @@ if(mysqli_num_rows($cc)>0){
 									</td>
 								</tr>
 								<tr>
-									<td align="center" style="font-size: 16px; color: #555555; font-family:Arial, Helvetica, sans-serif;"><br>'.$est.'<br><br></td>
+									<td align="center" style="font-size: 16px; color: #7da400; font-family:Arial, Helvetica, sans-serif;"><br>Estimad@(s):<br><br></td>
 								</tr>
 								<tr>
-									<td align="center" style="font-size: 40px; color: #0091B6; font-weight: bold; font-family:Arial, Helvetica, sans-serif;">
-										'.$nom.'<br>'.$ape.'<br>
+									<td align="center" style="font-size: 18px; color: #0091B6; font-weight: bold; font-family:Arial, Helvetica, sans-serif;">
+										'.$npar.'<br>
 									</td>
 								</tr>
 
@@ -75,8 +77,8 @@ if(mysqli_num_rows($cc)>0){
 										<table width="100%" border="0" cellpadding="0" cellspacing="0" style="padding: 10px; margin-top: 10px; padding: 10px; margin-top: 10px;">
 											<tr>
 												<td align="center" style="font-family:Georgia, Times, serif; color: #777777; font-size:15px;">
-													<span style="font-size: 24px">¡Prepárate!<br>
-													Este <strong><span style="color: #666666;">'.$fvac.'</span></strong> sales de vacaciones. </span><br><br>
+													<span style="font-size: 24px">¡A Prepararse!<br>
+													Este <strong><span style="color: #666666;">'.$fvac.'</span></strong> inician sus vacaciones. </span><br><br>
 													- Coordina con tu jefe inmediato. <br>
 													- Elabora tu entrega de cargo. <br>
 													- Deja tu trabajo listo. <br><br>
@@ -116,13 +118,13 @@ if(mysqli_num_rows($cc)>0){
 </body>
 </html>';
 		if(!empty($cpar)){
-			$msg=ecorreo($cdes, $ndes, $cpar, $npar, $asu, $cue, $acue);	
+			$msg=ecorreo($cdes, $ndes, $cono, $asu, $cue, $acue);	
 			$archivo=fopen("/var/www/html/sisper/logs/log_envio_vacas.txt", "a") or die("Problemas al crear");
 			fwrite($archivo,$msg);
 			fwrite($archivo,"\n");
 			fclose($archivo);
 		}
-	}
+
 }
 
 ?>
