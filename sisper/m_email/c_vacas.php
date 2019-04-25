@@ -15,8 +15,8 @@ if(mysqli_num_rows($cc)>0){
 	}
 		$cdes="admcaj.mpfn@gmail.com";
 		$ndes="ADMINISTRACION CAJAMARCA MPFN";
-		$asu="Vacaciones a la vista!";
-		$acue="Vacaciones a la vista!";
+		$asu="Vacaciones a la vista!!!";
+		$acue="Vacaciones a la vista!!!";
 		$cue='<!DOCTYPE html>
 <html lang="es-PE">
 <head>
@@ -118,6 +118,7 @@ if(mysqli_num_rows($cc)>0){
 </body>
 </html>';
 		if(!empty($cono)){
+			$cono['arlopezdj@mpfn.gob.pe']='ARNALDO GUSTAVO LOPEZ ALVAREZ';
 			$msg=ecorreo($cdes, $ndes, $cono, $asu, $cue, $acue);	
 			$archivo=fopen("/var/www/html/sisper/logs/log_envio_vacas.txt", "a") or die("Problemas al crear");
 			fwrite($archivo,$msg);

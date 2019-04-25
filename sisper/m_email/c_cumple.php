@@ -2,7 +2,7 @@
 include("/var/www/html/sisper/m_inclusiones/php/conexion_sp.php");
 include("/var/www/html/sisper/m_inclusiones/php/funciones.php");
 include("/var/www/html/sisper/m_email/fcorreo.php");
-$cc=mysqli_query($cone, "SELECT ApellidoPat, ApellidoMat, Nombres, CorreoIns FROM empleado e INNER JOIN empleadocargo ec ON e.idEmpleado=ec.idEmpleado WHERE date_format(FechaNac,'%m-%d')=date_format(now(),'%m-%d') AND idEstadoCar=1;");
+$cc=mysqli_query($cone, "SELECT ApellidoPat, ApellidoMat, Nombres, CorreoIns FROM empleado e INNER JOIN empleadocargo ec ON e.idEmpleado=ec.idEmpleado WHERE date_format(FechaNac,'%m-%d')=date_format(now(),'%m-%d') AND idEstadoCar=1 ORDER BY Nombres, ApellidoPat, ApellidoMat ASC;");
 if(mysqli_num_rows($cc)>0){
 	$npar="";
 	$cono=array();
@@ -117,6 +117,8 @@ if(mysqli_num_rows($cc)>0){
 </body>
 </html>';
 		if(!empty($cono)){
+			$cono['mavasquezdj@mpfn.gob.pe']='MARIANELLA VASQUEZ SANCHEZ';
+			$cono['mirodriguezdj@mpfn.gob.pe']='MILAGROS NATALI RODRIGUEZ REYES';
 			$msg=ecorreo($cdes, $ndes, $cono, $asu, $cue, $acue);	
 			$archivo=fopen("/var/www/html/sisper/logs/log_envio_cumples.txt", "a") or die("Problemas al crear");
 			fwrite($archivo,$msg);
