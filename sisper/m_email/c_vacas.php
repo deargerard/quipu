@@ -11,12 +11,12 @@ if(mysqli_num_rows($cc)>0){
 		if(!is_null($rc['CorreoIns'])){
 			$cono[$rc['CorreoIns']]=$rc['Nombres']." ".$rc['ApellidoPat']." ".$rc['ApellidoMat'];
 		}
+		$fvac=fnormal($rc['FechaIni']);
 	}
 		$cdes="admcaj.mpfn@gmail.com";
 		$ndes="ADMINISTRACION CAJAMARCA MPFN";
 		$asu="Vacaciones a la vista!";
 		$acue="Vacaciones a la vista!";
-		$fvac=fnormal($rc['FechaIni']);
 		$cue='<!DOCTYPE html>
 <html lang="es-PE">
 <head>
@@ -67,7 +67,7 @@ if(mysqli_num_rows($cc)>0){
 									<td align="center" style="font-size: 16px; color: #7da400; font-family:Arial, Helvetica, sans-serif;"><br>Estimad@(s):<br><br></td>
 								</tr>
 								<tr>
-									<td align="center" style="font-size: 18px; color: #0091B6; font-weight: bold; font-family:Arial, Helvetica, sans-serif;">
+									<td align="center" style="font-size: 14px; color: #0091B6; font-weight: bold; font-family:Arial, Helvetica, sans-serif;">
 										'.$npar.'<br>
 									</td>
 								</tr>
@@ -126,5 +126,6 @@ if(mysqli_num_rows($cc)>0){
 		}
 
 }
+mysqli_free_result($cc);
 
 ?>

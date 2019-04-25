@@ -125,5 +125,6 @@ if(mysqli_num_rows($cc)>0){
 		}
 
 }
+mysqli_free_result($cc);
 
 ?>
