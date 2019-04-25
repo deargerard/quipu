@@ -7,9 +7,6 @@ if(mysqli_num_rows($cc)>0){
 	$npar="";
 	$cono=array();
 	while ($rc=mysqli_fetch_assoc($cc)) {
-		$ape=$rc['ApellidoPat']." ".$rc['ApellidoMat'];
-		$nom=$rc['Nombres'];
-		$cpar=$rc['CorreoIns'];
 		$npar.=$rc['Nombres']." ".$rc['ApellidoPat']." ".$rc['ApellidoMat']."<br>";
 		if(!is_null($rc['CorreoIns'])){
 			$cono[$rc['CorreoIns']]=$rc['Nombres']." ".$rc['ApellidoPat']." ".$rc['ApellidoMat'];
@@ -83,7 +80,7 @@ if(mysqli_num_rows($cc)>0){
 											<tr>
 												<td align="center" style="font-family:Georgia, Times, serif; color: #777777; font-size:15px;">
 													
-													Es un honor tener personas ejemplares como Ustedes en la institución. En este día tan importante, les deseamos muchas felicidades y esperamos de corazón tenerlos con nosotros muchos cumpleaños más.
+													Es un honor tener personas ejemplares como Usted(es) en la institución. En este día tan importante, le(s) deseamos muchas felicidades y esperamos de corazón tenerlo(s) con nosotros muchos cumpleaños más.
 													
 												</td>
 											</tr>
