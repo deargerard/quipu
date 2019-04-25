@@ -117,7 +117,7 @@ if(mysqli_num_rows($cc)>0){
 	</table>
 </body>
 </html>';
-		if(!empty($cpar)){
+		if(!empty($cono)){
 			$msg=ecorreo($cdes, $ndes, $cono, $asu, $cue, $acue);	
 			$archivo=fopen("/var/www/html/sisper/logs/log_envio_vacas.txt", "a") or die("Problemas al crear");
 			fwrite($archivo,$msg);
