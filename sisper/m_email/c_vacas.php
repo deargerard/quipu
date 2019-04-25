@@ -2,7 +2,7 @@
 include("/var/www/html/sisper/m_inclusiones/php/conexion_sp.php");
 include("/var/www/html/sisper/m_inclusiones/php/funciones.php");
 include("/var/www/html/sisper/m_email/fcorreo.php");
-$cc=mysqli_query($cone, "SELECT ApellidoPat, ApellidoMat, Nombres, CorreoIns, pv.FechaIni FROM empleado e INNER JOIN empleadocargo ec ON e.idEmpleado=ec.idEmpleado INNER JOIN provacaciones pv ON ec.idEmpleadoCargo=pv.idEmpleadoCargo WHERE pv.FechaIni=date_format(date_add(now(), INTERVAL +6 DAY),'%Y-%m-%d') AND (pv.Estado='0' OR pv.Estado='4') AND idEstadoCar=1;");
+$cc=mysqli_query($cone, "SELECT ApellidoPat, ApellidoMat, Nombres, CorreoIns, pv.FechaIni FROM empleado e INNER JOIN empleadocargo ec ON e.idEmpleado=ec.idEmpleado INNER JOIN provacaciones pv ON ec.idEmpleadoCargo=pv.idEmpleadoCargo WHERE pv.FechaIni=date_format(date_add(now(), INTERVAL +6 DAY),'%Y-%m-%d') AND (pv.Estado='0' OR pv.Estado='4') AND idEstadoCar=1 ORDER BY Nombres, ApellidoPat, ApellidoMat ASC;");
 if(mysqli_num_rows($cc)>0){
 	$npar="";
 	$cono=array();
@@ -76,9 +76,9 @@ if(mysqli_num_rows($cc)>0){
 									<td align="center" valign="middle">
 										<table width="100%" border="0" cellpadding="0" cellspacing="0" style="padding: 10px; margin-top: 10px; padding: 10px; margin-top: 10px;">
 											<tr>
-												<td align="center" style="font-family:Georgia, Times, serif; color: #777777; font-size:15px;">
+												<td align="center" style="font-family:Georgia, Times, serif; color: #173963; font-size:15px;">
 													<span style="font-size: 24px">¡A Prepararse!<br>
-													Este <strong><span style="color: #666666;">'.$fvac.'</span></strong> inician sus vacaciones. </span><br><br>
+													Este <strong><span style="color: #666666;">'.$fvac.'</span></strong> inician sus vacaciones. </span style="color: #ca3435;"><br><br>
 													- Coordina con tu jefe inmediato. <br>
 													- Elabora tu entrega de cargo. <br>
 													- Deja tu trabajo listo. <br><br>
