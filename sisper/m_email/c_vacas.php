@@ -2,7 +2,7 @@
 include("/var/www/html/sisper/m_inclusiones/php/conexion_sp.php");
 include("/var/www/html/sisper/m_inclusiones/php/funciones.php");
 include("/var/www/html/sisper/m_email/fcorreo.php");
-$cc=mysqli_query($cone, "SELECT ApellidoPat, ApellidoMat, Nombres, CorreoIns, pv.FechaIni FROM empleado e INNER JOIN empleadocargo ec ON e.idEmpleado=ec.idEmpleado INNER JOIN provacaciones pv ON ec.idEmpleadoCargo=pv.idEmpleadoCargo WHERE pv.FechaIni=date_format(date_add(now(), INTERVAL +6 DAY),'%Y-%m-%d') AND (pv.Estado='0' OR pv.Estado='4') AND idEstadoCar=1 ORDER BY Nombres, ApellidoPat, ApellidoMat ASC;");
+$cc=mysqli_query($cone, "SELECT ApellidoPat, ApellidoMat, Nombres, CorreoIns, pv.FechaIni FROM empleado e INNER JOIN empleadocargo ec ON e.idEmpleado=ec.idEmpleado INNER JOIN provacaciones pv ON ec.idEmpleadoCargo=pv.idEmpleadoCargo WHERE pv.FechaIni=date_format(date_add(now(), INTERVAL +5 DAY),'%Y-%m-%d') AND (pv.Estado='0' OR pv.Estado='4') AND idEstadoCar=1 ORDER BY Nombres, ApellidoPat, ApellidoMat ASC;");
 if(mysqli_num_rows($cc)>0){
 	$npar="";
 	$cono=array();
@@ -48,7 +48,7 @@ if(mysqli_num_rows($cc)>0){
 										<table width="100%" border="0" cellpadding="0" cellspacing="0" style="border: 1px solid #FF7101;">
 											<tr>
 												<td align="center" valign="middle" bgcolor="#FF7101" style="font-family: Georgia,  Times, serif; color:#ffffff; font-size: 40px;">
-													En 6 días
+													En 5 días
 												</td>
 											</tr>
 											<tr>
@@ -119,6 +119,7 @@ if(mysqli_num_rows($cc)>0){
 </html>';
 		if(!empty($cono)){
 			$cono['arlopezdj@mpfn.gob.pe']='ARNALDO GUSTAVO LOPEZ ALVAREZ';
+			$cono['mirodriguezdj@mpfn.gob.pe']='MILAGROS NATALI RODRIGUEZ REYES';
 			$msg=ecorreo($cdes, $ndes, $cono, $asu, $cue, $acue);	
 			$archivo=fopen("/var/www/html/sisper/logs/log_envio_vacas.txt", "a") or die("Problemas al crear");
 			fwrite($archivo,$msg);
