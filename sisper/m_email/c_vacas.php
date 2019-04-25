@@ -68,7 +68,7 @@ if(mysqli_num_rows($cc)>0){
 								</tr>
 								<tr>
 									<td align="center" style="font-size: 14px; color: #0091B6; font-weight: bold; font-family:Arial, Helvetica, sans-serif;">
-										'.$npar.'<br>
+										'.$npar.'
 									</td>
 								</tr>
 
@@ -76,9 +76,9 @@ if(mysqli_num_rows($cc)>0){
 									<td align="center" valign="middle">
 										<table width="100%" border="0" cellpadding="0" cellspacing="0" style="padding: 10px; margin-top: 10px; padding: 10px; margin-top: 10px;">
 											<tr>
-												<td align="center" style="font-family:Georgia, Times, serif; color: #173963; font-size:15px;">
+												<td align="center" style="font-family:Georgia, Times, serif; color: #ff4040; font-size:15px;">
 													<span style="font-size: 24px">¡A Prepararse!<br>
-													Este <strong><span style="color: #666666;">'.$fvac.'</span></strong> inician sus vacaciones. </span style="color: #ca3435;"><br><br>
+													Este <strong><span style="color: #ff0000;">'.$fvac.'</span></strong> inician sus vacaciones. </span style="color: #ff4040;"><br><br>
 													- Coordina con tu jefe inmediato. <br>
 													- Elabora tu entrega de cargo. <br>
 													- Deja tu trabajo listo. <br><br>
