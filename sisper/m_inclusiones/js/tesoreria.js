@@ -7,7 +7,7 @@ $(document).ready(function(){
 	    todayHighlight: true
 	});
 
-  $('#anob').datepicker({
+  $('#anob, #anobcv, #anobcp').datepicker({
       format: 'yyyy',
       autoclose: true,
       minViewMode: 2,
@@ -350,3 +350,51 @@ $("#b_bpagpen").click(function(){
 })
 // FIN LLAMA A LA FUNCIÓN PAGOS PENDIENTES
 
+// FUNCION BUSCAR DOCUMENTOS REGISTRADOS
+function b_bdocreg(anob){
+  
+  $.ajax({
+    type: "post",
+    url: "m_inclusiones/a_tesoreria/bdocreg.php",
+    data: {anob : anob},
+    dataType: "html",
+    beforeSend: function () {
+      $("#r_rep4").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
+    },
+    success:function(a){      
+      $("#r_rep4").html(a);      
+    }
+  });
+}
+// FIN FUNCION BUSCAR DOCUMENTOS REGISTRADOS
+//LLAMA A LA FUNCIÓN DOCUMENTOS REGISTRADOS
+$("#b_bdocreg").click(function(){
+  var anob=$("#anobcp").val();
+  if (anob==null){
+    alert("Debe elegir un año");
+  }else {
+    b_bdocreg(anob);
+  }
+})
+// FIN LLAMA A LA FUNCIÓN DOCUMENTOS REGISTRADOS
+
+function fo_det(ent){
+  $("#m_modal").modal("show");   
+  $(".modal-title").html("<i class='fa fa-external-link text-gray'></i> Detalle de Pago de comprobante"); 
+
+  $.ajax({
+    type: "post",
+    url: "m_inclusiones/a_tesoreria/fo_det.php",
+    data: {ent: ent},
+    dataType: "html",
+    beforeSend: function () {
+      $("#f_modal").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
+      $("#b_guardar").addClass("hidden");
+    },
+    success:function(a){
+      $("#f_modal").html(a);      
+    }
+  });
+}
+
+// FIN FUNCIÓN QUE ENVÍA PARÁMETROS PARA FORMULARIOS DE ENTREGAS

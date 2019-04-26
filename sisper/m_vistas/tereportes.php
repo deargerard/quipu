@@ -25,7 +25,9 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
             <ul class="nav nav-tabs">
               <li class="active"><a href="#tab_1" data-toggle="tab">Libro Auxiliar</a></li>
               <li><a href="#tab_2" data-toggle="tab">Gastos por Específica</a></li>
-              <li><a href="#tab_3" data-toggle="tab">Pagos pendientes</a></li>
+              <li><a href="#tab_3" data-toggle="tab">Pagos Pendientes</a></li>
+              <li><a href="#tab_4" data-toggle="tab">Documentos Registrados</a></li>
+              <li><a href="#tab_5" data-toggle="tab">Consumo de Viáticos</a></li>
             </ul>
             <div class="tab-content">
               <div class="tab-pane active" id="tab_1">
@@ -129,6 +131,50 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 </div>
                 <!--Fin div resultados-->
 
+              </div>
+              <!-- /.tab-pane -->
+
+              <div class="tab-pane" id="tab_4">
+                <!--Formulario busqueda-->
+                <form  action="" id="f_rep4" class="form-inline">
+                  
+                  <div class="form-group has-feedback">
+                    <label for="anobcp">Año</label>
+                    <input type="text" class="form-control" name="anobcp" id="anobcp" placeholder="aaaa" value="<?php echo date("Y"); ?>" autocomplete="off">
+                    <span class="fa fa-calendar form-control-feedback"></span>
+                  </div>                  
+                  <button type="button" id="b_bdocreg" class="btn btn-default"><i class="fa fa-search"></i> buscar</button>       
+
+                </form>
+                <!--Fin formulario busqueda-->
+                <!--Div resultados-->
+                <hr>
+                <div id="r_rep4">
+                  <h4 class="text-aqua"><strong>Resultados</strong></h4>
+                </div>
+                <!--Fin div resultados-->
+              </div>
+              <!-- /.tab-pane -->
+
+              <div class="tab-pane" id="tab_5">
+                <!--Formulario busqueda-->
+                <form  action="" id="f_rep5" class="form-inline">
+                  
+                  <div class="form-group has-feedback">
+                    <label for="anobcv">Año</label>
+                    <input type="text" class="form-control" name="anobcv" id="anobcv" placeholder="aaaa" value="<?php echo date("Y"); ?>" autocomplete="off">
+                    <span class="fa fa-calendar form-control-feedback"></span>
+                  </div>                  
+                  <button type="button" id="b_bconvia" class="btn btn-default"><i class="fa fa-search"></i> buscar</button>       
+
+                </form>
+                <!--Fin formulario busqueda-->
+                <!--Div resultados-->
+                <hr>
+                <div id="r_rep5">
+                  <h4 class="text-aqua"><strong>Resultados</strong></h4>
+                </div>
+                <!--Fin div resultados-->
               </div>
               <!-- /.tab-pane -->
 
