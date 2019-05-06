@@ -22,6 +22,7 @@ if(accesoadm($cone,$_SESSION['identi'],1)){
                         echo mensajewa("Error: La fecha de inicio, no puede ser menor a las fechas de inicio de los estados anteriores.");
                   }else{
                         $sql="INSERT INTO estadocargo (idEmpleadoCargo, idEstadoCar, FechaIni, Vence, NumResolucion, Motivo, Estado) VALUES ($idec, $estcar, '$ini', $fven, '$numres', '$mot', 1)";
+
                         if(mysqli_query($cone,$sql)){
                               $ideca=mysqli_insert_id($cone);
                               if(!mysqli_query($cone,"UPDATE estadocargo SET Estado=0, FechaFin='$fea' WHERE idEmpleadoCargo=$idec AND Estado=1 AND idEstadoCargo!=$ideca")){
@@ -69,6 +70,9 @@ if(accesoadm($cone,$_SESSION['identi'],1)){
                         }else{
                               echo mensajeda("Error: No se pudo registrar. ". mysqli_error($cone));
                         }
+                        //enviamos correo
+                        include_once '../../m_email/fcorreo.php';
+                        include_once '../../m_email/c_estper.php';
                   }
                   mysqli_free_result($c);
                   mysqli_close($cone);
