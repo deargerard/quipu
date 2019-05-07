@@ -809,13 +809,13 @@ function get_format($df) {
     $str .= ($df->invert == 1) ? ' - ' : '';
     if ($df->y > 0) {
         // years
-        $str .= ($df->y > 1) ? $df->y . ' Años ' : $df->y . ' Año ';
+        $str .= ($df->y > 1) ? $df->y . ' A&ntilde;os ' : $df->y . ' A&ntilde;o ';
     } if ($df->m > 0) {
         // month
         $str .= ($df->m > 1) ? $df->m . ' Meses ' : $df->m . ' Mes ';
     } if ($df->d > 0) {
         // days
-        $str .= ($df->d > 1) ? $df->d . ' Días ' : $df->d . ' Dia ';
+        $str .= ($df->d > 1) ? $df->d . ' D&iacute;as ' : $df->d . ' D&iacute;a ';
     } if ($df->h > 0) {
         // hours
         $str .= ($df->h > 1) ? $df->h . ' Horas ' : $df->h . ' Hora ';

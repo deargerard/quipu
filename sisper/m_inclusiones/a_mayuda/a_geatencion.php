@@ -9,7 +9,7 @@ if(solucionador($cone,$_SESSION['identi'])){
     $ida=iseguro($cone,$_POST['ida']);
     $usu=iseguro($cone,$_POST['usu']);
     $pro=iseguro($cone,$_POST['pro']);
-    $des=iseguro($cone,$_POST['des']);
+    $des=imseguro($cone,$_POST['des']);
     $c="UPDATE maatencion SET idEmpleado=$usu, idProducto=$pro, Descripcion='$des' WHERE idAtencion=$ida";
     if(mysqli_query($cone,$c)){
       $r['exito']=true;

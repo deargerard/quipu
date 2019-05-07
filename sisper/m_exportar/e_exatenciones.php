@@ -42,6 +42,9 @@ if(solucionador($cone,$_SESSION['identi'])){
                   <td bgcolor= "#3c8dbc"><font color="#ffffff" size="2">CARGO</font></td>
                   <td bgcolor= "#3c8dbc"><font color="#ffffff" size="2">DEPENDENCIA</font></td>
                   <td bgcolor= "#3c8dbc"><font color="#ffffff" size="2">CATEGORIA</font></td>
+                  <td bgcolor= "#3c8dbc"><font color="#ffffff" size="2">SUBCATEGORIA</font></td>
+                  <td bgcolor= "#3c8dbc"><font color="#ffffff" size="2">TIPO</font></td>
+                  <td bgcolor= "#3c8dbc"><font color="#ffffff" size="2">PRODUCTO</font></td>
                   <td bgcolor= "#3c8dbc"><font color="#ffffff" size="2">REPORTABLE</font></td>
                   <td bgcolor= "#3c8dbc"><font color="#ffffff" size="2">DESCRIPCI&Oacute;N</font></td>
                   <td bgcolor= "#3c8dbc"><font color="#ffffff" size="2">ESTADO</font></td>
@@ -71,7 +74,10 @@ if(solucionador($cone,$_SESSION['identi'])){
                   <td><font color="#000000"><?php echo nomempleado($cone,$ide); ?></font></td>
                   <td><font color="#000000"><?php echo cargoe($cone,$ide); ?></font></td>
                   <td><font color="#000000"><?php echo dependenciae($cone,$ide); ?></font></td>
-                  <td><font color="#000000"><?php echo $rper['Categoria']." - ".$rper['SubCategoria']." - ".$rper['Tipo']." - ".$rper['Producto']  ?></font></td>
+                  <td><font color="#000000"><?php echo $rper['Categoria']  ?></font></td>
+                  <td><font color="#000000"><?php echo $rper['SubCategoria']  ?></font></td>
+                  <td><font color="#000000"><?php echo $rper['Tipo']  ?></font></td>
+                  <td><font color="#000000"><?php echo $rper['Producto']  ?></font></td>
                   <td><font color="#000000"><?php echo $rper['Oficial']== 1 ? "S&Iacute;" : "NO"; ?></font></td>
                   <td><font color="#000000"><?php echo $rper['Descripcion']; ?></font></td>
                   <td><font color="#000000"><?php echo ateestado($rper['Estado']); ?></font></td>

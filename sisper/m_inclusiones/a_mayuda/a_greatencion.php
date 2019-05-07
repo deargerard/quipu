@@ -7,7 +7,7 @@ if(solucionador($cone,$_SESSION['identi'])){
   $r=array();
   if(isset($_POST['ida']) && !empty($_POST['ida']) && isset($_POST['solu']) && !empty($_POST['solu']) && isset($_POST['med']) && !empty($_POST['med'])){
     $ida=iseguro($cone,$_POST['ida']);
-    $solu=iseguro($cone,$_POST['solu']);
+    $solu=imseguro($cone,$_POST['solu']);
     $med=iseguro($cone,$_POST['med']);
     $hoy=date('Y-m-d H:i');
 

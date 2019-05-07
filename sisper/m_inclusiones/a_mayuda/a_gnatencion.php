@@ -12,10 +12,10 @@ if(solucionador($cone,$_SESSION['identi'])){
         $usu=iseguro($cone,$_POST['usu']);
         $sol=iseguro($cone,$_POST['sol']);
         $pro=iseguro($cone,$_POST['pro']);
-        $des=iseguro($cone,$_POST['des']);
+        $des=imseguro($cone,$_POST['des']);
         $fec=ftmysql(iseguro($cone,$_POST['fec']));
-        $solu=iseguro($cone,$_POST['solu']);
-        $med=5;
+        $solu=imseguro($cone,$_POST['solu']);
+        $med=vacio(iseguro($cone,$_POST['med']));
         $fsol=date('Y-m-d H:i');
         $c="INSERT INTO maatencion (Fecha, idEmpleado, idSolucionador, idProducto, Descripcion, Estado, Registrador, Medio, Solucion, FecSolucion) VALUES ('$fec', $usu, $sol, $pro, '$des', $est, $idu, $med, '$solu', '$fsol');";
         if(mysqli_query($cone,$c)){
@@ -35,9 +35,9 @@ if(solucionador($cone,$_SESSION['identi'])){
         $usu=iseguro($cone,$_POST['usu']);
         $sol=iseguro($cone,$_POST['sol']);
         $pro=iseguro($cone,$_POST['pro']);
-        $des=iseguro($cone,$_POST['des']);
+        $des=imseguro($cone,$_POST['des']);
         $fec=ftmysql(iseguro($cone,$_POST['fec']));
-        $solu=iseguro($cone,$_POST['solu']);
+        $solu=imseguro($cone,$_POST['solu']);
         $med=iseguro($cone,$_POST['med']);
         $fsol=date('Y-m-d H:i');
         $c="INSERT INTO maatencion (Fecha, idEmpleado, idSolucionador, idProducto, Descripcion, Estado, Registrador, Medio, Solucion, FecSolucion) VALUES ('$fec', $usu, $sol, $pro, '$des', $est, $idu, $med, '$solu', '$fsol');";
@@ -58,7 +58,7 @@ if(solucionador($cone,$_SESSION['identi'])){
         $usu=iseguro($cone,$_POST['usu']);
         $sol=iseguro($cone,$_POST['sol']);
         $pro=iseguro($cone,$_POST['pro']);
-        $des=iseguro($cone,$_POST['des']);
+        $des=imseguro($cone,$_POST['des']);
         $fec=ftmysql(iseguro($cone,$_POST['fec']));
         $c="INSERT INTO maatencion (Fecha, idEmpleado, idSolucionador, idProducto, Descripcion, Estado, Registrador) VALUES ('$fec', $usu, $sol, $pro, '$des', $est, $idu);";
         if(mysqli_query($cone,$c)){
