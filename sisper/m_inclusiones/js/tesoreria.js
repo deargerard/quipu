@@ -1,4 +1,4 @@
-$(document).ready(function(){
+ $(document).ready(function(){
 	$('#fecb').datepicker({
 	    format: 'mm/yyyy',
 	    autoclose: true,
@@ -397,4 +397,30 @@ function fo_det(ent){
   });
 }
 
-// FIN FUNCIÓN QUE ENVÍA PARÁMETROS PARA FORMULARIOS DE ENTREGAS
+// FUNCION BUSCAR CONSUMO DE VIÁTICOS 
+function b_convia(anob){
+  
+  $.ajax({
+    type: "post",
+    url: "m_inclusiones/a_tesoreria/bconvia.php",
+    data: {anob : anob},
+    dataType: "html",
+    beforeSend: function () {
+      $("#r_rep5").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
+    },
+    success:function(a){      
+      $("#r_rep5").html(a);      
+    }
+  });
+}
+// FIN FUNCION BUSCAR CONSUMO DE VIÁTICOS 
+//LLAMA A LA FUNCIÓN CONSUMO DE VIÁTICOS 
+$("#b_bconvia").click(function(){
+  var anob=$("#anobcv").val();
+  if (anob==null){
+    alert("Debe elegir un año");
+  }else {
+    b_convia(anob);
+  }
+})
+// FIN LLAMA A LA FUNCIÓN CONSUMO DE VIÁTICOS 
