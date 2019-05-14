@@ -689,6 +689,14 @@ function estadocar($est){
 	    case "SUSPENDIDO": return "<span class='label label-default'>SUSPENDIDO</span>"; break;
 	}
 }
+function estadocarnum($est){
+	switch ($est){
+	    case 1: return "<span class='label label-success'>ACTIVO</span>"; break;
+	    case 2: return "<span class='label label-warning'>RESERVADO</span>"; break;
+	    case 3: return "<span class='label label-danger'>CESADO</span>"; break;
+	    case 4: return "<span class='label label-default'>SUSPENDIDO</span>"; break;
+	}
+}
 function estadolic($est){
 	switch ($est){
 	    case "ACTIVO": return "<span class='label label-success'>ACTIVO</span>"; break;

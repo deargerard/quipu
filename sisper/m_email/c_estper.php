@@ -52,7 +52,7 @@ if(mysqli_num_rows($cc)>0){
 								<tr>
 									<td align='center'>
 										<span style='font-size: 20px; color: #0091B6; font-weight: bold; font-family:Arial, Helvetica, sans-serif;'>".$npar."</span><br>
-										<span style='font-size: 22px; color: #ff0000; font-weight: bold; font-family:Arial, Helvetica, sans-serif;'>".estadocar($estcar)."</span><br>
+										<span style='font-size: 22px; color: #ff0000; font-weight: bold; font-family:Arial, Helvetica, sans-serif;'>".estadocarnum($estcar)."</span><br>
 										<span style='font-size: 18px; color: #999999; font-weight: bold; font-family:Georgia, Times, sans-serif;'>".fnormal($ini)."</span><br>
 										<span style='font-family:Georgia, Times, sans-serif; color: #999999; font-size:15px;'>".$numres."</span><br>
 										<span style='font-family:Georgia, Times, sans-serif; color: #999999; font-size:15px;'>".$mot."</span>
