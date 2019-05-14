@@ -69,7 +69,7 @@ if(accesoadm($cone,$_SESSION['identi'],1)){
   });
   $("#estcar").change(function(){
     var ve = this.value;
-    if(ve=='2'){
+    if(ve=='2' || ve=='4'){
       $("#pfin").removeClass("hidden");
     }else{
       $("#pfin").addClass("hidden");
