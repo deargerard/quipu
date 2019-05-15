@@ -48,6 +48,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
         }
 ?>
                   <th>MOTIVO</th>
+                  <th>MONTO</th>
                   <th>POR</th>
                   <th>ESTADO</th>
                   <th>ACCIÓN</th>
@@ -101,7 +102,8 @@ if(accesocon($cone,$_SESSION['identi'],16)){
         }
 ?>                  
                   <td><?php echo $ra["motivo"]; ?></td>
-                  <td><?php echo nomempleado($cone, $ra['empleado']); ?></td>
+                  <td></td>
+                  <td><?php echo nomempleado($cone, $ra['empleado']); ?></td>                  
                   <td><span class="label label-<?php echo $col;?>"><?php echo $est; ?></span></td>
                                                       
                   <td>
