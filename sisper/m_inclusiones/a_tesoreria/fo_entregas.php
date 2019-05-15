@@ -253,7 +253,7 @@ if(accesoadm($cone,$_SESSION['identi'],16)){
 		}elseif($acc=="agrviat"){
 			$ide=iseguro($cone,$_POST['v1']);
 
-			$cg=mysqli_query($cone, "SELECT cs.idComServicios, cs.idEmpleado, cs.FechaIni, cs.FechaFin, cs.destino, d.Numero, d.Ano, d.Siglas, cs.estadoren FROM comservicios cs INNER JOIN doc d ON cs.idDoc=d.idDoc WHERE FechaIni>='2018-12-01' AND ISNULL(idteentrega) AND cs.Estado=1;");
+			$cg=mysqli_query($cone, "SELECT cs.idComServicios, cs.idEmpleado, cs.FechaIni, cs.FechaFin, cs.destino, d.Numero, d.Ano, d.Siglas, cs.estadoren, r.codigo, r.anio FROM comservicios cs INNER JOIN doc d ON cs.idDoc=d.idDoc LEFT JOIN terendicion r ON cs.idterendicion=r.idterendicion WHERE FechaIni>='2018-12-01' AND ISNULL(idteentrega) AND cs.Estado=1;");
 			if(mysqli_num_rows($cg)>0){
 ?>
 			<span class="text-purple"> <i class="fa fa-stack-overflow"></i> Viáticos</span>
@@ -265,6 +265,8 @@ if(accesoadm($cone,$_SESSION['identi'],16)){
 					<th>DESTINO</th>
 					<th>FECHAS</th>
 					<th>DOCUMENTO</th>
+					<th>NUM. REND.</th>
+					<th>TOTAL</th>
 					<th>ESTADO</th>
 					<th>ACCIÓN</th>
 				</tr>
@@ -273,13 +275,22 @@ if(accesoadm($cone,$_SESSION['identi'],16)){
 				$n=0;
 				while($rg=mysqli_fetch_assoc($cg)){
 					$n++;
+					$idcs=$rg['idComServicios'];
+					$mv=0;
+					$cm=mysqli_query($cone, "SELECT SUM(monto) movi FROM tedetplanillav WHERE idComServicios=$idcs;");
+					if($rm=mysqli_fetch_assoc($cm)){
+						$mv=$rm['movi'];
+					}
+					mysqli_free_result($cm);
 ?>
 				<tr>
 					<td><?php echo $n; ?></td>
-					<td><?php echo nomempleado($cone, $rg['idEmpleado']); ?></td>
-					<td><?php echo $rg['destino']; ?></td>
-					<td><?php echo fnormal($rg['FechaIni'])."<br>".fnormal($rg['FechaFin']); ?></td>
-					<td><?php echo $rg['Numero']."-".$rg['Ano']."<br>".$rg['Siglas']; ?></td>
+					<td style="font-size: 11px;"><?php echo nomempleado($cone, $rg['idEmpleado']); ?></td>
+					<td style="font-size: 10px;"><?php echo $rg['destino']; ?></td>
+					<td style="font-size: 11px;"><?php echo fnormal($rg['FechaIni'])."<br>".fnormal($rg['FechaFin']); ?></td>
+					<td style="font-size: 10px;"><?php echo $rg['Numero']."-".$rg['Ano']."<br>".$rg['Siglas']; ?></td>
+					<td style="font-size: 10px;"><?php echo $rg['codigo']."-".$rg['anio']; ?></td>
+					<td style="font-size: 10px;"><?php echo $mv; ?></td>
 					<td><?php echo erviaticos($rg['estadoren']); ?></td>
 					<td>
 						<button class="btn bg-yellow btn-xs" onclick="viaaent(<?php echo $rg['idComServicios'].", ".$ide; ?>);" title="Agregar a entrega"><i class="fa fa-plus"></i></button><i class='fa fa-spinner fa-spin hidden' id="var<?php echo $rg['idComServicios']; ?>"></i>
