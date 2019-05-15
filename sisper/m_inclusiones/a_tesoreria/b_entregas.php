@@ -34,7 +34,8 @@ if(accesocon($cone,$_SESSION['identi'],16)){
       <div class="row">
         <div class="col-md-12" id="r_bent">
 <?php
-            $ca=mysqli_query($cone,"SELECT * FROM teentrega $wtra ORDER BY idteentrega DESC LIMIT 200;");
+            $ca=mysqli_query($cone,"SELECT e.idteentrega, e.empleado, e.motivo, e.idEmpleado, sum(de.monto) tot FROM teentrega e INNER JOIN tedocentrega de ON e.idteentrega=de.idteentrega $wtra group by e.idteentrega ORDER BY idteentrega DESC LIMIT 200;");
+            
 ?>
             <table id="dtable" class="table table-bordered table-hover">
               <thead>
@@ -48,8 +49,8 @@ if(accesocon($cone,$_SESSION['identi'],16)){
         }
 ?>
                   <th>MOTIVO</th>
-                  <th>MONTO</th>
-                  <th>POR</th>
+                  <th>MONTO S/</th>
+                  <th>PAGADO POR</th>
                   <th>ESTADO</th>
                   <th>ACCIÓN</th>
                 </tr>
@@ -102,7 +103,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
         }
 ?>                  
                   <td><?php echo $ra["motivo"]; ?></td>
-                  <td></td>
+                  <td><?php echo $ra["tot"]; ?></td>
                   <td><?php echo nomempleado($cone, $ra['empleado']); ?></td>                  
                   <td><span class="label label-<?php echo $col;?>"><?php echo $est; ?></span></td>
                                                       
