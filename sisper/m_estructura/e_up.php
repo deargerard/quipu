@@ -393,6 +393,21 @@ if(!empty($css)){
         </li>
         <?php
         }
+        if(accesocon($cone,$_SESSION['identi'],17)){
+          ?>
+          <li class="treeview" id="tramitedoc">
+            <a href="#">
+              <i class="fa fa-folder-open"></i>
+              <span>Trámite Doc.</span>
+              <i class="fa fa-angle-left pull-right"></i>
+            </a>
+            <ul class="treeview-menu">
+              <li id="tdbandeja"><a href="tdbandeja.php"><i class="fa fa-circle-o"></i> Bandeja</a></li>
+              <li id="tdconsultas"><a href="tdconsultas.php"><i class="fa fa-circle-o"></i> Consultas</a></li>
+            </ul>
+          </li>
+          <?php
+          }
         ?>
       </ul>
     </section>
