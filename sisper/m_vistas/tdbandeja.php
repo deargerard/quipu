@@ -21,15 +21,15 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
           <!-- Custom Tabs -->
           <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
-              <li class="active"><a href="#tab_1" data-toggle="tab">Bandeja</a></li>
-              <li><a href="#tab_2" data-toggle="tab">Guía</a></li>
-              <li><a href="#tab_3" data-toggle="tab">Pendientes de Recepción</a></li>
+              <li class="active"><a href="#tab_1" data-toggle="tab"><i class="fa fa-archive text-gray"></i> Bandeja</a></li>
+              <li><a href="#tab_2" data-toggle="tab"><i class="fa fa-stack-overflow text-gray"></i> Guía</a></li>
+              <li><a href="#tab_3" data-toggle="tab"><i class="fa fa-hourglass-half text-gray"></i> Pendientes de Recepción</a></li>
             </ul>
             <div class="tab-content">
               <div class="tab-pane active" id="tab_1">
                 <!--Div resultados-->
                 <div class="r_ban1">
-                    <button type="button" class="btn btn-info"><i class="fa fa-plus"></i> Documento</button>
+                    <button type="button" class="btn btn-info" onclick="f_bandeja('agrdoc',0,0);"><i class="fa fa-plus"></i> Documento</button>
                     <button type="button" class="btn btn-warning"><i class="fa fa-refresh"></i> Actualizar</button>
                     <hr>
                     <table class="table table-bordered table-hover" id="dt_ban1i">
@@ -143,7 +143,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
     <div class="modal-content" id="m_tamaño">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel m_titulo">Titulo</h4>
+        <h4 class="modal-title" id="myModalLabel">Titulo</h4>
       </div>
       <div class="modal-body">
         <form id="f_modal">

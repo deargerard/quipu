@@ -21,9 +21,9 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
           <!-- Custom Tabs -->
           <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
-              <li class="active"><a href="#tab_1" data-toggle="tab">Documento</a></li>
-              <li><a href="#tab_2" data-toggle="tab">Guía</a></li>
-              <li><a href="#tab_3" data-toggle="tab">Personal/Documentos</a></li>
+              <li class="active"><a href="#tab_1" data-toggle="tab"><i class="fa fa-file-text-o text-gray"></i> Documento</a></li>
+              <li><a href="#tab_2" data-toggle="tab"><i class="fa fa-stack-overflow text-gray"></i> Guía</a></li>
+              <li><a href="#tab_3" data-toggle="tab"><i class="fa fa-table text-gray"></i> Personal/Documentos</a></li>
             </ul>
             <div class="tab-content">
               <div class="tab-pane active" id="tab_1">
@@ -112,7 +112,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
     <div class="modal-content" id="m_tamaño">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel m_titulo">Titulo</h4>
+        <h4 class="modal-title" id="myModalLabel">Titulo</h4>
       </div>
       <div class="modal-body">
         <form id="f_modal">
