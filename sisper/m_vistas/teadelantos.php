@@ -9,7 +9,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
       </h1>
       <ol class="breadcrumb">
         <li><a href="dboard.php"><i class="fa fa-home"></i> Inicio</a></li>
-        <li class="active"><a href="depmante.php">Tesorería</a></li>
+        <li class="active">Tesorería</li>
         <li class="active">Pagos</li>
       </ol>
     </section>

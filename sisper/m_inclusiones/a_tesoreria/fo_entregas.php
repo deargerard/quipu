@@ -266,7 +266,7 @@ if(accesoadm($cone,$_SESSION['identi'],16)){
 					<th>FECHAS</th>
 					<th>DOCUMENTO</th>
 					<th>NUM. REND.</th>
-					<th>TOTAL</th>
+					<th>T. REND.</th>
 					<th>ESTADO</th>
 					<th>ACCIÓN</th>
 				</tr>
@@ -277,7 +277,7 @@ if(accesoadm($cone,$_SESSION['identi'],16)){
 					$n++;
 					$idcs=$rg['idComServicios'];
 					$mv=0;
-					$cm=mysqli_query($cone, "SELECT SUM(monto) movi FROM tedetplanillav WHERE idComServicios=$idcs;");
+					$cm=mysqli_query($cone, "SELECT SUM(totalcom) movi FROM tegasto WHERE idComServicios=$idcs;");
 					if($rm=mysqli_fetch_assoc($cm)){
 						$mv=$rm['movi'];
 					}
