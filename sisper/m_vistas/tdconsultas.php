@@ -115,7 +115,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
         <h4 class="modal-title" id="myModalLabel">Titulo</h4>
       </div>
       <div class="modal-body">
-        <form id="f_modal">
+        <form id="f_modal" autocomplete="off">
           
         </form>
       </div>

@@ -23,7 +23,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
             <ul class="nav nav-tabs">
               <li class="active"><a href="#tab_1" data-toggle="tab"><i class="fa fa-archive text-gray"></i> Bandeja</a></li>
               <li><a href="#tab_2" data-toggle="tab"><i class="fa fa-stack-overflow text-gray"></i> Guía</a></li>
-              <li><a href="#tab_3" data-toggle="tab"><i class="fa fa-hourglass-half text-gray"></i> Pendientes de Recepción</a></li>
+              <li><a href="#tab_3" data-toggle="tab"><i class="fa fa-hourglass-half text-gray"></i> Derivados Pendientes de Recepción</a></li>
             </ul>
             <div class="tab-content">
               <div class="tab-pane active" id="tab_1">
@@ -146,7 +146,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
         <h4 class="modal-title" id="myModalLabel">Titulo</h4>
       </div>
       <div class="modal-body">
-        <form id="f_modal">
+        <form id="f_modal" autocomplete="off">
           
         </form>
       </div>
