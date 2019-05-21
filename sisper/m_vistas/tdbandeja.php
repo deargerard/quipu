@@ -28,45 +28,20 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
             <div class="tab-content">
               <div class="tab-pane active" id="tab_1">
                 <!--Div resultados-->
-                <div class="r_ban1">
-                    <button type="button" class="btn btn-info" onclick="f_bandeja('agrdoc',0,0);"><i class="fa fa-plus"></i> Documento</button>
-                    <button type="button" class="btn btn-warning"><i class="fa fa-refresh"></i> Actualizar</button>
-                    <hr>
-                    <table class="table table-bordered table-hover" id="dt_ban1i">
-                      <thead>
-                        <tr>
-                          <th>#</th>
-                          <th>DOCUMENTO</th>
-                          <th>F. EMITIDO</th>
-                          <th>F. DERIVADO</th>
-                          <th>F. RECIBIDO</th>
-                          <th>GUÍA</th>
-                          <th>ESTADO</th>
-                          <th>ACCIÓN</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>1</td>
-                          <td>12-2019-MPFN</td>
-                          <td>12/12/2019</td>
-                          <td>12/12/2019</td>
-                          <td>12/12/2019</td>
-                          <td>5-2019</td>
-                          <td>Recibido</td>
-                          <td>
-                            <button type="button" class="btn btn-xs bg-purple"><i class="fa fa-plus"></i></button>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
+                <div>
+                  <button type="button" class="btn btn-info" onclick="f_bandeja('agrdoc',0,0);"><i class="fa fa-plus"></i> Documento</button>
+                  <button type="button" class="btn btn-warning" onclick="li_bandeja();"><i class="fa fa-refresh"></i> Actualizar</button>
+                  <hr>
+                </div>
+                <div id="r_ban1">
+
                 </div>
                 <!--Fin div resultados-->
               </div>
               <!-- /.tab-pane -->
               <div class="tab-pane" id="tab_2">
                 <!--Div resultados-->
-                <div class="r_ban2">
+                <div id="r_ban2">
                   <button type="button" class="btn btn-info"><i class="fa fa-plus"></i> Guía</button>
                   <button type="button" class="btn btn-warning"><i class="fa fa-refresh"></i> Actualizar</button>
                   <hr>
@@ -97,7 +72,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
               <!-- /.tab-pane -->
               <div class="tab-pane" id="tab_3">
                 <!--Div resultados-->
-                <div class="r_ban3">
+                <div id="r_ban3">
                   <button type="button" class="btn btn-warning"><i class="fa fa-refresh"></i> Actualizar</button>
                   <hr>
                   <table class="table table-bordered table-hover" id="dt_ban3">
@@ -139,8 +114,8 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
 
 <!--Modal-->
 <div class="modal fade" id="m_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content" id="m_tamaño">
+  <div class="modal-dialog" id="m_tamano" role="document">
+    <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" id="myModalLabel">Titulo</h4>

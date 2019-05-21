@@ -46,7 +46,7 @@ if(accesoadm($cone,$_SESSION['identi'],17)){
             </div>
             <div class="col-sm-3">
                 <label for="leg">Legajo</label>
-                <input type="text" class="form-control" id="leg" name="leg" placeholder="Archivador1">
+                <input type="text" class="form-control" id="leg" name="leg" placeholder="Folio 1">
             </div>
             <div class="col-sm-3">
                 <label for="fol">Folios<small class="text-red">*</small></label>

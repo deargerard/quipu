@@ -1,5 +1,5 @@
 function f_bandeja(acc,v1,v2){
-    $(".modal-dialog").removeClass('modal-lg');
+    $("#m_tamano").removeClass('modal-lg');
     switch(acc) {
         case 'agrdoc':
             var mt="<span class='text-muted'><i class='fa fa-plus text-orange'></i> Agregar Documento</span>";
@@ -21,6 +21,20 @@ function f_bandeja(acc,v1,v2){
       success:function(a){
         $("#f_modal").html(a);
         $("#b_guardar").removeClass("hidden");
+      }
+    });
+}
+
+function li_bandeja(){
+    $.ajax({
+      type: "post",
+      url: "m_inclusiones/a_tdocumentario/li_bandeja.php",
+      dataType: "html",
+      beforeSend: function () {
+        $("#r_ban1").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
+      },
+      success:function(a){
+        $("#r_ban1").html(a);
       }
     });
 }

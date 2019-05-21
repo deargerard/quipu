@@ -13,8 +13,7 @@ if(vacceso($cone,$_SESSION['identi'],$_SESSION['docide'],$_SESSION['nomusu'])){
 $(document).ready(function(){
   $("ul.sidebar-menu li").removeClass("active");
   $("#tramitedoc").addClass("active");
-  $("#tdbandeja").addClass("active");
-  $('#dt_ban1i, #dt_ban1d, #dt_ban2').DataTable();
+  li_bandeja();
 });
 </script>
 <?php

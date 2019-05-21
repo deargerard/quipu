@@ -39,7 +39,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 <!--Fin formulario busqueda-->
                 <!--Div resultados-->
                 <hr>
-                <div class="r_rep1">
+                <div id="r_rep1">
                   <h4 class="text-aqua"><strong>Resultados</strong></h4>
                 </div>
                 <!--Fin div resultados-->
@@ -58,7 +58,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 <!--Fin formulario busqueda-->
                 <!--Div resultados-->
                 <hr>
-                <div class="r_rep2">
+                <div id="r_rep2">
                   <h4 class="text-aqua"><strong>Resultados</strong></h4>
                 </div>
                 <!--Fin div resultados-->
@@ -88,7 +88,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 <!--Fin formulario busqueda-->
                 <!--Div resultados-->                
                 <hr>
-                <div class="r_rep3">
+                <div id="r_rep3">
                   <h4 class="text-aqua"><strong>Resultados</strong></h4>
                 </div>
                 <!--Fin div resultados-->
@@ -108,8 +108,8 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
 
 <!--Modal-->
 <div class="modal fade" id="m_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content" id="m_tamaño">
+  <div class="modal-dialog" id="m_tamano" role="document">
+    <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" id="myModalLabel">Titulo</h4>
