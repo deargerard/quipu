@@ -6,14 +6,15 @@ if(accesocon($cone,$_SESSION['identi'],16)){
 	if(isset($_POST['anob']) && !empty($_POST['anob'])){
 		$anob=iseguro($cone,$_POST['anob']);		
 
-    $c1=mysqli_query($cone,"select g.idteentrega, g.idtegasto, tc.abreviatura, g.fechacom, g.numerocom, g.glosacom, g.totalcom, p.razsocial, p.ruc from tegasto g INNER JOIN tetipocom tc ON g.idtetipocom=tc.idtetipocom INNER JOIN terendicion r ON g.idterendicion=r.idterendicion INNER JOIN temeta m ON r.idtemeta=m.idtemeta INNER JOIN tefondo f ON m.idtefondo=f.idtefondo INNER JOIN teproveedor p ON g.idteproveedor=p.idteproveedor WHERE date_format(g.fechacom, '%Y')='$anob' ORDER BY g.fechacom DESC;");
+    $c1=mysqli_query($cone,"select g.idteentrega, g.idtegasto, tc.abreviatura, g.fechacom, g.numerocom, g.glosacom, g.totalcom, p.razsocial, p.ruc, r.codigo FROM tegasto g INNER JOIN tetipocom tc ON g.idtetipocom=tc.idtetipocom INNER JOIN terendicion r ON g.idterendicion=r.idterendicion INNER JOIN temeta m ON r.idtemeta=m.idtemeta INNER JOIN tefondo f ON m.idtefondo=f.idtefondo INNER JOIN teproveedor p ON g.idteproveedor=p.idteproveedor WHERE date_format(g.fechacom, '%Y')='$anob' ORDER BY g.fechacom DESC;");
         if(mysqli_num_rows($c1)>0){
         ?>      
         <table class="table table-hover table-bordered" id="dtable">
           <thead>
             <tr>
               <th>FECHA</th>
-              <th>COMPROBANTE</th>              
+              <th>COMPROBANTE</th>
+              <th>R</th>              
               <th>GLOSA</th>
               <th>PROVEEDOR</th>              
               <th>MONTO S/</th>
@@ -29,6 +30,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
             <tr>              
               <td><?php echo fnormal($r1['fechacom']); ?></td>
               <td><?php echo $r1['abreviatura']." ".$r1['numerocom']; ?></td>
+              <td><?php echo $r1['codigo']; ?></td>
               <td><?php echo $r1['glosacom']; ?></td>
               <td><?php echo $r1['razsocial']."(".$r1['ruc'].")"; ?></td>              
               <td><?php echo $r1['totalcom']; ?></td>
