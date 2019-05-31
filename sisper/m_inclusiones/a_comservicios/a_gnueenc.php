@@ -7,8 +7,8 @@ if(accesoadm($cone,$_SESSION['identi'],15)){
 	if(isset($_POST["NomForm"]) && $_POST["NomForm"]=="f_nencargatura"){
 		if(isset($_POST['idcs']) && !empty($_POST['idcs']) && isset($_POST['inienc']) && !empty($_POST['inienc']) && isset($_POST['finenc']) && !empty($_POST['finenc']) && isset($_POST['enc']) && !empty($_POST['enc']) && isset($_POST['tip']) && !empty($_POST['tip'])){
 			$idcs=iseguro($cone,$_POST['idcs']);
-			$inienc=fmysql(iseguro($cone,$_POST['inienc']));
-			$finenc=fmysql(iseguro($cone,$_POST['finenc']));
+			$inienc=ftmysql(iseguro($cone,$_POST['inienc']));
+			$finenc=ftmysql(iseguro($cone,$_POST['finenc']));
 			$enc=iseguro($cone,$_POST['enc']);
 			$tip=iseguro($cone,$_POST['tip']);
 
