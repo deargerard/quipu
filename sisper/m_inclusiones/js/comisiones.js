@@ -690,3 +690,67 @@ function enviarr(){
   });
 }
 // FIN FUNCIÓN QUE ENVÍA RENDICIÓN.
+
+// FUNCIÓN QUE ENVÍA PARÁMETROS PARA FORMULARIOS EDITAR Y ELIMINAR ENCARGATURAS
+function fo_accion(acc, v1){
+  
+  switch(acc) {
+    case 'edienc':
+        var mt="<i class='fa fa-pencil text-gray'></i> Editar Encargatura";
+        break;
+    case 'elienc':
+        var mt="<i class='fa fa-times-circle text-gray'></i> Eliminar Encargatura";
+        break;    
+  }
+  $(".titulo-enc").html(mt);
+  $("#m_encargatura").modal("show");
+
+  $.ajax({
+    type: "post",
+    url: "m_inclusiones/a_comservicios/fo_accion.php",
+    data: {acc: acc, v1: v1},
+    dataType: "html",
+    beforeSend: function () {
+      $("#f_encargatura").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
+      $("#b_gencarg").addClass("hidden");
+    },
+    success:function(a){
+      $("#f_encargatura").html(a);
+      $("#b_gencarg").removeClass("hidden");
+    }
+  });
+}
+
+// FIN FUNCIÓN QUE ENVÍA PARÁMETROS PARA FORMULARIOS EDITAR Y ELIMINAR ENCARGATURAS
+
+// FUNCIÓN QUE LLAMA ARVHIVO EDITAR O ELIMINAR ENCARGATURAS 
+
+$('#f_encargatura').submit(function(e){
+  e.preventDefault();
+  var datos = $("#f_encargatura").serializeArray();
+  $.ajax({
+    type: "post",
+    url: "m_inclusiones/a_comservicios/gu_edi_eli_enc.php",
+    data: datos,
+    dataType: "json",
+    beforeSend: function () {
+      $("#f_encargatura").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
+      $("#b_gencarg").addClass("hidden");
+    },
+    success:function(a){
+
+      if(a.e){
+        $("#f_encargatura").html(a.m);
+
+        detcomser(datos[2].value);
+
+        $("#b_gencarg").addClass("hidden");
+        $("#b_cencarg").html("Cerrar");
+      }else{
+        $("#f_encargatura").html(a.m);
+        $("#b_gencarg").removeClass("hidden");
+      }
+    }
+  });
+})
+// FIN FUNCIÓN QUE LLAMA ARHIVO EDITAR O ELIMINAR ENCARGATURAS 

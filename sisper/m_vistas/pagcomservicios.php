@@ -176,6 +176,30 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
 
     </div>
     <!--Fin Modal Nueva Encargatura-->
+
+    <!--Modal editar eliminar Encargatura-->
+    <div class="modal fade" id="m_encargatura" role="dialog" aria-labelledby="myModalLabel">
+
+      <div class="modal-dialog modal-ls" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title titulo-enc" id="myModalLabel">Asignar Encargatura</h4>
+          </div>
+          <div class="modal-body">
+            <form id="f_encargatura" action="" class="form-horizontal">
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn bg-teal" id="b_gencarg" form="f_encargatura">Guardar</button>
+            <button type="button" class="btn btn-default" id="b_cencarg" data-dismiss="modal">Cancelar</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!--Fin Modal editar eliminar Encargatura-->
+
     <!--Modal nuevo documento-->
     <div class="modal fade" id="m_nuedocu" role="dialog" aria-labelledby="myModalLabel">
       <form id="f_nuedocu" action="" class="form-horizontal">
