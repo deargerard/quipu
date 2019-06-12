@@ -47,14 +47,17 @@ $('#b_basig').click(function(){
 // Fin Buscar ASIGNACIONES 
 
 // FUNCIÓN QUE ENVÍA PARÁMETROS PARA FORMULARIOS DE ASIGNACIONES
-function fo_accion(acc, v1){
+function fo_asignaciones(acc, v1, v2){
   
   switch(acc) {
-    case 'edienc':
-        var mt="<i class='fa fa-pencil text-gray'></i> Editar Encargatura";
+    case 'agrasig':
+        var mt="<i class='fa fa-plus text-gray'></i> Agregar Asignación";
         break;
-    case 'elienc':
-        var mt="<i class='fa fa-times-circle text-gray'></i> Eliminar Encargatura";
+    case 'ediasig':
+        var mt="<i class='fa fa-pencil text-gray'></i> Editar Asignación";
+        break;
+    case 'eliasig':
+        var mt="<i class='fa fa-times-circle text-gray'></i> Eliminar Asignación";
         break;    
   }
   $(".modal-title").html(mt);
@@ -62,8 +65,8 @@ function fo_accion(acc, v1){
 
   $.ajax({
     type: "post",
-    url: "m_inclusiones/a_comservicios/fo_acciones.php",
-    data: {acc: acc, v1: v1},
+    url: "m_inclusiones/a_tesoreria/fo_asignaciones.php",
+    data: {acc: acc, v1: v1, v2: v2},
     dataType: "html",
     beforeSend: function () {
       $("#f_asignaciones").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
