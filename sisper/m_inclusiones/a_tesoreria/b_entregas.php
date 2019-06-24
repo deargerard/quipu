@@ -151,11 +151,11 @@ if(accesocon($cone,$_SESSION['identi'],16)){
               <thead>
                 <tr>
                   <th>ASIGNACIONES:</th>
-                  <th class="text-maroon"><?php  echo "S/  ".$tasi; ?></th>
+                  <th class="text-maroon"><?php  echo "S/  ".n_2decimales($tasi); ?></th>
                   <th>PAGOS:</th>
-                  <th class="text-maroon"><?php echo "S/  ".$ttpa; ?></th>
+                  <th class="text-maroon"><?php echo "S/  ".n_2decimales($ttpa); ?></th>
                   <th>SALDO:</th>
-                  <th class="text-maroon"><?php echo "S/  ".$sal; ?></th>
+                  <th class="text-maroon"><?php echo "S/  ".n_2decimales($sal); ?></th>
                 </tr>
               </thead>
             </table>
