@@ -1,10 +1,169 @@
+//bandeja
+
+$("#smpar").select2({
+  placeholder: 'Selecione un destino',
+  ajax: {
+    url: 'm_inclusiones/a_general/a_selmpartes.php',
+    dataType: 'json',
+    delay: 250,
+    processResults: function (data) {
+      return {
+        results: data
+      };
+    },
+    cache: true
+  },
+  minimumInputLength: 2
+})
+
+$('#b_lim2').click(function() {
+  $('#smpar').select2('val', '');
+});
+
+$("#sper").select2({
+  placeholder: 'Selecione un personal',
+  ajax: {
+    url: 'm_inclusiones/a_general/a_selpersonal.php',
+    dataType: 'json',
+    delay: 250,
+    processResults: function (data) {
+      return {
+        results: data
+      };
+    },
+    cache: true
+  },
+  minimumInputLength: 2
+})
+
+$('#b_lim3').click(function() {
+  $('#sper').select2('val', '');
+});
+
+function li_ban1(){
+    $.ajax({
+      type: "post",
+      url: "m_inclusiones/a_tdocumentario/li_ban1.php",
+      dataType: "html",
+      beforeSend: function () {
+        $("#r_ban1").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
+      },
+      success:function(a){
+        $("#r_ban1").html(a);
+      }
+    });
+}
+function li_ban2(){
+    $.ajax({
+      type: "post",
+      url: "m_inclusiones/a_tdocumentario/li_ban2.php",
+      dataType: "html",
+      beforeSend: function () {
+        $("#r_ban2").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
+      },
+      success:function(a){
+        $("#r_ban2").html(a);
+      }
+    });
+}
+function li_ban3(){
+    $.ajax({
+      type: "post",
+      url: "m_inclusiones/a_tdocumentario/li_ban3.php",
+      dataType: "html",
+      beforeSend: function () {
+        $("#r_ban3").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
+      },
+      success:function(a){
+        $("#r_ban3").html(a);
+      }
+    });
+}
+function li_ban4(){
+    $.ajax({
+      type: "post",
+      url: "m_inclusiones/a_tdocumentario/li_ban4.php",
+      dataType: "html",
+      beforeSend: function () {
+        $("#r_ban4").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
+      },
+      success:function(a){
+        $("#r_ban4").html(a);
+      }
+    });
+}
+function li_ban5(){
+    $.ajax({
+      type: "post",
+      url: "m_inclusiones/a_tdocumentario/li_ban5.php",
+      dataType: "html",
+      beforeSend: function () {
+        $("#r_ban5").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
+      },
+      success:function(a){
+        $("#r_ban5").html(a);
+      }
+    });
+}
+function li_ban6(){
+    $.ajax({
+      type: "post",
+      url: "m_inclusiones/a_tdocumentario/li_ban6.php",
+      dataType: "html",
+      beforeSend: function () {
+        $("#r_ban6").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
+      },
+      success:function(a){
+        $("#r_ban6").html(a);
+      }
+    });
+}
+
 function f_bandeja(acc,v1,v2){
     $("#m_tamano").removeClass('modal-lg');
     switch(acc) {
         case 'agrdoc':
-            var mt="<span class='text-muted'><i class='fa fa-plus text-orange'></i> Agregar Documento</span>";
-            $(".modal-dialog").addClass('modal-lg');
-            break;   
+          var mt="<span class='text-muted'><i class='fa fa-file-text-o text-yellow'></i> Agregar Documento</span>";
+          $(".modal-dialog").addClass('modal-lg');
+          break;
+        case 'edidoc':
+          var mt="<span class='text-muted'><i class='fa fa-pencil text-yellow'></i> Editar Documento</span>";
+          $(".modal-dialog").addClass('modal-lg');
+          break;
+        case 'elidoc':
+          var mt="<span class='text-muted'><i class='fa fa-trash text-yellow'></i> Eliminar Documento</span>";
+          break;
+        case 'detdoc':
+          var mt="<span class='text-muted'><i class='fa fa-file-text text-yellow'></i> Detalle Documento</span>";
+          $(".modal-dialog").addClass('modal-lg');
+          break;
+        case 'revdoc':
+          var mt="<span class='text-muted'><i class='fa fa-reply text-yellow'></i> Revertir Documento</span>";
+          break;
+        case 'rutdoc':
+          var mt="<span class='text-muted'><i class='fa fa-retweet text-yellow'></i> Ruta Documento</span>";
+          $(".modal-dialog").addClass('modal-lg');
+          break;
+        case 'detest':
+          var mt="<span class='text-muted'><i class='fa fa-tags text-yellow'></i> Detalle Estado</span>";
+          break;
+        case 'repdoc':
+          var mt="<span class='text-muted'><i class='fa fa-motorcycle text-yellow'></i> Reportar Notificación</span>";
+          break;
+        case 'atedoc':
+          var mt="<span class='text-muted'><i class='fa fa-laptop text-yellow'></i> Atender Documento</span>";
+          break;
+        case 'arcdoc':
+          var mt="<span class='text-muted'><i class='fa fa-folder-open text-yellow'></i> Archivar Documento</span>";
+          break;
+        case 'gengui':
+          var mt="<span class='text-muted'><i class='fa fa-stack-overflow text-yellow'></i> Generar Guía</span>";
+          $(".modal-dialog").addClass('modal-lg');
+          break;
+        case 'lisgui':
+          var mt="<span class='text-muted'><i class='fa fa-stack-overflow text-yellow'></i> Listar Guía</span>";
+          $(".modal-dialog").addClass('modal-lg');
+          break;
     }
     $(".modal-title").html(mt);
     $("#m_modal").modal("show");
@@ -20,21 +179,272 @@ function f_bandeja(acc,v1,v2){
       },
       success:function(a){
         $("#f_modal").html(a);
-        $("#b_guardar").removeClass("hidden");
+        if(acc!='detdoc' && acc!='rutdoc' && acc!='detest' && acc!='lisgui'){
+          $("#b_guardar").removeClass("hidden");
+        }
       }
     });
 }
 
-function li_bandeja(){
+$('#f_modal').submit(function(e){
+  e.preventDefault();
+  var datos = $(this).serializeArray();
+  $.ajax({
+    type: "post",
+    url: "m_inclusiones/a_tdocumentario/g_bandeja.php",
+    data: datos,
+    dataType: "json",
+    beforeSend: function(){
+      $("#d_frespuesta").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
+      $("#b_guardar").addClass("hidden");
+    },
+    success:function(a){
+      if(a.e){
+        $("#f_modal").html(a.m);
+        li_ban1();
+        li_ban2();
+        li_ban3();
+        li_ban4();
+        li_ban5();
+        li_ban6();
+        $("#b_guardar").addClass("hidden");
+      }else{
+        $("#d_frespuesta").html(a.m);
+        $("#b_guardar").removeClass("hidden");
+      }
+    }
+  });
+})
+
+function g_der(v1, v2){
+  var v3=$('#smpar').val();
+  var idmp=$('#idmp').val();
+  if(v3!=null){
     $.ajax({
       type: "post",
-      url: "m_inclusiones/a_tdocumentario/li_bandeja.php",
+      url: "m_inclusiones/a_tdocumentario/g_bandeja.php",
+      data: {acc: 'derdoc', v1: v1, v2: v2, v3: v3, idmp: idmp},
+      dataType: "json",
+      success:function(a){
+        if(a.e){
+          alertify.success(a.m);
+          li_ban1();
+          li_ban2();
+          li_ban3();
+          li_ban4();
+          li_ban5();
+        }else{
+          alertify.error(a.m);
+        }
+      }
+    });
+  }else{
+    alert('Elija el destino a donde derivará el documento.');
+  }
+}
+
+function g_asi(v1, v2){
+  var v3=$('#sper').val();
+  if(v3!=null){
+    $.ajax({
+      type: "post",
+      url: "m_inclusiones/a_tdocumentario/g_bandeja.php",
+      data: {acc: 'asidoc', v1: v1, v2: v2, v3: v3},
+      dataType: "json",
+      success:function(a){
+        if(a.e){
+          alertify.success(a.m);
+          li_ban1();
+          li_ban2();
+          li_ban3();
+          li_ban4();
+          li_ban5();
+        }else{
+          alertify.error(a.m);
+        }
+      }
+    });
+  }else{
+    alert('Elija el personal a quien asignará el documento.');
+  }
+}
+
+function g_rec(v1, v2){
+
+    $.ajax({
+      type: "post",
+      url: "m_inclusiones/a_tdocumentario/g_bandeja.php",
+      data: {acc: 'recdoc', v1: v1, v2: v2},
+      dataType: "json",
+      success:function(a){
+        if(a.e){
+          alertify.success(a.m);
+          li_ban1();
+          li_ban2();
+          li_ban3();
+          li_ban4();
+          li_ban5();
+        }else{
+          alertify.error(a.m);
+        }
+      }
+    });
+
+}
+function guiapdf(guia){
+  window.open("m_exportar/guiapdf.php?guia="+guia, '_blank');
+}
+//mesa de partes
+function li_mpartes(){
+    $.ajax({
+      type: "post",
+      url: "m_inclusiones/a_tdocumentario/li_mpartes.php",
       dataType: "html",
       beforeSend: function () {
-        $("#r_ban1").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
+        $("#r_mpar1").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
       },
       success:function(a){
-        $("#r_ban1").html(a);
+        $("#r_mpar1").html(a);
       }
     });
 }
+
+function li_rmpartes(idmp){
+    $.ajax({
+      type: "post",
+      url: "m_inclusiones/a_tdocumentario/li_rmpartes.php",
+      data: {v1: idmp},
+      dataType: "html",
+      beforeSend: function () {
+        $("#li_rmpartes").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
+      },
+      success:function(a){
+        $("#li_rmpartes").html(a);
+      }
+    });
+}
+
+function f_mpartes(acc,v1,v2){
+    $("#m_tamano").removeClass('modal-lg');
+    switch(acc) {
+        case 'agrmpar':
+          var mt="<span class='text-muted'><i class='fa fa-archive text-yellow'></i> Agregar Mesa de Partes</span>";
+          break;
+        case 'edimpar':
+          var mt="<span class='text-muted'><i class='fa fa-pencil text-yellow'></i> Editar Mesa de Partes</span>";
+          break;
+        case 'estmpar':
+          var mt="<span class='text-muted'><i class='fa fa-toggle-on text-yellow'></i> Estado Mesa de Partes</span>";
+          break;
+        case 'resmpar':
+          var mt="<span class='text-muted'><i class='fa fa-users text-yellow'></i> Responsables Mesa de Partes</span>";
+          $("#m_tamano").addClass('modal-lg');
+          break;
+    }
+    $(".titulo").html(mt);
+    $("#m_modal").modal("show");
+  
+    $.ajax({
+      type: "post",
+      url: "m_inclusiones/a_tdocumentario/f_mpartes.php",
+      data: {acc: acc, v1: v1, v2: v2},
+      dataType: "html",
+      beforeSend: function () {
+        $("#f_modal").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
+        $("#b_guardar").addClass("hidden");
+      },
+      success:function(a){
+        $("#f_modal").html(a);
+        if(acc!='resmpar'){
+          $("#b_guardar").removeClass("hidden");
+        }
+        if(acc=='resmpar'){
+          li_rmpartes(v1);
+        }
+      }
+    });
+}
+
+$('#f_modal').submit(function(e){
+  e.preventDefault();
+  var datos = $(this).serializeArray();
+  $.ajax({
+    type: "post",
+    url: "m_inclusiones/a_tdocumentario/g_mpartes.php",
+    data: datos,
+    dataType: "json",
+    beforeSend: function(){
+      $("#d_frespuesta").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
+      $("#b_guardar").addClass("hidden");
+    },
+    success:function(a){
+      if(a.e){
+        $("#f_modal").html(a.m);
+        $("#b_guardar").addClass("hidden");
+        li_mpartes();
+      }else{
+        $("#d_frespuesta").html(a.m);
+        $("#b_guardar").removeClass("hidden");
+      }
+    }
+  });
+})
+
+
+
+function f_mpartesp(acc,v1,v2){
+    $("#m_tamanop").removeClass('modal-sm');
+    switch(acc) {
+        case 'agrres':
+          var mt="<span class='text-muted'><i class='fa fa-user text-yellow'></i> Agregar Responsable</span>";
+          $("#m_tamanop").addClass('modal-sm');
+          break;
+        case 'estres':
+          var mt="<span class='text-muted'><i class='fa fa-toggle-on text-yellow'></i> Estado Responsable</span>";
+          $("#m_tamanop").addClass('modal-sm');
+          break;
+    }
+    $(".titulop").html(mt);
+    $("#m_modalp").modal("show");
+    $.ajax({
+      type: "post",
+      url: "m_inclusiones/a_tdocumentario/f_mpartes.php",
+      data: {acc: acc, v1: v1, v2: v2},
+      dataType: "html",
+      beforeSend: function () {
+        $("#f_modalp").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
+        $("#b_guardarp").addClass("hidden");
+      },
+      success:function(a){
+        $("#f_modalp").html(a);
+        $("#b_guardarp").removeClass("hidden");
+      }
+    });
+}
+
+$('#f_modalp').submit(function(e){
+  e.preventDefault();
+  var datos = $(this).serializeArray();
+  $.ajax({
+    type: "post",
+    url: "m_inclusiones/a_tdocumentario/g_mpartes.php",
+    data: datos,
+    dataType: "json",
+    beforeSend: function(){
+      $("#d_frespuestap").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
+      $("#b_guardarp").addClass("hidden");
+    },
+    success:function(a){
+      if(a.e){
+        $("#f_modalp").html(a.m);
+        $("#b_guardarp").addClass("hidden");
+        if(a.i!=null){
+          li_rmpartes(a.i);
+        }
+      }else{
+        $("#d_frespuestap").html(a.m);
+        $("#b_guardarp").removeClass("hidden");
+      }
+    }
+  });
+})

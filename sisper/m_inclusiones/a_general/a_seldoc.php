@@ -4,11 +4,11 @@ include("../php/conexion_sp.php");
 include("../php/funciones.php");
 
     $t=iseguro($cone,$_GET['q']);
-    $c=mysqli_query($cone,"SELECT iddoc, Numero, Ano, Siglas, FechaDoc, TipoDoc FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc WHERE concat_ws('-', Numero, Ano, Siglas) LIKE '%$t%' ORDER BY Ano, Siglas, Numero DESC;");
+    $c=mysqli_query($cone,"SELECT d.idDoc, CONCAT_WS('-', d.Numero, d.Ano, d.Siglas) doc, d.numdoc, td.TipoDoc FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc WHERE d.numdoc=$t OR CONCAT_WS('-' , d.Numero, d.Ano, d.Siglas) LIKE '%$t%' ORDER BY d.numdoc, doc ASC;");
     $json=[];
     if(mysqli_num_rows($c)>0){
         while ($r=mysqli_fetch_assoc($c)) {
-            $json[]=['id'=>$r['iddoc'], 'text'=>html_entity_decode($r['Numero']."-".$r['Ano']."-".$r['Siglas']." ".$r['TipoDoc'])];
+            $json[]=['id'=>$r['idDoc'], 'text'=>html_entity_decode((!is_null($r['numdoc']) ? $r['numdoc'].' | ' : '').$r['TipoDoc'].' | '.$r['doc'])];
         }
     }else{
         $json[]=['id'=>0, 'text'=>'SIN RESULTADOS'];

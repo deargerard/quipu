@@ -6,8 +6,12 @@ if(acceso($cone,$_SESSION['identi'])){
     $t=iseguro($cone,$_GET['q']);
     $c=mysqli_query($cone,"SELECT idEmpleado, NombreCom FROM enombre WHERE NombreCom LIKE '%$t%' ORDER BY NombreCom ASC;");
     $json=[];
-    while ($r=mysqli_fetch_assoc($c)) {
-        $json[]=['id'=>$r['idEmpleado'], 'text'=>html_entity_decode($r['NombreCom'])];
+    if(mysqli_num_rows($c)>0){
+        while ($r=mysqli_fetch_assoc($c)) {
+            $json[]=['id'=>$r['idEmpleado'], 'text'=>html_entity_decode($r['NombreCom'])];
+        }
+    }else{
+        $json[]=['id'=>0, 'text'=>'SIN RESULTADOS'];
     }
     header('Content-type: application/json; charset=utf-8');
     echo json_encode($json);

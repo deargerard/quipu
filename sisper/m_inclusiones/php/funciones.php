@@ -188,6 +188,16 @@ function nomdependencia($con,$iddep){
 	}
 	mysqli_free_result($cdep);
 }
+function abrdependencia($con,$iddep){
+	$iddep=iseguro($con,$iddep);
+	$cdep=mysqli_query($con,"SELECT Siglas FROM dependencia WHERE idDependencia=$iddep");
+	if($rdep=mysqli_fetch_assoc($cdep)){
+		return $rdep["Siglas"];
+	}else{
+		return "--";
+	}
+	mysqli_free_result($cdep);
+}
 function nomlocal($con,$idloc){
 	$idloc=iseguro($con,$idloc);
 	$cloc=mysqli_query($con,"SELECT Direccion FROM local WHERE idLocal=$idloc");
@@ -829,10 +839,10 @@ function get_format($df) {
         $str .= ($df->h > 1) ? $df->h . ' Horas ' : $df->h . ' Hora ';
     } if ($df->i > 0) {
         // minutes
-        $str .= ($df->i > 1) ? $df->i . ' Mins. ' : $df->i . ' Min. ';
+        $str .= ($df->i > 1) ? $df->i . ' Min. ' : $df->i . ' Min. ';
     } if ($df->s > 0) {
         // seconds
-        $str .= ($df->s > 1) ? $df->s . ' Segs. ' : $df->s . ' Seg. ';
+        $str .= ($df->s > 1) ? $df->s . ' Seg. ' : $df->s . ' Seg. ';
     }
 
     echo $str;
@@ -1096,4 +1106,57 @@ function sumdias($fec, $nd){
 	return date('Y-m-d', $nuevafecha);
 }
 
+function estadoDoc($est){
+	switch ($est) {
+		case 1:
+			return "<span class='label label-info'>Registrado</span>";
+			break;
+		case 2:
+			return "<span class='label label-info'>Recibido</span>";
+			break;
+		case 3:
+			return "<span class='label label-warning'>Derivado</span>";
+			break;
+		case 4:
+			return "<span class='label label-warning'>Asignado</span>";
+			break;
+		case 5:
+			return "<span class='label label-success'>Reportado</span>";
+			break;
+		case 6:
+			return "<span class='label label-success'>Atendido</span>";
+			break;
+		case 7:
+			return "<span class='label label-success'>Archivado</span>";
+			break;
+		case 8:
+			return "<span class='label label-danger'>Revertido</span>";
+			break;
+	}
+}
+
+function dirdisprolocal($con, $idl){
+	$idl=iseguro($con, $idl);
+	$cl=mysqli_query($con, "SELECT l.Direccion, d.NombreDis, p.NombrePro FROM local l INNER JOIN distrito d ON l.idDistrito=d.idDistrito INNER JOIN provincia p ON d.idProvincia=p.idProvincia WHERE l.idLocal=$idl");
+	if($rl=mysqli_fetch_assoc($cl)){
+		return $rl['Direccion']." [".$rl['NombreDis']." / ".$rl['NombrePro']."]";
+	}else{
+		return "Error";
+	}
+}
+
+function nommpartes($con, $idmp){
+	$idmp=iseguro($con, $idmp);
+	if($idmp!=""){
+		$cm=mysqli_query($con, "SELECT denominacion FROM tdmesapartes WHERE idtdmesapartes=$idmp;");
+		if($rm=mysqli_fetch_assoc($cm)){
+			return $rm['denominacion'];
+		}else{
+			return "ERROR";
+		}
+		mysqli_free_result($cm);
+	}else{
+		return "ERROR";
+	}
+}
 ?>

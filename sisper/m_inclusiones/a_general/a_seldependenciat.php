@@ -7,8 +7,12 @@ include("../php/funciones.php");
     $c=mysqli_query($cone,"SELECT idDependencia, Denominacion FROM dependencia WHERE Estado=1 AND Denominacion LIKE '%$t%' ORDER BY Denominacion ASC;");
     $json=[];
     $json[]=['id'=>'t', 'text'=>'TODAS LAS DEPENDENCIAS'];
-    while ($r=mysqli_fetch_assoc($c)) {
-        $json[]=['id'=>$r['idDependencia'], 'text'=>html_entity_decode($r['Denominacion'])];
+    if(mysqli_num_rows($c)>0){
+        while ($r=mysqli_fetch_assoc($c)) {
+            $json[]=['id'=>$r['idDependencia'], 'text'=>html_entity_decode($r['Denominacion'])];
+        }
+    }else{
+        $json[]=['id'=>0, 'text'=>'SIN MÁS RESULTADOS'];
     }
     header('Content-type: application/json; charset=utf-8');
     echo json_encode($json);
