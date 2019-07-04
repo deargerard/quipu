@@ -3,7 +3,7 @@
     include ("sisper/m_inclusiones/php/funciones.php");
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
 
     <meta charset="utf-8">
