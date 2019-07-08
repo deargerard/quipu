@@ -32,8 +32,8 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
               <?php } ?>
               <li <?php echo $mpm ? '' : 'class="active"'; ?>><a href="#tab_2" data-toggle="tab"><i class="fa fa-circle-o text-gray"></i> Registrar/Derivar</a></li>
               <li><a href="#tab_3" data-toggle="tab"><i class="fa fa-circle-o text-gray"></i> Asignar</a></li>
-              <li><a href="#tab_4" data-toggle="tab"><i class="fa fa-circle-o text-gray"></i> Reportar Ntf.</a></li>
-              <li><a href="#tab_5" data-toggle="tab"><i class="fa fa-circle-o text-gray"></i> Atender/Archivar</a></li>
+              <li><a href="#tab_4" data-toggle="tab"><i class="fa fa-circle-o text-gray"></i> Atender/Archivar</a></li>
+              <li><a href="#tab_5" data-toggle="tab"><i class="fa fa-circle-o text-gray"></i> Reportar Ntf.</a></li>
               <?php if($mpm){ ?>
               <li><a href="#tab_6" data-toggle="tab"><i class="fa fa-circle-o text-gray"></i> Guías</a></li>
               <?php } ?>

@@ -11,10 +11,10 @@ if(accesocon($cone,$_SESSION['identi'],17)){
 </div>
 <div class="col-sm-12">
 <?php
-    $cb=mysqli_query($cone, "SELECT d.idDoc, d.numdoc, d.Numero, d.Ano, d.Siglas, d.FechaDoc, td.TipoDoc, ed.idtdestadodoc, ed.fecha, g.numero numguia, g.anio, ed.idtdestado FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc INNER JOIN tdestadodoc ed ON d.idDoc=ed.idDoc LEFT JOIN tdguia g ON ed.idtdguia=g.idtdguia WHERE ed.idEmpleado=$idem AND ed.estado=1 AND (ed.idtdestado=4 OR ed.idtdestado=5 OR ed.idtdestado=6) ORDER BY ed.fecha DESC;");
+    $cb=mysqli_query($cone, "SELECT d.idDoc, d.numdoc, d.Numero, d.Ano, d.Siglas, d.FechaDoc, td.TipoDoc, ed.idtdestadodoc, ed.fecha, g.numero numguia, g.anio, ed.idtdestado FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc INNER JOIN tdestadodoc ed ON d.idDoc=ed.idDoc LEFT JOIN tdguia g ON ed.idtdguia=g.idtdguia WHERE ed.idEmpleado=$idem AND ed.estado=1 AND (ed.idtdestado=4) ORDER BY ed.fecha DESC;");
     if(mysqli_num_rows($cb)>0){
 ?>
-        <table class="table table-bordered table-hover" id="dt_ban5">
+        <table class="table table-bordered table-hover" id="dt_ban4">
             <thead>
                 <tr>
                     <th>NUM.</th>
@@ -37,11 +37,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                     <td><?php echo date('d/m/Y h:i:s A', strtotime($rb['fecha'])); ?><br><span class="text-orange"><?php echo diftiempo($rb['fecha'], date('Y-m-d H:i:s')); ?></span></td>
                     <td class="text-center">
                           <div class="btn-group btn-group-xs">
-                            <?php if($rb[idtdestado]==4){ ?>
-                            <button type="button" class="btn btn-info btn-xs" title="Atender" onclick="f_bandeja('atedoc', <?php echo $rb['idDoc'].", ".$rb['idtdestadodoc']; ?>)"><i class="fa fa-laptop"></i></button>
-                            <?php }elseif($rb[idtdestado]==5 OR $rb[idtdestado]==6){ ?>
-                            <button type="button" class="btn btn-info btn-xs" title="Archivar" onclick="f_bandeja('arcdoc', <?php echo $rb['idDoc'].", ".$rb['idtdestadodoc']; ?>)"><i class="fa fa-folder-open"></i></button>
-                            <?php } ?>
+                            <button type="button" class="btn btn-info btn-xs" title="Reportar Notificación" onclick="f_bandeja('repdoc', <?php echo $rb['idDoc'].", ".$rb['idtdestadodoc']; ?>)"><i class="fa fa-motorcycle"></i></button>
                           </div>
                           <div class="btn-group">
                             
@@ -63,6 +59,8 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                           </div>
 
 
+
+
                     </td>
                 </tr>
 <?php
@@ -71,7 +69,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
             </tbody>
         </table>
         <script>
-            $("#dt_ban5").DataTable();
+            $("#dt_ban4").DataTable();
         </script>
 <?php
     }else{

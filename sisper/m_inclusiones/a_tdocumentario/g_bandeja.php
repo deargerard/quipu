@@ -468,7 +468,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
 
                 $cd=mysqli_query($cone, "SELECT idtdestadodoc FROM tdestadodoc WHERE ISNULL(idtdguia) AND idtdmesapartes=$mpdes AND idtdestado=3 AND estado=1 AND mpderiva=$v1;");
                 if(mysqli_num_rows($cd)>0){
-                    $cng=mysqli_query($cone, "SELECT MAX(numero) num FROM tdguia WHERE idtdmesapartes=$v1 AND anio=YEAR(CURDATE())");
+                    $cng=mysqli_query($cone, "SELECT MAX(numero) num FROM tdguia WHERE idtdmesapartesg=$v1 AND anio=YEAR(CURDATE())");
                     if($rng=mysqli_fetch_assoc($cng)){
                         $ng=$rng['num']+1;
                     }else{
@@ -488,7 +488,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                         $r['m']=mensajewa("No se pudo crear la guía.");
                     }
                 }else{
-                    $r['m']=mensajewa("Ya no existen documentos sin guía para este destino.");
+                    $r['m']=mensajewa("Los documentos ya fueron incluidos en otra guía.");
                 }
                 mysqli_free_result($cd);
             }else{

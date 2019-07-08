@@ -207,7 +207,6 @@ $('#f_modal').submit(function(e){
         li_ban4();
         li_ban5();
         li_ban6();
-        $("#b_guardar").addClass("hidden");
       }else{
         $("#d_frespuesta").html(a.m);
         $("#b_guardar").removeClass("hidden");
@@ -350,11 +349,11 @@ function f_mpartes(acc,v1,v2){
       data: {acc: acc, v1: v1, v2: v2},
       dataType: "html",
       beforeSend: function () {
-        $("#f_modal").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
+        $("#f_mmodal").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
         $("#b_guardar").addClass("hidden");
       },
       success:function(a){
-        $("#f_modal").html(a);
+        $("#f_mmodal").html(a);
         if(acc!='resmpar'){
           $("#b_guardar").removeClass("hidden");
         }
@@ -365,7 +364,7 @@ function f_mpartes(acc,v1,v2){
     });
 }
 
-$('#f_modal').submit(function(e){
+$('#f_mmodal').submit(function(e){
   e.preventDefault();
   var datos = $(this).serializeArray();
   $.ajax({
@@ -379,8 +378,7 @@ $('#f_modal').submit(function(e){
     },
     success:function(a){
       if(a.e){
-        $("#f_modal").html(a.m);
-        $("#b_guardar").addClass("hidden");
+        $("#f_mmodal").html(a.m);
         li_mpartes();
       }else{
         $("#d_frespuesta").html(a.m);
@@ -412,17 +410,17 @@ function f_mpartesp(acc,v1,v2){
       data: {acc: acc, v1: v1, v2: v2},
       dataType: "html",
       beforeSend: function () {
-        $("#f_modalp").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
+        $("#f_mmodalp").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
         $("#b_guardarp").addClass("hidden");
       },
       success:function(a){
-        $("#f_modalp").html(a);
+        $("#f_mmodalp").html(a);
         $("#b_guardarp").removeClass("hidden");
       }
     });
 }
 
-$('#f_modalp').submit(function(e){
+$('#f_mmodalp').submit(function(e){
   e.preventDefault();
   var datos = $(this).serializeArray();
   $.ajax({
@@ -436,7 +434,7 @@ $('#f_modalp').submit(function(e){
     },
     success:function(a){
       if(a.e){
-        $("#f_modalp").html(a.m);
+        $("#f_mmodalp").html(a.m);
         $("#b_guardarp").addClass("hidden");
         if(a.i!=null){
           li_rmpartes(a.i);
@@ -447,4 +445,52 @@ $('#f_modalp').submit(function(e){
       }
     }
   });
+})
+
+//consultas
+$("#mpar").select2({
+  placeholder: 'Selecione una mesa de partes',
+  ajax: {
+    url: 'm_inclusiones/a_general/a_selmpartes.php',
+    dataType: 'json',
+    delay: 250,
+    processResults: function (data) {
+      return {
+        results: data
+      };
+    },
+    cache: true
+  },
+  minimumInputLength: 2
+});
+$("#d_dano,#d_gano").datepicker({
+  format: 'yyyy',
+  languaje: 'es',
+  autoclose: true,
+  minViewMode: 2,
+  maxViewMode: 2,
+  todayHighlight: true
+});
+$("#d_des,#d_has").datepicker({
+  format: 'dd/mm/yyyy',
+  languaje: 'es',
+  autoclose: true,
+  minViewMode: 0,
+  maxViewMode: 2,
+  todayHighlight: true
+});
+$("#per").select2({
+  placeholder: 'Selecione un personal',
+  ajax: {
+    url: 'm_inclusiones/a_general/a_selpersonal.php',
+    dataType: 'json',
+    delay: 250,
+    processResults: function (data) {
+      return {
+        results: data
+      };
+    },
+    cache: true
+  },
+  minimumInputLength: 4
 })

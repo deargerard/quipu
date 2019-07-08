@@ -15,7 +15,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
 
 ?>
 <div class="col-sm-6">
-    <h5 class="text-muted text-blue" style="font-weight: 600;"><i class="fa fa-archive text-yellow"></i> <b><?php echo $rm['denominacion']; ?></b></h5>
+    <h4 class="text-muted text-blue" style="font-weight: 600;"><i class="fa fa-archive text-yellow"></i> <b><?php echo $rm['denominacion']; ?></b></h4>
     <input type="hidden" id="idmp" value="<?php echo $rm['idtdmesapartes']; ?>">
 </div>
 <div class="col-sm-6">

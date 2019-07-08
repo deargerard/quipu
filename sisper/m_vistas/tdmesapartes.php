@@ -57,12 +57,12 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
         <h4 class="modal-title titulo" id="myModalLabel">Titulo</h4>
       </div>
       <div class="modal-body">
-        <form id="f_modal" autocomplete="off">
+        <form id="f_mmodal" autocomplete="off">
           
         </form>
       </div>
       <div class="modal-footer">
-        <button type="submit" class="btn bg-green" id="b_guardar" form="f_modal"><i class="fa fa-save"></i> Guardar</button>
+        <button type="submit" class="btn bg-green" id="b_guardar" form="f_mmodal"><i class="fa fa-save"></i> Guardar</button>
         <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-close"></i> Cerrar</button>
       </div>
     </div>
@@ -78,12 +78,12 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
         <h4 class="modal-title titulop" id="myModalLabel">Titulo</h4>
       </div>
       <div class="modal-body">
-        <form id="f_modalp" autocomplete="off">
+        <form id="f_mmodalp" autocomplete="off">
           
         </form>
       </div>
       <div class="modal-footer">
-        <button type="submit" class="btn bg-green" id="b_guardarp" form="f_modalp"><i class="fa fa-save"></i> Guardar</button>
+        <button type="submit" class="btn bg-green" id="b_guardarp" form="f_mmodalp"><i class="fa fa-save"></i> Guardar</button>
         <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-close"></i> Cerrar</button>
       </div>
     </div>

@@ -14,7 +14,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
   <button type="button" class="btn bg-yellow" onclick="li_ban6();"><i class="fa fa-refresh"></i> Actualizar</button>
 </div>
 <div class="col-sm-6">
-  <h5 class="text-blue"><i class="fa fa-archive text-orange"></i> <b><?php echo $rm['denominacion']; ?></b></h5>
+  <h4 class="text-blue"><i class="fa fa-archive text-orange"></i> <b><?php echo $rm['denominacion']; ?></b></h4>
 </div>
 <div class="col-sm-6">
     <p class="text-right text-muted" style="font-size: 11px;"><i class="fa fa-refresh text-yellow"></i> Alctualizado al <?php echo date('d/m/Y h:i:s A'); ?></p>
