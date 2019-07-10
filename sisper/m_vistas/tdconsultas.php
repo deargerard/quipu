@@ -39,7 +39,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                       </div>
                     </div>
-                    <button type="submit" class="btn btn-info"><i class="fa fa-search"></i> Buscar </button>
+                    <button type="button" class="btn btn-info" id="b_bdoc"><i class="fa fa-search"></i> Buscar </button>
                 </form>
                 <!--Fin formulario busqueda-->
                 <!--Div resultados-->
@@ -68,7 +68,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                           
                       </select>
                     </div>
-                    <button type="submit" class="btn btn-info"><i class="fa fa-search"></i> Buscar </button>
+                    <button type="button" class="btn btn-info" id="b_bguia"><i class="fa fa-search"></i> Buscar </button>
                 </form>
                 <!--Fin formulario busqueda-->
                 <!--Div resultados-->
@@ -116,7 +116,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                       </div>
                     </div>
-                    <button type="submit" class="btn btn-info"><i class="fa fa-search"></i> Buscar </button>
+                    <button type="button" class="btn btn-info" id="b_bperdoc"><i class="fa fa-search"></i> Buscar </button>
                 </form>
                 <!--Fin formulario busqueda-->
                 <!--Div resultados-->                
