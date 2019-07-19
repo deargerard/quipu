@@ -7,7 +7,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
 		$doc=iseguro($cone,$_POST['doc']);
     $ano=iseguro($cone,$_POST['ano']);		
 
-    $cd=mysqli_query($cone, "SELECT d.*, td.TipoDoc FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc WHERE d.Numero=$doc AND d.Ano=$ano;");
+    $cd=mysqli_query($cone, "SELECT d.*, td.TipoDoc FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc WHERE d.numdoc=$doc AND d.Ano=$ano;");
     if($rd=mysqli_fetch_assoc($cd)){
 ?>
         <div class="row">
@@ -50,22 +50,32 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                         <td colspan="5"><?php echo $rd['Descripcion']; ?></td>
                         <td><?php echo $rd['Legajo']; ?></td>
                     </tr>
-                    <tr>
-                        <th colspan="3"><i class="fa fa-user text-aqua"></i> REMITENTE</th>
-                        <th colspan="3"><i class="fa fa-university text-aqua"></i> DEPENDENCIA ORIGEN</th>
-                    </tr>
-                    <tr>
-                        <td colspan="3"><?php echo !is_null($rd['remitenteext']) ? $rd['remitenteext'] : nomempleado($cone, $rd['remitenteint']); ?></td>
-                        <td colspan="3"><?php echo !is_null($rd['deporigenext']) ? $rd['deporigenext'] : nomdependencia($cone, $rd['deporigenint']); ?></td>
-                    </tr>
-                    <tr>
-                        <th colspan="3"><i class="fa fa-user text-aqua"></i> DESTINATARIO</th>
-                        <th colspan="3"><i class="fa fa-university text-aqua"></i> DEPENDENCIA DESTINO</th>
-                    </tr>
-                    <tr>
-                        <td colspan="3"><?php echo !is_null($rd['destinatarioext']) ? $rd['destinatarioext'] : nomempleado($cone, $rd['destinatarioint']); ?></td>
-                        <td colspan="3"><?php echo !is_null($rd['depdestinoext']) ? $rd['depdestinoext'] : nomdependencia($cone, $rd['depdestinoint']); ?></td>
-                    </tr>
+<?php
+                    if ($rd['remitenteint']!==null) {
+?>     
+                        <tr>
+                            <th colspan="3"><i class="fa fa-user text-aqua"></i> REMITENTE</th>
+                            <th colspan="3"><i class="fa fa-university text-aqua"></i> DEPENDENCIA ORIGEN</th>
+                        </tr>
+                        <tr>
+                            <td colspan="3"><?php echo !is_null($rd['remitenteext']) ? $rd['remitenteext'] : nomempleado($cone, $rd['remitenteint']); ?></td>
+                            <td colspan="3"><?php echo !is_null($rd['deporigenext']) ? $rd['deporigenext'] : nomdependencia($cone, $rd['deporigenint']); ?></td>
+                        </tr>
+<?php
+                     }
+                     if ($rd['destinatarioint']!==null) {
+?>
+                        <tr>
+                            <th colspan="3"><i class="fa fa-user text-aqua"></i> DESTINATARIO</th>
+                            <th colspan="3"><i class="fa fa-university text-aqua"></i> DEPENDENCIA DESTINO</th>
+                        </tr>
+                        <tr>
+                            <td colspan="3"><?php echo !is_null($rd['destinatarioext']) ? $rd['destinatarioext'] : nomempleado($cone, $rd['destinatarioint']); ?></td>
+                            <td colspan="3"><?php echo !is_null($rd['depdestinoext']) ? $rd['depdestinoext'] : nomdependencia($cone, $rd['depdestinoint']); ?></td>
+                        </tr>
+<?php
+                    } 
+ ?>
                 </table>
             </div>
 
@@ -146,7 +156,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
         </div>
 <?php     
             }else{
-                echo mensajewa("Error, datos inválidos.");
+                echo mensajewa("No existe el documento");
             }
             mysqli_free_result($cd);
        

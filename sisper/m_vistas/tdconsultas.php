@@ -24,6 +24,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
               <li class="active"><a href="#tab_1" data-toggle="tab"><i class="fa fa-circle-o text-gray"></i> Documento</a></li>
               <li><a href="#tab_2" data-toggle="tab"><i class="fa fa-circle-o text-gray"></i> Guía</a></li>
               <li><a href="#tab_3" data-toggle="tab"><i class="fa fa-circle-o text-gray"></i> Personal/Documentos</a></li>
+              <li><a href="#tab_4" data-toggle="tab"><i class="fa fa-circle-o text-gray"></i> Pendientes/M.Partes</a></li>
             </ul>
             <div class="tab-content">
               <div class="tab-pane active" id="tab_1">
@@ -85,15 +86,15 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 <!--Formulario busqueda-->
                 <form class="form-inline" id="f_rep3">
                     <div class="form-group">
-                        <select name="per" id="per" class="form-control" style="width: 350px;">
-                            <option value="t">Todos</option>
+                        <select name="per" id="per" class="form-control" style="width: 300px;">
+                            
                         </select>
                     </div>
                     <div class="form-group">
                         <select name="est" id="est" class="form-control">
                             <option value="t">Todos</option>
                           <?php
-                          $ce=mysqli_query($cone, "SELECT * FROM tdestado WHERE estado=1;");
+                          $ce=mysqli_query($cone, "SELECT * FROM tdestado WHERE estado=1 AND idtdestado!=3;");
                           if(mysqli_num_rows($ce)>0){
                             while($re=mysqli_fetch_assoc($ce)){
                           ?>
@@ -102,6 +103,12 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                             }
                           }
                           ?>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <select name="vig" id="vig" class="form-control">
+                            <option value="1">Actual</option>
+                            <option value="2">Histórico</option>                          
                         </select>
                     </div>
                     <div class="form-group">
@@ -129,6 +136,33 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
               </div>
               <!-- /.tab-pane -->
 
+              <div class="tab-pane" id="tab_4">
+                <!--Formulario busqueda-->
+                <form class="form-inline" id="f_rep4">                    
+                    
+                    <div class="form-group">
+                      <select class="form-control" name="mparp" id="mparp" style="width: 350px;">
+                          
+                      </select>
+                    </div>
+                    <div class="form-group">
+                        <select name="vigp" id="vigp" class="form-control">
+                            <option value="1">Actual</option>
+                            <option value="2">Histórico</option>                          
+                        </select>
+                    </div>
+                    <button type="button" class="btn btn-info" id="b_bdpen"><i class="fa fa-search"></i> Buscar </button>
+                </form>
+                <!--Fin formulario busqueda-->
+                <!--Div resultados-->
+                <hr>
+                <div id="r_rep4">
+                  <h4 class="text-aqua"><strong>Resultados</strong></h4>
+                </div>
+                <!--Fin div resultados-->
+              </div>
+              <!-- /.tab-pane -->
+
             </div>
             <!-- /.tab-content -->
           </div>
@@ -148,7 +182,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
         <h4 class="modal-title" id="myModalLabel">Titulo</h4>
       </div>
       <div class="modal-body">
-        <form id="f_cmodal" autocomplete="off">
+        <form id="f_modal" autocomplete="off">
           
         </form>
       </div>
