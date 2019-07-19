@@ -448,7 +448,7 @@ $('#f_mmodalp').submit(function(e){
 })
 
 //consultas
-$("#mpar").select2({
+$("#mpar, #mparp").select2({
   placeholder: 'Selecione una mesa de partes',
   ajax: {
     url: 'm_inclusiones/a_general/a_selmpartes.php',
