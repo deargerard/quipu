@@ -15,9 +15,20 @@ if(accesoadm($cone,$_SESSION['identi'],4) || accesoadm($cone,$_SESSION['identi']
     if(mysqli_num_rows($c)>0){
     	echo mensajewa("Error: El documento que intenta registrar ya existe.");
     }else{
-    	$q="INSERT INTO doc (Numero, Ano, Siglas, FechaDoc, idTipoDoc, Descripcion, Legajo) VALUES ('$num', '$adoc', '$sig', '$fec', $tdoc, '$des', '$leg');";
+      //consultamos último número doc
+      $cn=mysqli_query($cone, "SELECT MAX(numdoc) num FROM doc WHERE Ano='$adoc';");
+      if($rn=mysqli_fetch_assoc($cn)){
+          if(!is_null($rn['num'])){
+              $nu=$rn['num']+1;
+          }else{
+              $nu=1;
+          }
+      }
+      mysqli_free_result($cn);
+
+    	$q="INSERT INTO doc (Numero, Ano, Siglas, FechaDoc, idTipoDoc, Descripcion, Legajo, numdoc, cargo) VALUES ('$num', '$adoc', '$sig', '$fec', $tdoc, '$des', '$leg', $nu, 0);";
     	if(mysqli_query($cone,$q)){
-    		echo mensajesu("Listo: Documento correctamente registrado.");
+    		echo mensajesu("Listo: Documento correctamente registrado. <br> N° Doc:<b> $nu-$adoc</b>");
     	}else{
     		echo mensajewa("Error: Error al resgistrar el docuemnto.");
     	}

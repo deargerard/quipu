@@ -130,11 +130,10 @@ $( "#f_ncomservicios").validate( {
          $("#b_gncomser").addClass("disabled");
       },
       success: function(data){
-         $("#b_gncomser").hide();
+         //$("#b_gncomser").hide();
          $("#b_gncomser").html("Guardar");
          $("#b_gncomser").removeClass("disabled");
-         $("#f_ncomservicios").slideDown();
-         $("#f_ncomservicios").html(data.msg);
+         $("#d_mensaje").html(data.msg);
          if (data.e) {
            actcomisiones();
            $("#m_ncomservicios").modal('hide');
@@ -216,13 +215,13 @@ $( "#f_ecomservicios" ).validate( {
          $("#b_gecomser").addClass("disabled");
       },
       success: function(data){
-         $("#b_gecomser").hide();
+         //$("#b_gecomser").hide();
          $("#b_gecomser").html("Guardar");
          $("#b_gecomser").removeClass("disabled");
-         $("#f_ecomservicios").html(data.msg);
-         $("#f_ecomservicios").slideDown();
+         $("#d_mensaje").html(data.msg);
          if (data.e) {
            actcomisiones();
+           $("#f_ecomservicios").html(data.msg);
          }
       }
    });

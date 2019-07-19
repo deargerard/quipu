@@ -23,18 +23,16 @@ $(document).ready(function(){
   $("#fichalaboral").addClass("active");
 <?php for ($i=1; $i < ($n+1); $i++) {  ?>
 
-  $("#dtable<?php echo $i ?>").DataTable({
-    "order": [[5,"dsc"]]
-  });
+  $("#dtable<?php echo $i ?>").DataTable();
   <?php } ?>
   <?php if(!$v){ ?>
       $("#b_provac").hide();
   <?php } ?>
 
   $('#dtcomser').DataTable();
-  $('#dtrepasi').DataTable({
-    "order": [[2,"desc"]]
-  });
+  $('#dtrepasi').DataTable();
+
+  $('[data-toggle="popover"]').popover(); 
 
 });
 </script>

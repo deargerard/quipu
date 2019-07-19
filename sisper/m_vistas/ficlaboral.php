@@ -29,20 +29,18 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
         <!-- Custom Tabs -->
         <div class="nav-tabs-custom">
           <ul class="nav nav-tabs">
-            <li class="active"><a href="#tab_1" data-toggle="tab">Mis Asistencia</a></li>
-            <li><a href="#tab_2" data-toggle="tab">Mis Vacaciones</a></li>
-            <li><a href="#tab_3" data-toggle="tab">Mis Comisiones de Servicio</a></li>
-            <li><a href="#tab_4" data-toggle="tab">Mis Licencias</a></li>
+            <li class="active"><a href="#tab_1" data-toggle="tab"><i class="fa fa-barcode text-blue"></i> Mis Marcaciones</a></li>
+            <li><a href="#tab_2" data-toggle="tab"><i class="fa fa-plane text-blue"></i> Mis Vacaciones</a></li>
+            <li><a href="#tab_3" data-toggle="tab"><i class="fa fa-car text-blue"></i> Mis Comisiones de Servicio</a></li>
+            <li><a href="#tab_4" data-toggle="tab"><i class="fa fa-user-md text-blue"></i> Mis Licencias</a></li>
           </ul>
           <div class="tab-content">
             
             <div class="tab-pane active" id="tab_1">
               <!--Encabezado-->
               <div class="row">
-                <div class="col-sm-9">
-                  <p><h4 class="text-blue"><strong><i class="fa fa-user"></i> <?php echo nomempleado($cone,$idper); ?> </strong></h4></p>
-                </div>
-                <div class="col-sm-3">
+                <div class="col-sm-12">
+                  <h4 class="text-blue" style="font-size: 22px; font-weight:600;"><i class="fa fa-user text-orange"></i> <b><?php echo nomempleado($cone,$idper); ?></b></h4>
                   <input type="hidden" id="idper" value="<?php echo $idper?>"> <!--envía id de personal-->
                 </div>
               </div>
@@ -52,25 +50,23 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 <div class="col-md-12" id="repasi">
                 <?php
 
-                $fini = date("Y-m-d",strtotime("- 1 month", strtotime(date("Y-m")."-01")));
-
-                $cm=mysqli_query($cone,"SELECT * FROM marcacion WHERE idEmpleado=$idper AND Marcacion>='$fini' ORDER BY Marcacion DESC;");
+                $cm=mysqli_query($cone,"SELECT * FROM marcacion WHERE idEmpleado=$idper ORDER BY Marcacion DESC LIMIT 240;");
                   if(mysqli_num_rows($cm)>0){
 
                   ?>
                   <div class="row">
-                     <div class="col-sm-4">
-                       <h4 ><small class="<?php echo $col ?> text-center" style="font-weight: bold"><i class="fa fa-black-tie"></i> <?php echo cargoe($cone, $idper)." (ACTIVO)";?></small></h4>
+                     <div class="col-sm-6">
+                      <p style="font-size: 17px;" class="text-primary"><i class="fa fa-black-tie text-yellow"></i> <?php echo cargoe($cone, $idper);?></p>
                      </div>
-                     <div class="col-sm-5">
-                        <h4 ><small class="<?php echo $col ?> text-center" style="font-weight: bold"><i class="fa fa-institution"></i> <?php echo dependenciae($cone, $idper);?></small></h4>
+                     <div class="col-sm-6">
+                      <p style="font-size: 17px;" class="text-primary text-right"><i class="fa fa-institution text-yellow"></i> <?php echo dependenciae($cone, $idper);?></p>
                      </div>
                   </div>
 
                   <table id="dtrepasi" class="table table-bordered table-hover">
                     <thead>
                       <tr>
-                        <th width="30">Nro</th>
+                        <th width="30">#</th>
                         <th>DÍA</th>
                         <th>FECHA</th>
                         <th>MARCACIÓN</th>
@@ -85,8 +81,8 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                       <tr>
                         <td><?php echo $n; ?></td>
                         <td><?php echo nombredia($rm['Marcacion']); ?></td>
-                        <td><span class="hidden"> <?php echo $rm['Marcacion'] ?></span> <?php echo date('d/m/Y', strtotime($rm['Marcacion'])); ?></td>
-                        <td><?php echo date('h:i:s A', strtotime($rm['Marcacion'])); ?></td>
+                        <td class="text-muted"><span class="hidden"> <?php echo $rm['Marcacion'] ?></span> <?php echo date('d/m/Y', strtotime($rm['Marcacion'])); ?></td>
+                        <td class="text-blue"><?php echo date('h:i:s A', strtotime($rm['Marcacion'])); ?></td>
                       <?php
                       }
                       ?>
@@ -108,7 +104,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
               <!--Encabezado-->
               <div class="row">
                 <div class="col-sm-9">
-                  <p><h4 class="text-blue"><strong><i class="fa fa-user"></i> <?php echo nomempleado($cone,$idper); ?> </strong></h4></p>
+                  <h4 class="text-blue" style="font-size: 22px; font-weight:600;"><b><i class="fa fa-user text-orange"></i> <?php echo nomempleado($cone,$idper); ?> </b></h4>
                 </div>
                   <?php
                   if ($rec=mysqli_fetch_assoc($cec)) {
@@ -138,7 +134,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                   while($rcar=mysqli_fetch_assoc($ccar)){
                     $n++;
                     $car=$rcar['idEmpleadoCargo'];
-                    $q="SELECT v.idProVacaciones, pv.PeriodoVacacional, pv.idPeriodoVacacional, v.FechaIni, v.FechaFin, v.Estado, v.Condicion FROM provacaciones as v INNER JOIN periodovacacional AS pv ON v.idPeriodoVacacional = pv.idPeriodoVacacional INNER JOIN empleadocargo AS ec ON v.idEmpleadoCargo=ec.idEmpleadoCargo WHERE ec.idEmpleadoCargo=$car";
+                    $q="SELECT v.idProVacaciones, pv.PeriodoVacacional, pv.idPeriodoVacacional, v.FechaIni, v.FechaFin, v.Estado, v.Condicion FROM provacaciones as v INNER JOIN periodovacacional AS pv ON v.idPeriodoVacacional = pv.idPeriodoVacacional INNER JOIN empleadocargo AS ec ON v.idEmpleadoCargo=ec.idEmpleadoCargo WHERE ec.idEmpleadoCargo=$car ORDER BY v.FechaIni DESC";
                     $cvac=mysqli_query($cone,$q);
                     $vis=false;
 
@@ -149,27 +145,28 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                           <?php
                           $cond=$rcar['CondicionCar']=="NINGUNO" ? "" : " (".substr($rcar['CondicionCar'], 0, 1).")";
                             if ($rcar['est']==1) {
-                             $col="text-blue";
+                             $col="text-primary";
                              $vis= true;
                             }else{
-                              $col="";
+                              $col="text-muted";
                             }
                          ?>
-                           <div class="col-sm-4">
-                             <h4 ><small class="<?php echo $col ?> text-center" style="font-weight: bold"><i class="fa fa-black-tie"></i> <?php echo $rcar['cargo'].$cond." (".$rcar['EstadoCar'].")"  ?></small></h4>
+                           <div class="col-sm-6">
+                             <p style="font-size: 17px;" class="<?php echo $col ?>"><i class="fa fa-black-tie text-yellow"></i> <?php echo $rcar['cargo'].$cond." (".$rcar['EstadoCar'].")"  ?></p>
                            </div>
-                           <div class="col-sm-5">
-                              <h4 ><small class="<?php echo $col ?> text-center" style="font-weight: bold"><i class="fa fa-institution"></i> <?php echo $rcar['Denominacion']; ?></small></h4>
+                           <div class="col-sm-6">
+                              <p style="font-size: 17px;" class="<?php echo $col ?> text-right"><i class="fa fa-institution text-yellow"></i> <?php echo $rcar['Denominacion']; ?></p>
                            </div>
                         </div>
                         <!--Fin div row-->
                         <table class="table table-bordered table-hover" id="dtable<?php echo $n ?>" > <!--Tabla que Lista las vacaciones-->
                           <thead>
                             <tr>
+                              <th>#</th>
                               <th>PERÍODO</th>
                               <th>RESOLUCIÓN</th>
-                              <th>FECHA RES.</th>
-                              <th>PROGRAMACIÓN</th>
+                              <th>FEC. RES.</th>
+                              <th>CONDICIÓN</th>
                               <th>DÍAS</th>
                               <th>INICIA</th>
                               <th>TERMINA</th>
@@ -185,7 +182,9 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                             $msg1="";
                             $res=0;
                             $p="";
+                            $m=0;
                               while($rvac=mysqli_fetch_assoc($cvac)){
+                                $m++;
                                 $d=$rvac['idProVacaciones'];
                                 $qd="SELECT concat(d.Numero,'-',d.Ano,'-',d.Siglas) AS Resolucion, d.FechaDoc FROM provacaciones as v  INNER JOIN aprvacaciones as av ON v.idProVacaciones= av.idProVacaciones INNER JOIN doc AS d ON av.idDoc=d.idDoc WHERE v.idProVacaciones=$d";
                                 $cdoc=mysqli_query($cone,$qd);
@@ -298,11 +297,12 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                                   }
                                   ?>
                               <tr> <!--Fila de vacaciones-->
-                                <td><?php echo $rvac['PeriodoVacacional']?></td> <!--columna PERÍODO-->
-                                <td><?php echo $doc?></td> <!--columna NÚMERO DE RESOLUCIÓN-->
-                                <td><?php echo $fdoc?></td> <!--columna FECHA DOCUMENTO-->
-                                <td><?php echo $con ?></td> <!--columna CONDICIÓN-->
-                                <td><?php echo $dt ?></td> <!--columna CAMTIDAD DE DIAS-->
+                                <td><?php echo $m; ?></td>
+                                <td style="font-size: 12px;"><?php echo $rvac['PeriodoVacacional']?></td> <!--columna PERÍODO-->
+                                <td style="font-size: 12px;"><?php echo $doc?></td> <!--columna NÚMERO DE RESOLUCIÓN-->
+                                <td style="font-size: 12px;"><?php echo $fdoc?></td> <!--columna FECHA DOCUMENTO-->
+                                <td style="font-size: 12px;"><?php echo $con ?></td> <!--columna CONDICIÓN-->
+                                <td class="text-maroon"><?php echo $dt ?></td> <!--columna CAMTIDAD DE DIAS-->
                                 <td><?php echo "<span class='hidden'>".$rvac['FechaIni']."</span> ".fnormal($rvac['FechaIni'])?></td> <!--columna INICIO-->
                                 <td><?php echo fnormal($rvac['FechaFin'])?></td> <!--columna FIN-->
                                 <td><span class='label label-<?php echo $est?>'><?php echo $cap?></span></td> <!--columna ESTADO-->
@@ -365,8 +365,8 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
             <div class="tab-pane" id="tab_3">
               <!--Encabezado-->
               <div class="row">
-                <div class="col-sm-9">
-                  <p><h4 class="text-blue"><strong><i class="fa fa-user"></i> <?php echo nomempleado($cone,$idper); ?> </strong></h4></p>
+                <div class="col-sm-12">
+                  <h4 class="text-blue" style="font-size: 22px; font-weight:600;"><b><i class="fa fa-user text-orange"></i> <?php echo nomempleado($cone,$idper); ?></b></h4>
                 </div>
                 <div class="col-sm-3">
                   <input type="hidden" id="idper" value="<?php echo $idper?>"> <!--envía id de personal-->
@@ -385,11 +385,11 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                       if (mysqli_num_rows($ccs)>0){                        
                         ?>
                         <div class="row">
-                           <div class="col-sm-4">
-                             <h4 ><small class="<?php echo $col ?> text-center" style="font-weight: bold"><i class="fa fa-black-tie"></i> <?php echo cargoe($cone, $idper)." (ACTIVO)";?></small></h4>
+                           <div class="col-sm-6">
+                             <p style="font-size: 17px;" class="<?php echo $col ?>"><i class="fa fa-black-tie text-yellow"></i> <?php echo cargoe($cone, $idper);?></p>
                            </div>
-                           <div class="col-sm-5">
-                              <h4 ><small class="<?php echo $col ?> text-center" style="font-weight: bold"><i class="fa fa-institution"></i> <?php echo dependenciae($cone, $idper);?></small></h4>
+                           <div class="col-sm-6">
+                              <p style="font-size: 17px;" class="<?php echo $col ?> text-right"><i class="fa fa-institution text-yellow"></i> <?php echo dependenciae($cone, $idper);?></p>
                            </div>
                         </div>
                         <!--Fin div row-->
@@ -397,7 +397,6 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                           <thead>
                             <tr>
                               <th>#</th>
-                              <th>DESCRIPCIÓN DE LA COMISIÓN</th>
                               <th>ORIGEN</th>
                               <th>DESTINO</th>
                               <th>FECHAS</th>
@@ -443,11 +442,12 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                             ?>
                             <tr> <!--Fila de comisiones-->
                                 <td><?php echo $n; ?></td>
-                                <td><?php echo strlen($rcs['Descripcion'])>100 ? substr(html_entity_decode($rcs['Descripcion']), 0, 100)."..." : $rcs['Descripcion']; ?></td> <!--columna DESCRIPCIÓN-->
                                 <td><?php echo $rcs['origen']; ?></td> <!--columna LUGAR-->
                                 <td><?php echo $rcs['destino']; ?></td> <!--columna INICIO-->
-                                <td><?php echo date('d/m/Y H:i', strtotime($rcs['FechaFin']))." ".date('d/m/Y H:i', strtotime($rcs['FechaIni'])); ?></td> <!--columna FIN-->
-                                <td><?php echo $rcs['Resolucion']?></td> <!--columna NÚMERO DE RESOLUCIÓN-->
+                                <td style="font-size: 13px;"><?php echo date('d/m/Y H:i', strtotime($rcs['FechaFin']))." ".date('d/m/Y H:i', strtotime($rcs['FechaIni'])); ?></td> <!--columna FIN-->
+                                <td style="font-size: 13px;">
+                                  <a href="#" data-toggle="popover" data-placement="left" data-trigger="hover" title="Descripción" data-content="<?php echo $rcs['Descripcion'] ?>"><?php echo $rcs['Resolucion']?></a>
+                                </td> <!--columna NÚMERO DE RESOLUCIÓN-->
                                 <td><?php echo ftnormal($rcs['fecenvren']); ?></td> <!--columna NÚMERO DE RESOLUCIÓN-->
                                 <td>
                                   <?php if($rcs['FechaIni']>'2018-12-01'){ ?>            
@@ -474,11 +474,12 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
             <!-- /.tab-pane 3 -->
 
             <div class="tab-pane" id="tab_4">
-              <!--Formulario de encabezado-->
-              <form action="" id="f_rreva" class="form-inline">
-                <p><h4 class="text-blue"><strong><i class="fa fa-user"></i> <?php echo nomempleado($cone,$idper); ?> </strong></h4></p>
-              </form>
-              <!--Fin Formulario de encabezado-->
+            <div class="row">
+              <div class="col-sm-12">
+                  <h4 class="text-blue" style="font-size: 22px; font-weight:600;"><i class="fa fa-user text-orange"></i> <b><?php echo nomempleado($cone,$idper); ?></b></h4>
+                  <input type="hidden" id="idper" value="<?php echo $idper?>"> <!--envía id de personal-->
+                </div>
+              </div>
               <!--div resultados-->
               <div class="row">
                 <div class="col-md-12" id="lic">
@@ -587,7 +588,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                         			$litt=$litt+$lit;
                       	}
                 	if(!$dat){
-                		echo mensajewa("Para el $ano, según el criterio de búsqueda, no presenta licencias.");
+                		echo mensajewa("Para el $ano, no presenta licencias.");
                 	}
                 	if ($con>1) {
                 	?>

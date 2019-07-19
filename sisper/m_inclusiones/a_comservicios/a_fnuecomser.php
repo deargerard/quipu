@@ -63,6 +63,9 @@ if(accesoadm($cone,$_SESSION['identi'],15)){
       </div>
       <button id="b_nuedoc" class="btn btn-info" type="button" data-toggle="modal" data-target="#m_nuedocu" >Nuevo</button>
     </div>
+    <div class="form-group" id="d_mensaje">
+
+    </div>
 
 <script>
 $('#inicom').datetimepicker({

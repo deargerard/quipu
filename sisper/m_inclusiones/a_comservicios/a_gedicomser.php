@@ -12,10 +12,18 @@ if(accesoadm($cone,$_SESSION['identi'],15)){
 			$veh=iseguro($cone,$_POST['veh'])== 1 ? 1 : 2;
 			$doc=iseguro($cone,$_POST['doc']);
 			$idcs=iseguro($cone,$_POST['idcs']);
+			$ide=iseguro($cone,$_POST['ide']);
 			$ori=imseguro($cone,$_POST['ori']);
 			$des=imseguro($cone,$_POST['des']);
 
-			$sql="UPDATE comservicios SET FechaIni='$inicom', FechaFin='$fincom', Descripcion='$desc', Vehiculo=$veh, idDoc=$doc, origen='$ori', destino='$des' WHERE idComServicios=$idcs";
+			$cc=mysqli_query($cone, "SELECT idComServicios FROM comservicios WHERE idEmpleado=$ide AND idComServicios!=$idcs AND Estado=1 AND ((FechaIni BETWEEN '$inicom' AND '$fincom') OR (FechaFin BETWEEN '$inicom' AND '$fincom') OR ('$inicom' BETWEEN FechaIni AND FechaFin));");
+			if(mysqli_num_rows($cc)>0){
+				$r["msg"]=mensajewa("Ya existe una comisión que incluye o se cruza con las fechas ingresadas.");
+				$r["e"]=false;
+				$r["idcs"]=null;
+			}else{
+
+				$sql="UPDATE comservicios SET FechaIni='$inicom', FechaFin='$fincom', Descripcion='$desc', Vehiculo=$veh, idDoc=$doc, origen='$ori', destino='$des' WHERE idComServicios=$idcs";
 
 				if(mysqli_query($cone,$sql)){
 					$r["msg"]= mensajesu("Listo: se actualizó correctamente la comisión de servicios");
@@ -24,7 +32,8 @@ if(accesoadm($cone,$_SESSION['identi'],15)){
 					$r["msg"]= mensajeda("Error: No se pudo actualizar la comisión de servicios.".mysqli_error($cone));
 					$r["e"]=false;
 				}
-				mysqli_close($cone);
+
+			}
 		}else{
 			$r["msg"]=mensajewa("Error: No lleno correctamente el formulario");
 			$r["e"]=false;

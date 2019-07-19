@@ -78,7 +78,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                         $idem=$_SESSION['identi'];
                         $idde=iddependenciae($cone,$idem);
                         if(mysqli_query($cone, "INSERT INTO tdestadodoc (idtdestado, fecha, idDependencia, idEmpleado, idDoc, estado) VALUES (1, NOW(), $idde, $idem, $iddo, 1);")){
-                            $r['m']=mensajesu("Listo, documento registrado.");
+                            $r['m']=mensajesu("Listo, documento registrado.<br> N° Doc:<b> $nu-$ano</b>");
                             $r['e']=true;
                         }else{
                             if(mysqli_query($cone, "DELETE FROM doc WHERE idDoc=$iddo;")){

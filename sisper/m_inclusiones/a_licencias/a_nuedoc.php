@@ -33,7 +33,10 @@ if(accesoadm($cone,$_SESSION['identi'],4) || accesoadm($cone,$_SESSION['identi']
         <div class="form-group valida">
           <label for="adoc" class="col-sm-3 control-label">Año</label>
           <div class="col-sm-9">
-            <input type="text" name="adoc" id="adoc" class="form-control" value="<?php echo $ano; ?>" autocomplete="off">
+            <div class="input-group date" id="dd_adoc">
+              <input type="text" name="adoc" id="adoc" class="form-control" value="<?php echo $ano; ?>" autocomplete="off">
+              <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+            </div>
           </div>
         </div>
         <div class="form-group valida">
@@ -45,7 +48,10 @@ if(accesoadm($cone,$_SESSION['identi'],4) || accesoadm($cone,$_SESSION['identi']
         <div class="form-group valida">
           <label for="fec" class="col-sm-3 control-label">Fecha</label>
           <div class="col-sm-9">
-            <input type="text" name="fec" id="fec" class="form-control" autocomplete="off">
+            <div class="input-group date" id="d_fec">
+              <input type="text" name="fec" id="fec" class="form-control" autocomplete="off">
+              <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+            </div>
           </div>
         </div>
         <div class="form-group valida">
@@ -63,21 +69,20 @@ if(accesoadm($cone,$_SESSION['identi'],4) || accesoadm($cone,$_SESSION['identi']
         <script>
           $(".select2td").select2();
           //fecha intranet
-          $("#adoc").datepicker({
+          $("#dd_adoc").datepicker({
             autoclose: true,
-            format: " yyyy",
-            minViewMode: "years",
-            maxViewMode: "years",
-            //startDate: '<?php //echo $anop; ?>',
+            format: "yyyy",
+            maxViewMode: 2,
+            minViewMode: 2,
+            language: "es",
+            startDate: '2000',
             endDate: new Date(),
-            startView: "year" //does not work
           });
-          $('#fec').datepicker({
+          $('#d_fec').datepicker({
             format: "dd/mm/yyyy",
             language: "es",
             autoclose: true,
             todayHighlight: true,
-            //startDate: '01-01-<?php //echo $anop; ?>',
             endDate: '31-12-<?php echo $ano; ?>'
           });
           //fin fecha intranet

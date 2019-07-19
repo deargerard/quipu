@@ -15,7 +15,13 @@ if(accesoadm($cone,$_SESSION['identi'],15)){
 			$ori=imseguro($cone,$_POST['ori']);
 			$des=imseguro($cone,$_POST['des']);
 
-			$sql="INSERT INTO comservicios (FechaIni, FechaFin, Descripcion, Vehiculo, idDoc, idEmpleado, Estado, origen, destino) VALUES ('$inicom', '$fincom', '$desc', $veh, $doc, $ide, 1, '$ori', '$des')";
+			$cc=mysqli_query($cone, "SELECT idComServicios FROM comservicios WHERE idEmpleado=$ide AND Estado=1 AND ((FechaIni BETWEEN '$inicom' AND '$fincom') OR (FechaFin BETWEEN '$inicom' AND '$fincom') OR ('$inicom' BETWEEN FechaIni AND FechaFin));");
+			if(mysqli_num_rows($cc)>0){
+				$r["msg"]=mensajewa("Ya existe una comisión que incluye o se cruza con las fechas ingresadas.");
+				$r["e"]=false;
+				$r["idcs"]=null;
+			}else{
+				$sql="INSERT INTO comservicios (FechaIni, FechaFin, Descripcion, Vehiculo, idDoc, idEmpleado, Estado, origen, destino) VALUES ('$inicom', '$fincom', '$desc', $veh, $doc, $ide, 1, '$ori', '$des')";
 
 				if(mysqli_query($cone,$sql)){
 					$r["msg"]= mensajesu("Listo: se guardó correctamente la comisión de servicios");
@@ -26,7 +32,7 @@ if(accesoadm($cone,$_SESSION['identi'],15)){
 					$r["e"]=false;
 					$r["idcs"]=null;
 				}
-				mysqli_close($cone);
+			}
 		}else{
 			$r["msg"]=mensajewa("Error: No lleno correctamente el formulario");
 			$r["e"]=false;

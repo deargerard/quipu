@@ -5,7 +5,7 @@ include ("../php/funciones.php");
 if(accesoadm($cone,$_SESSION['identi'],15)){
   if(isset($_POST['idcs']) && !empty($_POST['idcs'])){
     $idcs=iseguro($cone,$_POST['idcs']);
-    $ccs=mysqli_query($cone,"SELECT idComServicios, FechaIni, FechaFin, Descripcion, Vehiculo, idDoc, origen, destino FROM comservicios WHERE idComServicios=$idcs");
+    $ccs=mysqli_query($cone,"SELECT idComServicios, FechaIni, FechaFin, Descripcion, Vehiculo, idDoc, origen, destino, idEmpleado FROM comservicios WHERE idComServicios=$idcs");
     if($rcs=mysqli_fetch_assoc($ccs)){
     ?>
         <div class="form-group valida">
@@ -13,6 +13,7 @@ if(accesoadm($cone,$_SESSION['identi'],15)){
             <label for="inicome" class="control-label">Inicia:</label>
             <div class="has-feedback">
               <input type="hidden" name="idcs" value="<?php echo $idcs; ?>">
+              <input type="hidden" name="ide" value="<?php echo $rcs['idEmpleado']; ?>">
               <span class="fa fa-calendar form-control-feedback"></span>
               <input type="text" id="inicome" name="inicome" class="form-control" value="<?php echo date('d/m/Y H:i', strtotime($rcs['FechaIni']))?>" placeholder="dd/mm/aaaa H:i">
             </div>
@@ -80,6 +81,9 @@ if(accesoadm($cone,$_SESSION['identi'],15)){
                 </select>
               </div>
               <button id="b_nuedoc" class="btn btn-info" type="button" data-toggle="modal" data-target="#m_nuedocu" >Nuevo</button>
+            </div>
+            <div class="form-group" id="d_mensaje">
+
             </div>
 
         <script>

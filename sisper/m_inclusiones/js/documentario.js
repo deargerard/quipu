@@ -1,25 +1,61 @@
-$("#fini,#ffin").datepicker({
+$("#d_fini,#d_ffin").datepicker({
   autoclose: true,
   format: "dd/mm/yyyy",
   language: "es",
   startDate: '01/01/2000',
   endDate: new Date(),
 });
+$("#d_adoc").datepicker({
+  autoclose: true,
+  format: "yyyy",
+  maxViewMode: 2,
+  minViewMode: 2,
+  language: "es",
+  startDate: '2000',
+  endDate: new Date(),
+});
 //ajax buscar documentos
-$("#f_bdoc").submit(function(e){
-  e.preventDefault();
-  var datos = $("#f_bdoc").serializeArray();
+$("#b_doc").click(function(){
+  var numdoc = $("#numdoc").val();
   $.ajax({
-        data:  datos,
+        data:  {numdoc: numdoc},
         url:   "m_inclusiones/a_documentario/a_bdoc.php",
         type:  "post",
         beforeSend: function () {
-          $("#r_bdoc").html("<img scr='m_images/cargando.gif'>");
-          $("#b_bdoc").html("<i class='fa fa-spinner fa-spin'></i> Buscando");
+          $("#r_bdoc").html("<h4 class='text-muted text-center'><i class='fa fa-spinner fa-spin text-yellow'></i> Buscando</h4>");
         },
         success:  function (response) {
           $("#r_bdoc").html(response);
-          $("#b_bdoc").html("Buscar");
+        }
+    });
+});
+$("#b_num").click(function(){
+  var ndoc = $("#ndoc").val();
+  var adoc = $("#adoc").val();
+  $.ajax({
+        data:  {ndoc: ndoc, adoc: adoc},
+        url:   "m_inclusiones/a_documentario/a_bdoc.php",
+        type:  "post",
+        beforeSend: function () {
+          $("#r_bdoc").html("<h4 class='text-muted text-center'><i class='fa fa-spinner fa-spin text-yellow'></i> Buscando</h4>");
+        },
+        success:  function (response) {
+          $("#r_bdoc").html(response);
+        }
+    });
+});
+$("#b_fec").click(function(){
+  var fini = $("#fini").val();
+  var ffin = $("#ffin").val();
+  $.ajax({
+        data:  {fini: fini, ffin: ffin},
+        url:   "m_inclusiones/a_documentario/a_bdoc.php",
+        type:  "post",
+        beforeSend: function () {
+          $("#r_bdoc").html("<h4 class='text-muted text-center'><i class='fa fa-spinner fa-spin text-yellow'></i> Buscando</h4>");
+        },
+        success:  function (response) {
+          $("#r_bdoc").html(response);
         }
     });
 });

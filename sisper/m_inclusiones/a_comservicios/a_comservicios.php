@@ -18,14 +18,15 @@ if(accesocon($cone,$_SESSION['identi'],15)){
 </div>
 <br>
 <?php
-	$ccs=mysqli_query($cone,"SELECT cs.idComServicios, concat(d.Numero,'-',d.Ano,'-',d.Siglas) AS Resolucion, d.FechaDoc, cs.FechaIni, cs.FechaFin, cs.Estado, cs.Vehiculo, SUBSTRING(cs.Descripcion, 1, 100) as Descripcion FROM comservicios cs INNER JOIN doc d ON cs.idDoc=d.idDoc WHERE cs.idEmpleado=$per;");
+	$ccs=mysqli_query($cone,"SELECT cs.idComServicios, concat(d.Numero,'-',d.Ano,'-',d.Siglas) AS Resolucion, d.FechaDoc, cs.FechaIni, cs.FechaFin, cs.Estado, cs.Vehiculo, cs.Descripcion, cs.origen, cs.destino, cs.estadoren FROM comservicios cs INNER JOIN doc d ON cs.idDoc=d.idDoc WHERE cs.idEmpleado=$per;");
 
 	if(mysqli_num_rows($ccs)>0){
 	?>
 		<table id="dtcomser" class="table table-bordered table-hover"> <!--Tabla que Lista las vacaciones-->
 			<thead>
 				<tr>
-					<th>DESCRIPCIÓN</th>
+					<th>ORIGEN</th>
+					<th>DESTINO</th>
 					<th>INICIA</th>
 	        		<th>TERMINA</th>
 					<th>NÚMERO DE RESOLUCIÓN</th>
@@ -52,10 +53,11 @@ if(accesocon($cone,$_SESSION['identi'],15)){
 					// $dt=intervalo ($rcs['FechaFin'], $rcs['FechaIni']);
 			?>
 					<tr> <!--Fila de vacaciones-->
-						<td><?php echo $rcs['Descripcion']?></td> <!--columna DESCRIPCIÓN-->
+						<td><?php echo $rcs['origen']?></td> <!--columna DESCRIPCIÓN-->
+						<td><?php echo $rcs['destino']?></td>
 						<td><?php echo "<span class='hidden'>".$rcs['FechaIni']." </span>".date('d/m/Y H:i', strtotime($rcs['FechaIni']))?></td> <!--columna INICIO-->
 						<td><?php echo date('d/m/Y H:i', strtotime($rcs['FechaFin']))?></td> <!--columna FIN-->
-						<td><?php echo $rcs['Resolucion']?></td> <!--columna NÚMERO DE RESOLUCIÓN-->
+						<td><a href="#" data-toggle="popover" data-placement="left" data-trigger="hover" title="Descripción" data-content="<?php echo $rcs['Descripcion'] ?>"><?php echo $rcs['Resolucion']?></a></td> <!--columna NÚMERO DE RESOLUCIÓN-->
 						<td><?php echo fnormal($rcs['FechaDoc'])?></td> <!--columna FECHA DOCUMENTO-->
 						<!-- <td><?php //echo $dt ?></td> columna CAMTIDAD DE DIAS-->
 						<td><span class='label label-<?php echo $est?>'><?php echo $cap?></span></td> <!--columna ESTADO-->
@@ -71,9 +73,11 @@ if(accesocon($cone,$_SESSION['identi'],15)){
 										<?php
 										if ($rcs['Estado']!='2'){
 										?>
-											<li><a href="#" data-toggle="modal" data-target="#m_ecomservicios" onclick="edicomser(<?php echo $rcs['idComServicios'] ?>)">Editar</a></li>
-											<!-- <li><a href="#" data-toggle="modal" data-target="#m_nencargatura" onclick="nueenca(<?php //echo $rcs['idComServicios'] ?>)">Encargatura</a></li> -->
-											<li><a href="#" data-toggle="modal" data-target="#m_ccomservicios" onclick="cancomser(<?php echo $rcs['idComServicios']?>)">Cancelar</a></li>
+										<li><a href="#" data-toggle="modal" data-target="#m_ecomservicios" onclick="edicomser(<?php echo $rcs['idComServicios'] ?>)">Editar</a></li>
+										<!-- <li><a href="#" data-toggle="modal" data-target="#m_nencargatura" onclick="nueenca(<?php //echo $rcs['idComServicios'] ?>)">Encargatura</a></li> -->
+											<?php if(is_null($rcs['estadoren'])){ ?>
+										<li><a href="#" data-toggle="modal" data-target="#m_ccomservicios" onclick="cancomser(<?php echo $rcs['idComServicios']?>)">Cancelar</a></li>
+											<?php } ?>
 										<?php
 										}
 										?>
@@ -98,8 +102,9 @@ if(accesocon($cone,$_SESSION['identi'],15)){
 		</table>
 	<script>
 	$('#dtcomser').DataTable({
-		"order": [[1,"desc"]]
+		"order": [[2,"desc"]]
 	});
+	$('[data-toggle="popover"]').popover();
 	</script>
 	<?php
 	mysqli_close($cone);
