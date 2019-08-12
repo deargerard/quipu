@@ -402,7 +402,7 @@ if(!empty($css)){
               <i class="fa fa-angle-left pull-right"></i>
             </a>
             <ul class="treeview-menu">
-              <?php if(accesocon($cone,$_SESSION['identi'],17)){ ?>
+              <?php if(accesoadm($cone,$_SESSION['identi'],17)){ ?>
               <li id="tdmesapartes"><a href="tdmesapartes.php"><i class="fa fa-circle-o"></i> Mesa Partes</a></li>
               <?php } ?>
               <li id="tdbandeja"><a href="tdbandeja.php"><i class="fa fa-circle-o"></i> Bandeja</a></li>

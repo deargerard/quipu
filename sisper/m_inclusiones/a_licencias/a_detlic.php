@@ -5,7 +5,8 @@ include("../php/funciones.php");
 if(accesoadm($cone,$_SESSION['identi'],4)){
   if(isset($_POST['id']) && !empty($_POST['id'])){
     $id=iseguro($cone,$_POST['id']);
-    $c=mysqli_query($cone, "SELECT TipoLic, MotivoLic, FechaIni, FechaFin, Motivo, Medico, Colegiatura, EspMedica, DocLicencia, NumDoc, Numero, Ano, Siglas, FechaDoc, Legajo, l.Estado FROM licencia l INNER JOIN tipolic tl ON l.idTipoLic=tl.idTipoLic INNER JOIN espmedica em ON l.idEspMedica=em.idEspMedica INNER JOIN tipdoclicencia tdl ON l.idTipDocLicencia=tdl.idTipDocLicencia INNER JOIN aprlicencia al ON l.idLicencia=al.idLicencia INNER JOIN doc d ON al.idDoc=d.idDoc WHERE l.idLicencia=$id;");
+    $q="SELECT tl.TipoLic, tl.MotivoLic, l.FechaIni, l.FechaFin, l.Motivo, l.Medico, l.Colegiatura, em.EspMedica, tdl.DocLicencia, l.NumDoc, d.Numero, d.Ano, d.Siglas, d.FechaDoc, d.Legajo, l.Estado FROM licencia l INNER JOIN tipolic tl ON l.idTipoLic=tl.idTipoLic INNER JOIN espmedica em ON l.idEspMedica=em.idEspMedica INNER JOIN tipdoclicencia tdl ON l.idTipDocLicencia=tdl.idTipDocLicencia INNER JOIN aprlicencia al ON l.idLicencia=al.idLicencia INNER JOIN doc d ON al.idDoc=d.idDoc WHERE l.idLicencia=$id;";
+    $c=mysqli_query($cone, $q);
     if($r=mysqli_fetch_assoc($c)){
       $f1=$r['FechaFin'];
       $f2=$r['FechaIni'];
