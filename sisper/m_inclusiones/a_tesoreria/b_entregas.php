@@ -34,7 +34,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
       <div class="row">
         <div class="col-md-12" id="r_bent">
 <?php
-            $ca=mysqli_query($cone,"SELECT e.idteentrega, e.empleado, e.motivo, e.idEmpleado, sum(de.monto) tot FROM teentrega e INNER JOIN tedocentrega de ON e.idteentrega=de.idteentrega $wtra group by e.idteentrega ORDER BY idteentrega DESC LIMIT 200;");
+            $ca=mysqli_query($cone,"SELECT e.idteentrega, e.empleado, e.motivo, e.idEmpleado, sum(de.monto) tot FROM teentrega e INNER JOIN tedocentrega de ON e.idteentrega=de.idteentrega $wtra group by e.idteentrega ORDER BY idteentrega DESC LIMIT 600;");
             
 ?>
             <table id="dtable" class="table table-bordered table-hover">
