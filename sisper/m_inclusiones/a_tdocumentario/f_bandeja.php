@@ -12,6 +12,68 @@ if(accesocon($cone,$_SESSION['identi'],17)){
         <div class="row">
             <input type="hidden" name="acc" value="<?php echo $acc; ?>">
             <div class="col-sm-2">
+                <label for="trem">Tipo Remitente<small class="text-red">*</small></label>
+                <select name="trem" id="trem" class="form-control" onchange="orem(this.value);">
+                    <option value="i">Interno</option>
+                    <option value="e">Externo</option>
+                </select>
+            </div>
+            <div class="col-sm-4 rint">
+                <label for="pirem">Remitente<small class="text-red">*</small></label>
+                <select class="form-control" id="pirem" name="pirem" style="width: 100%;">
+                    
+                </select>
+            </div>
+            <div class="col-sm-5 rint">
+                <label for="direm">Dependencia/institución origen<small class="text-red">*</small></label>
+                <select class="form-control" id="direm" name="direm">
+
+                </select>
+            </div>
+            <div class="col-sm-4 rext">
+                <label for="perem">Remitente<small class="text-red">*</small></label>
+                <input type="text" class="form-control" id="perem" name="perem" placeholder="Remitente">
+            </div>
+            <div class="col-sm-5 rext">
+                <label for="derem">Dependencia/institución origen<small class="text-red">*</small></label>
+                <input type="text" class="form-control" id="derem" name="derem" placeholder="Dependencia/institución origen">
+            </div>
+            <div class="col-sm-2">
+                <label for="tdes">Tipo Destino<small class="text-red">*</small></label>
+                <select name="tdes" id="tdes" class="form-control" onchange="odes(this.value);">
+                    <option value="i">Interno</option>
+                    <option value="e">Externo</option>
+                </select>
+            </div>
+            <div class="col-sm-4 dint">
+                <label for="pides">Destinatario<small class="text-red">*</small></label>
+                <select class="form-control" id="pides" name="pides" style="width: 100%;">
+                    
+                </select>
+            </div>
+            <div class="col-sm-5 dint">
+                <label for="dides">Dependencia/institución destino<small class="text-red">*</small></label>
+                <select class="form-control" id="dides" name="dides">
+
+                </select>
+            </div>
+            <div class="col-sm-4 dext">
+                <label for="pedes">Destinatario<small class="text-red">*</small></label>
+                <input type="text" class="form-control" id="pedes" name="pedes" placeholder="Destinatario">
+            </div>
+            <div class="col-sm-5 dext">
+                <label for="dedes">Dependencia/institución destino<small class="text-red">*</small></label>
+                <input type="text" class="form-control" id="dedes" name="dedes" placeholder="Dependencia/institución destino">
+            </div>
+            <!-- <div class="col-sm-1">
+                <label>&nbsp;&nbsp;&nbsp;</label>
+                <button class="btn btn-default"><i class="fa fa-plus"></i></button>
+            </div> -->
+            <div class="col-sm-12">
+                <label for="asu">Asunto<small class="text-red">*</small></label>
+                <input type="text" class="form-control" id="asu" name="asu" placeholder="Asunto">
+            </div>
+            <div class="col-sm-2">
                 <label for="num">Número<small class="text-red">*</small></label>
                 <input type="text" class="form-control" id="num" name="num" placeholder="001">
             </div>
@@ -25,12 +87,6 @@ if(accesocon($cone,$_SESSION['identi'],17)){
             <div class="col-sm-3">
                 <label for="sig">Siglas<small class="text-red">*</small></label>
                 <input type="text" class="form-control" id="sig" name="sig" placeholder="MPFN-DFC-INF">
-            </div>
-            <div class="col-sm-5">
-                <label for="ref">Referencia</label>
-                <select class="form-control" id="ref" name="ref" style="width: 100%;">
-                    
-                </select>
             </div>
             <div class="col-sm-3">
                 <label for="tipdoc">Tip. Documento<small class="text-red">*</small></label>
@@ -48,79 +104,18 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                 ?>    
                 </select>
             </div>
+            <div class="col-sm-2">
+                <label for="fol">Folios<small class="text-red">*</small></label>
+                <input type="number" class="form-control" id="fol" name="fol" placeholder="1" value="1">
+            </div>
             <div class="col-sm-3">
                 <label for="fecdoc">Fec. Documento<small class="text-red">*</small></label>
                 <div class="input-group date" id="d_fecdoc">
                     <input type="text" class="form-control" id="fecdoc" name="fecdoc" placeholder="dd/mm/aaaa" value="<?php echo date('d/m/Y'); ?>">
                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                 </div>
-            </div>
-            <div class="col-sm-3">
-                <label for="leg">Legajo</label>
-                <input type="text" class="form-control" id="leg" name="leg" placeholder="Archivador 1">
-            </div>
-            <div class="col-sm-3">
-                <label for="fol">Folios<small class="text-red">*</small></label>
-                <input type="number" class="form-control" id="fol" name="fol" placeholder="1" value="1">
-            </div>
-            <div class="col-sm-12">
-                <label for="des">Descripción</label>
-                <input type="text" class="form-control" id="des" name="des" placeholder="Descripción">
-            </div>
-            <div class="col-sm-2">
-                <label for="trem">Remitente<small class="text-red">*</small></label>
-                <select name="trem" id="trem" class="form-control" onchange="orem(this.value);">
-                    <option value="i">Interno</option>
-                    <option value="e">Externo</option>
-                </select>
-            </div>
-            <div class="col-sm-4 rint">
-                <label for="pirem">Remitente<small class="text-red">*</small></label>
-                <select class="form-control" id="pirem" name="pirem" style="width: 100%;">
-                    
-                </select>
-            </div>
-            <div class="col-sm-6 rint">
-                <label for="direm">Dependencia/institución origen<small class="text-red">*</small></label>
-                <select class="form-control" id="direm" name="direm">
-
-                </select>
-            </div>
-            <div class="col-sm-4 rext">
-                <label for="perem">Remitente<small class="text-red">*</small></label>
-                <input type="text" class="form-control" id="perem" name="perem" placeholder="Remitente">
-            </div>
-            <div class="col-sm-6 rext">
-                <label for="derem">Dependencia/institución origen<small class="text-red">*</small></label>
-                <input type="text" class="form-control" id="derem" name="derem" placeholder="Dependencia/institución origen">
-            </div>
-            <div class="col-sm-2">
-                <label for="tdes">Destino<small class="text-red">*</small></label>
-                <select name="tdes" id="tdes" class="form-control" onchange="odes(this.value);">
-                    <option value="i">Interno</option>
-                    <option value="e">Externo</option>
-                </select>
-            </div>
-            <div class="col-sm-4 dint">
-                <label for="pides">Destinatario<small class="text-red">*</small></label>
-                <select class="form-control" id="pides" name="pides" style="width: 100%;">
-                    
-                </select>
-            </div>
-            <div class="col-sm-6 dint">
-                <label for="dides">Dependencia/institución destino<small class="text-red">*</small></label>
-                <select class="form-control" id="dides" name="dides">
-
-                </select>
-            </div>
-            <div class="col-sm-4 dext">
-                <label for="pedes">Destinatario<small class="text-red">*</small></label>
-                <input type="text" class="form-control" id="pedes" name="pedes" placeholder="Destinatario">
-            </div>
-            <div class="col-sm-6 dext">
-                <label for="dedes">Dependencia/institución destino<small class="text-red">*</small></label>
-                <input type="text" class="form-control" id="dedes" name="dedes" placeholder="Dependencia/institución destino">
-            </div>
+            </div>            
+            
         </div>
 	    <div class="form-group" id="d_frespuesta">
 	    </div>
@@ -130,14 +125,14 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                     case "i":
                         $(".rext").hide();
                         $(".rint").show();
-                        $("#perem").val("");
-                        $("#derem").val("");
+                        //$("#perem").val("");
+                        //$("#derem").val("");
                         break;
                     case "e":
                         $(".rext").show();
                         $(".rint").hide();
-                        $("#pirem").select2("val", "");
-                        $("#direm").val("");
+                        //$("#pirem").select2("val", "");
+                        //$("#direm").val("");
                         break;
                 }
             };
@@ -146,14 +141,14 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                     case "i":
                         $(".dext").hide();
                         $(".dint").show();
-                        $("#pedes").val("");
-                        $("#dedes").val("");
+                        //$("#pedes").val("");
+                        //$("#dedes").val("");
                         break;
                     case "e":
                         $(".dext").show();
                         $(".dint").hide();
-                        $("#pides").select2("val", "");
-                        $("#dides").val("");
+                        //$("#pides").select2("val", "");
+                        //$("#dides").val("");
                         break;
                 }
             };
@@ -196,12 +191,17 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                 type: "post",
                 url: "m_inclusiones/a_tdocumentario/b_pdependencia.php",
                 data: { per: per},
-                dataType: "html",
+                dataType: "json",
                 beforeSend: function () {
                   $("#direm").html("<option value=''><i class='fa fa-spinner fa-spin'></i> Cargando...</option>");
                 },
                 success:function(a){
-                  $("#direm").html(a);
+                  if(a.e){
+                    $("#direm").html(a.o);
+                    $("#sig").val(a.s);
+                  }else{
+                    alert(a.m);
+                  }
                 }
               });
             });
@@ -226,31 +226,19 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                 type: "post",
                 url: "m_inclusiones/a_tdocumentario/b_pdependencia.php",
                 data: { per: per},
-                dataType: "html",
+                dataType: "json",
                 beforeSend: function () {
                   $("#dides").html("<option value=''><i class='fa fa-spinner fa-spin'></i> Cargando...</option>");
                 },
                 success:function(a){
-                  $("#dides").html(a);
+                  if(a.e){
+                    $("#dides").html(a.o);
+                  }else{
+                    alert(a.m);
+                  }
                 }
               });
             });
-
-            $("#ref").select2({
-              placeholder: 'Selecione un documento',
-              ajax: {
-                url: 'm_inclusiones/a_general/a_seldoc.php',
-                dataType: 'json',
-                delay: 250,
-                processResults: function (data) {
-                  return {
-                    results: data
-                  };
-                },
-                cache: true
-              },
-              minimumInputLength: 2
-            })
 
             orem("i");
             odes("i");
@@ -265,6 +253,72 @@ if(accesocon($cone,$_SESSION['identi'],17)){
             <input type="hidden" name="acc" value="<?php echo $acc; ?>">
             <input type="hidden" name="v1" value="<?php echo $v1; ?>">
             <div class="col-sm-2">
+                <label for="trem">Tipo Remitente<small class="text-red">*</small></label>
+                <select name="trem" id="trem" class="form-control" onchange="orem(this.value);">
+                    <option value="i" <?php echo !is_null($rd['remitenteint']) ? "selected" : ""; ?>>Interno</option>
+                    <option value="e" <?php echo !is_null($rd['remitenteext']) ? "selected" : ""; ?>>Externo</option>
+                </select>
+            </div>
+            <div class="col-sm-4 rint">
+                <label for="pirem">Remitente<small class="text-red">*</small></label>
+                <select class="form-control" id="pirem" name="pirem" style="width: 100%;">
+                    <?php if(!is_null($rd['remitenteint'])){ ?>
+                    <option value="<?php echo $rd['remitenteint']; ?>"><?php echo nomempleado($cone, $rd['remitenteint']); ?></option>
+                    <?php } ?>
+                </select>
+            </div>
+            <div class="col-sm-5 rint">
+                <label for="direm">Dependencia/institución origen<small class="text-red">*</small></label>
+                <select class="form-control" id="direm" name="direm">
+                    <?php if(!is_null($rd['remitenteint'])){ ?>
+                    <option value="<?php echo $rd['deporigenint']; ?>"><?php echo nomdependencia($cone, $rd['deporigenint']); ?></option>
+                    <?php } ?>
+                </select>
+            </div>
+            <div class="col-sm-4 rext">
+                <label for="perem">Remitente<small class="text-red">*</small></label>
+                <input type="text" class="form-control" id="perem" name="perem" placeholder="Remitente" value="<?php echo $rd['remitenteext']; ?>">
+            </div>
+            <div class="col-sm-5 rext">
+                <label for="derem">Dependencia/institución origen<small class="text-red">*</small></label>
+                <input type="text" class="form-control" id="derem" name="derem" placeholder="Dependencia/institución origen" value="<?php echo $rd['deporigenext']; ?>">
+            </div>
+            <div class="col-sm-2">
+                <label for="tdes">Tipo Destino<small class="text-red">*</small></label>
+                <select name="tdes" id="tdes" class="form-control" onchange="odes(this.value);">
+                    <option value="i" <?php echo !is_null($rd['destinatarioint']) ? "selected" : ""; ?>>Interno</option>
+                    <option value="e" <?php echo !is_null($rd['destinatarioext']) ? "selected" : ""; ?>>Externo</option>
+                </select>
+            </div>
+            <div class="col-sm-4 dint">
+                <label for="pides">Destinatario<small class="text-red">*</small></label>
+                <select class="form-control" id="pides" name="pides" style="width: 100%;">
+                    <?php if(!is_null($rd['destinatarioint'])){ ?>
+                    <option value="<?php echo $rd['destinatarioint']; ?>"><?php echo nomempleado($cone, $rd['destinatarioint']); ?></option>
+                    <?php } ?>
+                </select>
+            </div>
+            <div class="col-sm-5 dint">
+                <label for="dides">Dependencia/institución destino<small class="text-red">*</small></label>
+                <select class="form-control" id="dides" name="dides">
+                    <?php if(!is_null($rd['destinatarioint'])){ ?>
+                    <option value="<?php echo $rd['depdestinoint']; ?>"><?php echo nomdependencia($cone, $rd['depdestinoint']); ?></option>
+                    <?php } ?>
+                </select>
+            </div>
+            <div class="col-sm-4 dext">
+                <label for="pedes">Destinatario<small class="text-red">*</small></label>
+                <input type="text" class="form-control" id="pedes" name="pedes" placeholder="Destinatario" value="<?php echo $rd['destinatarioext']; ?>">
+            </div>
+            <div class="col-sm-5 dext">
+                <label for="dedes">Dependencia/institución destino<small class="text-red">*</small></label>
+                <input type="text" class="form-control" id="dedes" name="dedes" placeholder="Dependencia/institución destino" value="<?php echo $rd['depdestinoext']; ?>">
+            </div>
+            <div class="col-sm-12">
+                <label for="asu">Asunto</label>
+                <input type="text" class="form-control" id="asu" name="asu" placeholder="Asunto" value="<?php echo $rd['asunto']; ?>">
+            </div>
+            <div class="col-sm-2">
                 <label for="num">Número<small class="text-red">*</small></label>
                 <input type="text" class="form-control" id="num" name="num" placeholder="001" value="<?php echo $rd['Numero']; ?>">
             </div>
@@ -278,23 +332,6 @@ if(accesocon($cone,$_SESSION['identi'],17)){
             <div class="col-sm-3">
                 <label for="sig">Siglas<small class="text-red">*</small></label>
                 <input type="text" class="form-control" id="sig" name="sig" placeholder="MPFN-DFC-INF" value="<?php echo $rd['Siglas']; ?>">
-            </div>
-            <div class="col-sm-5">
-                <label for="ref">Referencia</label>
-                <select class="form-control" id="ref" name="ref" style="width: 100%;">
-                <?php
-                if(!is_null($rd['referencia'])){ 
-                    $ref=$rd['referencia'];
-                    $cre=mysqli_query($cone, "SELECT CONCAT_WS('-', d.Numero, d.Ano, d.Siglas) doc, d.numdoc, td.TipoDoc FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc WHERE d.idDoc=$ref;");
-                    if($rre=mysqli_fetch_assoc($cre)){
-                    ?>
-                        <option value="<?php echo $ref; ?>"><?php echo (!is_null($rre['numdoc']) ? $rre['numdoc'].' | ' : '').$rre['TipoDoc'].' | '.$rre['doc']; ?></option>
-                    <?php
-                    }
-                    mysqli_free_result($cre);
-                }
-                ?>
-                </select>
             </div>
             <div class="col-sm-3">
                 <label for="tipdoc">Tip. Documento<small class="text-red">*</small></label>
@@ -312,87 +349,17 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                 ?>    
                 </select>
             </div>
+            <div class="col-sm-2">
+                <label for="fol">Folios<small class="text-red">*</small></label>
+                <input type="number" class="form-control" id="fol" name="fol" placeholder="1" value="<?php echo $rd['folios']; ?>">
+            </div>
             <div class="col-sm-3">
                 <label for="fecdoc">Fec. Documento<small class="text-red">*</small></label>
                 <div class="input-group date" id="d_fecdoc">
                     <input type="text" class="form-control" id="fecdoc" name="fecdoc" placeholder="dd/mm/aaaa" value="<?php echo fnormal($rd['FechaDoc']); ?>">
                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                 </div>
-            </div>
-            <div class="col-sm-3">
-                <label for="leg">Legajo</label>
-                <input type="text" class="form-control" id="leg" name="leg" placeholder="Archivador 1" value="<?php echo $rd['Legajo'] ?>">
-            </div>
-            <div class="col-sm-3">
-                <label for="fol">Folios<small class="text-red">*</small></label>
-                <input type="number" class="form-control" id="fol" name="fol" placeholder="1" value="<?php echo $rd['folios']; ?>">
-            </div>
-            <div class="col-sm-12">
-                <label for="des">Descripción</label>
-                <input type="text" class="form-control" id="des" name="des" placeholder="Descripción" value="<?php echo $rd['Descripcion']; ?>">
-            </div>
-            <div class="col-sm-2">
-                <label for="trem">Remitente<small class="text-red">*</small></label>
-                <select name="trem" id="trem" class="form-control" onchange="orem(this.value);">
-                    <option value="i" <?php echo !is_null($rd['remitenteint']) ? "selected" : ""; ?>>Interno</option>
-                    <option value="e" <?php echo !is_null($rd['remitenteext']) ? "selected" : ""; ?>>Externo</option>
-                </select>
-            </div>
-            <div class="col-sm-4 rint">
-                <label for="pirem">Remitente<small class="text-red">*</small></label>
-                <select class="form-control" id="pirem" name="pirem" style="width: 100%;">
-                    <?php if(!is_null($rd['remitenteint'])){ ?>
-                    <option value="<?php echo $rd['remitenteint']; ?>"><?php echo nomempleado($cone, $rd['remitenteint']); ?></option>
-                    <?php } ?>
-                </select>
-            </div>
-            <div class="col-sm-6 rint">
-                <label for="direm">Dependencia/institución origen<small class="text-red">*</small></label>
-                <select class="form-control" id="direm" name="direm">
-                    <?php if(!is_null($rd['remitenteint'])){ ?>
-                    <option value="<?php echo $rd['deporigenint']; ?>"><?php echo nomdependencia($cone, $rd['deporigenint']); ?></option>
-                    <?php } ?>
-                </select>
-            </div>
-            <div class="col-sm-4 rext">
-                <label for="perem">Remitente<small class="text-red">*</small></label>
-                <input type="text" class="form-control" id="perem" name="perem" placeholder="Remitente" value="<?php echo $rd['remitenteext']; ?>">
-            </div>
-            <div class="col-sm-6 rext">
-                <label for="derem">Dependencia/institución origen<small class="text-red">*</small></label>
-                <input type="text" class="form-control" id="derem" name="derem" placeholder="Dependencia/institución origen" value="<?php echo $rd['deporigenext']; ?>">
-            </div>
-            <div class="col-sm-2">
-                <label for="tdes">Destino<small class="text-red">*</small></label>
-                <select name="tdes" id="tdes" class="form-control" onchange="odes(this.value);">
-                    <option value="i" <?php echo !is_null($rd['destinatarioint']) ? "selected" : ""; ?>>Interno</option>
-                    <option value="e" <?php echo !is_null($rd['destinatarioext']) ? "selected" : ""; ?>>Externo</option>
-                </select>
-            </div>
-            <div class="col-sm-4 dint">
-                <label for="pides">Destinatario<small class="text-red">*</small></label>
-                <select class="form-control" id="pides" name="pides" style="width: 100%;">
-                    <?php if(!is_null($rd['destinatarioint'])){ ?>
-                    <option value="<?php echo $rd['destinatarioint']; ?>"><?php echo nomempleado($cone, $rd['destinatarioint']); ?></option>
-                    <?php } ?>
-                </select>
-            </div>
-            <div class="col-sm-6 dint">
-                <label for="dides">Dependencia/institución destino<small class="text-red">*</small></label>
-                <select class="form-control" id="dides" name="dides">
-                    <?php if(!is_null($rd['destinatarioint'])){ ?>
-                    <option value="<?php echo $rd['depdestinoint']; ?>"><?php echo nomdependencia($cone, $rd['depdestinoint']); ?></option>
-                    <?php } ?>
-                </select>
-            </div>
-            <div class="col-sm-4 dext">
-                <label for="pedes">Destinatario<small class="text-red">*</small></label>
-                <input type="text" class="form-control" id="pedes" name="pedes" placeholder="Destinatario" value="<?php echo $rd['destinatarioext']; ?>">
-            </div>
-            <div class="col-sm-6 dext">
-                <label for="dedes">Dependencia/institución destino<small class="text-red">*</small></label>
-                <input type="text" class="form-control" id="dedes" name="dedes" placeholder="Dependencia/institución destino" value="<?php echo $rd['depdestinoext']; ?>">
-            </div>
+            </div>            
         </div>
         <div class="form-group" id="d_frespuesta">
         </div>
@@ -402,14 +369,14 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                     case "i":
                         $(".rext").hide();
                         $(".rint").show();
-                        $("#perem").val("");
-                        $("#derem").val("");
+                        //$("#perem").val("");
+                        //$("#derem").val("");
                         break;
                     case "e":
                         $(".rext").show();
                         $(".rint").hide();
-                        $("#pirem").select2("val", "");
-                        $("#direm").val("");
+                        //$("#pirem").select2("val", "");
+                        //$("#direm").val("");
                         break;
                 }
             };
@@ -418,14 +385,14 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                     case "i":
                         $(".dext").hide();
                         $(".dint").show();
-                        $("#pedes").val("");
-                        $("#dedes").val("");
+                        //$("#pedes").val("");
+                        //$("#dedes").val("");
                         break;
                     case "e":
                         $(".dext").show();
                         $(".dint").hide();
-                        $("#pides").select2("val", "");
-                        $("#dides").val("");
+                        //$("#pides").select2("val", "");
+                        //$("#dides").val("");
                         break;
                 }
             };
@@ -466,12 +433,17 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                 type: "post",
                 url: "m_inclusiones/a_tdocumentario/b_pdependencia.php",
                 data: { per: per},
-                dataType: "html",
+                dataType: "json",
                 beforeSend: function () {
                   $("#direm").html("<option value=''><i class='fa fa-spinner fa-spin'></i> Cargando...</option>");
                 },
                 success:function(a){
-                  $("#direm").html(a);
+                  if(a.e){
+                    $("#direm").html(a.o);
+                    $("#sig").val(a.s);
+                  }else{
+                    alert(a.m);
+                  }
                 }
               });
             });
@@ -496,31 +468,19 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                 type: "post",
                 url: "m_inclusiones/a_tdocumentario/b_pdependencia.php",
                 data: { per: per},
-                dataType: "html",
+                dataType: "json",
                 beforeSend: function () {
                   $("#dides").html("<option value=''><i class='fa fa-spinner fa-spin'></i> Cargando...</option>");
                 },
                 success:function(a){
-                  $("#dides").html(a);
+                  if(a.e){
+                    $("#dides").html(a.o);
+                  }else{
+                    alert(a.m);
+                  }
                 }
               });
             });
-
-            $("#ref").select2({
-              placeholder: 'Selecione un documento',
-              ajax: {
-                url: 'm_inclusiones/a_general/a_seldoc.php',
-                dataType: 'json',
-                delay: 250,
-                processResults: function (data) {
-                  return {
-                    results: data
-                  };
-                },
-                cache: true
-              },
-              minimumInputLength: 2
-            })
 
             orem(<?php echo !is_null($rd['remitenteint']) ? "'i'" : "'e'"; ?>);
             odes(<?php echo !is_null($rd['destinatarioint']) ? "'i'" : "'e'"; ?>);        
@@ -684,39 +644,20 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                     <tr>
                         <th><i class="fa fa-slack text-aqua"></i> NÚMERO</th>
                         <th><i class="fa fa-files-o text-aqua"></i> TIPO</th>
-                        <th><i class="fa fa-file text-aqua"></i> DOCUMENTO</th>
+                        <th colspan="2"><i class="fa fa-file text-aqua"></i> DOCUMENTO</th>
                         <th><i class="fa fa-calendar text-aqua"></i> FECHA</th>
-                        <th><i class="fa fa-file-o text-aqua"></i> REFERENCIA</th>
                         <th><i class="fa fa-stack-overflow text-aqua"></i> FOLIOS</th>
                     </tr>
                     <tr>
                         <td class="text-aqua"><?php echo $rd['numdoc'].'-'.$rd['Ano']; ?></td>
                         <td class="text-teal"><?php echo $rd['TipoDoc']; ?></td>
-                        <td class="text-orange"><?php echo $rd['Numero']."-".$rd['Ano']."-".$rd['Siglas']; ?></td>
+                        <td class="text-orange" colspan="2"><?php echo $rd['Numero']."-".$rd['Ano']."-".$rd['Siglas']; ?></td>
                         <td><?php echo fnormal($rd['FechaDoc']); ?></td>
-                        <?php
-                        $ref='';
-                        if(!is_null($rd['referencia'])){ 
-                            $ref=$rd['referencia'];
-                            $cre=mysqli_query($cone, "SELECT CONCAT_WS('-', d.Numero, d.Ano, d.Siglas) doc, d.numdoc, td.TipoDoc FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc WHERE d.idDoc=$ref;");
-                            if($rre=mysqli_fetch_assoc($cre)){
-                            
-                                $ref=(!is_null($rre['numdoc']) ? $rre['numdoc'].' | ' : '').$rre['doc'];
-                            
-                            }
-                            mysqli_free_result($cre);
-                        }
-                        ?>
-                        <td><?php echo $ref; ?></td>
                         <td><?php echo $rd['folios']; ?></td>
                     </tr>
                     <tr>
-                        <th colspan="5"><i class="fa fa-align-left text-aqua"></i> DESCRIPCIÓN</th>
-                        <th><i class="fa fa-folder-open text-aqua"></i> LEGAJO</th>
-                    </tr>
-                    <tr>
-                        <td colspan="5"><?php echo $rd['Descripcion']; ?></td>
-                        <td><?php echo $rd['Legajo']; ?></td>
+                        <th><i class="fa fa-info-circle text-aqua"></i> ASUNTO</th>
+                        <td colspan="5"> <?php echo $rd['asunto']; ?></th>
                     </tr>
                     <tr>
                         <th colspan="3"><i class="fa fa-user text-aqua"></i> REMITENTE</th>
@@ -1042,6 +983,69 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                     echo mensajewa("No se encontró la guía.");
                 }
                 mysqli_free_result($cg);
+            }else{
+                echo mensajewa("Error, faltan datos.");
+            }
+        }elseif($acc=="derper"){
+            if(isset($v1) && !empty($v1) && isset($v2) && !empty($v2)){
+?>
+                    <div class="row">
+                        <input type="hidden" name="acc" value="<?php echo $acc; ?>">
+                        <input type="hidden" name="v1" value="<?php echo $v1; ?>">
+                        <input type="hidden" name="v2" value="<?php echo $v2; ?>">
+                        <div class="col-sm-7">
+                            <label for="per">Personal<small class="text-red">*</small></label>
+                            <select class="form-control" id="per" name="per">
+                                
+                            </select>
+                        </div>
+                        <div class="col-sm-5">
+                            <label for="mot">Motivo<small class="text-red">*</small></label>
+                            <select class="form-control" id="mot" name="mot">
+                            <?php
+                            $ctp=mysqli_query($cone, "SELECT DISTINCT tipo FROM tdproveido WHERE estado=1;");
+                            if(mysqli_num_rows($ctp)>0){
+                                while($rtp=mysqli_fetch_assoc($ctp)){
+                                    $tip=$rtp['tipo'];
+                            ?>
+                                <optgroup label="<?php echo $rtp['tipo']; ?>">
+                            <?php
+                                $cmp=mysqli_query($cone, "SELECT idtdproveido, motivo FROM tdproveido WHERE tipo='$tip' AND estado=1;");
+                                if(mysqli_num_rows($cmp)>0){
+                                    while($rmp=mysqli_fetch_assoc($cmp)){
+                            ?>
+                                    <option value="<?php echo $rmp['idtdproveido']; ?>"><?php echo $rmp['motivo']; ?></option>
+                            <?php
+                                    }
+                                }
+                                mysqli_free_result($cmp);
+                            ?>
+                                </optgroup>
+                            <?php
+                                }
+                            }
+                            mysqli_free_result($ctp);
+                            ?>
+                            </select>
+                        </div>
+                        <div class="col-sm-12">
+                            <label for="dep">Dependencia<small class="text-red">*</small></label>
+                            <select class="form-control" id="dep" name="dep">
+                                
+                            </select>
+                        </div>
+                        
+                        <div class="col-sm-12">
+                            <label for="num">Observación</label>
+                            <textarea class="form-control" id="obs" name="obs"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group" id="d_frespuesta">
+                    </div>
+                    <script>
+                        $("#mot").select2();
+                    </script>            
+<?php
             }else{
                 echo mensajewa("Error, faltan datos.");
             }

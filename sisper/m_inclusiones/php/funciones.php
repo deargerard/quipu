@@ -133,7 +133,7 @@ function cargoe($con,$idemp){
 }
 function cargocu($con,$idec){
 	$idec=iseguro($con,$idec);
-	$cca=mysqli_query($con,"SELECT Denominacion, CondicionCar FROM empleadocargo ec INNER JOIN cargo c ON ec.idCargo=c.idCargo INNER JOIN condicioncar cc ON ec.idCondicionCar=cc.idCondicionCar WHERE ec.idEmpleadocargo=$idec;");
+	$cca=mysqli_query($con,"SELECT Denominacion, CondicionCar FROM empleadocargo ec INNER JOIN cargo c ON ec.idCargo=c.idCargo INNER JOIN condicioncar cc ON ec.idCondicionCar=cc.idCondicionCar WHERE ec.idEmpleadoCargo=$idec;");
 	if($rca=mysqli_fetch_assoc($cca)){
 		return $rca['CondicionCar']=="NINGUNO" ? $rca['Denominacion'] : $rca['Denominacion']." (".substr($rca['CondicionCar'], 0, 1).")";
 	}else{
@@ -991,6 +991,33 @@ function condicionlabxiec($con, $idec){
 	}
 	mysqli_free_result($c);
 }
+function cargoxiexfecha($con, $ide, $fec){
+	if(!empty($ide) && !empty($fec)){
+		$ide=iseguro($con, $ide);
+		$fec=iseguro($con, $fec);
+		$q="SELECT c.Denominacion, ec.idCondicionCar FROM empleadocargo ec INNER JOIN cargo c ON ec.idCargo=c.idCargo INNER JOIN estadocargo es ON ec.idEmpleadocargo=es.idEmpleadoCargo WHERE ec.idEmpleado=$ide AND (es.idEstadoCar=1 OR es.idEstadoCar=2) AND es.FechaIni<='$fec' AND (es.FechaFin>='$fec' OR es.FechaFin IS NULL);";
+		$c=mysqli_query($con, $q);
+		if($r=mysqli_fetch_assoc($c)){
+			switch ($r['idCondicionCar']) {
+				case 1:
+					$co="";
+					break;
+				case 2:
+					$co=" (T)";
+					break;
+				case 3:
+					$co=" (P)";
+					break;
+			}
+			return $r['Denominacion'].$co;
+		}else{
+			return "Sin Cargo ";
+		}
+		mysqli_free_result($c);
+	}else{
+		return "No envió datos";
+	}
+}
 function erviaticos($est){
 	switch ($est) {
 	  case 0:
@@ -1118,19 +1145,10 @@ function estadoDoc($est){
 			return "<span class='label label-warning'>Derivado</span>";
 			break;
 		case 4:
-			return "<span class='label label-warning'>Asignado</span>";
+			return "<span class='label label-success'>Atendido</span>";
 			break;
 		case 5:
 			return "<span class='label label-success'>Reportado</span>";
-			break;
-		case 6:
-			return "<span class='label label-success'>Atendido</span>";
-			break;
-		case 7:
-			return "<span class='label label-success'>Archivado</span>";
-			break;
-		case 8:
-			return "<span class='label label-danger'>Revertido</span>";
 			break;
 	}
 }

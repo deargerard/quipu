@@ -1,6 +1,6 @@
 <?php
 if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
-  if(accesoadm($cone,$_SESSION['identi'],16)){
+  if(accesocon($cone,$_SESSION['identi'],17)){
 ?>
     <!-- Content Header (Page header) -->
     <section class="content-header">

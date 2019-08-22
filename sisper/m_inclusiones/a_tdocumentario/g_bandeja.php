@@ -8,7 +8,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
 	if(isset($_POST['acc']) && !empty($_POST['acc'])){
 		$acc=iseguro($cone,$_POST['acc']);		
 		if($acc=="agrdoc"){
-            if(isset($_POST['num']) && !empty($_POST['num']) && isset($_POST['ano']) && !empty($_POST['ano']) && isset($_POST['sig']) && !empty($_POST['sig']) && isset($_POST['tipdoc']) && !empty($_POST['tipdoc']) && isset($_POST['fecdoc']) && !empty($_POST['fecdoc']) && isset($_POST['fol']) && !empty($_POST['fol']) && isset($_POST['trem']) && !empty($_POST['trem']) && isset($_POST['tdes']) && !empty($_POST['tdes'])){
+            if(isset($_POST['num']) && !empty($_POST['num']) && isset($_POST['ano']) && !empty($_POST['ano']) && isset($_POST['sig']) && !empty($_POST['sig']) && isset($_POST['tipdoc']) && !empty($_POST['tipdoc']) && isset($_POST['fecdoc']) && !empty($_POST['fecdoc']) && isset($_POST['fol']) && !empty($_POST['fol']) && isset($_POST['trem']) && !empty($_POST['trem']) && isset($_POST['tdes']) && !empty($_POST['tdes']) && isset($_POST['asu']) && !empty($_POST['asu'])){
 
                 $trem=iseguro($cone, $_POST['trem']);
                 $tdes=iseguro($cone, $_POST['tdes']);
@@ -17,12 +17,16 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                 if($trem=='i'){
                     if(isset($_POST['pirem']) && !empty($_POST['pirem']) && isset($_POST['direm']) && !empty($_POST['direm'])){
                         $exr=true;
+                        $_POST['perem']="";
+                        $_POST['derem']="";
                     }else{
                         $r['m']=mensajewa("No ingreso remitente ni dependencia/institución origen interno.");
                     }
                 }elseif($trem=='e'){
                     if(isset($_POST['perem']) && !empty($_POST['perem']) && isset($_POST['derem']) && !empty($_POST['derem'])){
                         $exr=true;
+                        $_POST['pirem']="";
+                        $_POST['direm']="";
                     }else{
                         $r['m']=mensajewa("No ingreso remitente ni dependencia/institución origen externo.");
                     }
@@ -31,12 +35,16 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                 if($tdes=='i'){
                     if(isset($_POST['pides']) && !empty($_POST['pides']) && isset($_POST['dides']) && !empty($_POST['dides'])){
                         $exd=true;
+                        $_POST['pedes']="";
+                        $_POST['dedes']="";
                     }else{
                         $r['m']=mensajewa("No ingreso destinatario ni dependencia/institución destino interno.");
                     }
                 }elseif($tdes=='e'){
                     if(isset($_POST['pedes']) && !empty($_POST['pedes']) && isset($_POST['dedes']) && !empty($_POST['dedes'])){
                         $exd=true;
+                        $_POST['pides']="";
+                        $_POST['dides']="";
                     }else{
                         $r['m']=mensajewa("No ingreso destinatario ni dependencia/institución destino externo.");
                     }
@@ -48,9 +56,8 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                     $sig=imseguro($cone, $_POST['sig']);
                     $tipdoc=iseguro($cone, $_POST['tipdoc']);
                     $fecdoc=fmysql(iseguro($cone, $_POST['fecdoc']));
-                    $leg=vacio(iseguro($cone, $_POST['leg']));
                     $fol=iseguro($cone, $_POST['fol']);
-                    $des=vacio(iseguro($cone, $_POST['des']));
+                    $asu=vacio(iseguro($cone, $_POST['asu']));
                     $pirem=$_POST['pirem']=="" ? vacio("") :  vacio(iseguro($cone, $_POST['pirem']));
                     $direm=$_POST['direm']=="" ? vacio("") :  vacio(iseguro($cone, $_POST['direm']));
                     $perem=$_POST['perem']=="" ? vacio("") :  vacio(imseguro($cone, $_POST['perem']));
@@ -59,7 +66,6 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                     $dides=$_POST['dides']=="" ? vacio("") :  vacio(iseguro($cone, $_POST['dides']));
                     $pedes=$_POST['pedes']=="" ? vacio("") :  vacio(imseguro($cone, $_POST['pedes']));
                     $dedes=$_POST['dedes']=="" ? vacio("") :  vacio(imseguro($cone, $_POST['dedes']));
-                    $ref=$_POST['ref']=="" ? vacio("") :  vacio(imseguro($cone, $_POST['ref']));
 
                     //consultamos último número doc
                     $cn=mysqli_query($cone, "SELECT MAX(numdoc) num FROM doc WHERE Ano='$ano';");
@@ -72,12 +78,12 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                     }
                     mysqli_free_result($cn);
 
-                    $q="INSERT INTO doc (Numero, Ano, Siglas, FechaDoc, idTipoDoc, Descripcion, Legajo, folios, remitenteext, destinatarioext, deporigenext, depdestinoext, remitenteint, destinatarioint, deporigenint, depdestinoint, referencia, numdoc, cargo) VALUES ('$num', '$ano', '$sig', '$fecdoc', $tipdoc, $des, $leg, $fol, $perem, $pedes, $derem, $dedes, $pirem, $pides, $direm, $dides, $ref, $nu, 0);";
+                    $q="INSERT INTO doc (Numero, Ano, Siglas, FechaDoc, idTipoDoc, asunto, folios, remitenteext, destinatarioext, deporigenext, depdestinoext, remitenteint, destinatarioint, deporigenint, depdestinoint, numdoc, cargo) VALUES ('$num', '$ano', '$sig', '$fecdoc', $tipdoc, $asu, $fol, $perem, $pedes, $derem, $dedes, $pirem, $pides, $direm, $dides, $nu, 0);";
                     if(mysqli_query($cone, $q)){
                         $iddo=mysqli_insert_id($cone);
                         $idem=$_SESSION['identi'];
                         $idde=iddependenciae($cone,$idem);
-                        if(mysqli_query($cone, "INSERT INTO tdestadodoc (idtdestado, fecha, idDependencia, idEmpleado, idDoc, estado) VALUES (1, NOW(), $idde, $idem, $iddo, 1);")){
+                        if(mysqli_query($cone, "INSERT INTO tdestadodoc (idtdestado, fecha, idDependencia, idEmpleado, idDoc, estado, asignador) VALUES (1, NOW(), $idde, $idem, $iddo, 1, $idem);")){
                             $r['m']=mensajesu("Listo, documento registrado.<br> N° Doc:<b> $nu-$ano</b>");
                             $r['e']=true;
                         }else{
@@ -96,7 +102,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                 $r['m']=mensajewa("Los campos marcado con <span class='text-red'>*</span> son obligatorios.");
             }
         }elseif($acc=="edidoc"){
-            if(isset($_POST['v1']) && !empty($_POST['v1']) && isset($_POST['num']) && !empty($_POST['num']) && isset($_POST['ano']) && !empty($_POST['ano']) && isset($_POST['sig']) && !empty($_POST['sig']) && isset($_POST['tipdoc']) && !empty($_POST['tipdoc']) && isset($_POST['fecdoc']) && !empty($_POST['fecdoc']) && isset($_POST['fol']) && !empty($_POST['fol']) && isset($_POST['trem']) && !empty($_POST['trem']) && isset($_POST['tdes']) && !empty($_POST['tdes'])){
+            if(isset($_POST['v1']) && !empty($_POST['v1']) && isset($_POST['num']) && !empty($_POST['num']) && isset($_POST['ano']) && !empty($_POST['ano']) && isset($_POST['sig']) && !empty($_POST['sig']) && isset($_POST['tipdoc']) && !empty($_POST['tipdoc']) && isset($_POST['fecdoc']) && !empty($_POST['fecdoc']) && isset($_POST['fol']) && !empty($_POST['fol']) && isset($_POST['trem']) && !empty($_POST['trem']) && isset($_POST['tdes']) && !empty($_POST['tdes']) && isset($_POST['asu']) && !empty($_POST['asu'])){
 
                 $trem=iseguro($cone, $_POST['trem']);
                 $tdes=iseguro($cone, $_POST['tdes']);
@@ -105,12 +111,16 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                 if($trem=='i'){
                     if(isset($_POST['pirem']) && !empty($_POST['pirem']) && isset($_POST['direm']) && !empty($_POST['direm'])){
                         $exr=true;
+                        $_POST['perem']="";
+                        $_POST['derem']="";
                     }else{
                         $r['m']=mensajewa("No ingreso remitente ni dependencia/institución origen interno.");
                     }
                 }elseif($trem=='e'){
                     if(isset($_POST['perem']) && !empty($_POST['perem']) && isset($_POST['derem']) && !empty($_POST['derem'])){
                         $exr=true;
+                        $_POST['pirem']="";
+                        $_POST['direm']="";
                     }else{
                         $r['m']=mensajewa("No ingreso remitente ni dependencia/institución origen externo.");
                     }
@@ -119,12 +129,16 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                 if($tdes=='i'){
                     if(isset($_POST['pides']) && !empty($_POST['pides']) && isset($_POST['dides']) && !empty($_POST['dides'])){
                         $exd=true;
+                        $_POST['pedes']="";
+                        $_POST['dedes']="";
                     }else{
                         $r['m']=mensajewa("No ingreso destinatario ni dependencia/institución destino interno.");
                     }
                 }elseif($tdes=='e'){
                     if(isset($_POST['pedes']) && !empty($_POST['pedes']) && isset($_POST['dedes']) && !empty($_POST['dedes'])){
                         $exd=true;
+                        $_POST['pides']="";
+                        $_POST['dides']="";
                     }else{
                         $r['m']=mensajewa("No ingreso destinatario ni dependencia/institución destino externo.");
                     }
@@ -137,9 +151,8 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                     $sig=imseguro($cone, $_POST['sig']);
                     $tipdoc=iseguro($cone, $_POST['tipdoc']);
                     $fecdoc=fmysql(iseguro($cone, $_POST['fecdoc']));
-                    $leg=vacio(iseguro($cone, $_POST['leg']));
                     $fol=iseguro($cone, $_POST['fol']);
-                    $des=vacio(iseguro($cone, $_POST['des']));
+                    $asu=vacio(iseguro($cone, $_POST['asu']));
                     $pirem=$_POST['pirem']=="" ? vacio("") :  vacio(iseguro($cone, $_POST['pirem']));
                     $direm=$_POST['direm']=="" ? vacio("") :  vacio(iseguro($cone, $_POST['direm']));
                     $perem=$_POST['perem']=="" ? vacio("") :  vacio(imseguro($cone, $_POST['perem']));
@@ -148,8 +161,9 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                     $dides=$_POST['dides']=="" ? vacio("") :  vacio(iseguro($cone, $_POST['dides']));
                     $pedes=$_POST['pedes']=="" ? vacio("") :  vacio(imseguro($cone, $_POST['pedes']));
                     $dedes=$_POST['dedes']=="" ? vacio("") :  vacio(imseguro($cone, $_POST['dedes']));
-                    $ref=$_POST['ref']=="" ? vacio("") :  vacio(imseguro($cone, $_POST['ref']));
-                    if(mysqli_query($cone, "UPDATE doc SET Numero='$num', Ano='$ano', Siglas='$sig', FechaDoc='$fecdoc', idTipoDoc=$tipdoc, Descripcion=$des, Legajo=$leg, folios=$fol, remitenteext=$perem, destinatarioext=$pedes, deporigenext=$derem, depdestinoext=$dedes, remitenteint=$pirem, destinatarioint=$pides, deporigenint=$direm, depdestinoint=$dides, referencia=$ref WHERE idDoc=$v1;")){
+
+
+                    if(mysqli_query($cone, "UPDATE doc SET Numero='$num', Ano='$ano', Siglas='$sig', FechaDoc='$fecdoc', idTipoDoc=$tipdoc, asunto=$asu, folios=$fol, remitenteext=$perem, destinatarioext=$pedes, deporigenext=$derem, depdestinoext=$dedes, remitenteint=$pirem, destinatarioint=$pides, deporigenint=$direm, depdestinoint=$dides WHERE idDoc=$v1;")){
                         $r['m']=mensajesu("Listo, documento editado.");
                         $r['e']=true;
                     }else{

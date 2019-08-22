@@ -41,6 +41,7 @@ if(isset($_POST['slab']) && !empty($_POST['slab']) && isset($_POST['tlic']) && !
 						<th>#</th>
 						<th>PERSONAL</th>
 						<th>CARGO</th>
+						<th>DEPENDENCIA</th>
 						<th>T. LICENCIA</th>
 						<th>DESDE</th>
 						<th>HASTA</th>
@@ -69,7 +70,8 @@ if(isset($_POST['slab']) && !empty($_POST['slab']) && isset($_POST['tlic']) && !
 					<tr>
 						<td><?php echo $nl; ?></td>
 						<td><a href="#" data-toggle="modal" data-target="#m_detlic" onclick="detlic(<?php echo $rl['idLicencia'] ?>)"><?php echo nomempleado($cone, $rl['idEmpleado']); ?></a></td>
-						<td><?php echo $rl['Denominacion'].($rl['CondicionCar']=="NINGUNO" ? "" : " (".substr($rl['CondicionCar'],0,1).")"); ?></td>
+						<td><?php echo cargoxiexfecha($cone, $rl['idEmpleado'], $rl['FechaIni']); ?></td>
+						<td><?php echo dependenciaxiecxfecha($cone, idecxidexfecha($cone, $rl['idEmpleado'], $rl['FechaIni']), $rl['FechaIni']); ?></td>
 						<td><?php echo $rl['TipoLic']." - ".$rl['Motivolic']; ?></td>
 						<td><?php echo fnormal($rl['FechaIni']); ?></td>
 						<td><?php echo fnormal($rl['FechaFin']); ?></td>

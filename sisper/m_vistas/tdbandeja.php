@@ -27,19 +27,17 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
           <!-- Custom Tabs -->
           <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
+              <li class="active"><a href="#tab_1" data-toggle="tab"><i class="fa fa-circle-o text-blue"></i> Recibir</a></li>
+              <li><a href="#tab_2" data-toggle="tab"><i class="fa fa-circle-o text-blue"></i> Derivar/Registrar</a></li>
+              <li><a href="#tab_3" data-toggle="tab"><i class="fa fa-circle-o text-blue"></i> Derivar a MP</a></li>
+              <li><a href="#tab_4" data-toggle="tab"><i class="fa fa-circle-o text-blue"></i> Derivar Ntf.</a></li>
+              <li><a href="#tab_5" data-toggle="tab"><i class="fa fa-circle-o text-blue"></i> Atender</a></li>
+              <li><a href="#tab_6" data-toggle="tab"><i class="fa fa-circle-o text-blue"></i> Reportar Ntf.</a></li>
               <?php if($mpm){ ?>
-              <li class="active"><a href="#tab_1" data-toggle="tab"><i class="fa fa-circle-o text-gray"></i> Recibir/Revertir</a></li>
-              <?php } ?>
-              <li <?php echo $mpm ? '' : 'class="active"'; ?>><a href="#tab_2" data-toggle="tab"><i class="fa fa-circle-o text-gray"></i> Registrar/Derivar</a></li>
-              <li><a href="#tab_3" data-toggle="tab"><i class="fa fa-circle-o text-gray"></i> Asignar</a></li>
-              <li><a href="#tab_4" data-toggle="tab"><i class="fa fa-circle-o text-gray"></i> Atender/Archivar</a></li>
-              <li><a href="#tab_5" data-toggle="tab"><i class="fa fa-circle-o text-gray"></i> Reportar Ntf.</a></li>
-              <?php if($mpm){ ?>
-              <li><a href="#tab_6" data-toggle="tab"><i class="fa fa-circle-o text-gray"></i> Guías</a></li>
+              <li><a href="#tab_7" data-toggle="tab"><i class="fa fa-circle-o text-blue"></i> Guías</a></li>
               <?php } ?>
             </ul>
             <div class="tab-content">
-              <?php if($mpm){ ?>
               <div class="tab-pane active" id="tab_1">
                 <!--Div resultados-->
                 <div class="row">
@@ -53,8 +51,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 <!--Fin div resultados-->
               </div>
               <!-- /.tab-pane -->
-              <?php } ?>
-              <div class="tab-pane <?php echo $mpm ? '' : 'active'; ?>" id="tab_2">
+              <div class="tab-pane" id="tab_2">
                 <!--Div resultados-->
                 <div class="row">
                   <div class="col-md-5">
@@ -62,15 +59,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                     <button type="button" class="btn bg-yellow" onclick="li_ban2();"><i class="fa fa-refresh"></i> Actualizar</button>
                   </div>
                   <div class="col-md-7">
-                    <form class="form-inline pull-right">
-                      <div class="form-group">
-                        <label for="smpar">Derivar a</label>
-                        <select class="form-control" name="smpar" id="smpar" style="width: 350px;">
-                          
-                        </select>
-                      </div>
-                      <button type="button" class="btn bg-orange" id="b_lim2"><i class="fa fa-eraser"></i> Limpiar</button>
-                    </form>
+                    
                   </div>
                 </div>
                 <div class="row" id="r_ban2">
@@ -88,12 +77,12 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                   <div class="col-md-7">
                     <form class="form-inline pull-right">
                       <div class="form-group">
-                        <label for="sper">Asignar a</label>
-                        <select class="form-control" name="sper" id="sper" style="width: 350px;">
+                        <label for="smpar">Derivar a</label>
+                        <select class="form-control" name="smpar" id="smpar" style="width: 350px;">
                           
                         </select>
                       </div>
-                      <button type="button" class="btn bg-orange" id="b_lim3"><i class="fa fa-eraser"></i> Limpiar</button>
+                      <button type="button" class="btn bg-orange" id="b_lim2"><i class="fa fa-eraser"></i> Limpiar</button>
                     </form>
                   </div>
                 </div>
@@ -107,8 +96,19 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
               <div class="tab-pane" id="tab_4">
                 <!--Div resultados-->
                 <div class="row">
-                  <div class="col-sm-12">
+                  <div class="col-sm-5">
                     <button type="button" class="btn bg-yellow" onclick="li_ban4();"><i class="fa fa-refresh"></i> Actualizar</button>
+                  </div>
+                  <div class="col-sm-7">
+                    <form class="form-inline pull-right">
+                      <div class="form-group">
+                        <label for="sper">Asignar a</label>
+                        <select class="form-control" name="sper" id="sper" style="width: 350px;">
+                          
+                        </select>
+                      </div>
+                      <button type="button" class="btn bg-orange" id="b_lim3"><i class="fa fa-eraser"></i> Limpiar</button>
+                    </form>
                   </div>
                 </div>
                 <div class="row" id="r_ban4">
@@ -130,10 +130,23 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 <!--Fin div resultados-->
               </div>
               <!-- /.tab-pane -->
-              <?php if($mpm){ ?>
               <div class="tab-pane" id="tab_6">
                 <!--Div resultados-->
+                <div class="row">
+                  <div class="col-sm-12">
+                    <button type="button" class="btn bg-yellow" onclick="li_ban5();"><i class="fa fa-refresh"></i> Actualizar</button>
+                  </div>
+                </div>
                 <div class="row" id="r_ban6">
+
+                </div>
+                <!--Fin div resultados-->
+              </div>
+              <!-- /.tab-pane -->
+              <?php if($mpm){ ?>
+              <div class="tab-pane" id="tab_7">
+                <!--Div resultados-->
+                <div class="row" id="r_ban7">
 
                 </div>
                 <!--Fin div resultados-->

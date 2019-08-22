@@ -118,6 +118,19 @@ function li_ban6(){
       }
     });
 }
+function li_ban7(){
+    $.ajax({
+      type: "post",
+      url: "m_inclusiones/a_tdocumentario/li_ban7.php",
+      dataType: "html",
+      beforeSend: function () {
+        $("#r_ban7").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
+      },
+      success:function(a){
+        $("#r_ban7").html(a);
+      }
+    });
+}
 
 function f_bandeja(acc,v1,v2){
     $("#m_tamano").removeClass('modal-lg');
@@ -163,6 +176,9 @@ function f_bandeja(acc,v1,v2){
         case 'lisgui':
           var mt="<span class='text-muted'><i class='fa fa-stack-overflow text-yellow'></i> Listar Guía</span>";
           $(".modal-dialog").addClass('modal-lg');
+          break;
+        case 'derper':
+          var mt="<span class='text-muted'><i class='fa fa-share text-yellow'></i> Derivar a Persona</span>";
           break;
     }
     $(".modal-title").html(mt);
@@ -214,6 +230,7 @@ $('#f_modal').submit(function(e){
     }
   });
 })
+
 
 function g_der(v1, v2){
   var v3=$('#smpar').val();

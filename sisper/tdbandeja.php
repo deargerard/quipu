@@ -21,6 +21,7 @@ $(document).ready(function(){
   li_ban4();
   li_ban5();
   li_ban6();
+  li_ban7();
 });
 </script>
 <?php

@@ -4,75 +4,81 @@ include("../php/conexion_sp.php");
 include("../php/funciones.php");
 if(accesocon($cone,$_SESSION['identi'],17)){
     $idem=$_SESSION['identi'];
-    $cm=mysqli_query($cone, "SELECT mp.* FROM tdpersonalmp p INNER JOIN tdmesapartes mp ON p.idtdmesapartes=mp.idtdmesapartes WHERE p.idEmpleado=$idem AND p.estado=1;");
-    if($rm=mysqli_fetch_assoc($cm)){
-      $idmp=$rm['idtdmesapartes'];
 
 ?>
 <div class="col-sm-12">
-  <button type="button" class="btn bg-teal" onclick="f_bandeja('gengui', <?php echo $idmp; ?>, 0)"><i class="fa fa-stack-overflow"></i> Generar Guía</button>
-  <button type="button" class="btn bg-yellow" onclick="li_ban6();"><i class="fa fa-refresh"></i> Actualizar</button>
-</div>
-<div class="col-sm-6">
-  <h4 class="text-blue"><i class="fa fa-archive text-orange"></i> <b><?php echo $rm['denominacion']; ?></b></h4>
-</div>
-<div class="col-sm-6">
     <p class="text-right text-muted" style="font-size: 11px;"><i class="fa fa-refresh text-yellow"></i> Alctualizado al <?php echo date('d/m/Y h:i:s A'); ?></p>
 </div>
 <div class="col-sm-12">
 <?php
-  $cg=mysqli_query($cone, "SELECT * FROM tdguia WHERE idtdmesapartesg=$idmp ORDER BY numero DESC, anio DESC LIMIT 400;");
-  if(mysqli_num_rows($cg)>0){
+    $cb=mysqli_query($cone, "SELECT d.idDoc, d.numdoc, d.Numero, d.Ano, d.Siglas, d.FechaDoc, td.TipoDoc, ed.idtdestadodoc, ed.fecha, g.numero numguia, g.anio, ed.idtdestado FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc INNER JOIN tdestadodoc ed ON d.idDoc=ed.idDoc LEFT JOIN tdguia g ON ed.idtdguia=g.idtdguia WHERE ed.idEmpleado=$idem AND ed.estado=1 AND (ed.idtdestado=4) ORDER BY ed.fecha DESC;");
+    if(mysqli_num_rows($cb)>0){
 ?>
-    <table class="table table-hover table-bordered" id="dt_ban6">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>NUM. GUÍA</th>
-          <th>FECHA</th>
-          <th>DESTINO</th>
-          <th>GENERADA POR</th>
-          <th>ACCIONES</th>
-        </tr>
-      </thead>
+        <table class="table table-bordered table-hover" id="dt_ban4">
+            <thead>
+                <tr>
+                    <th>NUM.</th>
+                    <th>DOCUMENTO<br>TIPO</th>
+                    <th>FECHA DOCUMENTO<br>TIEMPO</th>
+                    <th>ESTADO</th>
+                    <th>FECHA ESTADO<br>TIEMPO</th>
+                    <th class="text-center">ACCIÓN</th>
+                </tr>
+            </thead>
+            <tbody>
 <?php
-    $n=0;
-    while($rg=mysqli_fetch_assoc($cg)){
-      $n++;
+        while($rb=mysqli_fetch_assoc($cb)){
 ?>
-        <tr>
-          <td><?php echo $n; ?></td>
-          <td><?php echo $rg['numero'].'-'.$rg['anio']; ?></td>
-          <td><?php echo fnormal($rg['fecenvio']); ?></td>
-          <td><?php echo nommpartes($cone, $rg['idtdmesapartesd']); ?></td>
-          <td><?php echo nomempleado($cone, $rg['generador']); ?></td>
-          <td>
-            <div class="btn-group btn-group-xs">
-              <button type="button" class="btn btn-info btn-xs" title="Guía PDF" onclick="guiapdf(<?php echo $rg['idtdguia']; ?>)"><i class="fa fa-file-pdf-o"></i></button>
-              <!--<button type="button" class="btn btn-info btn-xs" title="Documento a guía" onclick="f_bandeja('docgui', <?php //echo $rg['idtdguia']; ?>, 0)"><i class="fa fa-stack-overflow"></i></button>-->
-              <button type="button" class="btn btn-info btn-xs" title="Listar guía" onclick="f_bandeja('lisgui', <?php echo $rg['idtdguia']; ?>, 0)"><i class="fa fa-files-o"></i></button>
-            </div>
-          </td>
-        </tr>
+                <tr style="font-size: 12px;">
+                    <td class="text-aqua"><?php echo $rb['numdoc'].'-'.$rb['Ano']; ?></td>
+                    <td><?php echo $rb['Numero']."-".$rb['Ano']."-".$rb['Siglas']; ?><br><span class="text-teal"><?php echo $rb['TipoDoc']; ?></span></td>
+                    <td><?php echo fnormal($rb['FechaDoc']); ?><br><span class="text-yellow"><?php echo diftiempo($rb['FechaDoc'], date('Y-m-d H:i:s')); ?></span></td>
+                    <td><?php echo estadoDoc($rb['idtdestado']); ?></td>
+                    <td><?php echo date('d/m/Y h:i:s A', strtotime($rb['fecha'])); ?><br><span class="text-orange"><?php echo diftiempo($rb['fecha'], date('Y-m-d H:i:s')); ?></span></td>
+                    <td class="text-center">
+                          <div class="btn-group btn-group-xs">
+                            <button type="button" class="btn btn-info btn-xs" title="Reportar Notificación" onclick="f_bandeja('repdoc', <?php echo $rb['idDoc'].", ".$rb['idtdestadodoc']; ?>)"><i class="fa fa-motorcycle"></i></button>
+                          </div>
+                          <div class="btn-group">
+                            
+                            <button class="btn bg-maroon btn-xs dropdown-toggle" data-toggle="dropdown">
+                              <i class="fa fa-file"></i>&nbsp;
+                              <span class="caret"></span>
+                              <span class="sr-only">Desplegar menú</span>
+                            </button>
+                            <ul class="dropdown-menu pull-right" role="menu">
+                              <li><a href="#" onclick="f_bandeja('rutdoc',<?php echo $rb['idDoc'].",0"; ?>)"><i class="fa fa-retweet text-maroon"></i> Ruta</a></li>
+                              <li><a href="#" onclick="f_bandeja('detest',<?php echo $rb['idtdestadodoc'].",0"; ?>)"><i class="fa fa-tags text-maroon"></i> Estado</a></li>
+                              <li class="divider"></li>
+                              <li><a href="#" onclick="f_bandeja('detdoc',<?php echo $rb['idDoc'].",0"; ?>)"><i class="fa fa-file-text text-maroon"></i> Detalle</a></li>
+                              <?php if($rb['idtdestado']==1){ ?>
+                              <li><a href="#" onclick="f_bandeja('edidoc',<?php echo $rb['idDoc'].",0"; ?>)"><i class="fa fa-pencil text-maroon"></i> Editar</a></li>
+                              <li><a href="#" onclick="f_bandeja('elidoc',<?php echo $rb['idDoc'].",0"; ?>)"><i class="fa fa-trash text-maroon"></i> Eliminar</a></li>
+                              <?php } ?>
+                            </ul>
+                          </div>
+
+
+
+
+                    </td>
+                </tr>
 <?php
+        }
+?>
+            </tbody>
+        </table>
+        <script>
+            $("#dt_ban4").DataTable();
+        </script>
+<?php
+    }else{
+        echo mensajewa("Sin documentos.");
     }
-?>
-  </table>
-  <script>
-    $('#dt_ban6').dataTable();
-  </script>
-<?php
-  }else{
-    echo mensajewa("Sin guías.");
-  }
-  mysqli_free_result($cg);
+    mysqli_free_result($cb);
 ?>
 </div>
 <?php
-  }else{
-    echo mensajewa("No pertenece a ninguna mesa de partes.");
-  }
-  mysqli_free_result($cm);
 }else{
   echo accrestringidoa();
 }

@@ -11,10 +11,10 @@ if(accesocon($cone,$_SESSION['identi'],17)){
 </div>
 <div class="col-sm-12">
 <?php
-    $cb=mysqli_query($cone, "SELECT d.idDoc, d.numdoc, d.Numero, d.Ano, d.Siglas, d.FechaDoc, td.TipoDoc, ed.idtdestadodoc, ed.fecha, g.numero numguia, g.anio, ed.idtdestado FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc INNER JOIN tdestadodoc ed ON d.idDoc=ed.idDoc LEFT JOIN tdguia g ON ed.idtdguia=g.idtdguia WHERE ed.idEmpleado=$idem AND ed.estado=1 AND (ed.idtdestado=1 OR ed.idtdestado=2 OR ed.idtdestado=5 OR ed.idtdestado=6 OR ed.idtdestado=8) ORDER BY ed.fecha DESC;");
+    $cb=mysqli_query($cone, "SELECT d.idDoc, d.numdoc, d.Numero, d.Ano, d.Siglas, d.FechaDoc, td.TipoDoc, ed.idtdestadodoc, ed.fecha, g.numero numguia, g.anio, ed.idtdestado FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc INNER JOIN tdestadodoc ed ON d.idDoc=ed.idDoc LEFT JOIN tdguia g ON ed.idtdguia=g.idtdguia WHERE ed.idEmpleado=$idem AND ed.estado=1 AND (ed.idtdestado=1 OR ed.idtdestado=2 OR ed.idtdestado=5) ORDER BY ed.fecha DESC;");
     if(mysqli_num_rows($cb)>0){
 ?>
-        <table class="table table-bordered table-hover" id="dt_bandeja">
+        <table class="table table-bordered table-hover" id="dt_ban2">
             <thead>
                 <tr>
                     <th>NUM.</th>
@@ -37,7 +37,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                     <td><?php echo date('d/m/Y h:i:s A', strtotime($rb['fecha'])); ?><br><span class="text-orange"><?php echo diftiempo($rb['fecha'], date('Y-m-d H:i:s')); ?></span></td>
                     <td class="text-center">
                           <div class="btn-group btn-group-xs">
-                            <button type="button" class="btn btn-info btn-xs" title="Derivar" onclick="g_der(<?php echo $rb['idDoc'].", ".$rb['idtdestadodoc']; ?>)"><i class="fa fa-share"></i></button>
+                            <button type="button" class="btn btn-info btn-xs" title="Derivar" onclick="f_bandeja('derper', <?php echo $rb['idDoc'].", ".$rb['idtdestadodoc']; ?>)"><i class="fa fa-share"></i></button>
                           </div>
                           <div class="btn-group">
                             
@@ -69,11 +69,11 @@ if(accesocon($cone,$_SESSION['identi'],17)){
             </tbody>
         </table>
         <script>
-            $("#dt_bandeja").DataTable();
+            $("#dt_ban2").DataTable();
         </script>
 <?php
     }else{
-        echo mensajewa("Sin documentos.");
+        echo mensajewa("Sin documentos pendientes.");
     }
     mysqli_free_result($cb);
 ?>
