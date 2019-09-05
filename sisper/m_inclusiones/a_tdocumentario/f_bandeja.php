@@ -581,15 +581,15 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                         <input type="hidden" name="v1" value="<?php echo $v1; ?>">
                         <input type="hidden" name="v2" value="<?php echo $v2; ?>">
                         <div class="col-sm-3">
-                            <label for="not">Notificado<small class="text-red">*</small></label>
+                            <label for="not">Estado<small class="text-red">*</small></label>
                             <select class="form-control" id="not" name="not">
-                                <option value="">Notificado</option>
-                                <option value="1">Sí</option>
-                                <option value="2">No</option>
+                                <option value="">Estado</option>
+                                <option value="1">NOTIFICADA</option>
+                                <option value="2">A DEVOLVER</option>
                             </select>
                         </div>
                         <div class="col-sm-5">
-                            <label for="mnot">Modo Notificación<small class="text-red">*</small></label>
+                            <label for="mnot">Modo/Motivo<small class="text-red">*</small></label>
                             <select class="form-control" id="mnot" name="mnot">
                                 <option value="">Modo</option>
                             <?php
@@ -606,7 +606,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                             </select>
                         </div>
                         <div class="col-sm-4">
-                            <label for="fecdoc">Fec. Notificación<small class="text-red">*</small></label>
+                            <label for="fecdoc">Fecha Not./Dev.<small class="text-red">*</small></label>
                             <div class="input-group date" id="d_fnot">
                                 <input type="text" class="form-control" id="fnot" name="fnot" placeholder="dd/mm/aaaa" value="<?php echo date('d/m/Y'); ?>">
                                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
@@ -710,7 +710,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                     </tr>
                 </table>
 <?php
-            $ce=mysqli_query($cone, "SELECT ed.*, modnotificacion FROM tdestadodoc ed LEFT JOIN tdmodnotificacion mn ON ed.idtdmodnotificacion=mn.idtdmodnotificacion WHERE ed.idDoc=$v1 ORDER BY ed.fecha DESC;");
+            $ce=mysqli_query($cone, "SELECT ed.*, modnotificacion, tipo, motivo FROM tdestadodoc ed LEFT JOIN tdmodnotificacion mn ON ed.idtdmodnotificacion=mn.idtdmodnotificacion LEFT JOIN tdproveido p ON ed.idtdproveido=p.idtdproveido WHERE ed.idDoc=$v1 ORDER BY ed.fecha DESC;");
             if(mysqli_num_rows($ce)>0){
 ?>
                 <span class="text-muted" style="font-size: 11px;"><i class="fa fa-refresh text-orange"></i> Actualizado al <?php echo date('d/m/Y h:i:s A'); ?></span>
@@ -730,7 +730,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                 while($re=mysqli_fetch_assoc($ce)){
                     $n++;
                     $ti="";
-                    //if($re['idtdestado']!=7 || $re['idtdestado']!=8 || $re['idtdestado']!=9){
+
                         $fec=$re['fecha'];
                         $cs=mysqli_query($cone, "SELECT fecha FROM tdestadodoc WHERE idDoc=$v1 AND fecha>'$fec' ORDER BY fecha ASC LIMIT 1;");
                         if($rs=mysqli_fetch_assoc($cs)){
@@ -739,11 +739,19 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                             $ti=date('Y-m-d H:i:s');
                         }
                         mysqli_free_result($cs);
-                    //}
+
 ?>
                         <tr>
                             <td><?php echo $n; ?></td>
-                            <td><?php echo estadoDoc($re['idtdestado']); ?></td>
+                            <td>
+                                <?php echo estadoDoc($re['idtdestado']); ?>
+                                <?php if($re['idtdestado']==3){ ?>
+                                <br><i class="fa fa-commenting text-orange"></i> <b class="text-muted"><?php echo $re['tipo']; ?>:</b> <?php echo $re['motivo']; ?> <br>
+                                <?php } ?>
+                                <?php if($re['idtdestado']==5){ ?>
+                                <br><i class="fa fa-motorcycle text-orange"></i> <b class="text-muted"> <?php echo $re['estnotificacion']==1 ? "Notificado" : ($re['estnotificacion']==2 ? "Devuelto" : ""); ?></b> <?php echo $re['modnotificacion']; ?><br><i class="fa fa-calendar text-gray"></i> <?php echo fnormal($re['fecnotificacion']); ?> <br>
+                                <?php } ?>
+                            </td>
                             <td><?php echo date('d/m/Y h:i:s A', strtotime($re['fecha'])); ?></td>
                             <td class="text-orange"><i class="fa fa-clock-o"></i> <?php echo $ti!="" ? diftiempo($fec, $ti) : ""; ?></td>
                             <td>
@@ -752,7 +760,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                                     echo nomempleado($cone, $re['idEmpleado']).'<br><small class="text-aqua">'.nomdependencia($cone, $re['idDependencia']).'</small>';
                                 }else{
                                     if(!is_null($re['idtdmesapartes'])){
-                                        echo nommpartes($cone, $re['idtdmesapartes']).(!is_null($re['responsablemp']) ? '<br><small class="text-aqua">'.nomempleado($cone, $re['responsablemp']).'</small>' : '');
+                                        echo nommpartes($cone, $re['idtdmesapartes']).(!is_null($re['asignador']) ? '<br><small class="text-aqua">'.nomempleado($cone, $re['asignador']).'</small>' : '');
                                     }
                                 }
                                 ?>
@@ -761,10 +769,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                         <?php if(!is_null($re['observacion'])){ ?>
                         <tr>
                             <td colspan="5">
-                                <?php if($re['idtdestado']==5){ ?>
-                                <b class="text-muted">NOTIFICADO:</b> <?php echo $re['notificado']==1 ? '<i class="fa fa-check-circle text-green"></i> Sí' : '<i class="fa fa-times-circle text-red"></i> No'; ?> | <b class="text-muted">MODO:</b> <i class="fa fa-motorcycle text-purple"></i> <?php echo $re['modnotificacion']; ?> | <b class="text-muted">FECHA NOTIFICACIÓN:</b> <i class="fa fa-calendar text-fuchsia"></i> <?php echo fnormal($re['fecnotificado']); ?> <br>
-                                <?php } ?>
-                                <b class="text-muted">OBSERVACIÓN:</b> <i class="fa fa-info-circle text-yellow"></i> <?php echo $re['observacion']; ?>
+                                <i class="fa fa-info-circle text-yellow"></i> <b class="text-muted">OBSERVACIÓN:</b> <?php echo $re['observacion']; ?>
                             </td>
                         </tr>
                         <?php } ?>    
@@ -875,8 +880,6 @@ if(accesocon($cone,$_SESSION['identi'],17)){
         }elseif($acc=="gengui"){
             if(isset($v1) && !empty($v1)){
             $idem=$_SESSION['identi'];
-
-
 ?>
                     <div class="row">
                         <input type="hidden" name="acc" value="<?php echo $acc; ?>">
@@ -995,13 +998,13 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                         <input type="hidden" name="v2" value="<?php echo $v2; ?>">
                         <div class="col-sm-7">
                             <label for="per">Personal<small class="text-red">*</small></label>
-                            <select class="form-control" id="per" name="per">
+                            <select class="form-control" id="per" name="per" style="width: 100%;">
                                 
                             </select>
                         </div>
                         <div class="col-sm-5">
                             <label for="mot">Motivo<small class="text-red">*</small></label>
-                            <select class="form-control" id="mot" name="mot">
+                            <select class="form-control" id="mot" name="mot" style="width: 100%;">
                             <?php
                             $ctp=mysqli_query($cone, "SELECT DISTINCT tipo FROM tdproveido WHERE estado=1;");
                             if(mysqli_num_rows($ctp)>0){
@@ -1044,6 +1047,39 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                     </div>
                     <script>
                         $("#mot").select2();
+                        $("#per").select2({
+                          placeholder: 'Selecione un personal',
+                          ajax: {
+                            url: 'm_inclusiones/a_general/a_selpersonal.php',
+                            dataType: 'json',
+                            delay: 250,
+                            processResults: function (data) {
+                              return {
+                                results: data
+                              };
+                            },
+                            cache: true
+                          },
+                          minimumInputLength: 4
+                        }).on("change", function(e){
+                          var per = $(this).val();
+                          $.ajax({
+                            type: "post",
+                            url: "m_inclusiones/a_tdocumentario/b_pdependencia.php",
+                            data: { per: per},
+                            dataType: "json",
+                            beforeSend: function () {
+                              $("#dep").html("<option value=''><i class='fa fa-spinner fa-spin'></i> Cargando...</option>");
+                            },
+                            success:function(a){
+                              if(a.e){
+                                $("#dep").html(a.o);
+                              }else{
+                                alert(a.m);
+                              }
+                            }
+                          });
+                        });
                     </script>            
 <?php
             }else{

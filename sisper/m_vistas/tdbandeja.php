@@ -33,8 +33,9 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
               <li><a href="#tab_4" data-toggle="tab"><i class="fa fa-circle-o text-blue"></i> Derivar Ntf.</a></li>
               <li><a href="#tab_5" data-toggle="tab"><i class="fa fa-circle-o text-blue"></i> Atender</a></li>
               <li><a href="#tab_6" data-toggle="tab"><i class="fa fa-circle-o text-blue"></i> Reportar Ntf.</a></li>
+              <li><a href="#tab_7" data-toggle="tab"><i class="fa fa-circle-o text-blue"></i> Pend. Recepción</a></li>
               <?php if($mpm){ ?>
-              <li><a href="#tab_7" data-toggle="tab"><i class="fa fa-circle-o text-blue"></i> Guías</a></li>
+              <li><a href="#tab_8" data-toggle="tab"><i class="fa fa-circle-o text-blue"></i> Guías</a></li>
               <?php } ?>
             </ul>
             <div class="tab-content">
@@ -55,8 +56,8 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 <!--Div resultados-->
                 <div class="row">
                   <div class="col-md-5">
-                    <button type="button" class="btn bg-teal" onclick="f_bandeja('agrdoc',0,0);"><i class="fa fa-file-text-o"></i> Registrar</button>
                     <button type="button" class="btn bg-yellow" onclick="li_ban2();"><i class="fa fa-refresh"></i> Actualizar</button>
+                    <button type="button" class="btn bg-teal" onclick="f_bandeja('agrdoc',0,0);"><i class="fa fa-file-text-o"></i> Registrar</button>
                   </div>
                   <div class="col-md-7">
                     
@@ -102,7 +103,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                   <div class="col-sm-7">
                     <form class="form-inline pull-right">
                       <div class="form-group">
-                        <label for="sper">Asignar a</label>
+                        <label for="sper">Derivar a</label>
                         <select class="form-control" name="sper" id="sper" style="width: 350px;">
                           
                         </select>
@@ -134,7 +135,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 <!--Div resultados-->
                 <div class="row">
                   <div class="col-sm-12">
-                    <button type="button" class="btn bg-yellow" onclick="li_ban5();"><i class="fa fa-refresh"></i> Actualizar</button>
+                    <button type="button" class="btn bg-yellow" onclick="li_ban6();"><i class="fa fa-refresh"></i> Actualizar</button>
                   </div>
                 </div>
                 <div class="row" id="r_ban6">
@@ -143,10 +144,23 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 <!--Fin div resultados-->
               </div>
               <!-- /.tab-pane -->
-              <?php if($mpm){ ?>
               <div class="tab-pane" id="tab_7">
                 <!--Div resultados-->
+                <div class="row">
+                  <div class="col-sm-12">
+                    <button type="button" class="btn bg-yellow" onclick="li_ban7();"><i class="fa fa-refresh"></i> Actualizar</button>
+                  </div>
+                </div>
                 <div class="row" id="r_ban7">
+
+                </div>
+                <!--Fin div resultados-->
+              </div>
+              <!-- /.tab-pane -->
+              <?php if($mpm){ ?>
+              <div class="tab-pane" id="tab_8">
+                <!--Div resultados-->
+                <div class="row" id="r_ban8">
 
                 </div>
                 <!--Fin div resultados-->

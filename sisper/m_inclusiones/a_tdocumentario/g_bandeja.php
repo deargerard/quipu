@@ -236,22 +236,30 @@ if(accesocon($cone,$_SESSION['identi'],17)){
             }else{
                 $r['m']=mensajewa("Ingrese en observación el motivo por el cual revierte.");
             }
-        }elseif($acc=="derdoc"){
+        }elseif($acc=="dermpa"){
             if(isset($_POST['v1']) && !empty($_POST['v1']) && isset($_POST['v2']) && !empty($_POST['v2']) && isset($_POST['v3']) && !empty($_POST['v3'])){
                 $v1=iseguro($cone, $_POST['v1']);
                 $v2=iseguro($cone, $_POST['v2']);
                 $v3=iseguro($cone, $_POST['v3']);
-                $idmp=!is_null($_POST['idmp']) ? iseguro($cone, $_POST['idmp']) : vacio('');
                 $idem=$_SESSION['identi'];
 
                 $ce=mysqli_query($cone, "SELECT idtdestadodoc FROM tdestadodoc WHERE idDoc=$v1 AND estado=1;");
                 if($re=mysqli_fetch_assoc($ce)){
                     if($re['idtdestadodoc']==$v2){
                         $idue=$re['idtdestadodoc'];
-                        if(mysqli_query($cone, "INSERT INTO tdestadodoc (idtdestado, fecha, idDoc, estado, idtdmesapartes, mpderiva) VALUES (3, DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i:%s'), $v1, 1, $v3, $idmp);")){
+
+                        //obtenemos la mp
+                        $cmp=mysqli_query($cone, "SELECT idtdmesapartes FROM tdpersonalmp WHERE idEmpleado=$idem AND estado=1;");
+                        if($rmp=mysqli_fetch_assoc($cmp)){
+                            $mpd=$rmp['idtdmesapartes'];
+                        }else{
+                            $mpd=NULL;
+                        }
+
+                        if(mysqli_query($cone, "INSERT INTO tdestadodoc (idtdestado, fecha, idDoc, estado, idtdmesapartes, asignador, idtdproveido, mpderiva) VALUES (3, DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i:%s'), $v1, 1, $v3, $idem, 11, $mpd);")){
                             $idne=mysqli_insert_id($cone);
                             if(mysqli_query($cone, "UPDATE tdestadodoc SET estado=0 WHERE idDoc=$v1 AND idtdestadodoc=$idue;")){
-                                $r['m']="¡Listo! Documento derivado.";
+                                $r['m']="¡Listo! Documento derivado a Mesa de Partes.";
                                 $r['e']=true;
                             }else{
                                 if(mysqli_query($cone, "DELETE FROM tdestadodoc WHERE idtdestadodoc=$idne;")){
@@ -264,14 +272,12 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                             $r['m']="Error al derivar, vuelva a intentarlo.";
                         }
                     }else{
-                        $r['m']='El documento ya tiene otro estado.';
+                        $r['m']='El documento ya tiene otro estado. ¡Actualice!';
                         $r['e']=true;
                     }
                 }else{
-                    $r['m']='Error, realice el reporte';
+                    $r['m']='Error, datos erroneos del documento.';
                 }
-    
-
             }else{
                 $r['m']="Faltan datos.";
             }
@@ -282,13 +288,18 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                 $idem=$_SESSION['identi'];
                 $dep=iddependenciae($cone, $_SESSION['identi']);
 
-                $ce=mysqli_query($cone, "SELECT idtdestadodoc FROM tdestadodoc WHERE idDoc=$v1 AND estado=1;");
+                $ce=mysqli_query($cone, "SELECT idtdestadodoc, idtdproveido FROM tdestadodoc WHERE idDoc=$v1 AND estado=1;");
                 if($re=mysqli_fetch_assoc($ce)){
                     if($re['idtdestadodoc']==$v2){
                         $idue=$re['idtdestadodoc'];
-                        if(mysqli_query($cone, "INSERT INTO tdestadodoc (idtdestado, fecha, idDependencia, idEmpleado, idDoc, estado) VALUES (2, DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i:%s'), $dep, $idem, $v1, 1);")){
+                        if($re['idtdproveido']==12){
+                            $pn=1;
+                        }else{
+                            $pn=vacio("");
+                        }
+                        if(mysqli_query($cone, "INSERT INTO tdestadodoc (idtdestado, fecha, idDependencia, idEmpleado, idDoc, estado, asignador, pnotificar) VALUES (2, DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i:%s'), $dep, $idem, $v1, 1, $idem, $pn);")){
                             $idne=mysqli_insert_id($cone);
-                            if(mysqli_query($cone, "UPDATE tdestadodoc SET estado=0, responsablemp=$idem WHERE idDoc=$v1 AND idtdestadodoc=$idue;")){
+                            if(mysqli_query($cone, "UPDATE tdestadodoc SET estado=0 WHERE idDoc=$v1 AND idtdestadodoc=$idue;")){
                                 $r['m']="¡Listo! Documento recibido.";
                                 $r['e']=true;
                             }else{
@@ -306,44 +317,45 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                         $r['e']=true;
                     }
                 }else{
-                    $r['m']='Error, reporte al administrador del sistema.';
+                    $r['m']='Error, datos erroneos del documento.';
                 }
 
             }else{
                 $r['m']="Faltan datos.";
             }
-        }elseif($acc=="asidoc"){
+        }elseif($acc=="dernot"){
             if(isset($_POST['v1']) && !empty($_POST['v1']) && isset($_POST['v2']) && !empty($_POST['v2']) && isset($_POST['v2']) && !empty($_POST['v2'])){
                 $v1=iseguro($cone, $_POST['v1']);
                 $v2=iseguro($cone, $_POST['v2']);
                 $v3=iseguro($cone, $_POST['v3']);
                 $dep=iddependenciae($cone, $v3);
+                $idem=$_SESSION['identi'];
 
                 $ce=mysqli_query($cone, "SELECT idtdestadodoc FROM tdestadodoc WHERE idDoc=$v1 AND estado=1;");
                 if($re=mysqli_fetch_assoc($ce)){
                     if($re['idtdestadodoc']==$v2){
                         $idue=$re['idtdestadodoc'];
-                        if(mysqli_query($cone, "INSERT INTO tdestadodoc (idtdestado, fecha, idDependencia, idEmpleado, idDoc, estado) VALUES (4, DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i:%s'), $dep, $v3, $v1, 1);")){
+                        if(mysqli_query($cone, "INSERT INTO tdestadodoc (idtdestado, fecha, idDependencia, idEmpleado, idDoc, estado, idtdproveido, asignador) VALUES (3, DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i:%s'), $dep, $v3, $v1, 1, 12, $idem);")){
                             $idne=mysqli_insert_id($cone);
                             if(mysqli_query($cone, "UPDATE tdestadodoc SET estado=0 WHERE idDoc=$v1 AND idtdestadodoc=$idue;")){
-                                $r['m']="¡Listo! Documento asignado.";
+                                $r['m']="¡Listo! Documento derivado para notificar.";
                                 $r['e']=true;
                             }else{
                                 if(mysqli_query($cone, "DELETE FROM tdestadodoc WHERE idtdestadodoc=$idne;")){
-                                    $r['m']="Error al asignar, vuelva a intentarlo.";
+                                    $r['m']="Error al derivar, vuelva a intentarlo.";
                                 }else{
-                                    $r['m']="Error al asignar, reporte al administrador del sistema.";
+                                    $r['m']="Error al derivar, reporte al administrador del sistema.";
                                 }
                             }
                         }else{
-                            $r['m']="Error al asignar, vuelva a intentarlo.";
+                            $r['m']="Error al derivar, vuelva a intentarlo.";
                         }
                     }else{
                         $r['m']='El documento ya tiene otro estado.';
                         $r['e']=true;
                     }
                 }else{
-                    $r['m']='Error $v1, reporte al administrador del sistema.';
+                    $r['m']='Error, datos erroneos del documento.';
                 }
 
             }else{
@@ -365,31 +377,30 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                     if($re['idtdestadodoc']==$v2){
                         $idue=$re['idtdestadodoc'];
 
-                        if(mysqli_query($cone, "INSERT INTO tdestadodoc (idtdestado, fecha, observacion, idtdmodnotificacion, idDependencia, idEmpleado, idDoc, estado, notificado, fecnotificado) VALUES (5, DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i:%s'), $obs, $mnot, $dep, $idem, $v1, 1, $not, '$fnot');")){
+                        if(mysqli_query($cone, "INSERT INTO tdestadodoc (idtdestado, fecha, observacion, idtdmodnotificacion, idDependencia, idEmpleado, idDoc, estado, estnotificacion, fecnotificacion, asignador) VALUES (5, DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i:%s'), $obs, $mnot, $dep, $idem, $v1, 1, $not, '$fnot', $idem);")){
                             $idne=mysqli_insert_id($cone);
                             if(mysqli_query($cone, "UPDATE tdestadodoc SET estado=0 WHERE idDoc=$v1 AND idtdestadodoc=$idue;")){
-                                $r['m']=mensajesu("¡Listo! Notificación reportada.");
+                                $r['m']=mensajesu("¡Listo! Se reportó notificación.");
                                 $r['e']=true;
                                 if(mysqli_query($cone, "UPDATE doc SET cargo=1 WHERE idDoc=$v1")){
-                                    $r['m'].=mensajesu("Envié el cargo.");
+                                    $r['m'].=mensajesu("Regrese el cargo.");
                                 }
                             }else{
                                 if(mysqli_query($cone, "DELETE FROM tdestadodoc WHERE idtdestadodoc=$idne;")){
-                                    $r['m']=mensajewa("Error al reportar1, vuelva a intentarlo.");
+                                    $r['m']=mensajewa("Error al reportar, vuelva a intentarlo.");
                                 }else{
                                     $r['m']=mensajewa("Error $v1 al reportar, reporte al administrador del sistema.");
                                 }
                             }
                         }else{
-                            $r['m']=mensajewa("Error al reportar2, vuelva a intentarlo.");
+                            $r['m']=mensajewa("Error al reportar, vuelva a intentarlo.");
                         }
-
                     }else{
                         $r['m']=mensajesu('El documento ya tiene otro estado.');
                         $r['e']=true;
                     }
                 }else{
-                    $r['m']=mensajewa('Error $v1, reporte al administrador del sistema.');
+                    $r['m']=mensajewa('Error, datos erroneos del documento.');
                 }
 
             }else{
@@ -407,17 +418,16 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                 if($re=mysqli_fetch_assoc($ce)){
                     if($re['idtdestadodoc']==$v2){
                         $idue=$re['idtdestadodoc'];
-                        if(mysqli_query($cone, "INSERT INTO tdestadodoc (idtdestado, fecha, observacion, idDependencia, idEmpleado, idDoc, estado) VALUES (6, DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i:%s'), '$obs',$dep, $idem, $v1, 1);")){
+                        if(mysqli_query($cone, "INSERT INTO tdestadodoc (idtdestado, fecha, observacion, idDependencia, idEmpleado, idDoc, estado, asignador) VALUES (4, DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i:%s'), '$obs',$dep, $idem, $v1, 1, $idem);")){
                             $idne=mysqli_insert_id($cone);
                             if(mysqli_query($cone, "UPDATE tdestadodoc SET estado=0 WHERE idDoc=$v1 AND idtdestadodoc=$idue;")){
                                 $r['m']=mensajesu("¡Listo! Documento atendido.");
                                 $r['e']=true;
-
                             }else{
                                 if(mysqli_query($cone, "DELETE FROM tdestadodoc WHERE idtdestadodoc=$idne;")){
-                                    $r['m']=mensajewa("Error al atender, vuelva a intentarlo.");
+                                    $r['m']=mensajewa("Error al registrar atención, vuelva a intentarlo.");
                                 }else{
-                                    $r['m']=mensajewa("Error $v1 al atender, reporte al administrador del sistema.");
+                                    $r['m']=mensajewa("Error $v1 al registrar atención, reporte al administrador del sistema.");
                                 }
                             }
                         }else{
@@ -428,7 +438,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                         $r['e']=true;
                     }
                 }else{
-                    $r['m']=mensajewa('Error $v1, reporte al administrador del sistema.');
+                    $r['m']=mensajewa('Error, datos erroneos del documento.');
                 }
 
             }else{
@@ -507,6 +517,48 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                 mysqli_free_result($cd);
             }else{
                 $r['m']=mensajewa("Elija un destino.");
+            }
+        }elseif($acc=="derper"){
+            if(isset($_POST['v1']) && !empty($_POST['v1']) && isset($_POST['v2']) && !empty($_POST['v2']) && isset($_POST['per']) && !empty($_POST['per']) && isset($_POST['mot']) && !empty($_POST['mot']) && isset($_POST['dep']) && !empty($_POST['dep'])){
+                $v1=iseguro($cone, $_POST['v1']);
+                $v2=iseguro($cone, $_POST['v2']);
+                $per=iseguro($cone, $_POST['per']);
+                $mot=iseguro($cone, $_POST['mot']);
+                $dep=iseguro($cone, $_POST['dep']);
+                $obs=vacio(iseguro($cone, $_POST['obs']));
+                $idem=$_SESSION['identi'];
+                $dep=iddependenciae($cone, $per);
+
+                $ce=mysqli_query($cone, "SELECT idtdestadodoc FROM tdestadodoc WHERE idDoc=$v1 AND estado=1;");
+                if($re=mysqli_fetch_assoc($ce)){
+                    if($re['idtdestadodoc']==$v2){
+                        $idue=$re['idtdestadodoc'];
+                        if(mysqli_query($cone, "INSERT INTO tdestadodoc (idtdestado, fecha, observacion, idDependencia, idEmpleado, idDoc, estado, idtdproveido, asignador) VALUES (3, DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i:%s'), $obs,$dep, $per, $v1, 1, $mot, $idem);")){
+                            $idne=mysqli_insert_id($cone);
+                            if(mysqli_query($cone, "UPDATE tdestadodoc SET estado=0 WHERE idDoc=$v1 AND idtdestadodoc=$idue;")){
+                                $r['m']=mensajesu("¡Listo! Documento derivado.");
+                                $r['e']=true;
+
+                            }else{
+                                if(mysqli_query($cone, "DELETE FROM tdestadodoc WHERE idtdestadodoc=$idne;")){
+                                    $r['m']=mensajewa("Error al derivar, vuelva a intentarlo.");
+                                }else{
+                                    $r['m']=mensajewa("Error $v1 al derivar, reporte al administrador del sistema.");
+                                }
+                            }
+                        }else{
+                            $r['m']=mensajewa("Error al archivar, vuelva a intentarlo.");
+                        }
+                    }else{
+                        $r['m']=mensajesu('El documento ya tiene otro estado.');
+                        $r['e']=true;
+                    }
+                }else{
+                    $r['m']=mensajewa('Error $v1, reporte al administrador del sistema.');
+                }
+
+            }else{
+                $r['m']=mensajewa("Los campos marcados con <span class='text-red'>*</span> son obligatorios.");
             }
         }//acafin
 	}else{

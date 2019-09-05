@@ -6,15 +6,19 @@ if(accesocon($cone,$_SESSION['identi'],17)){
     $idem=$_SESSION['identi'];
 
 ?>
-<div class="col-sm-12">
+<div class="col-sm-7">
+    <h5 class="text-muted text-blue" style="font-weight: 600;"><i class="fa fa-table text-yellow"></i> <b>NOTIFICACIONES PARA REPORTAR</b></h5>
+    <input type="hidden" id="idmp" value="<?php echo $rm['idtdmesapartes']; ?>">
+</div>
+<div class="col-sm-5">
     <p class="text-right text-muted" style="font-size: 11px;"><i class="fa fa-refresh text-yellow"></i> Alctualizado al <?php echo date('d/m/Y h:i:s A'); ?></p>
 </div>
 <div class="col-sm-12">
 <?php
-    $cb=mysqli_query($cone, "SELECT d.idDoc, d.numdoc, d.Numero, d.Ano, d.Siglas, d.FechaDoc, td.TipoDoc, ed.idtdestadodoc, ed.fecha, g.numero numguia, g.anio, ed.idtdestado FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc INNER JOIN tdestadodoc ed ON d.idDoc=ed.idDoc LEFT JOIN tdguia g ON ed.idtdguia=g.idtdguia WHERE ed.idEmpleado=$idem AND ed.estado=1 AND (ed.idtdestado=4) ORDER BY ed.fecha DESC;");
+    $cb=mysqli_query($cone, "SELECT d.idDoc, d.numdoc, d.Numero, d.Ano, d.Siglas, d.FechaDoc, td.TipoDoc, ed.idtdestadodoc, ed.fecha, g.numero numguia, g.anio, ed.idtdestado FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc INNER JOIN tdestadodoc ed ON d.idDoc=ed.idDoc LEFT JOIN tdguia g ON ed.idtdguia=g.idtdguia WHERE ed.idEmpleado=$idem AND ed.estado=1 AND ed.pnotificar=1 AND (ed.idtdestado=1 OR ed.idtdestado=2 OR ed.idtdestado=5) ORDER BY ed.fecha DESC;");
     if(mysqli_num_rows($cb)>0){
 ?>
-        <table class="table table-bordered table-hover" id="dt_ban4">
+        <table class="table table-bordered table-hover" id="dt_ban6">
             <thead>
                 <tr>
                     <th>NUM.</th>
@@ -69,11 +73,11 @@ if(accesocon($cone,$_SESSION['identi'],17)){
             </tbody>
         </table>
         <script>
-            $("#dt_ban4").DataTable();
+            $("#dt_ban6").DataTable();
         </script>
 <?php
     }else{
-        echo mensajewa("Sin documentos.");
+        echo mensajewa("Sin documentos pendientes.");
     }
     mysqli_free_result($cb);
 ?>

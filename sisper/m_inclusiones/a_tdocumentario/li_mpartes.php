@@ -7,7 +7,7 @@ if(accesoadm($cone,$_SESSION['identi'],17)){
     $cb=mysqli_query($cone, "SELECT mp.*, l.Direccion, l.idDistrito FROM tdmesapartes mp INNER JOIN local l ON mp.idLocal=l.idLocal;");
     if(mysqli_num_rows($cb)>0){
 ?>
-        <hr>
+        <br>
         <table class="table table-bordered table-hover" id="dt_bandeja">
             <thead>
                 <tr>

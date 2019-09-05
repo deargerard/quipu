@@ -1,7 +1,7 @@
 //bandeja
 
 $("#smpar").select2({
-  placeholder: 'Selecione un destino',
+  placeholder: 'Selecione una Mesa de Partes',
   ajax: {
     url: 'm_inclusiones/a_general/a_selmpartes.php',
     dataType: 'json',
@@ -21,7 +21,7 @@ $('#b_lim2').click(function() {
 });
 
 $("#sper").select2({
-  placeholder: 'Selecione un personal',
+  placeholder: 'Selecione un Personal',
   ajax: {
     url: 'm_inclusiones/a_general/a_selpersonal.php',
     dataType: 'json',
@@ -131,7 +131,19 @@ function li_ban7(){
       }
     });
 }
-
+function li_ban8(){
+    $.ajax({
+      type: "post",
+      url: "m_inclusiones/a_tdocumentario/li_ban8.php",
+      dataType: "html",
+      beforeSend: function () {
+        $("#r_ban8").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
+      },
+      success:function(a){
+        $("#r_ban8").html(a);
+      }
+    });
+}
 function f_bandeja(acc,v1,v2){
     $("#m_tamano").removeClass('modal-lg');
     switch(acc) {
@@ -223,6 +235,8 @@ $('#f_modal').submit(function(e){
         li_ban4();
         li_ban5();
         li_ban6();
+        li_ban7();
+        li_ban8();
       }else{
         $("#d_frespuesta").html(a.m);
         $("#b_guardar").removeClass("hidden");
@@ -231,62 +245,7 @@ $('#f_modal').submit(function(e){
   });
 })
 
-
-function g_der(v1, v2){
-  var v3=$('#smpar').val();
-  var idmp=$('#idmp').val();
-  if(v3!=null){
-    $.ajax({
-      type: "post",
-      url: "m_inclusiones/a_tdocumentario/g_bandeja.php",
-      data: {acc: 'derdoc', v1: v1, v2: v2, v3: v3, idmp: idmp},
-      dataType: "json",
-      success:function(a){
-        if(a.e){
-          alertify.success(a.m);
-          li_ban1();
-          li_ban2();
-          li_ban3();
-          li_ban4();
-          li_ban5();
-        }else{
-          alertify.error(a.m);
-        }
-      }
-    });
-  }else{
-    alert('Elija el destino a donde derivará el documento.');
-  }
-}
-
-function g_asi(v1, v2){
-  var v3=$('#sper').val();
-  if(v3!=null){
-    $.ajax({
-      type: "post",
-      url: "m_inclusiones/a_tdocumentario/g_bandeja.php",
-      data: {acc: 'asidoc', v1: v1, v2: v2, v3: v3},
-      dataType: "json",
-      success:function(a){
-        if(a.e){
-          alertify.success(a.m);
-          li_ban1();
-          li_ban2();
-          li_ban3();
-          li_ban4();
-          li_ban5();
-        }else{
-          alertify.error(a.m);
-        }
-      }
-    });
-  }else{
-    alert('Elija el personal a quien asignará el documento.');
-  }
-}
-
 function g_rec(v1, v2){
-
     $.ajax({
       type: "post",
       url: "m_inclusiones/a_tdocumentario/g_bandeja.php",
@@ -300,13 +259,71 @@ function g_rec(v1, v2){
           li_ban3();
           li_ban4();
           li_ban5();
+          li_ban6();
+          li_ban7();
         }else{
           alertify.error(a.m);
         }
       }
     });
-
 }
+
+function g_dermpa(v1, v2){
+  var v3=$('#smpar').val();
+  if(v3!=null){
+    $.ajax({
+      type: "post",
+      url: "m_inclusiones/a_tdocumentario/g_bandeja.php",
+      data: {acc: 'dermpa', v1: v1, v2: v2, v3: v3},
+      dataType: "json",
+      success:function(a){
+        if(a.e){
+          alertify.success(a.m);
+          li_ban1();
+          li_ban2();
+          li_ban3();
+          li_ban4();
+          li_ban5();
+          li_ban6();
+          li_ban7();
+        }else{
+          alertify.error(a.m);
+        }
+      }
+    });
+  }else{
+    alert('Elija la mesa de partes a donde derivará el documento.');
+  }
+}
+
+function g_dernot(v1, v2){
+  var v3=$('#sper').val();
+  if(v3!=null){
+    $.ajax({
+      type: "post",
+      url: "m_inclusiones/a_tdocumentario/g_bandeja.php",
+      data: {acc: 'dernot', v1: v1, v2: v2, v3: v3},
+      dataType: "json",
+      success:function(a){
+        if(a.e){
+          alertify.success(a.m);
+          li_ban1();
+          li_ban2();
+          li_ban3();
+          li_ban4();
+          li_ban5();
+          li_ban6();
+          li_ban7();
+        }else{
+          alertify.error(a.m);
+        }
+      }
+    });
+  }else{
+    alert('Elija el personal a quien derivará notificación.');
+  }
+}
+
 function guiapdf(guia){
   window.open("m_exportar/guiapdf.php?guia="+guia, '_blank');
 }
