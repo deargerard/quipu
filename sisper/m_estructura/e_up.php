@@ -223,7 +223,9 @@ if(!empty($css)){
             <i class="fa fa-angle-left pull-right"></i>
           </a>
           <ul class="treeview-menu">
+            <?php if(accesoadm($cone,$_SESSION['identi'],4)){ ?>
             <li id="paglicencias"><a href="paglicencias.php"><i class="fa fa-circle-o"></i> Registro</a></li>
+            <?php } ?>
             <li id="replicencias"><a href="replicencias.php"><i class="fa fa-circle-o"></i> Reportes</a></li>
           </ul>
         </li>
@@ -242,12 +244,11 @@ if(!empty($css)){
             <li id="provacaciones"><a href="provacaciones.php"><i class="fa fa-circle-o"></i> Programación</a></li>
             <?php } if(accesoadm($cone,$_SESSION['identi'],3)){ ?>
             <li id="pagvacaciones"><a href="pagvacaciones.php"><i class="fa fa-circle-o"></i> Reprogramación</a></li>
-              <?php if(accesoadm($cone,$_SESSION['identi'],14)){ ?>
+            <?php } if(accesoadm($cone,$_SESSION['identi'],14)){ ?>
             <li id="aprvacaciones"><a href="aprvacaciones.php"><i class="fa fa-circle-o"></i> Aprobación</a></li>
-              <?php } ?>
             <li id="ejevacaciones"><a href="ejevacaciones.php"><i class="fa fa-circle-o"></i> Ejecución</a></li>
-            <li id="repvacaciones"><a href="repvacaciones.php"><i class="fa fa-circle-o"></i> Reportes</a></li>
             <?php } ?>
+            <li id="repvacaciones"><a href="repvacaciones.php"><i class="fa fa-circle-o"></i> Reportes</a></li>
           </ul>
         </li>
         <?php
@@ -354,7 +355,9 @@ if(!empty($css)){
             <i class="fa fa-angle-left pull-right"></i>
           </a>
           <ul class="treeview-menu">
+            <?php if(accesoadm($cone,$_SESSION['identi'],15)){ ?>
             <li id="pagcomservicios"><a href="pagcomservicios.php"><i class="fa fa-circle-o"></i> Registro</a></li>
+            <?php } ?>
             <li id="repcomservicios"><a href="repcomservicios.php"><i class="fa fa-circle-o"></i> Reportes</a></li>
           </ul>
         </li>

@@ -34,7 +34,7 @@ if(accesocon($cone,$_SESSION['identi'],15)){
       $wecs.= $k==(count($estcs)-1) ? " cs.Estado=".iseguro($cone,$estcs[$k]).")" : "cs.Estado=".iseguro($cone,$estcs[$k])." OR ";
     }
 
-      $c="SELECT e.idEmpleado, e.NumeroDoc, cs.FechaIni, cs.FechaFin, concat(d.Numero,'-',d.Ano,'-',d.Siglas) AS Resolucion, cs.Descripcion, cs.Estado, cs.vehiculo, d.FechaDoc from comservicios cs INNER JOIN empleado e ON e.idEmpleado=cs.idEmpleado INNER JOIN empleadocargo ec ON e.idEmpleado=ec.idEmpleadoCargo  INNER JOIN cardependencia cd ON ec.idEmpleadoCargo=cd.idEmpleadoCargo INNER JOIN doc d ON cs.idDoc=d.idDoc where (FechaIni BETWEEN '$mesini' AND '$mesfin') AND $wecs;";
+      $c="SELECT e.idEmpleado, e.NumeroDoc, cs.FechaIni, cs.FechaFin, concat(d.Numero,'-',d.Ano,'-',d.Siglas) AS Resolucion, cs.origen, cs.destino, cs.Estado, cs.vehiculo, d.FechaDoc from comservicios cs INNER JOIN empleado e ON e.idEmpleado=cs.idEmpleado INNER JOIN empleadocargo ec ON e.idEmpleado=ec.idEmpleadoCargo  INNER JOIN cardependencia cd ON ec.idEmpleadoCargo=cd.idEmpleadoCargo INNER JOIN doc d ON cs.idDoc=d.idDoc where (FechaIni BETWEEN '$mesini' AND '$mesfin') AND $wecs;";
 
       $ccs=mysqli_query($cone,$c);
 ?>
@@ -46,20 +46,20 @@ if(accesocon($cone,$_SESSION['identi'],15)){
               <tr>
                     <th colspan="13"><font face="arial" color="#FF8000" size="3">REPORTE DE COMISIONES DE SERVICIO DEL <?php echo $mesini1; ?> AL <?php echo $mesfin1; ?></font></th>
               </tr>
-
               <tr>
-                <td bgcolor= "#585858"><b><font color="#ffffff" size="2">N°</font></b></td>
+                <td bgcolor= "#585858"><b><font color="#ffffff" size="2">N&deg;</font></b></td>
                 <td bgcolor= "#585858"><b><font color="#ffffff" size="2">DNI</font></b></td>
                 <td bgcolor= "#585858"><b><font color="#ffffff" size="2">NOMBRE</font></b></td>
                 <td bgcolor= "#585858"><b><font color="#ffffff" size="2">CARGO</font></b></td>
                 <td bgcolor= "#585858"><b><font color="#ffffff" size="2">DEPENDENCIA</font></b></td>
                 <td bgcolor= "#585858"><b><font color="#ffffff" size="2">COND. LABORAL</font></b></td>
-                <td bgcolor= "#585858"><b><font color="#ffffff" size="2">DESCRIPCIÓN DE LA COMISIÓN</font></b></td>
+                <td bgcolor= "#585858"><b><font color="#ffffff" size="2">ORIGEN</font></b></td>
+                <td bgcolor= "#585858"><b><font color="#ffffff" size="2">DESTINO</font></b></td>
                 <td bgcolor= "#585858"><b><font color="#ffffff" size="2">F. INICIO</font></b></td>
                 <td bgcolor= "#585858"><b><font color="#ffffff" size="2">F. FIN</font></b></td>
-                <td bgcolor= "#585858"><b><font color="#ffffff" size="2">RESOLUCIÓN</font></b></td>
+                <td bgcolor= "#585858"><b><font color="#ffffff" size="2">RESOLUCI&Oacute;N</font></b></td>
                 <td bgcolor= "#585858"><b><font color="#ffffff" size="2">FECHA RES.</font></b></td>
-                <td bgcolor= "#585858"><b><font color="#ffffff" size="2">VEHÍCULO</font></b></td>
+                <td bgcolor= "#585858"><b><font color="#ffffff" size="2">VEH&Iacute;CULO</font></b></td>
                 <td bgcolor= "#585858"><b><font color="#ffffff" size="2">ESTADO</font></b></td>
               </tr>
 <?php
@@ -75,7 +75,8 @@ if(accesocon($cone,$_SESSION['identi'],15)){
                 <td><font color="#000000"><?php echo cargoe($cone,$ide); ?></font></td>
                 <td><font color="#000000"><?php echo dependenciae($cone,$ide); ?></font></td>
                 <td><font color="#000000"><?php echo condicionlabe($cone,$ide); ?></font></td>
-                <td><font color="#000000"><?php echo $rcs['Descripcion']; ?></font></td>
+                <td><font color="#000000"><?php echo $rcs['origen']; ?></font></td>
+                <td><font color="#000000"><?php echo $rcs['destino']; ?></font></td>
                 <td><font color="#000000"><?php echo date('d/m/Y H:i', strtotime($rcs['FechaIni'])); ?></font></td>
                 <td><font color="#000000"><?php echo date('d/m/Y H:i', strtotime($rcs['FechaFin'])); ?></font></td>
                 <td><font color="#000000"><?php echo $rcs['Resolucion']?></font></td>
@@ -94,7 +95,6 @@ if(accesocon($cone,$_SESSION['identi'],15)){
       }
       mysqli_free_result($ccs);
 ?>
-
           </table>
 <?php
     }else{

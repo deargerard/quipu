@@ -22,7 +22,7 @@ if(accesocon($cone,$_SESSION['identi'],15)){
 			$wecs.= $k==(count($estcs)-1) ? " cs.Estado=$estcs[$k])" : "cs.Estado=$estcs[$k] OR ";
 		}
 
-			$c="SELECT e.idEmpleado, e.NumeroDoc, cs.FechaIni, cs.FechaFin, concat(d.Numero,'-',d.Ano,'-',d.Siglas) AS Resolucion, SUBSTRING(cs.Descripcion, 1, 100) as Descripcion, cs.Estado from comservicios cs INNER JOIN empleado e ON e.idEmpleado=cs.idEmpleado INNER JOIN doc d ON cs.idDoc=d.idDoc where (FechaIni BETWEEN '$mesini' AND '$mesfin') AND $wecs";
+			$c="SELECT e.idEmpleado, e.NumeroDoc, cs.FechaIni, cs.FechaFin, concat(d.Numero,'-',d.Ano,'-',d.Siglas) AS Resolucion, cs.Descripcion, cs.Estado, cs.origen, cs.destino from comservicios cs INNER JOIN empleado e ON e.idEmpleado=cs.idEmpleado INNER JOIN doc d ON cs.idDoc=d.idDoc where (FechaIni BETWEEN '$mesini' AND '$mesfin') AND $wecs";
 			//echo $c." -- ".$mesini." -- ".$mesfin;
 			$ccs=mysqli_query($cone,$c);
 			if (mysqli_num_rows($ccs)>0) {
@@ -34,11 +34,12 @@ if(accesocon($cone,$_SESSION['identi'],15)){
 								<!-- <th style="font-size:12px;">DNI</th> -->
 								<th style="font-size:12px;">EMPLEADO</th>
 								<th style="font-size:12px;">CARGO</th>
-								<th style="font-size:12px;">DESCRIPCIÓN</th>
-			          <th style="font-size:12px;">INICIA</th>
+								<th style="font-size:12px;">ORIGEN</th>
+								<th style="font-size:12px;">DESTINO</th>
+			          			<th style="font-size:12px;">INICIA</th>
 								<th style="font-size:12px;">TERMINA</th>
 								<th style="font-size:12px;">RESOLUCIÓN</th>
-			          <th style="font-size:12px;">ESTADO</th>
+			          			<th style="font-size:12px;">ESTADO</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -55,14 +56,15 @@ if(accesocon($cone,$_SESSION['identi'],15)){
 									$cap="Cancelada";
 								}
 										?>
-								<tr> <!--Fila de comisiones-->
+								<tr style="font-size:12px;"> <!--Fila de comisiones-->
 									<!-- <td><?php //echo $rcs['NumeroDoc']?></td> --> <!--columna DNI-->
 									<td><?php echo nomempleado($cone, $rcs['idEmpleado'])?></td> <!--columna APELLIDOS Y NOMBRES-->
 									<td style="font-size:12px;"><?php echo cargoe($cone, $rcs['idEmpleado'])?></td> <!--columna CARGO-->
-									<td><?php echo $rcs['Descripcion']?></td> <!--columna DESCRIPCIÓN-->
+									<td><?php echo $rcs['origen']?></td> <!--columna DESCRIPCIÓN-->
+									<td><?php echo $rcs['destino']?></td> <!--columna DESCRIPCIÓN-->
 									<td><?php echo date('d/m/Y H:i', strtotime($rcs['FechaIni']))?></td> <!--columna INICIO-->
 									<td><?php echo date('d/m/Y H:i', strtotime($rcs['FechaFin']))?></td> <!--columna FIN-->
-									<td><?php echo $rcs['Resolucion']?></td> <!--columna NÚMERO DE RESOLUCIÓN-->
+									<td><a href="#" title="<?php echo $rcs['Descripcion']?>"><?php echo $rcs['Resolucion']?></a></td> <!--columna NÚMERO DE RESOLUCIÓN-->
 									<td><span class='label label-<?php echo $est?>'><?php echo $cap?></span></td> <!--columna ESTADO-->
 				        </tr>
 								<?php

@@ -57,7 +57,7 @@ if(accesocon($cone,$_SESSION['identi'],15)){
 						<td><?php echo $rcs['destino']?></td>
 						<td><?php echo "<span class='hidden'>".$rcs['FechaIni']." </span>".date('d/m/Y H:i', strtotime($rcs['FechaIni']))?></td> <!--columna INICIO-->
 						<td><?php echo date('d/m/Y H:i', strtotime($rcs['FechaFin']))?></td> <!--columna FIN-->
-						<td><a href="#" data-toggle="popover" data-placement="left" data-trigger="hover" title="Descripción" data-content="<?php echo $rcs['Descripcion'] ?>"><?php echo $rcs['Resolucion']?></a></td> <!--columna NÚMERO DE RESOLUCIÓN-->
+						<td><a href="#" title="<?php echo $rcs['Descripcion'] ?>"><?php echo $rcs['Resolucion']?></a></td> <!--columna NÚMERO DE RESOLUCIÓN-->
 						<td><?php echo fnormal($rcs['FechaDoc'])?></td> <!--columna FECHA DOCUMENTO-->
 						<!-- <td><?php //echo $dt ?></td> columna CAMTIDAD DE DIAS-->
 						<td><span class='label label-<?php echo $est?>'><?php echo $cap?></span></td> <!--columna ESTADO-->
