@@ -155,11 +155,11 @@ $z=true;
               }
               ?>
           <tr> <!--Fila de vacaciones-->
-            <td><?php echo $rvac['PeriodoVacacional']?></td> <!--columna PERÍODO-->
-            <td><?php echo $doc?></td> <!--columna NÚMERO DE RESOLUCIÓN-->
-            <td><?php echo $fdoc?></td> <!--columna FECHA DOCUMENTO-->
-            <td><?php echo $con ?></td> <!--columna CONDICIÓN-->
-            <td><?php echo $dt ?></td> <!--columna CAMTIDAD DE DIAS-->
+            <td><?php echo $rvac['PeriodoVacacional']; ?></td> <!--columna PERÍODO-->
+            <td><?php echo $doc; ?></td> <!--columna NÚMERO DE RESOLUCIÓN-->
+            <td><?php echo $fdoc; ?></td> <!--columna FECHA DOCUMENTO-->
+            <td><?php echo $con; ?></td> <!--columna CONDICIÓN-->
+            <td class="text-orange"><?php echo $dt ?></td> <!--columna CAMTIDAD DE DIAS-->
             <td><?php echo "<span class='hidden'>".$rvac['FechaIni']."</span> ".fnormal($rvac['FechaIni'])?></td> <!--columna INICIO-->
             <td><?php echo fnormal($rvac['FechaFin'])?></td> <!--columna FIN-->
             <td><span class='label label-<?php echo $est?>'><?php echo $cap?></span></td> <!--columna ESTADO-->

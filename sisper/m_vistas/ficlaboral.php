@@ -81,8 +81,8 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                       <tr>
                         <td><?php echo $n; ?></td>
                         <td><?php echo nombredia($rm['Marcacion']); ?></td>
-                        <td class="text-muted"><span class="hidden"> <?php echo $rm['Marcacion'] ?></span> <?php echo date('d/m/Y', strtotime($rm['Marcacion'])); ?></td>
-                        <td class="text-blue"><?php echo date('h:i:s A', strtotime($rm['Marcacion'])); ?></td>
+                        <td class="text-orange"><span class="hidden"> <?php echo $rm['Marcacion'] ?></span> <?php echo date('d/m/Y', strtotime($rm['Marcacion'])); ?></td>
+                        <td class="text-yellow"><?php echo date('h:i:s A', strtotime($rm['Marcacion'])); ?></td>
                       <?php
                       }
                       ?>
@@ -302,7 +302,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                                 <td style="font-size: 12px;"><?php echo $doc?></td> <!--columna NÚMERO DE RESOLUCIÓN-->
                                 <td style="font-size: 12px;"><?php echo $fdoc?></td> <!--columna FECHA DOCUMENTO-->
                                 <td style="font-size: 12px;"><?php echo $con ?></td> <!--columna CONDICIÓN-->
-                                <td class="text-maroon"><?php echo $dt ?></td> <!--columna CAMTIDAD DE DIAS-->
+                                <td class="text-orange"><?php echo $dt ?></td> <!--columna CAMTIDAD DE DIAS-->
                                 <td><?php echo "<span class='hidden'>".$rvac['FechaIni']."</span> ".fnormal($rvac['FechaIni'])?></td> <!--columna INICIO-->
                                 <td><?php echo fnormal($rvac['FechaFin'])?></td> <!--columna FIN-->
                                 <td><span class='label label-<?php echo $est?>'><?php echo $cap?></span></td> <!--columna ESTADO-->
@@ -446,7 +446,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                                 <td><?php echo $rcs['destino']; ?></td> <!--columna INICIO-->
                                 <td style="font-size: 13px;"><?php echo date('d/m/Y H:i', strtotime($rcs['FechaFin']))." ".date('d/m/Y H:i', strtotime($rcs['FechaIni'])); ?></td> <!--columna FIN-->
                                 <td style="font-size: 13px;">
-                                  <a href="#" data-toggle="popover" data-placement="left" data-trigger="hover" title="Descripción" data-content="<?php echo $rcs['Descripcion'] ?>"><?php echo $rcs['Resolucion']?></a>
+                                  <a href="#" title="<?php echo $rcs['Descripcion']; ?>"><?php echo $rcs['Resolucion']?></a>
                                 </td> <!--columna NÚMERO DE RESOLUCIÓN-->
                                 <td><?php echo ftnormal($rcs['fecenvren']); ?></td> <!--columna NÚMERO DE RESOLUCIÓN-->
                                 <td>
@@ -497,7 +497,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                       	while ($rcar=mysqli_fetch_assoc($ccar)) {
                           $ec=$rcar['idEmpleadoCargo'];
                       		$cond=$rcar['CondicionCar']=="NINGUNO" ? "" : " (".substr($rcar['CondicionCar'], 0, 1).")";
-                      			$c=mysqli_query($cone,"SELECT li.idLicencia, li.idTipoLic, TipoLic, MotivoLic, FechaIni, FechaFin, Numero, Ano, Siglas, li.Estado FROM licencia li INNER JOIN aprlicencia al ON li.idLicencia=al.idLicencia INNER JOIN doc do ON al.idDoc=do.idDoc INNER JOIN tipdoclicencia tdl ON li.idTipDocLicencia=tdl.idTipDocLicencia INNER JOIN tipolic tl ON li.idTipoLic=tl.idTipoLic INNER JOIN espmedica em ON li.idEspMedica=em.idEspMedica INNER JOIN empleadocargo ec ON li.idEmpleadoCargo=ec.idEmpleadoCargo WHERE li.idEmpleadoCargo=$ec AND DATE_FORMAT(FechaIni,'%Y')=DATE_FORMAT(now(),'%Y') ORDER BY FechaIni DESC");
+                      			$c=mysqli_query($cone,"SELECT li.idLicencia, li.idTipoLic, TipoLic, MotivoLic, FechaIni, FechaFin, Numero, Ano, Siglas, li.Estado, do.Descripcion FROM licencia li INNER JOIN aprlicencia al ON li.idLicencia=al.idLicencia INNER JOIN doc do ON al.idDoc=do.idDoc INNER JOIN tipdoclicencia tdl ON li.idTipDocLicencia=tdl.idTipDocLicencia INNER JOIN tipolic tl ON li.idTipoLic=tl.idTipoLic INNER JOIN espmedica em ON li.idEspMedica=em.idEspMedica INNER JOIN empleadocargo ec ON li.idEmpleadoCargo=ec.idEmpleadoCargo WHERE li.idEmpleadoCargo=$ec AND DATE_FORMAT(FechaIni,'%Y')=DATE_FORMAT(now(),'%Y') ORDER BY FechaIni DESC");
 
                       			if(mysqli_num_rows($c)>0){
                       				$dat=true;
@@ -561,7 +561,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                         						<td><?php echo fnormal($r['FechaIni']); ?></td>
                         						<td><?php echo fnormal($r['FechaFin']); ?></td>
                         						<td><?php echo $dias; ?> día(s)</td>
-                        						<td><?php echo $r['Numero']."-".$r['Ano']."-".$r['Siglas']; ?></td>
+                        						<td><a href="#" title="<?php echo $r['Descripcion']; ?>"><?php echo $r['Numero']."-".$r['Ano']."-".$r['Siglas']; ?></a></td>
                         						<td><?php echo $r['Estado']==0 ? "<span class='label label-danger'>Cancelada</span>" : "<span class='label label-success'>Activa</span>"; ?></td>
 
                         					</tr>
