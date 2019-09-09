@@ -113,7 +113,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                     </div>
                     <div class="form-group">
                       <div class="input-group date" id="d_des">
-                        <input type="text" name="des" id="des" class="form-control">
+                        <input type="text" name="des" id="des" class="form-control" autocomplete="Off">
                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                       </div>
                     </div>

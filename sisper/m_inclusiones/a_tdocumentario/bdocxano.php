@@ -17,38 +17,21 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                         <th><i class="fa fa-slack text-aqua"></i> NÚMERO</th>
                         <th><i class="fa fa-files-o text-aqua"></i> TIPO</th>
                         <th><i class="fa fa-file text-aqua"></i> DOCUMENTO</th>
-                        <th><i class="fa fa-calendar text-aqua"></i> FECHA</th>
-                        <th><i class="fa fa-file-o text-aqua"></i> REFERENCIA</th>
-                        <th><i class="fa fa-stack-overflow text-aqua"></i> FOLIOS</th>
+                        <th><i class="fa fa-calendar text-aqua"></i> FECHA</th>                        
                     </tr>
                     <tr>
                         <td class="text-aqua"><?php echo $rd['numdoc'].'-'.$rd['Ano']; ?></td>
                         <td class="text-teal"><?php echo $rd['TipoDoc']; ?></td>
                         <td class="text-orange"><?php echo $rd['Numero']."-".$rd['Ano']."-".$rd['Siglas']; ?></td>
-                        <td><?php echo fnormal($rd['FechaDoc']); ?></td>
-                        <?php
-                        $ref='';
-                        if(!is_null($rd['referencia'])){ 
-                            $ref=$rd['referencia'];
-                            $cre=mysqli_query($cone, "SELECT CONCAT_WS('-', d.Numero, d.Ano, d.Siglas) doc, d.numdoc, td.TipoDoc FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc WHERE d.idDoc=$ref;");
-                            if($rre=mysqli_fetch_assoc($cre)){
-                            
-                                $ref=(!is_null($rre['numdoc']) ? $rre['numdoc'].' | ' : '').$rre['doc'];
-                            
-                            }
-                            mysqli_free_result($cre);
-                        }
-                        ?>
-                        <td><?php echo $ref; ?></td>
-                        <td><?php echo $rd['folios']; ?></td>
+                        <td><?php echo fnormal($rd['FechaDoc']); ?></td>                        
                     </tr>
                     <tr>
-                        <th colspan="5"><i class="fa fa-align-left text-aqua"></i> DESCRIPCIÓN</th>
-                        <th><i class="fa fa-folder-open text-aqua"></i> LEGAJO</th>
+                        <th colspan="4"><i class="fa fa-align-left text-aqua"></i> DESCRIPCIÓN</th>
+                        
                     </tr>
                     <tr>
-                        <td colspan="5"><?php echo $rd['Descripcion']; ?></td>
-                        <td><?php echo $rd['Legajo']; ?></td>
+                        <td colspan="4"><?php echo $rd['Descripcion']; ?></td>
+                        
                     </tr>
 <?php
                     if ($rd['remitenteint']!==null) {
