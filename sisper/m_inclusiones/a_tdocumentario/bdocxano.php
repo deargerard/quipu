@@ -34,10 +34,10 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                         
                     </tr>
 <?php
-                    if ($rd['remitenteint']!==null) {
+                    if ($rd['remitenteint']!=null || $rd['remitenteext']!=null) {
 ?>     
                         <tr>
-                            <th colspan="3"><i class="fa fa-user text-aqua"></i> REMITENTE</th>
+                            <th colspan="3"><i class="fa fa-user text-aqua"></i> <?php echo !is_null($rd['remitenteext']) ? 'REMITENTE EXTERNO' : 'REMITENTE'; ?></th>
                             <th colspan="3"><i class="fa fa-university text-aqua"></i> DEPENDENCIA ORIGEN</th>
                         </tr>
                         <tr>
@@ -46,10 +46,10 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                         </tr>
 <?php
                      }
-                     if ($rd['destinatarioint']!==null) {
+                     if ($rd['destinatarioint']!==null || $rd['destinatarioext']!==null) {
 ?>
                         <tr>
-                            <th colspan="3"><i class="fa fa-user text-aqua"></i> DESTINATARIO</th>
+                            <th colspan="3"><i class="fa fa-user text-aqua"></i> <?php echo !is_null($rd['remitenteext']) ? 'DESTINATARIO EXTERNO' : 'DESTINATARIO'; ?></th>
                             <th colspan="3"><i class="fa fa-university text-aqua"></i> DEPENDENCIA DESTINO</th>
                         </tr>
                         <tr>
@@ -57,7 +57,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                             <td colspan="3"><?php echo !is_null($rd['depdestinoext']) ? $rd['depdestinoext'] : nomdependencia($cone, $rd['depdestinoint']); ?></td>
                         </tr>
 <?php
-                    } 
+                   } 
  ?>
                 </table>
             </div>
