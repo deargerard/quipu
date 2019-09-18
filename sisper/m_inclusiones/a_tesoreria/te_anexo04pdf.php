@@ -16,14 +16,14 @@ use Spipu\Html2Pdf\Html2Pdf;
     table.page_footer {width: 100%; border: none; padding: 1mm; font-size: 10px;}
     table.tablep {width: 100%; border-collapse: collapse;}
     table.tablep th, table.tablep td {border: 1px solid #AAAAAA; padding: 2px; white-space: nowrap; word-break: break-all;}
-    table.st {width: 100%; border-collapse: collapse; padding: 30px 0 10px 0; font-size: 10px;}
+    table.st {width: 100%; border-collapse: collapse; padding: 20px 0 10px 0; font-size: 10px;}
     table.re {width: 100%; border-collapse: collapse; padding: 5px 0; font-size: 10px;}
     .de{text-align: right;}
     .ce{text-align: center;}
 
 -->
 </style>
-<page backtop="20mm" backbottom="5mm" backleft="2mm" backright="2mm" style="font-size: 9px;"> 
+<page backtop="17mm" backbottom="5mm" backleft="2mm" backright="2mm" style="font-size: 9px;"> 
     <page_header> 
       <table class="page_header">
           <tr>
