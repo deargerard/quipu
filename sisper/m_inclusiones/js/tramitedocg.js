@@ -16,11 +16,17 @@ $("#smpar").select2({
   minimumInputLength: 2
 })
 
-$('#b_lim2').click(function() {
+$('#b_lim3').click(function() {
   $('#smpar').select2('val', '');
 });
+$('#b_lim4').click(function() {
+  $('#sper').select2('val', '');
+});
+$('#b_lim9').click(function() {
+  $('#sper1').select2('val', '');
+});
 
-$("#sper").select2({
+$("#sper, #sper1").select2({
   placeholder: 'Selecione un Personal',
   ajax: {
     url: 'm_inclusiones/a_general/a_selpersonal.php',
@@ -36,9 +42,7 @@ $("#sper").select2({
   minimumInputLength: 2
 })
 
-$('#b_lim3').click(function() {
-  $('#sper').select2('val', '');
-});
+
 
 function li_ban1(){
     $.ajax({
@@ -141,6 +145,19 @@ function li_ban8(){
       },
       success:function(a){
         $("#r_ban8").html(a);
+      }
+    });
+}
+function li_ban9(){
+    $.ajax({
+      type: "post",
+      url: "m_inclusiones/a_tdocumentario/li_ban9.php",
+      dataType: "html",
+      beforeSend: function () {
+        $("#r_ban9").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
+      },
+      success:function(a){
+        $("#r_ban9").html(a);
       }
     });
 }
@@ -321,6 +338,35 @@ function g_dernot(v1, v2){
     });
   }else{
     alert('Elija el personal a quien derivará notificación.');
+  }
+}
+
+function g_derper(v1, v2){
+  var v3=$('#sper1').val();
+  if(v3!=null){
+    $.ajax({
+      type: "post",
+      url: "m_inclusiones/a_tdocumentario/g_bandeja.php",
+      data: {acc: 'derper1', v1: v1, v2: v2, v3: v3},
+      dataType: "json",
+      success:function(a){
+        if(a.e){
+          alertify.success(a.m);
+          li_ban1();
+          li_ban2();
+          li_ban3();
+          li_ban4();
+          li_ban5();
+          li_ban6();
+          li_ban7();
+          li_ban9();
+        }else{
+          alertify.error(a.m);
+        }
+      }
+    });
+  }else{
+    alert('Elija el personal a quien derivará.');
   }
 }
 

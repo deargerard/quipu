@@ -362,7 +362,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                 $r['m']="Faltan datos.";
             }
         }elseif($acc=="dernot"){
-            if(isset($_POST['v1']) && !empty($_POST['v1']) && isset($_POST['v2']) && !empty($_POST['v2']) && isset($_POST['v2']) && !empty($_POST['v2'])){
+            if(isset($_POST['v1']) && !empty($_POST['v1']) && isset($_POST['v2']) && !empty($_POST['v2']) && isset($_POST['v3']) && !empty($_POST['v3'])){
                 $v1=iseguro($cone, $_POST['v1']);
                 $v2=iseguro($cone, $_POST['v2']);
                 $v3=iseguro($cone, $_POST['v3']);
@@ -534,7 +534,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                 $idem=$_SESSION['identi'];
                 $dep=iddependenciae($cone, $idem);
 
-                $cd=mysqli_query($cone, "SELECT idtdestadodoc FROM tdestadodoc WHERE ISNULL(idtdguia) AND idtdmesapartes=$mpdes AND idtdestado=3 AND estado=1 AND mpderiva=$v1;");
+                $cd=mysqli_query($cone, "SELECT idtdestadodoc FROM tdestadodoc WHERE ISNULL(idtdguia) AND idtdmesapartes=$mpdes AND idtdestado=3 AND estado=1 AND mpasignador=$v1;");
                 if(mysqli_num_rows($cd)>0){
                     $cng=mysqli_query($cone, "SELECT MAX(numero) num FROM tdguia WHERE idtdmesapartesg=$v1 AND anio=YEAR(CURDATE())");
                     if($rng=mysqli_fetch_assoc($cng)){
@@ -546,7 +546,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                     //generamos la guía
                     if(mysqli_query($cone, "INSERT INTO tdguia (numero, anio, fecenvio, estado, idtdmesapartesg, idtdmesapartesd, generador) VALUES ($ng, YEAR(CURDATE()), CURDATE(), 1, $v1, $mpdes, $idem);")){
                         $idg=mysqli_insert_id($cone);
-                        if(mysqli_query($cone, "UPDATE tdestadodoc SET idtdguia=$idg WHERE ISNULL(idtdguia) AND idtdmesapartes=$mpdes AND idtdestado=3 AND estado=1 AND mpderiva=$v1;")){
+                        if(mysqli_query($cone, "UPDATE tdestadodoc SET idtdguia=$idg WHERE ISNULL(idtdguia) AND idtdmesapartes=$mpdes AND idtdestado=3 AND estado=1 AND mpasignador=$v1;")){
                             $r['m']=mensajesu("Guía generada.");
                             $r['e']=true;
                         }else{
@@ -603,6 +603,51 @@ if(accesocon($cone,$_SESSION['identi'],17)){
 
             }else{
                 $r['m']=mensajewa("Los campos marcados con <span class='text-red'>*</span> son obligatorios.");
+            }
+        }elseif($acc=="derper1"){
+            if(isset($_POST['v1']) && !empty($_POST['v1']) && isset($_POST['v2']) && !empty($_POST['v2']) && isset($_POST['v3']) && !empty($_POST['v3'])){
+                $v1=iseguro($cone, $_POST['v1']);
+                $v2=iseguro($cone, $_POST['v2']);
+                $v3=iseguro($cone, $_POST['v3']);
+                $dep=iddependenciae($cone, $v3);
+                $idem=$_SESSION['identi'];
+
+                $ce=mysqli_query($cone, "SELECT idtdestadodoc FROM tdestadodoc WHERE idDoc=$v1 AND estado=1;");
+                if($re=mysqli_fetch_assoc($ce)){
+                    if($re['idtdestadodoc']==$v2){
+                        $idue=$re['idtdestadodoc'];
+
+                        //obtenemos la mp
+                        $cmp=mysqli_query($cone, "SELECT mp.idtdmesapartes FROM tdpersonalmp p INNER JOIN tdmesapartes mp ON p.idtdmesapartes=mp.idtdmesapartes WHERE p.idEmpleado=$idem AND p.estado=1 AND mp.estado=1;");
+                        if($rmp=mysqli_fetch_assoc($cmp)){
+                            $mp=$rmp['idtdmesapartes'];
+                        }
+
+                        if(mysqli_query($cone, "INSERT INTO tdestadodoc (idDoc, idtdestado, fecha, idEmpleado, idDependencia, asignador, mpasignador, estado) VALUES ($v1, 3, NOW(), $v3, $dep, $idem, $mp, 1);")){
+                            $idne=mysqli_insert_id($cone);
+                            if(mysqli_query($cone, "UPDATE tdestadodoc SET estado=0 WHERE idDoc=$v1 AND idtdestadodoc=$idue;")){
+                                $r['m']="¡Listo! Documento derivado.";
+                                $r['e']=true;
+                            }else{
+                                if(mysqli_query($cone, "DELETE FROM tdestadodoc WHERE idtdestadodoc=$idne;")){
+                                    $r['m']="Error al derivar, vuelva a intentarlo.";
+                                }else{
+                                    $r['m']="Error al derivar, reporte al administrador del sistema.";
+                                }
+                            }
+                        }else{
+                            $r['m']="Error al derivar, vuelva a intentarlo.";
+                        }
+                    }else{
+                        $r['m']='El documento ya tiene otro estado. ¡Actualice!';
+                        $r['e']=true;
+                    }
+                }else{
+                    $r['m']='Error, datos erroneos del documento.';
+                }
+
+            }else{
+                $r['m']="Faltan datos.";
             }
         }//acafin
 	}else{

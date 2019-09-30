@@ -41,6 +41,9 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
               <li class="active"><a href="#tab_1" data-toggle="tab"><i class="fa fa-circle-o text-blue"></i> Recibir</a></li>
               <li><a href="#tab_2" data-toggle="tab"><i class="fa fa-circle-o text-blue"></i> Registrar</a></li>
               <li><a href="#tab_3" data-toggle="tab"><i class="fa fa-circle-o text-blue"></i> Derivar a MP</a></li>
+              <?php if($tmp==1){ ?>
+              <li><a href="#tab_9" data-toggle="tab"><i class="fa fa-circle-o text-blue"></i> Derivar a Per.</a></li>
+              <?php } ?>
               <?php if($tmp==2){ ?>
               <li><a href="#tab_4" data-toggle="tab"><i class="fa fa-circle-o text-blue"></i> Derivar Ntf.</a></li>
               <?php } ?>
@@ -100,7 +103,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                           
                         </select>
                       </div>
-                      <button type="button" class="btn bg-orange" id="b_lim2"><i class="fa fa-eraser"></i> Limpiar</button>
+                      <button type="button" class="btn bg-orange" id="b_lim3"><i class="fa fa-eraser"></i> Limpiar</button>
                     </form>
                   </div>
                 </div>
@@ -111,6 +114,33 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 
               </div>
               <!-- /.tab-pane -->
+              <?php if($tmp==1){ ?>
+              <div class="tab-pane" id="tab_9">
+                <!--Div resultados-->
+                <div class="row">
+                  <div class="col-md-5">
+                    <button type="button" class="btn bg-yellow" onclick="li_ban9();"><i class="fa fa-refresh"></i> Actualizar</button>
+                  </div>
+                  <div class="col-md-7">
+                    <form class="form-inline pull-right">
+                      <div class="form-group">
+                        <label for="sper">Derivar a</label>
+                        <select class="form-control" name="sper1" id="sper1" style="width: 350px;">
+                          
+                        </select>
+                      </div>
+                      <button type="button" class="btn bg-orange" id="b_lim9"><i class="fa fa-eraser"></i> Limpiar</button>
+                    </form>
+                  </div>
+                </div>
+                <div class="row" id="r_ban9">
+
+                </div>
+                <!--Fin div resultados-->
+                
+              </div>
+              <!-- /.tab-pane -->
+              <?php } ?>
               <?php if($tmp==2){ ?>
               <div class="tab-pane" id="tab_4">
                 <!--Div resultados-->
@@ -126,7 +156,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                           
                         </select>
                       </div>
-                      <button type="button" class="btn bg-orange" id="b_lim3"><i class="fa fa-eraser"></i> Limpiar</button>
+                      <button type="button" class="btn bg-orange" id="b_lim4"><i class="fa fa-eraser"></i> Limpiar</button>
                     </form>
                   </div>
                 </div>

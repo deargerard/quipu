@@ -120,7 +120,15 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                 </div>
             </div>            
-            
+            <div class="col-sm-3">
+                <div class="checkbox">
+                    <label>
+                        <br>
+                        <input type="checkbox" name="car" value="1">
+                        Cargo
+                    </label>
+                </div>
+            </div>
         </div>
 	    <div class="form-group" id="d_frespuesta">
 	    </div>
@@ -368,7 +376,16 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                     <input type="text" class="form-control" id="fecdoc" name="fecdoc" placeholder="dd/mm/aaaa" value="<?php echo fnormal($rd['FechaDoc']); ?>">
                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                 </div>
-            </div>            
+            </div>
+            <div class="col-sm-3">
+                <div class="checkbox">
+                    <label>
+                        <br>
+                        <input type="checkbox" name="car" value="1">
+                        Cargo
+                    </label>
+                </div>
+            </div>           
         </div>
         <div class="form-group" id="d_frespuesta">
         </div>
