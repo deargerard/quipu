@@ -2,10 +2,21 @@
 if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
   if(accesocon($cone,$_SESSION['identi'],17)){
     $ide=$_SESSION['identi'];
-    $mpm=false;
-    $cm=mysqli_query($cone, "SELECT idtdpersonalmp FROM tdpersonalmp WHERE idEmpleado=$ide AND estado=1;");
-    if(mysqli_num_rows($cm)>0){
-      $mpm=true;
+
+    $cm=mysqli_query($cone, "SELECT mp.tipo FROM tdpersonalmp pm INNER JOIN tdmesapartes mp ON pm.idtdmesapartes=mp.idtdmesapartes WHERE pm.idEmpleado=$ide AND pm.estado=1 AND mp.estado=1;");
+    if($rm=mysqli_fetch_assoc($cm)){
+      $tmp=$rm['tipo'];
+    }
+    mysqli_free_result($cm);
+    $en=false;
+    $cn=mysqli_query($cone, "SELECT ec.idEmpleadoCargo FROM empleadocargo ec INNER JOIN cardependencia cd ON ec.idEmpleadoCargo=cd.idEmpleadoCargo INNER JOIN dependencia d ON cd.idDependencia=d.idDependencia WHERE ec.idEmpleado=$ide AND ec.idEstadoCar=1 AND cd.Estado=1 AND (d.Denominacion LIKE '%NOTIFICACIONES%');");
+    if(mysqli_num_rows($cn)>0){
+      $en=true;
+    }
+    mysqli_free_result($cn);
+    $eno=false;
+    if(cargoe($cone, $ide)=='ASISTENTE ADMINISTRATIVO - NTF'){
+      $eno=true;
     }
 ?>
     <!-- Content Header (Page header) -->
@@ -28,13 +39,19 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
           <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
               <li class="active"><a href="#tab_1" data-toggle="tab"><i class="fa fa-circle-o text-blue"></i> Recibir</a></li>
-              <li><a href="#tab_2" data-toggle="tab"><i class="fa fa-circle-o text-blue"></i> Derivar/Registrar</a></li>
+              <li><a href="#tab_2" data-toggle="tab"><i class="fa fa-circle-o text-blue"></i> Registrar</a></li>
               <li><a href="#tab_3" data-toggle="tab"><i class="fa fa-circle-o text-blue"></i> Derivar a MP</a></li>
+              <?php if($tmp==2){ ?>
               <li><a href="#tab_4" data-toggle="tab"><i class="fa fa-circle-o text-blue"></i> Derivar Ntf.</a></li>
+              <?php } ?>
               <li><a href="#tab_5" data-toggle="tab"><i class="fa fa-circle-o text-blue"></i> Atender</a></li>
+              <?php if($en || $eno){ ?>
               <li><a href="#tab_6" data-toggle="tab"><i class="fa fa-circle-o text-blue"></i> Reportar Ntf.</a></li>
+              <?php } ?>
+              <?php if($tmp){ ?>
               <li><a href="#tab_7" data-toggle="tab"><i class="fa fa-circle-o text-blue"></i> Pend. Recepción</a></li>
-              <?php if($mpm){ ?>
+              <?php } ?>
+              <?php if(!is_null($tmp)){ ?>
               <li><a href="#tab_8" data-toggle="tab"><i class="fa fa-circle-o text-blue"></i> Guías</a></li>
               <?php } ?>
             </ul>
@@ -94,6 +111,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 
               </div>
               <!-- /.tab-pane -->
+              <?php if($tmp==2){ ?>
               <div class="tab-pane" id="tab_4">
                 <!--Div resultados-->
                 <div class="row">
@@ -117,6 +135,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 </div>
                 <!--Fin div resultados-->
               </div>
+              <?php } ?>
               <!-- /.tab-pane -->
               <div class="tab-pane" id="tab_5">
                 <!--Div resultados-->
@@ -131,6 +150,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 <!--Fin div resultados-->
               </div>
               <!-- /.tab-pane -->
+              <?php if($en || $eno){ ?>
               <div class="tab-pane" id="tab_6">
                 <!--Div resultados-->
                 <div class="row">
@@ -143,6 +163,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 </div>
                 <!--Fin div resultados-->
               </div>
+              <?php } ?>
               <!-- /.tab-pane -->
               <div class="tab-pane" id="tab_7">
                 <!--Div resultados-->
@@ -157,7 +178,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 <!--Fin div resultados-->
               </div>
               <!-- /.tab-pane -->
-              <?php if($mpm){ ?>
+              <?php if(!is_null($tmp)){ ?>
               <div class="tab-pane" id="tab_8">
                 <!--Div resultados-->
                 <div class="row" id="r_ban8">

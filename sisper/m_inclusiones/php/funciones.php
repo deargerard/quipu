@@ -170,23 +170,31 @@ function dependenciae($con,$idemp){
 
 function iddependenciae($con,$idemp){
 	$idemp=iseguro($con,$idemp);
-	$cdep=mysqli_query($con,"SELECT d.idDependencia FROM empleado AS e INNER JOIN empleadocargo AS ec ON e.idEmpleado=ec.idEmpleado INNER JOIN cardependencia AS cd ON ec.idEmpleadoCargo=cd.idEmpleadoCargo INNER JOIN dependencia AS d ON cd.idDependencia=d.idDependencia WHERE e.idEmpleado=$idemp AND ec.idEstadoCar=1 AND cd.Estado=1");
-	if($rdep=mysqli_fetch_assoc($cdep)){
-		return $rdep["idDependencia"];
+	if($idemp!=""){
+		$cdep=mysqli_query($con,"SELECT d.idDependencia FROM empleado AS e INNER JOIN empleadocargo AS ec ON e.idEmpleado=ec.idEmpleado INNER JOIN cardependencia AS cd ON ec.idEmpleadoCargo=cd.idEmpleadoCargo INNER JOIN dependencia AS d ON cd.idDependencia=d.idDependencia WHERE e.idEmpleado=$idemp AND ec.idEstadoCar=1 AND cd.Estado=1");
+		if($rdep=mysqli_fetch_assoc($cdep)){
+			return $rdep["idDependencia"];
+		}else{
+			return 0;
+		}
+		mysqli_free_result($cdep);
 	}else{
-		return "0";
+		return 0;
 	}
-	mysqli_free_result($cdep);
 }
 function nomdependencia($con,$iddep){
-	$iddep=iseguro($con,$iddep);
-	$cdep=mysqli_query($con,"SELECT Denominacion FROM dependencia WHERE idDependencia=$iddep");
-	if($rdep=mysqli_fetch_assoc($cdep)){
-		return $rdep["Denominacion"];
+	$iddep=iseguro($con, $iddep);
+	if($iddep!=""){
+		$cdep=mysqli_query($con, "SELECT Denominacion FROM dependencia WHERE idDependencia=$iddep");
+		if($rdep=mysqli_fetch_assoc($cdep)){
+			return $rdep["Denominacion"];
+		}else{
+			return "ERROR";
+		}
+		mysqli_free_result($cdep);
 	}else{
-		return "--";
+		return "ERROR";
 	}
-	mysqli_free_result($cdep);
 }
 function abrdependencia($con,$iddep){
 	$iddep=iseguro($con,$iddep);
@@ -724,7 +732,7 @@ function intervalo($f1, $f2) {
 	return $dias;
 }
 //Fin Funcion intervalo de fechas
-//funcion cargo por idEmpleadocargo
+//funcion cargo por idEmpleadoCargo
 function cargoiec($con, $idec){
 	$idec=iseguro($con, $idec);
 	$c=mysqli_query($con, "SELECT c.Denominacion, cc.CondicionCar FROM empleadocargo ec INNER JOIN cargo c ON ec.idCargo=c.idCargo INNER JOIN condicioncar cc ON ec.idCondicionCar=cc.idCondicionCar WHERE ec.idEmpleadoCargo=$idec");
@@ -735,7 +743,7 @@ function cargoiec($con, $idec){
 	}
 	mysqli_free_result($c);
 }
-//funcion cargo por idEmpleadocargo
+//funcion cargo por idEmpleadoCargo
 //funcion coordinador
 function escoordinador($con, $ide){
 	$ide=iseguro($con,$ide);
@@ -1173,6 +1181,21 @@ function nommpartes($con, $idmp){
 			return "ERROR";
 		}
 		mysqli_free_result($cm);
+	}else{
+		return "ERROR";
+	}
+}
+
+function idlocempleado($cone, $ide){
+	$ide=iseguro($cone, $ide);
+	if($ide!=""){
+		$c=mysqli_query($cone, "SELECT dl.idLocal FROM empleadocargo ec INNER JOIN cardependencia cd ON ec.idEmpleadoCargo=cd.idEmpleadoCargo INNER JOIN dependencia d ON cd.idDependencia=d.idDependencia INNER JOIN dependencialocal dl ON d.idDependencia=dl.idDependencia WHERE ec.idEmpleado=$ide AND ec.idEstadoCar=1 AND cd.Estado=1;");
+		if($r=mysqli_fetch_assoc($c)){
+			return $r['idLocal'];
+		}else{
+			return "ERROR";
+		}
+		mysqli_fetch_assoc($c);
 	}else{
 		return "ERROR";
 	}

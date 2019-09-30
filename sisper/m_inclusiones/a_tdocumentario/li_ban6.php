@@ -15,7 +15,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
 </div>
 <div class="col-sm-12">
 <?php
-    $cb=mysqli_query($cone, "SELECT d.idDoc, d.numdoc, d.Numero, d.Ano, d.Siglas, d.FechaDoc, td.TipoDoc, ed.idtdestadodoc, ed.fecha, g.numero numguia, g.anio, ed.idtdestado FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc INNER JOIN tdestadodoc ed ON d.idDoc=ed.idDoc LEFT JOIN tdguia g ON ed.idtdguia=g.idtdguia WHERE ed.idEmpleado=$idem AND ed.estado=1 AND ed.pnotificar=1 AND (ed.idtdestado=1 OR ed.idtdestado=2 OR ed.idtdestado=5) ORDER BY ed.fecha DESC;");
+    $cb=mysqli_query($cone, "SELECT d.idDoc, d.numdoc, d.Numero, d.Ano, d.Siglas, d.FechaDoc, d.destinatarioint, d.depdestinoint, d.destinatarioext, d.depdestinoext, td.TipoDoc, ed.idtdestadodoc, ed.fecha, ed.idtdestado FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc INNER JOIN tdestadodoc ed ON d.idDoc=ed.idDoc WHERE ed.idEmpleado=$idem AND ed.estado=1 AND ed.pnotificar=1 AND (ed.idtdestado=1 OR ed.idtdestado=2 OR ed.idtdestado=5) ORDER BY ed.fecha DESC;");
     if(mysqli_num_rows($cb)>0){
 ?>
         <table class="table table-bordered table-hover" id="dt_ban6">
@@ -26,6 +26,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                     <th>FECHA DOCUMENTO<br>TIEMPO</th>
                     <th>ESTADO</th>
                     <th>FECHA ESTADO<br>TIEMPO</th>
+                    <th>DESTINO</th>
                     <th class="text-center">ACCIÓN</th>
                 </tr>
             </thead>
@@ -39,6 +40,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                     <td><?php echo fnormal($rb['FechaDoc']); ?><br><span class="text-yellow"><?php echo diftiempo($rb['FechaDoc'], date('Y-m-d H:i:s')); ?></span></td>
                     <td><?php echo estadoDoc($rb['idtdestado']); ?></td>
                     <td><?php echo date('d/m/Y h:i:s A', strtotime($rb['fecha'])); ?><br><span class="text-orange"><?php echo diftiempo($rb['fecha'], date('Y-m-d H:i:s')); ?></span></td>
+                    <td class="text-aqua"><?php echo !is_null($rb['destinatarioint']) ? nomempleado($cone, $rb['destinatarioint'])."<br><small class='text-muted'>".nomdependencia($cone, $rb['depdestinoint'])."</small>" : $rb['destinatarioext']."<br><small class='text-muted'>".$rb['depdestinoext']."</small>"; ?></td>
                     <td class="text-center">
                           <div class="btn-group btn-group-xs">
                             <button type="button" class="btn btn-info btn-xs" title="Reportar Notificación" onclick="f_bandeja('repdoc', <?php echo $rb['idDoc'].", ".$rb['idtdestadodoc']; ?>)"><i class="fa fa-motorcycle"></i></button>

@@ -8,44 +8,74 @@ if(accesoadm($cone,$_SESSION['identi'],17)){
 	if(isset($_POST['acc']) && !empty($_POST['acc'])){
 		$acc=iseguro($cone,$_POST['acc']);		
 		if($acc=="agrmpar"){
-            if(isset($_POST['mpar']) && !empty($_POST['mpar']) && isset($_POST['loc']) && !empty($_POST['loc'])){
+            if(isset($_POST['mpar']) && !empty($_POST['mpar']) && isset($_POST['loc']) && !empty($_POST['loc']) && isset($_POST['tip']) && !empty($_POST['tip'])){
                 $mpar=imseguro($cone, $_POST['mpar']);
                 $loc=iseguro($cone, $_POST['loc']);
-                if(mysqli_query($cone, "INSERT INTO tdmesapartes (denominacion, estado, idLocal) VALUES ('$mpar', 1, $loc);")){
-                    $r['m']=mensajesu("¡Listo! mesa de partes registrada.");
-                    $r['e']=true;
+                $tip=iseguro($cone, $_POST['tip']);
+                $ce=mysqli_query($cone, "SELECT * FROM tdmesapartes WHERE idLocal=$loc AND tipo=$tip AND estado=1;");
+                if(mysqli_num_rows($ce)>0){
+                    $r['m']=mensajewa("Ya existe una mesa de partes con el mismo tipo en el local seleccionado.");
                 }else{
-                    $r['m']=mensajewa("Error, vuelva a intentarlo.");
+                    if(mysqli_query($cone, "INSERT INTO tdmesapartes (denominacion, estado, idLocal, tipo) VALUES ('$mpar', 1, $loc, $tip);")){
+                        $r['m']=mensajesu("¡Listo! mesa de partes registrada.");
+                        $r['e']=true;
+                    }else{
+                        $r['m']=mensajewa("Error, vuelva a intentarlo.");
+                    }
                 }
+                mysqli_free_result($ce);
             }else{
                 $r['m']=mensajewa("Los campos marcado con <span class='text-red'>*</span> son obligatorios.");
             }
         }elseif($acc=="edimpar"){
-            if(isset($_POST['v1']) && !empty($_POST['v1']) && isset($_POST['mpar']) && !empty($_POST['mpar']) && isset($_POST['loc']) && !empty($_POST['loc'])){
+            if(isset($_POST['v1']) && !empty($_POST['v1']) && isset($_POST['mpar']) && !empty($_POST['mpar']) && isset($_POST['loc']) && !empty($_POST['loc']) && isset($_POST['tip']) && !empty($_POST['tip'])){
                 $v1=iseguro($cone, $_POST['v1']);
                 $mpar=imseguro($cone, $_POST['mpar']);
                 $loc=iseguro($cone, $_POST['loc']);
-                if(mysqli_query($cone, "UPDATE tdmesapartes SET denominacion='$mpar', idLocal=$loc WHERE idtdmesapartes=$v1;")){
-                    $r['m']=mensajesu("¡Listo! mesa de partes editada.");
-                    $r['e']=true;
+                $tip=iseguro($cone, $_POST['tip']);
+                $ce=mysqli_query($cone, "SELECT * FROM tdmesapartes WHERE idLocal=$loc AND tipo=$tip AND estado=1 AND idtdmesapartes!=$v1;");
+                if(mysqli_num_rows($ce)>0){
+                    $r['m']=mensajewa("Ya existe una mesa de partes con el mismo tipo en el local seleccionado.");
                 }else{
-                    $r['m']=mensajewa("Error, vuelva a intentarlo.");
+                    if(mysqli_query($cone, "UPDATE tdmesapartes SET denominacion='$mpar', idLocal=$loc, tipo=$tip WHERE idtdmesapartes=$v1;")){
+                        $r['m']=mensajesu("¡Listo! mesa de partes editada.");
+                        $r['e']=true;
+                    }else{
+                        $r['m']=mensajewa("Error, vuelva a intentarlo.");
+                    }
                 }
+                mysqli_free_result($ce);
             }else{
                 $r['m']=mensajewa("Los campos marcado con <span class='text-red'>*</span> son obligatorios.");
             }
         }elseif($acc=="estmpar"){
             if(isset($_POST['v1']) && !empty($_POST['v1'])){
                 $v1=iseguro($cone, $_POST['v1']);
-                $cm=mysqli_query($cone, "SELECT estado FROM tdmesapartes WHERE idtdmesapartes=$v1;");
+                $cm=mysqli_query($cone, "SELECT estado, idLocal, tipo FROM tdmesapartes WHERE idtdmesapartes=$v1;");
                 if($rm=mysqli_fetch_assoc($cm)){
                     $nest=$rm['estado']==1 ? 0 : 1;
-                    if(mysqli_query($cone, "UPDATE tdmesapartes SET estado=$nest WHERE idtdmesapartes=$v1;")){
-                        $r['e']=true;
-                        $r['m']=mensajesu("¡Listo! Se cambio el estado.");
-                    }else{
-                        $r['m']=mensajewa("Error, vuelva a intentarlo.");
+                    $loc=$rm['idLocal'];
+                    $tip=$rm['tipo'];
+                    $se=true;
+                    if($nest==1){
+                        $ce=mysqli_query($cone, "SELECT idtdmesapartes FROM tdmesapartes WHERE idLocal=$loc AND tipo=$tip AND estado=1;");
+                        if(mysqli_num_rows($ce)>0){
+                            $se=false;
+                        }
+                        mysqli_free_result($ce);
                     }
+
+                    if($se){
+                        if(mysqli_query($cone, "UPDATE tdmesapartes SET estado=$nest WHERE idtdmesapartes=$v1;")){
+                            $r['e']=true;
+                            $r['m']=mensajesu("¡Listo! Se cambio el estado.");
+                        }else{
+                            $r['m']=mensajewa("Error, vuelva a intentarlo.");
+                        }
+                    }else{
+                        $r['m']=mensajewa("Error al activar, posiblemente ya exista una MP en el mismo local y del ");
+                    }
+                    
                 }else{
                     $r['m']=mensajewa("Error, datos inválidos.");
                 }

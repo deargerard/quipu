@@ -13,10 +13,17 @@ if(accesoadm($cone,$_SESSION['identi'],17)){
                 <label for="mpar">Denominación<small class="text-red">*</small></label>
                 <input type="text" class="form-control" id="mpar" name="mpar" placeholder="MESA DE PARTES ÚNICA DE CAJAMARCA">
             </div>
-            <div class="col-sm-12">
+            <div class="col-sm-8">
                 <label for="loc">Local<small class="text-red">*</small></label>
                 <select class="form-control" id="loc" name="loc" style="width: 100%;">
 
+                </select>
+            </div>
+            <div class="col-sm-4">
+                <label for="tip">Tipo<small class="text-red">*</small></label>
+                <select class="form-control" id="tip" name="tip">
+                    <option value="1">COMÚN</option>
+                    <option value="2">NOTIFICACIONES</option>
                 </select>
             </div>
         </div>
@@ -53,10 +60,17 @@ if(accesoadm($cone,$_SESSION['identi'],17)){
                 <label for="mpar">Denominación<small class="text-red">*</small></label>
                 <input type="text" class="form-control" id="mpar" name="mpar" placeholder="MESA DE PARTES ÚNICA DE CAJAMARCA" value="<?php echo $rm['denominacion']; ?>">
             </div>
-            <div class="col-sm-12">
+            <div class="col-sm-8">
                 <label for="loc">Local<small class="text-red">*</small></label>
                 <select class="form-control" id="loc" name="loc" style="width: 100%;">
                     <option value="<?php echo $rm['idLocal']; ?>"><?php echo dirdisprolocal($cone, $rm['idLocal']); ?></option>
+                </select>
+            </div>
+            <div class="col-sm-4">
+                <label for="tip">Tipo<small class="text-red">*</small></label>
+                <select class="form-control" id="tip" name="tip">
+                    <option value="1" <?php echo $rm['tipo']==1 ? "selected" : ""; ?>>COMÚN</option>
+                    <option value="2" <?php echo $rm['tipo']==2 ? "selected" : ""; ?>>NOTIFICACIONES</option>
                 </select>
             </div>
         </div>

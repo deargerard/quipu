@@ -245,11 +245,11 @@ $('#f_modal').submit(function(e){
   });
 })
 
-function g_rec(v1, v2){
+function g_rec(v1, v2, mp){
     $.ajax({
       type: "post",
       url: "m_inclusiones/a_tdocumentario/g_bandeja.php",
-      data: {acc: 'recdoc', v1: v1, v2: v2},
+      data: {acc: 'recdoc', v1: v1, v2: v2, mp: mp},
       dataType: "json",
       success:function(a){
         if(a.e){

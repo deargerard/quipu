@@ -4,7 +4,7 @@ include("../php/conexion_sp.php");
 include("../php/funciones.php");
 if(accesoadm($cone,$_SESSION['identi'],17)){
     $idem=$_SESSION['identi'];
-    $cb=mysqli_query($cone, "SELECT mp.*, l.Direccion, l.idDistrito FROM tdmesapartes mp INNER JOIN local l ON mp.idLocal=l.idLocal;");
+    $cb=mysqli_query($cone, "SELECT mp.*, l.Direccion, l.idDistrito FROM tdmesapartes mp INNER JOIN local l ON mp.idLocal=l.idLocal ORDER BY mp.denominacion ASC;");
     if(mysqli_num_rows($cb)>0){
 ?>
         <br>
@@ -14,6 +14,7 @@ if(accesoadm($cone,$_SESSION['identi'],17)){
                     <th>#</th>
                     <th>DENOMINACIÓN</th>
                     <th>LOCAL</th>
+                    <th>TIPO</th>
                     <th>ESTADO</th>
                     <th>ACCIÓN</th>
                 </tr>
@@ -28,13 +29,18 @@ if(accesoadm($cone,$_SESSION['identi'],17)){
                     <td><?php echo $n; ?></td>
                     <td><?php echo $rb['denominacion']; ?></td>
                     <td><?php echo $rb['Direccion']." [".disprodep($cone, $rb['idDistrito'])."]"; ?></td>
+                    <td><?php echo $rb['tipo']==1 ? "COMÚN" : ($rb['tipo']==2 ? "NOTIFICACIONES" : ""); ?></td>
                     <td><?php echo estado($rb['estado']); ?></td>
                     <td class="text-center">
                         <div class="btn-group btn-group-xs">
                             <?php if(accesoadm($cone,$_SESSION['identi'],17)){ ?>
+                                <?php if($rb['estado']){ ?>
                             <button type="button" class="btn btn-info btn-xs" title="Editar Mesa de Partes" onclick="f_mpartes('edimpar',<?php echo $rb['idtdmesapartes'].",0"; ?>)"><i class="fa fa-pencil"></i></button>
+                                <?php } ?>
                             <button type="button" class="btn btn-info btn-xs" title="Cambiar Estado" onclick="f_mpartes('estmpar',<?php echo $rb['idtdmesapartes'].",0"; ?>)"><i class="fa fa-toggle-on"></i></button>
+
                             <button type="button" class="btn btn-info btn-xs" title="Responsables" onclick="f_mpartes('resmpar',<?php echo $rb['idtdmesapartes'].",0"; ?>)"><i class="fa fa-users"></i></button>
+
                             <?php } ?>
                         </div>
                     </td>

@@ -12,7 +12,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
 <div class="col-sm-12">
   <br>
 <?php
-  $cg=mysqli_query($cone, "SELECT d.numdoc, d.Numero, d.Ano, d.Siglas, d.FechaDoc, d.remitenteext, d.destinatarioext, d.remitenteint, d.destinatarioint FROM tdestadodoc ed INNER JOIN doc d ON ed.idDoc=d.idDoc WHERE ISNULL(ed.idtdguia) AND ed.idtdmesapartes=$idmp AND ed.idtdestado=3 AND ed.estado=1 AND ed.mpderiva=$v1;");
+  $cg=mysqli_query($cone, "SELECT d.numdoc, d.Numero, d.Ano, d.Siglas, d.FechaDoc, d.remitenteext, d.destinatarioext, d.remitenteint, d.destinatarioint FROM tdestadodoc ed INNER JOIN doc d ON ed.idDoc=d.idDoc WHERE ISNULL(ed.idtdguia) AND ed.idtdmesapartes=$idmp AND ed.idtdestado=3 AND ed.estado=1 AND ed.mpasignador=$v1;");
   if(mysqli_num_rows($cg)>0){
 ?>
     <table class="table table-hover table-bordered" id="dt_gdoc">

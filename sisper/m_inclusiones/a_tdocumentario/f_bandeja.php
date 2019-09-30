@@ -8,9 +8,14 @@ if(accesocon($cone,$_SESSION['identi'],17)){
 		$v1=iseguro($cone,$_POST['v1']);
 		$v2=iseguro($cone,$_POST['v2']);
 		if($acc=="agrdoc"){
+            $idem=$_SESSION['identi'];
+            $idl=idlocempleado($cone, $idem);
+            $cmp=mysqli_query($cone, "SELECT idtdmesapartes FROM tdmesapartes WHERE idLocal=$idl AND estado=1 AND tipo=1;");
+            if($rmp=mysqli_fetch_assoc($cmp)){
 ?>
         <div class="row">
             <input type="hidden" name="acc" value="<?php echo $acc; ?>">
+            <input type="hidden" name="imp" value="<?php echo $rmp['idtdmesapartes']; ?>">
             <div class="col-sm-2">
                 <label for="trem">Tipo Remitente<small class="text-red">*</small></label>
                 <select name="trem" id="trem" class="form-control" onchange="orem(this.value);">
@@ -21,20 +26,20 @@ if(accesocon($cone,$_SESSION['identi'],17)){
             <div class="col-sm-4 rint">
                 <label for="pirem">Remitente<small class="text-red">*</small></label>
                 <select class="form-control" id="pirem" name="pirem" style="width: 100%;">
-                    
+                    <option value="<?php echo $idem; ?>"><?php echo nomempleado($cone, $idem); ?></option>
                 </select>
             </div>
-            <div class="col-sm-5 rint">
+            <div class="col-sm-6 rint">
                 <label for="direm">Dependencia/institución origen<small class="text-red">*</small></label>
                 <select class="form-control" id="direm" name="direm">
-
+                    <option value="<?php echo iddependenciae($cone, $idem); ?>"><?php echo nomdependencia($cone, iddependenciae($cone, $idem)); ?></option>
                 </select>
             </div>
             <div class="col-sm-4 rext">
                 <label for="perem">Remitente<small class="text-red">*</small></label>
                 <input type="text" class="form-control" id="perem" name="perem" placeholder="Remitente">
             </div>
-            <div class="col-sm-5 rext">
+            <div class="col-sm-6 rext">
                 <label for="derem">Dependencia/institución origen<small class="text-red">*</small></label>
                 <input type="text" class="form-control" id="derem" name="derem" placeholder="Dependencia/institución origen">
             </div>
@@ -51,7 +56,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                     
                 </select>
             </div>
-            <div class="col-sm-5 dint">
+            <div class="col-sm-6 dint">
                 <label for="dides">Dependencia/institución destino<small class="text-red">*</small></label>
                 <select class="form-control" id="dides" name="dides">
 
@@ -61,7 +66,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                 <label for="pedes">Destinatario<small class="text-red">*</small></label>
                 <input type="text" class="form-control" id="pedes" name="pedes" placeholder="Destinatario">
             </div>
-            <div class="col-sm-5 dext">
+            <div class="col-sm-6 dext">
                 <label for="dedes">Dependencia/institución destino<small class="text-red">*</small></label>
                 <input type="text" class="form-control" id="dedes" name="dedes" placeholder="Dependencia/institución destino">
             </div>
@@ -74,7 +79,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                 <input type="text" class="form-control" id="asu" name="asu" placeholder="Asunto">
             </div>
             <div class="col-sm-2">
-                <label for="num">Número<small class="text-red">*</small></label>
+                <label for="num">Número</label>
                 <input type="text" class="form-control" id="num" name="num" placeholder="001">
             </div>
             <div class="col-sm-2">
@@ -86,13 +91,13 @@ if(accesocon($cone,$_SESSION['identi'],17)){
             </div>
             <div class="col-sm-3">
                 <label for="sig">Siglas<small class="text-red">*</small></label>
-                <input type="text" class="form-control" id="sig" name="sig" placeholder="MPFN-DFC-INF">
+                <input type="text" class="form-control" id="sig" name="sig" placeholder="MPFN-DFC-INF" value="<?php echo abrdependencia($cone, iddependenciae($cone, $idem)); ?>">
             </div>
             <div class="col-sm-3">
                 <label for="tipdoc">Tip. Documento<small class="text-red">*</small></label>
                 <select class="form-control" id="tipdoc" name="tipdoc" style="width: 100%">
                 <?php
-                $ctd=mysqli_query($cone, "SELECT * FROM tipodoc WHERE Estado=1;");
+                $ctd=mysqli_query($cone, "SELECT * FROM tipodoc WHERE Estado=1 ORDER BY TipoDoc ASC;");
                 if(mysqli_num_rows($ctd)>0){
                     while($rtd=mysqli_fetch_assoc($ctd)){
                 ?>
@@ -131,6 +136,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                     case "e":
                         $(".rext").show();
                         $(".rint").hide();
+                        //$("#sig").val("");
                         //$("#pirem").select2("val", "");
                         //$("#direm").val("");
                         break;
@@ -244,6 +250,9 @@ if(accesocon($cone,$_SESSION['identi'],17)){
             odes("i");
         </script>  
 <?php
+            }else{
+                echo mensajewa("No existe Mesa de Partes en su Local. Solicite la creación de una.");
+            }
 		}elseif($acc=="edidoc"){
           if(isset($v1) && !empty($v1)){
             $cd=mysqli_query($cone, "SELECT * FROM doc WHERE idDoc=$v1;");
@@ -267,7 +276,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                     <?php } ?>
                 </select>
             </div>
-            <div class="col-sm-5 rint">
+            <div class="col-sm-6 rint">
                 <label for="direm">Dependencia/institución origen<small class="text-red">*</small></label>
                 <select class="form-control" id="direm" name="direm">
                     <?php if(!is_null($rd['remitenteint'])){ ?>
@@ -279,7 +288,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                 <label for="perem">Remitente<small class="text-red">*</small></label>
                 <input type="text" class="form-control" id="perem" name="perem" placeholder="Remitente" value="<?php echo $rd['remitenteext']; ?>">
             </div>
-            <div class="col-sm-5 rext">
+            <div class="col-sm-6 rext">
                 <label for="derem">Dependencia/institución origen<small class="text-red">*</small></label>
                 <input type="text" class="form-control" id="derem" name="derem" placeholder="Dependencia/institución origen" value="<?php echo $rd['deporigenext']; ?>">
             </div>
@@ -298,7 +307,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                     <?php } ?>
                 </select>
             </div>
-            <div class="col-sm-5 dint">
+            <div class="col-sm-6 dint">
                 <label for="dides">Dependencia/institución destino<small class="text-red">*</small></label>
                 <select class="form-control" id="dides" name="dides">
                     <?php if(!is_null($rd['destinatarioint'])){ ?>
@@ -310,7 +319,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                 <label for="pedes">Destinatario<small class="text-red">*</small></label>
                 <input type="text" class="form-control" id="pedes" name="pedes" placeholder="Destinatario" value="<?php echo $rd['destinatarioext']; ?>">
             </div>
-            <div class="col-sm-5 dext">
+            <div class="col-sm-6 dext">
                 <label for="dedes">Dependencia/institución destino<small class="text-red">*</small></label>
                 <input type="text" class="form-control" id="dedes" name="dedes" placeholder="Dependencia/institución destino" value="<?php echo $rd['depdestinoext']; ?>">
             </div>
@@ -319,7 +328,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                 <input type="text" class="form-control" id="asu" name="asu" placeholder="Asunto" value="<?php echo $rd['asunto']; ?>">
             </div>
             <div class="col-sm-2">
-                <label for="num">Número<small class="text-red">*</small></label>
+                <label for="num">Número</label>
                 <input type="text" class="form-control" id="num" name="num" placeholder="001" value="<?php echo $rd['Numero']; ?>">
             </div>
             <div class="col-sm-2">
@@ -337,7 +346,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                 <label for="tipdoc">Tip. Documento<small class="text-red">*</small></label>
                 <select class="form-control" id="tipdoc" name="tipdoc" style="width: 100%">
                 <?php
-                $ctd=mysqli_query($cone, "SELECT * FROM tipodoc WHERE Estado=1;");
+                $ctd=mysqli_query($cone, "SELECT * FROM tipodoc WHERE Estado=1 ORDER BY TipoDoc ASC;");
                 if(mysqli_num_rows($ctd)>0){
                     while($rtd=mysqli_fetch_assoc($ctd)){
                 ?>
@@ -495,7 +504,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
           }
         }elseif($acc=="elidoc"){
           if(isset($v1) && !empty($v1)){
-            $cd=mysqli_query($cone, "SELECT d.Numero, d.Ano, d.Siglas, d.FechaDoc, td.TipoDoc FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc WHERE d.idDoc=$v1;");
+            $cd=mysqli_query($cone, "SELECT d.Numero, d.Ano, d.Siglas, d.numdoc, td.TipoDoc FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc WHERE d.idDoc=$v1;");
             if($rd=mysqli_fetch_assoc($cd)){
 ?>
         <div class="row text-center">
@@ -503,7 +512,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
             <input type="hidden" name="v1" value="<?php echo $v1; ?>">
             <div class="col-sm-12">
                 <p class="text-muted"><i class="fa fa-warning text-yellow"></i> ¿Está seguro que desea eliminar este documento?</p>
-                <h4 class="text-orange"><i class="fa fa-file-text text-gray"></i> <?php echo $rd['TipoDoc']." ".$rd['Numero']."-".$rd['Ano']."-".$rd['Siglas'].' <small>['.fnormal($rd['FechaDoc']).']</small>'; ?></h4>
+                <h4 class="text-orange"><i class="fa fa-file-text text-gray"></i> <?php echo $rd['TipoDoc']." ".(!is_null($rd['Numero']) ? $rd['Numero']."-" : "").$rd['Ano']."-".$rd['Siglas'].' <small class="text-muted">[<b>'.$rd['numdoc'].'-'.$rd['Ano'].'</b>]</small>'; ?></h4>
             </div>
         </div>
         <div class="form-group" id="d_frespuesta">
@@ -649,8 +658,8 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                         <th><i class="fa fa-stack-overflow text-aqua"></i> FOLIOS</th>
                     </tr>
                     <tr>
-                        <td class="text-aqua"><?php echo $rd['numdoc'].'-'.$rd['Ano']; ?></td>
-                        <td class="text-teal"><?php echo $rd['TipoDoc']; ?></td>
+                        <td class="text-aqua"><?php echo (!is_null($rd['numdoc']) ? $rd['numdoc']."-" : "").$rd['Ano']; ?></td>
+                        <td class="text-primary"><?php echo $rd['TipoDoc']; ?></td>
                         <td class="text-orange" colspan="2"><?php echo $rd['Numero']."-".$rd['Ano']."-".$rd['Siglas']; ?></td>
                         <td><?php echo fnormal($rd['FechaDoc']); ?></td>
                         <td><?php echo $rd['folios']; ?></td>
@@ -675,6 +684,14 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                         <td colspan="3"><?php echo !is_null($rd['destinatarioext']) ? $rd['destinatarioext'] : nomempleado($cone, $rd['destinatarioint']); ?></td>
                         <td colspan="3"><?php echo !is_null($rd['depdestinoext']) ? $rd['depdestinoext'] : nomdependencia($cone, $rd['depdestinoint']); ?></td>
                     </tr>
+                    <tr>
+                        <th colspan="4"><i class="fa fa-user text-aqua"></i> REGISTRADO POR</th>
+                        <th colspan="2"><i class="fa fa-calendar text-aqua"></i> FECHA REGISTRO</th>
+                    </tr>
+                    <tr>
+                        <td colspan="4"><?php echo !is_null($rd['regpor']) ? nomempleado($cone, $rd['regpor']) : ""; ?></td>
+                        <td colspan="2"><?php echo !is_null($rd['fecregistro']) ? ftnormal($rd['fecregistro']) : ""; ?></td>
+                    </tr>
                 </table>
             </div>
         </div>
@@ -693,7 +710,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
 ?>
         <div class="row">
             <div class="col-sm-12">
-                <table class="table table-bordered table-hover">
+                <table class="table table-bordered table-hover" style="font-size: 13px;">
                     <thead>
                     <tr>
                         <th><i class="fa fa-slack text-aqua"></i> NÚMERO</th>
@@ -704,9 +721,21 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                     </thead>
                     <tr>
                         <td class="text-aqua"><?php echo $rd['numdoc'].'-'.$rd['Ano']; ?></td>
-                        <td class="text-teal"><?php echo $rd['TipoDoc']; ?></td>
-                        <td class="text-orange"><?php echo $rd['Numero']."-".$rd['Ano']."-".$rd['Siglas']; ?></td>
+                        <td class="text-primary"><?php echo $rd['TipoDoc']; ?></td>
+                        <td class="text-orange"><?php echo (!is_null($rd['Numero']) ? $rd['Numero']."-" : "").$rd['Ano']."-".$rd['Siglas']; ?></td>
                         <td><?php echo fnormal($rd['FechaDoc']); ?></td>
+                    </tr>
+                    <tr>
+                        <th colspan="2"><i class="fa fa-street-view text-aqua"></i> REMITENTE</th>
+                        <th colspan="2"><i class="fa fa-street-view text-aqua"></i> DESTINATARIO</th>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <?php echo !is_null($rd['remitenteext']) ? ($rd['remitenteext'].'<br><small class="text-aqua">'.$rd['deporigenext'].'</small>') : (nomempleado($cone, $rd['remitenteint']).'<br><small class="text-aqua">'.nomdependencia($cone, $rd['deporigenint']).'</small>'); ?>       
+                        </td>
+                        <td colspan="2">
+                            <?php echo !is_null($rd['destinatarioext']) ? ($rd['destinatarioext'].'<br><small class="text-aqua">'.$rd['depdestinoext'].'</small>') : (nomempleado($cone, $rd['destinatarioint']).'<br><small class="text-aqua">'.nomdependencia($cone, $rd['depdestinoint']).'</small>'); ?>
+                        </td>
                     </tr>
                 </table>
 <?php
@@ -714,14 +743,14 @@ if(accesocon($cone,$_SESSION['identi'],17)){
             if(mysqli_num_rows($ce)>0){
 ?>
                 <span class="text-muted" style="font-size: 11px;"><i class="fa fa-refresh text-orange"></i> Actualizado al <?php echo date('d/m/Y h:i:s A'); ?></span>
-                <table class="table table-bordered table-hover">
+                <table class="table table-bordered table-hover" style="font-size: 13px;">
                     <thead>
                         <tr>
                             <th>#</th>
                             <th>ESTADO</th>
                             <th>FECHA</th>
                             <th>TIEMPO</th>
-                            <th>RESPONSABLE</th>
+                            <th>ASIGNADO A / ASIGNADO POR</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -745,7 +774,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                             <td><?php echo $n; ?></td>
                             <td>
                                 <?php echo estadoDoc($re['idtdestado']); ?>
-                                <?php if($re['idtdestado']==3){ ?>
+                                <?php if(!is_null($re['idtdproveido'])){ ?>
                                 <br><i class="fa fa-commenting text-orange"></i> <b class="text-muted"><?php echo $re['tipo']; ?>:</b> <?php echo $re['motivo']; ?> <br>
                                 <?php } ?>
                                 <?php if($re['idtdestado']==5){ ?>
@@ -755,13 +784,23 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                             <td><?php echo date('d/m/Y h:i:s A', strtotime($re['fecha'])); ?></td>
                             <td class="text-orange"><i class="fa fa-clock-o"></i> <?php echo $ti!="" ? diftiempo($fec, $ti) : ""; ?></td>
                             <td>
+                                <b>
                                 <?php
-                                if(!is_null($re['idEmpleado'])){
-                                    echo nomempleado($cone, $re['idEmpleado']).'<br><small class="text-aqua">'.nomdependencia($cone, $re['idDependencia']).'</small>';
-                                }else{
-                                    if(!is_null($re['idtdmesapartes'])){
-                                        echo nommpartes($cone, $re['idtdmesapartes']).(!is_null($re['asignador']) ? '<br><small class="text-aqua">'.nomempleado($cone, $re['asignador']).'</small>' : '');
+                                if(!is_null($re['idtdmesapartes'])){
+                                    if(!is_null($re['idEmpleado'])){
+                                        echo nomempleado($cone, $re['idEmpleado']).' <small class="text-aqua">'.nommpartes($cone, $re['idtdmesapartes']).'</small>';
+                                    }else{
+                                        echo nommpartes($cone, $re['idtdmesapartes']);
                                     }
+                                }else{
+                                    echo nomempleado($cone, $re['idEmpleado']).' <small class="text-aqua">'.nomdependencia($cone, $re['idDependencia']).'</small>';
+                                }
+                                ?>
+                                </b>
+                                <br>
+                                <?php
+                                if($re['idtdestado']!=4 && $re['idtdestado']!=2){
+                                    echo nomempleado($cone, $re['asignador'])." <small class='text-aqua'>".(!is_null($re['mpasignador']) ? nommpartes($cone, $re['mpasignador']) : nomdependencia($cone, $re['depasignador']))."</small>";
                                 }
                                 ?>
                             </td>
@@ -816,38 +855,36 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                         <td><?php echo fnormal($rd['FechaDoc']); ?></td>
                     </tr>
                     <tr>
-                        <th colspan="4"><i class="fa fa-user text-aqua"></i> RESPONSABLE</th>
+                        <th colspan="2"><i class="fa fa-user text-aqua"></i> ASIGNADO A</th>
+                        <th colspan="2"><i class="fa fa-user text-aqua"></i> ASIGNADO POR</th>
                     </tr>
                     <tr>
-                        <td colspan="4">
+                        <td colspan="2">
                             <?php
-                            if(!is_null($rd['idEmpleado'])){
-                                echo nomempleado($cone, $rd['idEmpleado']).' <small class="text-aqua">['.nomdependencia($cone, $rd['idDependencia']).']</small>';
-                            }else{
                                 if(!is_null($rd['idtdmesapartes'])){
-                                    echo nommpartes($cone, $rd['idtdmesapartes']);
+                                    if(!is_null($rd['idEmpleado'])){
+                                        echo nomempleado($cone, $rd['idEmpleado']).' <br><small class="text-aqua">'.nommpartes($cone, $rd['idtdmesapartes']).'</small>';
+                                    }else{
+                                        echo nommpartes($cone, $rd['idtdmesapartes']);
+                                    }
+                                }else{
+                                    echo nomempleado($cone, $rd['idEmpleado']).' <br><small class="text-aqua">'.nomdependencia($cone, $rd['idDependencia']).'</small>';
                                 }
-                            }
                             ?>
                         </td>
+                        <td colspan="2">
+                            <?php
+                                echo nomempleado($cone, $rd['asignador'])." <br><small class='text-aqua'>".(!is_null($rd['mpasignador']) ? nommpartes($cone, $rd['mpasignador']) : nomdependencia($cone, $rd['depasignador']))."</small>";
+                            ?>
+                        </td> 
                     </tr>
                     <tr>
-                        <th colspan="2"><i class="fa fa-user text-aqua"></i> ASIGNADOR</th>
-                        <th><i class="fa fa-calendar text-aqua"></i> FECHA</th>
-                        <th><i class="fa fa-clock-o text-aqua"></i> TIEMPO</th>
+                        <th colspan="2"><i class="fa fa-calendar text-aqua"></i> FECHA</th>
+                        <th colspan="2"><i class="fa fa-clock-o text-aqua"></i> TIEMPO</th>
                     </tr>
                     <tr>
-                        <?php
-                        $as='';
-                        $ca=mysqli_query($cone, "SELECT idEmpleado FROM tdestadodoc WHERE idDoc=$idd AND fecha<'$f' ORDER BY fecha DESC LIMIT 1;");
-                        if($ra=mysqli_fetch_assoc($ca)){
-                            $as=$ra['idEmpleado'];
-                        }
-                        mysqli_free_result($ca);
-                        ?>
-                        <td colspan="2"><?php echo $as!='' ? nomempleado($cone, $as) : nomempleado($cone, $rd['idEmpleado']); ?></td>
-                        <td><?php echo date('d/m/Y h:i:s A', strtotime($rd['fecha'])); ?></td>
-                        <td class="text-orange"><?php echo diftiempo($rd['fecha'], date('Y-m-d H:i:s')); ?></td>
+                        <td colspan="2"><?php echo date('d/m/Y h:i:s A', strtotime($rd['fecha'])); ?></td>
+                        <td colspan="2" class="text-orange"><?php echo diftiempo($rd['fecha'], date('Y-m-d H:i:s')); ?></td>
                     </tr>
                     <?php if(!is_null($rd['modnotificacion'])){ ?>
                     <tr>
@@ -890,7 +927,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                             <select class="form-control" id="mpdes" name="mpdes" onchange="li_gdoc(this.value, <?php echo $v1; ?>);">
                                 <option value="">DESTINO GUÍA</option>
                             <?php
-                            $cd=mysqli_query($cone, "SELECT DISTINCT mp.idtdmesapartes, mp.denominacion FROM tdestadodoc ed INNER JOIN tdmesapartes mp ON ed.idtdmesapartes=mp.idtdmesapartes WHERE ISNULL(ed.idtdguia) AND ed.idtdestado=3 AND ed.estado=1 AND ed.mpderiva=$v1;");
+                            $cd=mysqli_query($cone, "SELECT DISTINCT mp.idtdmesapartes, mp.denominacion FROM tdestadodoc ed INNER JOIN tdmesapartes mp ON ed.idtdmesapartes=mp.idtdmesapartes WHERE ISNULL(ed.idtdguia) AND ed.idtdestado=3 AND ed.estado=1 AND ed.mpasignador=$v1;");
                             if(mysqli_num_rows($cd)>0){
                                 while($rd=mysqli_fetch_assoc($cd)){
                             ?>
