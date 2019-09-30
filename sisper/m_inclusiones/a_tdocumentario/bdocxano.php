@@ -70,16 +70,16 @@ if(accesocon($cone,$_SESSION['identi'],17)){
 
             if(mysqli_num_rows($ce)>0){
 
-                ?>
+?>
                 <span class="text-muted" style="font-size: 11px;"><i class="fa fa-refresh text-orange"></i> Actualizado al <?php echo date('d/m/Y h:i:s A'); ?></span>
-                <table class="table table-bordered table-hover">
+                <table class="table table-bordered table-hover" style="font-size: 13px;">
                     <thead>
                         <tr>
                             <th>#</th>
                             <th>ESTADO</th>
                             <th>FECHA</th>
                             <th>TIEMPO</th>
-                            <th>RESPONSABLE</th>
+                            <th>ASIGNADO A / ASIGNADO POR</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -103,7 +103,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                             <td><?php echo $n; ?></td>
                             <td>
                                 <?php echo estadoDoc($re['idtdestado']); ?>
-                                <?php if($re['idtdestado']==3){ ?>
+                                <?php if(!is_null($re['idtdproveido'])){ ?>
                                 <br><i class="fa fa-commenting text-orange"></i> <b class="text-muted"><?php echo $re['tipo']; ?>:</b> <?php echo $re['motivo']; ?> <br>
                                 <?php } ?>
                                 <?php if($re['idtdestado']==5){ ?>
@@ -113,13 +113,23 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                             <td><?php echo date('d/m/Y h:i:s A', strtotime($re['fecha'])); ?></td>
                             <td class="text-orange"><i class="fa fa-clock-o"></i> <?php echo $ti!="" ? diftiempo($fec, $ti) : ""; ?></td>
                             <td>
+                                <b>
                                 <?php
-                                if(!is_null($re['idEmpleado'])){
-                                    echo nomempleado($cone, $re['idEmpleado']).'<br><small class="text-aqua">'.nomdependencia($cone, $re['idDependencia']).'</small>';
-                                }else{
-                                    if(!is_null($re['idtdmesapartes'])){
-                                        echo nommpartes($cone, $re['idtdmesapartes']).(!is_null($re['asignador']) ? '<br><small class="text-aqua">'.nomempleado($cone, $re['asignador']).'</small>' : '');
+                                if(!is_null($re['idtdmesapartes'])){
+                                    if(!is_null($re['idEmpleado'])){
+                                        echo nomempleado($cone, $re['idEmpleado']).' <small class="text-aqua">'.nommpartes($cone, $re['idtdmesapartes']).'</small>';
+                                    }else{
+                                        echo nommpartes($cone, $re['idtdmesapartes']);
                                     }
+                                }else{
+                                    echo nomempleado($cone, $re['idEmpleado']).' <small class="text-aqua">'.nomdependencia($cone, $re['idDependencia']).'</small>';
+                                }
+                                ?>
+                                </b>
+                                <br>
+                                <?php
+                                if($re['idtdestado']!=4 && $re['idtdestado']!=2){
+                                    echo nomempleado($cone, $re['asignador'])." <small class='text-aqua'>".(!is_null($re['mpasignador']) ? nommpartes($cone, $re['mpasignador']) : nomdependencia($cone, $re['depasignador']))."</small>";
                                 }
                                 ?>
                             </td>
@@ -137,7 +147,6 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                     </tbody>
                 </table>
 <?php
-
             }
             mysqli_free_result($ce);
 ?>
