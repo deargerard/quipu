@@ -41,9 +41,8 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                     <td><?php echo date('d/m/Y h:i:s A', strtotime($rb['fecha'])); ?><br><span class="text-orange"><?php echo diftiempo($rb['fecha'], date('Y-m-d H:i:s')); ?></span></td>
                     <td class="text-aqua"><?php echo !is_null($rb['destinatarioint']) ? nomempleado($cone, $rb['destinatarioint'])."<br><small class='text-muted'>".nomdependencia($cone, $rb['depdestinoint'])."</small>" : $rb['destinatarioext']."<br><small class='text-muted'>".$rb['depdestinoext']."</small>"; ?></td>
                     <td class="text-center">
-                          <div class="btn-group btn-group-xs">
+                            <button type="button" class="btn btn-info btn-xs" title="Derivar a Mesa de Partes con proveído" onclick="f_bandeja('dermpp', <?php echo $rb['idDoc'].", ".$rb['idtdestadodoc']; ?>)"><i class="fa fa-reply-all"></i></button>
                             <button type="button" class="btn btn-info btn-xs" title="Derivar a Mesa de Partes" onclick="g_dermpa(<?php echo $rb['idDoc'].", ".$rb['idtdestadodoc']; ?>)"><i class="fa fa-share-square-o"></i></button>
-                          </div>
                           <div class="btn-group">
                             
                             <button class="btn bg-maroon btn-xs dropdown-toggle" data-toggle="dropdown">

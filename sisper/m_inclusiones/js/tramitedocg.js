@@ -183,7 +183,7 @@ function f_bandeja(acc,v1,v2){
           var mt="<span class='text-muted'><i class='fa fa-reply text-yellow'></i> Revertir Documento</span>";
           break;
         case 'rutdoc':
-          var mt="<span class='text-muted'><i class='fa fa-retweet text-yellow'></i> Ruta Documento</span>";
+          var mt="<span class='text-muted'><i class='fa fa-retweet text-yellow'></i> Seguimiento Documento</span>";
           $(".modal-dialog").addClass('modal-lg');
           break;
         case 'detest':
@@ -206,8 +206,8 @@ function f_bandeja(acc,v1,v2){
           var mt="<span class='text-muted'><i class='fa fa-stack-overflow text-yellow'></i> Listar Guía</span>";
           $(".modal-dialog").addClass('modal-lg');
           break;
-        case 'derper':
-          var mt="<span class='text-muted'><i class='fa fa-share text-yellow'></i> Derivar a Persona</span>";
+        case 'dermpp':
+          var mt="<span class='text-muted'><i class='fa fa-share text-yellow'></i> Derivar a Mesa de Partes con Proveído</span>";
           break;
     }
     $(".modal-title").html(mt);

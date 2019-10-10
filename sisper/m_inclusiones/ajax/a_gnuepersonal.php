@@ -60,6 +60,10 @@ if(accesoadm($cone,$_SESSION['identi'],1)){
                               if(!mysqli_query($cone,$qp)){
                                     echo "<h4 class='text-maroon'>Error: No se registro el sistema de pensión.<br>".mysqli_error($cone)."</h4><br>";
                               }
+                              $qa="INSERT INTO empleadomodulo (idEmpleado, idModulo, Por, Fecha, Administrar, Consultar) VALUES ($idper, 9, $regpor, '$fec', 1, 0);";
+                              if(!mysqli_query($cone, $qa)){
+                                    echo "<h4 class='text-maroon'>Error: No se registro los permisos para acceder a su perfil.<br>".mysqli_error($cone)."</h4><br>";
+                              }
                               //echo "<a href='carpersonal.php?per=$idper' class='btn btn-primary'>Asignar cargo</a>";
 
                         }else{

@@ -8,6 +8,7 @@ if(mysqli_num_rows($cc)>0){
 		$cono['yovasquez@mpfn.gob.pe']='YONY VASQUEZ CUBAS';
 		$cono['arlopezdj@mpfn.gob.pe']='ARNALDO GUSTAVO LOPEZ ALVAREZ';
 		$cono['emendozadj@mpfn.gob.pe']='EDILBERTO MORENO MENDOZA';
+		$cono['cquiliche@mpfn.gob.pe']='CRISTIAN FRANK QUILICHE MARIN';
 		//$cono['gintor@mpfn.gob.pe']='GERARDO SEVERINO INTOR OSORIO';
 		//$cono['mcotrina@mpfn.gob.pe']='MARCO WILSON COTRINA VARGAS';
 	}

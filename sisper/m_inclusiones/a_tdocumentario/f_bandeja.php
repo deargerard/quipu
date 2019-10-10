@@ -119,13 +119,13 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                     <input type="text" class="form-control" id="fecdoc" name="fecdoc" placeholder="dd/mm/aaaa" value="<?php echo date('d/m/Y'); ?>">
                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                 </div>
-            </div>            
+            </div>           
             <div class="col-sm-3">
                 <div class="checkbox">
                     <label>
                         <br>
                         <input type="checkbox" name="car" value="1">
-                        Cargo
+                        Es cargo
                     </label>
                 </div>
             </div>
@@ -381,8 +381,8 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                 <div class="checkbox">
                     <label>
                         <br>
-                        <input type="checkbox" name="car" value="1">
-                        Cargo
+                        <input type="checkbox" name="car" value="1" <?php echo $rd['cargo']==1 ? "checked" : ""; ?>>
+                        Es cargo
                     </label>
                 </div>
             </div>           
@@ -683,7 +683,8 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                     </tr>
                     <tr>
                         <th><i class="fa fa-info-circle text-aqua"></i> ASUNTO</th>
-                        <td colspan="5"> <?php echo $rd['asunto']; ?></th>
+                        <td colspan="4"><?php echo $rd['asunto']; ?></th>
+                        <th><i class="fa fa-file-o text-aqua"></i> <?php echo $rd['cargo']==1 ? "Cargo" : "Original"; ?></th>
                     </tr>
                     <tr>
                         <th colspan="3"><i class="fa fa-user text-aqua"></i> REMITENTE</th>
@@ -792,7 +793,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                             <td>
                                 <?php echo estadoDoc($re['idtdestado']); ?>
                                 <?php if(!is_null($re['idtdproveido'])){ ?>
-                                <br><i class="fa fa-commenting text-orange"></i> <b class="text-muted"><?php echo $re['tipo']; ?>:</b> <?php echo $re['motivo']; ?> <br>
+                                <br><i class="fa fa-user text-orange"></i> <?php echo nomempleado($cone, $re['cppara']); ?><br><i class="fa fa-commenting text-orange"></i> <b class="text-muted"><?php echo $re['tipo']; ?>:</b> <?php echo $re['motivo']; ?> <br>
                                 <?php } ?>
                                 <?php if($re['idtdestado']==5){ ?>
                                 <br><i class="fa fa-motorcycle text-orange"></i> <b class="text-muted"> <?php echo $re['estnotificacion']==1 ? "Notificado" : ($re['estnotificacion']==2 ? "Devuelto" : ""); ?></b> <?php echo $re['modnotificacion']; ?><br><i class="fa fa-calendar text-gray"></i> <?php echo fnormal($re['fecnotificacion']); ?> <br>
@@ -1043,22 +1044,22 @@ if(accesocon($cone,$_SESSION['identi'],17)){
             }else{
                 echo mensajewa("Error, faltan datos.");
             }
-        }elseif($acc=="derper"){
+        }elseif($acc=="dermpp"){
             if(isset($v1) && !empty($v1) && isset($v2) && !empty($v2)){
+                $idem=$_SESSION['identi'];
+                $idl=idlocempleado($cone, $idem);
+                $cmp=mysqli_query($cone, "SELECT idtdmesapartes FROM tdmesapartes WHERE idLocal=$idl AND estado=1 AND tipo=1;");
+                if($rmp=mysqli_fetch_assoc($cmp)){
 ?>
                     <div class="row">
                         <input type="hidden" name="acc" value="<?php echo $acc; ?>">
                         <input type="hidden" name="v1" value="<?php echo $v1; ?>">
                         <input type="hidden" name="v2" value="<?php echo $v2; ?>">
-                        <div class="col-sm-7">
-                            <label for="per">Personal<small class="text-red">*</small></label>
-                            <select class="form-control" id="per" name="per" style="width: 100%;">
-                                
-                            </select>
-                        </div>
+                        <input type="hidden" name="imp" value="<?php echo $rmp['idtdmesapartes']; ?>">
+                        
                         <div class="col-sm-5">
-                            <label for="mot">Motivo<small class="text-red">*</small></label>
-                            <select class="form-control" id="mot" name="mot" style="width: 100%;">
+                            <label for="pro">Proveído<small class="text-red">*</small></label>
+                            <select class="form-control" id="pro" name="pro" style="width: 100%;">
                             <?php
                             $ctp=mysqli_query($cone, "SELECT DISTINCT tipo FROM tdproveido WHERE estado=1;");
                             if(mysqli_num_rows($ctp)>0){
@@ -1085,13 +1086,12 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                             ?>
                             </select>
                         </div>
-                        <div class="col-sm-12">
-                            <label for="dep">Dependencia<small class="text-red">*</small></label>
-                            <select class="form-control" id="dep" name="dep">
+                        <div class="col-sm-7">
+                            <label for="per">Para<small class="text-red">*</small></label>
+                            <select class="form-control" id="per" name="per" style="width: 100%;">
                                 
                             </select>
-                        </div>
-                        
+                        </div>                     
                         <div class="col-sm-12">
                             <label for="num">Observación</label>
                             <textarea class="form-control" id="obs" name="obs"></textarea>
@@ -1100,7 +1100,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                     <div class="form-group" id="d_frespuesta">
                     </div>
                     <script>
-                        $("#mot").select2();
+                        $("#pro").select2();
                         $("#per").select2({
                           placeholder: 'Selecione un personal',
                           ajax: {
@@ -1115,27 +1115,12 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                             cache: true
                           },
                           minimumInputLength: 4
-                        }).on("change", function(e){
-                          var per = $(this).val();
-                          $.ajax({
-                            type: "post",
-                            url: "m_inclusiones/a_tdocumentario/b_pdependencia.php",
-                            data: { per: per},
-                            dataType: "json",
-                            beforeSend: function () {
-                              $("#dep").html("<option value=''><i class='fa fa-spinner fa-spin'></i> Cargando...</option>");
-                            },
-                            success:function(a){
-                              if(a.e){
-                                $("#dep").html(a.o);
-                              }else{
-                                alert(a.m);
-                              }
-                            }
-                          });
                         });
                     </script>            
 <?php
+                }else{
+                    echo mensajewa("No existe Mesa de Partes en su Local. Solicite la creación de una.");
+                }
             }else{
                 echo mensajewa("Error, faltan datos.");
             }

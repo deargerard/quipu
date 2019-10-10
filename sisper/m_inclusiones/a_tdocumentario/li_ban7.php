@@ -17,7 +17,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
 </div>
 <div class="col-sm-12">
 <?php
-    $cb=mysqli_query($cone, "SELECT d.idDoc, d.numdoc, d.Numero, d.Ano, d.Siglas, d.FechaDoc, td.TipoDoc, ed.idtdestadodoc, ed.fecha, g.numero numguia, g.anio, ed.idtdestado, ed.idEmpleado, ed.idtdmesapartes, ed.asignador FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc INNER JOIN tdestadodoc ed ON d.idDoc=ed.idDoc LEFT JOIN tdguia g ON ed.idtdguia=g.idtdguia WHERE ed.mpasignador=$idmp AND ed.idtdestado=3 ORDER BY ed.fecha DESC;");
+    $cb=mysqli_query($cone, "SELECT d.idDoc, d.numdoc, d.Numero, d.Ano, d.Siglas, d.FechaDoc, td.TipoDoc, ed.idtdestadodoc, ed.fecha, g.numero numguia, g.anio, ed.idtdestado, ed.idEmpleado, ed.idtdmesapartes, ed.asignador FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc INNER JOIN tdestadodoc ed ON d.idDoc=ed.idDoc LEFT JOIN tdguia g ON ed.idtdguia=g.idtdguia WHERE ed.mpasignador=$idmp AND ed.idtdestado=3 AND ed.estado=1 ORDER BY ed.fecha DESC;");
     if(mysqli_num_rows($cb)>0){
 ?>
         <table class="table table-bordered table-hover" id="dt_ban7">

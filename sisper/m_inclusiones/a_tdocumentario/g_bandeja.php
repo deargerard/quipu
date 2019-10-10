@@ -68,8 +68,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                         $dides=$_POST['dides']=="" ? vacio("") :  vacio(iseguro($cone, $_POST['dides']));
                         $pedes=$_POST['pedes']=="" ? vacio("") :  vacio(imseguro($cone, $_POST['pedes']));
                         $dedes=$_POST['dedes']=="" ? vacio("") :  vacio(imseguro($cone, $_POST['dedes']));
-
-                        
+                        $car=$_POST['car']==1 ? 1 : 0;
 
                         //consultamos último número doc
                         $cn=mysqli_query($cone, "SELECT MAX(numdoc) num FROM doc WHERE Ano='$ano';");
@@ -82,7 +81,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                         }
                         mysqli_free_result($cn);
 
-                        $q="INSERT INTO doc (Numero, Ano, Siglas, FechaDoc, idTipoDoc, asunto, folios, remitenteext, destinatarioext, deporigenext, depdestinoext, remitenteint, destinatarioint, deporigenint, depdestinoint, numdoc, cargo, fecregistro, regpor) VALUES ($num, '$ano', '$sig', '$fecdoc', $tipdoc, $asu, $fol, $perem, $pedes, $derem, $dedes, $pirem, $pides, $direm, $dides, $nu, 0, NOW(), $idem);";
+                        $q="INSERT INTO doc (Numero, Ano, Siglas, FechaDoc, idTipoDoc, asunto, folios, remitenteext, destinatarioext, deporigenext, depdestinoext, remitenteint, destinatarioint, deporigenint, depdestinoint, numdoc, fecregistro, regpor, cargo) VALUES ($num, '$ano', '$sig', '$fecdoc', $tipdoc, $asu, $fol, $perem, $pedes, $derem, $dedes, $pirem, $pides, $direm, $dides, $nu, NOW(), $idem, $car);";
                         if(mysqli_query($cone, $q)){
                             $iddo=mysqli_insert_id($cone);
 
@@ -186,9 +185,10 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                     $dides=$_POST['dides']=="" ? vacio("") :  vacio(iseguro($cone, $_POST['dides']));
                     $pedes=$_POST['pedes']=="" ? vacio("") :  vacio(imseguro($cone, $_POST['pedes']));
                     $dedes=$_POST['dedes']=="" ? vacio("") :  vacio(imseguro($cone, $_POST['dedes']));
+                    $car=$_POST['car']==1 ? 1 : 0;
 
 
-                    if(mysqli_query($cone, "UPDATE doc SET Numero=$num, Ano='$ano', Siglas='$sig', FechaDoc='$fecdoc', idTipoDoc=$tipdoc, asunto=$asu, folios=$fol, remitenteext=$perem, destinatarioext=$pedes, deporigenext=$derem, depdestinoext=$dedes, remitenteint=$pirem, destinatarioint=$pides, deporigenint=$direm, depdestinoint=$dides WHERE idDoc=$v1;")){
+                    if(mysqli_query($cone, "UPDATE doc SET Numero=$num, Ano='$ano', Siglas='$sig', FechaDoc='$fecdoc', idTipoDoc=$tipdoc, asunto=$asu, folios=$fol, remitenteext=$perem, destinatarioext=$pedes, deporigenext=$derem, depdestinoext=$dedes, remitenteint=$pirem, destinatarioint=$pides, deporigenint=$direm, depdestinoint=$dides, cargo=$car WHERE idDoc=$v1;")){
                         $r['m']=mensajesu("Listo, documento editado.");
                         $r['e']=true;
                     }else{
@@ -562,25 +562,29 @@ if(accesocon($cone,$_SESSION['identi'],17)){
             }else{
                 $r['m']=mensajewa("Elija un destino.");
             }
-        }elseif($acc=="derper"){
-            if(isset($_POST['v1']) && !empty($_POST['v1']) && isset($_POST['v2']) && !empty($_POST['v2']) && isset($_POST['per']) && !empty($_POST['per']) && isset($_POST['mot']) && !empty($_POST['mot']) && isset($_POST['dep']) && !empty($_POST['dep'])){
+        }elseif($acc=="dermpp"){
+            if(isset($_POST['v1']) && !empty($_POST['v1']) && isset($_POST['v2']) && !empty($_POST['v2']) && isset($_POST['per']) && !empty($_POST['per']) && isset($_POST['pro']) && !empty($_POST['pro']) && isset($_POST['imp']) && !empty($_POST['imp'])){
                 $v1=iseguro($cone, $_POST['v1']);
                 $v2=iseguro($cone, $_POST['v2']);
                 $per=iseguro($cone, $_POST['per']);
-                $mot=iseguro($cone, $_POST['mot']);
-                $dep=iseguro($cone, $_POST['dep']);
+                $pro=iseguro($cone, $_POST['pro']);
                 $obs=vacio(iseguro($cone, $_POST['obs']));
+                $imp=iseguro($cone, $_POST['imp']);
+
                 $idem=$_SESSION['identi'];
-                $dep=iddependenciae($cone, $per);
+                $dep=iddependenciae($cone, $idem);
+
+                
+
 
                 $ce=mysqli_query($cone, "SELECT idtdestadodoc FROM tdestadodoc WHERE idDoc=$v1 AND estado=1;");
                 if($re=mysqli_fetch_assoc($ce)){
                     if($re['idtdestadodoc']==$v2){
                         $idue=$re['idtdestadodoc'];
-                        if(mysqli_query($cone, "INSERT INTO tdestadodoc (idtdestado, fecha, observacion, idDependencia, idEmpleado, idDoc, estado, idtdproveido, asignador) VALUES (3, DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i:%s'), $obs,$dep, $per, $v1, 1, $mot, $idem);")){
+                        if(mysqli_query($cone, "INSERT INTO tdestadodoc (idDoc, idtdestado, fecha, idtdmesapartes, asignador, depasignador, idtdproveido, observacion, estado, cppara) VALUES ($v1, 3, NOW(), $imp, $idem, $dep, $pro, $obs, 1, $per);")){
                             $idne=mysqli_insert_id($cone);
                             if(mysqli_query($cone, "UPDATE tdestadodoc SET estado=0 WHERE idDoc=$v1 AND idtdestadodoc=$idue;")){
-                                $r['m']=mensajesu("¡Listo! Documento derivado.");
+                                $r['m']=mensajesu("¡Listo! Documento derivado a mesa de partes.");
                                 $r['e']=true;
 
                             }else{
@@ -594,7 +598,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                             $r['m']=mensajewa("Error al archivar, vuelva a intentarlo.");
                         }
                     }else{
-                        $r['m']=mensajesu('El documento ya tiene otro estado.');
+                        $r['m']=mensajesu('El documento ya tiene otro estado. ¡Actualice!');
                         $r['e']=true;
                     }
                 }else{
