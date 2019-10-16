@@ -40,7 +40,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
             <ul class="nav nav-tabs">
               <li class="active"><a href="#tab_1" data-toggle="tab"><i class="fa fa-circle-o text-blue"></i> Recibir</a></li>
               <li><a href="#tab_2" data-toggle="tab"><i class="fa fa-circle-o text-blue"></i> Registrar</a></li>
-              <li><a href="#tab_3" data-toggle="tab"><i class="fa fa-circle-o text-blue"></i> Derivar a MP</a></li>
+              <li><a href="#tab_3" data-toggle="tab"><i class="fa fa-circle-o text-blue"></i> Derivar <?php echo $tmp ? "a MP" : ""; ?> </a></li>
               <?php if($tmp==1){ ?>
               <li><a href="#tab_9" data-toggle="tab"><i class="fa fa-circle-o text-blue"></i> Derivar a Per.</a></li>
               <?php } ?>
@@ -96,6 +96,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                     <button type="button" class="btn bg-yellow" onclick="li_ban3();"><i class="fa fa-refresh"></i> Actualizar</button>
                   </div>
                   <div class="col-md-7">
+                    <?php if($tmp){ ?>
                     <form class="form-inline pull-right">
                       <div class="form-group">
                         <label for="smpar">Derivar a</label>
@@ -105,6 +106,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                       </div>
                       <button type="button" class="btn bg-orange" id="b_lim3"><i class="fa fa-eraser"></i> Limpiar</button>
                     </form>
+                    <?php } ?>
                   </div>
                 </div>
                 <div class="row" id="r_ban3">

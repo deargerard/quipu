@@ -5,6 +5,11 @@ include("../php/funciones.php");
 if(accesocon($cone,$_SESSION['identi'],17)){
     $idem=$_SESSION['identi'];
 
+    $cm=mysqli_query($cone, "SELECT mp.tipo FROM tdpersonalmp pm INNER JOIN tdmesapartes mp ON pm.idtdmesapartes=mp.idtdmesapartes WHERE pm.idEmpleado=$idem AND pm.estado=1 AND mp.estado=1;");
+    if($rm=mysqli_fetch_assoc($cm)){
+      $tmp=$rm['tipo'];
+    }
+
 ?>
 <div class="col-sm-7">
     <h5 class="text-muted text-blue" style="font-weight: 600;"><i class="fa fa-table text-yellow"></i> <b>DOCUMENTOS PARA DERIVAR A MESA DE PARTES</b></h5>
@@ -41,8 +46,12 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                     <td><?php echo date('d/m/Y h:i:s A', strtotime($rb['fecha'])); ?><br><span class="text-orange"><?php echo diftiempo($rb['fecha'], date('Y-m-d H:i:s')); ?></span></td>
                     <td class="text-aqua"><?php echo !is_null($rb['destinatarioint']) ? nomempleado($cone, $rb['destinatarioint'])."<br><small class='text-muted'>".nomdependencia($cone, $rb['depdestinoint'])."</small>" : $rb['destinatarioext']."<br><small class='text-muted'>".$rb['depdestinoext']."</small>"; ?></td>
                     <td class="text-center">
+                            <?php if(!$tmp){ ?>
                             <button type="button" class="btn btn-info btn-xs" title="Derivar a Mesa de Partes con proveído" onclick="f_bandeja('dermpp', <?php echo $rb['idDoc'].", ".$rb['idtdestadodoc']; ?>)"><i class="fa fa-reply-all"></i></button>
+                            <?php } ?>
+                            <?php if($tmp){ ?>
                             <button type="button" class="btn btn-info btn-xs" title="Derivar a Mesa de Partes" onclick="g_dermpa(<?php echo $rb['idDoc'].", ".$rb['idtdestadodoc']; ?>)"><i class="fa fa-share-square-o"></i></button>
+                            <?php } ?>
                           <div class="btn-group">
                             
                             <button class="btn bg-maroon btn-xs dropdown-toggle" data-toggle="dropdown">
@@ -57,9 +66,6 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                               <li><a href="#" onclick="f_bandeja('detdoc',<?php echo $rb['idDoc'].",0"; ?>)"><i class="fa fa-file-text text-maroon"></i> Detalle</a></li>
                             </ul>
                           </div>
-
-
-
 
                     </td>
                 </tr>
