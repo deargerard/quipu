@@ -48,123 +48,93 @@ if(accesoadm($cone,$_SESSION['identi'],9)){
 
 
 <script>
-
   $('#inivac').datepicker({
     format: "dd/mm/yyyy",
     language: "es",
     autoclose: true,
     todayHighlight: true,
     startDate: "<?php echo $fii ?>",
-    endDate: "<?php echo $ffi?>",
-
+    endDate: "<?php echo $fff?>",
   })
   .on('changeDate', function(e){
     var fechini = new Date(e.date.valueOf());
     $('#finvac').datepicker('setStartDate', fechini);
     var fechai= $("#inivac").val();
     var fechaf= $("#finvac").val();
-
+    if (fechai!="" && fechaf!="") {
       var aFecha1 = fechai.split('/');
       var aFecha2 = fechaf.split('/');
       var fFecha1 = Date.UTC(aFecha1[2],aFecha1[1]-1,aFecha1[0]);
       var fFecha2 = Date.UTC(aFecha2[2],aFecha2[1]-1,aFecha2[0]);
       var dif = fFecha2 - fFecha1;
       var dias = Math.floor(dif / (1000 * 60 * 60 * 24))+1;
-
-      if (aFecha1[0]==1 || aFecha1[0]==16 ) {
-        if (fechai!="" && fechaf!="") {
-          if(dias > 0){
-            var df=$("#df").val();
-             if (dias>df) {
-               $("#msg").html("¡ERROR!, sólo tiene "+df+" días pendientes y ha escogido un período de "+dias+" días.");
-               $("#finvac").val("");
-             }else{
-               $("#msg").html("<span class='text-success'>Usted está programando "+dias+" días de vacaciones.</span>");
-             }
-          }else{
-            $("#msg").html("<span class='text-warning'>¡Atención!, la fecha de inicio no puede ser mayor a la fecha de fin.</span>");
-            //$("#inivac").val("");
-            $("#finvac").val("");
-          }
-        }else {
-          $("#msg").html("");
-        }
+      if(dias > 0){
+        if(dias == 15 || dias == 30 ){
+          var df=$("#df").val();
+           if (dias>df) {
+             $("#msg").html("¡Error!, solo tiene "+df+" días pendientes y ha escogido un período de "+dias+" días.");
+             $("#inivac").val("");
+           }else{
+             $("#msg").html("<span class='text-success'>Usted está programando "+dias+" días de vacaciones.</span>");
+           }
+       }else{
+        $("#msg").html("<span class='text-warning'>¡Atención!, Usted intenta programar "+dias+" días y solo puede programar 15 o 30 días.</span>");
+        $("#finvac").val("");
+       }
       }else{
-
-        $("#msg").html("¡ERROR!, sólo puede seleccionar como fecha de inicio el 01 ó el 16 del mes.");
+        $("#msg").html('¡Error!, la fecha inicial no puede ser mayor a la fecha final.');
         $("#inivac").val("");
-
+        $("#finvac").val("");
       }
-
-
+    }else {
+      $("#msg").html("");
+    }
    });
-   $('#finvac').datepicker({
+   $(' #finvac').datepicker({
      format: "dd/mm/yyyy",
      language: "es",
      autoclose: true,
      todayHighlight: true,
      startDate: "<?php echo $fii ?>",
      endDate: "<?php echo $fff?>",
+
    })
    .on('changeDate', function(e){
      var fechfin = new Date(e.date.valueOf());
      $('#inivac').datepicker('setEndDate', fechfin);
      var fechai= $("#inivac").val();
      var fechaf= $("#finvac").val();
-
+     if (fechai!="" && fechaf!="") {
        var aFecha1 = fechai.split('/');
        var aFecha2 = fechaf.split('/');
        var fFecha1 = Date.UTC(aFecha1[2],aFecha1[1]-1,aFecha1[0]);
        var fFecha2 = Date.UTC(aFecha2[2],aFecha2[1]-1,aFecha2[0]);
        var dif = fFecha2 - fFecha1;
        var dias = Math.floor(dif / (1000 * 60 * 60 * 24))+1;
-
-       if (aFecha2[0]==15 || aFecha2[0]==30 ) {
-         if (fechai!="" && fechaf!="") {
-           if(dias > 0){
-             var df=$("#df").val();
-              if (dias>df) {
-                $("#msg").html("¡ERROR!, sólo tiene "+df+" días pendientes y ha escogido un período de "+dias+" días. ");
-                $("#inivac").val("");
-              }else{
-                $("#msg").html("<span class='text-success'>Usted está programando "+dias+" días de vacaciones.</span>");
-              }
-           }else{
-             $("#inivac").val("");
-             //$("#finvac").val("");
-             $("#msg").html("<span class='text-warning'>¡Atención!, la fecha de inicio no puede ser mayor a la fecha de fin.</span>");
-           }
-         }else{
-           $("#msg").html("");
-         }
-      }else if (aFecha1[1]==2) {
-        if  (aFecha2[0]==1 || aFecha2[0]==2 ) {
-          if (fechai!="" && fechaf!="") {
-            if(dias > 0){
-              var df=$("#df").val();
-               if (dias>df) {
-                 $("#msg").html("¡ERROR!, sólo tiene "+df+" días pendientes y ha escogido un período de "+dias+" días. ");
-                 $("#inivac").val("");
-               }else{
-                 $("#msg").html("<span class='text-success'>Usted está programando "+dias+" días de vacaciones.</span>");
-               }
+       if(dias > 0){
+        if(dias == 15 || dias == 30 ){
+           var df=$("#df").val();
+            if (dias>df) {
+              $("#msg").html("¡Error!, solo tiene "+df+" días pendientes y ha escogido un período de "+dias+" días.");
+              $("#finvac").val("");
             }else{
-              $("#inivac").val("");
-              //$("#finvac").val("");
-              $("#msg").html("<span class='text-warning'>¡Atención!, la fecha de inicio no puede ser mayor a la fecha de fin.</span>");
+              $("#msg").html("<span class='text-success'>Usted está programando "+dias+" días de vacaciones.</span>");
             }
-          }else{
-            $("#msg").html("");
-          }
-        }else {
-          $("#msg").html("¡ERROR!, sólo puede seleccionar como fecha de fin el 01 ó el 02 de Marzo");
-          $("#finvac").val("");
-        }
-      }else {
-        $("#msg").html("¡ERROR!, sólo puede seleccionar como fecha de fin el 15 ó el 30 del mes");
+        }else{
+        
+        $("#msg").html("<span class='text-warning'>¡Atención!, Usted intenta programar "+dias+" días y solo puede programar 15 o 30 días.</span>");
         $("#finvac").val("");
-      }
+        }
+       }else{
+         $("#inivac").val("");
+         $("#finvac").val("");
+         $("#msg").html('¡Error!, la fecha inicial no puede ser mayor a la fecha final.');
+       }
+     }else{
+       $("#msg").html("");
+     }
     });
+  
 </script>
 <?php
     mysqli_close($cone);
