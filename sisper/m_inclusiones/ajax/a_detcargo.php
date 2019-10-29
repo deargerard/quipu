@@ -87,12 +87,21 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
 					<td><?php echo $est ?></td>
 				</tr>
 				<tr>
-					<th colspan="2">Fecha para el computo de vacaciones</th>
-					<td colspan="2">
-						<?php echo fnormal($rc['FechaVac']); ?> 
-						<?php if(accesoadm($cone,$_SESSION['identi'],1)){ ?>
-						<button type="button" class="btn btn-xs btn-default" title="Editar" onclick="edifv(<?php echo $idc; ?>);"><i class="fa fa-pencil"></i></button>
-						<?php } ?>
+					<th>Días no laborados</th>
+					<td>
+						<?php
+						$dnl=caldiant($cone, $idc);
+						$fcv=date('d/m/Y', strtotime('+'.$dnl.' day',strtotime($rc['FechaAsu'])));
+						echo $dnl;
+
+						?> 
+						<?php //if(accesoadm($cone,$_SESSION['identi'],1)){ ?>
+						<!--<button type="button" class="btn btn-xs btn-default" title="Editar" onclick="edifv(<?php //echo $idc; ?>);"><i class="fa fa-pencil"></i></button>-->
+						<?php //} ?>
+					</td>
+					<th>Fecha cómputo vacaciones</th>
+					<td>
+						<?php echo $fcv; ?>
 					</td>
 				</tr>
 			</tbody>

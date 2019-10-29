@@ -162,7 +162,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                         ?>
                         <div class="col-sm-12">
                           <br>
-                          <button id="b_envpro" class="btn btn-info" data-toggle="modal" data-target="#m_envprovacc" onclick="envprovacc(<?php echo $idcoo; ?>)">Aceptar y Enviar</button>
+                          <button id="b_envpro" class="btn btn-info hidden" data-toggle="modal" data-target="#m_envprovacc" onclick="envprovacc(<?php echo $idcoo; ?>)">Aceptar y Enviar</button>
                         </div>
                         <?php
                         }else{

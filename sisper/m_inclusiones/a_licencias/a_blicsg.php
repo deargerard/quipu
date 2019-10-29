@@ -18,7 +18,7 @@ if(isset($_POST['car1']) && !empty($_POST['car1'])){
 	<h4 class="<?php echo $ec==1 ? 'text-aqua' : 'text-gray'; ?>"><strong><?php echo nomempleado($cone,$ide); ?></strong><small> | <?php echo cargocu($cone,$idec); ?></small></h4>
 <?php
 
-	$clic=mysqli_query($cone,"SELECT l.idLicencia, FechaIni, FechaFin, MotivoLic, Numero, Ano, Siglas FROM licencia l INNER JOIN aprlicencia al ON l.idLicencia=al.idLicencia INNER JOIN doc d ON al.idDoc=d.idDoc INNER JOIN tipolic tl ON l.idTipoLic=tl.idTipoLic WHERE idEmpleadoCargo=$idec AND (tl.idTipoLic=12 OR tl.idTipoLic=13);");
+	$clic=mysqli_query($cone,"SELECT l.idLicencia, FechaIni, FechaFin, MotivoLic, Numero, Ano, Siglas FROM licencia l INNER JOIN aprlicencia al ON l.idLicencia=al.idLicencia INNER JOIN doc d ON al.idDoc=d.idDoc INNER JOIN tipolic tl ON l.idTipoLic=tl.idTipoLic WHERE idEmpleadoCargo=$idec AND l.Estado=1 AND (tl.idTipoLic=12 OR tl.idTipoLic=13);");
 	if(mysqli_num_rows($clic)>0){
 ?>
 		<table class="table table-bordered table-hover">

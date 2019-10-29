@@ -1206,7 +1206,7 @@ function caldiant($cone, $idec){
 	if($idec!=""){
 		//calcular dias licencia sin goce
 		$dl=0;
-		$cl=mysqli_query($cone, "SELECT FechaIni, FechaFin FROM licencia l INNER JOIN tipolic tl ON l.idTipoLic=tl.idTipoLic WHERE l.idEmpleadoCargo=$idec AND tl.TipoLic='Sin goce';");
+		$cl=mysqli_query($cone, "SELECT l.FechaIni, l.FechaFin FROM licencia l INNER JOIN tipolic tl ON l.idTipoLic=tl.idTipoLic WHERE l.idEmpleadoCargo=$idec AND l.Estado=1 AND tl.TipoLic='Sin goce';");
 		if(mysqli_num_rows($cl)>0){
 			while ($rl=mysqli_fetch_assoc($cl)){
 				$nd=intervalo($rl['FechaFin'], $rl['FechaIni']);
