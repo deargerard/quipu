@@ -279,6 +279,7 @@ if(!empty($css)){
           <ul class="treeview-menu">
             <li id="depmante"><a href="depmante.php"><i class="fa fa-circle-o"></i> Dependencia</a></li>
             <li id="coomante"><a href="coomante.php"><i class="fa fa-circle-o"></i> Coordinación</a></li>
+            <li id="dearmante"><a href="dearmante.php"><i class="fa fa-circle-o"></i> Despacho/Área</a></li>
             <li id="locmante"><a href="locmante.php"><i class="fa fa-circle-o"></i> Local</a></li>
             <li id="ambmante"><a href="ambmante.php"><i class="fa fa-circle-o"></i> Ambiente</a></li>
           </ul>

@@ -1200,4 +1200,37 @@ function idlocempleado($cone, $ide){
 		return "ERROR";
 	}
 }
+
+function caldiant($cone, $idec){
+	$idec=iseguro($cone, $idec);
+	if($idec!=""){
+		//calcular dias licencia sin goce
+		$dl=0;
+		$cl=mysqli_query($cone, "SELECT FechaIni, FechaFin FROM licencia l INNER JOIN tipolic tl ON l.idTipoLic=tl.idTipoLic WHERE l.idEmpleadoCargo=$idec AND tl.TipoLic='Sin goce';");
+		if(mysqli_num_rows($cl)>0){
+			while ($rl=mysqli_fetch_assoc($cl)){
+				$nd=intervalo($rl['FechaFin'], $rl['FechaIni']);
+				$dl=$dl+$nd;
+			}
+		}
+		mysqli_free_result($cl);
+		//calcular días de reservas y suspendidos
+		$drs=0;
+		$crs=mysqli_query($cone, "SELECT FechaIni, FechaFin FROM estadocargo WHERE idEmpleadoCargo=$idec AND (idEstadoCar=2 OR idEstadoCar=4);");
+		if(mysqli_num_rows($crs)>0){
+			while($rrs=mysqli_fetch_assoc($crs)){
+				if(is_null($rrs['FechaFin'])){
+					$ff=date('Y-m-d');
+				}else{
+					$ff=$rrs['FechaFin'];
+				}
+				$nrs=intervalo($ff, $rrs['FechaIni']);
+				$drs=$drs+$nrs;
+			}
+		}
+		return $dl+$drs;
+	}else{
+		return 0;
+	}
+}
 ?>
