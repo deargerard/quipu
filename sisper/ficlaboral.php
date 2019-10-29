@@ -7,6 +7,8 @@ if(vacceso($cone,$_SESSION['identi'],$_SESSION['docide'],$_SESSION['nomusu'])){
     header('Location: camcontra.php');
   }
 	$tit="Perfil";
+  $css="<link rel='stylesheet' href='plugins/alertify/css/alertify.min.css' />\n<link rel='stylesheet' href='plugins/alertify/css/themes/bootstrap.min.css' />\n";
+  $jsp="<script src='plugins/alertify/alertify.min.js'></script>\n";
 	$js="<script src='m_inclusiones/js/upload.js'></script>\n";
 	$js.="<script src='m_inclusiones/js/bootstrap-filestyle.min.js'></script>\n";
   $js.="<script src='m_inclusiones/js/vacaciones.js'></script>\n";

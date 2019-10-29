@@ -167,7 +167,7 @@ $z=true;
               <?php
               if ($rvac['Estado']=='6') {
               ?>
-                <a href="#" data-toggle="modal" data-target="#m_editarprogramacion"><i class="fa fa-pencil" onclick="edipro(<?php echo $rvac['idProVacaciones'].", '".$fii."', '".$ffi."', '".$fff."'" ?>)"></i></a>
+                <button class="btn btn-xs bg-yellow" id="b_elipro" title="Eliminar programación" onclick="elipro(<?php echo $rvac['idProVacaciones'].", '".fnormal($rvac['FechaIni'])."', '".fnormal($rvac['FechaFin'])."'"; ?>)"><i class="fa fa-trash"></i></button>
               <?php
               }
               ?>
@@ -217,7 +217,7 @@ $("#b_provac").<?php echo $z ? "show();" : "hide();";?>
 <?php for ($i=1; $i < ($n+1); $i++) {  ?>
 
   $("#dtable<?php echo $i ?>").DataTable({
-    "order": [[7,"asc"]]
+    "order": [[5,"desc"]]
   });
 <?php } ?>
 </script>

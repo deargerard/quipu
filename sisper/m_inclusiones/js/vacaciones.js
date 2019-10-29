@@ -632,8 +632,7 @@ $( "#f_provacaciones").validate( {
  }
 } );
 //fin funciÃ³n validar programacion de vacaciones
-//funcion actualizar lista de vacaciones
-$('#m_programarvacaciones, #m_editarprogramacion').on('hidden.bs.modal', function () {
+function act_misvacas(){
   var idper = $('#idper').val();
   var pervac = $('#pervac').val();
   $.ajax({
@@ -650,23 +649,52 @@ $('#m_programarvacaciones, #m_editarprogramacion').on('hidden.bs.modal', functio
         $("#reva").slideDown();
      }
   });
+}
+
+//funcion actualizar lista de vacaciones
+$('#m_programarvacaciones, #m_editarprogramacion').on('hidden.bs.modal', function () {
+  act_misvacas();
 })
 //fin funcion actualizar lista de vacaciones
 // funciÃ³n editar programacion de vacaciones
-function edipro(idvac, fii, ffi, fff){
-$.ajax({
-type: "post",
-url: "m_inclusiones/a_vacaciones/a_fedipro.php",
-data: { idvac : idvac, fii : fii, ffi : ffi, fff : fff},
-beforeSend: function () {
-  $("#r_ediprogramacion").html("<img src='m_images/cargando.gif'>");
-  $("#b_gepro").hide();
-},
-success:function(a){
-  $("#b_gepro").show();
-  $("#r_ediprogramacion").html(a);
+function elipro(idvac, fi, ff){
+  var r = confirm("Eliminará su programación del "+fi+" al "+ff+ "¿Está seguro?");
+  if (r == true) {
+    $.ajax({
+      type: "post",
+      url: "m_inclusiones/a_vacaciones/a_gelipro.php",
+      dataType: "json",
+      data: { idvac : idvac},
+      beforeSend: function () {
+        $("#b_elipro").html('<i class="fa fa-spinner fa-spin"></i>');
+      },
+      success:function(a){
+        if(a.e){
+          alertify.success(a.m);
+          act_misvacas();
+        }else{
+          alertify.error(a.m);
+        }
+        $("#b_elipro").html('<i class="fa fa-trash"></i>');
+      }
+    });
+  }
 }
-});
+
+function edipro(idvac, fii, ffi, fff){
+  $.ajax({
+  type: "post",
+  url: "m_inclusiones/a_vacaciones/a_fedipro.php",
+  data: { idvac : idvac, fii : fii, ffi : ffi, fff : fff},
+  beforeSend: function () {
+    $("#r_ediprogramacion").html("<img src='m_images/cargando.gif'>");
+    $("#b_gepro").hide();
+  },
+  success:function(a){
+    $("#b_gepro").show();
+    $("#r_ediprogramacion").html(a);
+  }
+  });
 };
 //fin editar programacion de vacaciones
 //funcion validar editar programacion de vacaciones

@@ -9,17 +9,25 @@ if(accesoadm($cone,$_SESSION['identi'],9) || escoordinador($cone,$_SESSION['iden
 			$inivac=fmysql(iseguro($cone,$_POST['inivac']));
 			$finvac=fmysql(iseguro($cone,$_POST['finvac']));
 			$idec=iseguro($cone,$_POST['idec']);
+
+			$cvs=mysqli_query($cone, "SELECT idProVacaciones FROM provacaciones WHERE idEmpleadoCargo=$idec AND Estado=6 AND (('$inivac' BETWEEN FechaIni AND FechaFin) OR ('$finvac' BETWEEN FechaIni AND FechaFin));");
+			if(mysqli_num_rows($cvs)>0){
+				echo mensajewa("No, no, no. Estas incluyendo días que ya programaste.<br>Vuelve a intentarlo.");
+			}else{
 				$sql="INSERT INTO provacaciones (idEmpleadoCargo, idPeriodoVacacional, FechaIni, FechaFin, Condicion, Estado) VALUES ($idec, $peva, '$inivac', '$finvac', 1, 6)";
 				if(mysqli_query($cone,$sql)){
 					echo mensajesu("Listo: se guardó correctamente la programación");
 				}else{
 					echo mensajeda("Error: No se pudo guardar la programación. ".mysqli_error($cone));
 				}
-				mysqli_close($cone);
+			}
+			mysqli_free_result($cvs);
 		}else{
 			echo mensajewa("Error: No lleno correctamente el formulario.");
 		}
+
 	}
+	mysqli_close($cone);
 }else{
   echo accrestringidoa();
 }

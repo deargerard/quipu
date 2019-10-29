@@ -310,7 +310,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                                   <?php
                                   if ($rvac['Estado']=='6') {
                                   ?>
-                                    <a href="#" data-toggle="modal" data-target="#m_editarprogramacion"><i class="fa fa-pencil" onclick="edipro(<?php echo $rvac['idProVacaciones'].", '".$fii."', '".$ffi."', '".$fff."'" ?>)"></i></a>
+                                    <button class="btn btn-xs bg-yellow" id="b_elipro" title="Eliminar programación" onclick="elipro(<?php echo $rvac['idProVacaciones'].", '".fnormal($rvac['FechaIni'])."', '".fnormal($rvac['FechaFin'])."'"; ?>)"><i class="fa fa-trash"></i></button>
                                   <?php
                                   }
                                   ?>

@@ -8,17 +8,35 @@ if(accesoadm($cone,$_SESSION['identi'],9) || escoordinador($cone,$_SESSION['iden
 			$inivac=fmysql(iseguro($cone,$_POST['inivac']));
 			$finvac=fmysql(iseguro($cone,$_POST['finvac']));
 			$idvac=iseguro($cone,$_POST['idvac']);
-				$sql="UPDATE provacaciones SET FechaIni='$inivac', FechaFin='$finvac' WHERE idProVacaciones=$idvac";
-				if(mysqli_query($cone,$sql)){
-					echo mensajesu("Listo: Se actualizó correctamente las vacaciones");
+
+			//consultamos el idempleadocargo
+			$ci=mysqli_query($cone, "SELECT idEmpleadoCargo FROM provacaciones WHERE idProVacaciones=$idvac;");
+			if($ri=mysqli_fetch_assoc($ci)){
+				$idec=$ri['idEmpleadoCargo'];
+
+				$cvs=mysqli_query($cone, "SELECT idProVacaciones FROM provacaciones WHERE idEmpleadoCargo=$idec AND Estado=6 AND idProVacaciones!=$idvac AND (('$inivac' BETWEEN FechaIni AND FechaFin) OR ('$finvac' BETWEEN FechaIni AND FechaFin));");
+				if(mysqli_num_rows($cvs)>0){
+					echo mensajewa("No, no, no. Estas incluyendo días que ya programaste.<br>Vuelve a intentarlo.");
 				}else{
-					echo mensajeda("Error: No se pudo actualizar las vacaciones. ".mysqli_error($cone));
+
+					$sql="UPDATE provacaciones SET FechaIni='$inivac', FechaFin='$finvac' WHERE idProVacaciones=$idvac";
+					if(mysqli_query($cone,$sql)){
+						echo mensajesu("Listo: Se actualizó correctamente las vacaciones");
+					}else{
+						echo mensajeda("Error: No se pudo actualizar las vacaciones. ".mysqli_error($cone));
+					}
 				}
-			mysqli_close($cone);
+				mysqli_free_result($cvs);
+
+			}else{
+				echo mensajewa("Error, datos inválidos.");
+			}
+			mysqli_free_result($ci);
 		}else{
 			echo mensajewa("Error: No lleno correctamente el formulario.");
 		}
 	}
+	mysqli_close($cone);
 }else{
   echo accrestringidoa();
 }
