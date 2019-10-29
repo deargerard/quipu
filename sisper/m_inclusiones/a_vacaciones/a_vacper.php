@@ -13,7 +13,7 @@ if(accesocon($cone,$_SESSION['identi'],3)){
 			$can = $i==(count($val)-1) ? $val[$i] : $val[$i];
 		}
 include("a_ofechas.php");
-if ($asume<=$anot) {
+if ($asume<=$anot) {	
 ?>
 <div class="row">
   <div class="col-sm-2"> <!--Botón Nuevo-->
@@ -34,7 +34,7 @@ if ($asume<=$anot) {
 	</div>
 	<div class="col-sm-3"> <!--Nombre-->
     <h6 class="text-red" style="margin-bottom: 2px; text-align:right"> ALTA DEL TRABAJADOR: <?php echo fnormal($rin['FechaAsu'])?></h6>
-		<h6 class="text-red" style="margin-top: 2px; text-align:right"> CÁLCULO DE VACACIONES: <?php echo fnormal($rin['FechaVac'])?></h6>
+		<h6 class="text-red" style="margin-top: 2px; text-align:right"> CÁLCULO DE VACACIONES: <?php echo date('d/m/Y', $nf)?></h6>
 	</div>
 </div>
 <br>

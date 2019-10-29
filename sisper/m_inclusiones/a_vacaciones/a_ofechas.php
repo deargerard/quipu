@@ -7,12 +7,15 @@ $cin=mysqli_query($cone,"SELECT ec.idEmpleadoCargo, FechaVac, FechaAsu, Denomina
 $cpv=mysqli_query($cone,"SELECT * FROM periodovacacional WHERE idPeriodoVacacional=$pervac");
 $rin=mysqli_fetch_assoc($cin);
 $rpv=mysqli_fetch_assoc($cpv);
-  $diai = substr($rin['FechaVac'], -2);
-  $mesi = substr($rin['FechaVac'], -5, -3);
+  $diai = substr($rin['FechaAsu'], -2);
+  $mesi = substr($rin['FechaAsu'], -5, -3);
   $anoi = substr($rpv['PeriodoVacacional'], -4);
   $fii= $diai."-".$mesi."-".$anoi;
-  $fii=date($fii);
-  $fii=strtotime('+1 day',strtotime($fii));
+  $fii1=date($fii);
+  $das=caldiant($cone, $rin['idEmpleadoCargo'])+1;
+  $das1=$das-1;
+  $fii=strtotime('+'.$das.' day',strtotime($fii1));
+  $nf=strtotime('+'.$das1.' day',strtotime($fii1));
   $fii= date('j-m-Y',$fii); //Fecha Mínima de inicio de vacaciones.
   $f=date($fii);
   $f1=strtotime('+12 month',strtotime($f));
@@ -24,7 +27,7 @@ $rpv=mysqli_fetch_assoc($cpv);
 
   $anot= substr($rpv['PeriodoVacacional'], -11,-6);
   $anov= substr($rpv['PeriodoVacacional'], -4);
-  $alta= substr($rin['FechaVac'], -10, -6);
+  $alta= substr($rin['FechaAsu'], -10, -6);
   $asume= substr($rin['FechaAsu'], -10, -6);
   $d= substr($rin['FechaVac'],-2);
   $m= substr($rin['FechaVac'],-5, -3);
@@ -40,4 +43,5 @@ $rpv=mysqli_fetch_assoc($cpv);
   } //fin
   $l=intervalo($hoy, $rin['FechaVac']);
   $mpp=date('m');
+  //$ffi=$das;
 ?>
