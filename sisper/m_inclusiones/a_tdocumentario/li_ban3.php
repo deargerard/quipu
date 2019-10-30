@@ -12,7 +12,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
 
 ?>
 <div class="col-sm-7">
-    <h5 class="text-muted text-blue" style="font-weight: 600;"><i class="fa fa-table text-yellow"></i> <b>DOCUMENTOS PARA DERIVAR A MESA DE PARTES</b></h5>
+    <h5 class="text-muted text-blue" style="font-weight: 600;"><i class="fa fa-table text-yellow"></i> <b>DOCUMENTOS PARA DERIVAR</b></h5>
 </div>
 <div class="col-sm-5">
     <p class="text-right text-muted" style="font-size: 11px;"><i class="fa fa-refresh text-yellow"></i> Alctualizado al <?php echo date('d/m/Y h:i:s A'); ?></p>
@@ -46,11 +46,14 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                     <td><?php echo date('d/m/Y h:i:s A', strtotime($rb['fecha'])); ?><br><span class="text-orange"><?php echo diftiempo($rb['fecha'], date('Y-m-d H:i:s')); ?></span></td>
                     <td class="text-aqua"><?php echo !is_null($rb['destinatarioint']) ? nomempleado($cone, $rb['destinatarioint'])."<br><small class='text-muted'>".nomdependencia($cone, $rb['depdestinoint'])."</small>" : $rb['destinatarioext']."<br><small class='text-muted'>".$rb['depdestinoext']."</small>"; ?></td>
                     <td class="text-center">
-                            <?php if(!$tmp){ ?>
+                            <?php if(!$tmp && $rb['idtdestado']!=5){ ?>
                             <button type="button" class="btn btn-info btn-xs" title="Derivar a Mesa de Partes con proveído" onclick="f_bandeja('dermpp', <?php echo $rb['idDoc'].", ".$rb['idtdestadodoc']; ?>)"><i class="fa fa-reply-all"></i></button>
                             <?php } ?>
                             <?php if($tmp){ ?>
                             <button type="button" class="btn btn-info btn-xs" title="Derivar a Mesa de Partes" onclick="g_dermpa(<?php echo $rb['idDoc'].", ".$rb['idtdestadodoc']; ?>)"><i class="fa fa-share-square-o"></i></button>
+                            <?php } ?>
+                            <?php if($rb['idtdestado']==5){ ?>
+                            <button type="button" class="btn btn-info btn-xs" title="Derivar" onclick="f_bandeja('derrep', <?php echo $rb['idDoc'].", ".$rb['idtdestadodoc']; ?>)"><i class="fa fa-level-up"></i></button>
                             <?php } ?>
                           <div class="btn-group">
                             

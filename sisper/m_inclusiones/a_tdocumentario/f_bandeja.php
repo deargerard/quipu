@@ -10,12 +10,25 @@ if(accesocon($cone,$_SESSION['identi'],17)){
 		if($acc=="agrdoc"){
             $idem=$_SESSION['identi'];
             $idl=idlocempleado($cone, $idem);
-            $cmp=mysqli_query($cone, "SELECT idtdmesapartes FROM tdmesapartes WHERE idLocal=$idl AND estado=1 AND tipo=1;");
-            if($rmp=mysqli_fetch_assoc($cmp)){
+            $cmp=mysqli_query($cone, "SELECT idtdmesapartes, tipo FROM tdmesapartes WHERE idLocal=$idl AND estado=1;");
+            if(mysqli_num_rows($cmp)>0){
+                $impc=NULL;
+                $impn=NULL;
+                while($rmp=mysqli_fetch_assoc($cmp)){
+                    switch ($rmp['tipo']) {
+                        case 1:
+                            $imp=$rmp['idtdmesapartes'];
+                            break;
+                        case 2:
+                            $impn=$rmp['idtdmesapartes'];
+                            break;
+                    }
+                }
 ?>
         <div class="row">
             <input type="hidden" name="acc" value="<?php echo $acc; ?>">
-            <input type="hidden" name="imp" value="<?php echo $rmp['idtdmesapartes']; ?>">
+            <input type="hidden" name="imp" value="<?php echo $imp; ?>">
+            <input type="hidden" name="impn" value="<?php echo $impn; ?>">
             <div class="col-sm-2">
                 <label for="trem">Tipo Remitente<small class="text-red">*</small></label>
                 <select name="trem" id="trem" class="form-control" onchange="orem(this.value);">
@@ -90,7 +103,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                 </div>
             </div>
             <div class="col-sm-3">
-                <label for="sig">Siglas<small class="text-red">*</small></label>
+                <label for="sig">Siglas</label>
                 <input type="text" class="form-control" id="sig" name="sig" placeholder="MPFN-DFC-INF" value="<?php echo abrdependencia($cone, iddependenciae($cone, $idem)); ?>">
             </div>
             <div class="col-sm-3">
@@ -120,7 +133,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                 </div>
             </div>           
-            <div class="col-sm-3">
+            <div class="col-sm-2">
                 <div class="checkbox">
                     <label>
                         <br>
@@ -129,6 +142,17 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                     </label>
                 </div>
             </div>
+            <?php if($impn){ ?>
+            <div class="col-sm-3">
+                <div class="checkbox">
+                    <label>
+                        <br>
+                        <input type="checkbox" name="not" value="2">
+                        Derivar a notificaciones
+                    </label>
+                </div>
+            </div>
+            <?php } ?>
         </div>
 	    <div class="form-group" id="d_frespuesta">
 	    </div>
@@ -347,7 +371,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                 </div>
             </div>
             <div class="col-sm-3">
-                <label for="sig">Siglas<small class="text-red">*</small></label>
+                <label for="sig">Siglas</label>
                 <input type="text" class="form-control" id="sig" name="sig" placeholder="MPFN-DFC-INF" value="<?php echo $rd['Siglas']; ?>">
             </div>
             <div class="col-sm-3">
@@ -385,7 +409,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                         Es cargo
                     </label>
                 </div>
-            </div>           
+            </div>       
         </div>
         <div class="form-group" id="d_frespuesta">
         </div>
@@ -1116,6 +1140,70 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                           },
                           minimumInputLength: 4
                         });
+                    </script>            
+<?php
+                }else{
+                    echo mensajewa("No existe Mesa de Partes en su Local. Solicite la creación de una.");
+                }
+            }else{
+                echo mensajewa("Error, faltan datos.");
+            }
+        }elseif($acc=="derrep"){
+            if(isset($v1) && !empty($v1) && isset($v2) && !empty($v2)){
+                $idem=$_SESSION['identi'];
+                $idl=idlocempleado($cone, $idem);
+                $cmp=mysqli_query($cone, "SELECT idtdmesapartes FROM tdmesapartes WHERE idLocal=$idl AND estado=1 AND tipo=1;");
+                if($rmp=mysqli_fetch_assoc($cmp)){
+?>
+                    <div class="row">
+                        <input type="hidden" name="acc" value="<?php echo $acc; ?>">
+                        <input type="hidden" name="v1" value="<?php echo $v1; ?>">
+                        <input type="hidden" name="v2" value="<?php echo $v2; ?>">
+                        <input type="hidden" name="imp" value="<?php echo $rmp['idtdmesapartes']; ?>">
+                        
+                        <div class="col-sm-12">
+                            <label for="des">Destino<small class="text-red">*</small></label>
+                            <select class="form-control" id="des" name="des" onchange="ocu(this.value);">
+                                <option value="1">Mesa de Partes</option>
+                                <option value="2">Directo a Personal</option>
+                            </select>
+                        </div> 
+                        <div class="col-sm-12 ocu">
+                            <label for="per">Para<small class="text-red">*</small></label>
+                            <select class="form-control" id="per" name="per" style="width: 100%;">
+                                
+                            </select>
+                        </div>                    
+                    </div>
+                    <div class="form-group" id="d_frespuesta">
+                    </div>
+                    <script>
+                        $("#per").select2({
+                          placeholder: 'Selecione al personal',
+                          ajax: {
+                            url: 'm_inclusiones/a_general/a_selpersonal.php',
+                            dataType: 'json',
+                            delay: 250,
+                            processResults: function (data) {
+                              return {
+                                results: data
+                              };
+                            },
+                            cache: true
+                          },
+                          minimumInputLength: 4
+                        });
+                        function ocu(v){
+                            switch (v) {
+                                case "1":
+                                    $(".ocu").hide();
+                                    break;
+                                case "2":
+                                    $(".ocu").show();
+                                    break;
+                            }
+                        };
+                        ocu("1");
                     </script>            
 <?php
                 }else{

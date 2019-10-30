@@ -209,6 +209,10 @@ function f_bandeja(acc,v1,v2){
         case 'dermpp':
           var mt="<span class='text-muted'><i class='fa fa-share text-yellow'></i> Derivar a Mesa de Partes con Proveído</span>";
           break;
+        case 'derrep':
+          var mt="<span class='text-muted'><i class='fa fa-level-up text-yellow'></i> Derivar</span>";
+          $(".modal-dialog").addClass('modal-sm');
+          break;
     }
     $(".modal-title").html(mt);
     $("#m_modal").modal("show");
@@ -278,6 +282,7 @@ function g_rec(v1, v2, mp){
           li_ban5();
           li_ban6();
           li_ban7();
+          li_ban8();
         }else{
           alertify.error(a.m);
         }
@@ -303,6 +308,7 @@ function g_dermpa(v1, v2){
           li_ban5();
           li_ban6();
           li_ban7();
+          li_ban8();
         }else{
           alertify.error(a.m);
         }
@@ -331,6 +337,7 @@ function g_dernot(v1, v2){
           li_ban5();
           li_ban6();
           li_ban7();
+          li_ban8();
         }else{
           alertify.error(a.m);
         }
@@ -359,6 +366,7 @@ function g_derper(v1, v2){
           li_ban5();
           li_ban6();
           li_ban7();
+          li_ban8();
           li_ban9();
         }else{
           alertify.error(a.m);

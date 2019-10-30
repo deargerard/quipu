@@ -8,7 +8,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
 	if(isset($_POST['acc']) && !empty($_POST['acc'])){
 		$acc=iseguro($cone,$_POST['acc']);		
 		if($acc=="agrdoc"){
-            if(isset($_POST['ano']) && !empty($_POST['ano']) && isset($_POST['sig']) && !empty($_POST['sig']) && isset($_POST['tipdoc']) && !empty($_POST['tipdoc']) && isset($_POST['fecdoc']) && !empty($_POST['fecdoc']) && isset($_POST['fol']) && !empty($_POST['fol']) && isset($_POST['trem']) && !empty($_POST['trem']) && isset($_POST['tdes']) && !empty($_POST['tdes']) && isset($_POST['asu']) && !empty($_POST['asu']) && isset($_POST['imp']) && !empty($_POST['imp'])){
+            if(isset($_POST['ano']) && !empty($_POST['ano']) && isset($_POST['tipdoc']) && !empty($_POST['tipdoc']) && isset($_POST['fecdoc']) && !empty($_POST['fecdoc']) && isset($_POST['fol']) && !empty($_POST['fol']) && isset($_POST['trem']) && !empty($_POST['trem']) && isset($_POST['tdes']) && !empty($_POST['tdes']) && isset($_POST['asu']) && !empty($_POST['asu']) && isset($_POST['imp']) && !empty($_POST['imp'])){
 
                 $trem=iseguro($cone, $_POST['trem']);
                 $tdes=iseguro($cone, $_POST['tdes']);
@@ -54,12 +54,13 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                 if($exr && $exd){
                         $num=vacio(iseguro($cone, $_POST['num']));
                         $ano=iseguro($cone, $_POST['ano']);
-                        $sig=imseguro($cone, $_POST['sig']);
+                        $sig=vacio(imseguro($cone, $_POST['sig']));
                         $tipdoc=iseguro($cone, $_POST['tipdoc']);
                         $fecdoc=fmysql(iseguro($cone, $_POST['fecdoc']));
                         $fol=iseguro($cone, $_POST['fol']);
                         $asu=vacio(iseguro($cone, $_POST['asu']));
                         $imp=iseguro($cone, $_POST['imp']);
+                        $impn=iseguro($cone, $_POST['impn']);
                         $pirem=$_POST['pirem']=="" ? vacio("") :  vacio(iseguro($cone, $_POST['pirem']));
                         $direm=$_POST['direm']=="" ? vacio("") :  vacio(iseguro($cone, $_POST['direm']));
                         $perem=$_POST['perem']=="" ? vacio("") :  vacio(imseguro($cone, $_POST['perem']));
@@ -69,6 +70,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                         $pedes=$_POST['pedes']=="" ? vacio("") :  vacio(imseguro($cone, $_POST['pedes']));
                         $dedes=$_POST['dedes']=="" ? vacio("") :  vacio(imseguro($cone, $_POST['dedes']));
                         $car=$_POST['car']==1 ? 1 : 0;
+                        $mpf=$_POST['not']==2 ? $impn : $imp;
 
                         //consultamos último número doc
                         $cn=mysqli_query($cone, "SELECT MAX(numdoc) num FROM doc WHERE Ano='$ano';");
@@ -81,14 +83,14 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                         }
                         mysqli_free_result($cn);
 
-                        $q="INSERT INTO doc (Numero, Ano, Siglas, FechaDoc, idTipoDoc, asunto, folios, remitenteext, destinatarioext, deporigenext, depdestinoext, remitenteint, destinatarioint, deporigenint, depdestinoint, numdoc, fecregistro, regpor, cargo) VALUES ($num, '$ano', '$sig', '$fecdoc', $tipdoc, $asu, $fol, $perem, $pedes, $derem, $dedes, $pirem, $pides, $direm, $dides, $nu, NOW(), $idem, $car);";
+                        $q="INSERT INTO doc (Numero, Ano, Siglas, FechaDoc, idTipoDoc, asunto, folios, remitenteext, destinatarioext, deporigenext, depdestinoext, remitenteint, destinatarioint, deporigenint, depdestinoint, numdoc, fecregistro, regpor, cargo) VALUES ($num, '$ano', $sig, '$fecdoc', $tipdoc, $asu, $fol, $perem, $pedes, $derem, $dedes, $pirem, $pides, $direm, $dides, $nu, NOW(), $idem, $car);";
                         if(mysqli_query($cone, $q)){
                             $iddo=mysqli_insert_id($cone);
 
-                            $pmp=mysqli_query($cone, "SELECT pm.idtdpersonalmp FROM tdpersonalmp pm INNER JOIN tdmesapartes mp ON pm.idtdmesapartes=mp.idtdmesapartes WHERE pm.idEmpleado=$idem AND pm.idtdmesapartes=$imp AND pm.estado=1 AND mp.estado=1 AND mp.tipo=1;");
+                            $pmp=mysqli_query($cone, "SELECT pm.idtdpersonalmp FROM tdpersonalmp pm INNER JOIN tdmesapartes mp ON pm.idtdmesapartes=mp.idtdmesapartes WHERE pm.idEmpleado=$idem AND pm.idtdmesapartes=$mpf AND pm.estado=1 AND mp.estado=1;");
                             if(mysqli_num_rows($pmp)>0){
                                 
-                                if(mysqli_query($cone, "INSERT INTO tdestadodoc (idDoc, idtdestado, fecha, idEmpleado, idtdmesapartes, asignador, mpasignador, estado) VALUES ($iddo, 2, NOW(), $idem, $imp, $idem, $imp, 1);")){
+                                if(mysqli_query($cone, "INSERT INTO tdestadodoc (idDoc, idtdestado, fecha, idEmpleado, idtdmesapartes, asignador, mpasignador, estado) VALUES ($iddo, 2, NOW(), $idem, $mpf, $idem, $mpf, 1);")){
                                     $r['m']=mensajesu("Listo, documento registrado y recibido.<br> N° Doc:<b> $nu-$ano</b>");
                                     $r['e']=true;
                                 }else{
@@ -99,11 +101,10 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                                     }
                                 }
 
-
                             }else{
 
                                 $dep=iddependenciae($cone, $_SESSION['identi']);
-                                if(mysqli_query($cone, "INSERT INTO tdestadodoc (idDoc, idtdestado, fecha, idtdmesapartes, asignador, depasignador, estado) VALUES ($iddo, 3, NOW(), $imp, $idem, $dep, 1);")){
+                                if(mysqli_query($cone, "INSERT INTO tdestadodoc (idDoc, idtdestado, fecha, idtdmesapartes, asignador, depasignador, estado) VALUES ($iddo, 3, NOW(), $mpf, $idem, $dep, 1);")){
                                     $r['m']=mensajesu("Listo, documento registrado y derivado.<br> N° Doc:<b> $nu-$ano</b>");
                                     $r['e']=true;
                                 }else{
@@ -116,7 +117,6 @@ if(accesocon($cone,$_SESSION['identi'],17)){
 
                             }
 
-
                         }else{
                             $r['m']=mensajewa("Error al registrar, vuelva a intentarlo.<br> $q");
                         }
@@ -126,7 +126,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                 $r['m']=mensajewa("Los campos marcado con <span class='text-red'>*</span> son obligatorios.");
             }
         }elseif($acc=="edidoc"){
-            if(isset($_POST['v1']) && !empty($_POST['v1']) && isset($_POST['ano']) && !empty($_POST['ano']) && isset($_POST['sig']) && !empty($_POST['sig']) && isset($_POST['tipdoc']) && !empty($_POST['tipdoc']) && isset($_POST['fecdoc']) && !empty($_POST['fecdoc']) && isset($_POST['fol']) && !empty($_POST['fol']) && isset($_POST['trem']) && !empty($_POST['trem']) && isset($_POST['tdes']) && !empty($_POST['tdes']) && isset($_POST['asu']) && !empty($_POST['asu'])){
+            if(isset($_POST['v1']) && !empty($_POST['v1']) && isset($_POST['ano']) && !empty($_POST['ano']) && isset($_POST['tipdoc']) && !empty($_POST['tipdoc']) && isset($_POST['fecdoc']) && !empty($_POST['fecdoc']) && isset($_POST['fol']) && !empty($_POST['fol']) && isset($_POST['trem']) && !empty($_POST['trem']) && isset($_POST['tdes']) && !empty($_POST['tdes']) && isset($_POST['asu']) && !empty($_POST['asu'])){
 
                 $trem=iseguro($cone, $_POST['trem']);
                 $tdes=iseguro($cone, $_POST['tdes']);
@@ -172,7 +172,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                     $v1=iseguro($cone, $_POST['v1']);
                     $num=vacio(iseguro($cone, $_POST['num']));
                     $ano=iseguro($cone, $_POST['ano']);
-                    $sig=imseguro($cone, $_POST['sig']);
+                    $sig=vacio(imseguro($cone, $_POST['sig']));
                     $tipdoc=iseguro($cone, $_POST['tipdoc']);
                     $fecdoc=fmysql(iseguro($cone, $_POST['fecdoc']));
                     $fol=iseguro($cone, $_POST['fol']);
@@ -188,11 +188,11 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                     $car=$_POST['car']==1 ? 1 : 0;
 
 
-                    if(mysqli_query($cone, "UPDATE doc SET Numero=$num, Ano='$ano', Siglas='$sig', FechaDoc='$fecdoc', idTipoDoc=$tipdoc, asunto=$asu, folios=$fol, remitenteext=$perem, destinatarioext=$pedes, deporigenext=$derem, depdestinoext=$dedes, remitenteint=$pirem, destinatarioint=$pides, deporigenint=$direm, depdestinoint=$dides, cargo=$car WHERE idDoc=$v1;")){
+                    if(mysqli_query($cone, "UPDATE doc SET Numero=$num, Ano='$ano', Siglas=$sig, FechaDoc='$fecdoc', idTipoDoc=$tipdoc, asunto=$asu, folios=$fol, remitenteext=$perem, destinatarioext=$pedes, deporigenext=$derem, depdestinoext=$dedes, remitenteint=$pirem, destinatarioint=$pides, deporigenint=$direm, depdestinoint=$dides, cargo=$car WHERE idDoc=$v1;")){
                         $r['m']=mensajesu("Listo, documento editado.");
                         $r['e']=true;
                     }else{
-                        $r['m']=mensajewa("Error al registrar, vuelva a intentarlo.");
+                        $r['m']=mensajewa("Error al editar, vuelva a intentarlo.");
                     }
                 }
 
@@ -595,7 +595,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                                 }
                             }
                         }else{
-                            $r['m']=mensajewa("Error al archivar, vuelva a intentarlo.");
+                            $r['m']=mensajewa("Error al derivar, vuelva a intentarlo.");
                         }
                     }else{
                         $r['m']=mensajesu('El documento ya tiene otro estado. ¡Actualice!');
@@ -652,6 +652,87 @@ if(accesocon($cone,$_SESSION['identi'],17)){
 
             }else{
                 $r['m']="Faltan datos.";
+            }
+        }elseif($acc=="derrep"){
+            if(isset($_POST['v1']) && !empty($_POST['v1']) && isset($_POST['v2']) && !empty($_POST['v2']) && isset($_POST['imp']) && !empty($_POST['imp']) && isset($_POST['des']) && !empty($_POST['des'])){
+                $v1=iseguro($cone, $_POST['v1']);
+                $v2=iseguro($cone, $_POST['v2']);
+                $imp=iseguro($cone, $_POST['imp']);
+                $des=iseguro($cone, $_POST['des']);
+                $idem=$_SESSION['identi'];
+
+                if($des==1){
+
+                    $ce=mysqli_query($cone, "SELECT idtdestadodoc FROM tdestadodoc WHERE idDoc=$v1 AND estado=1;");
+                    if($re=mysqli_fetch_assoc($ce)){
+                        if($re['idtdestadodoc']==$v2){
+                            $idue=$re['idtdestadodoc'];
+
+                            $dep=iddependenciae($cone, $idem);
+                            if(mysqli_query($cone, "INSERT INTO tdestadodoc (idDoc, idtdestado, fecha, idtdmesapartes, asignador, depasignador, estado) VALUES ($v1, 3, NOW(), $imp, $idem, $dep, 1);")){
+                                $idne=mysqli_insert_id($cone);
+                                if(mysqli_query($cone, "UPDATE tdestadodoc SET estado=0 WHERE idDoc=$v1 AND idtdestadodoc=$idue;")){
+                                    $r['m']=mensajesu("¡Listo! Documento derivado.");
+                                    $r['e']=true;
+                                }else{
+                                    if(mysqli_query($cone, "DELETE FROM tdestadodoc WHERE idtdestadodoc=$idne;")){
+                                        $r['m']=mensajewa("Error al derivar, vuelva a intentarlo.");
+                                    }else{
+                                        $r['m']=mensajewa("Error al derivar, reporte al administrador del sistema.");
+                                    }
+                                }
+                            }else{
+                                $r['m']=mensajewa("Error al derivar, vuelva a intentarlo.");
+                            }
+                        }else{
+                            $r['m']=mensajewa('El documento ya tiene otro estado. ¡Actualice!');
+                            $r['e']=true;
+                        }
+                    }else{
+                        $r['m']=mensajewa('Error, datos erroneos del documento.');
+                    }
+
+                }elseif($des==2){
+
+                    if(isset($_POST['per']) && !empty($_POST['per'])){
+                        $per=iseguro($cone, $_POST['per']);
+                        $dep=iddependenciae($cone, $per);
+                        $depa=iddependenciae($cone, $idem);
+                        $ce=mysqli_query($cone, "SELECT idtdestadodoc FROM tdestadodoc WHERE idDoc=$v1 AND estado=1;");
+                        if($re=mysqli_fetch_assoc($ce)){
+                            if($re['idtdestadodoc']==$v2){
+                                $idue=$re['idtdestadodoc'];
+
+                                if(mysqli_query($cone, "INSERT INTO tdestadodoc (idDoc, idtdestado, fecha, idEmpleado, idDependencia, asignador, depasignador, estado) VALUES ($v1, 3, NOW(), $per, $dep, $idem, $depa, 1);")){
+                                    $idne=mysqli_insert_id($cone);
+                                    if(mysqli_query($cone, "UPDATE tdestadodoc SET estado=0 WHERE idDoc=$v1 AND idtdestadodoc=$idue;")){
+                                        $r['m']=mensajesu("¡Listo! Documento derivado.");
+                                        $r['e']=true;
+                                    }else{
+                                        if(mysqli_query($cone, "DELETE FROM tdestadodoc WHERE idtdestadodoc=$idne;")){
+                                            $r['m']=mensajewa("Error al derivar, vuelva a intentarlo.");
+                                        }else{
+                                            $r['m']=mensajewa("Error al derivar, reporte al administrador del sistema.");
+                                        }
+                                    }
+                                }else{
+                                    $r['m']=mensajewa("Error al derivar, vuelva a intentarlo.");
+                                }
+                            }else{
+                                $r['m']=mensajewa('El documento ya tiene otro estado. ¡Actualice!');
+                                $r['e']=true;
+                            }
+                        }else{
+                            $r['m']=mensajewa('Error, datos erroneos del documento.');
+                        }
+                    }else{
+                        $r['m']=mensajewa("Los campos marcados con <span class='text-red'>*</span> son obligatorios.");
+                    }
+
+                }
+
+            }else{
+                $r['m']=mensajewa("Los campos marcados con <span class='text-red'>*</span> son obligatorios.");
             }
         }//acafin
 	}else{

@@ -41,7 +41,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
 ?>
                 <tr style="font-size: 12px;">
                     <td class="text-aqua"><?php echo $rb['numdoc'].'-'.$rb['Ano']; ?></td>
-                    <td><?php echo (!is_null($rb['Numero']) ? $rb['Numero']."-" : "").$rb['Ano']."-".$rb['Siglas']; ?><br><span class="text-teal"><?php echo $rb['TipoDoc']; ?></span></td>
+                    <td><?php echo (!is_null($rb['Numero']) ? $rb['Numero']."-" : "").$rb['Ano'].(!is_null($rb['Siglas']) ? "-".$rb['Siglas'] : ""); ?><br><span class="text-teal"><?php echo $rb['TipoDoc']; ?></span></td>
                     <td><?php echo fnormal($rb['FechaDoc']); ?><br><span class="text-yellow"><?php echo diftiempo($rb['FechaDoc'], date('Y-m-d H:i:s')); ?></span></td>
                     <td><?php echo estadoDoc($rb['idtdestado']); ?></td>
                     <td><?php echo date('d/m/Y h:i:s A', strtotime($rb['fecha'])); ?><br><span class="text-orange"><?php echo diftiempo($rb['fecha'], date('Y-m-d H:i:s')); ?></span></td>
