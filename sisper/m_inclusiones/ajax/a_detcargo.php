@@ -87,22 +87,25 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
 					<td><?php echo $est ?></td>
 				</tr>
 				<tr>
-					<th>Días no laborados</th>
+					<th>Fecha cómputo vacaciones</th>
 					<td>
 						<?php
 						$dnl=caldiant($cone, $idc);
-						$fcv=date('d/m/Y', strtotime('+'.$dnl.' day',strtotime($rc['FechaAsu'])));
-						echo $dnl;
-
-						?> 
-						<?php //if(accesoadm($cone,$_SESSION['identi'],1)){ ?>
-						<!--<button type="button" class="btn btn-xs btn-default" title="Editar" onclick="edifv(<?php //echo $idc; ?>);"><i class="fa fa-pencil"></i></button>-->
-						<?php //} ?>
+						$fcv=date('d/m', strtotime('+'.$dnl.' day',strtotime($rc['FechaVac'])));
+						echo fnormal($rc['FechaVac']);
+						?>
+						<?php if(accesoadm($cone,$_SESSION['identi'],1)){ ?>
+						 <button type="button" class="btn btn-xs bg-orange" title="Editar" onclick="edifv(<?php echo $idc; ?>);"><i class="fa fa-pencil"></i></button>
+						<?php } ?>
 					</td>
-					<th>Fecha cómputo vacaciones</th>
+					<th>Días no lab. <small class='text-muted'>(Vac. desde)</small></th>
 					<td>
-						<?php echo $fcv; ?>
+						<?php
+						echo $dnl." <small class='text-muted'>(".$fcv.")</small>";
+						?> 
+						
 					</td>
+					
 				</tr>
 			</tbody>
 		</table>
