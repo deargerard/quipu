@@ -149,7 +149,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                     <label>
                         <br>
                         <input type="checkbox" name="not" value="2">
-                        Derivar a notificaciones
+                        Derivar/Rec. notificaciones
                     </label>
                 </div>
             </div>

@@ -21,7 +21,7 @@ if(valaccasi($cone,$_SESSION['iden'],$_SESSION['docv'])){
 			$cod=iseguro($cone,$_POST['cod']);
 			$mar=@date("Y-m-d H:i:s");
 			$lim1=date("Y-m-d")." 18:31:00";
-			$lim2=date("Y-m-d")." 19:45:00";
+			$lim2=date("Y-m-d")." 11:00:00";
 			if($mar>=$lim1 && $mar<=$lim2){
 				echo mensajeda("Error: <br><br>Fuera de Horario.");
 				echo "<h6 class='text-center text-primary'>* No se permite registrar su marcación. Favor converse con el responsable de la asistencia.</h6>";
