@@ -16,15 +16,16 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                 $impn=NULL;
                 while($rmp=mysqli_fetch_assoc($cmp)){
                     switch ($rmp['tipo']) {
-                        case 1:
+                        case "1":
                             $imp=$rmp['idtdmesapartes'];
                             break;
-                        case 2:
+                        case "2":
                             $impn=$rmp['idtdmesapartes'];
                             break;
                     }
                 }
 ?>
+        
         <div class="row">
             <input type="hidden" name="acc" value="<?php echo $acc; ?>">
             <input type="hidden" name="imp" value="<?php echo $imp; ?>">

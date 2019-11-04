@@ -1189,7 +1189,7 @@ function nommpartes($con, $idmp){
 function idlocempleado($cone, $ide){
 	$ide=iseguro($cone, $ide);
 	if($ide!=""){
-		$c=mysqli_query($cone, "SELECT dl.idLocal FROM empleadocargo ec INNER JOIN cardependencia cd ON ec.idEmpleadoCargo=cd.idEmpleadoCargo INNER JOIN dependencia d ON cd.idDependencia=d.idDependencia INNER JOIN dependencialocal dl ON d.idDependencia=dl.idDependencia WHERE ec.idEmpleado=$ide AND ec.idEstadoCar=1 AND cd.Estado=1;");
+		$c=mysqli_query($cone, "SELECT dl.idLocal FROM empleadocargo ec INNER JOIN cardependencia cd ON ec.idEmpleadoCargo=cd.idEmpleadoCargo INNER JOIN dependencia d ON cd.idDependencia=d.idDependencia INNER JOIN dependencialocal dl ON d.idDependencia=dl.idDependencia WHERE ec.idEmpleado=$ide AND ec.idEstadoCar=1 AND cd.Estado=1 AND dl.Estado=1 LIMIT 1;");
 		if($r=mysqli_fetch_assoc($c)){
 			return $r['idLocal'];
 		}else{
