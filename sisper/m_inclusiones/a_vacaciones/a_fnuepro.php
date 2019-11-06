@@ -11,7 +11,7 @@ if(accesoadm($cone,$_SESSION['identi'],9)){
     $fff=iseguro($cone,$_POST['fff']);
     $idec=iseguro($cone,$_POST['idec']);
 
-  echo $fii ." --- ".$ffi." --- ".$fff;
+  //echo $fii ." --- ".$ffi." --- ".$fff;
 
     ?>
           <div class="form-group valida">
