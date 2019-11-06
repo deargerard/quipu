@@ -209,9 +209,8 @@ function f_bandeja(acc,v1,v2){
         case 'dermpp':
           var mt="<span class='text-muted'><i class='fa fa-share text-yellow'></i> Derivar a Mesa de Partes con Proveído</span>";
           break;
-        case 'derrep':
-          var mt="<span class='text-muted'><i class='fa fa-level-up text-yellow'></i> Derivar</span>";
-          $(".modal-dialog").addClass('modal-sm');
+        case 'cammp':
+          var mt="<span class='text-muted'><i class='fa fa-random text-yellow'></i> Cambiar MP</span>";
           break;
     }
     $(".modal-title").html(mt);
