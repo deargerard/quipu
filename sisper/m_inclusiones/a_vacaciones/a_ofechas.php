@@ -12,7 +12,7 @@ $rpv=mysqli_fetch_assoc($cpv);
   $anoi = substr($rpv['PeriodoVacacional'], -4);
   $fii= $diai."-".$mesi."-".$anoi;
   $fii1=date($fii);
-  $das=caldiant($cone, $rin['idEmpleadoCargo'])+1;
+  $das=(caldiant($cone, $rin['idEmpleadoCargo'])%365)+1;
   $das1=$das-1;
   $fii=strtotime('+'.$das.' day',strtotime($fii1));
   $nf=strtotime('+'.$das1.' day',strtotime($fii1));
@@ -43,5 +43,5 @@ $rpv=mysqli_fetch_assoc($cpv);
   } //fin
   $l=intervalo($hoy, $rin['FechaVac']);
   $mpp=date('m');
-  //$ffi=$das;
+  $ffi=$das;
 ?>
