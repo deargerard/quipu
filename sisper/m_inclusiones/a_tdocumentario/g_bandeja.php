@@ -87,13 +87,13 @@ if(accesocon($cone,$_SESSION['identi'],17)){
 
                             $pmp=mysqli_query($cone, "SELECT pm.idtdpersonalmp FROM tdpersonalmp pm INNER JOIN tdmesapartes mp ON pm.idtdmesapartes=mp.idtdmesapartes WHERE pm.idEmpleado=$idem AND pm.idtdmesapartes=$mpd AND pm.estado=1 AND mp.estado=1;");
                             if(mysqli_num_rows($pmp)>0){
-                                
-                                if(mysqli_query($cone, "INSERT INTO tdestadodoc (idDoc, idtdestado, fecha, idEmpleado, idtdmesapartes, asignador, mpasignador, estado) VALUES ($iddo, 2, NOW(), $idem, $mpd, $idem, $mpd, 1);")){
+                                $q="INSERT INTO tdestadodoc (idDoc, idtdestado, fecha, idEmpleado, idtdmesapartes, asignador, mpasignador, estado) VALUES ($iddo, 2, NOW(), $idem, $mpd, $idem, $mpd, 1);";
+                                if(mysqli_query($cone, $q)){
                                     $r['m']=mensajesu("Listo, documento registrado y recibido.<br> N° Seguimiento:<b> $nu-$ano</b>");
                                     $r['e']=true;
                                 }else{
                                     if(mysqli_query($cone, "DELETE FROM doc WHERE idDoc=$iddo;")){
-                                        $r['m']=mensajewa("Error al registrar estado, vuelva a intentarlo.");
+                                        $r['m']=mensajewa("Error al registrar estado, vuelva a intentarlo. ".$q);
                                     }else{
                                         $r['m']=mensajewa("Solo se registro el documento, contacte a informática para generarle un estado.");
                                     }
@@ -110,13 +110,13 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                                     $mmp=vacio("");
                                     $dep=vacio(iddependenciae($cone, $_SESSION['identi']));
                                 }
-
-                                if(mysqli_query($cone, "INSERT INTO tdestadodoc (idDoc, idtdestado, fecha, idtdmesapartes, asignador, depasignador, mpasignador, estado) VALUES ($iddo, 3, NOW(), $mpd, $idem, $dep, $mmp, 1);")){
+                                $q="INSERT INTO tdestadodoc (idDoc, idtdestado, fecha, idtdmesapartes, asignador, depasignador, mpasignador, estado) VALUES ($iddo, 3, NOW(), $mpd, $idem, $dep, $mmp, 1);";
+                                if(mysqli_query($cone, $q)){
                                     $r['m']=mensajesu("Listo, documento registrado y derivado.<br> N° Seguimiento:<b> $nu-$ano</b>");
                                     $r['e']=true;
                                 }else{
                                     if(mysqli_query($cone, "DELETE FROM doc WHERE idDoc=$iddo;")){
-                                        $r['m']=mensajewa("Error al registrar estado, vuelva a intentarlo.");
+                                        $r['m']=mensajewa("Error al registrar estado, vuelva a intentarlo. "$q);
                                     }else{
                                         $r['m']=mensajewa("Solo se registro el documento, contacte a informática para generarle un estado.");
                                     }
