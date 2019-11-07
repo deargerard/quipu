@@ -116,7 +116,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                                     $r['e']=true;
                                 }else{
                                     if(mysqli_query($cone, "DELETE FROM doc WHERE idDoc=$iddo;")){
-                                        $r['m']=mensajewa("Error al registrar estado, vuelva a intentarlo. "$q);
+                                        $r['m']=mensajewa("Error al registrar estado, vuelva a intentarlo. ".$q);
                                     }else{
                                         $r['m']=mensajewa("Solo se registro el documento, contacte a informática para generarle un estado.");
                                     }
