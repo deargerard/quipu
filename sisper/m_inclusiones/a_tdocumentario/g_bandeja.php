@@ -102,7 +102,6 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                             }else{
 
                                 //validamos si deriva de una mesa de partes
-                                $mmp=vacio("");
                                 $cmmp=mysqli_query($cone, "SELECT pm.idtdpersonalmp FROM tdpersonalmp pm INNER JOIN tdmesapartes mp ON pm.idtdmesapartes=mp.idtdmesapartes WHERE pm.idEmpleado=$idem AND pm.estado=1 AND mp.estado=1;");
                                 if($rmmp=mysqli_fetch_assoc($cmmp)){
                                     $mmp=vacio($rmmp['idtdpersonalmp']);
