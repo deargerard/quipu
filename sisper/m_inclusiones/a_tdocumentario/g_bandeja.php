@@ -101,8 +101,18 @@ if(accesocon($cone,$_SESSION['identi'],17)){
 
                             }else{
 
-                                $dep=iddependenciae($cone, $_SESSION['identi']);
-                                if(mysqli_query($cone, "INSERT INTO tdestadodoc (idDoc, idtdestado, fecha, idtdmesapartes, asignador, depasignador, estado) VALUES ($iddo, 3, NOW(), $mpd, $idem, $dep, 1);")){
+                                //validamos si deriva de una mesa de partes
+                                $mmp=vacio("");
+                                $cmmp=mysqli_query($cone, "SELECT pm.idtdpersonalmp FROM tdpersonalmp pm INNER JOIN tdmesapartes mp ON pm.idtdmesapartes=mp.idtdmesapartes WHERE pm.idEmpleado=$idem AND pm.estado=1 AND mp.estado=1;");
+                                if($rmmp=mysqli_fetch_assoc($cmmp)){
+                                    $mmp=vacio($rmmp['idtdpersonalmp']);
+                                    $dep=vacio("");
+                                }else{
+                                    $mmp=vacio("");
+                                    $dep=vacio(iddependenciae($cone, $_SESSION['identi']));
+                                }
+
+                                if(mysqli_query($cone, "INSERT INTO tdestadodoc (idDoc, idtdestado, fecha, idtdmesapartes, asignador, depasignador, mpasignador, estado) VALUES ($iddo, 3, NOW(), $mpd, $idem, $dep, $mmp, 1);")){
                                     $r['m']=mensajesu("Listo, documento registrado y derivado.<br> N° Seguimiento:<b> $nu-$ano</b>");
                                     $r['e']=true;
                                 }else{
