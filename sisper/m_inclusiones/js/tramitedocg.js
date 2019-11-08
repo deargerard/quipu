@@ -257,6 +257,7 @@ $('#f_modal').submit(function(e){
         li_ban6();
         li_ban7();
         li_ban8();
+        li_ban9();
       }else{
         $("#d_frespuesta").html(a.m);
         $("#b_guardar").removeClass("hidden");
@@ -282,6 +283,7 @@ function g_rec(v1, v2, mp){
           li_ban6();
           li_ban7();
           li_ban8();
+          li_ban9();
         }else{
           alertify.error(a.m);
         }
@@ -308,6 +310,7 @@ function g_dermpa(v1, v2){
           li_ban6();
           li_ban7();
           li_ban8();
+          li_ban9();
         }else{
           alertify.error(a.m);
         }
@@ -337,6 +340,7 @@ function g_dernot(v1, v2){
           li_ban6();
           li_ban7();
           li_ban8();
+          li_ban9();
         }else{
           alertify.error(a.m);
         }
