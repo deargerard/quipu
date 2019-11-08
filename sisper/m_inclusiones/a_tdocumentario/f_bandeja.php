@@ -764,7 +764,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                     </thead>
                     <tr>
                         <td class="text-aqua"><?php echo $rd['numdoc'].'-'.$rd['Ano']; ?></td>
-                        <td class="text-primary"><?php echo $rd['TipoDoc']; ?></td>
+                        <td class="text-primary"><?php echo $rd['TipoDoc'].'<small class="text-yellow"> ('.($rd['cargo']==1 ? "Cargo" : "Original").')</small>'; ?></td>
                         <td class="text-orange"><?php echo (!is_null($rd['Numero']) ? $rd['Numero']."-" : "").$rd['Ano']."-".$rd['Siglas']; ?></td>
                         <td><?php echo fnormal($rd['FechaDoc']); ?></td>
                     </tr>
