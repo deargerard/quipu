@@ -23,12 +23,13 @@ if(accesocon($cone,$_SESSION['identi'],17)){
         <table class="table table-bordered table-hover" id="dt_ban7">
             <thead>
                 <tr>
-                    <th>NUM.</th>
+                    <th>N.</th>
                     <th>DOCUMENTO<br>TIPO</th>
                     <th>FECHA DOCUMENTO<br>TIEMPO</th>
                     <th>ESTADO</th>
                     <th>FECHA ESTADO<br>TIEMPO</th>
                     <th>DERIVADO A / DERIVADO POR</th>
+                    <th>G.</th>
                     <th class="text-center">ACCIÓN</th>
                 </tr>
             </thead>
@@ -38,11 +39,12 @@ if(accesocon($cone,$_SESSION['identi'],17)){
 ?>
                 <tr style="font-size: 12px;">
                     <td class="text-aqua"><?php echo $rb['numdoc'].'-'.$rb['Ano']; ?></td>
-                    <td><?php echo $rb['Numero']."-".$rb['Ano']."-".$rb['Siglas']; ?><br><span class="text-teal"><?php echo $rb['TipoDoc']; ?></span></td>
+                    <td><?php echo (!is_null($rb['Numero']) ? $rb['Numero']."-" : "").$rb['Ano'].(!is_null($rb['Siglas']) ? "-".$rb['Siglas'] : ""); ?><br><span class="text-teal"><?php echo $rb['TipoDoc']; ?></span></td>
                     <td><?php echo fnormal($rb['FechaDoc']); ?><br><span class="text-yellow"><?php echo diftiempo($rb['FechaDoc'], date('Y-m-d H:i:s')); ?></span></td>
                     <td><?php echo estadoDoc($rb['idtdestado']); ?></td>
                     <td><?php echo date('d/m/Y h:i:s A', strtotime($rb['fecha'])); ?><br><span class="text-orange"><?php echo diftiempo($rb['fecha'], date('Y-m-d H:i:s')); ?></span></td>
-                    <td class="text-aqua"><?php echo nommpartes($cone, $rb['idtdmesapartes'])."<br><small class='text-muted'>".nomempleado($cone, $rb['asignador'])."</small>"; ?></td>
+                    <td class="text-aqua"><?php echo (!is_null($rb['idtdmesapartes']) ? nommpartes($cone, $rb['idtdmesapartes']) : nomempleado($cone, $rb['idEmpleado']))."<br><small class='text-muted'>".nomempleado($cone, $rb['asignador'])."</small>"; ?></td>
+                    <td class="text-maroon"><?php echo $rb['numguia']; ?></td>
                     <td class="text-center">
                           <div class="btn-group btn-group-xs">
                             <button type="button" class="btn btn-info" title="Recibirlo nuevamente" onclick="g_rec(<?php echo $rb['idDoc'].", ".$rb['idtdestadodoc']; ?>)"><i class="fa fa-check"></i></button>
