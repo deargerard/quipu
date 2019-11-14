@@ -162,9 +162,9 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                         ?>
                         <div class="col-sm-12">
                           <br>
-                          <!--
-                            Aca Boton
-                          -->
+                            <?php if($_SESSION['identi']==528){ ?>
+                            <button id="b_envpro" class="btn btn-info" data-toggle="modal" data-target="#m_envprovacc" onclick="envprovacc(<?php echo $idcoo; ?>)">Aceptar y Enviar</button>
+                            <?php } ?>
                         </div>
                         <?php
                         }else{
