@@ -78,6 +78,9 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                   <div class="col-md-5">
                     <button type="button" class="btn bg-yellow" onclick="li_ban2();"><i class="fa fa-refresh"></i> Actualizar</button>
                     <button type="button" class="btn bg-teal" onclick="f_bandeja('agrdoc',0,0);"><i class="fa fa-file-text-o"></i> Registrar</button>
+                    <?php if($tmp){ ?>
+                    <button type="button" class="btn bg-purple" onclick="f_bandeja('gencar',0,0);"><i class="fa fa-files-o"></i> Generar Cargo</button>
+                    <?php } ?>
                   </div>
                   <div class="col-md-7">
                     
