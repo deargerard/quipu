@@ -84,8 +84,8 @@ if(vacceso($cone,$_SESSION['identi'],$_SESSION['docide'],$_SESSION['nomusu'])){
                       <td class="text-blue"><?php echo $ri['ApellidoPat'].' '.$ri['ApellidoMat'].' '.$ri['Nombres']; ?></td>
                       <td><?php echo cargoe($cone, $ri['idEmpleado']); ?></td>
                       <td><?php echo dependenciae($cone, $ri['idEmpleado']); ?></td>
-                      <td><?php echo fnormal($ro['FechaIni']); ?></td>
-                      <td><?php echo fnormal($ro['FechaFin']); ?></td>
+                      <td><span class="hide"><?php echo $ro['FechaIni']; ?></span><?php echo fnormal($ro['FechaIni']); ?></td>
+                      <td><span class="hide"><?php echo $ro['FechaFin']; ?></span><?php echo fnormal($ro['FechaFin']); ?></td>
                       <td class="warning text-orange"><?php echo $dt; ?></td>
                       <td><?php echo estadoVac($ro['Estado']); ?></td>
                       <td>
@@ -201,8 +201,8 @@ if(vacceso($cone,$_SESSION['identi'],$_SESSION['docide'],$_SESSION['nomusu'])){
                         <td class="text-blue"><?php echo $rve['ApellidoPat']." ".$rve['ApellidoMat']." ".$rve['Nombres']; ?></td>
                         <td><?php echo cargoe($cone, $rve['idEmpleado']); ?></td>
                         <td><?php echo dependenciae($cone, $rve['idEmpleado']); ?></td>
-                        <td><?php echo fnormal($rve['FechaIni']); ?></td>
-                        <td><?php echo fnormal($rve['FechaFin']); ?></td>
+                        <td><span class="hide"><?php echo $rve['FechaIni']; ?></span><?php echo fnormal($rve['FechaIni']); ?></td>
+                        <td><span class="hide"><?php echo $rve['FechaIni']; ?></span><?php echo fnormal($rve['FechaFin']); ?></td>
                         <td class="warning"><?php echo intervalo($rve['FechaFin'], $rve['FechaIni']); ?></td>
                         <td><?php echo estadoVac($rve['Estado']); ?></td>
                       </tr>
