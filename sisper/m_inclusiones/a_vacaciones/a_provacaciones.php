@@ -43,6 +43,7 @@ if(vacceso($cone,$_SESSION['identi'],$_SESSION['docide'],$_SESSION['nomusu'])){
             </div>
             <div id="collapse<?php echo $a; ?>" class="panel-collapse collapse <?php echo $a==1 ? "in" : ""; ?>">
               <div class="box-body">
+                <h4 class="text-red"><i class="fa fa-chevron-circle-right text-maroon"></i> Programación <?php echo $pe; ?></h4>
                 <?php
                 $ci=mysqli_query($cone, "SELECT e.idEmpleado, e.ApellidoPat, e.ApellidoMat, e.Nombres, e.NumeroDoc, ec.idEmpleadoCargo, ec.FechaVac FROM dependencia d INNER JOIN cardependencia cd ON d.idDependencia=cd.idDependencia INNER JOIN empleadocargo ec ON cd.idEmpleadoCargo=ec.idEmpleadoCargo INNER JOIN empleado e ON ec.idEmpleado=e.idEmpleado INNER JOIN cargo ca ON ec.idCargo=ca.idCargo INNER JOIN sistemalab sl ON ca.idSistemaLab=sl.idSistemaLab INNER JOIN orintegrante i ON ec.idEmpleadocargo=i.idEmpleadocargo WHERE i.idorequipo=$ideq AND cd.Estado=1 AND ec.idEstadoCar=1 AND i.estado=1 AND (d.Observacion!='e' OR sl.SistemaLab!='FISCAL') AND (ec.idCargo!=32 AND ec.idCargo!=34 AND ec.idCargo!=37) ORDER BY e.ApellidoPat ASC, e.ApellidoMat ASC;");
                 if(mysqli_num_rows($ci)>0){
@@ -168,6 +169,53 @@ if(vacceso($cone,$_SESSION['identi'],$_SESSION['docide'],$_SESSION['nomusu'])){
                   echo mensajewa("Despacho/Área sin personal asignado.");
                 }
                 mysqli_free_result($ci);
+                ?>
+                <h4 class="text-red"><i class="fa fa-chevron-circle-right text-maroon"></i> De periodos anteriores <small>(Para validación.)</small></h4>
+                <?php
+                $cve=mysqli_query($cone,"SELECT e.NumeroDoc, e.idEmpleado, e.ApellidoPat, e.ApellidoMat, e.Nombres, ec.idEmpleadoCargo, pv.FechaIni, pv.FechaFin, pv.Estado, ec.FechaVac FROM dependencia d INNER JOIN cardependencia cd ON d.idDependencia=cd.idDependencia INNER JOIN empleadocargo ec ON cd.idEmpleadoCargo=ec.idEmpleadoCargo INNER JOIN empleado e ON ec.idEmpleado=e.idEmpleado INNER JOIN cargo ca ON ec.idCargo=ca.idCargo INNER JOIN sistemalab sl ON ca.idSistemaLab=sl.idSistemaLab INNER JOIN orintegrante i ON ec.idEmpleadocargo=i.idEmpleadocargo INNER JOIN provacaciones pv ON ec.idEmpleadoCargo=pv.idEmpleadoCargo WHERE i.idorequipo=$ideq AND (pv.Estado=0 OR pv.Estado=3 OR pv.Estado=4) AND cd.Estado=1 AND ec.idEstadoCar=1 AND i.estado=1 AND (d.Observacion!='e' OR sl.SistemaLab!='FISCAL') AND (ec.idCargo!=32 AND ec.idCargo!=34 AND ec.idCargo!=37) ORDER BY e.ApellidoPat ASC, e.ApellidoMat ASC;");
+                if(mysqli_num_rows($cve)>0){
+                ?>
+                  <table class="table table-hover table-bordered" id="dtablep<?php echo $a; ?>" style="font-size: 11px;">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>DNI</th>
+                        <th>APELLIDOS Y NOMBRES</th>
+                        <th>CARGO</th>
+                        <th>DEPENDENCIA</th>
+                        <th>INICIA</th>
+                        <th>TERMINA</th>
+                        <th>DÍAS</th>
+                        <th>ESTADO</th>
+                      </tr>
+                    </thead>
+                    <tbody> 
+                <?php
+                  $w=0;
+                  while($rve=mysqli_fetch_assoc($cve)){
+                    $w++;
+                ?>
+                      <tr>
+                        <td><?php echo $w; ?></td>
+                        <td><?php echo $rve['NumeroDoc']; ?></td>
+                        <td class="text-blue"><?php echo $rve['ApellidoPat']." ".$rve['ApellidoMat']." ".$rve['Nombres']; ?></td>
+                        <td><?php echo cargoe($cone, $rve['idEmpleado']); ?></td>
+                        <td><?php echo dependenciae($cone, $rve['idEmpleado']); ?></td>
+                        <td><?php echo fnormal($rve['FechaIni']); ?></td>
+                        <td><?php echo fnormal($rve['FechaFin']); ?></td>
+                        <td class="warning"><?php echo intervalo($rve['FechaFin'], $rve['FechaIni']); ?></td>
+                        <td><?php echo estadoVac($rve['Estado']); ?></td>
+                      </tr>
+                <?php
+                  }
+                ?>
+                    </tbody>
+                  </table>
+                <script>
+                  $("#dtablep<?php echo $a; ?>").DataTable();
+                </script>
+                <?php
+                }
                 ?>
               </div>
             </div>
