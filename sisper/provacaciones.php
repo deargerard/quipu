@@ -15,6 +15,7 @@ $(document).ready(function(){
   $("ul.sidebar-menu li").removeClass("active");
   $("#vacaciones").addClass("active");
   $("#provacaciones").addClass("active");
+  lvacaciones();
 });
 </script>
 <?php

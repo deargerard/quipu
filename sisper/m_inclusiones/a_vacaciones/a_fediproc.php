@@ -21,7 +21,7 @@ if(escoordinador($cone,$_SESSION['identi'])){
                   $cpv=mysqli_query($cone,"SELECT * FROM periodovacacional WHERE idPeriodoVacacional=$vac");
                   $rpv=mysqli_fetch_assoc($cpv);
 ?>
-                  <h4 class="text-danger"><?php echo "PROGRAMACIÓN DE VACACIONES PERÍODO  ". $rpv['PeriodoVacacional']?></h4>
+                  <h4 class="text-orange"><i class="fa fa-plane text-gray"></i> <?php echo "PROGRAMACIÓN DE VACACIONES PERÍODO  ". $rpv['PeriodoVacacional']?></h4>
                   <input type="hidden" name="peva" value="<?php echo $pervac?>"> <!--envía id del periodo-->
                   <input type="hidden" name="dias" id="dias" value="<?php echo $dias; ?>">
                 </div>
@@ -30,15 +30,15 @@ if(escoordinador($cone,$_SESSION['identi'])){
                 <div class="col-sm-6" >
                   <label for="inivac" class="col-sm-4 control-label">Inicia</label>
                   <div class="input-group col-sm-8">
-                    <input type="text" id="inivac" name="inivac" class="form-control" value="<?php echo fnormal($rvac['FechaIni'])?>" placeholder="dd/mm/aaaa" autocomplete="off">
-                    <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
+                    <input type="text" id="inivac" name="inivac" class="form-control" value="<?php echo fnormal($rvac['FechaIni']); ?>" placeholder="dd/mm/aaaa" autocomplete="off">
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                   </div>
                 </div>
                 <div class="col-sm-6" id="divter">
                   <label for="finvac" class="col-sm-4 control-label">Termina</label>
                   <div class="input-group col-sm-8">
-                  <input type="text" id="finvac" name="finvac" class="form-control" value="<?php echo fnormal($rvac['FechaFin'])?>" placeholder="dd/mm/aaaa" readonly="readonly" autocomplete="off">
-                  <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
+                    <input type="text" id="finvac" name="finvac" class="form-control" value="<?php echo fnormal($rvac['FechaFin'])?>" placeholder="dd/mm/aaaa" readonly="readonly" autocomplete="off">
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                   </div>
                 </div>
               </div>
@@ -62,61 +62,27 @@ if(escoordinador($cone,$_SESSION['identi'])){
                   language: "es",
                   autoclose: true,
                   todayHighlight: true,
-                  startDate: "<?php echo $fii ?>",
-                  endDate: "<?php echo $ffi?>",
-
-                })
-                .on('changeDate', function(e){
+                  startDate: '<?php echo $fii; ?>',
+                  endDate: '<?php echo $ffi; ?>'
+                }).on('changeDate', function(e){
                   var fechai = $("#inivac").val();
                   var aFecha1 = fechai.split('/');
                   var fFecha1 = Date.UTC(aFecha1[2],aFecha1[1]-1,aFecha1[0]);
                   var dp=parseInt(<?php echo $dp; ?>);
 
-                    if(dp==15){
-                      if (aFecha1[0]==1 || aFecha1[0]==16 ) {
-                        var afec = fechai.split('/');
-                        var ffec = Date.UTC(afec[2],afec[1]-1,afec[0]);
-                        var nfec = ffec + (dp*86400000);
-                        var nfecf= new Date(nfec);
+                  var afec = fechai.split('/');
+                  var ffec = Date.UTC(afec[2],afec[1]-1,afec[0]);
+                  var nfec = ffec + (dp*86400000);
+                  var nfecf= new Date(nfec);
 
-                        var nf = new Date();
-                        var dia = nfecf.getDate();
-                        var mes = nfecf.getMonth()+1;
-                        var ano = nfecf.getFullYear();
+                  var nf = new Date();
+                  var dia = nfecf.getDate();
+                  var mes = nfecf.getMonth()+1;
+                  var ano = nfecf.getFullYear();
 
-                        $('#finvac').val(("0"+dia).slice(-2)+'/'+("0"+mes).slice(-2)+'/'+ano);
-                        $("#msg").html("");
-                      }else {
-
-                        $("#msg").html("¡ERROR!, sólo puede seleccionar como fecha de inicio el 01 ó el 16 del mes");
-                        $("#inivac").val("");
-                        $("#finvac").val("");
-
-                      }
-                    }else if(dp==30){
-                      if (aFecha1[0]==1) {
-                        var afec = fechai.split('/');
-                        var ffec = Date.UTC(afec[2],afec[1]-1,afec[0]);
-                        var nfec = ffec + (dp*86400000);
-                        var nfecf= new Date(nfec);
-
-                        var nf = new Date();
-                        var dia = nfecf.getDate();
-                        var mes = nfecf.getMonth()+1;
-                        var ano = nfecf.getFullYear();
-
-                        $('#finvac').val(("0"+dia).slice(-2)+'/'+("0"+mes).slice(-2)+'/'+ano);
-                        $("#msg").html("");
-                      }else {
-
-                        $("#msg").html("¡ERROR!, sólo puede seleccionar como fecha de inicio el 01 del mes");
-                        $("#inivac").val("");
-                        $("#finvac").val("");
-
-                      }
-                    }
+                  $('#finvac').val(("0"+dia).slice(-2)+'/'+("0"+mes).slice(-2)+'/'+ano);
+                  $("#msg").html("");
                  });
-
               </script>
 <?php
             mysqli_close($cone);
