@@ -195,7 +195,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                 maxViewMode: 2,
                 todayHighlight: true
             });
-            $("#tipdoc").select2();
+            //$("#tipdoc").select2();
 
             $("#pirem").select2({
               placeholder: 'Selecione un personal',
@@ -591,17 +591,21 @@ if(accesocon($cone,$_SESSION['identi'],17)){
         }elseif($acc=="atedoc"){
             if(isset($v1) && !empty($v1) && isset($v2) && !empty($v2)){
 ?>
-                    <div class="row">
-                        <input type="hidden" name="acc" value="<?php echo $acc; ?>">
-                        <input type="hidden" name="v1" value="<?php echo $v1; ?>">
-                        <input type="hidden" name="v2" value="<?php echo $v2; ?>">
-                        <div class="col-sm-12">
-                            <label for="num">Observaciónes de la atención<small class="text-red">*</small></label>
-                            <textarea class="form-control" id="obs" name="obs"></textarea>
-                        </div>
+                <div class="row">
+                    <input type="hidden" name="acc" value="<?php echo $acc; ?>">
+                    <input type="hidden" name="v1" value="<?php echo $v1; ?>">
+                    <input type="hidden" name="v2" value="<?php echo $v2; ?>">
+                    <div class="col-sm-12">
+                        <label for="obs">Observaciónes de la atención<small class="text-red">*</small></label>
+                        <textarea class="form-control" id="obs" name="obs" autofocus="autofocus"></textarea>
                     </div>
-                    <div class="form-group" id="d_frespuesta">
-                    </div>              
+                </div>
+                <div class="form-group" id="d_frespuesta">
+                </div>
+                <script>
+                    //$("#obs").focus();
+                    //alert("Hola");
+                </script>    
 <?php
             }else{
                 echo mensajewa("Error, faltan datos.");
@@ -633,7 +637,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                         <input type="hidden" name="v2" value="<?php echo $v2; ?>">
                         <div class="col-sm-3">
                             <label for="not">Estado<small class="text-red">*</small></label>
-                            <select class="form-control" id="not" name="not">
+                            <select class="form-control" id="not" name="not" autofocus="autofocus">
                                 <option value="">Estado</option>
                                 <option value="1">NOTIFICADA</option>
                                 <option value="2">A DEVOLVER</option>

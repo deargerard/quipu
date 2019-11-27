@@ -203,7 +203,7 @@ if(vacceso($cone,$_SESSION['identi'],$_SESSION['docide'],$_SESSION['nomusu'])){
                         <td><?php echo dependenciae($cone, $rve['idEmpleado']); ?></td>
                         <td><span class="hide"><?php echo $rve['FechaIni']; ?></span><?php echo fnormal($rve['FechaIni']); ?></td>
                         <td><span class="hide"><?php echo $rve['FechaIni']; ?></span><?php echo fnormal($rve['FechaFin']); ?></td>
-                        <td class="warning"><?php echo intervalo($rve['FechaFin'], $rve['FechaIni']); ?></td>
+                        <td class="warning text-orange"><?php echo intervalo($rve['FechaFin'], $rve['FechaIni']); ?></td>
                         <td><?php echo estadoVac($rve['Estado']); ?></td>
                       </tr>
                 <?php
