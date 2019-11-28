@@ -5,7 +5,7 @@ include ("../sisper/m_inclusiones/php/funciones.php");
 if(valaccasi($cone,$_SESSION['iden'],$_SESSION['docv'])){
   include("estructura/up.php");
   include("contenido/asistencia.php");
-  $fec=@date("Y-m-d H:i:s");
+  $fec=@date("Y-m-d h:i A");
 $s="<script>
 $(document).ready(function(){
   $('#masistencia').addClass('active');
@@ -18,7 +18,7 @@ $(document).ready(function(){
       });
   }
 
-  setInterval(hora, 1000);
+  setInterval(hora, 60000);
 });
 </script>";
   include("estructura/bottom.php");

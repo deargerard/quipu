@@ -384,7 +384,16 @@
           <table class="table table-hover table-bordered">
             <tr>
               <td>
-                <i class="fas fa-file-signature text-info"></i> <a href="https://cea.mpfn.gob.pe/siscea/login.do" target="_blank"> CEA</a>
+                <i class="fas fa-file-signature text-info"></i> <a href="https://cea.mpfn.gob.pe/siscea/login.do" target="_blank"> CEA Interno</a>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="col-md-2">
+          <table class="table table-hover table-bordered">
+            <tr>
+              <td>
+                <i class="fas fa-file-signature text-info"></i> <a href="https://cea.mpfn.gob.pe/siscea/login.do" target="_blank"> CEA Público</a>
               </td>
             </tr>
           </table>
