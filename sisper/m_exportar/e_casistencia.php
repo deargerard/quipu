@@ -31,8 +31,8 @@ if(isset($_GET['mesanoc']) && !empty($_GET['mesanoc']) && isset($_GET['per']) &&
             	</td>
                 <td style="width: 60%; text-align: center;">
                     <span style="font-size: 16px;">ASISTENCIA</span><br>
-                    <span style="font-size: 12px;">ADMINISTRACIÓN - DISTRITO FISCAL DE CAJAMARCA</span>
-
+                    <span style="font-size: 12px;">ADMINISTRACI&Oacute;N - DISTRITO FISCAL DE CAJAMARCA</span><br>
+                    <span style="font-size: 10px;">RUC: 20131370301</span>
                 </td>
                 <td style="width: 20%;">
                 	
@@ -96,7 +96,7 @@ if(isset($_GET['mesanoc']) && !empty($_GET['mesanoc']) && isset($_GET['per']) &&
 
     <table class="st">
     	<tr>
-    		<td style="width: 50%; text-align: left;">NOMBRE: <b><?php echo nomempleado($cone,$emp); ?></b></td>
+    		<td style="width: 50%; text-align: left;">NOMBRE: <b><?php echo nomempleado($cone,$emp); ?></b> DNI: <b><?php echo DNI($cone, $emp); ?></b></td>
     		<td style="width: 50%; text-align: right;">MES: <b><?php echo strtoupper(nombremes($mesano[0])).' - '.$mesano[1]; ?></b></td>
     	</tr>
     </table>
@@ -387,6 +387,7 @@ if(isset($_GET['mesanoc']) && !empty($_GET['mesanoc']) && isset($_GET['per']) &&
           $tdia=0;
         }else{
           $tdia=$ti+$tir;
+          
         }
         $tmes=$tmes+$tdia;
 
