@@ -21,7 +21,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
 <div class="col-sm-12">
 
 <?php
-    $cb=mysqli_query($cone, "SELECT d.idDoc, d.Numero, d.Ano, d.Siglas, d.FechaDoc, d.numdoc, td.TipoDoc, ed.idtdestadodoc, ed.fecha, g.numero numguia, g.anio, ed.idtdestado, ed.asignador, ed.mpasignador, ed.depasignador FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc INNER JOIN tdestadodoc ed ON d.idDoc=ed.idDoc LEFT JOIN tdguia g ON ed.idtdguia=g.idtdguia WHERE ed.idtdmesapartes=$idmp AND ed.estado=1 AND ed.idtdestado=3 ORDER BY ed.fecha DESC;");
+    $cb=mysqli_query($cone, "SELECT d.idDoc, d.Numero, d.Ano, d.Siglas, d.numdoc, td.TipoDoc, ed.idtdestadodoc, g.numero numguia, g.anio, ed.idtdestado, ed.asignador, ed.mpasignador, ed.depasignador FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc INNER JOIN tdestadodoc ed ON d.idDoc=ed.idDoc LEFT JOIN tdguia g ON ed.idtdguia=g.idtdguia WHERE ed.idtdmesapartes=$idmp AND ed.estado=1 AND ed.idtdestado=3 ORDER BY ed.fecha DESC;");
     if(mysqli_num_rows($cb)>0){
 ?>
 
@@ -30,9 +30,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                 <tr>
                     <th>NUM.</th>
                     <th>DOCUMENTO<br>TIPO</th>
-                    <th>FECHA DOCUMENTO<br>TIEMPO</th>
                     <th>ESTADO</th>
-                    <th>FECHA ESTADO<br>TIEMPO</th>
                     <th>DERIVADO POR</th>
                     <th>GUÍA</th>
                     <th class="text-center">ACCIÓN</th>
@@ -45,9 +43,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                 <tr style="font-size: 12px;">
                     <td class="text-aqua"><?php echo $rb['numdoc'].'-'.$rb['Ano']; ?></td>
                     <td><?php echo (is_null($rb['Numero']) ? "" : $rb['Numero']."-").$rb['Ano']."-".$rb['Siglas']; ?><br><span class="text-teal"><?php echo $rb['TipoDoc']; ?></span></td>
-                    <td><?php echo fnormal($rb['FechaDoc']); ?><br><span class="text-yellow"><?php echo diftiempo($rb['FechaDoc'], date('Y-m-d H:i:s')); ?></span></td>
                     <td><?php echo estadoDoc($rb['idtdestado']); ?></td>
-                    <td><?php echo date('d/m/Y h:i:s A', strtotime($rb['fecha'])); ?><br><span class="text-orange"><?php echo diftiempo($rb['fecha'], date('Y-m-d H:i:s')); ?></span></td>
                     <td><?php echo nomempleado($cone, $rb['asignador']); ?><br><span class="text-aqua"><?php echo !is_null($rb['mpasignador']) ? nommpartes($cone, $rb['mpasignador']) : nomdependencia($cone, $rb['depasignador']); ?></span></td>
                     <td><?php echo is_null($rb['numguia']) ? "-" : $rb['numguia']."-".$rb['anio']; ?></td>
                     <td class="text-center">
@@ -105,7 +101,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
 <div class="col-sm-12">
 
 <?php
-    $cb=mysqli_query($cone, "SELECT d.idDoc, d.Numero, d.Ano, d.Siglas, d.FechaDoc, d.numdoc, td.TipoDoc, ed.idtdestadodoc, ed.fecha, ed.idtdestado, ed.asignador, ed.mpasignador, ed.depasignador FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc INNER JOIN tdestadodoc ed ON d.idDoc=ed.idDoc WHERE ed.idEmpleado=$idem AND ed.estado=1 AND ed.idtdestado=3 ORDER BY ed.fecha DESC;");
+    $cb=mysqli_query($cone, "SELECT d.idDoc, d.Numero, d.Ano, d.Siglas, d.numdoc, td.TipoDoc, ed.idtdestadodoc, ed.idtdestado, ed.asignador, ed.mpasignador, ed.depasignador FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc INNER JOIN tdestadodoc ed ON d.idDoc=ed.idDoc WHERE ed.idEmpleado=$idem AND ed.estado=1 AND ed.idtdestado=3 ORDER BY ed.fecha DESC;");
     if(mysqli_num_rows($cb)>0){
 ?>
 
@@ -114,9 +110,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                 <tr>
                     <th>NUM.</th>
                     <th>DOCUMENTO<br>TIPO</th>
-                    <th>FECHA DOCUMENTO<br>TIEMPO</th>
                     <th>ESTADO</th>
-                    <th>FECHA ESTADO<br>TIEMPO</th>
                     <th>DERIVADO POR</th>
                     <th class="text-center">ACCIÓN</th>
                 </tr>
@@ -128,9 +122,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                 <tr style="font-size: 12px;">
                     <td class="text-aqua"><?php echo $rb['numdoc'].'-'.$rb['Ano']; ?></td>
                     <td><?php echo $rb['Numero']."-".$rb['Ano']."-".$rb['Siglas']; ?><br><span class="text-teal"><?php echo $rb['TipoDoc']; ?></span></td>
-                    <td><?php echo fnormal($rb['FechaDoc']); ?><br><span class="text-yellow"><?php echo diftiempo($rb['FechaDoc'], date('Y-m-d H:i:s')); ?></span></td>
                     <td><?php echo estadoDoc($rb['idtdestado']); ?></td>
-                    <td><?php echo date('d/m/Y h:i:s A', strtotime($rb['fecha'])); ?><br><span class="text-orange"><?php echo diftiempo($rb['fecha'], date('Y-m-d H:i:s')); ?></span></td>
                     <td>
                         <?php echo nomempleado($cone, $rb['asignador']); ?><br><span class="text-aqua"><?php echo !is_null($rb['mpasignador']) ? nommpartes($cone, $rb['mpasignador']) : nomdependencia($cone, $rb['depasignador']); ?></span>
                     </td>

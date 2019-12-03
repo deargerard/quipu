@@ -10,14 +10,14 @@ if(accesocon($cone,$_SESSION['identi'],17)){
     $idmp=$rm['idtdmesapartes'];
 ?>
 <div class="col-sm-7">
-    <h5 class="text-muted text-blue" style="font-weight: 600;"><i class="fa fa-table text-yellow"></i> <b>DOCUMENTOS DERIVADOS <?php echo $rm['denominacion']; ?> PENDIENTES DE RECEPCIÓN</b></h5>
+    <h5 class="text-muted text-blue" style="font-weight: 600;"><i class="fa fa-table text-yellow"></i> <b>DOCUMENTOS DERIVADOS POR <?php echo $rm['denominacion']; ?>, PENDIENTES DE RECEPCIÓN</b></h5>
 </div>
 <div class="col-sm-5">
     <p class="text-right text-muted" style="font-size: 11px;"><i class="fa fa-refresh text-yellow"></i> Alctualizado al <?php echo date('d/m/Y h:i:s A'); ?></p>
 </div>
 <div class="col-sm-12">
 <?php
-    $cb=mysqli_query($cone, "SELECT d.idDoc, d.numdoc, d.Numero, d.Ano, d.Siglas, d.FechaDoc, td.TipoDoc, ed.idtdestadodoc, ed.fecha, g.numero numguia, g.anio, ed.idtdestado, ed.idEmpleado, ed.idtdmesapartes, ed.asignador FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc INNER JOIN tdestadodoc ed ON d.idDoc=ed.idDoc LEFT JOIN tdguia g ON ed.idtdguia=g.idtdguia WHERE ed.mpasignador=$idmp AND ed.idtdestado=3 AND ed.estado=1 ORDER BY ed.fecha DESC;");
+    $cb=mysqli_query($cone, "SELECT d.idDoc, d.numdoc, d.Numero, d.Ano, d.Siglas, td.TipoDoc, ed.idtdestadodoc, g.numero numguia, g.anio, ed.idtdestado, ed.idEmpleado, ed.idtdmesapartes, ed.asignador FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc INNER JOIN tdestadodoc ed ON d.idDoc=ed.idDoc LEFT JOIN tdguia g ON ed.idtdguia=g.idtdguia WHERE ed.mpasignador=$idmp AND ed.idtdestado=3 AND ed.estado=1 ORDER BY ed.fecha DESC;");
     if(mysqli_num_rows($cb)>0){
 ?>
         <table class="table table-bordered table-hover" id="dt_ban7">
@@ -25,9 +25,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                 <tr>
                     <th>N.</th>
                     <th>DOCUMENTO<br>TIPO</th>
-                    <th>FECHA DOCUMENTO<br>TIEMPO</th>
                     <th>ESTADO</th>
-                    <th>FECHA ESTADO<br>TIEMPO</th>
                     <th>DERIVADO A / DERIVADO POR</th>
                     <th>G.</th>
                     <th class="text-center">ACCIÓN</th>
@@ -40,9 +38,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                 <tr style="font-size: 12px;">
                     <td class="text-aqua"><?php echo $rb['numdoc'].'-'.$rb['Ano']; ?></td>
                     <td><?php echo (!is_null($rb['Numero']) ? $rb['Numero']."-" : "").$rb['Ano'].(!is_null($rb['Siglas']) ? "-".$rb['Siglas'] : ""); ?><br><span class="text-teal"><?php echo $rb['TipoDoc']; ?></span></td>
-                    <td><?php echo fnormal($rb['FechaDoc']); ?><br><span class="text-yellow"><?php echo diftiempo($rb['FechaDoc'], date('Y-m-d H:i:s')); ?></span></td>
                     <td><?php echo estadoDoc($rb['idtdestado']); ?></td>
-                    <td><?php echo date('d/m/Y h:i:s A', strtotime($rb['fecha'])); ?><br><span class="text-orange"><?php echo diftiempo($rb['fecha'], date('Y-m-d H:i:s')); ?></span></td>
                     <td class="text-aqua"><?php echo (!is_null($rb['idtdmesapartes']) ? nommpartes($cone, $rb['idtdmesapartes']) : nomempleado($cone, $rb['idEmpleado']))."<br><small class='text-muted'>".nomempleado($cone, $rb['asignador'])."</small>"; ?></td>
                     <td class="text-maroon"><?php echo $rb['numguia']; ?></td>
                     <td class="text-center">
