@@ -29,6 +29,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
             <thead>
                 <tr>
                     <th>NUM.</th>
+                    <th class="hidden">id</th>
                     <th>DOCUMENTO<br>TIPO</th>
                     <th>ESTADO</th>
                     <th>DERIVADO POR</th>
@@ -42,13 +43,14 @@ if(accesocon($cone,$_SESSION['identi'],17)){
 ?>
                 <tr style="font-size: 12px;">
                     <td class="text-aqua"><?php echo $rb['numdoc'].'-'.$rb['Ano']; ?></td>
+                    <td class="hidden"><?php echo $rb['idDoc']." ".$rb['idtdestadodoc']." ".$idmp; ?></td>
                     <td><?php echo (is_null($rb['Numero']) ? "" : $rb['Numero']."-").$rb['Ano']."-".$rb['Siglas']; ?><br><span class="text-teal"><?php echo $rb['TipoDoc']; ?></span></td>
                     <td><?php echo estadoDoc($rb['idtdestado']); ?></td>
                     <td><?php echo nomempleado($cone, $rb['asignador']); ?><br><span class="text-aqua"><?php echo !is_null($rb['mpasignador']) ? nommpartes($cone, $rb['mpasignador']) : nomdependencia($cone, $rb['depasignador']); ?></span></td>
                     <td><?php echo is_null($rb['numguia']) ? "-" : $rb['numguia']."-".$rb['anio']; ?></td>
                     <td class="text-center">
                           <div class="btn-group btn-group-xs">
-                            <button type="button" class="btn btn-info" title="Recibir" onclick="g_rec(<?php echo $rb['idDoc'].", ".$rb['idtdestadodoc'].", ".$idmp; ?>)"><i class="fa fa-check"></i></button>
+                            <button type="button" class="btn btn-info" id="btn-recibirmp" title="Recibir"><i class="fa fa-check"></i></button>
                           </div>
                           <div class="btn-group">
                             
@@ -74,7 +76,28 @@ if(accesocon($cone,$_SESSION['identi'],17)){
         </table>
 
         <script>
-            $("#dt_ban11").DataTable();
+            var table=$("#dt_ban11").DataTable();
+
+            $('#dt_ban11 tbody').on( 'click', 'button#btn-recibirmp', function () {
+                var d = table.row( $(this).parents('tr') ).data()[1];
+                var da = d.split(' ');
+                var ta =table.row( $(this).parents('tr') );
+
+                $.ajax({
+                  type: "post",
+                  url: "m_inclusiones/a_tdocumentario/g_bandeja.php",
+                  data: {acc: 'recdoc', v1: da[0], v2: da[1], mp: da[2]},
+                  dataType: "json",
+                  success:function(a){
+                    if(a.e){
+                      alertify.success(a.m);
+                      ta.remove().draw();
+                    }else{
+                      alertify.error(a.m);
+                    }
+                  }
+                });
+            } );
         </script>
 <?php
     }else{
@@ -109,6 +132,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
             <thead>
                 <tr>
                     <th>NUM.</th>
+                    <th class="hidden">id</th>
                     <th>DOCUMENTO<br>TIPO</th>
                     <th>ESTADO</th>
                     <th>DERIVADO POR</th>
@@ -121,6 +145,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
 ?>
                 <tr style="font-size: 12px;">
                     <td class="text-aqua"><?php echo $rb['numdoc'].'-'.$rb['Ano']; ?></td>
+                    <td class="hidden"><?php echo $rb['idDoc']." ".$rb['idtdestadodoc']." 0"; ?></td>
                     <td><?php echo $rb['Numero']."-".$rb['Ano']."-".$rb['Siglas']; ?><br><span class="text-teal"><?php echo $rb['TipoDoc']; ?></span></td>
                     <td><?php echo estadoDoc($rb['idtdestado']); ?></td>
                     <td>
@@ -128,7 +153,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                     </td>
                     <td class="text-center">
                           <div class="btn-group btn-group-xs">
-                            <button type="button" class="btn btn-info" title="Recibir" onclick="g_rec(<?php echo $rb['idDoc'].", ".$rb['idtdestadodoc'].", 0"; ?>)"><i class="fa fa-check"></i></button>
+                            <button type="button" class="btn btn-info" id="btn-recibirpe" title="Recibir"><i class="fa fa-check"></i></button>
                           </div>
                           <div class="btn-group">
                             
@@ -154,7 +179,28 @@ if(accesocon($cone,$_SESSION['identi'],17)){
         </table>
 
         <script>
-            $("#dt_ban12").DataTable();
+            var tablepe = $("#dt_ban12").DataTable();
+
+            $('#dt_ban12 tbody').on( 'click', 'button#btn-recibirpe', function () {
+                var d = tablepe.row( $(this).parents('tr') ).data()[1];
+                var da = d.split(' ');
+                var ta =tablepe.row( $(this).parents('tr') );
+
+                $.ajax({
+                  type: "post",
+                  url: "m_inclusiones/a_tdocumentario/g_bandeja.php",
+                  data: {acc: 'recdoc', v1: da[0], v2: da[1], mp: da[2]},
+                  dataType: "json",
+                  success:function(a){
+                    if(a.e){
+                      alertify.success(a.m);
+                      ta.remove().draw();
+                    }else{
+                      alertify.error(a.m);
+                    }
+                  }
+                });
+            } );
         </script>
 <?php
     }else{

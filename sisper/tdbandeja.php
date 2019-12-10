@@ -16,14 +16,7 @@ $(document).ready(function(){
   $("#tramitedoc").addClass("active");
   $("#tdbandeja").addClass("active");
   li_ban1();
-  li_ban2();
-  li_ban3();
-  li_ban4();
-  li_ban5();
-  li_ban6();
-  li_ban7();
   li_ban8();
-  li_ban9();
 });
 </script>
 <?php

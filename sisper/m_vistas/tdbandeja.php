@@ -63,7 +63,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 <!--Div resultados-->
                 <div class="row">
                   <div class="col-sm-12">
-                    <button type="button" class="btn bg-yellow" onclick="li_ban1();"><i class="fa fa-refresh"></i> Actualizar</button>
+                    <button type="button" class="btn bg-yellow" onclick="li_ban1();"><i class="fa fa-refresh"></i> Actualizar Datos</button>
                   </div>
                 </div>
                 <div class="row" id="r_ban1">
@@ -76,7 +76,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 <!--Div resultados-->
                 <div class="row">
                   <div class="col-md-5">
-                    <button type="button" class="btn bg-yellow" onclick="li_ban2();"><i class="fa fa-refresh"></i> Actualizar</button>
+                    <button type="button" class="btn bg-yellow" onclick="li_ban2();"><i class="fa fa-refresh"></i> Actualizar Datos</button>
                     <button type="button" class="btn bg-teal" onclick="f_bandeja('agrdoc',0,0);"><i class="fa fa-file-text-o"></i> Registrar</button>
                     <?php if($tmp){ ?>
                     <button type="button" class="btn bg-purple" onclick="f_bandeja('gencar',0,0);"><i class="fa fa-files-o"></i> Generar Cargo</button>
@@ -96,7 +96,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 <!--Div resultados-->
                 <div class="row">
                   <div class="col-md-5">
-                    <button type="button" class="btn bg-yellow" onclick="li_ban3();"><i class="fa fa-refresh"></i> Actualizar</button>
+                    <button type="button" class="btn bg-yellow" onclick="li_ban3();"><i class="fa fa-refresh"></i> Actualizar Datos</button>
                   </div>
                   <div class="col-md-7">
                     <?php if($tmp){ ?>
@@ -124,7 +124,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 <!--Div resultados-->
                 <div class="row">
                   <div class="col-md-5">
-                    <button type="button" class="btn bg-yellow" onclick="li_ban9();"><i class="fa fa-refresh"></i> Actualizar</button>
+                    <button type="button" class="btn bg-yellow" onclick="li_ban9();"><i class="fa fa-refresh"></i> Actualizar Datos</button>
                   </div>
                   <div class="col-md-7">
                     <form class="form-inline pull-right">
@@ -151,7 +151,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 <!--Div resultados-->
                 <div class="row">
                   <div class="col-sm-5">
-                    <button type="button" class="btn bg-yellow" onclick="li_ban4();"><i class="fa fa-refresh"></i> Actualizar</button>
+                    <button type="button" class="btn bg-yellow" onclick="li_ban4();"><i class="fa fa-refresh"></i> Actualizar Datos</button>
                   </div>
                   <div class="col-sm-7">
                     <form class="form-inline pull-right">
@@ -176,7 +176,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 <!--Div resultados-->
                 <div class="row">
                   <div class="col-sm-12">
-                    <button type="button" class="btn bg-yellow" onclick="li_ban5();"><i class="fa fa-refresh"></i> Actualizar</button>
+                    <button type="button" class="btn bg-yellow" onclick="li_ban5();"><i class="fa fa-refresh"></i> Actualizar Datos</button>
                   </div>
                 </div>
                 <div class="row" id="r_ban5">
@@ -190,7 +190,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 <!--Div resultados-->
                 <div class="row">
                   <div class="col-sm-12">
-                    <button type="button" class="btn bg-yellow" onclick="li_ban6();"><i class="fa fa-refresh"></i> Actualizar</button>
+                    <button type="button" class="btn bg-yellow" onclick="li_ban6();"><i class="fa fa-refresh"></i> Actualizar Datos</button>
                   </div>
                 </div>
                 <div class="row" id="r_ban6">
@@ -204,7 +204,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 <!--Div resultados-->
                 <div class="row">
                   <div class="col-sm-12">
-                    <button type="button" class="btn bg-yellow" onclick="li_ban7();"><i class="fa fa-refresh"></i> Actualizar</button>
+                    <button type="button" class="btn bg-yellow" onclick="li_ban7();"><i class="fa fa-refresh"></i> Actualizar Datos</button>
                   </div>
                 </div>
                 <div class="row" id="r_ban7">

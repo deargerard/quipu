@@ -252,14 +252,9 @@ $('#f_modal').submit(function(e){
     success:function(a){
       if(a.e){
         $("#f_modal").html(a.m);
-        li_ban1();
         li_ban2();
-        li_ban3();
-        li_ban4();
         li_ban5();
         li_ban6();
-        li_ban7();
-        li_ban8();
         li_ban9();
       }else{
         $("#d_frespuesta").html(a.m);
@@ -281,15 +276,7 @@ function g_crecar(idd){
     success:function(a){
       if(a.e){
         $("#f_modal").html(a.m);
-        li_ban1();
         li_ban2();
-        li_ban3();
-        li_ban4();
-        li_ban5();
-        li_ban6();
-        li_ban7();
-        li_ban8();
-        li_ban9();
       }else{
         $("#d_rcc").html(a.m);
         $("#b_crecar").button('reset');
@@ -298,7 +285,8 @@ function g_crecar(idd){
   });
 }
 
-function g_rec(v1, v2, mp){
+
+/*function g_rec(v1, v2, mp){
     $.ajax({
       type: "post",
       url: "m_inclusiones/a_tdocumentario/g_bandeja.php",
@@ -321,7 +309,7 @@ function g_rec(v1, v2, mp){
         }
       }
     });
-}
+}*/
 
 function g_dermpa(v1, v2){
   var v3=$('#smpar').val();
@@ -334,15 +322,7 @@ function g_dermpa(v1, v2){
       success:function(a){
         if(a.e){
           alertify.success(a.m);
-          li_ban1();
-          li_ban2();
           li_ban3();
-          li_ban4();
-          li_ban5();
-          li_ban6();
-          li_ban7();
-          li_ban8();
-          li_ban9();
         }else{
           alertify.error(a.m);
         }
@@ -364,15 +344,7 @@ function g_dernot(v1, v2){
       success:function(a){
         if(a.e){
           alertify.success(a.m);
-          li_ban1();
-          li_ban2();
-          li_ban3();
           li_ban4();
-          li_ban5();
-          li_ban6();
-          li_ban7();
-          li_ban8();
-          li_ban9();
         }else{
           alertify.error(a.m);
         }
@@ -394,14 +366,6 @@ function g_derper(v1, v2){
       success:function(a){
         if(a.e){
           alertify.success(a.m);
-          li_ban1();
-          li_ban2();
-          li_ban3();
-          li_ban4();
-          li_ban5();
-          li_ban6();
-          li_ban7();
-          li_ban8();
           li_ban9();
         }else{
           alertify.error(a.m);
