@@ -357,7 +357,7 @@ function g_dernot(v1, v2){
   }
 }
 
-function g_derper(v1, v2){
+/*function g_derper(v1, v2){
   var v3=$('#sper1').val();
   if(v3!=null){
     $.ajax({
@@ -377,7 +377,7 @@ function g_derper(v1, v2){
   }else{
     alert('Elija el personal a quien derivará.');
   }
-}
+}*/
 
 function guiapdf(guia){
   window.open("m_exportar/guiapdf.php?guia="+guia, '_blank');

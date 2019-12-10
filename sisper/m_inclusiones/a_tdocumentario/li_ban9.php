@@ -27,10 +27,11 @@ if(accesocon($cone,$_SESSION['identi'],17)){
     $cb=mysqli_query($cone, "SELECT d.idDoc, d.numdoc, d.Numero, d.Ano, d.Siglas, td.TipoDoc, d.destinatarioint, d.depdestinoint, d.destinatarioext, d.depdestinoext, ed.idtdestadodoc, ed.idtdestado FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc INNER JOIN tdestadodoc ed ON d.idDoc=ed.idDoc WHERE $cq AND ed.estado=1 AND ed.idtdestado=2 ORDER BY ed.fecha DESC;");
     if(mysqli_num_rows($cb)>0){
 ?>
-        <table class="table table-bordered table-hover" id="dt_ban4">
+        <table class="table table-bordered table-hover" id="dt_ban9">
             <thead>
                 <tr>
                     <th>NUM.</th>
+                    <th class="hidden">id</th>
                     <th>DOCUMENTO<br>TIPO</th>
                     <th>ESTADO</th>
                     <th>DESTINO</th>
@@ -43,12 +44,13 @@ if(accesocon($cone,$_SESSION['identi'],17)){
 ?>
                 <tr style="font-size: 12px;">
                     <td class="text-aqua"><?php echo $rb['numdoc'].'-'.$rb['Ano']; ?></td>
+                    <td class="hidden"><?php echo $rb['idDoc']." ".$rb['idtdestadodoc']; ?></td>
                     <td><?php echo (!is_null($rb['Numero']) ? $rb['Numero']."-" : "").$rb['Ano']."-".$rb['Siglas']; ?><br><span class="text-teal"><?php echo $rb['TipoDoc']; ?></span></td>
                     <td><?php echo estadoDoc($rb['idtdestado']); ?></td>
                     <td class="text-aqua"><?php echo !is_null($rb['destinatarioint']) ? nomempleado($cone, $rb['destinatarioint'])."<br><small class='text-muted'>".nomdependencia($cone, $rb['depdestinoint'])."</small>" : $rb['destinatarioext']."<br><small class='text-muted'>".$rb['depdestinoext']."</small>"; ?></td>
                     <td class="text-center">
                           <div class="btn-group btn-group-xs">
-                            <button type="button" class="btn btn-info btn-xs" title="Derivar a Personal" onclick="g_derper(<?php echo $rb['idDoc'].", ".$rb['idtdestadodoc']; ?>)"><i class="fa fa-share-square-o"></i></button>
+                            <button type="button" class="btn btn-info btn-xs" id="btn-derivarpe" title="Derivar a Personal"><i class="fa fa-share-square-o"></i></button>
                           </div>
                           <div class="btn-group">
                             
@@ -72,7 +74,35 @@ if(accesocon($cone,$_SESSION['identi'],17)){
             </tbody>
         </table>
         <script>
-            $("#dt_ban4").DataTable();
+            var table9 = $("#dt_ban9").DataTable();
+
+            $('#dt_ban9 tbody').on( 'click', 'button#btn-derivarpe', function () {
+                var d = table9.row( $(this).parents('tr') ).data()[1];
+                var da = d.split(' ');
+                var ta =table9.row( $(this).parents('tr') );
+
+                var v3=$('#sper1').val();
+                if(v3!=null){
+                  $.ajax({
+                    type: "post",
+                    url: "m_inclusiones/a_tdocumentario/g_bandeja.php",
+                    data: {acc: 'derper1', v1: da[0], v2: da[1], v3: v3},
+                    dataType: "json",
+                    success:function(a){
+                      if(a.e){
+                        alertify.success(a.m);
+                        ta.remove().draw();
+                      }else{
+                        alertify.error(a.m);
+                      }
+                    }
+                  });
+                }else{
+                  alertify.error('Elija la persona a quien derivará.');
+                }
+
+            } );
+
         </script>
 <?php
     }else{
