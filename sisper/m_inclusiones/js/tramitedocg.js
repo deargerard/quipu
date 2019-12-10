@@ -311,6 +311,7 @@ function g_crecar(idd){
     });
 }*/
 
+/*
 function g_dermpa(v1, v2){
   var v3=$('#smpar').val();
   if(v3!=null){
@@ -332,6 +333,7 @@ function g_dermpa(v1, v2){
     alert('Elija la mesa de partes a donde derivará el documento.');
   }
 }
+*/
 
 function g_dernot(v1, v2){
   var v3=$('#sper').val();

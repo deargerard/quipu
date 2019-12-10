@@ -30,6 +30,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
             <thead>
                 <tr>
                     <th>NUM.</th>
+                    <th class="hidden">id</th>
                     <th>DOCUMENTO<br>TIPO</th>
                     <th>ESTADO</th>
                     <th>DESTINATARIO</th>
@@ -42,6 +43,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
 ?>
                 <tr style="font-size: 12px;">
                     <td class="text-aqua"><?php echo $rb['numdoc'].'-'.$rb['Ano']; ?></td>
+                    <td class="hidden"><?php echo $rb['idDoc']." ".$rb['idtdestadodoc']; ?></td>
                     <td><?php echo (!is_null($rb['Numero']) ? $rb['Numero']."-" : "").$rb['Ano']."-".$rb['Siglas']; ?><br><span class="text-teal"><?php echo $rb['TipoDoc']; ?></span></td>
                     <td><?php echo estadoDoc($rb['idtdestado']); ?></td>
                     <td class="text-aqua"><?php echo !is_null($rb['destinatarioint']) ? nomempleado($cone, $rb['destinatarioint'])."<br><small class='text-muted'>".nomdependencia($cone, $rb['depdestinoint'])."</small>" : $rb['destinatarioext']."<br><small class='text-muted'>".$rb['depdestinoext']."</small>"; ?></td>
@@ -50,7 +52,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                             <button type="button" class="btn btn-info btn-xs" title="Derivar a Mesa de Partes con proveído" onclick="f_bandeja('dermpp', <?php echo $rb['idDoc'].", ".$rb['idtdestadodoc']; ?>)"><i class="fa fa-reply-all"></i></button>
                             <?php } ?>
                             <?php if($tmp){ ?>
-                            <button type="button" class="btn btn-info btn-xs" title="Derivar a Mesa de Partes" onclick="g_dermpa(<?php echo $rb['idDoc'].", ".$rb['idtdestadodoc']; ?>)"><i class="fa fa-share-square-o"></i></button>
+                            <button type="button" class="btn btn-info btn-xs" id="btn-derivarmp" title="Derivar a Mesa de Partes"><i class="fa fa-share-square-o"></i></button>
                             <?php } ?>
                             <?php if($rb['idtdestado']==5){ ?>
                             <button type="button" class="btn btn-info btn-xs" title="Derivar" onclick="f_bandeja('derrep', <?php echo $rb['idDoc'].", ".$rb['idtdestadodoc']; ?>)"><i class="fa fa-level-up"></i></button>
@@ -78,7 +80,35 @@ if(accesocon($cone,$_SESSION['identi'],17)){
             </tbody>
         </table>
         <script>
-            $("#dt_ban3").DataTable();
+            var table3 = $("#dt_ban3").DataTable();
+
+            $('#dt_ban3 tbody').on( 'click', 'button#btn-derivarmp', function () {
+                var d = table3.row( $(this).parents('tr') ).data()[1];
+                var da = d.split(' ');
+                var ta =table3.row( $(this).parents('tr') );
+
+                  var v3=$('#smpar').val();
+                  if(v3!=null){
+                    $.ajax({
+                      type: "post",
+                      url: "m_inclusiones/a_tdocumentario/g_bandeja.php",
+                      data: {acc: 'dermpa', v1: da[0], v2: da[1], v3: v3},
+                      dataType: "json",
+                      success:function(a){
+                        if(a.e){
+                          alertify.success(a.m);
+                          ta.remove().draw();
+                        }else{
+                          alertify.error(a.m);
+                        }
+                      }
+                    });
+                  }else{
+                    alertify.error('Elija la mesa de partes a donde derivará el documento.');
+                  }
+
+            } );
+
         </script>
 <?php
     }else{
