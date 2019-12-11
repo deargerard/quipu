@@ -51,9 +51,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
               <?php if($en || $eno){ ?>
               <li><a href="#tab_6" data-toggle="tab"><i class="fa fa-circle-o text-blue"></i> Reportar Ntf.</a></li>
               <?php } ?>
-              <?php if($tmp){ ?>
-              <li><a href="#tab_7" data-toggle="tab"><i class="fa fa-circle-o text-blue"></i> Pend. Recepción</a></li>
-              <?php } ?>
+              <li><a href="#tab_7" data-toggle="tab"><i class="fa fa-circle-o text-blue"></i> Retornar Derivado</a></li>
               <?php if(!is_null($tmp)){ ?>
               <li><a href="#tab_8" data-toggle="tab"><i class="fa fa-circle-o text-blue"></i> Guías</a></li>
               <?php } ?>
@@ -201,12 +199,20 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
               <?php } ?>
               <!-- /.tab-pane -->
               <div class="tab-pane" id="tab_7">
-                <!--Div resultados-->
-                <div class="row">
-                  <div class="col-sm-12">
-                    <button type="button" class="btn bg-yellow" onclick="li_ban7();"><i class="fa fa-refresh"></i> Actualizar Datos</button>
-                  </div>
-                </div>
+                <!--Formulario busqueda-->
+                <form class="form-inline" id="f_rep1">
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="ns" name="ns" placeholder="# Seguimiento">
+                    </div>
+                    <div class="form-group">
+                      <div class="input-group date" id="d_dano">
+                        <input type="text" name="as" id="as" class="form-control" value="<?php echo date('Y'); ?>">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                      </div>
+                    </div>
+                    <button type="button" class="btn btn-info" onclick="li_ban7();"><i class="fa fa-search"></i> Buscar </button>
+                </form>
+                <!--Fin formulario busqueda-->
                 <div class="row" id="r_ban7">
 
                 </div>

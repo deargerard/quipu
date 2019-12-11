@@ -123,8 +123,11 @@ function li_ban6(){
     });
 }
 function li_ban7(){
+  var ns=$('#ns').val();
+  var as=$('#as').val();
     $.ajax({
       type: "post",
+      data: {ns: ns, as, as},
       url: "m_inclusiones/a_tdocumentario/li_ban7.php",
       dataType: "html",
       beforeSend: function () {
@@ -286,7 +289,7 @@ function g_crecar(idd){
 }
 
 
-/*function g_rec(v1, v2, mp){
+function g_rec(v1, v2, mp){
     $.ajax({
       type: "post",
       url: "m_inclusiones/a_tdocumentario/g_bandeja.php",
@@ -295,21 +298,13 @@ function g_crecar(idd){
       success:function(a){
         if(a.e){
           alertify.success(a.m);
-          li_ban1();
-          li_ban2();
-          li_ban3();
-          li_ban4();
-          li_ban5();
-          li_ban6();
           li_ban7();
-          li_ban8();
-          li_ban9();
         }else{
           alertify.error(a.m);
         }
       }
     });
-}*/
+}
 
 /*
 function g_dermpa(v1, v2){

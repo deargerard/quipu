@@ -3,90 +3,160 @@ session_start();
 include("../php/conexion_sp.php");
 include("../php/funciones.php");
 if(accesocon($cone,$_SESSION['identi'],17)){
-  $idem=$_SESSION['identi'];
 
-  $cm=mysqli_query($cone, "SELECT mp.idtdmesapartes, mp.denominacion FROM tdpersonalmp p INNER JOIN tdmesapartes mp ON p.idtdmesapartes=mp.idtdmesapartes WHERE p.idEmpleado=$idem AND p.estado=1 AND mp.estado=1;");
-  if($rm=mysqli_fetch_assoc($cm)){
-    $idmp=$rm['idtdmesapartes'];
-?>
-<div class="col-sm-7">
-    <h5 class="text-muted text-blue" style="font-weight: 600;"><i class="fa fa-table text-yellow"></i> <b>DOCUMENTOS DERIVADOS POR <?php echo $rm['denominacion']; ?>, PENDIENTES DE RECEPCIÓN</b></h5>
-</div>
-<div class="col-sm-5">
-    <p class="text-right text-muted" style="font-size: 11px;"><i class="fa fa-refresh text-yellow"></i> Alctualizado al <?php echo date('d/m/Y h:i:s A'); ?></p>
-</div>
-<div class="col-sm-12">
-<?php
-    $cb=mysqli_query($cone, "SELECT d.idDoc, d.numdoc, d.Numero, d.Ano, d.Siglas, td.TipoDoc, ed.idtdestadodoc, g.numero numguia, g.anio, ed.idtdestado, ed.idEmpleado, ed.idtdmesapartes, ed.asignador FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc INNER JOIN tdestadodoc ed ON d.idDoc=ed.idDoc LEFT JOIN tdguia g ON ed.idtdguia=g.idtdguia WHERE ed.mpasignador=$idmp AND ed.idtdestado=3 AND ed.estado=1 ORDER BY ed.fecha DESC;");
-    if(mysqli_num_rows($cb)>0){
-?>
-        <table class="table table-bordered table-hover" id="dt_ban7">
-            <thead>
-                <tr>
-                    <th>N.</th>
-                    <th>DOCUMENTO<br>TIPO</th>
-                    <th>ESTADO</th>
-                    <th>DERIVADO A / DERIVADO POR</th>
-                    <th>G.</th>
-                    <th class="text-center">ACCIÓN</th>
-                </tr>
-            </thead>
-            <tbody>
-<?php
-        while($rb=mysqli_fetch_assoc($cb)){
-?>
-                <tr style="font-size: 12px;">
-                    <td class="text-aqua"><?php echo $rb['numdoc'].'-'.$rb['Ano']; ?></td>
-                    <td><?php echo (!is_null($rb['Numero']) ? $rb['Numero']."-" : "").$rb['Ano'].(!is_null($rb['Siglas']) ? "-".$rb['Siglas'] : ""); ?><br><span class="text-teal"><?php echo $rb['TipoDoc']; ?></span></td>
-                    <td><?php echo estadoDoc($rb['idtdestado']); ?></td>
-                    <td class="text-aqua"><?php echo (!is_null($rb['idtdmesapartes']) ? nommpartes($cone, $rb['idtdmesapartes']) : nomempleado($cone, $rb['idEmpleado']))."<br><small class='text-muted'>".nomempleado($cone, $rb['asignador'])."</small>"; ?></td>
-                    <td class="text-maroon"><?php echo $rb['numguia']; ?></td>
-                    <td class="text-center">
-                          <div class="btn-group btn-group-xs">
-                            <button type="button" class="btn btn-info" title="Recibirlo nuevamente" onclick="g_rec(<?php echo $rb['idDoc'].", ".$rb['idtdestadodoc']; ?>)"><i class="fa fa-check"></i></button>
-                          </div>
-                          <div class="btn-group">
-                            
-                            <button class="btn bg-maroon btn-xs dropdown-toggle" data-toggle="dropdown">
-                              <i class="fa fa-file"></i>&nbsp;
-                              <span class="caret"></span>
-                              <span class="sr-only">Desplegar menú</span>
-                            </button>
-                            <ul class="dropdown-menu pull-right" role="menu">
-                              <li><a href="#" onclick="f_bandeja('rutdoc',<?php echo $rb['idDoc'].",0"; ?>)"><i class="fa fa-retweet text-maroon"></i> Seguimiento</a></li>
-                              <li><a href="#" onclick="f_bandeja('detest',<?php echo $rb['idtdestadodoc'].",0"; ?>)"><i class="fa fa-tags text-maroon"></i> Estado</a></li>
-                              <li class="divider"></li>
-                              <li><a href="#" onclick="f_bandeja('detdoc',<?php echo $rb['idDoc'].",0"; ?>)"><i class="fa fa-file-text text-maroon"></i> Detalle</a></li>
-                              <?php if($rb['idtdestado']==1){ ?>
-                              <li><a href="#" onclick="f_bandeja('edidoc',<?php echo $rb['idDoc'].",0"; ?>)"><i class="fa fa-pencil text-maroon"></i> Editar</a></li>
-                              <li><a href="#" onclick="f_bandeja('elidoc',<?php echo $rb['idDoc'].",0"; ?>)"><i class="fa fa-trash text-maroon"></i> Eliminar</a></li>
-                              <?php } ?>
-                            </ul>
-                          </div>
+  if(isset($_POST['ns']) && !empty($_POST['ns']) && isset($_POST['as']) && !empty($_POST['as'])){
 
+    $ns=iseguro($cone, $_POST['ns']);
+    $as=iseguro($cone, $_POST['as']);
 
+    $idem=$_SESSION['identi'];
 
-
-                    </td>
-                </tr>
-<?php
-        }
-?>
-            </tbody>
-        </table>
-        <script>
-            $("#dt_ban7").DataTable();
-        </script>
-<?php
-    }else{
-        echo mensajewa("Sin documentos pendientes de ser recepcionados.");
+    $idmp=NULL;
+    $cm=mysqli_query($cone, "SELECT mp.idtdmesapartes, mp.denominacion FROM tdpersonalmp p INNER JOIN tdmesapartes mp ON p.idtdmesapartes=mp.idtdmesapartes WHERE p.idEmpleado=$idem AND p.estado=1 AND mp.estado=1;");
+    if($rm=mysqli_fetch_assoc($cm)){
+      $idmp=$rm['idtdmesapartes'];
     }
-    mysqli_free_result($cb);
+
+            $cd=mysqli_query($cone, "SELECT d.*, td.TipoDoc FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc WHERE d.Ano=$as AND d.numdoc=$ns;");
+            if($rd=mysqli_fetch_assoc($cd)){
+              $v1=$rd['idDoc'];
 ?>
-</div>
+            <br>
+            <div class="col-sm-12">
+                <table class="table table-bordered table-hover" style="font-size: 13px;">
+                    <thead>
+                    <tr>
+                        <th><i class="fa fa-slack text-aqua"></i> NÚMERO</th>
+                        <th><i class="fa fa-files-o text-aqua"></i> TIPO</th>
+                        <th><i class="fa fa-file text-aqua"></i> DOCUMENTO</th>
+                        <th><i class="fa fa-calendar text-aqua"></i> FECHA</th>
+                    </tr>
+                    </thead>
+                    <tr>
+                        <td class="text-aqua"><?php echo $rd['numdoc'].'-'.$rd['Ano']; ?></td>
+                        <td class="text-primary"><?php echo $rd['TipoDoc'].'<small class="text-yellow"> ('.($rd['cargo']==1 ? "Cargo" : "Original").')</small>'; ?></td>
+                        <td class="text-orange"><?php echo (!is_null($rd['Numero']) ? $rd['Numero']."-" : "").$rd['Ano']."-".$rd['Siglas']; ?></td>
+                        <td><?php echo fnormal($rd['FechaDoc']); ?></td>
+                    </tr>
+                    <tr>
+                        <th colspan="2"><i class="fa fa-street-view text-aqua"></i> REMITENTE</th>
+                        <th colspan="2"><i class="fa fa-street-view text-aqua"></i> DESTINATARIO</th>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <?php echo !is_null($rd['remitenteext']) ? ($rd['remitenteext'].'<br><small class="text-aqua">'.$rd['deporigenext'].'</small>') : (nomempleado($cone, $rd['remitenteint']).'<br><small class="text-aqua">'.nomdependencia($cone, $rd['deporigenint']).'</small>'); ?>       
+                        </td>
+                        <td colspan="2">
+                            <?php echo !is_null($rd['destinatarioext']) ? ($rd['destinatarioext'].'<br><small class="text-aqua">'.$rd['depdestinoext'].'</small>') : (nomempleado($cone, $rd['destinatarioint']).'<br><small class="text-aqua">'.nomdependencia($cone, $rd['depdestinoint']).'</small>'); ?>
+                        </td>
+                    </tr>
+                </table>
+<?php
+            $ce=mysqli_query($cone, "SELECT ed.*, modnotificacion, tipo, motivo FROM tdestadodoc ed LEFT JOIN tdmodnotificacion mn ON ed.idtdmodnotificacion=mn.idtdmodnotificacion LEFT JOIN tdproveido p ON ed.idtdproveido=p.idtdproveido WHERE ed.idDoc=$v1 ORDER BY ed.fecha DESC;");
+            if(mysqli_num_rows($ce)>0){
+?>
+                <span class="text-muted" style="font-size: 11px;"><i class="fa fa-refresh text-orange"></i> Actualizado al <?php echo date('d/m/Y h:i:s A'); ?></span>
+                <table class="table table-bordered table-hover" style="font-size: 13px;">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>ESTADO</th>
+                            <th>FECHA</th>
+                            <th>TIEMPO</th>
+                            <th>ASIGNADO A / ASIGNADO POR</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+<?php
+                $n=0;
+                $pre=false;
+                while($re=mysqli_fetch_assoc($ce)){
+                    $n++;
+                    $ti="";
+
+                    if($n==1 && $re['idtdestado']==3 && ($re['asignador']==$idem || $re['mpasignador']==$idmp)){
+                      $pre=true;
+                      $v2=$re['idtdestadodoc'];
+                    }
+                    
+                        $fec=$re['fecha'];
+                        $cs=mysqli_query($cone, "SELECT fecha FROM tdestadodoc WHERE idDoc=$v1 AND fecha>'$fec' ORDER BY fecha ASC LIMIT 1;");
+                        if($rs=mysqli_fetch_assoc($cs)){
+                            $ti=$rs['fecha'];
+                        }else{
+                            $ti=date('Y-m-d H:i:s');
+                        }
+                        mysqli_free_result($cs);
+
+?>
+                        <tr>
+                            <td><?php echo $n; ?></td>
+                            <td>
+                                <?php echo estadoDoc($re['idtdestado']); ?>
+                                <?php if(!is_null($re['idtdproveido'])){ ?>
+                                <br><i class="fa fa-user text-orange"></i> <?php echo nomempleado($cone, $re['cppara']); ?><br><i class="fa fa-commenting text-orange"></i> <b class="text-muted"><?php echo $re['tipo']; ?>:</b> <?php echo $re['motivo']; ?> <br>
+                                <?php } ?>
+                                <?php if($re['idtdestado']==5){ ?>
+                                <br><i class="fa fa-motorcycle text-orange"></i> <b class="text-muted"> <?php echo $re['estnotificacion']==1 ? "Notificado" : ($re['estnotificacion']==2 ? "Devuelto" : ""); ?></b> <?php echo $re['modnotificacion']; ?><br><i class="fa fa-calendar text-gray"></i> <?php echo fnormal($re['fecnotificacion']); ?> <br>
+                                <?php } ?>
+                            </td>
+                            <td><?php echo date('d/m/Y h:i:s A', strtotime($re['fecha'])); ?></td>
+                            <td class="text-orange"><i class="fa fa-clock-o"></i> <?php echo $ti!="" ? diftiempo($fec, $ti) : ""; ?></td>
+                            <td>
+                                <b>
+                                <?php
+                                if(!is_null($re['idtdmesapartes'])){
+                                    if(!is_null($re['idEmpleado'])){
+                                        echo nomempleado($cone, $re['idEmpleado']).' <small class="text-aqua">'.nommpartes($cone, $re['idtdmesapartes']).'</small>';
+                                    }else{
+                                        echo nommpartes($cone, $re['idtdmesapartes']);
+                                    }
+                                }else{
+                                    echo nomempleado($cone, $re['idEmpleado']).' <small class="text-aqua">'.nomdependencia($cone, $re['idDependencia']).'</small>';
+                                }
+                                ?>
+                                </b>
+                                <br>
+                                <?php
+                                if($re['idtdestado']!=4 && $re['idtdestado']!=2){
+                                    echo nomempleado($cone, $re['asignador'])." <small class='text-aqua'>".(!is_null($re['mpasignador']) ? nommpartes($cone, $re['mpasignador']) : nomdependencia($cone, $re['depasignador']))."</small>";
+                                }
+                                ?>
+                            </td>
+                        </tr>
+                        <?php if(!is_null($re['observacion'])){ ?>
+                        <tr>
+                            <td colspan="5">
+                                <i class="fa fa-info-circle text-yellow"></i> <b class="text-muted">OBSERVACIÓN:</b> <?php echo $re['observacion']; ?>
+                            </td>
+                        </tr>
+                        <?php } ?>    
+<?php
+                }
+?>
+                    </tbody>
+                </table>
+                <?php if($pre){ ?>
+                <div class="text-center">
+                  <button type="button" class="btn bg-maroon" title="Recibirlo nuevamente" onclick="g_rec(<?php echo $v1.", ".$v2.", ".(!is_null($idmp) ? $idmp : 0); ?>)"><i class="fa fa-check"></i> Recibirlo Nuevamente</button>
+                </div>
+                <?php }else{ echo mensajewa("Ud. no puede recibir nuevamente este el documento."); }?>
+<?php
+
+            }
+            mysqli_free_result($ce);
+?>
+            </div>
+
+<?php
+            }else{
+                echo mensajewa("Error, datos inválidos.");
+            }
+            mysqli_free_result($cd);
+?>
 <?php
   }else{
-    echo mensajewa("No es reasponsable de ninguna mesa de partes");
+    echo mensajewa("Ingrese número de seguimiento y año.");
   }
 }else{
   echo accrestringidoa();
