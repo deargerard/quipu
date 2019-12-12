@@ -32,7 +32,7 @@ if(isset($_GET['mesanoc']) && !empty($_GET['mesanoc']) && isset($_GET['per']) &&
                 <td style="width: 60%; text-align: center;">
                     <span style="font-size: 16px;">ASISTENCIA</span><br>
                     <span style="font-size: 12px;">ADMINISTRACI&Oacute;N - DISTRITO FISCAL DE CAJAMARCA</span><br>
-                    <span style="font-size: 10px;">RUC: 20131370301</span>
+                    <span style="font-size: 10px;"><b>RUC: 20131370301</b></span>
                 </td>
                 <td style="width: 20%;">
                 	
@@ -126,6 +126,8 @@ if(isset($_GET['mesanoc']) && !empty($_GET['mesanoc']) && isset($_GET['per']) &&
 
       $nf=0;
       $lsg=0;
+      $nhe=0;
+      $nht=0;
       for ($i=$fi; $i <= $ff; $i=date("Y-m-d", strtotime("+1 day", strtotime($i)))) {
         $fec=$i;
         $nomdia=nombredia($fec);
@@ -164,6 +166,7 @@ if(isset($_GET['mesanoc']) && !empty($_GET['mesanoc']) && isset($_GET['per']) &&
           $esab=$rdh['ExcSabado'];
           $edom=$rdh['ExcDomingo'];
           $rdlib=$rdh['RDLibre'];
+          $ht=$rdh['NumHoras'];
           if($ssd){
             $fsal=date('Y-m-d',strtotime('+1 day', strtotime($fec)))." ".$sal;
           }else{
@@ -202,6 +205,8 @@ if(isset($_GET['mesanoc']) && !empty($_GET['mesanoc']) && isset($_GET['per']) &&
                 if($rcs=mysqli_fetch_assoc($ccs)){
                   $dj=true;
                   $nj="<small style='font-size:70%;'>Com. Servicios<br>".$rcs['Numero']."-".$rcs['Ano']."-".$rcs['Siglas']."</small><br>";
+                  //agregamos 8 horas trabajadas por comisión de servicios
+                  $nht=$nht+8;
                 }else{
                   //consultamos si el día esta considerado como día libre
                   $cdl=mysqli_query($cone, "SELECT * FROM dialibre WHERE Fecha='$fec' AND Estado=1;");
@@ -366,11 +371,24 @@ if(isset($_GET['mesanoc']) && !empty($_GET['mesanoc']) && isset($_GET['per']) &&
                   $ms=$rms['Marcacion'];
                   $msf=date('h:i A', strtotime($ms));
 
+                  //calculamos horas extra
+                  $he=date('H', strtotime($ms))-date('H', strtotime($ftsal));
+                  if($he>=1){
+                    $nhe=$nhe+$he;
+                  }
+                  //calculamos las horas trabajadas
+                  if($incd!="En Falta"){
+                    $nht=$nht+$ht;
+                  }
                 }else{
                   //Buscar si tiene permiso
                   $cper=mysqli_query($cone,"SELECT TipPermiso FROM permiso p INNER JOIN tippermiso tp ON p.idTipPermiso=tp.idTipPermiso WHERE FechaFin='$ftsal' AND p.idEmpleado=$emp AND p.Estado=1;;");
                   if($rper=mysqli_fetch_assoc($cper)){
-                      $nj.="<small style='font-size:70%;'> (P) ".$rper['TipPermiso']."</small><br>";                    
+                      $nj.="<small style='font-size:70%;'> (P) ".$rper['TipPermiso']."</small><br>";
+                      //calculamos las horas trabajadas
+                      if($incd!="En Falta"){
+                        $nht=$nht+$ht;
+                      }               
                   }else{
                     $incd="En Falta";
                   }
@@ -387,7 +405,6 @@ if(isset($_GET['mesanoc']) && !empty($_GET['mesanoc']) && isset($_GET['per']) &&
           $tdia=0;
         }else{
           $tdia=$ti+$tir;
-          
         }
         $tmes=$tmes+$tdia;
 
@@ -415,13 +432,14 @@ if(isset($_GET['mesanoc']) && !empty($_GET['mesanoc']) && isset($_GET['per']) &&
               <th colspan="2"><small><?php echo $nf; ?> Falta(s)</small></th>
             </tr>
         </table>
+        <br>
         <?php
+        $npsg=0;
+        $ttmin=0;
         $cpp=mysqli_query($cone,"SELECT * FROM permiso WHERE idEmpleado=$emp AND DATE_FORMAT(FechaIni,'%Y-%m')='$fm' AND idTipPermiso=6 AND Estado=1;");
         if(mysqli_num_rows($cpp)>0){
         ?>
-        <br>
         <table class="tablep">
-
           <tr>
             <th colspan="5" style="width: 100%;"><small>Permisos Particulares</small></th>
           </tr>
@@ -434,8 +452,6 @@ if(isset($_GET['mesanoc']) && !empty($_GET['mesanoc']) && isset($_GET['per']) &&
           </tr>
 
         <?php
-          $npsg=0;
-          $ttmin=0;
           while($rpp=mysqli_fetch_assoc($cpp)){
             $npsg++;
             $tmin=floor((strtotime($rpp['FechaFin'])-strtotime($rpp['FechaIni']))/60);
@@ -461,6 +477,15 @@ if(isset($_GET['mesanoc']) && !empty($_GET['mesanoc']) && isset($_GET['per']) &&
         }
         mysqli_free_result($cpp);
         ?>
+        <table class="tablep">
+          <tr>
+              <th style="width: 20%;"><small>Horas trabajadas</small></th>
+              <th style="width: 10%;"><small><?php echo round(($nht+$nhe-($ttmin/60)-($tmes/60)), 2); ?></small></th>
+              <th style="width: 20%;"><small>Horas extra</small></th>
+              <th style="width: 10%;"><small><?php echo $nhe; ?></small></th>
+            </tr>
+        </table>
+        <br>
         <table class="tablasb">
           <?php
           $fo=$fm."-01";

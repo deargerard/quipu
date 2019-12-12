@@ -4,11 +4,11 @@ include("../php/conexion_sp.php");
 include("../php/funciones.php");
 if(accesocon($cone,$_SESSION['identi'],2)){
 
-                      $ch=mysqli_query($cone,"SELECT * FROM horario ORDER BY idHorario DESC;");
+                      $ch=mysqli_query($cone,"SELECT * FROM horario ORDER BY Descripcion ASC;");
                       if(mysqli_num_rows($ch)>0){
                       ?>
                         <br>
-                        <table class="table table-bordered table-hover">
+                        <table class="table table-bordered table-hover" id="dt_horario">
                           <thead>
                             <tr>
                               <th>#</th>
@@ -22,6 +22,7 @@ if(accesocon($cone,$_SESSION['identi'],2)){
                               <th>S.S.DÍA</th>
                               <th>Exc. Sáb.</th>
                               <th>Exc. Dom.</th>
+                              <th>Hrs</th>
                               <th>ESTADO</th>
                               <?php if(accesoadm($cone,$_SESSION['identi'],2)){ ?>
                               <th>ACCIÓN</th>
@@ -46,9 +47,10 @@ if(accesocon($cone,$_SESSION['identi'],2)){
                               <td><?php echo $rh['SalSigDia']==1 ? "Si" : "No"; ?></td>
                               <td><?php echo $rh['ExcSabado']==1 ? "Si" : "No"; ?></td>
                               <td><?php echo $rh['ExcDomingo']==1 ? "Si" : "No"; ?></td>
-                              <td><?php echo $rh['Estado']==1 ? "<span class='label label-success'>Activo</span>" : "<span class='label label-danger'>Cancelado</span>"; ?></td>
+                              <td><?php echo $rh['NumHoras']; ?></td>
+                              <td><?php echo $rh['Estado']==1 ? "<span class='label label-success'>Activo</span>" : "<span class='label label-danger'>Inactivo</span>"; ?></td>
                               <?php if(accesoadm($cone,$_SESSION['identi'],2)){ ?>
-                              <td><button class="btn btn-default btn-xs" data-toggle="modal" data-target="#m_esthorario" onclick="esthor(<?php echo $rh['idHorario']; ?>);"><i class="fa fa-toggle-on"></i> <?php echo $rh['Estado']==1 ? "Cancelar" : "Activar"; ?></button></td>
+                              <td><button class="btn <?php echo $rh['Estado']==1 ? 'bg-yellow' : 'bg-orange' ?> btn-xs" data-toggle="modal" data-target="#m_esthorario" onclick="esthor(<?php echo $rh['idHorario']; ?>);"><i class="fa fa-toggle-on"></i> <?php echo $rh['Estado']==1 ? "Desactivar" : "Activar"; ?></button></td>
                               <?php } ?>
                             </tr>
                       <?php
@@ -56,6 +58,9 @@ if(accesocon($cone,$_SESSION['identi'],2)){
                       ?>
                           </tbody>
                         </table>
+                        <script>
+                          $('#dt_horario').DataTable();
+                        </script>
                       <?php
                       }else{
                         echo mensajewa("No se encontraron turnos.");
