@@ -8,7 +8,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
         $ano=iseguro($cone,$_POST['ano']);
         $mp=iseguro($cone,$_POST['mp']);
                 
-            $cg=mysqli_query($cone, "SELECT idtdguia, numero, anio, idtdmesapartesg, idtdmesapartesd, generador FROM tdguia WHERE numero=$gui AND anio=$ano AND idtdmesapartesg=$mp;");
+            $cg=mysqli_query($cone, "SELECT idtdguia, numero, anio, idtdmesapartesg, idtdmesapartesd, generador FROM tdguia WHERE numero=$gui AND anio=$ano AND idtdmesapartesg=$mp;");            
 
             if($rg=mysqli_fetch_assoc($cg)){
                 $v1=$rg['idtdguia'];

@@ -1,5 +1,5 @@
 ﻿<?php
-$host="192.168.16.22";
+$host="10.6.100.22";
 $user="web";
 $password='Cajamarca#07';
 $bd="new_bdcaj";
