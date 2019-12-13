@@ -21,18 +21,18 @@ if(accesocon($cone,$_SESSION['identi'],17)){
 <div class="col-sm-12">
 
 <?php
-    $cb=mysqli_query($cone, "SELECT d.idDoc, d.Numero, d.Ano, d.Siglas, d.numdoc, td.TipoDoc, ed.idtdestadodoc, g.numero numguia, g.anio, ed.idtdestado, ed.asignador, ed.mpasignador, ed.depasignador FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc INNER JOIN tdestadodoc ed ON d.idDoc=ed.idDoc LEFT JOIN tdguia g ON ed.idtdguia=g.idtdguia WHERE ed.idtdmesapartes=$idmp AND ed.estado=1 AND ed.idtdestado=3 ORDER BY ed.fecha DESC;");
+    $cb=mysqli_query($cone, "SELECT d.idDoc, d.Numero, d.Ano, d.Siglas, d.numdoc, td.TipoDoc, ed.idtdestadodoc, g.numero numguia, g.anio, ed.idtdestado, ed.asignador FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc INNER JOIN tdestadodoc ed ON d.idDoc=ed.idDoc LEFT JOIN tdguia g ON ed.idtdguia=g.idtdguia WHERE ed.idtdmesapartes=$idmp AND ed.estado=1 AND ed.idtdestado=3 ORDER BY ed.fecha DESC;");
     if(mysqli_num_rows($cb)>0){
 ?>
 
         <table class="table table-bordered table-hover" id="dt_ban11">
             <thead>
                 <tr>
-                    <th>NUM.</th>
+                    <th><span class="text-aqua"># SEG.</span></th>
                     <th class="hidden">id</th>
-                    <th>DOCUMENTO<br>TIPO</th>
+                    <th>DOCUMENTO<br><span class="text-teal">TIPO</span></th>
                     <th>ESTADO</th>
-                    <th>DERIVADO POR</th>
+                    <th><span class="text-muted">DERIVADO POR</span></th>
                     <th>GUÍA</th>
                     <th class="text-center">ACCIÓN</th>
                 </tr>
@@ -46,7 +46,9 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                     <td class="hidden"><?php echo $rb['idDoc']." ".$rb['idtdestadodoc']." ".$idmp; ?></td>
                     <td><?php echo (is_null($rb['Numero']) ? "" : $rb['Numero']."-").$rb['Ano']."-".$rb['Siglas']; ?><br><span class="text-teal"><?php echo $rb['TipoDoc']; ?></span></td>
                     <td><?php echo estadoDoc($rb['idtdestado']); ?></td>
-                    <td><?php echo nomempleado($cone, $rb['asignador']); ?><br><span class="text-aqua"><?php echo !is_null($rb['mpasignador']) ? nommpartes($cone, $rb['mpasignador']) : nomdependencia($cone, $rb['depasignador']); ?></span></td>
+                    <td>
+                      <span class="text-muted"><?php echo nomempleado($cone, $rb['asignador']); ?></span>
+                    </td>
                     <td><?php echo is_null($rb['numguia']) ? "-" : $rb['numguia']."-".$rb['anio']; ?></td>
                     <td class="text-center">
                           <div class="btn-group btn-group-xs">
@@ -124,18 +126,19 @@ if(accesocon($cone,$_SESSION['identi'],17)){
 <div class="col-sm-12">
 
 <?php
-    $cb=mysqli_query($cone, "SELECT d.idDoc, d.Numero, d.Ano, d.Siglas, d.numdoc, td.TipoDoc, ed.idtdestadodoc, ed.idtdestado, ed.asignador, ed.mpasignador, ed.depasignador FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc INNER JOIN tdestadodoc ed ON d.idDoc=ed.idDoc WHERE ed.idEmpleado=$idem AND ed.estado=1 AND ed.idtdestado=3 ORDER BY ed.fecha DESC;");
+    $dep=iddependenciae($cone, $idem);
+    $cb=mysqli_query($cone, "SELECT d.idDoc, d.Numero, d.Ano, d.Siglas, d.numdoc, td.TipoDoc, ed.idtdestadodoc, ed.idtdestado, ed.asignador, ed.idEmpleado FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc INNER JOIN tdestadodoc ed ON d.idDoc=ed.idDoc WHERE ed.idDependencia=$dep AND ed.estado=1 AND ed.idtdestado=3 ORDER BY ed.fecha DESC;");
     if(mysqli_num_rows($cb)>0){
 ?>
 
         <table class="table table-bordered table-hover" id="dt_ban12">
             <thead>
                 <tr>
-                    <th>NUM.</th>
+                    <th><span class="text-aqua"># SEG.</span></th>
                     <th class="hidden">id</th>
-                    <th>DOCUMENTO<br>TIPO</th>
+                    <th>DOCUMENTO<br><span class="text-teal">TIPO</span></th>
                     <th>ESTADO</th>
-                    <th>DERIVADO POR</th>
+                    <th><span class="text-orange">DERIVADO A</span><br><span class="text-muted">DERIVADO POR</span></th>
                     <th class="text-center">ACCIÓN</th>
                 </tr>
             </thead>
@@ -149,7 +152,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                     <td><?php echo $rb['Numero']."-".$rb['Ano']."-".$rb['Siglas']; ?><br><span class="text-teal"><?php echo $rb['TipoDoc']; ?></span></td>
                     <td><?php echo estadoDoc($rb['idtdestado']); ?></td>
                     <td>
-                        <?php echo nomempleado($cone, $rb['asignador']); ?><br><span class="text-aqua"><?php echo !is_null($rb['mpasignador']) ? nommpartes($cone, $rb['mpasignador']) : nomdependencia($cone, $rb['depasignador']); ?></span>
+                        <span class="text-orange"><?php echo nomempleado($cone, $rb['idEmpleado']); ?></span><br><span class="text-muted"><?php echo nomempleado($cone, $rb['asignador']); ?></span>
                     </td>
                     <td class="text-center">
                           <div class="btn-group btn-group-xs">
