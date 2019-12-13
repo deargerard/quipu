@@ -73,15 +73,15 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
               <div class="tab-pane" id="tab_2">
                 <!--Div resultados-->
                 <div class="row">
-                  <div class="col-md-5">
+                  <div class="col-md-12">
                     <button type="button" class="btn bg-yellow" onclick="li_ban2();"><i class="fa fa-refresh"></i> Actualizar Datos</button>
-                    <button type="button" class="btn bg-teal" onclick="f_bandeja('agrdoc',0,0);"><i class="fa fa-file-text-o"></i> Registrar</button>
+                    <button type="button" class="btn bg-teal" onclick="f_bandeja('agrdoc',0,0);"><i class="fa fa-file-text-o"></i> Registrar/Derivar</button>
                     <?php if($tmp){ ?>
+                      <?php if($tmp==2){ ?>
+                    <button type="button" class="btn bg-green" onclick="f_bandeja('agrdoa',0,0);"><i class="fa fa-file-text-o"></i> Registrar/Asignar</button>
+                      <?php } ?>
                     <button type="button" class="btn bg-purple" onclick="f_bandeja('gencar',0,0);"><i class="fa fa-files-o"></i> Generar Cargo</button>
                     <?php } ?>
-                  </div>
-                  <div class="col-md-7">
-                    
                   </div>
                 </div>
                 <div class="row" id="r_ban2">

@@ -13,7 +13,7 @@ $("#smpar").select2({
     },
     cache: true
   },
-  minimumInputLength: 2
+  minimumInputLength: 3
 })
 
 $('#b_lim3').click(function() {
@@ -39,7 +39,7 @@ $("#sper, #sper1").select2({
     },
     cache: true
   },
-  minimumInputLength: 2
+  minimumInputLength: 3
 })
 
 
@@ -168,7 +168,11 @@ function f_bandeja(acc,v1,v2){
     $("#m_tamano").removeClass('modal-lg');
     switch(acc) {
         case 'agrdoc':
-          var mt="<span class='text-muted'><i class='fa fa-file-text-o text-yellow'></i> Agregar Documento</span>";
+          var mt="<span class='text-muted'><i class='fa fa-file-text-o text-yellow'></i> Registrar/Derivar Documento</span>";
+          $(".modal-dialog").addClass('modal-lg');
+          break;
+        case 'agrdoa':
+          var mt="<span class='text-muted'><i class='fa fa-file-text-o text-yellow'></i> Registrar/Asignar Documento</span>";
           $(".modal-dialog").addClass('modal-lg');
           break;
         case 'edidoc':
@@ -218,6 +222,9 @@ function f_bandeja(acc,v1,v2){
         case 'gencar':
           var mt="<span class='text-muted'><i class='fa fa-files-o text-yellow'></i> Generar Cargo</span>";
           break;
+        case 'derrep':
+          var mt="<span class='text-muted'><i class='fa fa-level-up text-yellow'></i> Derivar Notificación Reportada</span>";
+          break;
     }
     $(".modal-title").html(mt);
     $("#m_modal").modal("show");
@@ -255,10 +262,16 @@ $('#f_modal').submit(function(e){
     success:function(a){
       if(a.e){
         $("#f_modal").html(a.m);
-        li_ban2();
-        li_ban5();
-        li_ban6();
-        li_ban9();
+        if(datos[0]['value']=='derrep'){
+          li_ban3();
+        }
+        if(datos[0]['value']=='repdoc'){
+          li_ban6();
+          f_bandeja('derrep',a.do,a.es);
+        }
+        if(datos[0]['value']=='agrdoc' || datos[0]['value']=='agrdoa'){
+          li_ban2();
+        }
       }else{
         $("#d_frespuesta").html(a.m);
         $("#b_guardar").removeClass("hidden");
