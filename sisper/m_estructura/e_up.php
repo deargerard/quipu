@@ -231,7 +231,7 @@ if(!empty($css)){
         </li>
         <?php
         }
-        if(accesocon($cone,$_SESSION['identi'],3) || escoordinador($cone,$_SESSION['identi'])){
+        if(accesocon($cone,$_SESSION['identi'],3) || esResDespacho($cone,$_SESSION['identi'])){
         ?>
         <li class="treeview" id="vacaciones">
           <a href="#">
@@ -240,15 +240,16 @@ if(!empty($css)){
             <i class="fa fa-angle-left pull-right"></i>
           </a>
           <ul class="treeview-menu">
-            <?php if(escoordinador($cone,$_SESSION['identi'])){ ?>
+            <?php if(esResDespacho($cone,$_SESSION['identi'])){ ?>
             <li id="provacaciones"><a href="provacaciones.php"><i class="fa fa-circle-o"></i> Programación</a></li>
             <?php } if(accesoadm($cone,$_SESSION['identi'],3)){ ?>
             <li id="pagvacaciones"><a href="pagvacaciones.php"><i class="fa fa-circle-o"></i> Reprogramación</a></li>
             <?php } if(accesoadm($cone,$_SESSION['identi'],14)){ ?>
             <li id="aprvacaciones"><a href="aprvacaciones.php"><i class="fa fa-circle-o"></i> Aprobación</a></li>
             <li id="ejevacaciones"><a href="ejevacaciones.php"><i class="fa fa-circle-o"></i> Ejecución</a></li>
-            <?php } ?>
+            <?php } if(accesocon($cone,$_SESSION['identi'],3)){ ?>
             <li id="repvacaciones"><a href="repvacaciones.php"><i class="fa fa-circle-o"></i> Reportes</a></li>
+            <?php } ?>
           </ul>
         </li>
         <?php

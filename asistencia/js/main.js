@@ -1,5 +1,3 @@
-
-
 $("#login").validate({
     rules: {
       dni: {required:true, minlength:8},

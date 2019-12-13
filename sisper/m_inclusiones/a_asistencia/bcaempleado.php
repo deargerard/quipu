@@ -85,6 +85,8 @@ if(accesocon($cone,$_SESSION['identi'],2)){
 
       $nf=0;
       $lsg=0;
+      $nhe=0;
+      $nht=0;
       for ($i=$fi; $i <= $ff; $i=date("Y-m-d", strtotime("+1 day", strtotime($i)))) {
         $fec=$i;
         $nomdia=nombredia($fec);
@@ -123,6 +125,7 @@ if(accesocon($cone,$_SESSION['identi'],2)){
           $esab=$rdh['ExcSabado'];
           $edom=$rdh['ExcDomingo'];
           $rdlib=$rdh['RDLibre'];
+          $ht=$rdh['NumHoras'];
           if($ssd){
             $fsal=date('Y-m-d',strtotime('+1 day', strtotime($fec)))." ".$sal;
           }else{
@@ -161,6 +164,8 @@ if(accesocon($cone,$_SESSION['identi'],2)){
                 if($rcs=mysqli_fetch_assoc($ccs)){
                   $dj=true;
                   $nj="<small style='font-size:70%;'>Com. Servicios<br>".$rcs['Numero']."-".$rcs['Ano']."-".$rcs['Siglas']."</small>";
+                  //agregamos 8 horas trabajadas por comisión de servicios
+                  $nht=$nht+8;
                 }else{
                   //consultamos si el día esta considerado como día libre
                   $cdl=mysqli_query($cone, "SELECT * FROM dialibre WHERE Fecha='$fec' AND Estado=1;");
@@ -325,11 +330,24 @@ if(accesocon($cone,$_SESSION['identi'],2)){
                   $ms=$rms['Marcacion'];
                   $msf=date('h:i A', strtotime($ms));
 
+                  //calculamos horas extra
+                  $he=date('H', strtotime($ms))-date('H', strtotime($ftsal));
+                  if($he>=1){
+                    $nhe=$nhe+$he;
+                  }
+                  //calculamos las horas trabajadas
+                  if($incd!="En Falta"){
+                    $nht=$nht+$ht;
+                  }
                 }else{
                   //Buscar si tiene permiso
                   $cper=mysqli_query($cone,"SELECT TipPermiso FROM permiso p INNER JOIN tippermiso tp ON p.idTipPermiso=tp.idTipPermiso WHERE FechaFin='$ftsal' AND p.idEmpleado=$emp AND p.Estado=1;;");
                   if($rper=mysqli_fetch_assoc($cper)){
-                      $nj.="<small style='font-size:70%;'> (P) ".$rper['TipPermiso']."</small>";                    
+                      $nj.="<small style='font-size:70%;'> (P) ".$rper['TipPermiso']."</small>";
+                      //calculamos las horas trabajadas
+                      if($incd!="En Falta"){
+                        $nht=$nht+$ht;
+                      }                 
                   }else{
                     $incd="En Falta";
                   }
@@ -394,6 +412,8 @@ if(accesocon($cone,$_SESSION['identi'],2)){
           </tbody>
         </table>
         <?php
+        $npsg=0;
+        $ttmin=0;
         $cpp=mysqli_query($cone,"SELECT * FROM permiso WHERE idEmpleado=$emp AND DATE_FORMAT(FechaIni,'%Y-%m')='$fm' AND idTipPermiso=6 AND Estado=1;");
         if(mysqli_num_rows($cpp)>0){
         ?>
@@ -411,8 +431,6 @@ if(accesocon($cone,$_SESSION['identi'],2)){
           </tr>
           </thead>
         <?php
-          $npsg=0;
-          $ttmin=0;
           while($rpp=mysqli_fetch_assoc($cpp)){
             $npsg++;
             $tmin=floor((strtotime($rpp['FechaFin'])-strtotime($rpp['FechaIni']))/60);
@@ -437,6 +455,15 @@ if(accesocon($cone,$_SESSION['identi'],2)){
         }
         mysqli_free_result($cpp);
         ?>
+        <table class="table table-bordered table-hover">
+          <tr>
+              <th>Horas trabajadas</th>
+              <th><?php echo round(($nht+$nhe-($ttmin/60)-($tmes/60)), 2); ?></th>
+              <th>Horas extra</th>
+              <th><?php echo $nhe; ?></th>
+            </tr>
+        </table>
+        <br>
         <form class="form-horizontal" id="f_observaciones">
           <?php
           $fo=$fm."-01";

@@ -756,9 +756,20 @@ function escoordinador($con, $ide){
   	mysqli_free_result($cc);
 }
 
-function enviopv($con, $idcoo){
-	$idcoo=iseguro($con,$idcoo);
-	$c7=mysqli_query($con,"SELECT pv.idProVacaciones FROM dependencia d INNER JOIN cardependencia cd ON d.idDependencia=cd.idDependencia INNER JOIN empleadocargo ec ON cd.idEmpleadoCargo=ec.idEmpleadoCargo INNER JOIN provacaciones pv ON ec.idEmpleadoCargo=pv.idEmpleadoCargo WHERE cd.Estado=1 AND d.idCoordinacion=$idcoo AND ec.idEstadoCar=1 AND pv.Estado=7;");
+function esResDespacho($cone, $ide){
+	$ide=iseguro($cone, $ide);
+	$cc=mysqli_query($cone, "SELECT idorintegrante FROM orequipo e INNER JOIN orintegrante i ON e.idorequipo=i.idorequipo INNER JOIN empleadocargo ec ON i.idEmpleadoCargo=ec.idEmpleadoCargo WHERE  ec.idEmpleado=$ide AND ec.idEstadoCar=1 AND i.responsable=1 AND i.estado=1 AND e.estado=1;");
+	if(mysqli_num_rows($cc)>0){
+		return true;
+	}else{
+		return false;
+	}
+	mysqli_free_result($cc);
+}
+
+function enviopv($con, $ideq){
+	$ideq=iseguro($con,$ideq);
+	$c7=mysqli_query($con,"SELECT pv.idProVacaciones FROM empleadocargo ec INNER JOIN provacaciones pv ON ec.idEmpleadoCargo=pv.idEmpleadoCargo INNER JOIN orintegrante i ON ec.idEmpleadocargo=i.idEmpleadocargo WHERE i.idorequipo=$ideq AND i.estado=1 AND ec.idEstadoCar=1 AND pv.Estado=7;");
 	if(mysqli_num_rows($c7)>0){
 		return true;
 	}else{
@@ -876,31 +887,35 @@ function telefonose($con,$ide){
 }
 
 function estadoVac($est){
-	switch ($est) {
-		case 0:
-			return "<span class='label label-info'>Pendiente</span>";
-			break;
-		case 1:
-			return "<span class='label label-success'>Ejecutado</span>";
-			break;
-		case 2:
-			return "<span class='label label-danger'>Cancelado</span>";
-			break;
-		case 3:
-			return "<span class='label label-primary'>Ejecutandose</span>";
-			break;
-		case 4:
-			return "<span class='label label-warning'>Planificado</span>";
-			break;
-		case 5:
-			return "<span class='label label-default'>Suspendido</span>";
-			break;
-		case 6:
-			return "<span class='label label-orange'>Solicitado</span>";
-			break;
-		case 7:
-			return "<span class='label label-olive'>Aceptado</span>";
-			break;
+	if(!is_null($est) && $est!=""){
+		switch ($est) {
+			case 0:
+				return "<span class='label label-info'>Pendiente</span>";
+				break;
+			case 1:
+				return "<span class='label label-success'>Ejecutadas</span>";
+				break;
+			case 2:
+				return "<span class='label label-danger'>Canceladas</span>";
+				break;
+			case 3:
+				return "<span class='label label-primary'>Ejecutandose</span>";
+				break;
+			case 4:
+				return "<span class='label label-warning'>Planificadas</span>";
+				break;
+			case 5:
+				return "<span class='label label-default'>Suspendidas</span>";
+				break;
+			case 6:
+				return "<span class='label label-default'>Solicitadas</span>";
+				break;
+			case 7:
+				return "<span class='label label-purple'>Aceptadas</span>";
+				break;
+		}
+	}else{
+		return "SE";
 	}
 }
 

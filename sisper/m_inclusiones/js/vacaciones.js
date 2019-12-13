@@ -784,9 +784,8 @@ success:function(a){
 });
 };
 //fin editar programacion de vacaciones
-//funcion actualizar lista de vacaciones
-$('#m_editarprogramacionc, #m_programarvacacionesc, #m_envprovacc').on('hidden.bs.modal', function () {
-  //var datos = $('#f_vacper').serializeArray()
+
+function lvacaciones(){
   $.ajax({
      type: "POST",
      url: "m_inclusiones/a_vacaciones/a_provacaciones.php",
@@ -800,14 +799,20 @@ $('#m_editarprogramacionc, #m_programarvacacionesc, #m_envprovacc').on('hidden.b
         $("#r_provacacionesc").slideDown();
      }
   });
+}
+
+//funcion actualizar lista de vacaciones
+$('#m_editarprogramacionc, #m_programarvacacionesc, #m_envprovacc').on('hidden.bs.modal', function () {
+  //var datos = $('#f_vacper').serializeArray()
+  lvacaciones();
 })
 //fin funcion actualizar lista de vacaciones
 // funciÃ³n editar programacion de vacaciones
-function envprovacc(idcoo){
+function envprovacc(ideq, idpe){
 $.ajax({
 type: "post",
 url: "m_inclusiones/a_vacaciones/a_envprovacc.php",
-data: { idcoo : idcoo},
+data: { ideq: ideq, idpe: idpe},
 dataType: "html",
 beforeSend: function () {
   $("#r_envprovacc").html("<img src='m_images/cargando.gif'>");

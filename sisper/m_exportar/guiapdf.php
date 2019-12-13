@@ -83,11 +83,11 @@ if(isset($_GET['guia']) && !empty($_GET['guia'])){
 			<td align="center"><?php echo ' <small>'.$n.'</small>'; ?></td>
 			<td align="center"><?php echo ' <small>'.$rdg['numdoc'].'</small>'; ?></td>
 			<td align="center"><?php echo wordwrap(html_entity_decode($rdg['TipoDoc']),16,"<br/>\n",true); ?></td>
-			<td align="center"><?php echo wordwrap(html_entity_decode((!is_null($rdg['Numero']) ? $rdg['Numero'].'-' : '').$rdg['Ano'].(!is_null($rdg['Siglas']) ? '-'.$rdg['Siglas'] : '')),22,"<br/>\n",true); ?></td>
-			<td><?php echo wordwrap(html_entity_decode(!is_null($rdg['deporigenint']) ? abrdependencia($cone, $rdg['deporigenint']) : $rdg['deporigenext']),38,"<br/>\n",true); ?></td>
-			<td><?php echo wordwrap(html_entity_decode(!is_null($rdg['remitenteint']) ? nomempleado($cone, $rdg['remitenteint']) : $rdg['remitenteext']),38,"<br/>\n",true); ?></td>
-			<td><?php echo wordwrap(html_entity_decode(!is_null($rdg['depdestinoint']) ? abrdependencia($cone, $rdg['depdestinoint']) : $rdg['depdestinoext']),38,"<br/>\n",true); ?></td>
-			<td><?php echo wordwrap(html_entity_decode(!is_null($rdg['destinatarioint']) ? nomempleado($cone, $rdg['destinatarioint']) : $rdg['destinatarioext']),38,"<br/>\n",true); ?></td>
+			<td align="center"><?php echo wordwrap(html_entity_decode((!is_null($rdg['Numero']) ? $rdg['Numero'].'-' : '').$rdg['Ano'].(!is_null($rdg['Siglas']) ? '-'.$rdg['Siglas'] : '')),20,"<br/>\n",true); ?></td>
+			<td><?php echo wordwrap(html_entity_decode(!is_null($rdg['deporigenint']) ? abrdependencia($cone, $rdg['deporigenint']) : $rdg['deporigenext']),35,"<br/>\n",true); ?></td>
+			<td><?php echo wordwrap(html_entity_decode(!is_null($rdg['remitenteint']) ? nomempleado($cone, $rdg['remitenteint']) : $rdg['remitenteext']),35,"<br/>\n",true); ?></td>
+			<td><?php echo wordwrap(html_entity_decode(!is_null($rdg['depdestinoint']) ? abrdependencia($cone, $rdg['depdestinoint']) : $rdg['depdestinoext']),35,"<br/>\n",true); ?></td>
+			<td><?php echo wordwrap(html_entity_decode(!is_null($rdg['destinatarioint']) ? nomempleado($cone, $rdg['destinatarioint']) : $rdg['destinatarioext']),35,"<br/>\n",true); ?></td>
 		</tr>
 <?php
 			}
@@ -118,11 +118,11 @@ if(isset($_GET['guia']) && !empty($_GET['guia'])){
 			<td align="center"><?php echo $n; ?></td>
 			<td align="center"><?php echo ' <small>'.$rdg1['numdoc'].'</small>'; ?></td>
 			<td align="center"><?php echo wordwrap(html_entity_decode($rdg1['TipoDoc']),16,"<br/>\n",true); ?></td>
-			<td align="center"><?php echo wordwrap(html_entity_decode((!is_null($rdg1['Numero']) ? $rdg1['Numero'].'-' : '').$rdg1['Ano'].(!is_null($rdg1['Siglas']) ? '-'.$rdg1['Siglas'] : '')),22,"<br/>\n",true); ?></td>
-			<td><?php echo wordwrap(html_entity_decode(!is_null($rdg1['deporigenint']) ? abrdependencia($cone, $rdg1['deporigenint']) : $rdg1['deporigenext']),36,"<br/>\n",true); ?></td>
-			<td><?php echo wordwrap(html_entity_decode(!is_null($rdg1['remitenteint']) ? nomempleado($cone, $rdg1['remitenteint']) : $rdg1['remitenteext']),36,"<br/>\n",true); ?></td>
-			<td><?php echo wordwrap(html_entity_decode(!is_null($rdg1['depdestinoint']) ? abrdependencia($cone, $rdg1['depdestinoint']) : $rdg1['depdestinoext']),36,"<br/>\n",true); ?></td>
-			<td><?php echo wordwrap(html_entity_decode(!is_null($rdg1['destinatarioint']) ? nomempleado($cone, $rdg1['destinatarioint']) : $rdg1['destinatarioext']),36,"<br/>\n",true); ?></td>
+			<td align="center"><?php echo wordwrap(html_entity_decode((!is_null($rdg1['Numero']) ? $rdg1['Numero'].'-' : '').$rdg1['Ano'].(!is_null($rdg1['Siglas']) ? '-'.$rdg1['Siglas'] : '')),20,"<br/>\n",true); ?></td>
+			<td><?php echo wordwrap(html_entity_decode(!is_null($rdg1['deporigenint']) ? abrdependencia($cone, $rdg1['deporigenint']) : $rdg1['deporigenext']),35,"<br/>\n",true); ?></td>
+			<td><?php echo wordwrap(html_entity_decode(!is_null($rdg1['remitenteint']) ? nomempleado($cone, $rdg1['remitenteint']) : $rdg1['remitenteext']),35,"<br/>\n",true); ?></td>
+			<td><?php echo wordwrap(html_entity_decode(!is_null($rdg1['depdestinoint']) ? abrdependencia($cone, $rdg1['depdestinoint']) : $rdg1['depdestinoext']),35,"<br/>\n",true); ?></td>
+			<td><?php echo wordwrap(html_entity_decode(!is_null($rdg1['destinatarioint']) ? nomempleado($cone, $rdg1['destinatarioint']) : $rdg1['destinatarioext']),35,"<br/>\n",true); ?></td>
 		</tr>
 <?php
 			}

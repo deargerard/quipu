@@ -123,8 +123,11 @@ function li_ban6(){
     });
 }
 function li_ban7(){
+  var ns=$('#ns').val();
+  var as=$('#as').val();
     $.ajax({
       type: "post",
+      data: {ns: ns, as, as},
       url: "m_inclusiones/a_tdocumentario/li_ban7.php",
       dataType: "html",
       beforeSend: function () {
@@ -212,6 +215,9 @@ function f_bandeja(acc,v1,v2){
         case 'cammp':
           var mt="<span class='text-muted'><i class='fa fa-random text-yellow'></i> Cambiar MP</span>";
           break;
+        case 'gencar':
+          var mt="<span class='text-muted'><i class='fa fa-files-o text-yellow'></i> Generar Cargo</span>";
+          break;
     }
     $(".modal-title").html(mt);
     $("#m_modal").modal("show");
@@ -227,7 +233,7 @@ function f_bandeja(acc,v1,v2){
       },
       success:function(a){
         $("#f_modal").html(a);
-        if(acc!='detdoc' && acc!='rutdoc' && acc!='detest' && acc!='lisgui'){
+        if(acc!='detdoc' && acc!='rutdoc' && acc!='detest' && acc!='lisgui' && acc!='gencar'){
           $("#b_guardar").removeClass("hidden");
         }
       }
@@ -249,14 +255,9 @@ $('#f_modal').submit(function(e){
     success:function(a){
       if(a.e){
         $("#f_modal").html(a.m);
-        li_ban1();
         li_ban2();
-        li_ban3();
-        li_ban4();
         li_ban5();
         li_ban6();
-        li_ban7();
-        li_ban8();
         li_ban9();
       }else{
         $("#d_frespuesta").html(a.m);
@@ -265,6 +266,28 @@ $('#f_modal').submit(function(e){
     }
   });
 })
+
+function g_crecar(idd){
+  $.ajax({
+    type: "post",
+    url: "m_inclusiones/a_tdocumentario/g_bandeja.php",
+    data: {acc: 'crecar', v1: idd, v2: 0},
+    dataType: "json",
+    beforeSend: function(){
+      $("#b_crecar").button('loading');
+    },
+    success:function(a){
+      if(a.e){
+        $("#f_modal").html(a.m);
+        li_ban2();
+      }else{
+        $("#d_rcc").html(a.m);
+        $("#b_crecar").button('reset');
+      }
+    }
+  });
+}
+
 
 function g_rec(v1, v2, mp){
     $.ajax({
@@ -275,15 +298,7 @@ function g_rec(v1, v2, mp){
       success:function(a){
         if(a.e){
           alertify.success(a.m);
-          li_ban1();
-          li_ban2();
-          li_ban3();
-          li_ban4();
-          li_ban5();
-          li_ban6();
           li_ban7();
-          li_ban8();
-          li_ban9();
         }else{
           alertify.error(a.m);
         }
@@ -291,6 +306,7 @@ function g_rec(v1, v2, mp){
     });
 }
 
+/*
 function g_dermpa(v1, v2){
   var v3=$('#smpar').val();
   if(v3!=null){
@@ -302,15 +318,7 @@ function g_dermpa(v1, v2){
       success:function(a){
         if(a.e){
           alertify.success(a.m);
-          li_ban1();
-          li_ban2();
           li_ban3();
-          li_ban4();
-          li_ban5();
-          li_ban6();
-          li_ban7();
-          li_ban8();
-          li_ban9();
         }else{
           alertify.error(a.m);
         }
@@ -320,6 +328,7 @@ function g_dermpa(v1, v2){
     alert('Elija la mesa de partes a donde derivará el documento.');
   }
 }
+*/
 
 function g_dernot(v1, v2){
   var v3=$('#sper').val();
@@ -332,15 +341,7 @@ function g_dernot(v1, v2){
       success:function(a){
         if(a.e){
           alertify.success(a.m);
-          li_ban1();
-          li_ban2();
-          li_ban3();
           li_ban4();
-          li_ban5();
-          li_ban6();
-          li_ban7();
-          li_ban8();
-          li_ban9();
         }else{
           alertify.error(a.m);
         }
@@ -351,7 +352,7 @@ function g_dernot(v1, v2){
   }
 }
 
-function g_derper(v1, v2){
+/*function g_derper(v1, v2){
   var v3=$('#sper1').val();
   if(v3!=null){
     $.ajax({
@@ -362,14 +363,6 @@ function g_derper(v1, v2){
       success:function(a){
         if(a.e){
           alertify.success(a.m);
-          li_ban1();
-          li_ban2();
-          li_ban3();
-          li_ban4();
-          li_ban5();
-          li_ban6();
-          li_ban7();
-          li_ban8();
           li_ban9();
         }else{
           alertify.error(a.m);
@@ -379,7 +372,7 @@ function g_derper(v1, v2){
   }else{
     alert('Elija el personal a quien derivará.');
   }
-}
+}*/
 
 function guiapdf(guia){
   window.open("m_exportar/guiapdf.php?guia="+guia, '_blank');
@@ -536,7 +529,7 @@ $('#f_mmodalp').submit(function(e){
       }
     }
   });
-})
+});
 
 //consultas
 $("#mpar, #mparp").select2({

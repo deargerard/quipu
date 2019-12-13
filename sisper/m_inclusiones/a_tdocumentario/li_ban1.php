@@ -21,7 +21,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
 <div class="col-sm-12">
 
 <?php
-    $cb=mysqli_query($cone, "SELECT d.idDoc, d.Numero, d.Ano, d.Siglas, d.FechaDoc, d.numdoc, td.TipoDoc, ed.idtdestadodoc, ed.fecha, g.numero numguia, g.anio, ed.idtdestado, ed.asignador, ed.mpasignador, ed.depasignador FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc INNER JOIN tdestadodoc ed ON d.idDoc=ed.idDoc LEFT JOIN tdguia g ON ed.idtdguia=g.idtdguia WHERE ed.idtdmesapartes=$idmp AND ed.estado=1 AND ed.idtdestado=3 ORDER BY ed.fecha DESC;");
+    $cb=mysqli_query($cone, "SELECT d.idDoc, d.Numero, d.Ano, d.Siglas, d.numdoc, td.TipoDoc, ed.idtdestadodoc, g.numero numguia, g.anio, ed.idtdestado, ed.asignador, ed.mpasignador, ed.depasignador FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc INNER JOIN tdestadodoc ed ON d.idDoc=ed.idDoc LEFT JOIN tdguia g ON ed.idtdguia=g.idtdguia WHERE ed.idtdmesapartes=$idmp AND ed.estado=1 AND ed.idtdestado=3 ORDER BY ed.fecha DESC;");
     if(mysqli_num_rows($cb)>0){
 ?>
 
@@ -29,10 +29,9 @@ if(accesocon($cone,$_SESSION['identi'],17)){
             <thead>
                 <tr>
                     <th>NUM.</th>
+                    <th class="hidden">id</th>
                     <th>DOCUMENTO<br>TIPO</th>
-                    <th>FECHA DOCUMENTO<br>TIEMPO</th>
                     <th>ESTADO</th>
-                    <th>FECHA ESTADO<br>TIEMPO</th>
                     <th>DERIVADO POR</th>
                     <th>GUÍA</th>
                     <th class="text-center">ACCIÓN</th>
@@ -44,15 +43,14 @@ if(accesocon($cone,$_SESSION['identi'],17)){
 ?>
                 <tr style="font-size: 12px;">
                     <td class="text-aqua"><?php echo $rb['numdoc'].'-'.$rb['Ano']; ?></td>
+                    <td class="hidden"><?php echo $rb['idDoc']." ".$rb['idtdestadodoc']." ".$idmp; ?></td>
                     <td><?php echo (is_null($rb['Numero']) ? "" : $rb['Numero']."-").$rb['Ano']."-".$rb['Siglas']; ?><br><span class="text-teal"><?php echo $rb['TipoDoc']; ?></span></td>
-                    <td><?php echo fnormal($rb['FechaDoc']); ?><br><span class="text-yellow"><?php echo diftiempo($rb['FechaDoc'], date('Y-m-d H:i:s')); ?></span></td>
                     <td><?php echo estadoDoc($rb['idtdestado']); ?></td>
-                    <td><?php echo date('d/m/Y h:i:s A', strtotime($rb['fecha'])); ?><br><span class="text-orange"><?php echo diftiempo($rb['fecha'], date('Y-m-d H:i:s')); ?></span></td>
                     <td><?php echo nomempleado($cone, $rb['asignador']); ?><br><span class="text-aqua"><?php echo !is_null($rb['mpasignador']) ? nommpartes($cone, $rb['mpasignador']) : nomdependencia($cone, $rb['depasignador']); ?></span></td>
                     <td><?php echo is_null($rb['numguia']) ? "-" : $rb['numguia']."-".$rb['anio']; ?></td>
                     <td class="text-center">
                           <div class="btn-group btn-group-xs">
-                            <button type="button" class="btn btn-info" title="Recibir" onclick="g_rec(<?php echo $rb['idDoc'].", ".$rb['idtdestadodoc'].", ".$idmp; ?>)"><i class="fa fa-check"></i></button>
+                            <button type="button" class="btn btn-info" id="btn-recibirmp" title="Recibir"><i class="fa fa-check"></i></button>
                           </div>
                           <div class="btn-group">
                             
@@ -78,7 +76,28 @@ if(accesocon($cone,$_SESSION['identi'],17)){
         </table>
 
         <script>
-            $("#dt_ban11").DataTable();
+            var table=$("#dt_ban11").DataTable();
+
+            $('#dt_ban11 tbody').on( 'click', 'button#btn-recibirmp', function () {
+                var d = table.row( $(this).parents('tr') ).data()[1];
+                var da = d.split(' ');
+                var ta =table.row( $(this).parents('tr') );
+
+                $.ajax({
+                  type: "post",
+                  url: "m_inclusiones/a_tdocumentario/g_bandeja.php",
+                  data: {acc: 'recdoc', v1: da[0], v2: da[1], mp: da[2]},
+                  dataType: "json",
+                  success:function(a){
+                    if(a.e){
+                      alertify.success(a.m);
+                      ta.remove().draw();
+                    }else{
+                      alertify.error(a.m);
+                    }
+                  }
+                });
+            } );
         </script>
 <?php
     }else{
@@ -105,7 +124,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
 <div class="col-sm-12">
 
 <?php
-    $cb=mysqli_query($cone, "SELECT d.idDoc, d.Numero, d.Ano, d.Siglas, d.FechaDoc, d.numdoc, td.TipoDoc, ed.idtdestadodoc, ed.fecha, ed.idtdestado, ed.asignador, ed.mpasignador, ed.depasignador FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc INNER JOIN tdestadodoc ed ON d.idDoc=ed.idDoc WHERE ed.idEmpleado=$idem AND ed.estado=1 AND ed.idtdestado=3 ORDER BY ed.fecha DESC;");
+    $cb=mysqli_query($cone, "SELECT d.idDoc, d.Numero, d.Ano, d.Siglas, d.numdoc, td.TipoDoc, ed.idtdestadodoc, ed.idtdestado, ed.asignador, ed.mpasignador, ed.depasignador FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc INNER JOIN tdestadodoc ed ON d.idDoc=ed.idDoc WHERE ed.idEmpleado=$idem AND ed.estado=1 AND ed.idtdestado=3 ORDER BY ed.fecha DESC;");
     if(mysqli_num_rows($cb)>0){
 ?>
 
@@ -113,10 +132,9 @@ if(accesocon($cone,$_SESSION['identi'],17)){
             <thead>
                 <tr>
                     <th>NUM.</th>
+                    <th class="hidden">id</th>
                     <th>DOCUMENTO<br>TIPO</th>
-                    <th>FECHA DOCUMENTO<br>TIEMPO</th>
                     <th>ESTADO</th>
-                    <th>FECHA ESTADO<br>TIEMPO</th>
                     <th>DERIVADO POR</th>
                     <th class="text-center">ACCIÓN</th>
                 </tr>
@@ -127,16 +145,15 @@ if(accesocon($cone,$_SESSION['identi'],17)){
 ?>
                 <tr style="font-size: 12px;">
                     <td class="text-aqua"><?php echo $rb['numdoc'].'-'.$rb['Ano']; ?></td>
+                    <td class="hidden"><?php echo $rb['idDoc']." ".$rb['idtdestadodoc']." 0"; ?></td>
                     <td><?php echo $rb['Numero']."-".$rb['Ano']."-".$rb['Siglas']; ?><br><span class="text-teal"><?php echo $rb['TipoDoc']; ?></span></td>
-                    <td><?php echo fnormal($rb['FechaDoc']); ?><br><span class="text-yellow"><?php echo diftiempo($rb['FechaDoc'], date('Y-m-d H:i:s')); ?></span></td>
                     <td><?php echo estadoDoc($rb['idtdestado']); ?></td>
-                    <td><?php echo date('d/m/Y h:i:s A', strtotime($rb['fecha'])); ?><br><span class="text-orange"><?php echo diftiempo($rb['fecha'], date('Y-m-d H:i:s')); ?></span></td>
                     <td>
                         <?php echo nomempleado($cone, $rb['asignador']); ?><br><span class="text-aqua"><?php echo !is_null($rb['mpasignador']) ? nommpartes($cone, $rb['mpasignador']) : nomdependencia($cone, $rb['depasignador']); ?></span>
                     </td>
                     <td class="text-center">
                           <div class="btn-group btn-group-xs">
-                            <button type="button" class="btn btn-info" title="Recibir" onclick="g_rec(<?php echo $rb['idDoc'].", ".$rb['idtdestadodoc'].", 0"; ?>)"><i class="fa fa-check"></i></button>
+                            <button type="button" class="btn btn-info" id="btn-recibirpe" title="Recibir"><i class="fa fa-check"></i></button>
                           </div>
                           <div class="btn-group">
                             
@@ -162,7 +179,28 @@ if(accesocon($cone,$_SESSION['identi'],17)){
         </table>
 
         <script>
-            $("#dt_ban12").DataTable();
+            var tablepe = $("#dt_ban12").DataTable();
+
+            $('#dt_ban12 tbody').on( 'click', 'button#btn-recibirpe', function () {
+                var d = tablepe.row( $(this).parents('tr') ).data()[1];
+                var da = d.split(' ');
+                var ta =tablepe.row( $(this).parents('tr') );
+
+                $.ajax({
+                  type: "post",
+                  url: "m_inclusiones/a_tdocumentario/g_bandeja.php",
+                  data: {acc: 'recdoc', v1: da[0], v2: da[1], mp: da[2]},
+                  dataType: "json",
+                  success:function(a){
+                    if(a.e){
+                      alertify.success(a.m);
+                      ta.remove().draw();
+                    }else{
+                      alertify.error(a.m);
+                    }
+                  }
+                });
+            } );
         </script>
 <?php
     }else{

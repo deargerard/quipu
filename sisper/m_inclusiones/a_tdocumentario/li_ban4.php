@@ -5,6 +5,14 @@ include("../php/funciones.php");
 if(accesocon($cone,$_SESSION['identi'],17)){
     $idem=$_SESSION['identi'];
 
+    $cm=mysqli_query($cone, "SELECT mp.tipo, mp.idtdmesapartes FROM tdpersonalmp pm INNER JOIN tdmesapartes mp ON pm.idtdmesapartes=mp.idtdmesapartes WHERE pm.idEmpleado=$idem AND pm.estado=1 AND mp.estado=1;");
+    if($rm=mysqli_fetch_assoc($cm)){
+      $tmp=$rm['tipo'];
+      $imp=$rm['idtdmesapartes'];
+      $cq="(ed.idtdmesapartes=$imp OR ed.idEmpleado=$idem)";
+    }else{
+      $cq="ed.idEmpleado=$idem";
+    }
 ?>
 <div class="col-sm-7">
     <h5 class="text-muted text-blue" style="font-weight: 600;"><i class="fa fa-table text-yellow"></i> <b>DOCUMENTOS PARA DERIVAR A NOTIFICADOR</b></h5>
@@ -15,7 +23,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
 </div>
 <div class="col-sm-12">
 <?php
-    $cb=mysqli_query($cone, "SELECT d.idDoc, d.numdoc, d.Numero, d.Ano, d.Siglas, d.FechaDoc, td.TipoDoc, ed.idtdestadodoc, ed.fecha, g.numero numguia, g.anio, ed.idtdestado FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc INNER JOIN tdestadodoc ed ON d.idDoc=ed.idDoc LEFT JOIN tdguia g ON ed.idtdguia=g.idtdguia WHERE ed.idEmpleado=$idem AND ed.estado=1 AND (ed.idtdestado=1 OR ed.idtdestado=2) ORDER BY ed.fecha DESC;");
+    $cb=mysqli_query($cone, "SELECT d.idDoc, d.numdoc, d.Numero, d.Ano, d.Siglas, td.TipoDoc, ed.idtdestadodoc, ed.fecha, g.numero numguia, g.anio, ed.idtdestado FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc INNER JOIN tdestadodoc ed ON d.idDoc=ed.idDoc LEFT JOIN tdguia g ON ed.idtdguia=g.idtdguia WHERE $cq AND ed.estado=1 AND (ed.idtdestado=1 OR ed.idtdestado=2) ORDER BY ed.fecha DESC;");
     if(mysqli_num_rows($cb)>0){
 ?>
         <table class="table table-bordered table-hover" id="dt_ban4">

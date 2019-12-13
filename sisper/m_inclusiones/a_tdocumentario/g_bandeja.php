@@ -110,6 +110,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                                     $mmp=vacio("");
                                     $dep=vacio(iddependenciae($cone, $_SESSION['identi']));
                                 }
+                                mysqli_free_result($cmmp);
                                 $q="INSERT INTO tdestadodoc (idDoc, idtdestado, fecha, idtdmesapartes, asignador, depasignador, mpasignador, estado) VALUES ($iddo, 3, NOW(), $mpd, $idem, $dep, $mmp, 1);";
                                 if(mysqli_query($cone, $q)){
                                     $r['m']=mensajesu("Listo, documento registrado y derivado.<br> N° Seguimiento:<b> $nu-$ano</b>");
@@ -768,6 +769,79 @@ if(accesocon($cone,$_SESSION['identi'],17)){
 
             }else{
                 $r['m']=mensajewa("Ingrese la mesa de partes.");
+            }
+        }elseif($acc=="crecar"){
+            if(isset($_POST['v1']) && !empty($_POST['v1'])){
+                $idd=iseguro($cone, $_POST['v1']);
+                $idem=$_SESSION['identi'];
+                $dep=iddependenciae($cone, $idem);
+
+                $cd=mysqli_query($cone, "SELECT Numero, Ano, Siglas, FechaDoc, idTipoDoc, remitenteext, destinatarioext, deporigenext, depdestinoext, remitenteint, destinatarioint, deporigenint, depdestinoint, asunto FROM doc WHERE idDoc=$idd;");
+                if($rd=mysqli_fetch_assoc($cd)){
+                    $numero=vacio($rd['Numero']);
+                    $ano=$rd['Ano'];
+                    $siglas=vacio($rd['Siglas']);
+                    $fechadoc=$rd['FechaDoc'];
+                    $idtipodoc=$rd['idTipoDoc'];
+                    $remitenteext=vacio($rd['remitenteext']);
+                    $destinatarioext=vacio($rd['destinatarioext']);
+                    $deporigenext=vacio($rd['deporigenext']);
+                    $depdestinoext=vacio($rd['depdestinoext']);
+                    $remitenteint=vacio($rd['remitenteint']);
+                    $destinatarioint=vacio($rd['destinatarioint']);
+                    $deporigenint=vacio($rd['deporigenint']);
+                    $depdestinoint=vacio($rd['depdestinoint']);
+                    $asunto=$rd['asunto'];
+
+                    //consultamos último número doc
+                    $cn=mysqli_query($cone, "SELECT MAX(numdoc) num FROM doc WHERE Ano='$ano';");
+                    if($rn=mysqli_fetch_assoc($cn)){
+                        if(!is_null($rn['num'])){
+                            $nu=$rn['num']+1;
+                        }else{
+                            $nu=1;
+                        }
+                    }
+                    mysqli_free_result($cn);
+
+                    //ingresamos doc
+                    if(mysqli_query($cone, "INSERT INTO doc (Numero, Ano, Siglas, FechaDoc, idTipoDoc, folios, remitenteext, destinatarioext, deporigenext, depdestinoext, cargo, remitenteint, destinatarioint, deporigenint, depdestinoint, numdoc, asunto, fecregistro, regpor, idDocRel) VALUES ($numero, '$ano', $siglas, '$fechadoc', $idtipodoc, 1, $remitenteext, $destinatarioext, $deporigenext, $depdestinoext, 1, $remitenteint, $destinatarioint, $deporigenint, $depdestinoint, $nu, '$asunto', NOW(), $idem, $idd);")){
+                        $iddn=mysqli_insert_id($cone);
+
+                        //obtrenemos la mesa de partes
+                        $cmmp=mysqli_query($cone, "SELECT mp.idtdmesapartes FROM tdpersonalmp pm INNER JOIN tdmesapartes mp ON pm.idtdmesapartes=mp.idtdmesapartes WHERE pm.idEmpleado=$idem AND pm.estado=1 AND mp.estado=1;");
+                        if($rmmp=mysqli_fetch_assoc($cmmp)){
+                            $mmp=vacio($rmmp['idtdmesapartes']);
+                            $dep=vacio("");
+                        }else{
+                            $mmp=vacio("");
+                            $dep=vacio(iddependenciae($cone, $_SESSION['identi']));
+                        }
+                        mysqli_free_result($cmmp);
+
+                        $q="INSERT INTO tdestadodoc (idDoc, idtdestado, fecha, idEmpleado, idtdmesapartes, idDependencia, asignador, mpasignador, depasignador, estado) VALUES ($iddn, 2, NOW(), $idem, $mmp, $dep, $idem, $mmp, $dep, 1);";
+                        if(mysqli_query($cone, $q)){
+                            $r['m']=mensajesu("Listo, cargo generado y registrado como recibido.<br> N° Seguimiento:<b> $nu-$ano</b>");
+                            $r['e']=true;
+                        }else{
+                            if(mysqli_query($cone, "DELETE FROM doc WHERE idDoc=$iddn;")){
+                                $r['m']=mensajewa("Error al registrar estado, vuelva a intentarlo. ".$q);
+                            }else{
+                                $r['m']=mensajewa("Solo se registro el documento, contacte a informática para generarle un estado.");
+                            }
+                        }
+
+                    }else{
+                        $r['m']=mensajewa("Error al registrar cargo.");
+                        mysql_query($cone, "DELETE FROM doc WHERE idDoc=$iddn;");
+                    }            
+
+                }else{
+                    $r['m']=mensajewa('Error, datos erroneos del documento.');
+                }
+
+            }else{
+                $r['m']=mensajewa("No envío datos.");
             }
         }//acafin
 	}else{

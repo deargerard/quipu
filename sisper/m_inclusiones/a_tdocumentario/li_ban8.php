@@ -11,7 +11,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
 ?>
 <div class="col-sm-12">
   <button type="button" class="btn bg-teal" onclick="f_bandeja('gengui', <?php echo $idmp; ?>, 0)"><i class="fa fa-stack-overflow"></i> Generar Guía</button>
-  <button type="button" class="btn bg-yellow" onclick="li_ban8();"><i class="fa fa-refresh"></i> Actualizar</button>
+  <button type="button" class="btn bg-yellow" onclick="li_ban8();"><i class="fa fa-refresh"></i> Actualizar Datos</button>
 </div>
 <div class="col-sm-6">
   <h5 class="text-blue"><i class="fa fa-table text-orange"></i> <b><?php echo $rm['denominacion']; ?></b></h5>

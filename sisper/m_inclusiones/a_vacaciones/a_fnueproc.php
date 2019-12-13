@@ -12,7 +12,6 @@ if(escoordinador($cone,$_SESSION['identi'])){
     $nd=iseguro($cone,$_POST['nd']);
 
   //echo $fii ." --- ".$ffi." --- ".$fff;
-
     ?>
           <div class="form-group valida">
             <div class="col-sm-12 text-center">
@@ -21,7 +20,7 @@ if(escoordinador($cone,$_SESSION['identi'])){
                 $cpv=mysqli_query($cone,"SELECT * FROM periodovacacional WHERE idPeriodoVacacional=$pervac");
                 $rpv=mysqli_fetch_assoc($cpv);
               ?>
-                <h4 class="text-danger"><?php echo "PROGRAMACIÓN DE VACACIONES PERÍODO  ". $rpv['PeriodoVacacional']?></h4>
+                <h4 class="text-orange"><i class="fa fa-plane text-gray"></i> <?php echo "PROGRAMACIÓN DE VACACIONES PERÍODO  ". $rpv['PeriodoVacacional']?></h4>
                 <input type="hidden" name="peva" value="<?php echo $pervac?>"> <!--envía id del periodo-->
 
             </div>
@@ -45,11 +44,9 @@ if(escoordinador($cone,$_SESSION['identi'])){
           <div class="form-group">
             <div class="col-sm-12 text-center">
               <span id="msg" class="text-maroon"></span><br>
-              <small class="text-purple">La programación de oficio unicamente podrá hacerla, en un solo bloque, todos los días pendientes.</small>
+              <small class="text-purple">La programación de oficio unicamente podrá hacerla, en un solo bloque, por todos los días pendientes.</small>
             </div>
           </div>
-
-
 
 <script>
 
@@ -61,60 +58,24 @@ if(escoordinador($cone,$_SESSION['identi'])){
     startDate: "<?php echo $fii ?>",
     endDate: "<?php echo $ffi?>",
 
-  })
-  .on('changeDate', function(e){
-    var fechai= $("#inivac").val();
+  }).on('changeDate', function(e){
+      var fechai= $("#inivac").val();
       var aFecha1 = fechai.split('/');
       var fFecha1 = Date.UTC(aFecha1[2],aFecha1[1]-1,aFecha1[0]);
       var nd = <?php echo $nd; ?>
 
-      if(nd==30){
-        if (aFecha1[0]==1) {
+      var afec = fechai.split('/');
+      var ffec = Date.UTC(afec[2],afec[1]-1,afec[0]);
+      var nfec = ffec + nd*86400000;
+      var nfecf= new Date(nfec);
 
-          var afec = fechai.split('/');
-          var ffec = Date.UTC(afec[2],afec[1]-1,afec[0]);
-          var nfec = ffec + nd*86400000;
-          var nfecf= new Date(nfec);
+      var nf = new Date();
+      var dia = nfecf.getDate();
+      var mes = nfecf.getMonth()+1;
+      var ano = nfecf.getFullYear();
 
-          var nf = new Date();
-          var dia = nfecf.getDate();
-          var mes = nfecf.getMonth()+1;
-          var ano = nfecf.getFullYear();
-
-          $('#finvac').val(("0"+dia).slice(-2)+'/'+("0"+mes).slice(-2)+'/'+ano);
-          $("#msg").html("");
-
-        }else{
-
-          $("#msg").html("¡ERROR!, sólo puede seleccionar como fecha de inicio el 01 del mes.");
-          $("#inivac").val("");
-          $("#finvac").val("");
-        }
-      }else if(nd=15){
-        if (aFecha1[0]==1 || aFecha1[0]==16) {
-
-          var afec = fechai.split('/');
-          var ffec = Date.UTC(afec[2],afec[1]-1,afec[0]);
-          var nfec = ffec + nd*86400000;
-          var nfecf= new Date(nfec);
-
-          var nf = new Date();
-          var dia = nfecf.getDate();
-          var mes = nfecf.getMonth()+1;
-          var ano = nfecf.getFullYear();
-
-          $('#finvac').val(("0"+dia).slice(-2)+'/'+("0"+mes).slice(-2)+'/'+ano);
-          $("#msg").html("");
-
-        }else{
-
-          $("#msg").html("¡ERROR!, sólo puede seleccionar como fecha de inicio el 01 o el 16 del mes.");
-          $("#inivac").val("");
-          $("#finvac").val("");
-        }
-
-      }
-
+      $('#finvac').val(("0"+dia).slice(-2)+'/'+("0"+mes).slice(-2)+'/'+ano);
+      $("#msg").html("");
 
    });
 </script>
