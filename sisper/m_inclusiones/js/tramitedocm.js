@@ -7,7 +7,7 @@ function bdoc(doc, ano){
     data: {doc : doc , ano : ano},
     dataType: "html",
     beforeSend: function () {
-      $("#r_rep1").html("<img scr='m_images/cargando.gif'>");
+      $("#r_rep1").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
     },
     success:function(a){      
       $("#r_rep1").html(a);      
@@ -17,8 +17,8 @@ function bdoc(doc, ano){
 // FIN FUNCION BUSCAR DOCUMENTO EN UN AÑO
 //BOTON LLAMA A LA FUNCIÓN DOCUMENTO EN UN AÑO
 $("#b_bdoc").click(function(){
-  var doc=$("#numdoc").val();
-  var ano=$("#dano").val();
+  var doc=$("#numseg").val();
+  var ano=$("#sano").val();
   if (doc==null && ano==null){
     alert("Debe elegir numero de documento y año");
   }else {
@@ -36,7 +36,7 @@ function bgui(gui, ano, mp){
     data: {gui : gui , ano : ano, mp : mp},
     dataType: "html",
     beforeSend: function () {
-      $("#r_rep2").html("<img scr='m_images/cargando.gif'>");
+      $("#r_rep2").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
     },
     success:function(a){      
       $("#r_rep2").html(a);      
@@ -67,7 +67,7 @@ function bperdoc(per, est, vig, fini, ffin){
     data: {per : per , est : est, vig : vig, fini : fini, ffin : ffin},
     dataType: "html",
     beforeSend: function () {
-      $("#r_rep3").html("<img scr='m_images/cargando.gif'>");
+      $("#r_rep3").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
     },
     success:function(a){      
       $("#r_rep3").html(a);      
@@ -97,7 +97,7 @@ function bdpen(mp, vig){
     data: {mp : mp, vig : vig},
     dataType: "html",
     beforeSend: function () {
-      $("#r_rep4").html("<img scr='m_images/cargando.gif'>");
+      $("#r_rep4").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
     },
     success:function(a){      
       $("#r_rep4").html(a);      
@@ -114,3 +114,51 @@ $("#b_bdpen").click(function(){
   
 })
 // FIN BOTON LLAMA A LA FUNCIÓN DOCUMENTOS PENDIENTES POR MESA DE PARTES
+
+
+// FUNCION BUSCAR DOCUMENTO POR DATOS
+function bdocd(ndoc, ano, tip, per, dext, dint){
+  
+  $.ajax({
+    type: "post",
+    url: "m_inclusiones/a_tdocumentario/bdocxdat.php",
+    data: {ndoc : ndoc , ano : ano , tip : tip, per : per, dext : dext , dint : dint},
+    dataType: "html",
+    beforeSend: function () {
+      $("#r_rep5").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
+    },
+    success:function(a){      
+      $("#r_rep5").html(a);      
+    }
+  });
+}
+// FIN FUNCION BUSCAR DOCUMENTO POR DATOS
+//BOTON LLAMA A LA FUNCIÓN DOCUMENTO POR DATOS
+$("#b_bdocb").click(function(){
+  var ndoc=$("#numdoc").val();
+  var ano=$("#dano").val();
+  var tip=$("#tip").val();
+  var per=$("#per1").val();
+  var dext=$("#dext").val();
+  var dint=$("#per1").val();
+  
+  bdocd(ndoc, ano, tip, per, dext, dint);
+    
+})
+// FIN BOTON LLAMA A LA FUNCIÓN DOCUMENTO POR DATOS
+
+$("#per1").select2({
+  placeholder: 'Selecione un Personal',
+  ajax: {
+    url: 'm_inclusiones/a_general/a_selpersonal.php',
+    dataType: 'json',
+    delay: 250,
+    processResults: function (data) {
+      return {
+        results: data
+      };
+    },
+    cache: true
+  },
+  minimumInputLength: 2
+})

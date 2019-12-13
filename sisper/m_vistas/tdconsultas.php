@@ -21,10 +21,11 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
           <!-- Custom Tabs -->
           <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
-              <li class="active"><a href="#tab_1" data-toggle="tab"><i class="fa fa-circle-o text-gray"></i> Documento</a></li>
-              <li><a href="#tab_2" data-toggle="tab"><i class="fa fa-circle-o text-gray"></i> Guía</a></li>
-              <li><a href="#tab_3" data-toggle="tab"><i class="fa fa-circle-o text-gray"></i> Personal/Documentos</a></li>
+              <li class="active"><a href="#tab_1" data-toggle="tab"><i class="fa fa-circle-o text-gray"></i> Por Nro de Seguimineto</a></li>
+              <li><a href="#tab_2" data-toggle="tab"><i class="fa fa-circle-o text-gray"></i> Por Guía</a></li>
+              <li><a href="#tab_3" data-toggle="tab"><i class="fa fa-circle-o text-gray"></i> Documentos/Trabajador</a></li>
               <li><a href="#tab_4" data-toggle="tab"><i class="fa fa-circle-o text-gray"></i> Pendientes/M.Partes</a></li>
+              <li><a href="#tab_5" data-toggle="tab"><i class="fa fa-circle-o text-gray"></i> Por datos de Documento</a></li>
             </ul>
             <div class="tab-content">
               <div class="tab-pane active" id="tab_1">
@@ -32,11 +33,11 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 <!--Formulario busqueda-->
                 <form class="form-inline" id="f_rep1">
                     <div class="form-group">
-                        <input type="text" class="form-control" id="numdoc" name="numdoc" placeholder="# Documento">
+                        <input type="text" class="form-control" id="numseg" name="numseg" placeholder="# Seguimiento">
                     </div>
                     <div class="form-group">
-                      <div class="input-group date" id="d_dano">
-                        <input type="text" name="dano" id="dano" class="form-control" value="<?php echo date('Y'); ?>">
+                      <div class="input-group date" id="s_dano">
+                        <input type="text" name="sano" id="sano" class="form-control" value="<?php echo date('Y'); ?>">
                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                       </div>
                     </div>
@@ -162,7 +163,46 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 <!--Fin div resultados-->
               </div>
               <!-- /.tab-pane -->
+              <div class="tab-pane" id="tab_5">
 
+                <!--Formulario busqueda-->
+                <form class="form-inline" id="f_rep5">
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="numdoc" name="numdoc" placeholder="# Documento">
+                    </div>
+                    <div class="form-group">
+                      <div class="input-group date" id="d_dano">
+                        <input type="text" name="dano" id="dano" class="form-control" value="<?php echo date('Y'); ?>">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                        <select name="tip" id="tip" class="form-control" onchange="mcaja(this.value)">
+                            <option value="1">D.INTERNO</option>
+                            <option value="2">D.EXTERNO</option>                          
+                        </select>
+                    </div>
+                    <div class="form-group" id="int">
+                        <select name="per1" id="per1" class="form-control" style="width: 300px;">
+                            
+                        </select>
+                    </div>
+
+                    <div class="form-group" id="ext" style="display: none;">
+                        <input type="text" class="form-control" id="dext" name="dext" placeholder="Destinatario">
+                    </div>
+                    <button type="button" class="btn btn-info" id="b_bdocb"><i class="fa fa-search"></i> Buscar </button>
+                </form>
+                <!--Fin formulario busqueda-->
+                <!--Div resultados-->
+                <hr>
+                <div id="r_rep5">
+                  <h4 class="text-aqua"><strong>Resultados</strong></h4>
+                </div>
+                <!--Fin div resultados-->
+                
+              </div>
+              <!-- /.tab-pane -->
             </div>
             <!-- /.tab-content -->
           </div>
@@ -193,6 +233,18 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
     </div>
   </div>
 </div>
+<script>
+  function mcaja(v){
+    if (v==1) {
+      $('#int').show();
+      $('#ext').hide();
+    }else{
+      $('#ext').show();
+      $('#int').hide();
+    }
+  }
+  
+</script>
 <!--Fin Modal Detalle Dependencia-->
 
 <?php
