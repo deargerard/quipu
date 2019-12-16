@@ -62,7 +62,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                       <p style="font-size: 17px;" class="text-primary text-right"><i class="fa fa-institution text-yellow"></i> <?php echo dependenciae($cone, $idper);?></p>
                      </div>
                   </div>
-
+                  <div class="table-responsive">
                   <table id="dtrepasi" class="table table-bordered table-hover">
                     <thead>
                       <tr>
@@ -88,6 +88,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                       ?>
                     </tbody>
                   </table>
+                  </div>
                   <?php
                   }else{
                     echo mensajewa("No se encontraron marcaciones.");
@@ -159,6 +160,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                            </div>
                         </div>
                         <!--Fin div row-->
+                        <div class="table-responsive">
                         <table class="table table-bordered table-hover" id="dtable<?php echo $n ?>" > <!--Tabla que Lista las vacaciones-->
                           <thead>
                             <tr>
@@ -322,6 +324,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                           </tbody>
                           <!--fin tbody-->
                         </table>
+                        </div>
                         <!--fin table-->
                         <div class="row">
                           <div class="col-sm-9"> <!--Mensaje-->
@@ -393,6 +396,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                            </div>
                         </div>
                         <!--Fin div row-->
+                        <div class="table-responsive">
                         <table id="dtcomser" class="table table-bordered table-hover"> <!--Tabla que Lista las comisiones-->
                           <thead>
                             <tr>
@@ -461,6 +465,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                           </tbody>
                           <!--fin tbody-->
                         </table>
+                        </div>
                         <!--fin table-->
                         <?php
                         }else {
@@ -503,6 +508,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                       				$dat=true;
                       				$con++;
                         	?>
+                              <div class="table-responsive">
                         			<table class="table table-hover table-bordered">
                         				<thead>
                                   <?php
@@ -575,6 +581,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                         				</tr>
                         				</tbody>
                         			</table>
+                              </div>
                         		<?php
                         			}else{
                         				$lt=0;

@@ -524,7 +524,7 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
 		                	$cp=mysqli_query($cone,"SELECT idPariente, TipoPariente, ApellidoPat, ApellidoMat, Nombres, TipoDoc, NumeroDoc, ContactoEme FROM pariente AS p INNER JOIN tipopariente AS tp ON p.idTipoPariente=tp.idTipoPariente WHERE idEmpleado=$idp ORDER BY FechaNac ASC");
 		                	if(mysqli_num_rows($cp)>0){
 		                	?>
-
+							<div class="table-responsive">
 		                	<table class="table table-hover table-bordered">
 		                		<thead>
 		                			<th>PARENTESCO</th>
@@ -570,6 +570,7 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
 		                		?>
 		                		</tbody>
 		                	</table>
+		                	</div>
 		                	<?php
 		                	}else{
 		                	?>
@@ -598,7 +599,7 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
 		                	$cgt=mysqli_query($cone,"SELECT idGradoTitulo, NivGraTit, Denominacion, Institucion, NumeroCol FROM gradotitulo AS gt INNER JOIN nivgratit AS ngt ON gt.idNivGraTit=ngt.idNivGraTit WHERE idEmpleado=$idp ORDER BY FechaExp DESC");
 		                	if(mysqli_num_rows($cgt)>0){
 		                	?>
-
+							<div class="table-responsive">
 		                	<table class="table table-hover table-bordered">
 		                		<thead>
 		                			<th>GRADO/TITULO</th>
@@ -638,6 +639,7 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
 		                		?>
 		                		</tbody>
 		                	</table>
+		                	</div>
 		                	<?php
 		                	}else{
 		                	?>
@@ -665,7 +667,7 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
 		                	$cca=mysqli_query($cone,"SELECT idCapacitacion, Denominacion, TipCap, Duracion FROM capacitacion AS c INNER JOIN tipcap AS tc ON c.idTipCap=tc.idTipCap WHERE idEmpleado=$idp ORDER BY FechaIni DESC");
 		                	if(mysqli_num_rows($cca)>0){
 		                	?>
-
+							<div class="table-responsive">
 		                	<table class="table table-hover table-bordered">
 		                		<thead>
 		                			<th>DENOMINACIÓN</th>
@@ -703,6 +705,7 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
 		                		?>
 		                		</tbody>
 		                	</table>
+		                	</div>
 		                	<?php
 		                	}else{
 		                	?>
@@ -731,7 +734,8 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
 		                	$cel=mysqli_query($cone,"SELECT idExpLaboral, Institucion, Cargo, FechaIni, FechaFin FROM explaboral WHERE idEmpleado=$idp ORDER BY FechaIni DESC");
 		                	if(mysqli_num_rows($cel)>0){
 		                	?>
-
+							
+							<div class="table-responsive">
 		                	<table class="table table-hover table-bordered">
 		                		<thead>
 		                			<th>INSTITUCIÓN</th>
@@ -777,6 +781,7 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
 		                		?>
 		                		</tbody>
 		                	</table>
+		                	</div>
 		                	<?php
 		                	}else{
 		                	?>

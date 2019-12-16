@@ -16,7 +16,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
     <section class="content">
             <!-- Small boxes (Stat box) -->
       <div class="row">
-        <div class="col-lg-3 col-xs-6">
+        <div class="col-md-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-aqua">
             <div class="inner">
@@ -26,7 +26,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
               ?>
               <h3><?php echo $rcu['NC'] ?></h3>
               <?php mysqli_free_result($ccu) ?>
-              <p>Cumpleañer@s en <?php echo nombremes(@date(m)) ?></p>
+              <p>Cumples en <?php echo nombremes(@date(m)) ?></p>
             </div>
             <div class="icon">
               <i class="fa fa-birthday-cake"></i>
@@ -35,7 +35,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
           </div>
         </div>
         <!-- ./col -->
-        <div class="col-lg-3 col-xs-6">
+        <div class="col-md-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-green">
             <div class="inner">
@@ -54,7 +54,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
           </div>
         </div>
         <!-- ./col -->
-        <div class="col-lg-3 col-xs-6">
+        <div class="col-md-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-yellow">
             <div class="inner">
@@ -73,7 +73,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
           </div>
         </div>
         <!-- ./col -->
-        <div class="col-lg-3 col-xs-6">
+        <div class="col-md-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-red">
             <div class="inner">
@@ -99,7 +99,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
            <!-- Default box -->
             <div class="box box-info">
               <div class="box-header with-border">
-                <h3 class="box-title text-aqua"><i class="fa fa-birthday-cake"></i> Cumpleañer@s de <?php echo nombremes(@date(m)) ?></h3>
+                <h3 class="box-title text-aqua"><i class="fa fa-birthday-cake"></i> Cumples en <?php echo nombremes(@date('m')) ?></h3>
 
                 <div class="box-tools pull-right">
                   <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
