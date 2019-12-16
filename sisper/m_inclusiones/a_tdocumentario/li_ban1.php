@@ -32,7 +32,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                     <th class="hidden">id</th>
                     <th>DOCUMENTO<br><span class="text-teal">TIPO</span></th>
                     <th>ESTADO</th>
-                    <th><span class="text-muted">DERIVADO POR</span></th>
+                    <th><span class="text-primary">DERIVADO POR</span></th>
                     <th>GUÍA</th>
                     <th class="text-center">ACCIÓN</th>
                 </tr>
@@ -47,7 +47,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                     <td><?php echo (is_null($rb['Numero']) ? "" : $rb['Numero']."-").$rb['Ano']."-".$rb['Siglas']; ?><br><span class="text-teal"><?php echo $rb['TipoDoc']; ?></span></td>
                     <td><?php echo estadoDoc($rb['idtdestado']); ?></td>
                     <td>
-                      <span class="text-muted"><?php echo nomempleado($cone, $rb['asignador']); ?></span>
+                      <span class="text-primary"><?php echo nomempleado($cone, $rb['asignador']); ?></span>
                     </td>
                     <td><?php echo is_null($rb['numguia']) ? "-" : $rb['numguia']."-".$rb['anio']; ?></td>
                     <td class="text-center">
@@ -138,7 +138,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                     <th class="hidden">id</th>
                     <th>DOCUMENTO<br><span class="text-teal">TIPO</span></th>
                     <th>ESTADO</th>
-                    <th><span class="text-orange">DERIVADO A</span><br><span class="text-muted">DERIVADO POR</span></th>
+                    <th><span class="text-orange">DERIVADO A</span><br><span class="text-primary">DERIVADO POR</span></th>
                     <th class="text-center">ACCIÓN</th>
                 </tr>
             </thead>
@@ -152,7 +152,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                     <td><?php echo $rb['Numero']."-".$rb['Ano']."-".$rb['Siglas']; ?><br><span class="text-teal"><?php echo $rb['TipoDoc']; ?></span></td>
                     <td><?php echo estadoDoc($rb['idtdestado']); ?></td>
                     <td>
-                        <span class="text-orange"><?php echo nomempleado($cone, $rb['idEmpleado']); ?></span><br><span class="text-muted"><?php echo nomempleado($cone, $rb['asignador']); ?></span>
+                        <b class="text-orange"><?php echo nomempleado($cone, $rb['idEmpleado']); ?></b><br><span class="text-primary"><?php echo nomempleado($cone, $rb['asignador']); ?></span>
                     </td>
                     <td class="text-center">
                           <div class="btn-group btn-group-xs">
@@ -172,7 +172,6 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                               <li><a href="#" onclick="f_bandeja('detdoc',<?php echo $rb['idDoc'].",0"; ?>)"><i class="fa fa-file-text text-maroon"></i> Detalle</a></li>
                             </ul>
                           </div>
-
                     </td>
                 </tr>
 <?php
