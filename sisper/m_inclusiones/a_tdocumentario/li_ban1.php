@@ -12,7 +12,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
 
 ?>
 <div class="col-sm-6">
-    <h5 class="text-muted text-blue" style="font-weight: 600;"><i class="fa fa-table text-yellow"></i> <b>PENDIENTES DE RECEPCIÓN DE <?php echo $rm['denominacion']; ?></b></h5>
+    <h5 class="text-muted text-blue" style="font-weight: 600;"><i class="fa fa-table text-yellow"></i> PENDIENTES DE RECEPCIÓN DE <b><?php echo $rm['denominacion']; ?></b></h5>
     <input type="hidden" id="idmp" value="<?php echo $rm['idtdmesapartes']; ?>">
 </div>
 <div class="col-sm-6">
@@ -44,7 +44,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                 <tr style="font-size: 12px;">
                     <td class="text-aqua"><?php echo $rb['numdoc'].'-'.$rb['Ano']; ?></td>
                     <td class="hidden"><?php echo $rb['idDoc']." ".$rb['idtdestadodoc']." ".$idmp; ?></td>
-                    <td><?php echo (is_null($rb['Numero']) ? "" : $rb['Numero']."-").$rb['Ano']."-".$rb['Siglas']; ?><br><span class="text-teal"><?php echo $rb['TipoDoc']; ?></span></td>
+                    <td><?php echo (is_null($rb['Numero']) ? "" : $rb['Numero']."-").$rb['Ano'].(is_null($rb['Siglas']) ? "" : "-".$rb['Siglas']); ?><br><span class="text-teal"><?php echo $rb['TipoDoc']; ?></span></td>
                     <td><?php echo estadoDoc($rb['idtdestado']); ?></td>
                     <td>
                       <span class="text-primary"><?php echo nomempleado($cone, $rb['asignador']); ?></span>
@@ -118,7 +118,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
 
 <!--mis documentos derivados-->
 <div class="col-sm-6">
-    <h5 class="text-muted text-blue" style="font-weight: 600;"><i class="fa fa-table text-yellow"></i> <b>PENDIENTES DE RECEPCIÓN</b></h5>
+    <h5 class="text-muted text-blue" style="font-weight: 600;"><i class="fa fa-table text-yellow"></i> PENDIENTES DE RECEPCIÓN DE <b><?php echo nomempleado($cone, $idem); ?></b></h5>
 </div>
 <div class="col-sm-6">
     <p class="text-right text-muted" style="font-size: 11px;"><i class="fa fa-refresh text-yellow"></i> Actualizado al <?php echo date('d/m/Y h:i:s A'); ?></p>
@@ -126,8 +126,8 @@ if(accesocon($cone,$_SESSION['identi'],17)){
 <div class="col-sm-12">
 
 <?php
-    $dep=iddependenciae($cone, $idem);
-    $cb=mysqli_query($cone, "SELECT d.idDoc, d.Numero, d.Ano, d.Siglas, d.numdoc, td.TipoDoc, ed.idtdestadodoc, ed.idtdestado, ed.asignador, ed.idEmpleado FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc INNER JOIN tdestadodoc ed ON d.idDoc=ed.idDoc WHERE ed.idDependencia=$dep AND ed.estado=1 AND ed.idtdestado=3 ORDER BY ed.fecha DESC;");
+
+    $cb=mysqli_query($cone, "SELECT d.idDoc, d.Numero, d.Ano, d.Siglas, d.numdoc, td.TipoDoc, ed.idtdestadodoc, ed.idtdestado, ed.asignador FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc INNER JOIN tdestadodoc ed ON d.idDoc=ed.idDoc WHERE ed.idEmpleado=$idem AND ed.estado=1 AND ed.idtdestado=3 ORDER BY ed.fecha DESC;");
     if(mysqli_num_rows($cb)>0){
 ?>
 
@@ -138,7 +138,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                     <th class="hidden">id</th>
                     <th>DOCUMENTO<br><span class="text-teal">TIPO</span></th>
                     <th>ESTADO</th>
-                    <th><span class="text-orange">DERIVADO A</span><br><span class="text-primary">DERIVADO POR</span></th>
+                    <th><span class="text-primary">DERIVADO POR</span></th>
                     <th class="text-center">ACCIÓN</th>
                 </tr>
             </thead>
@@ -149,10 +149,10 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                 <tr style="font-size: 12px;">
                     <td class="text-aqua"><?php echo $rb['numdoc'].'-'.$rb['Ano']; ?></td>
                     <td class="hidden"><?php echo $rb['idDoc']." ".$rb['idtdestadodoc']." 0"; ?></td>
-                    <td><?php echo $rb['Numero']."-".$rb['Ano']."-".$rb['Siglas']; ?><br><span class="text-teal"><?php echo $rb['TipoDoc']; ?></span></td>
+                    <td><?php echo (is_null($rb['Numero']) ? "" : $rb['Numero']."-").$rb['Ano'].(is_null($rb['Siglas']) ? "" : "-".$rb['Siglas']); ?><br><span class="text-teal"><?php echo $rb['TipoDoc']; ?></span></td>
                     <td><?php echo estadoDoc($rb['idtdestado']); ?></td>
                     <td>
-                        <b class="text-orange"><?php echo nomempleado($cone, $rb['idEmpleado']); ?></b><br><span class="text-primary"><?php echo nomempleado($cone, $rb['asignador']); ?></span>
+                      <span class="text-primary"><?php echo nomempleado($cone, $rb['asignador']); ?></span>
                     </td>
                     <td class="text-center">
                           <div class="btn-group btn-group-xs">
