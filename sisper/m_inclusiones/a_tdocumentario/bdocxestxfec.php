@@ -18,17 +18,17 @@ if(accesocon($cone,$_SESSION['identi'],17)){
     if ($est=='t'){
         $west="";
     }else{
-        $west=" ed.idtdestado=$est AND ";
+        $west="AND ed.idtdestado=$est ";
     }
 
     $wvig="";    
     if ($vig=='2'){
-        $wvig="ed.estado=0 AND ";
+        $wvig="ed.estado=0 ";
     }elseif($vig=='1'){
-        $wvig=" ed.estado=1 AND ";
+        $wvig=" ed.estado=1 ";
     }
-
-        $cb=mysqli_query($cone, "SELECT d.idDoc, d.Numero, d.Ano, d.Siglas, d.FechaDoc, d.numdoc, td.TipoDoc, ed.idtdestadodoc, ed.fecha, g.numero numguia, g.anio, ed.idtdestado FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc INNER JOIN tdestadodoc ed ON d.idDoc=ed.idDoc LEFT JOIN tdguia g ON ed.idtdguia=g.idtdguia WHERE ed.idEmpleado=$per AND $wvig $west (FechaDoc between '$fini' AND '$ffin') ORDER BY ed.fecha DESC;");
+        $q="SELECT d.idDoc, d.Numero, d.Ano, d.Siglas, d.numdoc, td.TipoDoc, ed.idtdestadodoc, ed.fecha, g.numero numguia, g.anio, ed.idtdestado FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc INNER JOIN tdestadodoc ed ON d.idDoc=ed.idDoc LEFT JOIN tdguia g ON ed.idtdguia=g.idtdguia WHERE ed.asignador=$per AND (DATE_FORMAT(ed.fecha, '%Y-%m-%d') BETWEEN '$fini' AND '$ffin') AND $wvig $west  ORDER BY ed.fecha DESC;";
+        $cb=mysqli_query($cone, $q);
 
         if(mysqli_num_rows($cb)>0){
 ?>
@@ -36,11 +36,10 @@ if(accesocon($cone,$_SESSION['identi'],17)){
             <table class="table table-bordered table-hover" id="dt_ban1">
                 <thead>
                     <tr>
-                        <th>NUM.</th>
-                        <th>DOCUMENTO<br>TIPO</th>
-                        <th>FECHA DOCUMENTO<br>TIEMPO</th>
+                        <th class="text-aqua"># SEG.</th>
+                        <th>DOCUMENTO <small class="text-teal">(TIPO)</small></th>
                         <th>ESTADO</th>
-                        <th>FECHA ESTADO<br>TIEMPO</th>                        
+                        <th>FECHA ESTADO</th>                        
                         <th class="text-center">ACCIÓN</th>
                     </tr>
                 </thead>
@@ -62,10 +61,9 @@ if(accesocon($cone,$_SESSION['identi'],17)){
 ?>
                     <tr style="font-size: 12px;">
                         <td class="text-aqua"><?php echo $rb['numdoc'].'-'.$rb['Ano']; ?></td>
-                        <td><?php echo $rb['Numero']."-".$rb['Ano']."-".$rb['Siglas']; ?><br><span class="text-teal"><?php echo $rb['TipoDoc']; ?></span></td>
-                        <td><?php echo fnormal($rb['FechaDoc']); ?><br><span class="text-yellow"><?php echo diftiempo($rb['FechaDoc'], date('Y-m-d H:i:s')); ?></span></td>
+                        <td><?php echo (!is_null($rb['Numero']) ? $rb['Numero']."-" : "").$rb['Ano']."-".(!is_null($rb['Siglas']) ? "-".$rb['Siglas'] : ""); ?> <span class="text-teal">(<?php echo $rb['TipoDoc']; ?>)</span></td>
                         <td><?php echo estadoDoc($rb['idtdestado']); ?></td>
-                        <td><?php echo date('d/m/Y h:i:s A', strtotime($rb['fecha'])); ?><br><span class="text-orange"><?php echo $ti!="" ? diftiempo($fec, $ti) : ""; ?></span></td>
+                        <td><?php echo date('d/m/Y h:i:s A', strtotime($rb['fecha'])); ?></td>
                         <td class="text-center">
                               
                               <div class="btn-group">
@@ -76,7 +74,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                                   <span class="sr-only">Desplegar menú</span>
                                 </button>
                                 <ul class="dropdown-menu pull-right" role="menu">
-                                  <li><a href="#" onclick="f_bandeja('rutdoc',<?php echo $rb['idDoc'].",0"; ?>)"><i class="fa fa-retweet text-maroon"></i> Ruta</a></li>
+                                  <li><a href="#" onclick="f_bandeja('rutdoc',<?php echo $rb['idDoc'].",0"; ?>)"><i class="fa fa-retweet text-maroon"></i> Seguimiento</a></li>
                                   <li><a href="#" onclick="f_bandeja('detest',<?php echo $rb['idtdestadodoc'].",0"; ?>)"><i class="fa fa-tags text-maroon"></i> Estado</a></li>
                                   <li class="divider"></li>
                                   <li><a href="#" onclick="f_bandeja('detdoc',<?php echo $rb['idDoc'].",0"; ?>)"><i class="fa fa-file-text text-maroon"></i> Detalle</a></li>
