@@ -28,7 +28,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                     if(mysqli_num_rows($cdg)>0){
 ?>                   
 
-                        <table class="table table-hover table-bordered" id="dt_guia">
+                        <table class="table table-hover table-bordered" id="dt_guia_">
                             <thead>
                                 <tr>
                                     <th>#</th>
@@ -38,7 +38,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                                     <th>DEPENDENCIA ORIGEN</th>
                                     <th> NOMBRE REMITENTE</th>
                                     <th>L. O DEPENDENCIA DESTINO</th>
-                                    <th>nOMBRE DESTINATARIO</th>
+                                    <th>NOMBRE DESTINATARIO</th>
                                 </tr>
                             </thead>
                             <tbody>
