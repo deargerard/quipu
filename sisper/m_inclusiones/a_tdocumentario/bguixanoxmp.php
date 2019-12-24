@@ -24,7 +24,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
 
 
 <?php
-                    $cdg=mysqli_query($cone, "SELECT d.numdoc, d.Numero, d.Ano, d.Siglas, d.remitenteext, d.remitenteint, d.destinatarioext, d.destinatarioint, td.TipoDoc FROM tdestadodoc ed INNER JOIN doc d ON ed.idDoc=d.idDoc INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc WHERE ed.idtdguia=$v1 ORDER BY d.numdoc DESC, d.Ano DESC;");
+                    $cdg=mysqli_query($cone, "SELECT d.numdoc, d.Numero, d.Ano, d.Siglas, d.remitenteext, d.remitenteint, d.destinatarioext, d.destinatarioint, d.deporigenint, d.deporigenext, d.depdestinoint, d.depdestinoext, td.TipoDoc FROM tdestadodoc ed INNER JOIN doc d ON ed.idDoc=d.idDoc INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc WHERE ed.idtdguia=$v1 ORDER BY d.numdoc DESC, d.Ano DESC;");
                     if(mysqli_num_rows($cdg)>0){
 ?>                   
 
@@ -33,9 +33,12 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                                 <tr>
                                     <th>#</th>
                                     <th class="text-aqua"># SEG.</th>
-                                    <th class="text-blue">DOCUMENTO <small class="text-purple">(Tipo)</small></th>
-                                    <th>REMITENTE</th>
-                                    <th>DESTINATARIO</th>
+                                    <th>TIPO DOC.</th>
+                                    <th class="text-blue">DOCUMENTO</th>
+                                    <th>DEPENDENCIA ORIGEN</th>
+                                    <th> NOMBRE REMITENTE</th>
+                                    <th>L. O DEPENDENCIA DESTINO</th>
+                                    <th>nOMBRE DESTINATARIO</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -47,8 +50,11 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                                 <tr>
                                     <td><?php echo $n; ?></td>
                                     <td class="text-aqua"><?php echo $rdg['numdoc'].'-'.$rdg['Ano']; ?></td>
-                                    <td class="text-blue"><?php echo (!is_null($rdg['Numero']) ? $rdg['Numero']."-" : "").$rdg['Ano'].(!is_null($rdg['Siglas']) ? $rdg['Siglas'] : ""); ?> <small class="text-purple">(<?php echo $rdg['TipoDoc']; ?>)</small></td>
+                                    <td><?php echo $rdg['TipoDoc']; ?></td>
+                                    <td class="text-blue"><?php echo (!is_null($rdg['Numero']) ? $rdg['Numero']."-" : "").$rdg['Ano'].(!is_null($rdg['Siglas']) ? $rdg['Siglas'] : ""); ?></td>
+                                    <td><?php echo !is_null($rdg['deporigenext']) ? $rdg['deporigenext'] : nomdependencia($cone, $rdg['deporigenint']); ?></td>
                                     <td><?php echo !is_null($rdg['remitenteext']) ? $rdg['remitenteext'] : nomempleado($cone, $rdg['remitenteint']); ?></td>
+                                    <td><?php echo !is_null($rdg['depdestinoext']) ? $rdg['depdestinoext'] : nomdependencia($cone, $rdg['depdestinoint']); ?></td>
                                     <td><?php echo !is_null($rdg['destinatarioext']) ? $rdg['destinatarioext'] : nomempleado($cone, $rdg['destinatarioint']); ?></td>
                                 </tr>
 <?php
