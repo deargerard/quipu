@@ -95,7 +95,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                         <select name="est" id="est" class="form-control">
                             <option value="t">Todos</option>
                           <?php
-                          $ce=mysqli_query($cone, "SELECT * FROM tdestado WHERE estado=1 AND idtdestado!=3;");
+                          $ce=mysqli_query($cone, "SELECT * FROM tdestado WHERE estado=1;");
                           if(mysqli_num_rows($ce)>0){
                             while($re=mysqli_fetch_assoc($ce)){
                           ?>
