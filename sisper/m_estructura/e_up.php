@@ -26,7 +26,9 @@
     <!-- datepicker -->
   <link rel="stylesheet" href="plugins/datepicker/datepicker3.css">
     <!-- DataTables -->
-  <link rel="stylesheet" href="plugins/datatables/dataTables.bootstrap.css">
+  <link rel="stylesheet" href="plugins/datatables.net-bs/css/dataTables.bootstrap.min.css">
+  <link rel="stylesheet" href="plugins/datatables.net/js/buttons.dataTables.min.css">
+  <link rel="stylesheet" href="plugins/datatables.net/js/jquery.dataTables_themeroller.css">
     <!-- bootstrap wysihtml5 - text editor -->
   <link rel="stylesheet" href="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
   <!-- Favicon -->

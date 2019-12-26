@@ -36,7 +36,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                         <input type="text" class="form-control" id="numseg" name="numseg" placeholder="# Seguimiento">
                     </div>
                     <div class="form-group">
-                      <div class="input-group date" id="s_dano">
+                      <div class="input-group date" id="d_dano">
                         <input type="text" name="sano" id="sano" class="form-control" value="<?php echo date('Y'); ?>">
                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                       </div>

@@ -98,8 +98,8 @@
 <script src="plugins/datepicker/bootstrap-datepicker.js"></script>
 <script src="plugins/datepicker/locales/bootstrap-datepicker.es.js"></script>
 <!-- DataTables -->
-<script src="plugins/datatables/jquery.dataTables.js"></script>
-<script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script src="plugins/datatables.net/js/jquery.dataTables.js"></script>
+<script src="plugins/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
 <!-- Jquery Validation -->
 <script src="m_inclusiones/js/jquery.validate.js"></script>
 <script src="m_inclusiones/js/additional-methods.min.js"></script>

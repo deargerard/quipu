@@ -28,7 +28,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                     if(mysqli_num_rows($cdg)>0){
 ?>                   
 
-                        <table class="table table-hover table-bordered" id="dt_guia_">
+                        <table class="table table-hover table-bordered" id="dt_guia">
                             <thead>
                                 <tr>
                                     <th>#</th>
@@ -63,7 +63,21 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                             </tbody>
                         </table>
                         <script>
-                            $('#dt_guia').dataTable();
+                            $("#dt_guia").DataTable({
+                              dom: 'Bfrtip',
+                              buttons: [
+                                {
+                                    extend: 'excel',
+                                    text: '<i class="fa fa-file-excel-o"></i>',
+                                    titleAttr: 'Exportar a Excel'
+                                },
+                                {
+                                    extend: 'print',
+                                    text: '<i class="fa fa-print"></i>',
+                                    titleAttr: 'Imprimir'
+                                },
+                              ]
+                            });
                         </script>
 <?php
                     }else{

@@ -27,61 +27,36 @@ if(accesocon($cone,$_SESSION['identi'],17)){
     }elseif($vig=='1'){
         $wvig=" ed.estado=1 ";
     }
-        $q="SELECT d.idDoc, d.Numero, d.Ano, d.Siglas, d.numdoc, td.TipoDoc, ed.idtdestadodoc, ed.fecha, g.numero numguia, g.anio, ed.idtdestado FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc INNER JOIN tdestadodoc ed ON d.idDoc=ed.idDoc LEFT JOIN tdguia g ON ed.idtdguia=g.idtdguia WHERE ed.asignador=$per AND (DATE_FORMAT(ed.fecha, '%Y-%m-%d') BETWEEN '$fini' AND '$ffin') AND $wvig $west  ORDER BY ed.fecha DESC;";
+        $q="SELECT d.idDoc, d.Numero, d.Ano, d.Siglas, d.numdoc, td.TipoDoc, ed.idtdestadodoc, ed.fecha, g.numero numguia, g.anio, ed.idtdestado, ed.estado FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc INNER JOIN tdestadodoc ed ON d.idDoc=ed.idDoc LEFT JOIN tdguia g ON ed.idtdguia=g.idtdguia WHERE ed.asignador=$per AND (DATE_FORMAT(ed.fecha, '%Y-%m-%d') BETWEEN '$fini' AND '$ffin') AND $wvig $west  ORDER BY ed.fecha DESC;";
         $cb=mysqli_query($cone, $q);
 
         if(mysqli_num_rows($cb)>0){
 ?>
 
-            <table class="table table-bordered table-hover" id="dt_ban1">
+            <table class="table table-bordered table-hover" id="dt_dtra">
                 <thead>
                     <tr>
+                        <td>#</td>
                         <th class="text-aqua"># SEG.</th>
                         <th>DOCUMENTO <small class="text-teal">(TIPO)</small></th>
                         <th>ESTADO</th>
                         <th>FECHA ESTADO</th>                        
-                        <th class="text-center">ACCIÓN</th>
+                        <th>TIPO ESTADO</th>
                     </tr>
                 </thead>
                 <tbody>
 <?php
-                    while($rb=mysqli_fetch_assoc($cb)){
-
-                    $ti="";
-                    $v1=$rb['idDoc'];
-                    $fec=$rb['fecha'];
-                    $cs=mysqli_query($cone, "SELECT fecha FROM tdestadodoc WHERE idDoc=$v1 AND fecha>'$fec' ORDER BY fecha ASC LIMIT 1;");
-                    if($rs=mysqli_fetch_assoc($cs)){
-                        $ti=$rs['fecha'];
-                    }else{
-                        $ti=date('Y-m-d H:i:s');
-                    }
-                    mysqli_free_result($cs);                    
-
+                    $n=0;
+                    while($rb=mysqli_fetch_assoc($cb)){                
+                        $n++;
 ?>
                     <tr style="font-size: 12px;">
+                        <td><?php echo $n; ?></td>
                         <td class="text-aqua"><?php echo $rb['numdoc'].'-'.$rb['Ano']; ?></td>
                         <td><?php echo (!is_null($rb['Numero']) ? $rb['Numero']."-" : "").$rb['Ano']."-".(!is_null($rb['Siglas']) ? "-".$rb['Siglas'] : ""); ?> <span class="text-teal">(<?php echo $rb['TipoDoc']; ?>)</span></td>
                         <td><?php echo estadoDoc($rb['idtdestado']); ?></td>
                         <td><?php echo date('d/m/Y h:i:s A', strtotime($rb['fecha'])); ?></td>
-                        <td class="text-center">
-                              
-                              <div class="btn-group">
-                                
-                                <button class="btn bg-maroon btn-xs dropdown-toggle" data-toggle="dropdown">
-                                  <i class="fa fa-file"></i>&nbsp;
-                                  <span class="caret"></span>
-                                  <span class="sr-only">Desplegar menú</span>
-                                </button>
-                                <ul class="dropdown-menu pull-right" role="menu">
-                                  <li><a href="#" onclick="f_bandeja('rutdoc',<?php echo $rb['idDoc'].",0"; ?>)"><i class="fa fa-retweet text-maroon"></i> Seguimiento</a></li>
-                                  <li><a href="#" onclick="f_bandeja('detest',<?php echo $rb['idtdestadodoc'].",0"; ?>)"><i class="fa fa-tags text-maroon"></i> Estado</a></li>
-                                  <li class="divider"></li>
-                                  <li><a href="#" onclick="f_bandeja('detdoc',<?php echo $rb['idDoc'].",0"; ?>)"><i class="fa fa-file-text text-maroon"></i> Detalle</a></li>
-                                </ul>
-                              </div>
-
-                        </td>
+                        <td><?php echo $rb['estado']==1 ? "Actual" : "Histórico"; ?></td>
                     </tr>
 <?php
                     }
@@ -90,7 +65,21 @@ if(accesocon($cone,$_SESSION['identi'],17)){
             </table>
 
         <script>
-            $("#dt_ban1").DataTable();
+            $("#dt_dtra").DataTable({
+              dom: 'Bfrtip',
+              buttons: [
+                {
+                    extend: 'excel',
+                    text: '<i class="fa fa-file-excel-o"></i>',
+                    titleAttr: 'Exportar a Excel'
+                },
+                {
+                    extend: 'print',
+                    text: '<i class="fa fa-print"></i>',
+                    titleAttr: 'Imprimir'
+                },
+              ]
+            });
         </script>
 <?php
         }else{

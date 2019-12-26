@@ -6,7 +6,7 @@ if(vacceso($cone,$_SESSION['identi'],$_SESSION['docide'],$_SESSION['nomusu'])){
   $tit="Trámite Documentario - Consultas";
   include("m_estructura/e_up.php");
   include("m_vistas/tdconsultas.php");
-  $js="<script src='m_inclusiones/js/tramitedocg.js'></script>\n<script src='m_inclusiones/js/tramitedocm.js'></script>\n";
+  $js="<script src='plugins/datatables.net/js/dataTables.buttons.min.js'></script>\n<script src='plugins/datatables.net/js/jszip.min.js'></script>\n<script src='plugins/datatables.net/js/pdfmake.min.js'></script>\n<script src='plugins/datatables.net/js/vfs_fonts.js'></script>\n<script src='plugins/datatables.net/js/buttons.html5.min.js'></script>\n<script src='plugins/datatables.net/js/buttons.print.min.js'></script>\n<script src='m_inclusiones/js/tramitedocg.js'></script>\n<script src='m_inclusiones/js/tramitedocm.js'></script>\n";
   include("m_estructura/e_down.php");
 ?>
 <script>
