@@ -18,11 +18,11 @@ if(accesocon($cone,$_SESSION['identi'],17)){
     $cb=mysqli_query($cone, "SELECT d.idDoc, d.numdoc, d.Numero, d.Ano, d.Siglas, d.destinatarioint, d.depdestinoint, d.destinatarioext, d.depdestinoext, td.TipoDoc, ed.idtdestadodoc, ed.idtdestado FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc INNER JOIN tdestadodoc ed ON d.idDoc=ed.idDoc WHERE ed.idEmpleado=$idem AND ed.estado=1 AND ed.pnotificar=1 AND (ed.idtdestado=1 OR ed.idtdestado=2 OR ed.idtdestado=5) ORDER BY ed.fecha DESC;");
     if(mysqli_num_rows($cb)>0){
 ?>
-        <table class="table table-bordered table-hover" id="dt_ban6">
+        <table class="table table-bordered table-hover" id="dt_ban61">
             <thead>
                 <tr>
-                    <th>NUM.</th>
-                    <th>DOCUMENTO<br>TIPO</th>
+                    <th class="text-maroon"># SEG.</th>
+                    <th>DOCUMENTO<br><small class="text-teal">TIPO</small></th>
                     <th>ESTADO</th>
                     <th>DESTINO</th>
                     <th class="text-center">ACCIÓN</th>
@@ -33,7 +33,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
         while($rb=mysqli_fetch_assoc($cb)){
 ?>
                 <tr style="font-size: 12px;">
-                    <td class="text-aqua"><?php echo $rb['numdoc'].'-'.$rb['Ano']; ?></td>
+                    <td class="text-maroon"><?php echo $rb['numdoc'].'-'.$rb['Ano']; ?></td>
                     <td><?php echo $rb['Numero']."-".$rb['Ano']."-".$rb['Siglas']; ?><br><span class="text-teal"><?php echo $rb['TipoDoc']; ?></span></td>
                     <td><?php echo estadoDoc($rb['idtdestado']); ?></td>
                     <td class="text-aqua"><?php echo !is_null($rb['destinatarioint']) ? nomempleado($cone, $rb['destinatarioint'])."<br><small class='text-muted'>".nomdependencia($cone, $rb['depdestinoint'])."</small>" : $rb['destinatarioext']."<br><small class='text-muted'>".$rb['depdestinoext']."</small>"; ?></td>
@@ -67,11 +67,61 @@ if(accesocon($cone,$_SESSION['identi'],17)){
             </tbody>
         </table>
         <script>
-            $("#dt_ban6").DataTable();
+            $("#dt_ban61").DataTable();
         </script>
 <?php
     }else{
         echo mensajewa("Sin documentos pendientes.");
+    }
+    mysqli_free_result($cb);
+
+    //reportados hoy
+    $cb=mysqli_query($cone, "SELECT d.idDoc, d.numdoc, d.Numero, d.Ano, d.Siglas, td.TipoDoc, ed.idtdestado, ed.fecha FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc INNER JOIN tdestadodoc ed ON d.idDoc=ed.idDoc WHERE ed.idEmpleado=$idem AND DATE_FORMAT(ed.fecha, '%Y-%m-%d')=CURDATE() AND ed.idtdestado=5 ORDER BY ed.idtdestadodoc DESC;");
+    if(mysqli_num_rows($cb)>0){
+?>
+        <h5 class="text-muted text-blue" style="font-weight: 600;"><i class="fa fa-table text-yellow"></i> <b>NOTIFICACIONES REPORTADAS HOY <?php echo date('d/m/Y'); ?></b></h5>
+        <table class="table table-bordered table-hover" id="dt_ban62">
+            <thead>
+                <tr>
+                    <th class="text-maroon"># SEG.</th>
+                    <th>DOCUMENTO <small class="text-teal">(TIPO)</small></th>
+                    <th>ESTADO</th>
+                    <th class="text-purple">FECHA</th>
+                </tr>
+            </thead>
+            <tbody>
+<?php
+        while($rb=mysqli_fetch_assoc($cb)){
+?>
+                <tr style="font-size: 12px;">
+                    <td class="text-maroon"><?php echo $rb['numdoc'].'-'.$rb['Ano']; ?></td>
+                    <td><?php echo $rb['Numero']."-".$rb['Ano']."-".$rb['Siglas']; ?> <small class="text-teal">(<?php echo $rb['TipoDoc']; ?>)</small></td>
+                    <td><?php echo estadoDoc($rb['idtdestado']); ?></td>
+                    <td class="text-purple"><?php echo ftnormal($rb['fecha']); ?></td>
+                </tr>
+<?php
+        }
+?>
+            </tbody>
+        </table>
+        <script>
+            $("#dt_ban62").DataTable({
+              dom: 'Bfrtip',
+              buttons: [
+                {
+                    extend: 'excel',
+                    text: '<i class="fa fa-file-excel-o"></i>',
+                    titleAttr: 'Exportar a Excel'
+                },
+                {
+                    extend: 'print',
+                    text: '<i class="fa fa-print"></i>',
+                    titleAttr: 'Imprimir'
+                },
+              ]
+            });
+        </script>
+<?php
     }
     mysqli_free_result($cb);
 ?>
