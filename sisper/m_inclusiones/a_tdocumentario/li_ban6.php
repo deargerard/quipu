@@ -83,6 +83,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
         <table class="table table-bordered table-hover" id="dt_ban62">
             <thead>
                 <tr>
+                    <th>#</th>
                     <th class="text-maroon"># SEG.</th>
                     <th>DOCUMENTO <small class="text-teal">(TIPO)</small></th>
                     <th>ESTADO</th>
@@ -91,9 +92,12 @@ if(accesocon($cone,$_SESSION['identi'],17)){
             </thead>
             <tbody>
 <?php
+        $n=0;
         while($rb=mysqli_fetch_assoc($cb)){
+          $n++;
 ?>
                 <tr style="font-size: 12px;">
+                    <td><?php echo $n; ?></td>
                     <td class="text-maroon"><?php echo $rb['numdoc'].'-'.$rb['Ano']; ?></td>
                     <td><?php echo $rb['Numero']."-".$rb['Ano']."-".$rb['Siglas']; ?> <small class="text-teal">(<?php echo $rb['TipoDoc']; ?>)</small></td>
                     <td><?php echo estadoDoc($rb['idtdestado']); ?></td>
