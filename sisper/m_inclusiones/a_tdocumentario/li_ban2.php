@@ -19,14 +19,15 @@ if(accesocon($cone,$_SESSION['identi'],17)){
 </div>
 <div class="col-sm-12">
 <?php
-    $cb=mysqli_query($cone, "SELECT d.idDoc, d.numdoc, d.Numero, d.Ano, d.Siglas, d.destinatarioint, d.depdestinoint, d.destinatarioext, d.depdestinoext, td.TipoDoc, ed.idtdestadodoc, ed.idtdestado, ed.idEmpleado, ed.idtdmesapartes FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc INNER JOIN tdestadodoc ed ON d.idDoc=ed.idDoc WHERE d.regpor=$idem AND ed.estado=1 AND (ed.idtdestado=3 OR ed.idtdestado=2) ORDER BY d.numdoc DESC LIMIT 60;");
+    $cb=mysqli_query($cone, "SELECT d.idDoc, d.numdoc, d.Numero, d.Ano, d.Siglas, d.destinatarioint, d.depdestinoint, d.destinatarioext, d.depdestinoext, td.TipoDoc, ed.idtdestadodoc, ed.idtdestado, ed.idEmpleado, ed.idtdmesapartes FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc INNER JOIN tdestadodoc ed ON d.idDoc=ed.idDoc WHERE d.regpor=$idem AND ed.estado=1 AND (ed.idtdestado=3 OR ed.idtdestado=2) ORDER BY d.idDoc DESC LIMIT 60;");
     if(mysqli_num_rows($cb)>0){
 ?>
         <table class="table table-bordered table-hover" id="dt_ban2">
             <thead>
                 <tr>
-                    <th>NUM.</th>
-                    <th>DOCUMENTO<br>TIPO</th>
+                    <th>#</th>
+                    <th class="text-maroon"># SEG.</th>
+                    <th>DOCUMENTO<br><small class="text-teal">TIPO</small></th>
                     <th>ESTADO</th>
                     <th>DESTINATARIO</th>
                     <th class="text-center">ACCIÓN</th>
@@ -34,11 +35,13 @@ if(accesocon($cone,$_SESSION['identi'],17)){
             </thead>
             <tbody>
 <?php
+        $n=0;
         while($rb=mysqli_fetch_assoc($cb)){
-          
+          $n++;
 ?>
                 <tr style="font-size: 12px;">
-                    <td class="text-aqua"><?php echo $rb['numdoc'].'-'.$rb['Ano']; ?></td>
+                    <td><?php echo $n; ?></td>
+                    <td class="text-maroon"><?php echo $rb['numdoc'].'-'.$rb['Ano']; ?></td>
                     <td><?php echo (!is_null($rb['Numero']) ? $rb['Numero']."-" : "").$rb['Ano'].(!is_null($rb['Siglas']) ? "-".$rb['Siglas'] : ""); ?><br><span class="text-teal"><?php echo $rb['TipoDoc']; ?></span></td>
                     <td><?php echo estadoDoc($rb['idtdestado']); ?></td>
                     <td class="text-aqua"><?php echo !is_null($rb['destinatarioint']) ? nomempleado($cone, $rb['destinatarioint'])."<br><small class='text-muted'>".nomdependencia($cone, $rb['depdestinoint'])."</small>" : $rb['destinatarioext']."<br><small class='text-muted'>".$rb['depdestinoext']."</small>"; ?></td>
@@ -88,9 +91,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
             </tbody>
         </table>
         <script>
-            $("#dt_ban2").DataTable({
-              "order": [[ 0, "desc" ]]
-            });
+            $("#dt_ban2").DataTable();
         </script>
 <?php
     }else{
