@@ -109,6 +109,16 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                                 <?php if($re['idtdestado']==5){ ?>
                                 <br><i class="fa fa-motorcycle text-orange"></i> <b class="text-muted"> <?php echo $re['estnotificacion']==1 ? "Notificado" : ($re['estnotificacion']==2 ? "Devuelto" : ""); ?></b> <?php echo $re['modnotificacion']; ?><br><i class="fa fa-calendar text-gray"></i> <?php echo fnormal($re['fecnotificacion']); ?> <br>
                                 <?php } ?>
+                                <?php
+                                    if(!is_null($re['idtdguia'])){
+                                        $ig=$re['idtdguia'];
+                                        $cg=mysqli_query($cone, "SELECT numero, anio FROM tdguia WHERE idtdguia=$ig;");
+                                        if($rg=mysqli_fetch_assoc($cg)){
+                                            echo '<br><span class="text-purple">G: '.$rg['numero'].'-'.$rg['anio'].'</span>';
+                                        }
+                                        mysqli_free_result($cg);
+                                    }
+                                ?>
                             </td>
                             <td><?php echo date('d/m/Y h:i:s A', strtotime($re['fecha'])); ?></td>
                             <td class="text-orange"><i class="fa fa-clock-o"></i> <?php echo $ti!="" ? diftiempo($fec, $ti) : ""; ?></td>
