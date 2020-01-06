@@ -1033,9 +1033,9 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                     </tr>
                     </thead>
                     <tr>
-                        <td class="text-aqua"><?php echo $rd['numdoc'].'-'.$rd['Ano']; ?></td>
+                        <td class="text-aqua"><b><?php echo $rd['numdoc'].'-'.$rd['Ano']; ?></b></td>
                         <td class="text-primary"><?php echo $rd['TipoDoc'].'<small class="text-yellow"> ('.($rd['cargo']==1 ? "Cargo" : "Original").')</small>'; ?></td>
-                        <td class="text-orange"><?php echo (!is_null($rd['Numero']) ? $rd['Numero']."-" : "").$rd['Ano']."-".$rd['Siglas']; ?></td>
+                        <td class="text-orange"><b><?php echo (!is_null($rd['Numero']) ? $rd['Numero']."-" : "").$rd['Ano']."-".$rd['Siglas']; ?></b></td>
                         <td><?php echo fnormal($rd['FechaDoc']); ?></td>
                     </tr>
                     <tr>
@@ -1050,6 +1050,37 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                             <?php echo !is_null($rd['destinatarioext']) ? ($rd['destinatarioext'].'<br><small class="text-aqua">'.$rd['depdestinoext'].'</small>') : (nomempleado($cone, $rd['destinatarioint']).'<br><small class="text-aqua">'.nomdependencia($cone, $rd['depdestinoint']).'</small>'); ?>
                         </td>
                     </tr>
+                    <?php
+                    $cca=mysqli_query($cone, "SELECT Ano, numdoc FROM doc WHERE idDocRel=$v1;");
+                    if(mysqli_num_rows($cca)>0){
+                        $ca="";
+                        while($rca=mysqli_fetch_assoc($cca)){
+                            $ca.=$rca['numdoc']."-".$rca['Ano']." ";
+                        }
+                    ?>
+                    <tr>
+                        <th><i class="fa fa-folder-open text-aqua"></i> CARGOS</th>
+                        <td colspan="3" class="text-purple"><?php echo $ca; ?></td>
+                    </tr>
+                    <?php
+                    }
+                    mysqli_free_result($cca);
+                    ?>
+                    <?php
+                    if(!is_null($rd['idDocRel'])){
+                        $dr=$rd['idDocRel'];
+                        $co=mysqli_query($cone, "SELECT Ano, numdoc FROM doc WHERE idDoc=$dr;");
+                        if($ro=mysqli_fetch_assoc($co)){
+                        ?>
+                        <tr>
+                            <th><i class="fa fa-folder-open text-aqua"></i> CARGO DE</th>
+                            <td colspan="3" class="text-purple"><?php echo $ro['numdoc']."-".$ro['Ano']; ?></td>
+                        </tr>
+                        <?php
+                        }
+                        mysqli_free_result($co);
+                    }
+                    ?>
                 </table>
 <?php
             $ce=mysqli_query($cone, "SELECT ed.*, modnotificacion, tipo, motivo FROM tdestadodoc ed LEFT JOIN tdmodnotificacion mn ON ed.idtdmodnotificacion=mn.idtdmodnotificacion LEFT JOIN tdproveido p ON ed.idtdproveido=p.idtdproveido WHERE ed.idDoc=$v1 ORDER BY ed.fecha DESC;");
