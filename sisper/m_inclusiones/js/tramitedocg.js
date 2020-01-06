@@ -272,6 +272,9 @@ $('#f_modal').submit(function(e){
         if(datos[0]['value']=='agrdoc' || datos[0]['value']=='agrdoa'){
           li_ban2();
         }
+        if(datos[0]['value']=='atedoc'){
+          li_ban5();
+        }
       }else{
         $("#d_frespuesta").html(a.m);
         $("#b_guardar").removeClass("hidden");
