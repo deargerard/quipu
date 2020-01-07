@@ -83,7 +83,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                         if($ro=mysqli_fetch_assoc($co)){
                         ?>
                         <tr>
-                            <th><i class="fa fa-folder-open text-aqua"></i> CARGO DE</th>
+                            <th><i class="fa fa-folder-open text-aqua"></i> ORIGINAL</th>
                             <td colspan="3" class="text-purple"><?php echo $ro['numdoc']."-".$ro['Ano']; ?></td>
                         </tr>
                         <?php
