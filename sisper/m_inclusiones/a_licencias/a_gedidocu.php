@@ -28,6 +28,7 @@ if(accesoadm($cone,$_SESSION['identi'],13)){
             }else{
                 $nn=0;
             }
+            mysqli_free_result($cn);
             $tn=", numdoc='$nn'";
         }else{
             $tn="";
@@ -35,7 +36,7 @@ if(accesoadm($cone,$_SESSION['identi'],13)){
 
     	$q="UPDATE doc SET Numero='$num', Ano='$adoc', Siglas='$sig', FechaDoc='$fec', idTipoDoc=$tdoc, Descripcion='$des', Legajo='$leg' $tn WHERE idDoc=$id;";
     	if(mysqli_query($cone,$q)){
-    		echo mensajesu("Listo: Documento correctamente editado.<br>Numero de Seguimiento: $nn");
+    		echo mensajesu("Listo: Documento correctamente editado.<br># de Seguimiento: $nn");
     	}else{
     		echo mensajewa("Error: Error al editar el docuemnto.");
     	}

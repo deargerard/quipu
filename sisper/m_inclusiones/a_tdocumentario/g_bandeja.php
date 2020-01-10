@@ -306,10 +306,25 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                     $pedes=$_POST['pedes']=="" ? vacio("") :  vacio(imseguro($cone, $_POST['pedes']));
                     $dedes=$_POST['dedes']=="" ? vacio("") :  vacio(imseguro($cone, $_POST['dedes']));
                     $car=$_POST['car']==1 ? 1 : 0;
+                    $aan=iseguro($cone, $_POST['aan']);
+                    $nd=iseguro($cone, $_POST['nd']);
+                    
+                    $nn=$nd;
+                    if($ano!=$aan){
+                        $cn=mysqli_query($cone, "SELECT MAX(numdoc) nd FROM doc WHERE Ano=$ano;");
+                        if($rn=mysqli_fetch_assoc($cn)){
+                            $nn=$rn['nd']+1;
+                        }else{
+                            $nn=0;
+                        }
+                        mysqli_free_result($cn);
+                        $tn=", numdoc='$nn'";
+                    }else{
+                        $tn="";
+                    }
 
-
-                    if(mysqli_query($cone, "UPDATE doc SET Numero=$num, Ano='$ano', Siglas=$sig, FechaDoc='$fecdoc', idTipoDoc=$tipdoc, asunto=$asu, folios=$fol, remitenteext=$perem, destinatarioext=$pedes, deporigenext=$derem, depdestinoext=$dedes, remitenteint=$pirem, destinatarioint=$pides, deporigenint=$direm, depdestinoint=$dides, cargo=$car WHERE idDoc=$v1;")){
-                        $r['m']=mensajesu("Listo, documento editado.");
+                    if(mysqli_query($cone, "UPDATE doc SET Numero=$num, Ano='$ano', Siglas=$sig, FechaDoc='$fecdoc', idTipoDoc=$tipdoc, asunto=$asu, folios=$fol, remitenteext=$perem, destinatarioext=$pedes, deporigenext=$derem, depdestinoext=$dedes, remitenteint=$pirem, destinatarioint=$pides, deporigenint=$direm, depdestinoint=$dides, cargo=$car $tn WHERE idDoc=$v1;")){
+                        $r['m']=mensajesu("Listo, documento editado.<br># de Seguimiento: $nn");
                         $r['e']=true;
                     }else{
                         $r['m']=mensajewa("Error al editar, vuelva a intentarlo.");

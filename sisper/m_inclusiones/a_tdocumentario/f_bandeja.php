@@ -560,6 +560,8 @@ if(accesocon($cone,$_SESSION['identi'],17)){
         <div class="row">
             <input type="hidden" name="acc" value="<?php echo $acc; ?>">
             <input type="hidden" name="v1" value="<?php echo $v1; ?>">
+            <input type="hidden" name="aan" value="<?php echo $rd['Ano']; ?>">
+            <input type="hidden" name="nd" value="<?php echo $rd['numdoc']; ?>">
             <div class="col-sm-2">
                 <label for="trem">Tipo Remitente<small class="text-red">*</small></label>
                 <select name="trem" id="trem" class="form-control" onchange="orem(this.value);">
