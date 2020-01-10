@@ -14,6 +14,8 @@ if(accesoadm($cone,$_SESSION['identi'],13)){
           <label for="tdoc" class="col-sm-3 control-label">T. Doc.</label>
           <div class="col-sm-9">
             <input type="hidden" name="id" id="id" value="<?php echo $id; ?>">
+            <input type="hidden" name="ano" id="ano" value="<?php echo $rd['Ano']; ?>">
+            <input type="hidden" name="nd" id="nd" value="<?php echo $rd['numdoc']; ?>">
             <select class="form-control select2td" id="tdoc" name="tdoc" style="width: 100%;">
             <?php
             $c=mysqli_query($cone, "SELECT * FROM tipodoc WHERE Estado=1 ORDER BY TipoDoc ASC;");

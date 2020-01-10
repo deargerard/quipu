@@ -12,13 +12,30 @@ if(accesoadm($cone,$_SESSION['identi'],13)){
     $fec=fmysql(iseguro($cone,$_POST['fec']));
     $des=iseguro($cone,$_POST['des']);
     $leg=iseguro($cone,$_POST['leg']);
+    $ano=iseguro($cone,$_POST['ano']);
+    $nd=iseguro($cone,$_POST['nd']);
+
     $c=mysqli_query($cone,"SELECT idDoc FROM doc WHERE (idTipoDoc=$tdoc AND Numero='$num' AND Ano='$adoc' AND Siglas='$sig') AND idDoc!=$id;");
     if(mysqli_num_rows($c)>0){
     	echo mensajewa("Error: El documento que intenta registrar ya existe.");
     }else{
-    	$q="UPDATE doc SET Numero='$num', Ano='$adoc', Siglas='$sig', FechaDoc='$fec', idTipoDoc=$tdoc, Descripcion='$des', Legajo='$leg' WHERE idDoc=$id;";
+
+        $nn=$nd;
+        if($adoc!=$ano){
+            $cn=mysqli_query($cone, "SELECT MAX(numdoc) nd FROM doc WHERE Ano=$adoc;");
+            if($rn=mysqli_fetch_assoc($cn)){
+                $nn=$rn['nd']+1;
+            }else{
+                $nn=0;
+            }
+            $tn=", numdoc='$nn'";
+        }else{
+            $tn="";
+        }
+
+    	$q="UPDATE doc SET Numero='$num', Ano='$adoc', Siglas='$sig', FechaDoc='$fec', idTipoDoc=$tdoc, Descripcion='$des', Legajo='$leg' $tn WHERE idDoc=$id;";
     	if(mysqli_query($cone,$q)){
-    		echo mensajesu("Listo: Documento correctamente editado.");
+    		echo mensajesu("Listo: Documento correctamente editado.<br>Numero de Seguimiento: $nn");
     	}else{
     		echo mensajewa("Error: Error al editar el docuemnto.");
     	}
