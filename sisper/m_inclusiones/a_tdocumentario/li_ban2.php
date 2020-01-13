@@ -29,7 +29,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                     <th class="text-maroon"># SEG.</th>
                     <th>DOCUMENTO<br><small class="text-teal">TIPO</small></th>
                     <th>ESTADO</th>
-                    <th>DESTINATARIO</th>
+                    <th>DESTINO</th>
                     <th class="text-center">ACCIÓN</th>
                 </tr>
             </thead>
