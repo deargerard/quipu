@@ -470,6 +470,7 @@ function acceso($con,$id){
 		}else{
 			return false;
 		}
+		mysqli_free_result($ce);
 	}
 }
 function nomempleado($con,$idemp){
@@ -480,6 +481,7 @@ function nomempleado($con,$idemp){
 	}else{
 		return "--";
 	}
+	mysqli_free_result($ce);
 }
 function nomempleado_na($con,$idemp){
 	$idemp=iseguro($con,$idemp);
@@ -489,6 +491,17 @@ function nomempleado_na($con,$idemp){
 	}else{
 		return "--";
 	}
+	mysqli_free_result($ce);
+}
+function nompariente($con,$idpar){
+	$idpar=iseguro($con,$idpar);
+	$ce=mysqli_query($con,"SELECT ApellidoPat, ApellidoMat, Nombres FROM pariente WHERE idPariente=$idpar");
+	if($re=mysqli_fetch_assoc($ce)){
+		return trim($re['ApellidoPat'])." ".trim($re['ApellidoMat'])." ".trim($re['Nombres']);
+	}else{
+		return "--";
+	}
+	mysqli_free_result($ce);
 }
 function nomvigilante($con,$idv){
 	$idv=iseguro($con,$idv);
@@ -498,6 +511,7 @@ function nomvigilante($con,$idv){
 	}else{
 		return "El identificador no existe.";
 	}
+	mysqli_free_result($ce);
 }
 function fotoe($con, $idemp){
 	$idemp=iseguro($con,$idemp);

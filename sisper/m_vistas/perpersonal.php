@@ -121,6 +121,7 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
               <li><a href="#capacitacionese" data-toggle="tab">Capacitaciones</a></li>
               <li><a href="#experienciae" data-toggle="tab">Experiencia</a></li>
               <li><a href="#discapacidade" data-toggle="tab">Discapacidad</a></li>
+              <li><a href="#gestantee" data-toggle="tab">Gestante</a></li>
             </ul>
             <div class="tab-content">
               <div class="active tab-pane" id="datose">
@@ -514,7 +515,7 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
               	<div class="row">
                 	<div class="col-md-12">
                 		<div class="box-header">
-		                	<h3 class="box-title text-orange"><i class="fa fa-child"></i> Parientes</h3>
+		                	<h3 class="box-title text-orange"><i class="fa fa-child"></i> Parientes/Gestante</h3>
 		                	<?php if(accesoadm($cone,$_SESSION['identi'],1) || accesoadm($cone,$_SESSION['identi'],9)){ ?>
 		                	<a href="" class="btn btn-info pull-right btn-xs" data-toggle="modal" data-target="#m_agrparpersonal" onclick="agrparpersonal(<?php echo $idp ?>)"><i class="fa fa-plus"></i> Agregar</a>
 		                	<?php } ?>
@@ -799,7 +800,10 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
 
               </div>
               <!-- /.tab-pane -->
+			  <div class="tab-pane" id="gestantee">
 
+              </div>
+              <!-- /.tab-pane -->
             </div>
             <!-- /.tab-content -->
           </div>
@@ -1511,12 +1515,32 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
         <h4 class="modal-title tmodal" id="myModalLabel"><i class="fa fa-wheelchair text-orange"></i> Discapacidad</h4>
       </div>
       <div class="modal-body">
-        <form class="form-horizontal" id="f_dis">
+        <form class="form-horizontal" id="f_dis" autocomplete="off">
         	
         </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" id="b_gdis">Guardar</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal gestante-->
+<div class="modal fade" id="m_ges" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title tmodal" id="myModalLabel"><i class="fa fa-wheelchair text-orange"></i> Discapacidad</h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal" id="f_ges" autocomplete="off">
+        	
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="b_gges">Guardar</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
       </div>
     </div>

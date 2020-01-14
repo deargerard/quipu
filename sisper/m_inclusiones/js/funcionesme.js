@@ -952,3 +952,72 @@ $('#b_gdis').on('click', function(){
      }
   });
 })
+
+//Gestante
+function l_gestante(idp){
+  $.ajax({
+     type: "POST",
+     url: "m_inclusiones/ajax/a_rgestante.php",
+     dataType: "html",
+     data: {idp: idp},   // I WANT TO ADD EXTRA DATA + SERIALIZE DATA
+     beforeSend: function () {
+        $("#gestantee").html("<img src='m_images/cargando.gif'>");
+     },
+     success: function(data){
+        $("#gestantee").html(data);
+     }
+  });
+};
+
+function gestante(acc, idp){
+  $("#m_ges").modal("show");
+  switch (acc) {
+    case "agrges":
+      tit='<i class="fa fa-user-md text-orange"></i> Agregar Gestante';
+      break;
+    case "ediges":
+      tit='<i class="fa fa-edit text-orange"></i> Editar Gestante';
+      break;
+    case "eliges":
+      tit='<i class="fa fa-trash text-orange"></i> Eliminar Gestante';
+      break;
+  }
+  $(".tmodal").html(tit);
+  $.ajax({
+     type: "POST",
+     url: "m_inclusiones/ajax/a_ges.php",
+     dataType: "html",
+     data: {acc: acc, idp: idp},   // I WANT TO ADD EXTRA DATA + SERIALIZE DATA
+     beforeSend: function () {
+        $("#f_ges").html("<img src='m_images/cargando.gif'>");
+        $("#b_gges").hide();
+     },
+     success: function(data){
+        $("#f_ges").html(data);
+        $("#b_gges").show();
+     }
+  });
+}
+
+$('#b_gges').on('click', function(){
+  var datos = $("#f_ges").serializeArray();
+  $.ajax({
+     type: "POST",
+     url: "m_inclusiones/ajax/a_gges.php",
+     dataType: "json",
+     data: datos,   // I WANT TO ADD EXTRA DATA + SERIALIZE DATA
+     beforeSend: function () {
+        $("#d_frespuesta").html("<h4 class='text-center'><i class='fa fa-spinner fa-spin'></i></h4>");
+        $("#b_gges").hide();
+     },
+     success: function(d){
+        if(d.e){
+          $("#f_ges").html(d.m);
+          l_gestante(d.d);
+        }else{
+          $("#d_frespuesta").html(d.m);
+          $("#b_gges").show();
+        }
+     }
+  });
+})
