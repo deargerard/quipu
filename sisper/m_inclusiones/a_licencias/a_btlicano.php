@@ -30,17 +30,18 @@ if(isset($_POST['tlice']) && !empty($_POST['tlice']) && isset($_POST['anio']) &&
 	</div>
 			<?php
 		$ntl=0;
+		$ct=0;
 		while ($rli=mysqli_fetch_assoc($cli)) {
+			$ct++;
 			$idli=$rli['idTipoLic'];
 				$c=mysqli_query($cone,"SELECT ec.idEmpleado, c.Denominacion, cc.CondicionCar, tl.TipoLic, tl.MotivoLic, li.idLicencia, FechaIni, FechaFin, Numero, Ano, Siglas, li.Estado, cl.Tipo FROM licencia li INNER JOIN aprlicencia al ON li.idLicencia=al.idLicencia INNER JOIN doc do ON al.idDoc=do.idDoc INNER JOIN tipolic tl ON li.idTipoLic=tl.idTipoLic INNER JOIN empleadocargo ec ON li.idEmpleadoCargo=ec.idEmpleadoCargo INNER JOIN cargo c ON c.idCargo=ec.idCargo INNER JOIN condicioncar cc ON cc.idCondicionCar=ec.idCondicionCar INNER JOIN condicionlab cl ON cl.idCondicionLab=ec.idCondicionLab WHERE $wca AND li.idTipoLic=$idli AND DATE_FORMAT(FechaIni,'%Y')='$anio' ORDER BY FechaIni ASC;");
 				if(mysqli_num_rows($c)>0){
 					$dat=true;
 			?>
-
-				<table class="table table-hover table-bordered">
+				<table class="table table-hover table-bordered" id="tablatla<?php echo $ct; ?>">
 					<thead>
 						<tr class="text-blue">
-							<th colspan="9"><i class="fa fa-stethoscope"></i> <?php echo $rli['MotivoLic']." (".$rli['TipoLic'].")"; ?></th>
+							<th colspan="9"><i class="fa fa-stethoscope"></i> <?php echo $rli['MotivoLic']." (".$rli['TipoLic'].")"; ?> <button class="btn bg-orange btn-xs pull-right" id="exta<?php echo $ct; ?>" title="Exportar a Excel"><i class="fa fa-file-excel-o"></i></button></th>
 						</tr>
 						<tr>
 							<th>#</th>
@@ -101,6 +102,19 @@ if(isset($_POST['tlice']) && !empty($_POST['tlice']) && isset($_POST['anio']) &&
 						</tr>
 					</tbody>
 				</table>
+				<script>
+				        var wbtla<?php echo $ct; ?> = XLSX.utils.table_to_book(document.getElementById('tablatla<?php echo $ct; ?>'), {sheet:"Quipu"});
+				        var wbouttla<?php echo $ct; ?> = XLSX.write(wbtla<?php echo $ct; ?>, {bookType:'xlsx', bookSST:true, type: 'binary'});
+				        function s2ab(s) {
+				                        var buf = new ArrayBuffer(s.length);
+				                        var view = new Uint8Array(buf);
+				                        for (var i=0; i<s.length; i++) view[i] = s.charCodeAt(i) & 0xFF;
+				                        return buf;
+				        }
+				        $("#exta<?php echo $ct; ?>").click(function(){
+				        	saveAs(new Blob([s2ab(wbouttla<?php echo $ct; ?>)],{type:"application/octet-stream"}), 'licencias.xlsx');
+				        });
+				</script>
 			<?php
 				}else{
 					$nl=0;

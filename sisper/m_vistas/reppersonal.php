@@ -27,6 +27,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
               <li><a href="#tab_4" data-toggle="tab">Parientes/Personal</a></li>
               <li><a href="#tab_5" data-toggle="tab">Vencimientos</a></li>
               <li><a href="#tab_6" data-toggle="tab">Discapacidad</a></li>
+              <li><a href="#tab_7" data-toggle="tab">Gestantes</a></li>
             </ul>
             <div class="tab-content">
               <div class="tab-pane active" id="tab_1">
@@ -66,7 +67,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                   </div>
                   <div class="form-group">
                     <div class="col-sm-offset-1 col-sm-11">
-                      <button type="submit" id="b_rperdependencia" class="btn btn-default">Buscar</button>
+                      <button type="submit" id="b_rperdependencia" class="btn btn-default"><i class="fa fa-search"></i> Buscar</button>
                       <a href="m_exportar/e_personal.php" class="btn bg-purple" target="_blank"><i class="fa fa-file-excel-o"></i> Personal</a>
                       <a href="m_exportar/e_perdependencia.php" class="btn bg-purple" target="_blank"><i class="fa fa-file-excel-o"></i> Personal/Dependencia</a>
                     </div>
@@ -119,7 +120,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                   </div>
                   <div class="form-group">
                     <div class="col-sm-offset-1 col-sm-11">
-                      <button type="submit" id="b_rcargos" class="btn btn-default">Buscar</button>
+                      <button type="submit" id="b_rcargos" class="btn btn-default"><i class="fa fa-search"></i> Buscar</button>
                     </div>
                   </div>
                 </form>
@@ -173,7 +174,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                   </div>
                   <div class="form-group">
                     <div class="col-sm-offset-1 col-sm-11">
-                      <button type="submit" id="b_rubipersonal" class="btn btn-default">Buscar</button>
+                      <button type="submit" id="b_rubipersonal" class="btn btn-default"><i class="fa fa-search"></i> Buscar</button>
                     </div>
                   </div>
                 </form>
@@ -208,7 +209,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                   </div>
                   <div class="form-group">
                     <div class="col-sm-offset-1 col-sm-11">
-                      <button type="submit" id="b_rhijos" class="btn btn-default">Buscar</button>
+                      <button type="submit" id="b_rhijos" class="btn btn-default"><i class="fa fa-search"></i> Buscar</button>
                       <a href="m_exportar/e_perhijos.php" class="btn bg-purple" target="_blank"><i class="fa fa-file-excel-o"></i> Pers./Hijos</a>
                       <a href="m_exportar/e_perhijos10.php" class="btn bg-purple" target="_blank"><i class="fa fa-file-excel-o"></i> Pers./Hijos <= 10</a>
                     </div>
@@ -239,6 +240,29 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
 
                     </div>
                   </div>
+              </div>
+              <div class="tab-pane" id="tab_7">
+                <!--Formulario-->
+                <div class="row">
+                  <form id="f_gestantes" class="form-horizontal">
+                    <label for="vig" class="control-label col-sm-2">Gestantes Vigentes al</label>
+                    <div class="col-sm-2">
+                      <div class="input-group date" id="d_vig">
+                          <input type="text" class="form-control" name="vig" placeholder="dd/mm/aaaa" value="<?php echo date('d/m/Y'); ?>">
+                          <span class="input-group-addon">
+                              <span class="fa fa-calendar"></span>
+                          </span>
+                      </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <button type="submit" class="btn btn-default"><i class="fa fa-search"></i> Buscar</button>
+                    </div>
+                  </form>
+                    <div class="col-md-12" id="r_gestantes">
+
+                    </div>
+                </div>
+                <!--Fin Formulario-->
               </div>
               <!-- /.tab-pane -->
             </div>

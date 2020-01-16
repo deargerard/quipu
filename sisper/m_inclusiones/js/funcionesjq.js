@@ -2946,6 +2946,24 @@ $("#b_rdiscapacidad").on("click",function(e){
   });
 });
 
+
+$("#f_gestantes").submit(function(e){
+  e.preventDefault();
+  var datos = $("#f_gestantes").serializeArray();
+  $.ajax({
+        data:  datos,
+        url:   "m_inclusiones/ajax/a_rgestantes.php",
+        type:  "post",
+        beforeSend: function () {
+          $("#r_gestantes").html("<img scr='m_images/cargando.gif'>");
+        },
+        success:  function (a) {
+          $("#r_gestantes").html(a);
+        }
+    });
+});
+
+
 //validar seleccionar dependencia para mostrar directorio
 $("#f_bteldep").validate({
  rules: {
