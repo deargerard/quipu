@@ -821,8 +821,17 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                             if($re['idtdestadodoc']==$v2){
                                 $idue=$re['idtdestadodoc'];
 
-                                $dep=iddependenciae($cone, $idem);
-                                if(mysqli_query($cone, "INSERT INTO tdestadodoc (idDoc, idtdestado, fecha, idtdmesapartes, asignador, depasignador, estado) VALUES ($v1, 3, NOW(), $mpa, $idem, $dep, 1);")){
+                                $cmp=mysqli_query($cone, "SELECT idtdmesapartes FROM tdpersonalmp WHERE idEmpleado=$idem AND estado=1;");
+                                if($rmp=mysqli_fetch_assoc($cmp)){
+                                    $dep=vacio('');
+                                    $mpas=$rmp['idtdmesapartes'];
+                                }else{
+                                    $dep=iddependenciae($cone, $idem);
+                                    $mpas=vacio('');
+                                }
+                                mysqli_free_result($cmp);
+
+                                if(mysqli_query($cone, "INSERT INTO tdestadodoc (idDoc, idtdestado, fecha, idtdmesapartes, asignador, mpasignador, depasignador, estado) VALUES ($v1, 3, NOW(), $mpa, $idem, $mpas, $dep, 1);")){
                                     $idne=mysqli_insert_id($cone);
                                     if(mysqli_query($cone, "UPDATE tdestadodoc SET estado=0 WHERE idDoc=$v1 AND idtdestadodoc=$idue;")){
                                         $r['m']=mensajesu("¡Listo! Documento derivado.");
