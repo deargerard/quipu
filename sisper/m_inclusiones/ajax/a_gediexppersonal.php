@@ -8,14 +8,14 @@ if(accesoadm($cone,$_SESSION['identi'],1) || accesoadm($cone,$_SESSION['identi']
             $ins=imseguro($cone,$_POST['ins']);
             $car=imseguro($cone,$_POST['car']);
             $fecini=fmysql(iseguro($cone,$_POST['fecini']));
-            $fecfin=fmysql(iseguro($cone,$_POST['fecfin']));
+            $fecfin=vacio(fmysql(iseguro($cone,$_POST['fecfin'])));
             $con=iseguro($cone,$_POST['con']);
             $motces=imseguro($cone,$_POST['motces']);
             if(isset($idex) && !empty($idex) && isset($ins) && !empty($ins) && isset($car) && !empty($car) && isset($fecini) && !empty($fecini)){
                   if(empty($fecfin)){
                         $fecfin='0000-00-00';
                   }
-                  $sql="UPDATE explaboral SET Institucion='$ins', Cargo='$car', FechaIni='$fecini', FechaFin='$fecfin', idConConExp=$con, MotivoCese='$motces' WHERE idExpLaboral=$idex";
+                  $sql="UPDATE explaboral SET Institucion='$ins', Cargo='$car', FechaIni='$fecini', FechaFin=$fecfin, idConConExp=$con, MotivoCese='$motces' WHERE idExpLaboral=$idex";
                   if(mysqli_query($cone,$sql)){
                         echo "<h4 class='text-olive'>Listo: Experiencia laboral editada correctamente.</h4><br>";
                   }else{

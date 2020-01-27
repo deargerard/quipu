@@ -10,14 +10,14 @@ if(accesoadm($cone,$_SESSION['identi'],1) || accesoadm($cone,$_SESSION['identi']
             $fecexp=fmysql(iseguro($cone,$_POST['fecexp']));
             $ins=imseguro($cone,$_POST['ins']);
             $numcol=imseguro($cone,$_POST['numcol']);
-            $feccol=fmysql(iseguro($cone,$_POST['feccol']));
+            $feccol=vacio(fmysql(iseguro($cone,$_POST['feccol'])));
             $numdip=imseguro($cone,$_POST['numdip']);
             if(isset($idpe) && !empty($idpe) && isset($niv) && !empty($niv) && isset($den) && !empty($den) && isset($fecexp) && !empty($fecexp) && isset($ins) && !empty($ins)){
-                  $sql="INSERT INTO gradotitulo (idEmpleado, idNivGraTit, Denominacion, FechaExp, Institucion, NumeroCol, FechaCol, NumeroDip) VALUES ($idpe, $niv, '$den', '$fecexp', '$ins', '$numcol', '$feccol', '$numdip')";
+                  $sql="INSERT INTO gradotitulo (idEmpleado, idNivGraTit, Denominacion, FechaExp, Institucion, NumeroCol, FechaCol, NumeroDip) VALUES ($idpe, $niv, '$den', '$fecexp', '$ins', '$numcol', $feccol, '$numdip')";
                   if(mysqli_query($cone,$sql)){
                         echo "<h4 class='text-olive'>Listo: Grado y/o título registrado correctamente.</h4><br>";
                   }else{
-                        echo "<h4 class='text-maroon'>Error: ". mysqli_error($cone)."</h4>";
+                        echo "<h4 class='text-maroon'>Error: ". mysqli_error($cone)." $sql</h4>";
                   }
                   mysqli_close($cone);  
             }else{

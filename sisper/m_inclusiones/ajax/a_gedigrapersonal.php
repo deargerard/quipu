@@ -10,10 +10,10 @@ if(accesoadm($cone,$_SESSION['identi'],1) || accesoadm($cone,$_SESSION['identi']
             $fecexp=fmysql(iseguro($cone,$_POST['fecexp']));
             $ins=imseguro($cone,$_POST['ins']);
             $numcol=imseguro($cone,$_POST['numcol']);
-            $feccol=fmysql(iseguro($cone,$_POST['feccol']));
+            $feccol=vacio(fmysql(iseguro($cone,$_POST['feccol'])));
             $numdip=imseguro($cone,$_POST['numdip']);
             if(isset($idg) && !empty($idg) && isset($niv) && !empty($niv) && isset($den) && !empty($den) && isset($fecexp) && !empty($fecexp) && isset($ins) && !empty($ins)){
-                  $sql="UPDATE gradotitulo SET idNivGraTit=$niv, Denominacion='$den', FechaExp='$fecexp', Institucion='$ins', NumeroCol='$numcol', FechaCol='$feccol', NumeroDip='$numdip' WHERE idGradoTitulo=$idg";
+                  $sql="UPDATE gradotitulo SET idNivGraTit=$niv, Denominacion='$den', FechaExp='$fecexp', Institucion='$ins', NumeroCol='$numcol', FechaCol=$feccol, NumeroDip='$numdip' WHERE idGradoTitulo=$idg";
                   if(mysqli_query($cone,$sql)){
                         echo "<h4 class='text-olive'>Listo: Grado y/o título, editado correctamente.</h4><br>";
                   }else{
