@@ -24,7 +24,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
 
 
 <?php
-                    $cdg=mysqli_query($cone, "SELECT d.numdoc, d.Numero, d.Ano, d.Siglas, d.remitenteext, d.remitenteint, d.destinatarioext, d.destinatarioint, d.deporigenint, d.deporigenext, d.depdestinoint, d.depdestinoext, td.TipoDoc FROM tdestadodoc ed INNER JOIN doc d ON ed.idDoc=d.idDoc INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc WHERE ed.idtdguia=$v1 ORDER BY d.numdoc DESC, d.Ano DESC;");
+                    $cdg=mysqli_query($cone, "SELECT d.numdoc, d.Numero, d.Ano, d.Siglas, d.remitenteext, d.remitenteint, d.destinatarioext, d.destinatarioint, d.deporigenint, d.deporigenext, d.depdestinoint, d.depdestinoext, d.cargo, td.TipoDoc FROM tdestadodoc ed INNER JOIN doc d ON ed.idDoc=d.idDoc INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc WHERE ed.idtdguia=$v1 ORDER BY d.numdoc DESC, d.Ano DESC;");
                     if(mysqli_num_rows($cdg)>0){
 ?>                   
 
@@ -39,6 +39,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                                     <th> NOMBRE REMITENTE</th>
                                     <th>L. O DEPENDENCIA DESTINO</th>
                                     <th>NOMBRE DESTINATARIO</th>
+                                    <th>T</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -56,6 +57,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                                     <td><?php echo !is_null($rdg['remitenteext']) ? $rdg['remitenteext'] : nomempleado($cone, $rdg['remitenteint']); ?></td>
                                     <td><?php echo !is_null($rdg['depdestinoext']) ? $rdg['depdestinoext'] : nomdependencia($cone, $rdg['depdestinoint']); ?></td>
                                     <td><?php echo !is_null($rdg['destinatarioext']) ? $rdg['destinatarioext'] : nomempleado($cone, $rdg['destinatarioint']); ?></td>
+                                    <td><?php echo $rdg['cargo']==0 ? "O" : "C"; ?></td>
                                 </tr>
 <?php
                             }
