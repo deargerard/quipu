@@ -715,7 +715,7 @@ function telefonopers($con,$ide){
 }
 function anexopers($con,$ide, $idd){
 	$tp="";
-	$ctp=mysqli_query($con,"SELECT te.Numero, tt.TipoTelefono FROM telefonoemp AS te INNER JOIN tipotelefono AS tt ON  te.idTipoTelefono=tt.idTipoTelefono WHERE te.idEmpleado=$ide AND te.idTipoTelefono=18 AND te.idTipoTelefono=22 AND te.Estado=1");
+	$ctp=mysqli_query($con,"SELECT te.Numero, tt.TipoTelefono FROM telefonoemp AS te INNER JOIN tipotelefono AS tt ON  te.idTipoTelefono=tt.idTipoTelefono WHERE te.idEmpleado=$ide AND te.Estado=1 AND (te.idTipoTelefono=18 OR te.idTipoTelefono=22);");
 	if(mysqli_num_rows($ctp)>0){
 		while($rtp=mysqli_fetch_assoc($ctp)){
 			$tp.=$rtp['TipoTelefono'].': '.$rtp['Numero'].' ';
