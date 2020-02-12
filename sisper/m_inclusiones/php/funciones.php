@@ -701,7 +701,7 @@ function telefonoinst($con,$ide){
 	mysqli_free_result($cti);
 }
 function telefonopers($con,$ide){
-	$ctp=mysqli_query($con,"SELECT te.Numero, tt.TipoTelefono FROM telefonoemp AS te INNER JOIN tipotelefono AS tt ON  te.idTipoTelefono=tt.idTipoTelefono WHERE te.idEmpleado=$ide AND te.idTipoTelefono!=17 AND te.Estado=1");
+	$ctp=mysqli_query($con,"SELECT te.Numero, tt.TipoTelefono FROM telefonoemp AS te INNER JOIN tipotelefono AS tt ON  te.idTipoTelefono=tt.idTipoTelefono WHERE te.idEmpleado=$ide AND te.idTipoTelefono!=17 AND te.idTipoTelefono!=21 AND te.idTipoTelefono!=18 AND te.idTipoTelefono!=22 AND te.Estado=1");
 	if(mysqli_num_rows($ctp)>0){
 		$tp="";
 		while($rtp=mysqli_fetch_assoc($ctp)){
@@ -712,6 +712,22 @@ function telefonopers($con,$ide){
 		return "";
 	}
 	mysqli_free_result($ctp);
+}
+function anexopers($con,$ide, $idd){
+	$tp="";
+	$ctp=mysqli_query($con,"SELECT te.Numero, tt.TipoTelefono FROM telefonoemp AS te INNER JOIN tipotelefono AS tt ON  te.idTipoTelefono=tt.idTipoTelefono WHERE te.idEmpleado=$ide AND te.idTipoTelefono=18 AND te.idTipoTelefono=22 AND te.Estado=1");
+	if(mysqli_num_rows($ctp)>0){
+		while($rtp=mysqli_fetch_assoc($ctp)){
+			$tp.=$rtp['TipoTelefono'].': '.$rtp['Numero'].' ';
+		}
+	}
+	mysqli_free_result($ctp);
+	$ct=mysqli_query($con, "SELECT l.Telefono FROM dependencialocal dl INNER JOIN local l ON dl.idLocal=l.idLocal WHERE dl.idDependencia=$idd;");
+	if($rt=mysqli_fetch_assoc($ct)){
+		$tp.=$rt['Telefono'].' ';
+	}
+	mysqli_free_result($ct);
+	return $tp;
 }
 function estadocar($est){
 	switch ($est){

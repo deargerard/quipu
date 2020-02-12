@@ -44,7 +44,8 @@ if(accesocon($cone,$_SESSION['identi'],1)){
                   <td bgcolor= "#605ca8"><font color="#ffffff" size="2">SUPLENCIA DE</font></td>
                   <td bgcolor= "#605ca8"><font color="#ffffff" size="2">CORREO PERS.</font></td>
                   <td bgcolor= "#605ca8"><font color="#ffffff" size="2">CORREO INST.</font></td>
-                  <td bgcolor= "#605ca8"><font color="#ffffff" size="2">TEL&Eacute;FONO INST.</font></td>
+                  <td bgcolor= "#605ca8"><font color="#ffffff" size="2">MOVIL INST.</font></td>
+                  <td bgcolor= "#605ca8"><font color="#ffffff" size="2">ANEXO</font></td>
                   <td bgcolor= "#605ca8"><font color="#ffffff" size="2">TEL&Eacute;FONO PERS.</font></td>
                 </tr>
 <?php
@@ -84,6 +85,7 @@ if(accesocon($cone,$_SESSION['identi'],1)){
                   <td><font color="#555555"><?php echo $rper['CorreoPer']; ?></font></td>
                   <td><font color="#555555"><?php echo $rper['CorreoIns']; ?></font></td>
                   <td><font color="#555555"><?php echo telefonoinst($cone,$ide); ?></font></td>
+                  <td><font color="#555555"><?php echo anexopers($cone,$ide,$rper['idDependencia']); ?></font></td>
                   <td><font color="#555555"><?php echo telefonopers($cone,$ide); ?></font></td>
                 </tr>
 <?php
