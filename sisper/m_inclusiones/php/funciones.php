@@ -722,12 +722,13 @@ function anexopers($con,$ide, $idd){
 		}
 	}
 	mysqli_free_result($ctp);
+	$t="";
 	$ct=mysqli_query($con, "SELECT l.Telefono FROM dependencialocal dl INNER JOIN local l ON dl.idLocal=l.idLocal WHERE dl.idDependencia=$idd;");
 	if($rt=mysqli_fetch_assoc($ct)){
-		$tp.=$rt['Telefono'].' ';
+		$t=$rt['Telefono'].' ';
 	}
 	mysqli_free_result($ct);
-	return $tp;
+	return $t.$tp;
 }
 function estadocar($est){
 	switch ($est){
