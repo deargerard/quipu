@@ -5,6 +5,7 @@ include("../php/funciones.php");
 if(accesoadm($cone,$_SESSION['identi'],4)){
 	if(isset($_POST['NomForm']) && $_POST['NomForm']=="f_nuelic"){
 	  if(isset($_POST['tlic']) && !empty($_POST['tlic']) && isset($_POST['des']) && !empty($_POST['des']) && isset($_POST['has']) && !empty($_POST['has']) && isset($_POST['mot']) && !empty($_POST['mot']) && isset($_POST['med']) && !empty($_POST['med']) && isset($_POST['col']) && !empty($_POST['col']) && isset($_POST['emed']) && !empty($_POST['emed']) && isset($_POST['tdoc']) && !empty($_POST['tdoc']) && isset($_POST['ndoc']) && !empty($_POST['ndoc']) && isset($_POST['docapr']) && !empty($_POST['docapr'])){
+	  	$idreg=$_SESSION['identi'];
 	    $idec=iseguro($cone,$_POST['idec']);
 	    $tlic=iseguro($cone,$_POST['tlic']);
 	    $des=fmysql(iseguro($cone,$_POST['des']));
@@ -21,7 +22,7 @@ if(accesoadm($cone,$_SESSION['identi'],4)){
 	    if(mysqli_num_rows($c)>0){
 	    	echo mensajewa("Error: La licencia que desea registrar incluyen días de una licencia existente y activa.");
 	    }else{
-	    	$q="INSERT INTO licencia (idEmpleadoCargo, idTipoLic, FechaIni, FechaFin, Motivo, Medico, Colegiatura, idEspMedica, idTipDocLicencia, NumDoc, Estado) VALUES ($idec, $tlic, '$des', '$has', '$mot', '$med', '$col', $emed, $tdoc, '$ndoc', 1);";
+	    	$q="INSERT INTO licencia (idEmpleadoCargo, idTipoLic, FechaIni, FechaFin, Motivo, Medico, Colegiatura, idEspMedica, idTipDocLicencia, NumDoc, Estado, fecregistro, regpor) VALUES ($idec, $tlic, '$des', '$has', '$mot', '$med', '$col', $emed, $tdoc, '$ndoc', 1, NOW(), $idreg);";
 	    	//echo $q;
 	    	if(mysqli_query($cone,$q)){
 	    		$idlic=mysqli_insert_id($cone);
