@@ -4,6 +4,7 @@ include("../php/conexion_sp.php");
 include("../php/funciones.php");
 if(accesoadm($cone,$_SESSION['identi'],4) || accesoadm($cone,$_SESSION['identi'],3) || accesoadm($cone,$_SESSION['identi'],13)){
   if(isset($_POST['tdoc']) && !empty($_POST['tdoc']) && isset($_POST['num']) && !empty($_POST['num']) && isset($_POST['adoc']) && !empty($_POST['adoc']) && isset($_POST['sig']) && !empty($_POST['sig']) && isset($_POST['fec']) && !empty($_POST['fec'])){
+    $idreg=$_SESSION['identi'];
     $tdoc=iseguro($cone,$_POST['tdoc']);
     $num=iseguro($cone,$_POST['num']);
     $adoc=iseguro($cone,$_POST['adoc']);
@@ -26,7 +27,7 @@ if(accesoadm($cone,$_SESSION['identi'],4) || accesoadm($cone,$_SESSION['identi']
       }
       mysqli_free_result($cn);
 
-    	$q="INSERT INTO doc (Numero, Ano, Siglas, FechaDoc, idTipoDoc, Descripcion, Legajo, numdoc, cargo) VALUES ('$num', '$adoc', '$sig', '$fec', $tdoc, '$des', '$leg', $nu, 0);";
+    	$q="INSERT INTO doc (Numero, Ano, Siglas, FechaDoc, idTipoDoc, Descripcion, Legajo, numdoc, cargo, fecregistro, regpor) VALUES ('$num', '$adoc', '$sig', '$fec', $tdoc, '$des', '$leg', $nu, 0, NOW(), $idreg);";
     	if(mysqli_query($cone,$q)){
     		echo mensajesu("Listo: Documento correctamente registrado. <br> N° Doc:<b> $nu-$adoc</b>");
     	}else{
