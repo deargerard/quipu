@@ -22,7 +22,7 @@ if(accesocon($cone,$_SESSION['identi'],1)){
                     <td colspan="20"></td>
               </tr>
 <?php
-              $cper=mysqli_query($cone,"SELECT e.idEmpleado, ApellidoPat, ApellidoMat, Nombres, Sexo, FechaNac, NumeroDoc, CorreoPer, CorreoIns, ec.idCargo, cd.Oficial, cd.idDependencia, ec.FechaAsu, ec.idModAcceso, ec.Reemplazado FROM empleado AS e INNER JOIN empleadocargo AS ec ON e.idEmpleado=ec.idEmpleado INNER JOIN cardependencia AS cd ON ec.idEmpleadoCargo=cd.idEmpleadoCargo WHERE ec.idEstadoCar=1 AND cd.Estado=1 ORDER BY ApellidoPat, ApellidoMat, Nombres ASC");
+              $cper=mysqli_query($cone,"SELECT e.idEmpleado, ApellidoPat, ApellidoMat, Nombres, Sexo, FechaNac, NumeroDoc, CorreoPer, CorreoIns, NumeroCuenta, ec.idCargo, cd.Oficial, cd.idDependencia, ec.FechaAsu, ec.idModAcceso, ec.Reemplazado FROM empleado AS e INNER JOIN empleadocargo AS ec ON e.idEmpleado=ec.idEmpleado INNER JOIN cardependencia AS cd ON ec.idEmpleadoCargo=cd.idEmpleadoCargo WHERE ec.idEstadoCar=1 AND cd.Estado=1 ORDER BY ApellidoPat, ApellidoMat, Nombres ASC");
               if(mysqli_num_rows($cper)>0){
 ?>
                 <tr>
@@ -47,6 +47,7 @@ if(accesocon($cone,$_SESSION['identi'],1)){
                   <td bgcolor= "#605ca8"><font color="#ffffff" size="2">MOVIL INST.</font></td>
                   <td bgcolor= "#605ca8"><font color="#ffffff" size="2">ANEXO</font></td>
                   <td bgcolor= "#605ca8"><font color="#ffffff" size="2">TEL&Eacute;FONO PERS.</font></td>
+                  <td bgcolor= "#605ca8"><font color="#ffffff" size="2">CUENTA</font></td>
                 </tr>
 <?php
                 $a=0;
@@ -87,6 +88,7 @@ if(accesocon($cone,$_SESSION['identi'],1)){
                   <td><font color="#555555"><?php echo telefonoinst($cone,$ide); ?></font></td>
                   <td><font color="#555555"><?php echo anexopers($cone,$ide,$rper['idDependencia']); ?></font></td>
                   <td><font color="#555555"><?php echo telefonopers($cone,$ide); ?></font></td>
+                  <td><font color="#555555"><?php echo $rper['NumeroCuenta']; ?></font></td>
                 </tr>
 <?php
                 }
