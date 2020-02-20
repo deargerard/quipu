@@ -16,13 +16,13 @@ if(accesocon($cone,$_SESSION['identi'],1)){
 ?>
           <table border=1>
               <tr>
-                    <th colspan="20"><font face="arial" color="#605ca8" size="3">LISTADO DE PERSONAL ACTIVO - DISTRITO FISCAL DE CAJAMARCA</font></th>
+                    <th colspan="22"><font face="arial" color="#605ca8" size="3">LISTADO DE PERSONAL ACTIVO - DISTRITO FISCAL DE CAJAMARCA</font></th>
               </tr>
               <tr>
-                    <td colspan="20"></td>
+                    <td colspan="22"></td>
               </tr>
 <?php
-              $cper=mysqli_query($cone,"SELECT e.idEmpleado, ApellidoPat, ApellidoMat, Nombres, Sexo, FechaNac, NumeroDoc, CorreoPer, CorreoIns, NumeroCuenta, ec.idCargo, cd.Oficial, cd.idDependencia, ec.FechaAsu, ec.idModAcceso, ec.Reemplazado FROM empleado AS e INNER JOIN empleadocargo AS ec ON e.idEmpleado=ec.idEmpleado INNER JOIN cardependencia AS cd ON ec.idEmpleadoCargo=cd.idEmpleadoCargo WHERE ec.idEstadoCar=1 AND cd.Estado=1 ORDER BY ApellidoPat, ApellidoMat, Nombres ASC");
+              $cper=mysqli_query($cone,"SELECT e.idEmpleado, ApellidoPat, ApellidoMat, Nombres, Sexo, FechaNac, NumeroDoc, CorreoPer, CorreoIns, NumeroCuenta, ec.idCargo, cd.Oficial, cd.idDependencia, ec.FechaAsu, ec.idModAcceso, ec.Reemplazado FROM empleado AS e INNER JOIN empleadocargo AS ec ON e.idEmpleado=ec.idEmpleado INNER JOIN cardependencia AS cd ON ec.idEmpleadoCargo=cd.idEmpleadoCargo WHERE ec.Estado AND ec.idEstadoCar=1 AND cd.Estado=1 ORDER BY ApellidoPat, ApellidoMat, Nombres ASC");
               if(mysqli_num_rows($cper)>0){
 ?>
                 <tr>
