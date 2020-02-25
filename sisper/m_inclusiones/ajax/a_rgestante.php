@@ -16,7 +16,7 @@ if(accesoadm($cone,$_SESSION['identi'],1) || accesoadm($cone,$_SESSION['identi']
 		                				<h4 class="box-title text-orange"><i class="fa fa-user-md"></i> Gestante</h4>
 		                			</td>
 		                			<td align="right">
-		                				<?php if(accesoadm($cone,$_SESSION['identi'],1)){ ?>
+		                				<?php if(accesoadm($cone,$_SESSION['identi'],1) || accesoadm($cone,$_SESSION['identi'],9)){ ?>
 					                	<a href="#" class="btn btn-info btn-xs" onclick="gestante('agrges', <?php echo $idp ?>)"><i class="fa fa-user-md"></i> Gestante</a>
 					                	<?php } ?>
 		                			</td>
