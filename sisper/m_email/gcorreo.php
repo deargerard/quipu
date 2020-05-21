@@ -38,7 +38,7 @@ function ecorreo($cdes, $ndes, $cpar, $npar, $asu, $cue, $acue){
 	$mail->SMTPAuth = true;
 
 	//Username to use for SMTP authentication - use full email address for gmail
-	$mail->Username = "informatica.dfcaj@gmail.com";
+	$mail->Username = "admcaj.mpfn@gmail.com";
 
 	//Password to use for SMTP authentication
 	$mail->Password = "H3lpD3skC4j";
