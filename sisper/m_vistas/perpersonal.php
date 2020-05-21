@@ -80,9 +80,9 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
 						<tbody>
 						<?php
 							if(accesoadm($cone,$_SESSION['identi'],1) || accesoadm($cone,$_SESSION['identi'],9)){
-							$cte=mysqli_query($cone,"SELECT idTelefonoEmp, TipoTelefono, Numero, te.Estado FROM telefonoemp as te RIGHT JOIN tipotelefono AS tt ON te.idTipoTelefono=tt.idTipoTelefono WHERE idEmpleado=$idp");
+							$cte=mysqli_query($cone,"SELECT idTelefonoEmp, tt.idTipoTelefono, TipoTelefono, Numero, te.Estado FROM telefonoemp as te RIGHT JOIN tipotelefono AS tt ON te.idTipoTelefono=tt.idTipoTelefono WHERE idEmpleado=$idp");
 							}else{
-							$cte=mysqli_query($cone,"SELECT TipoTelefono, Numero FROM telefonoemp as te RIGHT JOIN tipotelefono AS tt ON te.idTipoTelefono=tt.idTipoTelefono WHERE idEmpleado=$idp AND te.Estado=1");
+							$cte=mysqli_query($cone,"SELECT tt.idTipoTelefono, TipoTelefono, Numero FROM telefonoemp as te RIGHT JOIN tipotelefono AS tt ON te.idTipoTelefono=tt.idTipoTelefono WHERE idEmpleado=$idp AND te.Estado=1");
 							}
 							while($rte=mysqli_fetch_assoc($cte)){
 						?>
@@ -91,8 +91,10 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
 								<td><?php echo $rte["Numero"] ?></td>
 								<?php if(accesoadm($cone,$_SESSION['identi'],1) || accesoadm($cone,$_SESSION['identi'],9)){ ?>
 								<td>
+									<?php if($rte["idTipoTelefono"]==10 || $rte["idTipoTelefono"]==19){ ?>
 									<a href="" class="text-purple" title="Editar" data-toggle="modal" data-target="#m_editelefono" onclick="editelefono(<?php echo $rte["idTelefonoEmp"] ?>)"><i class="fa fa-pencil"></i></a>&nbsp;
 									<a href="" class="text-red" title="Eliminar" data-toggle="modal" data-target="#m_elitelefono" onclick="elitelefonop(<?php echo $rte["idTelefonoEmp"] ?>)"><i class="fa fa-trash"></i></a>
+									<?php } ?>
 								</td>
 								<?php } ?>
 							</tr>
