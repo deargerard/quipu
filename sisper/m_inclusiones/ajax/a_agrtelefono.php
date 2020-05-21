@@ -13,7 +13,7 @@ if(accesoadm($cone,$_SESSION['identi'],1) || accesoadm($cone,$_SESSION['identi']
               <select name="tiptel" id="tiptel" class="form-control">
                 <option value="">TIPO TELÉFONO</option>
                 <?php
-                  $ctt=mysqli_query($cone,"SELECT idTipoTelefono, TipoTelefono FROM tipotelefono WHERE Estado=1 ORDER BY TipoTelefono ASC");
+                  $ctt=mysqli_query($cone,"SELECT idTipoTelefono, TipoTelefono FROM tipotelefono WHERE Estado=1 AND (idTipoTelefono=10 OR idTipoTelefono=19) ORDER BY TipoTelefono ASC");
                   while($rtt=mysqli_fetch_assoc($ctt)){
                 ?>
                 <option value="<?php echo $rtt['idTipoTelefono'] ?>"><?php echo $rtt['TipoTelefono'] ?></option>
