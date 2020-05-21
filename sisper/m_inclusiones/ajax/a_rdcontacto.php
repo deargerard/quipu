@@ -39,7 +39,7 @@ $idp=$_SESSION['idperper'];
 								<?php if(accesoadm($cone,$_SESSION['identi'],1) || accesoadm($cone,$_SESSION['identi'],9)){ ?>
 								<td>
 									<a href="" class="text-purple" title="Editar" data-toggle="modal" data-target="#m_editelefono" onclick="editelefono(<?php echo $rte["idTelefonoEmp"] ?>)"><i class="fa fa-pencil"></i></a>&nbsp;
-									<a href="" class="text-red" title="Eliminar" data-toggle="modal" data-target="#m_elitelefono" onclick="elitelefono(<?php echo $rte["idTelefonoEmp"] ?>)"><i class="fa fa-trash"></i></a>
+									<a href="" class="text-red" title="Eliminar" data-toggle="modal" data-target="#m_elitelefono" onclick="elitelefonop(<?php echo $rte["idTelefonoEmp"] ?>)"><i class="fa fa-trash"></i></a>
 								</td>
 								<?php } ?>
 							</tr>
