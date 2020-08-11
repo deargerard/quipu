@@ -58,12 +58,26 @@ if(accesocon($cone,$_SESSION['identi'],3)){
                 <td bgcolor= "#AFAFAF"><b><font color="#ffffff" size="2">DISTRITO FISCAL</font></b></td>
                 <td bgcolor= "#AFAFAF"><b><font color="#ffffff" size="2">DOCUMENTO</font></b></td>
                 <td bgcolor= "#AFAFAF"><b><font color="#ffffff" size="2">T. DÍAS</font></b></td>
+                <td bgcolor= "#AFAFAF"><b><font color="#ffffff" size="2">ESTADO</font></b></td>
               </tr>
 <?php
                 $a=0;
                 while($rvac=mysqli_fetch_assoc($cvac)){
                   $a++;
                   //$per=$rvac['idEmpleado'];
+                  if ($rvac['Estado']=='0') {
+                    $cap="Pendiente";
+                  }elseif($rvac['Estado']=='1') {
+                    $cap="Ejecutada";
+                  }elseif ($rvac['Estado']=='2') {
+                    $cap="Cancelada";
+                  }elseif($rvac['Estado']=='3'){
+                    $cap="Ejecutandose";
+                  }elseif($rvac['Estado']=='5'){
+                    $cap="Suspendida";
+                  }else {
+                    $cap="Planificada";
+                  }
 ?>
               <tr>
                 <td><font color="#555555"><?php echo docidentidad($cone,$per); ?></font></td>
@@ -78,6 +92,7 @@ if(accesocon($cone,$_SESSION['identi'],3)){
                 <td><font color="#555555"><?php echo "CAJAMARCA"; ?></font></td>
                 <td><font color="#555555"><?php echo $rvac['Resolucion']?></font></td>
                 <td><font color="#555555"><?php echo intervalo($rvac['FechaFin'],$rvac['FechaIni']); ?></font></td>
+                <td><font color="#555555"><?php echo $cap ?></font></td>
               </tr>
 <?php
                 }
