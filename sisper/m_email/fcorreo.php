@@ -23,7 +23,7 @@ function ecorreo($cdes, $ndes, $cono, $asu, $cue, $acue){
 	$mail->Debugoutput = 'html';
 
 	//Set the hostname of the mail server
-	$mail->Host = 'smtp.gmail.com';
+	$mail->Host = '64.233.190.109'; //smtp.gmail.com
 	// use
 	// $mail->Host = gethostbyname('smtp.gmail.com');
 	// if your network does not support SMTP over IPv6
