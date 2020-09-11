@@ -357,6 +357,15 @@
           <table class="table table-hover table-bordered">
             <tr>
               <td>
+                <i class="fas fa-archive text-info"></i> <a href="incautaciones/" target="_blank"> Incautaciones</a>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="col-md-2">
+          <table class="table table-hover table-bordered">
+            <tr>
+              <td>
                 <i class="fas fa-clipboard text-info"></i> <a href="notificaciones/" target="_blank"> Notificaciones</a>
               </td>
             </tr>
@@ -376,6 +385,15 @@
             <tr>
               <td>
                 <i class="fab fa-draft2digital text-info"></i> <a href="https://sistemas2.mpfn.gob.pe/" target="_blank"> Sistemas2</a>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="col-md-2">
+          <table class="table table-hover table-bordered">
+            <tr>
+              <td>
+                <i class="fab fa-draft2digital text-info"></i> <a href="https://sistemas.mpfn.gob.pe/" target="_blank"> Sistemas</a>
               </td>
             </tr>
           </table>
