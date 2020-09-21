@@ -23,7 +23,7 @@ use Spipu\Html2Pdf\Html2Pdf;
 
 -->
 </style>
-<page backtop="10mm" backbottom="5mm" backleft="2mm" backright="2mm" style="font-size: 9px;">
+<page backtop="10mm" backbottom="5mm" backleft="20mm" backright="20mm" style="font-size: 9px;">
     <page_header> 
 
     </page_header> 
@@ -80,59 +80,77 @@ use Spipu\Html2Pdf\Html2Pdf;
               $dev=n_2decimales($tav-$trv);
               $ndev=explode('.', $dev);
  ?>   
-<table style="width: 100%; border-collapse: collapse; text-align: center;" align="center">
-  <tr>
-    <td style="border: 2px solid #777777; padding: 20px 0 20px 30px; border-radius: 15px;">
-      <table style="width: 95%; border-collapse: collapse;">
+
+      <table style="width: 100%; border-collapse: collapse;">
         <tr>
           <td style="width: 32%; text-align: left;"><img src="../../m_images/logompg.png" width="150"></td>
-          <th style="width: 32%; text-align: center; font-size: 16px;">ANEXO 05<br>RECIBO DE CAJA</th>
+          <th style="width: 36%; text-align: center; font-size: 16px;">ANEXO 05<br>RECIBO DE CAJA</th>
           <td style="width: 32%; font-size: 16px; text-align: right;">N° <?php echo str_pad($nrec, 6, "0", STR_PAD_LEFT); ?></td>
         </tr>
       </table>
+      
+      <br><br>
 
-      <table style="width: 95%; border-collapse: collapse;">
+      <table style="width: 100%; border-collapse: collapse;">
         <tr>
-          <td style="width: 70%;"></td>
-          <td style="width: 25%; text-align: right; font-size: 14px;">Fecha: <?php echo date('d/m/Y'); ?></td>
+          <td colspan="2" style="text-align: right; font-size: 14px;"><?php echo date('d'); ?> de <?php echo nombremes(date('m')) ?> de <?php echo date('Y'); ?></td>
         </tr>
         <tr>
-          <td colspan="2" style="height: 15px;"></td>
+          <td style="width:30%; height: 20px;"></td>
+          <td style="width:70%"></td>
         </tr>    
         <tr>              
-          <td colspan="2" style="text-align: center;">
-            <span style="font-size: 14px;">Recibí del Comisionado de la Sede Central y/o <b>Distrito Fiscal de Cajamarca</b><br> la cantidad de <b>S/ <?php echo $dev; ?></b>, (<?php echo convertir($ndev['0'])." con ".$ndev['1']."/100"; ?>)</span> 
+          <td colspan="2" style="text-align: left;">
+            <span style="font-size: 14px;">Se recibió del Comisionado:</span> 
           </td>
         </tr>
       </table>
-      <br><br>
-      <table class="tablep" style="font-size: 13px;">
+
+      <table class="tablep" style="font-size: 13px; width: 100%; text-align: center;">
+        
         <tr>
-          <td colspan="3" style="width: 100%; text-align: center; height: 50px;">Por concepto de: Devolución de víaticos <?php echo $r1['origen']." - ".$r1['destino']." - ".$r1['origen']; ?><br>del <?php echo fnormal($r1['FechaIni'])." al ".fnormal($r1['FechaFin']); ?></td>
-        </tr>
-        <tr>
-          <td style="width: 12%; height: 30px;">Apellidos y Nombres:</td>
-          <td colspan="2"><?php echo nomempleado($cone, $r1['idEmpleado']); ?></td>
+          <td style="height: 30px;">Apellidos y Nombres</td>
+          <td colspan="2"><b><?php echo nomempleado($cone, $r1['idEmpleado']); ?></b></td>
         </tr>
         <tr>
           <td style="height: 30px;">Cargo:</td>
-          <td style="width: 43%; font-size: 13px;"><?php echo cargoiec($cone, idecxidexfecha($cone, $r1['idEmpleado'], date('Y-m-d', strtotime($r1['FechaIni'])))) ?></td>
-          <td rowspan="2" style="width: 45%"></td>
+          <td colspan="2" style="width: 43%; font-size: 13px;"><?php echo cargoiec($cone, idecxidexfecha($cone, $r1['idEmpleado'], date('Y-m-d', strtotime($r1['FechaIni'])))) ?></td>
         </tr>
         <tr>
           <td style="height: 30px;">DNI:</td>
-          <td><?php echo $r1['NumeroDoc']; ?></td>
+          <td colspan="2"><?php echo $r1['NumeroDoc']; ?></td>
         </tr>
         <tr>
-          <td colspan="2"></td>
-          <td style="height: 30px; text-align: center;"><b>Encargado Único del FPPE</b></td>
+          <td colspan="2" style="height: 30px; border-left: none; text-align: left;">La cantidad de:</td>
+          <td>S/ <b><?php echo $dev; ?></b></td>
+        </tr>
+        <tr>
+          <td colspan="3" style="height: 30px;"><?php echo ucfirst(convertir($ndev['0']))." con ".$ndev['1']."/100"; ?></td>
+        </tr>
+        <tr>
+          <td colspan="3" style="text-align: left; border-left: none; border-right: none;">Por concepto de:</td>
+        </tr>
+        <tr>
+          <td colspan="3" style="text-align: center; height: 60px;">Devolución de víaticos <?php echo $r1['origen']." - ".$r1['destino']." - ".$r1['origen']; ?><br>del <?php echo fnormal($r1['FechaIni'])." al ".fnormal($r1['FechaFin']); ?></td>
+        </tr>
+        <tr>
+          <td colspan="3" style="border-left: none; border-right: none;"></td>
+        </tr>
+        <tr>
+          <td colspan="3" style="height: 60px;"></td>
+        </tr>
+        <tr>
+          <td colspan="3"><b>Firma y Sello del Encargado del F.P.P.E.</b></td>
+        </tr>
+        <tr>
+          <td style="width: 25%; border: none;"></td>
+          <td style="width: 25%; border: none;"></td>
+          <td style="width: 50%; border: none;"></td>
         </tr>
       </table>
 
 
-    </td>
-  </tr>
-</table>
+
 <?php
   }else{
   echo "No se han registrado comprobantes de gasto.";
