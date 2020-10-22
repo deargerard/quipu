@@ -65,11 +65,11 @@ $cc=mysqli_query($cone, "SELECT cs.*, d.Numero, d.Ano, d.Siglas, e.ApellidoPat, 
 
   <table class="tablec">
     <tr>
-      <th style="width: 18%;">Apellidos y Nombres</th>
+      <th style="width: 18%;" bgcolor="#EAF1DD">Apellidos y Nombres</th>
       <td colspan="8" align="center" style="font-size: 12px;"><?php echo $rc['ApellidoPat']." ".$rc['ApellidoMat']." ".$rc['Nombres']; ?></td>
     </tr>
     <tr>
-      <th>Dependencia</th>
+      <th bgcolor="#EAF1DD">Dependencia</th>
       <td colspan="3" align="center"><?php echo substr(html_entity_decode(dependenciaxiecxfecha($cone, $idec, date('Y-m-d', strtotime($rc['FechaIni'])))),0,60); ?></td>
       <th colspan="2">D.N.I.</th>
       <td colspan="3" align="center"><?php echo $rc['NumeroDoc']; ?></td>
