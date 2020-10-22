@@ -234,7 +234,7 @@ $cc=mysqli_query($cone, "SELECT cs.*, d.Numero, d.Ano, d.Siglas, e.ApellidoPat, 
       <?php
       if($ti){ 
       ?>
-      <th rowspan="<?php echo $nf; ?>">Otras Asignaciones-<?php echo $v1; ?></th>
+      <th rowspan="<?php echo $nf; ?>" bgcolor="#EAF1DD">Otras Asignaciones-<?php echo $v1; ?></th>
       <?php
       }
 ?>
@@ -288,7 +288,7 @@ $cc=mysqli_query($cone, "SELECT cs.*, d.Numero, d.Ano, d.Siglas, e.ApellidoPat, 
       <td colspan="9" style="border-left: none; border-right: none;"></td>
     </tr>
     <tr>
-      <th colspan="9">
+      <td colspan="9">
         <b>NOTA:</b><br>
         <p>a) La Rendición de Cuentas deberá ser presentada dentro de los 05 días calendario después de culminada la comisión. Y cuando dicha Comisión sea en el exterior el plazo máximo para presentar la rendición es de 10 días calendario. Art. 68.3 de la Directiva de Tesorería N° 001-2007-EF/77.15, aprobado con Resolución Directoral N° 002-2007-EF/77.15. <b>En caso de incumplimiento autorizo se me establezca responsabilidad económica y se descuente de mis remuneraciones y/o Honorarios Profesionales (CAS) en caso de no justificar el importe recibido y/o ser sancionado conforme al Reglamento Interno de Trabajo</b>.</p>
         <p>b) Por razones de cierre del Ejercicio Presupuestal del año en curso, la atención de viáticos se efectuará solo hasta el 16 de diciembre.</p>
@@ -297,7 +297,7 @@ $cc=mysqli_query($cone, "SELECT cs.*, d.Numero, d.Ano, d.Siglas, e.ApellidoPat, 
         <p>e) Los Gastos de Alojamiento y Alimentación, así como cualquier otra asignación adicional, deberán ser sustentados con documentos reconocidos por SUNAT (Factura, Boletas de Ventas, Tickets electrónicos, etc.). Emitidos a nombre del Ministerio Público, Utilizando el Formato de Rendición documentaria (Anexo 04), en caso la comisión de servicios tenga el carácter de reservado o por motivos de seguridad del comisionado, podrán ser emitidos a nombre del comisionado.</p>
         <p>f) En caso de existir comisionados que tengan viáticos pendientes de rendición, no se le otorgaran más fondos hasta que rinda lo adeudado.</p>
         <p>g) El Gasto en Alojamiento es obligatorio, caso contrario procederá a devolver el equivalente a 100 soles por día no sustentado.</p>
-      </th>
+      </td>
     </tr>
   </table>
 <?php
