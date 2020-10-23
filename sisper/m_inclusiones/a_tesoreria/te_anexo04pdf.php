@@ -20,6 +20,8 @@ use Spipu\Html2Pdf\Html2Pdf;
     table.re {width: 100%; border-collapse: collapse; padding: 5px 0; font-size: 10px;}
     .de{text-align: right;}
     .ce{text-align: center;}
+    table.tablec {width: 100%; border-collapse: collapse; font-size: 9px;}
+    table.tablec th, table.tablec td {border: 1px solid #AAAAAA; padding: 2px; white-space: nowrap; word-break: break-all;}
 
 -->
 </style>
@@ -30,15 +32,21 @@ use Spipu\Html2Pdf\Html2Pdf;
             <td style="width: 20%;">
               <img src="../../m_images/logompg.png" width="150">
             </td>
-            <td style="width: 60%; text-align: center;">
+            <th style="width: 60%; text-align: center;">
                 <span style="font-size: 16px;">ANEXO 04</span><br>
                 <br>
                 <span style="font-size: 12px; font-weight: 300;">RENDICION DOCUMENTARIA DE VIATICOS / NO VIÁTICOS Y ASIGNACIONES POR COMISION DE SERVICIOS</span><br>
                 <br>
-                <span style="font-size: 12px;">DISTRITO FISCAL DE CAJAMARCA</span>
+                <!-- <span style="font-size: 12px;">DISTRITO FISCAL DE CAJAMARCA</span> -->
                 <br><br>
-            </td>
-            <td style="width: 20%;">                
+            </th>
+            <td style="width: 20%;">
+              <table class="tablec" align="center">
+                    <tr>
+                      <td style="width: 60%;" align="center">PLANILLA DE VIATICO N°</td>
+                      <td style="width: 30%;" align="center"><?php echo $rc['csivia']; ?></td>
+                    </tr>
+              </table>              
             </td>
           </tr>          
       </table>
@@ -61,7 +69,7 @@ use Spipu\Html2Pdf\Html2Pdf;
       <table class="st">      
         <tr>                  
           <td style="width: 100%; text-align: center;">
-            <span style="font-size: 12px;">Yo <b><?php echo nomempleado($cone, $r1['idEmpleado']); ?></b> identificado con DNI N° <?php echo $r1['NumeroDoc']; ?> en el cargo de <b><?php echo cargoe($cone, $r1['idEmpleado']); ?></b>  manifiesto haber efectuado todos los gastos en la comisión de servicios, llevada a cabo a la ciudad de <b><?php echo $r1['destino']; ?></b> del <?php echo fnormal($r1['FechaIni']); ?> al <?php echo fnormal($r1['FechaFin']); ?> que a continuación se detallan y sustentan con la documentación que se adjunta al presente.</span> 
+            <span style="font-size: 12px;">Yo <b><?php echo nomempleado($cone, $r1['idEmpleado']); ?></b> identificado con DNI N° <?php echo $r1['NumeroDoc']; ?> en el cargo de <b><?php echo cargoe($cone, $r1['idEmpleado']); ?></b>  manifiesto haber efectuado todos los gastos en la comisión de servicios llevada a cabo en la ciudad de <b><?php echo $r1['destino']; ?></b> del <?php echo fnormal($r1['FechaIni']); ?> al <?php echo fnormal($r1['FechaFin']); ?> que a continuación se detallan y sustentan con la documentación que se adjunta al presente.</span> 
           </td>
         </tr>
       </table>
@@ -73,10 +81,10 @@ use Spipu\Html2Pdf\Html2Pdf;
             <table class="tablep">
               <tr>                
                 <td rowspan="2" class="ce" style="width: 20%;">Recursos</td>
-                <td class="ce" style="width: 20%;">Monto Otorgado</td>
-                <td class="ce" style="width: 20%;">Monto Rendido</td>
-                <td class="ce" style="width: 20%;">Devolución</td>
-                <td class="ce" style="width: 20%;">Saldo</td>
+                <td class="ce" bgcolor="#DBEEF3" style="width: 20%;">Monto Otorgado</td>
+                <td class="ce" bgcolor="#DBEEF3" style="width: 20%;">Monto Rendido</td>
+                <td class="ce" bgcolor="#DBEEF3" style="width: 20%;">Devolución</td>
+                <td class="ce" bgcolor="#DBEEF3" style="width: 20%;">Saldo</td>
               </tr>
 <?php 
               $ct=mysqli_query($cone,"SELECT SUM(monto) as tasignado FROM tedetplanillav where idComServicios=$idcs;");
@@ -109,7 +117,7 @@ use Spipu\Html2Pdf\Html2Pdf;
       </table>
 
       <table class="tablep">
-        <tr>
+        <tr bgcolor="#DBEEF3">
           <td class="ce" rowspan="2" style="width: 2%;">N&deg;</td>
           <td class="ce" rowspan="2" style="width: 7%;">Fecha</td>
           <td class="ce" rowspan="2" style="width: 35%;">Concepto</td>
@@ -118,7 +126,7 @@ use Spipu\Html2Pdf\Html2Pdf;
           <td class="ce" colspan="4" align="center" style="width: 24%;">Otras Asignaciones</td>                       
           <td class="ce" rowspan="2" align="center" style="width: 8%;">TOTAL</td>
         </tr>
-        <tr>
+        <tr bgcolor="#DBEEF3">
           <td class="ce" style="width: 6%;">Hospedaje</td>
           <td class="ce" style="width: 6%;">Alimentación</td>
           <td class="ce" style="width: 6%;">Movilidad</td>
@@ -188,7 +196,7 @@ use Spipu\Html2Pdf\Html2Pdf;
             }
             mysqli_free_result($cc);
           ?>
-          <tr>
+          <tr bgcolor="#DBEEF3">
             <td colspan="4" style="text-align: center;">SUB TOTAL RENDICI&Oacute;N DE GASTOS</td>
             <td class="de"><?php echo n_2decimales($th);?></td>
             <td class="de"><?php echo n_2decimales($ta);?></td>
@@ -199,7 +207,7 @@ use Spipu\Html2Pdf\Html2Pdf;
             <td class="de"><?php echo n_2decimales($to);?></td>
             <th class="de"><?php echo n_2decimales($t);?></th>
           </tr>
-          <tr>
+          <tr bgcolor="#FFFD0E">
             <td colspan="4" style="text-align: center;">MONTO ASIGNADO</td>
             <td colspan="2" class="de"><?php echo n_2decimales($tav-$tm-$tp-$tc-$tt-$to); ?></td>
             <td class="de"><?php echo n_2decimales($tm);?></td>
@@ -209,7 +217,7 @@ use Spipu\Html2Pdf\Html2Pdf;
             <td class="de"><?php echo n_2decimales($to);?></td>
             <td class="de"><?php echo n_2decimales($tav-$tm-$tp-$tc-$tt-$to+$tm+$tp+$tc+$tt+$to);?></td>                        
           </tr>
-          <tr>
+          <tr bgcolor="#DBEEF3">
             <td colspan="4" style="text-align: center;">SALDO</td>
             <td colspan="2" class="de"><?php echo n_2decimales($tav-$tm-$tp-$tc-$tt-$to-$th-$ta); ?></td>
             <td class="de"><?php echo n_2decimales($tm-$tm);?></td>
@@ -264,7 +272,7 @@ use Spipu\Html2Pdf\Html2Pdf;
                 <td style="text-align: right; width: 50%;"><?php echo n_2decimales($tav-$trv); ?></td>
               </tr>
               <tr>
-                <td >Total</td>
+                <td bgcolor="#DBEEF3">Total</td>
                 <td style="text-align: right; width: 50%;"><?php echo n_2decimales($tav); ?></td>
               </tr>              
             </table>
