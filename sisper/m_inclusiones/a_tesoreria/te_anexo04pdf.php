@@ -44,7 +44,7 @@ use Spipu\Html2Pdf\Html2Pdf;
               <table class="tablec" align="center">
                     <tr>
                       <td style="width: 60%;" align="center">PLANILLA DE VIATICO N°</td>
-                      <td style="width: 30%;" align="center"><?php echo $rc['csivia']; ?></td>
+                      <td style="width: 30%;" align="center"><?php //echo $rc['csivia']; ?></td>
                     </tr>
               </table>              
             </td>
