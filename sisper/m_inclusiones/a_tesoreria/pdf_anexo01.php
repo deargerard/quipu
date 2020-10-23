@@ -37,11 +37,11 @@ $cc=mysqli_query($cone, "SELECT cs.*, d.Numero, d.Ano, d.Siglas, e.ApellidoPat, 
               <td style="width: 20%;">
                 <img src="../../m_images/logo.png" width="150">
               </td>
-                <td style="width: 60%; text-align: center;">
+                <th style="width: 60%; text-align: center;">
                     <span style="font-size: 14px;">ANEXO 01</span><br>
                     <span style="font-size: 11px;">PLANILLA DE VIÁTICOS Y ASIGNACIONES POR COMISIÓN DE SERVICIOS</span>
 
-                </td>
+                </th>
                 <td style="width: 20%;">
                   <table class="tablec" align="center">
                     <tr>
