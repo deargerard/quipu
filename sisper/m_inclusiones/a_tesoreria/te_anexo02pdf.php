@@ -30,14 +30,14 @@ use Spipu\Html2Pdf\Html2Pdf;
             <td style="width: 20%;">
               <img src="../../m_images/logompg.png" width="150">
             </td>
-            <td style="width: 60%; text-align: center;">
+            <th style="width: 60%; text-align: center;">
                 <span style="font-size: 16px;">ANEXO 02</span><br>
                 <br>
-                <span style="font-size: 12px;">DECLARACIÓN JURADA DE VIÁTICOS Y ASIGNACIONES <br> POR COMISION DE SERVICIOS EN EL TERRITORIO NACIONAL</span><br>
+                <span style="font-size: 12px;">DECLARACIÓN JURADA DE VIÁTICOS Y ASIGNACIONES <br><br> POR COMISION DE SERVICIOS EN EL TERRITORIO NACIONAL</span><br>
                 <br>
                 <span style="font-size: 12px;"></span>
                 
-            </td>
+            </th>
             <td style="width: 20%;">                
             </td>
           </tr>          
@@ -61,20 +61,20 @@ use Spipu\Html2Pdf\Html2Pdf;
       <table class="st">      
         <tr>
         <td style="width: 5%;"></td>                    
-          <td style="width: 90%; text-align: center;">
-            <span style="font-size: 12px;">Yo <b><?php echo nomempleado($cone, $r1['idEmpleado']); ?></b> identificado con DNI N° <?php echo $r1['NumeroDoc']; ?> en el cargo de <?php echo cargoe($cone, $r1['idEmpleado']); ?>  del Ministerio Público, DECLARO BAJO JURAMENTO, haber efectuado la comisión de servicios, llevada a cabo a la ciudad de <b><?php echo $r1['destino']; ?></b> del <?php echo fnormal($r1['FechaIni']); ?> al <?php echo fnormal($r1['FechaFin']); ?> en cumplimiento del numeral 71.3 del articulo 71° de la Directiva N° 001-2017-EF/77.15 modificada por Resolución directoral N° 017-2017-EF/77.15, por los siguientes conceptos:</span> 
+          <td style="width: 90%; text-align: justify;">
+            <span style="font-size: 12px;">Yo <b><?php echo nomempleado($cone, $r1['idEmpleado']); ?></b> identificado con DNI N° <?php echo $r1['NumeroDoc']; ?> en el cargo de <?php echo cargoe($cone, $r1['idEmpleado']); ?>  del Ministerio Público, DECLARO BAJO JURAMENTO, haber efectuado la comisión de servicios a la ciudad de <b><?php echo $r1['destino']; ?></b> los días del <?php echo fnormal($r1['FechaIni']); ?> al <?php echo fnormal($r1['FechaFin']); ?>, en cumplimiento del numeral 71.3 del articulo 71° de la Directiva N° 001-2007-EF/77.15, modificada por Resolución directoral N° 017-2007-EF/77.15, por los siguientes conceptos:</span> 
           </td>
           <td style="width: 5%;"></td>
         </tr>
       </table>
       
       <table class="tablep">
-        <tr>
-          <td class="ce" rowspan="1" style="width: 2%;">N&deg;</td>
-          <td class="ce" rowspan="1" style="width: 10%;">FECHA</td>
+        <tr bgcolor="#DBEEF3">
+          <td class="ce" rowspan="1" style="width: 8%;">N° DE<br>ORDEN</td>
+          <!-- <td class="ce" rowspan="1" style="width: 10%;">FECHA</td> -->
           <td class="ce" rowspan="1" style="width: 35%;">DETALLE</td>
           <td class="ce" rowspan="1" style="width: 15%;">IMPORTE</td>
-          <td class="ce" rowspan="1" style="width: 38%;">OBSERVACIONES(*)</td>         
+          <td class="ce" rowspan="1" style="width: 42%;">OBSERVACIONES(*)</td>         
         </tr>        
   <?php 
         $c2=mysqli_query($cone,"SELECT idtegasto, idteconceptov, idtetipocom, totalcom, fechacom FROM tegasto WHERE idtetipocom=2 AND idComServicios=$idcs;");           
@@ -109,42 +109,45 @@ use Spipu\Html2Pdf\Html2Pdf;
   ?>
           <tr>
             <td class="ce">1</td>
-            <td><?php echo fnormal($fah); ?></td>
+            <!-- <td><?php //echo fnormal($fah); ?></td> -->
             <td>Alojamiento y Alimentación (*)</td>
             <td class="de"><?php echo $tah==""? "" : n_2decimales($tah);?></td>
-            <td rowspan="5" class="de" style="text-align: center;">Estos conceptos solo son aplicables en<br>lugares donde no se emitan comprobantes <br> de pago autorizados por SUNAT.</td>            
+            <td rowspan="5" class="de" style="text-align: center;">Estos conceptos solo son<br>aplicables en lugares donde<br>no se emitan comprobantes<br>de pago autorizados por<br>SUNAT.</td>            
           </tr>
           <tr>
             <td class="ce">2</td>
-            <td><?php echo fnormal($fml); ?></td>
+            <!-- <td><?php //echo fnormal($fml); ?></td> -->
             <td>Movilidad local</td>
             <td class="de"><?php echo $tml=="" ? "" : n_2decimales($tml); ?></td>
                         
           </tr>
           <tr>
             <td class="ce">3</td>
-            <td><?php echo fnormal($fme); ?></td>
+            <!-- <td><?php //echo fnormal($fme); ?></td> -->
             <td>Movilidad de embarque</td>
             <td class="de"><?php echo $tme=="" ? "" : n_2decimales($tme); ?></td>
                        
           </tr>
           <tr>
             <td class="ce">4</td>
-            <td><?php echo fnormal($fpt); ?></td>
+            <!-- <td><?php //echo fnormal($fpt); ?></td> -->
             <td>Pasaje Terrestre (*)</td>
             <td class="de"><?php echo $tpt=="" ? "" : n_2decimales($tpt); ?></td>
                         
           </tr>
 
-          <tr>
-            <td colspan="3">TOTAL S/</td>
+          <tr bgcolor="#DBEEF3">
+            <td colspan="2">TOTAL S/</td>
             <td class="de"><?php echo $tdj=="" ? "" : n_2decimales($tdj);?></td>            
-          </tr>          
+          </tr>
+          <tr>
+            <td colspan="4" style="border-right: none; border-bottom: none; border-left: none;"><span>EN FE DE LO CUAL FIRMO LA PRESENTE DECLARACION</span></td>
+          </tr>        
         </table>
         <table class="st">
           <tr>
             <td style="width: 50%">
-              <span>EN FE DE LO CUAL FIRMO LA PRESENTE DECLARACION</span>
+              
             </td>
             
           </tr>
