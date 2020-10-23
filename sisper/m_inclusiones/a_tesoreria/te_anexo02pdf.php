@@ -23,7 +23,7 @@ use Spipu\Html2Pdf\Html2Pdf;
 
 -->
 </style>
-<page backtop="18mm" backbottom="5mm" backleft="2mm" backright="2mm" style="font-size: 9px;"> 
+<page backtop="18mm" backbottom="5mm" backleft="6mm" backright="6mm" style="font-size: 9px;"> 
     <page_header> 
       <table class="page_header">
           <tr>
@@ -147,7 +147,7 @@ use Spipu\Html2Pdf\Html2Pdf;
         <table class="st">
           <tr>
             <td style="width: 50%">
-              
+              <span>Ciudad de Cajamarca <?php echo date('d')." de ".nombremes(date('m'))." de ".date('Y')."."; ?></span>
             </td>
             
           </tr>
@@ -160,7 +160,7 @@ use Spipu\Html2Pdf\Html2Pdf;
         <table class="st">
         <tr> 
           <td style="width: 50%">
-            <span>Ciudad de Cajamarca <?php echo date('d')." de ".nombremes(date('m'))." de ".date('Y')."."; ?></span>
+            
           </td>
           <td style="width: 50%">
             <table class="re">             
