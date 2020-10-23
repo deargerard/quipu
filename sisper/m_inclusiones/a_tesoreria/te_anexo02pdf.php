@@ -70,11 +70,11 @@ use Spipu\Html2Pdf\Html2Pdf;
       
       <table class="tablep">
         <tr bgcolor="#DBEEF3">
-          <td class="ce" rowspan="1" style="width: 8%;">N° DE<br>ORDEN</td>
+          <th class="ce" rowspan="1" style="width: 8%;">N° DE<br>ORDEN</th>
           <!-- <td class="ce" rowspan="1" style="width: 10%;">FECHA</td> -->
-          <td class="ce" rowspan="1" style="width: 35%;">DETALLE</td>
-          <td class="ce" rowspan="1" style="width: 15%;">IMPORTE</td>
-          <td class="ce" rowspan="1" style="width: 42%;">OBSERVACIONES(*)</td>         
+          <th class="ce" rowspan="1" style="width: 35%;">DETALLE</th>
+          <th class="ce" rowspan="1" style="width: 15%;">IMPORTE</th>
+          <th class="ce" rowspan="1" style="width: 42%;">OBSERVACIONES(*)</th>         
         </tr>        
   <?php 
         $c2=mysqli_query($cone,"SELECT idtegasto, idteconceptov, idtetipocom, totalcom, fechacom FROM tegasto WHERE idtetipocom=2 AND idComServicios=$idcs;");           
@@ -108,37 +108,37 @@ use Spipu\Html2Pdf\Html2Pdf;
         }                    
   ?>
           <tr>
-            <td class="ce">1</td>
+            <th class="ce">1</th>
             <!-- <td><?php //echo fnormal($fah); ?></td> -->
-            <td>Alojamiento y Alimentación (*)</td>
+            <th>Alojamiento y Alimentación (*)</th>
             <td class="de"><?php echo $tah==""? "" : n_2decimales($tah);?></td>
             <td rowspan="5" class="de" style="text-align: center;">Estos conceptos solo son<br>aplicables en lugares donde<br>no se emitan comprobantes<br>de pago autorizados por<br>SUNAT.</td>            
           </tr>
           <tr>
-            <td class="ce">2</td>
+            <th class="ce">2</th>
             <!-- <td><?php //echo fnormal($fml); ?></td> -->
-            <td>Movilidad local</td>
+            <th>Movilidad local</th>
             <td class="de"><?php echo $tml=="" ? "" : n_2decimales($tml); ?></td>
                         
           </tr>
           <tr>
-            <td class="ce">3</td>
+            <th class="ce">3</th>
             <!-- <td><?php //echo fnormal($fme); ?></td> -->
-            <td>Movilidad de embarque</td>
+            <th>Movilidad de embarque</th>
             <td class="de"><?php echo $tme=="" ? "" : n_2decimales($tme); ?></td>
                        
           </tr>
           <tr>
-            <td class="ce">4</td>
+            <th class="ce">4</th>
             <!-- <td><?php //echo fnormal($fpt); ?></td> -->
-            <td>Pasaje Terrestre (*)</td>
+            <th>Pasaje Terrestre (*)</th>
             <td class="de"><?php echo $tpt=="" ? "" : n_2decimales($tpt); ?></td>
                         
           </tr>
 
           <tr bgcolor="#DBEEF3">
-            <td colspan="2">TOTAL S/</td>
-            <td class="de"><?php echo $tdj=="" ? "" : n_2decimales($tdj);?></td>            
+            <th colspan="2" class="ce">TOTAL S/</th>
+            <th class="de"><?php echo $tdj=="" ? "" : n_2decimales($tdj);?></th>            
           </tr>
           <tr>
             <td colspan="4" style="border-right: none; border-bottom: none; border-left: none;"><span>EN FE DE LO CUAL FIRMO LA PRESENTE DECLARACION</span></td>
