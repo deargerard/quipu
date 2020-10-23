@@ -211,8 +211,8 @@ $cc=mysqli_query($cone, "SELECT cs.*, d.Numero, d.Ano, d.Siglas, e.ApellidoPat, 
     }
     mysqli_free_result($cco);
 ?>
-    <tr>
-      <th colspan="2" bgcolor="#D7E4BC" align="right">SUB TOTAL</th>
+    <tr bgcolor="#D7E4BC">
+      <th colspan="2" align="right">SUB TOTAL</th>
       <th align="right"><?php echo n_2decimales($sv1[1]); ?></th>
       <th align="right"><?php echo n_2decimales($sv1[2]); ?></th>
       <th align="right"><?php echo n_2decimales($sv1[3]); ?></th>
@@ -263,8 +263,8 @@ $cc=mysqli_query($cone, "SELECT cs.*, d.Numero, d.Ano, d.Siglas, e.ApellidoPat, 
       }
     }
 ?>
-    <tr>
-      <th colspan="2" bgcolor="#D7E4BC" align="right">TOTAL</th>
+    <tr bgcolor="#D7E4BC">
+      <th colspan="2" align="right">TOTAL</th>
       <th align="right"><?php echo n_2decimales($sv1[1]+$sv2[1]); ?></th>
       <th align="right"><?php echo n_2decimales($sv1[2]+$sv2[2]); ?></th>
       <th align="right"><?php echo n_2decimales($sv1[3]+$sv2[3]); ?></th>
