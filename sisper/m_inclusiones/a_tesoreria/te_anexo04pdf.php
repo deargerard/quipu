@@ -33,9 +33,9 @@ use Spipu\Html2Pdf\Html2Pdf;
               <img src="../../m_images/logompg.png" width="150">
             </td>
             <th style="width: 60%; text-align: center;">
-                <span style="font-size: 16px;">ANEXO 04</span><br>
+                <span style="font-size: 14px;">ANEXO 04</span><br>
                 <br>
-                <span style="font-size: 12px; font-weight: 300;">RENDICION DOCUMENTARIA DE VIATICOS / NO VIÁTICOS Y ASIGNACIONES POR COMISION DE SERVICIOS</span><br>
+                <span style="font-size: 12px;">RENDICION DOCUMENTARIA DE VIATICOS Y ASIGNACIONES POR COMISION DE SERVICIOS</span><br>
                 <br>
                 <!-- <span style="font-size: 12px;">DISTRITO FISCAL DE CAJAMARCA</span> -->
                 <br><br>
@@ -121,7 +121,7 @@ use Spipu\Html2Pdf\Html2Pdf;
           <td class="ce" rowspan="2" style="width: 2%;">N&deg;</td>
           <td class="ce" rowspan="2" style="width: 7%;">Fecha</td>
           <td class="ce" rowspan="2" style="width: 35%;">Concepto</td>
-          <td class="ce" rowspan="2" style="width: 6%;">N&deg; de Comprobante</td>
+          <td class="ce" rowspan="2" style="width: 6%;">N&deg; de Comprobante<br>de pago</td>
           <td class="ce" colspan="3" align="center" style="width: 18%;">Vi&aacute;ticos</td> 
           <td class="ce" colspan="4" align="center" style="width: 24%;">Otras Asignaciones</td>                       
           <td class="ce" rowspan="2" align="center" style="width: 8%;">TOTAL</td>
@@ -130,10 +130,10 @@ use Spipu\Html2Pdf\Html2Pdf;
           <td class="ce" style="width: 6%;">Hospedaje</td>
           <td class="ce" style="width: 6%;">Alimentación</td>
           <td class="ce" style="width: 6%;">Movilidad</td>
-          <td class="ce" style="width: 8%;">Pasajes Terrestre</td>
+          <td class="ce" style="width: 8%;">Pasajes<br>Terrestre</td>
           <td class="ce" style="width: 6%;">Combustible</td>
-          <td class="ce" style="width: 5%;">TUUA</td>
-          <td class="ce" style="width: 5%;">Otros</td>
+          <td class="ce" style="width: 5%;">Peaje</td>
+          <td class="ce" style="width: 5%;">Seguro de viaje<br>/Otros</td>
         </tr>
   <?php 
           $cc=mysqli_query($cone,"SELECT cv.idteconceptov, g.idtegasto, g.fechacom, g.glosacom, tc.abreviatura, tc.tipo, cv.conceptov, g.numerocom, g.totalcom FROM tegasto g INNER JOIN tetipocom tc ON tc.idtetipocom=g.idtetipocom INNER JOIN teconceptov cv ON g.idteconceptov=cv.idteconceptov WHERE g.idComServicios=$idcs ORDER BY g.fechacom ASC;");
@@ -271,8 +271,8 @@ use Spipu\Html2Pdf\Html2Pdf;
                 <td >Devoluci&oacute;n</td>
                 <td style="text-align: right; width: 50%;"><?php echo n_2decimales($tav-$trv); ?></td>
               </tr>
-              <tr>
-                <td bgcolor="#DBEEF3">Total</td>
+              <tr bgcolor="#DBEEF3">
+                <td>Total</td>
                 <td style="text-align: right; width: 50%;"><?php echo n_2decimales($tav); ?></td>
               </tr>              
             </table>
