@@ -113,7 +113,7 @@ if(accesocon($cone,$_SESSION['identi'],3)){
 	if (mysqli_num_rows($cta)>0) {
 ?>
 <br>
-<button class="btn bg-orange btn-xs pull-right" id="exta" title="Exportar a Excel"><i class="fa fa-file-excel-o"></i></button>
+
 <table id="dtvare" class="table table-bordered table-hover"> <!--Tabla que Lista las vacaciones-->
 				<thead>
 					<tr>
@@ -168,20 +168,22 @@ if(accesocon($cone,$_SESSION['identi'],3)){
 <span class="label label-danger">Faltan <?php echo $fal; ?> personas programar sus vacaciones.</span>
 <script>
 $('#dtvare').DataTable({
-	"order": [[1,"asc"]]
+	"order": [[1,"asc"]],
+	dom: 'Bfrtip',
+	buttons: [
+		{
+			extend: 'excel',
+			text: '<i class="fa fa-file-excel-o"></i>',
+			titleAttr: 'Exportar a Excel'
+		},
+		{
+			extend: 'print',
+			text: '<i class="fa fa-print></i>',
+			titleAttr: 'Imprimir'
+		}
+	]
 });
 
-var wbtla = XLSX.utils.table_to_book(document.getElementById('dtvare'), {sheet:"Quipu"});
-var wbouttla = XLSX.write(wbtla, {bookType:'xlsx', bookSST:true, type: 'binary'});
-function s2ab(s) {
-                var buf = new ArrayBuffer(s.length);
-                var view = new Uint8Array(buf);
-                for (var i=0; i<s.length; i++) view[i] = s.charCodeAt(i) & 0xFF;
-                return buf;
-}
-$("#exta").click(function(){
-	saveAs(new Blob([s2ab(wbouttla<?php echo $ct; ?>)],{type:"application/octet-stream"}), 'programacion_vacaciones.xlsx');
-});
 </script>
 <?php
 	}else {
