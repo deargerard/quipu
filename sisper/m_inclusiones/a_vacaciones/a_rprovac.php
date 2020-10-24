@@ -178,7 +178,7 @@ $('#dtvare').DataTable({
 		},
 		{
 			extend: 'print',
-			text: '<i class="fa fa-print></i>',
+			text: '<i class="fa fa-print"></i>',
 			titleAttr: 'Imprimir'
 		}
 	]
