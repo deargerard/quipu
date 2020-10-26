@@ -96,7 +96,8 @@ if(vacceso($cone,$_SESSION['identi'],$_SESSION['docide'],$_SESSION['nomusu'])){
                           $dnt=caldiant($cone, $idec);
                           $dnt=$dnt%365;
                           $fii=date('Y-').date('m-d',strtotime('+'.$dnt.' day', strtotime($ri['FechaVac'])));
-                          $ffi=date('Y-m-d', strtotime('+1 year', strtotime($fii)));
+                          $fii=date('Y-m-d', strtotime('+1 year', strtotime($fii)));
+                          $ffi=date('Y-m-d', strtotime('+2 year', strtotime($fii)));
                       ?>
                         <a href="#" data-toggle="modal" data-target="#m_editarprogramacionc"><i class="fa fa-pencil" onclick="ediproc(<?php echo $ro['idProVacaciones'].", '".fnormal($fii)."', '".fnormal($ffi)."', '".fnormal($ffi)."', ".$dt ?>)"></i></a>
                       <?php
@@ -136,7 +137,8 @@ if(vacceso($cone,$_SESSION['identi'],$_SESSION['docide'],$_SESSION['nomusu'])){
                           $dnt=caldiant($cone, $idec);
                           $dnt=$dnt%365;
                           $fii=date('Y-').date('m-d',strtotime('+'.$dnt.' day', strtotime($ri['FechaVac'])));
-                          $ffi=date('Y-m-d', strtotime('+1 year', strtotime($fii)));
+                          $fii=date('Y-m-d', strtotime('+1 year', strtotime($fii)));
+                          $ffi=date('Y-m-d', strtotime('+2 year', strtotime($fii)));
                 ?>
                         <a href="#" data-toggle="modal" data-target="#m_programarvacacionesc"><i class="fa fa-plus" onclick="provacc(<?php echo $idec.",".$idpe.",'".fnormal($fii)."', '".fnormal($ffi)."',".(30-$dp) ?>)"></i></a>
                       </td>
