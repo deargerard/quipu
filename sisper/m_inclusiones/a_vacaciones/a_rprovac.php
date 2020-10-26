@@ -86,7 +86,7 @@ if(accesocon($cone,$_SESSION['identi'],3)){
 							<td style="font-size:11px;"><?php echo $rpc['Denominacion']?></td> <!--columna DEPENDENCIA-->
 							<td style="font-size:11px;"><?php echo fnormal($rpc['FechaVac'])?></td> <!--columna ALTA-->
 							<td style="font-size:12px;"><?php echo $dt ?></td> <!--columna CAMTIDAD DE DIAS-->
-							<td style="font-size:12px;"><?php echo "<span class='hidden'>".$rpc['FechaIni']."</span> ".fnormal($rpc['FechaIni'])?></td> <!--columna INICIO-->
+							<td style="font-size:12px;"><?php echo fnormal($rpc['FechaIni'])?></td> <!--columna INICIO-->
 							<td style="font-size:12px;"><?php echo fnormal($rpc['FechaFin'])?></td> <!--columna FIN-->
 							<td style="font-size:11px;"><span class='label label-<?php echo $est?>'><?php echo $cap?></span></td> <!--columna ESTADO-->
 
