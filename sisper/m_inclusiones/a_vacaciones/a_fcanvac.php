@@ -22,7 +22,7 @@ if(accesoadm($cone,$_SESSION['identi'],3)){
           <input type="hidden" name="perm" id="perm" value="<?php echo "1" ?>">
           <input type="hidden" name="idvac" id="idvac" value="<?php echo $idvac ?>">
         </div>
-        <button class="btn btn-info" type="button" id="b_gclave" name="b_gclave" onclick="validarc()">Cancelar</button>
+        <button class="btn btn-info" type="button" id="b_gclave" name="b_gclave" onclick="validarc()">Cambiar estado</button>
       </form>
 <?php
     }else{
@@ -30,12 +30,21 @@ if(accesoadm($cone,$_SESSION['identi'],3)){
         <table class="table">
           <thead>
             <tr>
-              <th class="text-center"><?php echo "¿Está seguro que desea cancelar las vacaciones ". $est. "?"; ?></th>
+              <th class="text-center"><?php echo "Desea cambiar el estado de las vacaciones ". $est; ?></th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td><h4 class="text-maroon text-center"><?php echo " Del: ". fnormal($rvac['FechaIni'])." Al:  ".fnormal($rvac['FechaFin']) ?></h4></td>
+              <td class="text-center">
+                <h4 class="text-maroon text-center"><?php echo " Del: ". fnormal($rvac['FechaIni'])." Al:  ".fnormal($rvac['FechaFin']) ?></h4>
+                <h5 class="text-info">Elija el estado a cambiar</h5>
+                <label class="radio-inline">
+                  <input type="radio" name="estado" id="inlineRadio1" value="2"> Cancelar
+                </label>
+                <label class="radio-inline">
+                  <input type="radio" name="estado" id="inlineRadio2" value="5"> Suspender
+                </label>
+              </td>
             </tr>
           </tbody>
         </table>

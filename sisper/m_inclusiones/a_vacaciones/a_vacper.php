@@ -136,7 +136,7 @@ $tot=0;
 								<?php
 								if ($rvac['Estado']!='2'){
 								?>
-									<li><a href="#" data-toggle="modal" data-target="#m_cvacaciones" onclick="canvac(<?php echo $perm.",". $rvac['idProVacaciones']?>)">Cancelar</a></li>
+									<li><a href="#" data-toggle="modal" data-target="#m_cvacaciones" onclick="canvac(<?php echo $perm.",". $rvac['idProVacaciones']?>)">Cambiar estado</a></li>
 								<?php
 								}
 								?>
