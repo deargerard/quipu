@@ -13,10 +13,10 @@ if(isset($_GET['guia']) && !empty($_GET['guia'])){
 <style type="text/css">
 <!--
     table.page_header {width: 100%; border: none; padding: 2mm }
-    table.page_footer {width: 100%; border: none; padding: 1mm; font-size: 10px;}
-    table.tablep {width: 100%; border-collapse: collapse;}
+    table.page_footer {width: 100%; border: none; padding: 1mm; font-size: 11px;}
+    table.tablep {width: 100%; border-collapse: collapse; font-size: 10.3px;}
     table.tablep th, table.tablep td {border: 1px solid #AAAAAA; padding: 2px; white-space: nowrap; word-break: break-all;}
-    table.st {width: 100%; border-collapse: collapse; padding: 5px 0; font-size: 10px;}
+    table.st {width: 100%; border-collapse: collapse; padding: 5px 0; font-size: 11px;}
 
 -->
 </style>
@@ -66,13 +66,13 @@ if(isset($_GET['guia']) && !empty($_GET['guia'])){
 		</tr>
 		<tr>
 			<th style="width: 2%;" align="center" valign="middle">N°</th>
-			<th style="width: 3%;" align="center" valign="middle">DOC</th>
-			<th style="width: 7%;" align="center" valign="middle">TIPO DOC.</th>
-			<th style="width: 11%;" align="center" valign="middle">DOCUM. N°</th>
-			<th style="width: 16%;" valign="middle">DEPENDENCIA ORIGEN</th>
-			<th style="width: 16%;" valign="middle">NOMBRE REMITENTE</th>
-			<th style="width: 16%;" valign="middle">LUG. O DEPENDENCIA DESTINO</th>
-			<th style="width: 16%;" valign="middle">NOMBRE DESTINATARIO</th>
+			<th style="width: 4%;" align="center" valign="middle">DOC</th>
+			<th style="width: 8%;" align="center" valign="middle">TIPO DOC.</th>
+			<th style="width: 13%;" align="center" valign="middle">DOCUM. N°</th>
+			<!--<th style="width: 16%;" valign="middle">DEPENDENCIA ORIGEN</th>-->
+			<th style="width: 19%;" valign="middle">NOMBRE REMITENTE</th>
+			<th style="width: 19%;" valign="middle">LUG. O DEPENDENCIA DESTINO</th>
+			<th style="width: 19%;" valign="middle">NOMBRE DESTINATARIO</th>
 		</tr>
 <?php
 			$n=0;
@@ -80,11 +80,11 @@ if(isset($_GET['guia']) && !empty($_GET['guia'])){
 				$n++;
 ?>
 		<tr>
-			<td align="center"><?php echo ' <small>'.$n.'</small>'; ?></td>
-			<td align="center"><?php echo ' <small>'.$rdg['numdoc'].'</small>'; ?></td>
+			<td align="center" style="font-size: 9.5px;"><?php echo $n; ?></td>
+			<td align="center" style="font-size: 9.5px;"><?php echo $rdg['numdoc']; ?></td>
 			<td align="center"><?php echo wordwrap(html_entity_decode($rdg['TipoDoc']),16,"<br/>\n",true); ?></td>
 			<td align="center"><?php echo wordwrap(html_entity_decode((!is_null($rdg['Numero']) ? $rdg['Numero'].'-' : '').$rdg['Ano'].(!is_null($rdg['Siglas']) ? '-'.$rdg['Siglas'] : '')),20,"<br/>\n",true); ?></td>
-			<td><?php echo wordwrap(html_entity_decode(!is_null($rdg['deporigenint']) ? abrdependencia($cone, $rdg['deporigenint']) : $rdg['deporigenext']),35,"<br/>\n",true); ?></td>
+			<!--<td><?php //echo wordwrap(html_entity_decode(!is_null($rdg['deporigenint']) ? abrdependencia($cone, $rdg['deporigenint']) : $rdg['deporigenext']),35,"<br/>\n",true); ?></td>-->
 			<td><?php echo wordwrap(html_entity_decode(!is_null($rdg['remitenteint']) ? nomempleado($cone, $rdg['remitenteint']) : $rdg['remitenteext']),35,"<br/>\n",true); ?></td>
 			<td><?php echo wordwrap(html_entity_decode(!is_null($rdg['depdestinoint']) ? abrdependencia($cone, $rdg['depdestinoint']) : $rdg['depdestinoext']),35,"<br/>\n",true); ?></td>
 			<td><?php echo wordwrap(html_entity_decode(!is_null($rdg['destinatarioint']) ? nomempleado($cone, $rdg['destinatarioint']) : $rdg['destinatarioext']),35,"<br/>\n",true); ?></td>
@@ -104,7 +104,7 @@ if(isset($_GET['guia']) && !empty($_GET['guia'])){
 			<th style="width: 3%;" align="center" valign="middle">DOC</th>
 			<th style="width: 7%;" align="center" valign="middle">TIPO DOC.</th>
 			<th style="width: 11%;" align="center" valign="middle">DOCUM. N°</th>
-			<th style="width: 16%;" valign="middle">DEPENDENCIA ORIGEN</th>
+			<!--<th style="width: 16%;" valign="middle">DEPENDENCIA ORIGEN</th>-->
 			<th style="width: 16%;" valign="middle">NOMBRE REMITENTE</th>
 			<th style="width: 16%;" valign="middle">LUG. O DEPENDENCIA DESTINO</th>
 			<th style="width: 16%;" valign="middle">NOMBRE DESTINATARIO</th>
@@ -115,11 +115,11 @@ if(isset($_GET['guia']) && !empty($_GET['guia'])){
 				$n++;
 ?>
 		<tr>
-			<td align="center"><?php echo $n; ?></td>
-			<td align="center"><?php echo ' <small>'.$rdg1['numdoc'].'</small>'; ?></td>
+			<td align="center" style="font-size: 9.5px;"><?php echo $n; ?></td>
+			<td align="center" style="font-size: 9.5px;"><?php echo $rdg1['numdoc']; ?></td>
 			<td align="center"><?php echo wordwrap(html_entity_decode($rdg1['TipoDoc']),16,"<br/>\n",true); ?></td>
 			<td align="center"><?php echo wordwrap(html_entity_decode((!is_null($rdg1['Numero']) ? $rdg1['Numero'].'-' : '').$rdg1['Ano'].(!is_null($rdg1['Siglas']) ? '-'.$rdg1['Siglas'] : '')),20,"<br/>\n",true); ?></td>
-			<td><?php echo wordwrap(html_entity_decode(!is_null($rdg1['deporigenint']) ? abrdependencia($cone, $rdg1['deporigenint']) : $rdg1['deporigenext']),35,"<br/>\n",true); ?></td>
+			<!--<td><?php //echo wordwrap(html_entity_decode(!is_null($rdg1['deporigenint']) ? abrdependencia($cone, $rdg1['deporigenint']) : $rdg1['deporigenext']),35,"<br/>\n",true); ?></td>-->
 			<td><?php echo wordwrap(html_entity_decode(!is_null($rdg1['remitenteint']) ? nomempleado($cone, $rdg1['remitenteint']) : $rdg1['remitenteext']),35,"<br/>\n",true); ?></td>
 			<td><?php echo wordwrap(html_entity_decode(!is_null($rdg1['depdestinoint']) ? abrdependencia($cone, $rdg1['depdestinoint']) : $rdg1['depdestinoext']),35,"<br/>\n",true); ?></td>
 			<td><?php echo wordwrap(html_entity_decode(!is_null($rdg1['destinatarioint']) ? nomempleado($cone, $rdg1['destinatarioint']) : $rdg1['destinatarioext']),35,"<br/>\n",true); ?></td>
