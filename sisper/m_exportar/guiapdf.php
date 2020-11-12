@@ -81,7 +81,7 @@ if(isset($_GET['guia']) && !empty($_GET['guia'])){
 ?>
 		<tr>
 			<td align="center" style="font-size: 9.5px;"><?php echo $n; ?></td>
-			<td align="center" style="font-size: 9.5px;"><?php echo $rdg['numdoc']; ?></td>
+			<td align="center" style="font-size: 10px;"><?php echo $rdg['numdoc']; ?></td>
 			<td align="center"><?php echo wordwrap(html_entity_decode($rdg['TipoDoc']),18,"<br/>\n",true); ?></td>
 			<td align="center"><?php echo wordwrap(html_entity_decode((!is_null($rdg['Numero']) ? $rdg['Numero'].'-' : '').$rdg['Ano'].(!is_null($rdg['Siglas']) ? '-'.$rdg['Siglas'] : '')),24,"<br/>\n",true); ?></td>
 			<!--<td><?php //echo wordwrap(html_entity_decode(!is_null($rdg['deporigenint']) ? abrdependencia($cone, $rdg['deporigenint']) : $rdg['deporigenext']),35,"<br/>\n",true); ?></td>-->
@@ -116,7 +116,7 @@ if(isset($_GET['guia']) && !empty($_GET['guia'])){
 ?>
 		<tr>
 			<td align="center" style="font-size: 9.5px;"><?php echo $n; ?></td>
-			<td align="center" style="font-size: 9.5px;"><?php echo $rdg1['numdoc']; ?></td>
+			<td align="center" style="font-size: 10px;"><?php echo $rdg1['numdoc']; ?></td>
 			<td align="center"><?php echo wordwrap(html_entity_decode($rdg1['TipoDoc']),18,"<br/>\n",true); ?></td>
 			<td align="center"><?php echo wordwrap(html_entity_decode((!is_null($rdg1['Numero']) ? $rdg1['Numero'].'-' : '').$rdg1['Ano'].(!is_null($rdg1['Siglas']) ? '-'.$rdg1['Siglas'] : '')),24,"<br/>\n",true); ?></td>
 			<!--<td><?php //echo wordwrap(html_entity_decode(!is_null($rdg1['deporigenint']) ? abrdependencia($cone, $rdg1['deporigenint']) : $rdg1['deporigenext']),35,"<br/>\n",true); ?></td>-->
