@@ -121,7 +121,7 @@ if(accesocon($cone,$_SESSION['identi'],3)){
 		mysqli_close($cone);
 }else{
 		//echo mensajeda("Resultado de los que no han programado");
-	$cta=mysqli_query($cone, "SELECT ec.idEmpleadoCargo, e.idEmpleado, ec.FechaVac FROM dependencia d INNER JOIN cardependencia cd ON d.idDependencia=cd.idDependencia INNER JOIN dependencia de ON cd.idDependencia=de.idDependencia INNER JOIN empleadocargo ec ON cd.idEmpleadoCargo=ec.idEmpleadoCargo INNER JOIN empleado e ON ec.idEmpleado=e.idEmpleado INNER JOIN cargo ca ON ec.idCargo=ca.idCargo INNER JOIN sistemalab sl ON ca.idSistemaLab=sl.idSistemaLab WHERE cd.Estado=1 AND ec.idEstadoCar=1 AND (de.Observacion!='e' OR sl.SistemaLab!='FISCAL') AND (ec.idCargo!=32 AND ec.idCargo!=34);");
+	$cta=mysqli_query($cone, "SELECT ec.idEmpleadoCargo, e.idEmpleado, ec.FechaVac FROM dependencia d INNER JOIN cardependencia cd ON d.idDependencia=cd.idDependencia INNER JOIN dependencia de ON cd.idDependencia=de.idDependencia INNER JOIN empleadocargo ec ON cd.idEmpleadoCargo=ec.idEmpleadoCargo INNER JOIN empleado e ON ec.idEmpleado=e.idEmpleado INNER JOIN cargo ca ON ec.idCargo=ca.idCargo INNER JOIN sistemalab sl ON ca.idSistemaLab=sl.idSistemaLab WHERE cd.Estado=1 AND ec.idEstadoCar=1 AND d.idDependenciaPadre!=62 AND (de.Observacion!='e' OR sl.SistemaLab!='FISCAL') AND (ec.idCargo!=32 AND ec.idCargo!=34 AND ec.idCargo!=37);");
 
 	if (mysqli_num_rows($cta)>0) {
 ?>
@@ -145,7 +145,7 @@ if(accesocon($cone,$_SESSION['identi'],3)){
 			$idec=$rta['idEmpleadoCargo'];
 			$ide=$rta['idEmpleado'];
 			$fvac=fnormal($rta['FechaVac']);
-			$cpv=mysqli_query($cone,"SELECT FechaIni, FechaFin FROM  provacaciones  WHERE idEmpleadoCargo=$idec AND idPeriodoVacacional=$pervac;");
+			$cpv=mysqli_query($cone,"SELECT FechaIni, FechaFin FROM  provacaciones  WHERE idEmpleadoCargo=$idec AND idPeriodoVacacional=$pervac AND estado!=2;");
 
 			if (mysqli_num_rows($cpv)>0) {
 				$total=0;

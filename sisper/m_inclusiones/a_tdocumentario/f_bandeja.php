@@ -1475,7 +1475,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                         <div class="col-sm-12">
                             <label for="des">Destino<small class="text-red">*</small></label>
                             <select class="form-control" id="des" name="des" onchange="ocu(this.value);">
-                                <option value="1">A MESA DE PARTES</option>
+                                <option value="1">A CENTRAL DE NOTIFICACIONES</option>
                                 <option value="2">A PERSONAL</option>
                             </select>
                         </div> 
