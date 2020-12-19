@@ -116,7 +116,20 @@ if(accesocon($cone,$_SESSION['identi'],3)){
 			</table>
 			<script>
 			$('#dtvare').DataTable({
-				"order": [[7,"asc"]]
+				"order": [[7,"asc"]],
+				dom: 'Bfrtip',
+				buttons: [
+					{
+						extend: 'excel',
+						text: '<i class="fa fa-file-excel-o"></i>',
+						titleAttr: 'Exportar a Excel'
+					},
+					{
+						extend: 'print',
+						text: '<i class="fa fa-print"></i>',
+						titleAttr: 'Imprimir'
+					}
+				]
 			});
 			</script>
 		<?php
