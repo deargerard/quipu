@@ -59,7 +59,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                         // mysqli_free_result($cs);
 
                         $dest="";
-                        if(is_null($rb['destinatarioext'])){
+                        if($rb['destinatarioint']){
                             $iddei=$rb['destinatarioint'];
                             $cdei=mysqli_query($cone, "SELECT ApellidoPat, ApellidoMat, Nombres FROM empleado WHERE idEmpleado=$iddei;");
                             if($rdei=mysqli_fetch_assoc($cdei)){
@@ -67,7 +67,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                             }else{
                                 $dest="";
                             }
-                            //mysqli_free_result($cdei);
+                            mysqli_free_result($cdei);
                         }else{
                             $dest=$rb['destinatarioext'];
                         }
