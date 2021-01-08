@@ -50,7 +50,7 @@ if(mysqli_num_rows($cc)>0){
 	while ($rc=mysqli_fetch_assoc($cc)) {
 		$idec=$rc['idEmpleadoCargo'];
 		$cond=$rc['CondicionCar']=="NINGUNO" ? "" : " (".substr($rc['CondicionCar'], 0, 1).")";
-			$c=mysqli_query($cone,"SELECT li.idLicencia, li.idTipoLic, TipoLic, MotivoLic, FechaIni, FechaFin, Numero, Ano, Siglas, li.Estado FROM licencia li INNER JOIN aprlicencia al ON li.idLicencia=al.idLicencia INNER JOIN doc do ON al.idDoc=do.idDoc INNER JOIN tipdoclicencia tdl ON li.idTipDocLicencia=tdl.idTipDocLicencia INNER JOIN tipolic tl ON li.idTipoLic=tl.idTipoLic INNER JOIN espmedica em ON li.idEspMedica=em.idEspMedica INNER JOIN empleadocargo ec ON li.idEmpleadoCargo=ec.idEmpleadoCargo WHERE li.idEmpleadoCargo=$idec AND $wca AND DATE_FORMAT(FechaIni,'%Y')='$ano' ORDER BY FechaIni DESC;");
+			$c=mysqli_query($cone,"SELECT li.idLicencia, li.idTipoLic, TipoLic, MotivoLic, FechaIni, FechaFin, Numero, Ano, Siglas, li.Estado FROM licencia li INNER JOIN aprlicencia al ON li.idLicencia=al.idLicencia INNER JOIN doc do ON al.idDoc=do.idDoc INNER JOIN tipdoclicencia tdl ON li.idTipDocLicencia=tdl.idTipDocLicencia INNER JOIN tipolic tl ON li.idTipoLic=tl.idTipoLic INNER JOIN espmedica em ON li.idEspMedica=em.idEspMedica INNER JOIN empleadocargo ec ON li.idEmpleadoCargo=ec.idEmpleadoCargo WHERE li.idEmpleadoCargo=$idec AND al.Aprobado=1 AND $wca AND DATE_FORMAT(FechaIni,'%Y')='$ano' ORDER BY FechaIni DESC;");
 			
 			if(mysqli_num_rows($c)>0){
 				$dat=true;

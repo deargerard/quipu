@@ -2,13 +2,13 @@
 session_start();
 include ("../php/conexion_sp.php");
 include ("../php/funciones.php");
-if(accesoadm($cone,$_SESSION['identi'],15)){
-  if(isset($_POST['idcs']) && !empty($_POST['idcs'])){
-    $idcs=iseguro($cone,$_POST['idcs']);
+if(accesoadm($cone,$_SESSION['identi'],4)){
+  if(isset($_POST['idli']) && !empty($_POST['idli'])){
+    $idli=iseguro($cone,$_POST['idli']);
     ?>
       <table class="table table-bordered">
       <?php
-        $cen=mysqli_query($cone, "SELECT * FROM encargatura where idComServicios=$idcs;");
+        $cen=mysqli_query($cone, "SELECT * FROM encargatura where idLicencia=$idli;");
         if(mysqli_num_rows($cen)>0){
       ?>
       <tr>
@@ -54,7 +54,7 @@ if(accesoadm($cone,$_SESSION['identi'],15)){
     <?php
         mysqli_close($cone);
     }else{
-      echo mensajewa("Error: No se seleccionó ninguna comisión.");
+      echo mensajewa("Error: No se seleccionó ninguna Licencia.");
   }
 }else{
   echo accrestringidoa();

@@ -37,6 +37,10 @@ $(document).ready(function(){
   $('[data-toggle="popover"]').popover(); 
 
 });
+
+$('#dtable1').DataTable({
+  "order": [[6,"desc"]],       
+  });
 </script>
 <?php
   mysqli_close($cone);

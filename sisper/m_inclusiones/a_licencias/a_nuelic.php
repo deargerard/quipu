@@ -7,7 +7,7 @@ if(accesoadm($cone,$_SESSION['identi'],4)){
     $id=iseguro($cone,$_POST['id']);
     $ano=iseguro($cone,$_POST['ano']);
 ?>
-        <p class="text-center"><span class="text-gray">Licencia mientras desempeña o desempeñaba el cardo de:<br></span>
+        <p class="text-center"><span class="text-gray">Licencia mientras desempeña o desempeñaba el cargo de:<br></span>
         <span class="text-purple"><?php echo cargocu($cone,$id); ?></span></p>
 
         <div class="form-group">
