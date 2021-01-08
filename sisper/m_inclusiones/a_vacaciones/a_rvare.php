@@ -103,7 +103,7 @@ if(accesocon($cone,$_SESSION['identi'],3)){
 							<td style="font-size:11px;" class="<?php echo $con?>"><?php echo substr($rpc['Tipo'],0,13); ?></td> <!--columna REGIMEN-->
 							<td style="font-size:11px;" class="<?php echo $con?>"><?php echo fnormal($rpc['FechaVac'])?></td> <!--columna ALTA-->
 							<td style="font-size:11px;" class="<?php echo $con?>"><?php echo $rpc['PeriodoVacacional']?></td> <!--columna PERIODO-->
-							<td style="font-size:11px;" class="<?php echo $con?>"><?php echo "<span class='hidden'>".$rpc['FechaIni']."</span> ".fnormal($rpc['FechaIni'])?></td> <!--columna INICIO-->
+							<td style="font-size:11px;" class="<?php echo $con?>"><?php echo fnormal($rpc['FechaIni'])?></td> <!--columna INICIO-->
 							<td style="font-size:11px;" class="<?php echo $con?>"><?php echo fnormal($rpc['FechaFin'])?></td> <!--columna FIN-->
 							<td style="font-size:11px;" class="<?php echo $con?>"><?php echo $dt ?></td> <!--columna CAMTIDAD DE DIAS-->
 							<td style="font-size:11px;" class="<?php echo $con?>"><span class='label label-<?php echo $est?>'><?php echo $cap?></span></td> <!--columna ESTADO-->
@@ -116,7 +116,20 @@ if(accesocon($cone,$_SESSION['identi'],3)){
 			</table>
 			<script>
 			$('#dtvare').DataTable({
-				"order": [[7,"asc"]]
+				"order": [[1,"asc"]],
+				dom: 'Bfrtip',
+				buttons: [
+					{
+						extend: 'excel',
+						text: '<i class="fa fa-file-excel-o"></i>',
+						titleAttr: 'Exportar a Excel'
+					},
+					{
+						extend: 'print',
+						text: '<i class="fa fa-print"></i>',
+						titleAttr: 'Imprimir'
+					}
+				]
 			});
 			</script>
 		<?php

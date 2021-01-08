@@ -28,7 +28,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
         
         }
 
-        $cd=mysqli_query($cone, "SELECT d.idDoc, d.Numero, d.Ano, d.Siglas, d.FechaDoc, d.numdoc, td.TipoDoc, ed.idtdestadodoc, ed.fecha, g.numero numguia, g.anio, ed.idtdestado FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc INNER JOIN tdestadodoc ed ON d.idDoc=ed.idDoc LEFT JOIN tdguia g ON ed.idtdguia=g.idtdguia WHERE $wdoc $wdes d.ano=$ano ORDER BY ed.fecha DESC");
+        $cd=mysqli_query($cone, "SELECT d.idDoc, d.Numero, d.Ano, d.Siglas, d.FechaDoc, d.numdoc, d.destinatarioext, d.destinatarioint, td.TipoDoc FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc WHERE $wdoc $wdes d.ano=$ano");
 
         //echo "SELECT d.idDoc, d.Numero, d.Ano, d.Siglas, d.FechaDoc, d.numdoc, td.TipoDoc, ed.idtdestadodoc, ed.fecha, g.numero numguia, g.anio, ed.idtdestado FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc INNER JOIN tdestadodoc ed ON d.idDoc=ed.idDoc LEFT JOIN tdguia g ON ed.idtdguia=g.idtdguia WHERE $wdoc $wdes d.ano=$ano ORDER BY ed.fecha DESC";
         if(mysqli_num_rows($cd)>0){
@@ -39,8 +39,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                         <th>NUM.</th>
                         <th>DOCUMENTO<br>TIPO</th>
                         <th>FECHA DOCUMENTO<br>TIEMPO</th>
-                        <th>ESTADO</th>
-                        <th>FECHA ESTADO<br>TIEMPO</th>                        
+                        <th>DESTINATARIO</th>                        
                         <th class="text-center">ACCIÓN</th>
                     </tr>
                 </thead>
@@ -50,22 +49,37 @@ if(accesocon($cone,$_SESSION['identi'],17)){
 
                         $ti="";
                         $v1=$rb['idDoc'];
-                        $fec=$rb['fecha'];
-                        $cs=mysqli_query($cone, "SELECT fecha FROM tdestadodoc WHERE idDoc=$v1 AND fecha>'$fec' ORDER BY fecha ASC LIMIT 1;");
-                        if($rs=mysqli_fetch_assoc($cs)){
-                            $ti=$rs['fecha'];
+                        //$fec=$rb['fecha'];
+                        // $cs=mysqli_query($cone, "SELECT fecha FROM tdestadodoc WHERE idDoc=$v1 AND fecha>'$fec' ORDER BY fecha ASC LIMIT 1;");
+                        // if($rs=mysqli_fetch_assoc($cs)){
+                        //     $ti=$rs['fecha'];
+                        // }else{
+                        //     $ti=date('Y-m-d H:i:s');
+                        // }
+                        // mysqli_free_result($cs);
+
+                        $dest="";
+                        if($rb['destinatarioint']){
+                            $iddei=$rb['destinatarioint'];
+                            $cdei=mysqli_query($cone, "SELECT ApellidoPat, ApellidoMat, Nombres FROM empleado WHERE idEmpleado=$iddei;");
+                            if($rdei=mysqli_fetch_assoc($cdei)){
+                                $dest=$rdei['ApellidoPat']." ".$rdei['ApellidoMat']." ".$rdei['Nombres'];
+                            }else{
+                                $dest="";
+                            }
+                            mysqli_free_result($cdei);
                         }else{
-                            $ti=date('Y-m-d H:i:s');
+                            $dest=$rb['destinatarioext'];
                         }
-                        mysqli_free_result($cs);                    
+
+
 
     ?>
                         <tr style="font-size: 12px;">
                             <td class="text-aqua"><?php echo $rb['numdoc'].'-'.$rb['Ano']; ?></td>
                             <td><?php echo $rb['Numero']."-".$rb['Ano']."-".$rb['Siglas']; ?><br><span class="text-teal"><?php echo $rb['TipoDoc']; ?></span></td>
                             <td><?php echo fnormal($rb['FechaDoc']); ?><br><span class="text-yellow"><?php echo diftiempo($rb['FechaDoc'], date('Y-m-d H:i:s')); ?></span></td>
-                            <td><?php echo estadoDoc($rb['idtdestado']); ?></td>
-                            <td><?php echo date('d/m/Y h:i:s A', strtotime($rb['fecha'])); ?><br><span class="text-orange"><?php echo $ti!="" ? diftiempo($fec, $ti) : ""; ?></span></td>
+                            <td><?php echo $dest; ?></td>
                             <td class="text-center">
                                   
                                   <div class="btn-group">

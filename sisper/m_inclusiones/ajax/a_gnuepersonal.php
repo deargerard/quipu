@@ -64,7 +64,15 @@ if(accesoadm($cone,$_SESSION['identi'],1)){
                               if(!mysqli_query($cone, $qa)){
                                     echo "<h4 class='text-maroon'>Error: No se registro los permisos para acceder a su perfil.<br>".mysqli_error($cone)."</h4><br>";
                               }
+                              $qtd="INSERT INTO empleadomodulo (idEmpleado, idModulo, Por, Fecha, Administrar, Consultar) VALUES ($idper, 17, $regpor, '$fec', 0, 1);";
+                              if(!mysqli_query($cone, $qtd)){
+                                    echo "<h4 class='text-maroon'>Error: No se registro los permisos para trámite documetario.<br>".mysqli_error($cone)."</h4><br>";
+                              }
                               //echo "<a href='carpersonal.php?per=$idper' class='btn btn-primary'>Asignar cargo</a>";
+
+                              //enviamos correo
+                              include_once '../../m_email/fcorreo.php';
+                              include_once '../../m_email/c_altper.php';
 
                         }else{
                               echo "<h4 class='text-maroon'>Error: ". mysqli_error($cone)."</h4>";

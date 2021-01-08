@@ -86,8 +86,8 @@ if(isset($_POST['tlice']) && !empty($_POST['tlice']) && isset($_POST['anio']) &&
 							<td><a href="#" data-toggle="modal" data-target="#m_detlic" onclick="detlic(<?php echo $r['idLicencia'] ?>)"><?php echo nomempleado($cone,$r['idEmpleado']); ?></a></td>
 							<td><?php echo $r['Denominacion'].$condi; ?></td>
 							<td><?php echo substr($r['Tipo'],0,9); ?></td>
-							<td><?php echo fnormal($r['FechaIni']); ?></td>
-							<td><?php echo fnormal($r['FechaFin']); ?></td>
+							<td><?php echo $r['FechaIni']; ?></td>
+							<td><?php echo $r['FechaFin']; ?></td>
 							<td><?php echo $dias; ?></td>
 							<td><?php echo $r['Numero']."-".$r['Ano']."-".$r['Siglas']; ?></td>
 							<td><?php echo $r['Estado']==0 ? "<span class='label label-danger'>Cancelada</span>" : "<span class='label label-success'>Activa</span>"; ?></td>
