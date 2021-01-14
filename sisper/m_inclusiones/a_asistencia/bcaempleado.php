@@ -124,6 +124,11 @@ if(accesocon($cone,$_SESSION['identi'],2)){
           $ssd=$rdh['SalSigDia'];
           $esab=$rdh['ExcSabado'];
           $edom=$rdh['ExcDomingo'];
+          $elun=$rdh['ExcLunes'];
+          $emar=$rdh['ExcMartes'];
+          $emie=$rdh['ExcMiercoles'];
+          $ejue=$rdh['ExcJueves'];
+          $evie=$rdh['ExcViernes'];
           $rdlib=$rdh['RDLibre'];
           $ht=$rdh['NumHoras'];
           if($ssd){
@@ -145,10 +150,25 @@ if(accesocon($cone,$_SESSION['identi'],2)){
             //validamos si el turno excluye sabado o domingo
             if($nomdia=="Sábado" && $esab==1){
               $dj=true;
-              $nj="<small style='font-size:70%;'>Descanso</small>";
+              $nj="<small style='font-size:70%;'>-</small>";
             }elseif($nomdia=="Domingo" && $edom==1){
               $dj=true;
-              $nj="<small style='font-size:70%;'>Descanso</small>";
+              $nj="<small style='font-size:70%;'>-</small>";
+            }elseif($nomdia=="Lunes" && $elun==1){
+              $dj=true;
+              $nj="<small style='font-size:70%;'>-</small>";
+            }elseif($nomdia=="Martes" && $emar==1){
+              $dj=true;
+              $nj="<small style='font-size:70%;'>-</small>";
+            }elseif($nomdia=="Miércoles" && $emie==1){
+              $dj=true;
+              $nj="<small style='font-size:70%;'>-</small>";
+            }elseif($nomdia=="Jueves" && $ejue==1){
+              $dj=true;
+              $nj="<small style='font-size:70%;'>-</small>";
+            }elseif($nomdia=="Viernes" && $evie==1){
+              $dj=true;
+              $nj="<small style='font-size:70%;'>-</small>";
             }else{
               //Colsultamos licencia
               $cl=mysqli_query($cone, "SELECT d.Numero, d.Ano, d.Siglas, tl.MotivoLic, tl.TipoLic FROM empleadocargo ec INNER JOIN licencia l ON ec.idEmpleadoCargo=l.idEmpleadoCargo INNER JOIN aprlicencia al ON l.idLicencia=al.idLicencia INNER JOIN doc d ON al.idDoc=d.idDoc INNER JOIN tipolic tl ON l.idTipoLic=tl.idTipoLic WHERE ('$fec' BETWEEN l.FechaIni AND l.FechaFin) AND ec.idEmpleado=$emp AND l.Estado=1;");
