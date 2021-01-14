@@ -1480,7 +1480,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                             </select>
                         </div> 
                         <div class="col-sm-12 mp">
-                            <label for="mpa">Mesa de Partes<small class="text-red">*</small></label>
+                            <label for="mpa">Central de Notificaciones<small class="text-red">*</small></label>
                             <select class="form-control" name="mpa" id="mpa" style="width: 100%;"> 
                             </select>
                         </div>

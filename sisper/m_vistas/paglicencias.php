@@ -183,6 +183,51 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
   </form>
 </div>
 <!--Fin Modal nuevo documento-->
+<!--Modal Nueva Encargatura-->
+    <div class="modal fade" id="m_nencargatura" role="dialog" aria-labelledby="myModalLabel">
+
+      <div class="modal-dialog modal-ls" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Asignar Encargatura</h4>
+          </div>
+          <div class="modal-body">
+            <form id="f_nencargatura" action="" class="form-horizontal">
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn bg-teal" id="b_gnencarg" form="f_nencargatura">Guardar</button>
+            <button type="button" class="btn btn-default" id="b_cnencarg" data-dismiss="modal">Cancelar</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!--Fin Modal Nueva Encargatura-->
+    <!--Modal editar eliminar Encargatura-->
+    <div class="modal fade" id="m_encargatura" role="dialog" aria-labelledby="myModalLabel">
+
+      <div class="modal-dialog modal-ls" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title titulo-enc" id="myModalLabel">Asignar Encargatura</h4>
+          </div>
+          <div class="modal-body">
+            <form id="f_encargatura" action="" class="form-horizontal">
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn bg-teal" id="b_gencarg" form="f_encargatura">Guardar</button>
+            <button type="button" class="btn btn-default" id="b_cencarg" data-dismiss="modal">Cancelar</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!--Fin Modal editar eliminar Encargatura-->
+
 <?php
 }else{
   echo accrestringidop();

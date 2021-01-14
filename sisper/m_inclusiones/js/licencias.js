@@ -195,7 +195,7 @@ $( "#f_nuelic" ).validate( {
       $.ajax({
          type: "POST",
          url: "m_inclusiones/a_licencias/a_gnuelic.php",
-         dataType: "html",
+         dataType: "json",
          data: datos,   // I WANT TO ADD EXTRA DATA + SERIALIZE DATA
          beforeSend: function () {
             $("#b_gnuelic").html("<i class='fa fa-spinner fa-spin'></i> Guardando");
@@ -205,8 +205,13 @@ $( "#f_nuelic" ).validate( {
             $("#b_gnuelic").hide();
             $("#b_gnuelic").html("Guardar");
             $("#b_gnuelic").removeClass("disabled");
-            $("#r_nuelic").html(data);
-            $("#r_nuelic").slideDown();
+            $("#r_nuelic").html(data.msg);
+            $("#r_nuelic").slideDown();            
+            if (data.e) {            
+             $("#m_nuelic").modal('hide');
+             $("#m_detlic").modal('show');
+             detlic(data.idli);
+            }
          }
       });
     }
@@ -230,6 +235,7 @@ $('#m_nuelic,#m_edilic,#m_estlic').on('hidden.bs.modal', function () {
          }
       });
 });
+
 //funciones detalle licencia
 function detlic(id){
   $.ajax({
@@ -245,6 +251,175 @@ function detlic(id){
   });
 };
 //fin funciones detalle licencia
+
+//----->
+
+//funcion actualizar encargaturas
+function actencargaturas(idli){
+  $.ajax({
+        data:  {idli : idli},
+        url:   "m_inclusiones/a_licencias/a_encargaturas.php",
+        type:  "post",
+        beforeSend: function () {
+          $("#r_encargatura").html("<i class='fa fa-spinner fa-spin'></i> Buscando");
+        },
+        success:  function (response) {
+
+          $("#r_encargatura").html(response);
+        }
+    });
+}
+//Fin Función actualizar encargaturas
+
+
+//funcion llamar formulario Encargatura 
+function nueencali(idli){
+  $.ajax({
+    type:"post",
+    url:"m_inclusiones/a_licencias/a_fnueenc.php",
+    dataType: "html",
+    data: { idli : idli},
+    beforeSend: function () {
+      $("#f_nencargatura").html("<img scr='m_images/cargando.gif'>");
+    },
+    success:function(a){
+      $("#f_nencargatura").html(a);
+      $("#b_gnencarg").show();
+    }
+  });
+};
+//fin funcion llamar formulario Encargatura
+//funcion validar Encargatura
+$( "#f_nencargatura").validate({
+  rules: {
+    idli:"required",
+    inienc:"required",
+    finenc:"required",
+    enc:"required",
+    tip:"required",
+   },
+  messages: {
+    idli:"Debe seleccionar una comisión de servicios",
+    inienc:"Seleccione el inicio de la encargatura",
+    finenc:"Seleccione el final de la encargatura",
+    enc:"Seleccione encargargado",
+    tip:"Seleccionar Tipo de encargatura",
+   },
+ errorElement: "em",
+ errorPlacement: function ( error, element ) {
+   // Add the `help-block` class to the error element
+   error.addClass( "help-block" );
+
+   if ( element.prop( "type" ) === "checkbox" ) {
+     error.insertAfter( element.parent( "label" ) );
+   } else if ( element.prop( "type" ) === "radio" ){
+     error.insertAfter( element.parent( "label" ) );
+   }
+   else {
+     error.insertAfter( element );
+   }
+ },
+ highlight: function ( element, errorClass, validClass ) {
+   $( element ).parents( ".valida" ).addClass( "has-error" ).removeClass( "has-success" );
+ },
+ unhighlight: function (element, errorClass, validClass) {
+   $( element ).parents( ".valida" ).addClass( "has-success" ).removeClass( "has-error" );
+ },
+ submitHandler: function(form){
+   var datos = $("#f_nencargatura").serializeArray();
+   datos.push({name: "NomForm", value: "f_nencargatura"});
+   $.ajax({
+      type: "POST",
+      url: "m_inclusiones/a_licencias/a_gnueenc.php",
+      dataType: "json",
+      data: datos,   // I WANT TO ADD EXTRA DATA + SERIALIZE DATA
+      beforeSend: function () {
+         $("#b_gnencarg").html("<i class='fa fa-spinner fa-spin'></i> Enviando");
+         $("#b_gnencarg").addClass("disabled");
+      },
+      success: function(data){
+         $("#b_gnencarg").hide();
+         $("#b_gnencarg").html("Guardar");
+         $("#b_gnencarg").removeClass("disabled");
+         $("#b_cnencarg").html("Cerrar");
+         $("#f_nencargatura").html(data.msg);
+         $("#f_nencargatura").slideDown();
+         if (data.e) {
+           actencargaturas(data.idli);
+
+         }
+      }
+   });
+ }
+} );
+//fin función validar Encargatura 
+
+// FUNCIÓN QUE ENVÍA PARÁMETROS PARA FORMULARIOS EDITAR Y ELIMINAR ENCARGATURAS
+function fo_accion(acc, v1){
+  
+  switch(acc) {
+    case 'edienc':
+        var mt="<i class='fa fa-pencil text-gray'></i> Editar Encargatura";
+        break;
+    case 'elienc':
+        var mt="<i class='fa fa-times-circle text-gray'></i> Eliminar Encargatura";
+        break;    
+  }
+  $(".titulo-enc").html(mt);
+  $("#m_encargatura").modal("show");
+
+  $.ajax({
+    type: "post",
+    url: "m_inclusiones/a_licencias/fo_accion.php",
+    data: {acc: acc, v1: v1},
+    dataType: "html",
+    beforeSend: function () {
+      $("#f_encargatura").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
+      $("#b_gencarg").addClass("hidden");
+    },
+    success:function(a){
+      $("#f_encargatura").html(a);
+      $("#b_gencarg").removeClass("hidden");
+    }
+  });
+}
+
+// FIN FUNCIÓN QUE ENVÍA PARÁMETROS PARA FORMULARIOS EDITAR Y ELIMINAR ENCARGATURAS
+
+// FUNCIÓN QUE LLAMA ARVHIVO EDITAR O ELIMINAR ENCARGATURAS 
+
+$('#f_encargatura').submit(function(e){
+  e.preventDefault();
+  var datos = $("#f_encargatura").serializeArray();
+  $.ajax({
+    type: "post",
+    url: "m_inclusiones/a_licencias/gu_edi_eli_enc.php",
+    data: datos,
+    dataType: "json",
+    beforeSend: function () {
+      $("#f_encargatura").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
+      $("#b_gencarg").addClass("hidden");
+    },
+    success:function(a){
+
+      if(a.e){
+        $("#f_encargatura").html(a.m);
+
+        detlic(datos[2].value);
+
+        $("#b_gencarg").addClass("hidden");
+        $("#b_cencarg").html("Cerrar");
+      }else{
+        $("#f_encargatura").html(a.m);
+        $("#b_gencarg").removeClass("hidden");
+      }
+    }
+  });
+})
+// FIN FUNCIÓN QUE LLAMA ARHIVO EDITAR O ELIMINAR ENCARGATURAS 
+
+//----->
+
 //funciones enviar datos editar licencia
 function edilic(id, ano){
   $.ajax({
@@ -314,7 +489,7 @@ $( "#f_edilic" ).validate( {
       $.ajax({
          type: "POST",
          url: "m_inclusiones/a_licencias/a_gedilic.php",
-         dataType: "html",
+         dataType: "json",
          data: datos,   // I WANT TO ADD EXTRA DATA + SERIALIZE DATA
          beforeSend: function () {
             $("#b_gedilic").html("<i class='fa fa-spinner fa-spin'></i> Guardando");
@@ -324,8 +499,13 @@ $( "#f_edilic" ).validate( {
             $("#b_gedilic").hide();
             $("#b_gedilic").html("Guardar");
             $("#b_gedilic").removeClass("disabled");
-            $("#r_edilic").html(data);
+            $("#r_edilic").html(data.msg);
             $("#r_edilic").slideDown();
+            if (data.e) {
+              $("#m_edilic").modal('hide');
+              $("#m_detlic").modal('show');
+              detlic(data.idli);
+            }
          }
       });
     }
