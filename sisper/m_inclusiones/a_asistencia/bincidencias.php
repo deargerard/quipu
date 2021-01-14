@@ -127,6 +127,11 @@ if(accesocon($cone,$_SESSION['identi'],2)){
                             $ssd=$rdh['SalSigDia'];
                             $esab=$rdh['ExcSabado'];
                             $edom=$rdh['ExcDomingo'];
+                            $elun=$rdh['ExcLunes'];
+                            $emar=$rdh['ExcMartes'];
+                            $emie=$rdh['ExcMiercoles'];
+                            $ejue=$rdh['ExcJueves'];
+                            $evie=$rdh['ExcViernes'];
                             $rdlib=$rdh['RDLibre'];
                             if($ssd){
                               $fsal=date('Y-m-d',strtotime('+1 day', strtotime($fec)))." ".$sal;
@@ -147,10 +152,25 @@ if(accesocon($cone,$_SESSION['identi'],2)){
                               //validamos si el turno excluye sabado o domingo
                               if($nomdia=="Sábado" && $esab==1){
                                 $dj=true;
-                                $nj="<small style='font-size:70%;'>Descanso</small><br>";
+                                $nj="<small style='font-size:70%;'>-</small><br>";
                               }elseif($nomdia=="Domingo" && $edom==1){
                                 $dj=true;
-                                $nj="<small style='font-size:70%;'>Descanso</small><br>";
+                                $nj="<small style='font-size:70%;'>-</small><br>";
+                              }elseif($nomdia=="Lunes" && $elun==1){
+                                $dj=true;
+                                $nj="<small style='font-size:70%;'>-</small>";
+                              }elseif($nomdia=="Martes" && $emar==1){
+                                $dj=true;
+                                $nj="<small style='font-size:70%;'>-</small>";
+                              }elseif($nomdia=="Miércoles" && $emie==1){
+                                $dj=true;
+                                $nj="<small style='font-size:70%;'>-</small>";
+                              }elseif($nomdia=="Jueves" && $ejue==1){
+                                $dj=true;
+                                $nj="<small style='font-size:70%;'>-</small>";
+                              }elseif($nomdia=="Viernes" && $evie==1){
+                                $dj=true;
+                                $nj="<small style='font-size:70%;'>-</small>";
                               }else{
                                 //Colsultamos licencia
                                 $cl=mysqli_query($cone, "SELECT d.Numero, d.Ano, d.Siglas, tl.MotivoLic, tl.TipoLic FROM empleadocargo ec INNER JOIN licencia l ON ec.idEmpleadoCargo=l.idEmpleadoCargo INNER JOIN aprlicencia al ON l.idLicencia=al.idLicencia INNER JOIN doc d ON al.idDoc=d.idDoc INNER JOIN tipolic tl ON l.idTipoLic=tl.idTipoLic WHERE ('$fec' BETWEEN l.FechaIni AND l.FechaFin) AND ec.idEmpleado=$emp AND l.Estado=1;");
@@ -200,7 +220,7 @@ if(accesocon($cone,$_SESSION['identi'],2)){
                                   //buscamos la marcación de ingreso
                                   $fting=$fec." ".$ing;
                                   $ing1=date('Y-m-d H:i:s',strtotime('-75 minute', strtotime($fting)));
-                                  $ing2=date('Y-m-d H:i:s',strtotime('+60 minute', strtotime($fting)));
+                                  $ing2=date('Y-m-d H:i:s',strtotime('+61 minute', strtotime($fting)));
                                   $ingt=date('Y-m-d H:i:s',strtotime('+6 minute', strtotime($fting)));
                                   $ingf=date('Y-m-d H:i:s',strtotime('+11 minute', strtotime($fting)));
 
@@ -320,7 +340,7 @@ if(accesocon($cone,$_SESSION['identi'],2)){
                                   }
                                   //buscamos la marcación de salida
                                   $ftsal=$fec." ".$sal;
-                                  $sal2=date('Y-m-d H:i:s',strtotime('+75 minute', strtotime($ftsal)));
+                                  $sal2=date('Y-m-d H:i:s',strtotime('+59 minute', strtotime($ftsal)));
                                   if($ssd){
                                     $ftsal=date('Y-m-d H:i:s',strtotime('+1 day', strtotime($ftsal)));
                                     $sal2=date('Y-m-d H:i:s',strtotime('+1 day', strtotime($sal2)));
