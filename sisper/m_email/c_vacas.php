@@ -121,6 +121,7 @@ if(mysqli_num_rows($cc)>0){
 			$cono['arlopezdj@mpfn.gob.pe']='ARNALDO GUSTAVO LOPEZ ALVAREZ';
 			$cono['mirodriguezdj@mpfn.gob.pe']='MILAGROS NATALI RODRIGUEZ REYES';
 			$cono['emendozadj@mpfn.gob.pe']='EDILBERTO MORENO MENDOZA';
+			$cono['legonzalesdj@mpfn.gob.pe']='LUZ ELENA GONZALES QUILICHE';
 			$msg=ecorreo($cdes, $ndes, $cono, $asu, $cue, $acue);	
 			$archivo=fopen("/var/www/html/sisper/logs/log_envio_vacas.txt", "a") or die("Problemas al crear");
 			fwrite($archivo,$msg);
