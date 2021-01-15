@@ -117,8 +117,9 @@ if(mysqli_num_rows($cc)>0){
 </body>
 </html>';
 		if(!empty($cono)){
-			$cono['mavasquezdj@mpfn.gob.pe']='MARIANELLA VASQUEZ SANCHEZ';
+			$cono['ruvasquez@mpfn.gob.pe']='RUTH KARINA VASQUEZ HORNA';
 			$cono['mirodriguezdj@mpfn.gob.pe']='MILAGROS NATALI RODRIGUEZ REYES';
+			$cono['gllozanodj@mpfn.gob.pe']='GLORIA MARIELLA LOZANO MARIN';
 			$msg=ecorreo($cdes, $ndes, $cono, $asu, $cue, $acue);	
 			$archivo=fopen("/var/www/html/sisper/logs/log_envio_cumples.txt", "a") or die("Problemas al crear");
 			fwrite($archivo,$msg);
