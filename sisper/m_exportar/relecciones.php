@@ -52,11 +52,12 @@ if(isset($_GET['eleccion']) && !empty($_GET['eleccion'])){
     <table class="st">
     	<tr>
     		<td style="width: 12%;">Del</td>
-    		<td style="width: 12%;"><b><?php echo fnormal($cone, $re['inicio']); ?></b></td>
+    		<td style="width: 12%;"><b><?php echo ftnormal($re['inicio']); ?></b></td>
     		<td style="width: 12%;">Al</td>
-    		<td style="width: 12%;"><b><?php echo fnormal($cone, $re['fin']); ?></b></td>
+    		<td style="width: 12%;"><b><?php echo ftnormal($re['fin']); ?></b></td>
     	</tr>
     </table>
+    <h4>Resumen elección</h4>
 	<table class="tablep">
 <?php
 		$cr=mysqli_query($cone, "SELECT l.nombre, COUNT(l.id) AS votos FROM listas l INNER JOIN eleccione_empleado ee ON l.id=ee.lista_id WHERE ee.eleccione_id=$v1 GROUP BY l.id;");
@@ -76,7 +77,7 @@ if(isset($_GET['eleccion']) && !empty($_GET['eleccion'])){
 		<tr>
 			<td align="center"><?php echo $n; ?></td>
 			<td align="center"><?php echo $rr['nombre']; ?></td>
-			<td align="center"><?php echo $rr['voto']; ?></td>
+			<td align="center"><?php echo $rr['votos']; ?></td>
 		</tr>
 <?php
 			}
@@ -91,9 +92,10 @@ if(isset($_GET['eleccion']) && !empty($_GET['eleccion'])){
 		</tr>
 		<tr>
 			<td colspan="2">TOTAL ELECTORES</td>
-			<td><?php $re['numvotantes']; ?></td>
+			<td><?php echo $re['numvotantes']; ?></td>
 		</tr>
 	</table>
+	<h4>Personal que emitió su voto</h4>
 	<table class="tablep">
 <?php
 		}
@@ -116,9 +118,9 @@ if(isset($_GET['eleccion']) && !empty($_GET['eleccion'])){
 		<tr>
 			<td align="center" style="font-size: 9.5px;"><?php echo $n; ?></td>
 			<td align="center" style="font-size: 10px;"><?php echo docidentidad($cone, $rv['empleado_id']); ?></td>
-			<td align="center"><?php echo wordwrap(html_entity_decode(nomempleado($cone, $rv['empleado_id'])),18,"<br/>\n",true); ?></td>
-			<td align="center"><?php echo wordwrap(html_entity_decode(cargoe($cone, $rv['empleado_id'])),24,"<br/>\n",true); ?></td>
-			<td><?php echo wordwrap(html_entity_decode(dependenciae($cone, $rv['empleado_id'])),38,"<br/>\n",true); ?></td>
+			<td align="center"><?php echo wordwrap(html_entity_decode(nomempleado($cone, $rv['empleado_id'])),30,"<br/>\n",true); ?></td>
+			<td align="center"><?php echo wordwrap(html_entity_decode(cargoe($cone, $rv['empleado_id'])),40,"<br/>\n",true); ?></td>
+			<td><?php echo wordwrap(html_entity_decode(dependenciae($cone, $rv['empleado_id'])),45,"<br/>\n",true); ?></td>
 		</tr>
 <?php
 			}
