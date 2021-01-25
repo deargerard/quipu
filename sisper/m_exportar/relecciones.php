@@ -20,7 +20,7 @@ if(isset($_GET['eleccion']) && !empty($_GET['eleccion'])){
 
 -->
 </style>
-<page backtop="18mm" backbottom="5mm" backleft="2mm" backright="2mm" style="font-size: 9px;">
+<page backtop="22mm" backbottom="6mm" backleft="2mm" backright="2mm" style="font-size: 9px;">
     <page_header> 
         <table class="page_header">
             <tr>
@@ -83,16 +83,16 @@ if(isset($_GET['eleccion']) && !empty($_GET['eleccion'])){
 			}
 ?>
 		<tr>
-			<td colspan="2">TOTAL VOTOS</td>
-			<td><?php echo $nv; ?></td>
+			<td colspan="2" align="center">TOTAL VOTOS</td>
+			<td align="center"><?php echo $nv; ?></td>
 		</tr>
 		<tr>
-			<td colspan="2">TOTAL OMISOS</td>
-			<td><?php echo $re['numvotantes']-$nv; ?></td>
+			<td colspan="2" align="center">TOTAL OMISOS</td>
+			<td align="center"><?php echo $re['numvotantes']-$nv; ?></td>
 		</tr>
 		<tr>
-			<td colspan="2">TOTAL ELECTORES</td>
-			<td><?php echo $re['numvotantes']; ?></td>
+			<td colspan="2" align="center">TOTAL ELECTORES</td>
+			<td align="center"><?php echo $re['numvotantes']; ?></td>
 		</tr>
 	</table>
 	<h4>Personal que emitió su voto</h4>
