@@ -118,9 +118,9 @@ if(isset($_GET['eleccion']) && !empty($_GET['eleccion'])){
 		<tr>
 			<td align="center" style="font-size: 9.5px;"><?php echo $n; ?></td>
 			<td align="center" style="font-size: 10px;"><?php echo docidentidad($cone, $rv['empleado_id']); ?></td>
-			<td align="center"><?php echo wordwrap(html_entity_decode(nomempleado($cone, $rv['empleado_id'])),30,"<br/>\n",true); ?></td>
-			<td align="center"><?php echo wordwrap(html_entity_decode(cargoe($cone, $rv['empleado_id'])),40,"<br/>\n",true); ?></td>
-			<td><?php echo wordwrap(html_entity_decode(dependenciae($cone, $rv['empleado_id'])),50,"<br/>\n",true); ?></td>
+			<td><?php echo wordwrap(html_entity_decode(nomempleado($cone, $rv['empleado_id'])),30,"<br/>\n",true); ?></td>
+			<td><?php echo wordwrap(html_entity_decode(cargoe($cone, $rv['empleado_id'])),40,"<br/>\n",true); ?></td>
+			<td><?php echo wordwrap(html_entity_decode(dependenciae($cone, $rv['empleado_id'])),55,"<br/>\n",true); ?></td>
 		</tr>
 <?php
 			}
