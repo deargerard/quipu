@@ -4,7 +4,7 @@ include("../php/conexion_sp.php");
 include("../php/funciones.php");
 $r=array();
 $r['e']=false;
-if(accesocon($cone,$_SESSION['identi'],18)){
+
 	if(isset($_POST['eleccione_id']) && !empty($_POST['eleccione_id'])){
         $id=iseguro($cone, $_POST['eleccione_id']);
         $ele='ele'.$id;
@@ -31,9 +31,7 @@ if(accesocon($cone,$_SESSION['identi'],18)){
 	}else{
 		$r['m']=mensajewa("Error: Faltan datos.");
 	}
-}else{
-    $r['m']=mensajewa("Acceso restringido.");
-}
+
 header('Content-type: application/json; charset=utf-8');
 echo json_encode($r);
 mysqli_close($cone);
