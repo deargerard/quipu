@@ -418,6 +418,23 @@ if(!empty($css)){
           </li>
         <?php
         }
+        if(accesocon($cone,$_SESSION['identi'],18)){
+        ?>
+          <li class="treeview" id="elecciones">
+            <a href="#">
+              <i class="fa fa-hand-o-up"></i>
+              <span>Elecciones</span>
+              <i class="fa fa-angle-left pull-right"></i>
+            </a>
+            <ul class="treeview-menu">
+              <?php if(accesoadm($cone,$_SESSION['identi'],18)){ ?>
+              <li id="elregistro"><a href="elregistro.php"><i class="fa fa-circle-o"></i> Registro</a></li>
+              <?php } ?>
+              <li id="elconsulta"><a href="elconsulta.php"><i class="fa fa-circle-o"></i> Consultas</a></li>
+            </ul>
+          </li>
+        <?php
+        }
         ?>
       </ul>
     </section>

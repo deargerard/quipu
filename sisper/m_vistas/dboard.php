@@ -14,7 +14,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
     </section>
     <!-- Main content -->
     <section class="content">
-            <!-- Small boxes (Stat box) -->
+      <!-- Small boxes (Stat box) -->
       <div class="row">
         <div class="col-md-3 col-xs-6">
           <!-- small box -->
@@ -95,6 +95,110 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
       </div>
       <!-- /.row -->
       <div class="row">
+        <?php
+        $idem=$_SESSION['identi'];
+        $q="SELECT ec.idEmpleado FROM empleadocargo ec INNER JOIN cargo c ON ec.idCargo=c.idCargo INNER JOIN cardependencia cd ON ec.idEmpleadocargo=cd.idEmpleadocargo INNER JOIN dependencia d ON cd.idDependencia=d.idDependencia INNER JOIN dependencialocal dl ON d.idDependencia=dl.idDependencia INNER JOIN local l ON dl.idLocal=l.idLocal WHERE ec.idEmpleado=$idem AND ec.idEstadoCar=1 AND cd.Estado=1 AND l.idDistrito=561 AND (c.idSistemaLab=1 OR c.idSistemaLab=3);";
+        //echo $q;
+      $cel=mysqli_query($cone, $q);
+      if (mysqli_num_rows($cel)>0) {
+      
+        $ce=mysqli_query($cone, "SELECT * FROM elecciones WHERE estado=1 AND (now() BETWEEN inicio AND fin);");
+        if(mysqli_num_rows($ce)>0){
+          while($re=mysqli_fetch_assoc($ce)){
+            $id=$re['id'];
+            
+
+            
+        ?>
+        <div class="col-md-12">
+          <div class="box box-warning">
+              <div class="box-header with-border">
+                <h3 class="box-title text-orange"><i class="fa fa-archive"></i> <?php echo $re['nombre'] ?></h3>
+
+                <div class="box-tools pull-right">
+                  <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                  </button>
+                  <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                </div>
+              </div>
+              <div class="box-body">
+              <?php
+              $cv=mysqli_query($cone, "SELECT * FROM eleccione_empleado WHERE eleccione_id=$id AND empleado_id=$idem;");
+              if(mysqli_num_rows($cv)>0){
+                echo mensajesu("Ya emitió su voto.");
+              }else{
+              ?>
+                <div class="row" id="relecciones<?php echo $id ?>">
+                  
+                    <form id="f_elecciones<?php echo $id ?>">
+
+                      <input type="hidden" name="eleccione_id" value="<?php echo $id ?>">
+
+                    <?php
+                      $cl=mysqli_query($cone, "SELECT * FROM listas WHERE eleccione_id=$id;");
+                      if(mysqli_num_rows($cl)>0){
+                        while($rl=mysqli_fetch_assoc($cl)){
+                    ?>
+                        <div class="col-md-6 col-xs-12">
+                          <div style="border: 1px solid #CCC; border-radius: 10px;">
+                          <table class="table table-hover text-center">
+                            <thead>
+                            <tr>
+                              <th class="text-center text-maroon"><h3 style="text-transform: uppercase;"><?php echo $rl['nombre'] ?></h3></th>
+                            </tr>
+                            </thead>
+                            <tr>
+                              <td class="text-muted"><?php echo html_entity_decode($rl['descripcion']) ?></td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <div class="radio">
+                                  <label>
+                                    <input type="radio" name="ele<?php echo $id ?>" value="<?php echo $rl['id'] ?>">
+                                    Marque aquí
+                                  </label>
+                                </div>
+                              </td>
+                            </tr>
+                          </table>
+                          </div>
+                        </div>
+                        
+                    <?php
+                        }
+                    ?>
+                    <div class="col-xs-12 text-center" style="margin-top: 10px;">
+                      <button type="submit" class="btn btn-primary" id="b_votar<?php echo $id ?>">Votar</button>
+                    </div>
+                    <?php
+                      }else{
+                        echo mensajewa("No hay listas");
+                      }
+                      mysqli_free_result($cl);
+                    ?>
+                      
+                    </form>
+                      <div class="col-xs-12 text-center" id="r_votos<?php echo $id ?>">
+
+                      </div>
+                  
+                </div>
+              <?php
+              }
+              mysqli_free_result($cv);
+              ?>
+              </div>
+              <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+        <?php
+            
+          }
+        }
+        mysqli_free_result($ce);
+      }
+        ?>
         <div class="col-md-6">
            <!-- Default box -->
             <div class="box box-info">
