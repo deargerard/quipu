@@ -29,7 +29,7 @@ if(isset($_GET['eleccion']) && !empty($_GET['eleccion'])){
             	</td>
                 <td style="width: 60%; text-align: center;">
                     <span style="font-size: 16px;">DISTRITO FISCAL DE CAJAMARCA</span><br>
-                    <span style="font-size: 18px;"><?php echo strtoupper(html_entity_decode($re['nombre'])); ?></span>
+                    <span style="font-size: 18px;"><?php echo mb_strtoupper(html_entity_decode($re['nombre']), 'UTF-8'); ?></span>
                 </td>
                 <td style="width: 20%;">
                 	
