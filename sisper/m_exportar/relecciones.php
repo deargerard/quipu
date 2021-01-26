@@ -82,6 +82,8 @@ if(isset($_GET['eleccion']) && !empty($_GET['eleccion'])){
 <?php
 			}
 ?>
+	</table>
+	<table class="tablep">
 		<tr>
 			<td colspan="2" align="center">TOTAL VOTOS</td>
 			<td align="center"><?php echo $nv; ?></td>
