@@ -86,15 +86,15 @@ if(isset($_GET['eleccion']) && !empty($_GET['eleccion'])){
 	<br>
 	<table class="tablep">
 		<tr>
-			<td align="center" style="width: 21%;">TOTAL VOTOS</td>
+			<th align="center" style="width: 21%;">TOTAL VOTOS</th>
 			<td style="width: 15%;" align="center"><?php echo $nv; ?></td>
 		</tr>
 		<tr>
-			<td align="center">TOTAL OMISOS</td>
+			<th align="center">TOTAL OMISOS</th>
 			<td align="center"><?php echo $re['numvotantes']-$nv; ?></td>
 		</tr>
 		<tr>
-			<td align="center">TOTAL ELECTORES</td>
+			<th align="center">TOTAL ELECTORES</th>
 			<td align="center"><?php echo $re['numvotantes']; ?></td>
 		</tr>
 	</table>
