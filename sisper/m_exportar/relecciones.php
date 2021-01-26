@@ -29,7 +29,7 @@ if(isset($_GET['eleccion']) && !empty($_GET['eleccion'])){
             	</td>
                 <td style="width: 60%; text-align: center;">
                     <span style="font-size: 16px;">DISTRITO FISCAL DE CAJAMARCA</span><br>
-                    <span style="font-size: 18px;"><?php echo $re['nombre']; ?></span>
+                    <span style="font-size: 18px;"><?php echo strtoupper($re['nombre']); ?></span>
                 </td>
                 <td style="width: 20%;">
                 	
@@ -51,10 +51,10 @@ if(isset($_GET['eleccion']) && !empty($_GET['eleccion'])){
     </page_footer>
     <table class="st">
     	<tr>
-    		<td style="width: 12%;">Del</td>
-    		<td style="width: 12%;"><b><?php echo ftnormal($re['inicio']); ?></b></td>
-    		<td style="width: 12%;">Al</td>
-    		<td style="width: 12%;"><b><?php echo ftnormal($re['fin']); ?></b></td>
+    		<td style="width: 6%;">Del</td>
+    		<td style="width: 15%;"><b><?php echo ftnormal($re['inicio']); ?></b></td>
+    		<td style="width: 6%;">Al</td>
+    		<td style="width: 15%;"><b><?php echo ftnormal($re['fin']); ?></b></td>
     	</tr>
     </table>
     <h4>Resumen elección</h4>
