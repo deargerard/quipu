@@ -83,6 +83,7 @@ if(isset($_GET['eleccion']) && !empty($_GET['eleccion'])){
 			}
 ?>
 	</table>
+	<br>
 	<table class="tablep">
 		<tr>
 			<td align="center" style="width: 21%;">TOTAL VOTOS</td>
