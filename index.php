@@ -357,7 +357,7 @@
           <table class="table table-hover table-bordered">
             <tr>
               <td>
-                <i class="fas fa-archive text-info"></i> <a href="incautaciones/" target="_blank"> Incautaciones</a>
+                <i class="fas fa-archive text-info"></i> <a href="incautaciones_new/" target="_blank"> Incautaciones</a>
               </td>
             </tr>
           </table>
