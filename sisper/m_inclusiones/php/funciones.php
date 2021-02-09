@@ -1289,13 +1289,17 @@ function caldiant($cone, $idec){
 	}
 }
 function nomdespacho($con,$iddes){
-	$iddes=iseguro($con,$iddes);
-	$ce=mysqli_query($con,"SELECT nombre FROM orequipo WHERE idorequipo=$iddes");
-	if($re=mysqli_fetch_assoc($ce)){
-		return trim($re['nombre']);
+	if(!is_null($iddes)){
+		$iddes=iseguro($con,$iddes);
+		$ce=mysqli_query($con,"SELECT nombre FROM orequipo WHERE idorequipo=$iddes");
+		if($re=mysqli_fetch_assoc($ce)){
+			return trim($re['nombre']);
+		}else{
+			return "-";
+		}
+		mysqli_free_result($ce);
 	}else{
 		return "-";
 	}
-	mysqli_free_result($ce);
 }
 ?>
