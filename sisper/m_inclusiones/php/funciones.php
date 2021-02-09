@@ -245,6 +245,15 @@ function direccionlocal($cone,$iddep){
 	}
 	mysqli_free_result($cdis);
 }
+function aliaslocal($cone,$iddep){
+	$cdis=mysqli_query($cone,"SELECT l.Alias FROM dependencialocal dl INNER JOIN local l ON dl.idLocal=l.idLocal WHERE dl.idDependencia=$iddep;");
+	if($rdis=mysqli_fetch_assoc($cdis)){
+		return $rdis['Alias'];
+	}else{
+		return "-";
+	}
+	mysqli_free_result($cdis);
+}
 function vacceso($con,$ide,$doce,$nome){
 	$ide=iseguro($con,$ide);
 	$doce=iseguro($con,$doce);
@@ -1278,5 +1287,15 @@ function caldiant($cone, $idec){
 	}else{
 		return 0;
 	}
+}
+function nomdespacho($con,$iddes){
+	$iddes=iseguro($con,$iddes);
+	$ce=mysqli_query($con,"SELECT nombre FROM orequipo WHERE idorequipo=$iddes");
+	if($re=mysqli_fetch_assoc($ce)){
+		return trim($re['nombre']);
+	}else{
+		return "-";
+	}
+	mysqli_free_result($ce);
 }
 ?>
