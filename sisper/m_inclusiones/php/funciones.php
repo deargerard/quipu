@@ -1288,10 +1288,10 @@ function caldiant($cone, $idec){
 		return 0;
 	}
 }
-function nomdespacho($con,$iddes){
-	if($iddes!=""){
-		$iddes=iseguro($con,$iddes);
-		$ce=mysqli_query($con,"SELECT nombre FROM orequipo WHERE idorequipo=$iddes");
+function nomdespacho($con,$idec){
+	if($idec!=""){
+		$idec=iseguro($con,$idec);
+		$ce=mysqli_query($con,"SELECT e.nombre FROM orequipo e INNER JOIN orintegrante i ON e.idorequipo=i.idorequipo INNER JOIN empleadocargo ec ON i.idEmpleadoCargo=ec.idEmpleadoCargo WHERE ec.idEmpleadoCargo=$idec AND i.estado=1 AND e.estado=1;");
 		if($re=mysqli_fetch_assoc($ce)){
 			return trim($re['nombre']);
 		}else{

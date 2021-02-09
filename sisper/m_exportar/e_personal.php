@@ -22,8 +22,9 @@ if(accesocon($cone,$_SESSION['identi'],1)){
                     <td colspan="22"></td>
               </tr>
 <?php
-              $cper=mysqli_query($cone,"SELECT e.idEmpleado, ApellidoPat, ApellidoMat, Nombres, Sexo, FechaNac, NumeroDoc, CorreoPer, CorreoIns, NumeroCuenta, ec.idCargo, cd.Oficial, cd.idDependencia, ec.FechaAsu, ec.idModAcceso, ec.Reemplazado, oi.idorequipo FROM empleado AS e INNER JOIN empleadocargo AS ec ON e.idEmpleado=ec.idEmpleado INNER JOIN cardependencia AS cd ON ec.idEmpleadoCargo=cd.idEmpleadoCargo INNER JOIN estadocargo eca ON ec.idEmpleadoCargo=eca.idEmpleadoCargo LEFT JOIN orintegrante oi ON ec.idEmpleadoCargo=oi.idEmpleadocargo WHERE eca.Estado=1 AND eca.idEstadoCar=1 AND cd.Estado=1 AND oi.estado=1 ORDER BY ApellidoPat, ApellidoMat, Nombres ASC");
+              $cper=mysqli_query($cone,"SELECT e.idEmpleado, ApellidoPat, ApellidoMat, Nombres, Sexo, FechaNac, NumeroDoc, CorreoPer, CorreoIns, NumeroCuenta, ec.idCargo, cd.Oficial, cd.idDependencia, ec.FechaAsu, ec.idModAcceso, ec.Reemplazado, ec.idEmpleadoCargo FROM empleado AS e INNER JOIN empleadocargo AS ec ON e.idEmpleado=ec.idEmpleado INNER JOIN cardependencia AS cd ON ec.idEmpleadoCargo=cd.idEmpleadoCargo INNER JOIN estadocargo eca ON ec.idEmpleadoCargo=eca.idEmpleadoCargo WHERE eca.Estado=1 AND eca.idEstadoCar=1 AND cd.Estado=1 ORDER BY ApellidoPat, ApellidoMat, Nombres ASC");
               if(mysqli_num_rows($cper)>0){
+
 ?>
                 <tr>
                   <td bgcolor= "#605ca8"><font color="#ffffff" size="2">N&deg;</font></td>
@@ -78,7 +79,7 @@ if(accesocon($cone,$_SESSION['identi'],1)){
                   <td><font color="#000000"><?php echo cargoe($cone,$ide); ?></font></td>
                   <td><font color="#555555"><?php echo sislaboral($cone,$rper['idCargo']); ?></font></td>
                   <td><font color="#555555"><?php echo dependenciae($cone,$ide); ?></font></td>
-                  <td><font color="#555555"><?php echo nomdespacho($cone,$rper['idorequipo']); ?></font></td>
+                  <td><font color="#555555"><?php echo nomdespacho($cone,$rper['idEmpleadoCargo']); ?></font></td>
                   <td><font color="#555555"><?php echo disprodependencia($cone,$rper['idDependencia']); ?></font></td>
                   <td><font color="#555555"><?php echo aliaslocal($cone,$rper['idDependencia']); ?></font></td>
                   <td><font color="#555555"><?php echo $dofi; ?></font></td>
