@@ -1289,7 +1289,7 @@ function caldiant($cone, $idec){
 	}
 }
 function nomdespacho($con,$iddes){
-	if(!is_null($iddes)){
+	if($iddes!=""){
 		$iddes=iseguro($con,$iddes);
 		$ce=mysqli_query($con,"SELECT nombre FROM orequipo WHERE idorequipo=$iddes");
 		if($re=mysqli_fetch_assoc($ce)){
