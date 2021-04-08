@@ -97,7 +97,9 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
       <div class="row">
         <?php
         $idem=$_SESSION['identi'];
-        $q="SELECT ec.idEmpleado FROM empleadocargo ec INNER JOIN cargo c ON ec.idCargo=c.idCargo INNER JOIN cardependencia cd ON ec.idEmpleadocargo=cd.idEmpleadocargo INNER JOIN dependencia d ON cd.idDependencia=d.idDependencia INNER JOIN dependencialocal dl ON d.idDependencia=dl.idDependencia INNER JOIN local l ON dl.idLocal=l.idLocal WHERE ec.idEmpleado=$idem AND ec.idEstadoCar=1 AND cd.Estado=1 AND l.idDistrito=561 AND (c.idSistemaLab=1 OR c.idSistemaLab=3);";
+        //votos por distrito
+        //$q="SELECT ec.idEmpleado FROM empleadocargo ec INNER JOIN cargo c ON ec.idCargo=c.idCargo INNER JOIN cardependencia cd ON ec.idEmpleadocargo=cd.idEmpleadocargo INNER JOIN dependencia d ON cd.idDependencia=d.idDependencia INNER JOIN dependencialocal dl ON d.idDependencia=dl.idDependencia INNER JOIN local l ON dl.idLocal=l.idLocal WHERE ec.idEmpleado=$idem AND ec.idEstadoCar=1 AND cd.Estado=1 AND l.idDistrito=561 AND (c.idSistemaLab=1 OR c.idSistemaLab=3);";
+        $q="SELECT idEmpleado FROM empleado WHERE idEmpleado=$idem AND elector=1;";
         //echo $q;
       $cel=mysqli_query($cone, $q);
       if (mysqli_num_rows($cel)>0) {
