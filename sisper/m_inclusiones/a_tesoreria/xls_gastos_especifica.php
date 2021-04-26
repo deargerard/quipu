@@ -65,7 +65,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
                 <tr>
                   <td><font color="#555555"><?php echo $rgas['codigo']; ?></font></td>
                   <td><font color="#555555"><?php echo $rgas['abreviatura']; ?></font></td>
-                  <td><font color="#555555"><?php echo $rgas['numerocom']; ?></font></td>
+                  <td><font color="#555555">'<?php echo $rgas['numerocom']; ?></font></td>
                   <td><font color="#555555"><?php echo $rgas['fechacom']; ?></font></td>
                   <td><font color="#555555"><?php echo nombremes($rgas['mes']); ?></font></td>
                   <td><font color="#555555"><?php echo $rgas['nombre']; ?></font></td>
