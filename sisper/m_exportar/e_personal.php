@@ -22,7 +22,7 @@ if(accesocon($cone,$_SESSION['identi'],1)){
                     <td colspan="25"></td>
               </tr>
 <?php
-              $cper=mysqli_query($cone,"SELECT e.idEmpleado, ApellidoPat, ApellidoMat, Nombres, Sexo, FechaNac, NumeroDoc, CorreoPer, CorreoIns, NumeroCuenta, ec.idCargo, cd.Oficial, cd.idDependencia, ec.FechaAsu, ec.idModAcceso, ec.Reemplazado, ec.idEmpleadoCargo, do.Direccion, do.idDistrito FROM empleado AS e INNER JOIN empleadocargo AS ec ON e.idEmpleado=ec.idEmpleado INNER JOIN cardependencia AS cd ON ec.idEmpleadoCargo=cd.idEmpleadoCargo INNER JOIN estadocargo eca ON ec.idEmpleadoCargo=eca.idEmpleadoCargo INNER JOIN domicilio AS e.idEmpleado=do.idEmpleado WHERE eca.Estado=1 AND eca.idEstadoCar=1 AND cd.Estado=1 ORDER BY ApellidoPat, ApellidoMat, Nombres ASC");
+              $cper=mysqli_query($cone,"SELECT e.idEmpleado, ApellidoPat, ApellidoMat, Nombres, Sexo, FechaNac, NumeroDoc, CorreoPer, CorreoIns, NumeroCuenta, ec.idCargo, cd.Oficial, cd.idDependencia, ec.FechaAsu, ec.idModAcceso, ec.Reemplazado, ec.idEmpleadoCargo, do.Direccion, do.idDistrito FROM empleado AS e INNER JOIN empleadocargo AS ec ON e.idEmpleado=ec.idEmpleado INNER JOIN cardependencia AS cd ON ec.idEmpleadoCargo=cd.idEmpleadoCargo INNER JOIN estadocargo eca ON ec.idEmpleadoCargo=eca.idEmpleadoCargo INNER JOIN domicilio AS do ON e.idEmpleado=do.idEmpleado WHERE eca.Estado=1 AND eca.idEstadoCar=1 AND cd.Estado=1 ORDER BY ApellidoPat, ApellidoMat, Nombres ASC");
               if(mysqli_num_rows($cper)>0){
 
 ?>
