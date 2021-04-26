@@ -714,7 +714,7 @@ function telefonopers($con,$ide){
 	if(mysqli_num_rows($ctp)>0){
 		$tp="";
 		while($rtp=mysqli_fetch_assoc($ctp)){
-			$tp.=$rtp['TipoTelefono'].': '.$rtp['Numero'].' ';
+			$tp.=$rtp['Numero'].' ';
 		}
 		return $tp;
 	}else{
