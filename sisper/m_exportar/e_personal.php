@@ -16,13 +16,13 @@ if(accesocon($cone,$_SESSION['identi'],1)){
 ?>
           <table border=1>
               <tr>
-                    <th colspan="25"><font face="arial" color="#605ca8" size="3">LISTADO DE PERSONAL ACTIVO - DISTRITO FISCAL DE CAJAMARCA</font></th>
+                    <th colspan="24"><font face="arial" color="#605ca8" size="3">LISTADO DE PERSONAL ACTIVO - DISTRITO FISCAL DE CAJAMARCA</font></th>
               </tr>
               <tr>
-                    <td colspan="25"></td>
+                    <td colspan="24"></td>
               </tr>
 <?php
-              $cper=mysqli_query($cone,"SELECT e.idEmpleado, ApellidoPat, ApellidoMat, Nombres, Sexo, FechaNac, NumeroDoc, CorreoPer, CorreoIns, NumeroCuenta, ec.idCargo, cd.Oficial, cd.idDependencia, ec.FechaAsu, ec.idModAcceso, ec.Reemplazado, ec.idEmpleadoCargo, do.Direccion, do.idDistrito FROM empleado AS e INNER JOIN empleadocargo AS ec ON e.idEmpleado=ec.idEmpleado INNER JOIN cardependencia AS cd ON ec.idEmpleadoCargo=cd.idEmpleadoCargo INNER JOIN estadocargo eca ON ec.idEmpleadoCargo=eca.idEmpleadoCargo INNER JOIN domicilio AS do ON e.idEmpleado=do.idEmpleado WHERE eca.Estado=1 AND eca.idEstadoCar=1 AND cd.Estado=1 ORDER BY ApellidoPat, ApellidoMat, Nombres ASC;");
+              $cper=mysqli_query($cone,"SELECT DISTINCT e.idEmpleado, ApellidoPat, ApellidoMat, Nombres, Sexo, FechaNac, NumeroDoc, CorreoPer, CorreoIns, NumeroCuenta, ec.idCargo, cd.Oficial, cd.idDependencia, ec.FechaAsu, ec.idModAcceso, ec.Reemplazado, ec.idEmpleadoCargo, do.Direccion, do.idDistrito FROM empleado AS e INNER JOIN empleadocargo AS ec ON e.idEmpleado=ec.idEmpleado INNER JOIN cardependencia AS cd ON ec.idEmpleadoCargo=cd.idEmpleadoCargo INNER JOIN estadocargo eca ON ec.idEmpleadoCargo=eca.idEmpleadoCargo INNER JOIN domicilio AS do ON e.idEmpleado=do.idEmpleado WHERE eca.Estado=1 AND eca.idEstadoCar=1 AND cd.Estado=1 ORDER BY ApellidoPat, ApellidoMat, Nombres ASC;");
               if(mysqli_num_rows($cper)>0){
 
 ?>
@@ -37,7 +37,6 @@ if(accesocon($cone,$_SESSION['identi'],1)){
                   <td bgcolor= "#605ca8"><font color="#ffffff" size="2">CARGO</font></td>
                   <td bgcolor= "#605ca8"><font color="#ffffff" size="2">SIS. LABORAL</font></td>
                   <td bgcolor= "#605ca8"><font color="#ffffff" size="2">DEP. ACTUAL</font></td>
-                  <td bgcolor= "#605ca8"><font color="#ffffff" size="2">DESPACHO/EQUIPO</font></td>
                   <td bgcolor= "#605ca8"><font color="#ffffff" size="2">DIST-PROV</font></td>
                   <td bgcolor= "#605ca8"><font color="#ffffff" size="2">SEDE</font></td>
                   <td bgcolor= "#605ca8"><font color="#ffffff" size="2">DEP. OFICIAL</font></td>
@@ -81,7 +80,6 @@ if(accesocon($cone,$_SESSION['identi'],1)){
                   <td><font color="#000000"><?php echo cargoe($cone,$ide); ?></font></td>
                   <td><font color="#555555"><?php echo sislaboral($cone,$rper['idCargo']); ?></font></td>
                   <td><font color="#555555"><?php echo dependenciae($cone,$ide); ?></font></td>
-                  <td><font color="#555555"><?php echo nomdespacho($cone,$rper['idEmpleadoCargo']); ?></font></td>
                   <td><font color="#555555"><?php echo disprodependencia($cone,$rper['idDependencia']); ?></font></td>
                   <td><font color="#555555"><?php echo aliaslocal($cone,$rper['idDependencia']); ?></font></td>
                   <td><font color="#555555"><?php echo $dofi; ?></font></td>
@@ -102,7 +100,7 @@ if(accesocon($cone,$_SESSION['identi'],1)){
               }else{
 ?>
               <tr>
-                    <td colspan="25">NO EXISTE PERSONAL CON CARGO ASIGNADO</td>
+                    <td colspan="24">NO EXISTE PERSONAL CON CARGO ASIGNADO</td>
               </tr>
 <?php
               }
