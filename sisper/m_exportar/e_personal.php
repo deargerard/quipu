@@ -16,10 +16,10 @@ if(accesocon($cone,$_SESSION['identi'],1)){
 ?>
           <table border=1>
               <tr>
-                    <th colspan="24"><font face="arial" color="#605ca8" size="3">LISTADO DE PERSONAL ACTIVO - DISTRITO FISCAL DE CAJAMARCA</font></th>
+                    <th colspan="23"><font face="arial" color="#605ca8" size="3">LISTADO DE PERSONAL ACTIVO - DISTRITO FISCAL DE CAJAMARCA</font></th>
               </tr>
               <tr>
-                    <td colspan="24"></td>
+                    <td colspan="23"></td>
               </tr>
 <?php
               $cper=mysqli_query($cone,"SELECT e.idEmpleado, ApellidoPat, ApellidoMat, Nombres, Sexo, FechaNac, NumeroDoc, CorreoPer, CorreoIns, NumeroCuenta, ec.idCargo, cd.Oficial, cd.idDependencia, ec.FechaAsu, ec.idModAcceso, ec.Reemplazado, ec.idEmpleadoCargo FROM empleado AS e INNER JOIN empleadocargo AS ec ON e.idEmpleado=ec.idEmpleado INNER JOIN cardependencia AS cd ON ec.idEmpleadoCargo=cd.idEmpleadoCargo WHERE ec.idEstadoCar=1 AND cd.Estado=1 ORDER BY ApellidoPat, ApellidoMat, Nombres ASC;");
@@ -49,7 +49,6 @@ if(accesocon($cone,$_SESSION['identi'],1)){
                   <td bgcolor= "#605ca8"><font color="#ffffff" size="2">ANEXO</font></td>
                   <td bgcolor= "#605ca8"><font color="#ffffff" size="2">TEL&Eacute;FONO PERS.</font></td>
                   <td bgcolor= "#605ca8"><font color="#ffffff" size="2">DIRECCI&Oacute;N</font></td>
-                  <td bgcolor= "#605ca8"><font color="#ffffff" size="2">DISTRITO</font></td>
                   <td bgcolor= "#605ca8"><font color="#ffffff" size="2">CUENTA</font></td>
                 </tr>
 <?php
@@ -91,8 +90,7 @@ if(accesocon($cone,$_SESSION['identi'],1)){
                   <td><font color="#555555"><?php echo telefonoinst($cone,$ide); ?></font></td>
                   <td><font color="#555555"><?php echo anexopers($cone,$ide,$rper['idDependencia']); ?></font></td>
                   <td><font color="#555555"><?php echo telefonopers($cone,$ide); ?></font></td>
-                  <td><font color="#555555"><?php echo $rper['Direccion']; ?></font></td>
-                  <td><font color="#555555"><?php echo nomdistrito($cone,$rper['idDistrito']); ?></font></td>
+                  <td><font color="#555555"><?php echo direccionEmpleado($cone, $ide); ?></font></td>
                   <td><font color="#555555"><?php echo $rper['NumeroCuenta']; ?></font></td>
                 </tr>
 <?php
@@ -100,7 +98,7 @@ if(accesocon($cone,$_SESSION['identi'],1)){
               }else{
 ?>
               <tr>
-                    <td colspan="24">NO EXISTE PERSONAL CON CARGO ASIGNADO</td>
+                    <td colspan="23">NO EXISTE PERSONAL CON CARGO ASIGNADO</td>
               </tr>
 <?php
               }

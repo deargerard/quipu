@@ -1302,4 +1302,17 @@ function nomdespacho($con,$idec){
 		return "-";
 	}
 }
+function direccionEmpleado($con, $ide){
+	if($ide!=""){
+		$ide=iseguro($con,$ide);
+		$cd=mysqli_query($con, "SELECT Direccion, idDistrito FROM domicilio WHERE idEmpleado=$ide;");
+		if($rd=mysqli_fetch_assoc($cd)){
+			return $rd['Direccion'].' - '.nomdistrito($con,$rd['idDistrito']);
+		}else{
+			return "-";
+		}
+	}else{
+		return "-";
+	}
+}
 ?>
