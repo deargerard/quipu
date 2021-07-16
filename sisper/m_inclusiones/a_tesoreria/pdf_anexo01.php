@@ -29,7 +29,7 @@ $cc=mysqli_query($cone, "SELECT cs.*, d.Numero, d.Ano, d.Siglas, e.ApellidoPat, 
     $d1=new DateTime($rc['FechaIni']);
     $d2=new DateTime($rc['FechaFin']);
     $dif=$d1->diff($d2);
-    $ho=($dif->days)*60+$dif->h;
+    $ho=(($dif->days)*24)+$dif->h;
 ?>
     <page_header> 
         <table class="page_header">
