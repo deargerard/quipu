@@ -57,7 +57,7 @@ else
 //////////////////////////////////////////////////////////////////////////////////////////////////
 mysqli_query($link,"insert into inventario values($codigo,'$ubicacion','$boletai','$fechai','$caso','$descripcion','$marca','$serie','$estado','$tipo','$obs1','$obs2','$delito','$fiscal','$fiscalia','$condicion','00-0000','0001-01-01','000-0000','XP','$foto')");
   //echo $codigo,"/",$boletai,"/",$caso,"/",$descripcion,"/",$marca,"/",$serie,"/",$estado,"/",$tipo,"/",$obs1,"/",$obs2,"/",$delito,"/",$fiscal,"/",$fiscalia,"/",$condicion;
-header("Location: ingreso.php");?>
+header("Location: formato_A_y_B.php?id=$codigo");?>
 <?php /*?><form action="file:///C|/wamp64/www/clinica/libres.php" method="GET" name="agregar">
 <input type="hidden" name="codigo" <?php echo "value=",$codigo?> />
 </form><?php */?>

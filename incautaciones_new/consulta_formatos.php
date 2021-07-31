@@ -9,8 +9,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>MP | Incautaciones</title>
-	<link rel="icon" type="image/png" href="images/icono.png" />
+  <title>Inventario | Fiscalia</title>
+
   <!-- Bootstrap core CSS -->
 
   <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -30,15 +30,15 @@
 
   <script src="js/jquery.min.js"></script>
 
-
+  <!--[if lt IE 9]>
         <script src="../assets/js/ie8-responsive-file-warning.js"></script>
-
+        <![endif]-->
 
   <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-
+  <!--[if lt IE 9]>
           <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
           <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-
+        <![endif]-->
 
 </head>
 
@@ -46,8 +46,9 @@
 <body class="nav-md">
 <?php include("conect.php");
 $link=conect();
-						date_default_timezone_set("America/Lima");
-					$fecha= date('Y-m-d');?>
+$link1=conect();
+date_default_timezone_set("America/Lima");
+$fecha= date('Y-m-d');?>
 
   <div class="container body">
 
@@ -56,7 +57,6 @@ $link=conect();
 
       <div class="col-md-3 left_col">
         <div class="left_col scroll-view">
-			
 			          <!-- menu prile quick info -->
           <div class="profile">
             <div class="profile_info">
@@ -77,7 +77,7 @@ $link=conect();
               <ul class="nav side-menu">
                 <li><a href="home.php"><i class="fa fa-home"></i> Home</a></li>
                 <li><a href="ingreso.php"><i class="fa fa-edit"></i>Ingreso</a></li>
-								<?php
+				<?php
 				  if($_SESSION['tipo']=="admin")
 				  { ?>
 				  	<li><a href="lista_casos.php"><i class="fa fa-camera"></i>Editar y/o agregar foto</a></li>
@@ -89,7 +89,7 @@ $link=conect();
 				<?php
 				  if($_SESSION['tipo']=="admin")
 				  { ?>
-				  	<li><a href="inventario_general.php"><i class="fa fa-filter"></i>Inventario General</a></li>
+				  <li><a href="inventario_general.php"><i class="fa fa-filter"></i>Inventario General</a></li>
 					<li><a href="consulta.php"><i class="fa fa-search"></i>Consulta</a></li>
 				<?php
 				  }
@@ -159,7 +159,7 @@ $link=conect();
             <div class="col-md-12 col-sm-12 col-xs-12">
               <div class="x_panel">
                 <div class="x_title">
-                  <h2>Inventario <small>Custodia</small></h2>
+                  <h2>Inventario <small>Ingresos</small></h2>
                   <ul class="nav navbar-right panel_toolbox">
 					<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                     </li>
@@ -168,58 +168,60 @@ $link=conect();
                 </div>
                 <div class="x_content">
                   <p class="text-muted font-13 m-b-30">
-                    De muestra todos los registro existentes en custodia.
+                    De muestra todos los registro ingresados.
                   </p>
                   <table id="datatable-buttons" class="table table-striped table-bordered table-responsive" width="100%">
                     <thead>
                       <tr>
-                        <th>B-Ingreso</th>
-                        <th>F-Ingreso</th>
-                        <th>Caso</th>
-                        <th>Descripcion</th>
-                        <th>Estado</th>
-                        <th>Condicion</th>
-						<th>T_Custodia</th>
-                        <th>T_Restante</th>
-                        <th>Alerta</th>
+						<th>DF</th>
+                        <th>INTERNAMIENTO</th>
+                        <th>BOLETA</th>
+                        <th>C.F.</th>
+                        <th>DESCRIPCION</th>
+                        <th>FISCALIA</th>
+                        <th>FISCAL</th>
+						<th>DELITO</th>
+						<th>CONDICION</th>
+						<th>COD</th>
                       </tr>
                     </thead>
 					<tbody>
 
-<?php $sSQL = "SELECT * FROM inventario order by(id)";
+<?php
+$sSQL = "SELECT * FROM inventario order by(id) DESC";
 $result = mysqli_query($link,$sSQL);
 while($row = mysqli_fetch_array($result)) { 
-			$datetime2 = $row["f_ingreso"];
-			$datetime1 = $fecha;
-			$diff = (abs(strtotime($datetime1) - strtotime($datetime2)))/(3600*24);
-			if($diff>180)
-			{?>
-                      <tr>
-                        <td><?php echo $row["b_ingreso"];?></td>
+
+	$id=$row['id'];
+?>
+			            <tr>
+                        <td><?php echo $row["id"];?></td>
                         <td><?php echo $row["f_ingreso"];?></td>
+                        <td><?php echo $row["b_ingreso"];?></td>
                         <td><?php echo $row["caso"];?></td>
                         <td><?php echo $row["descripcion"];?></td>
-                        <td><?php echo $row["estado"];?></td>
-                        <td><?php echo $row["condicion"];?></td>
-						<td><?php echo $diff.' dias';?></td>
-						 <?php
-						  if($diff>180)
-						  {?>
-							<td><?php echo 180-$diff.' dias'?></td>
-                        	<td><font color="#ED1014">Vencido</font></td>
-						 <?php
-						  }
-					  		else
-					  		{?>
-					  	<td><?php echo 180-$diff.' dias'?></td>
-                        <td>En custodia</td>
-						<?php
-					  		}
-						  ?>
-                        
-					  		<?php
-			} //fin del if principal
-							} //fin de while ?> 
+                        <td><?php echo $row["fiscalia"];?></td>
+                        <td><?php echo $row["fiscal"];?></td>
+                        <td><?php echo $row["delito"];?></td>
+                        <td><?php echo $row["condicion"];?></td>			
+<?php
+	$sql = "SELECT * FROM formato_a7 where id=$id";
+		if ($result1=mysqli_query($link1,$sql)) {
+    	$rowcount=mysqli_num_rows($result1);
+		}
+			if($rowcount==0)
+			{
+				?>
+				<td><a href="a7.php?id=<?php echo $row["id"];?>&caso=<?php echo $row["caso"];?>" class="btn btn-danger"><i class="fa fa-archive"></i> FORMATO</a></td></tr>
+	   <?php
+			}
+			else
+			{?>
+				<td><a href="a7-a8-imprimir.php?id=<?php echo $row["id"];?>&caso=<?php echo $row["caso"];?>" class="btn btn-primary"><i class="fa fa-print"></i> IMPRIMIR</a></td></tr>
+		<?php
+			}
+	}
+?>
 						</tbody>
                   </table>
                 </div>
@@ -228,6 +230,13 @@ while($row = mysqli_fetch_array($result)) {
 
 
               <!-- footer content -->
+              <footer>
+                <div class="copyright-info">
+                  <p class="pull-right">Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
+                  </p>
+                </div>
+                <div class="clearfix"></div>
+              </footer>
               <!-- /footer content -->
 
           </div>
