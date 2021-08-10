@@ -180,6 +180,7 @@ $fecha= date('Y-m-d');?>
                         <th>FISCALIA</th>
                         <th>FISCAL</th>
 						<th>DELITO</th>
+						<th>UBICACION</th>
 						<th>CONDICION</th>
 						<th>COD</th>
                       </tr>
@@ -201,6 +202,7 @@ while($row = mysqli_fetch_array($result)) {
                         <td><?php echo $row["fiscalia"];?></td>
                         <td><?php echo $row["fiscal"];?></td>
                         <td><?php echo $row["delito"];?></td>
+						<td><?php echo $row["ubicacion"];?></td>
                         <td><?php echo $row["condicion"];?></td>
 						<td><a href="boleta.php?id=<?php echo $row["id"];?>"><font color="#7B0C0E">BOLETA</font></a></td>
 					  <?php

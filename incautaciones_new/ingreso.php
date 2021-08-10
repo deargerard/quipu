@@ -204,7 +204,7 @@ $bn=$bnueva[0]+1;?>
 					<div class="form-group">
                       <label class="control-label col-md-3 col-sm-3 col-xs-12">Ubicacion<span class="required">*</span></label></label>
                       <div class="col-md-9 col-sm-9 col-xs-12">
-						<input type="text" name="ubicacion" class="form-control" placeholder="ingrese la ubicacion...">
+						<input type="text" name="ubicacion" class="form-control" placeholder="ingrese la ubicacion..." required="required">
                       </div>
                     </div>
 					
@@ -218,7 +218,7 @@ $bn=$bnueva[0]+1;?>
                       <label class="control-label col-md-3 col-sm-3 col-xs-12">Descripcion<span class="required">*</span>
                       </label>
                       <div class="col-md-9 col-sm-9 col-xs-12">
-                        <textarea class="form-control" rows="3" placeholder='Descripcion breve del bien o elemento internado' name="descripcion" required="required" ></textarea>
+                        <textarea class="form-control" rows="3" placeholder='Descripcion breve del bien o elemento internado' name="descripcion" required="required"></textarea>
                       </div>
                     </div>
 					<div class="form-group">

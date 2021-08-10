@@ -179,6 +179,7 @@ $fecha= date('Y-m-d');?>
 						<th>ESTADO</th>
 						<th>DELITO</th>
                         <th>TIPO</th>
+						<th>UBICACION</th>
                         <th>RESOL.</th>
 						<th>B-SALIDA</th>
                         <th>BOLETA</th>
@@ -200,6 +201,7 @@ while($row = mysqli_fetch_array($result)) {
 						<td><?php echo $row["estado"];?></td>
                         <td><?php echo $row["delito"];?></td>		
 						<td><?php echo $row["condicion"];?></td>
+						<td><?php echo $row["ubicacion"];?></td>
                         <td><?php echo $row["resol_salida"];?></td>
                         <td><?php echo $row["b_salida"];?></td>
                         <td><a href="boletai.php?id=<?php echo $row["id"];?>"><button type="button" class="btn btn-primary">Boleta</button></a>
