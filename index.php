@@ -121,7 +121,7 @@
         </div>
 
         <div class="col-lg-3" style="border-left: 1px dotted #dee2e6">
-          <p class="text-center" style="font-size: 14px; font-style: italic;"><i class="fa fa-street-view text-info"></i> Cajamarca, <?php echo date('d'); ?> de <?php echo nombremes(date('m')); ?> de 2019</p>
+          <p class="text-center" style="font-size: 14px; font-style: italic;"><i class="fa fa-street-view text-info"></i> Cajamarca, <?php echo date('d'); ?> de <?php echo nombremes(date('m')); ?> de <?php echo date('Y'); ?></p>
           <hr>
           <h5 class="section-heading text-center" style="font-style: italic;"><i class="fa fa-bullhorn text-primary"></i> Anuncios</h5><br>
           <div class="row">
