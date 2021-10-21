@@ -9,7 +9,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>Gentallela Alela! | </title>
-
+	  <!-- encabezado para subidas multiples -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/dropzone.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/dropzone.js"></script>
   <!-- Bootstrap core CSS -->
 
   <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -359,6 +365,30 @@
                   </ul>
                   <div class="clearfix"></div>
                 </div>
+				  <!-- formato para subida de mutiples archivos -->
+				  <div class="jumbotron text-center">
+  <h3>Multiple files upload using Dropzone.js example | HackTheStuff</h3>
+  <p>Drag and drop files for uploading.....</p> 
+</div>
+  
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <form action="upload.php" enctype="multipart/form-data" class="dropzone" id="image-upload">
+        <div>
+          <h3>Upload Multiple Image By Click On Box</h3>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  Dropzone.options.imageUpload = {
+    maxFilesize:1,
+    acceptedFiles: ".jpeg,.jpg,.png,.gif"
+  };
+</script>
+				  <!-- formato para subida de mutiples archivos -->
               </div>
             </div>
           </div>
