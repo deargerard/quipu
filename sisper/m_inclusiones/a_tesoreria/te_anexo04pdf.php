@@ -145,8 +145,9 @@ use Spipu\Html2Pdf\Html2Pdf;
             $tm=0;
             $tp=0;
             $tc=0;
-            $tt=0;
+            //$tt=0;
             $to=0;
+            $tpe=0;
             while($rc=mysqli_fetch_assoc($cc)){
               $n++;
               $t=$t+$rc['totalcom'];
@@ -167,13 +168,16 @@ use Spipu\Html2Pdf\Html2Pdf;
                   $tc=$tc+$rc['totalcom'];
                   break;
                 case 13:
-                  $tt=$tt+$rc['totalcom'];
+                  $to=$to+$rc['totalcom'];
                   break;
                 case 14:
                   $to=$to+$rc['totalcom'];
                   break;
                 case 20:
                   $tm=$tm+$rc['totalcom'];
+                  break;
+                case 21:
+                  $tpe=$tpe+$rc['totalcom'];
                   break;
               }
   ?>
@@ -187,8 +191,8 @@ use Spipu\Html2Pdf\Html2Pdf;
             <td class="de"><?php echo ($rc['idteconceptov']==11 || $rc['idteconceptov']==20) ? $rc['totalcom'] : ""; ?></td>
             <td class="de"><?php echo $rc['idteconceptov']==8  ? $rc['totalcom'] : ""; ?></td>
             <td class="de"><?php echo $rc['idteconceptov']==12 ? $rc['totalcom'] : ""; ?></td>
-            <td class="de"><?php echo $rc['idteconceptov']==13 ? $rc['totalcom'] : ""; ?></td>
-            <td class="de"><?php echo ($rc['idteconceptov']==14 || $rc['idteconceptov']==21) ? $rc['totalcom'] : ""; ?></td>            
+            <td class="de"><?php echo $rc['idteconceptov']==21 ? $rc['totalcom'] : ""; ?></td>
+            <td class="de"><?php echo ($rc['idteconceptov']==13 || $rc['idteconceptov']==14) ? $rc['totalcom'] : ""; ?></td>            
             <td class="de" style="mso-number-format:'0.00';"><?php echo $rc['totalcom']; ?></td>
           </tr>
           <?php
@@ -203,29 +207,29 @@ use Spipu\Html2Pdf\Html2Pdf;
             <td class="de"><?php echo n_2decimales($tm);?></td>
             <td class="de"><?php echo n_2decimales($tp);?></td>
             <td class="de"><?php echo n_2decimales($tc);?></td>
-            <td class="de"><?php echo n_2decimales($tt);?></td>
+            <td class="de"><?php echo n_2decimales($tpe);?></td>
             <td class="de"><?php echo n_2decimales($to);?></td>
             <th class="de"><?php echo n_2decimales($t);?></th>
           </tr>
           <tr bgcolor="#FFFD0E">
             <td colspan="4" style="text-align: center;">MONTO ASIGNADO</td>
-            <td colspan="2" class="de"><?php echo n_2decimales($tav-$tm-$tp-$tc-$tt-$to); ?></td>
+            <td colspan="2" class="de"><?php echo n_2decimales($tav-$tm-$tp-$tc-$tpe-$to); ?></td>
             <td class="de"><?php echo n_2decimales($tm);?></td>
             <td class="de"><?php echo n_2decimales($tp);?></td>
             <td class="de"><?php echo n_2decimales($tc);?></td>
-            <td class="de"><?php echo n_2decimales($tt);?></td>
+            <td class="de"><?php echo n_2decimales($tpe);?></td>
             <td class="de"><?php echo n_2decimales($to);?></td>
-            <td class="de"><?php echo n_2decimales($tav-$tm-$tp-$tc-$tt-$to+$tm+$tp+$tc+$tt+$to);?></td>                        
+            <td class="de"><?php echo n_2decimales($tav-$tm-$tp-$tc-$tpe-$to+$tm+$tp+$tc+$tpe+$to);?></td>                        
           </tr>
           <tr bgcolor="#DBEEF3">
             <td colspan="4" style="text-align: center;">SALDO</td>
-            <td colspan="2" class="de"><?php echo n_2decimales($tav-$tm-$tp-$tc-$tt-$to-$th-$ta); ?></td>
+            <td colspan="2" class="de"><?php echo n_2decimales($tav-$tm-$tp-$tc-$tpe-$to-$th-$ta); ?></td>
             <td class="de"><?php echo n_2decimales($tm-$tm);?></td>
             <td class="de"><?php echo n_2decimales($tp-$tp);?></td>
             <td class="de"><?php echo n_2decimales($tc-$tc);?></td>
-            <td class="de"><?php echo n_2decimales($tt-$tt);?></td>
+            <td class="de"><?php echo n_2decimales($tpe-$tpe);?></td>
             <td class="de"><?php echo n_2decimales($to-$to);?></td>
-            <td class="de"><?php echo n_2decimales($tav-$tm-$tp-$tc-$tt-$to-$th-$ta+$tm-$tm+$tp-$tp+$tc-$tc+$tt-$tt+$to-$to);?></td>                        
+            <td class="de"><?php echo n_2decimales($tav-$tm-$tp-$tc-$tpe-$to-$th-$ta+$tm-$tm+$tp-$tp+$tc-$tc+$tpe-$tpe+$to-$to);?></td>                        
           </tr>
         </table>
         
