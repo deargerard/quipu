@@ -114,7 +114,7 @@ use Spipu\Html2Pdf\Html2Pdf;
         </tr>
         <tr>
           <th>LUGAR:</th>
-          <td colspan="2"><?php echo wordwrap(html_entity_decode($r1['destino']),30,"<br/>\n",true); ?></td>
+          <td colspan="2"><?php echo wordwrap(html_entity_decode($r1['destino']),38,"<br/>\n",true); ?></td>
           <th style="text-align: right;">DESDE:</th>
           <td><?php echo fnormal($r1['FechaIni']); ?></td>
           <th style="text-align: right;">HASTA:</th>
