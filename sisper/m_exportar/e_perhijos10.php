@@ -17,13 +17,13 @@ if(accesocon($cone,$_SESSION['identi'],1)){
 ?>
           <table border=1>
             <tr>
-              <th colspan="11"><font face="arial" color="#FF5820" size="+2">LISTADO DE PERSONAL CON HIJOS MENORES O IGUALES A 10 A&Ntilde;OS</font></th>
+              <th colspan="13"><font face="arial" color="#FF5820" size="+2">LISTADO DE PERSONAL CON HIJOS MENORES O IGUALES A 10 A&Ntilde;OS</font></th>
             </tr>
             <?php
             $f1=@date("y-m-d");
             $fc=@strtotime ( '-11 year' , @strtotime ( $f1 ) ) ;
             $fc=@date ( 'Y-m-j' , $fc );
-            $cph=mysqli_query($cone,"SELECT en.idEmpleado, en.NombreCom, en.NumeroDoc, pa.ApellidoPat, pa.ApellidoMat, pa.Nombres, pa.Sexo, pa.NumeroDoc as doc, pa.FechaNac FROM enombre AS en INNER JOIN pariente AS pa ON en.idEmpleado=pa.idEmpleado WHERE pa.idTipoPariente=3 AND pa.FechaNac>'$fc' ORDER BY en.NombreCom ASC");
+            $cph=mysqli_query($cone,"SELECT en.idEmpleado, en.NombreCom, en.NumeroDoc, pa.ApellidoPat, pa.ApellidoMat, pa.Nombres, pa.Sexo, pa.NumeroDoc as doc, pa.FechaNac, ec.FechaAsu FROM enombre AS en INNER JOIN pariente AS pa ON en.idEmpleado=pa.idEmpleado INNER JOIN empleadocargo ec ON ec.idEmpleado=en.idEmpleado WHERE pa.idTipoPariente=3 AND pa.FechaNac>'$fc' AND ec.idEstadoCar=1 ORDER BY en.NombreCom ASC");
             ?>
 
             <tr>
@@ -32,6 +32,8 @@ if(accesocon($cone,$_SESSION['identi'],1)){
               <th><font color="#FF2626">CARGO</font></th>
               <th><font color="#FF2626">DEPENDENCIA</font></th>
               <th><font color="#FF2626">DNI</font></th>
+              <th><font color="#FF2626">FEC. INGRESO</font></th>
+              <th><font color="#FF2626">SIS. LABORAL</font></th>
               <th><font color="#FF2626">C&Oacute;NYUGE</font></th>
               <th><font color="#FF7373">APELLIDOS Y NOMBRES DEL HIJO</font></th>
               <th><font color="#FF7373">SEXO</font></th>
@@ -73,6 +75,8 @@ if(accesocon($cone,$_SESSION['identi'],1)){
               <td><font color="#555555" size="-1"><?php echo cargoe($cone, $idem); ?></font></td>
               <td><font color="#555555" size="-1"><?php echo dependenciae($cone, $idem); ?></font></td>
               <td><font color="#555555" size="-1"><?php echo $rph['NumeroDoc']; ?></font></td>
+              <td><font color="#555555" size="-1"><?php echo $rph['FechaAsu']; ?></font></td>
+              <td><font color="#555555" size="-1"><?php echo condicionlabe($cone,$idem); ?></font></td>
               <td><font color="#555555" size="-1"><?php echo $cony; ?></font></td>
               <td><font color="#555555" size="-1"><?php echo $rph['ApellidoPat']." ".$rph['ApellidoMat'].", ".$rph['Nombres']; ?></font></td>
               <td><font color="#555555" size="-1"><?php echo $rph['Sexo']; ?></font></td>
