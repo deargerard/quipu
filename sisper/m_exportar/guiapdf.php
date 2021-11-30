@@ -40,8 +40,11 @@ if(isset($_GET['guia']) && !empty($_GET['guia'])){
     <page_footer> 
         <table class="page_footer">
             <tr>
-            	<td style="width: 70%; text-align: left">
+            	<td style="width: 45%; text-align: left">
             		Ministerio Público | Distrito Fiscal de Cajamarca | (076)-365577
+            	</td>
+				<td style="width: 25%; text-align: center">
+            		Por: <?php echo nomempleado($cone, $rg['generador']); ?>
             	</td>
                 <td style="width: 30%; text-align: right">
                     Página [[page_cu]]/[[page_nb]]
