@@ -16,10 +16,10 @@ if(accesocon($cone,$_SESSION['identi'],1)){
 ?>
           <table border=1>
               <tr>
-                    <th colspan="23"><font face="arial" color="#605ca8" size="3">LISTADO DE PERSONAL ACTIVO - DISTRITO FISCAL DE CAJAMARCA</font></th>
+                    <th colspan="24"><font face="arial" color="#605ca8" size="3">LISTADO DE PERSONAL ACTIVO - DISTRITO FISCAL DE CAJAMARCA</font></th>
               </tr>
               <tr>
-                    <td colspan="23"></td>
+                    <td colspan="24"></td>
               </tr>
 <?php
               $cper=mysqli_query($cone,"SELECT e.idEmpleado, ApellidoPat, ApellidoMat, Nombres, Sexo, FechaNac, NumeroDoc, CorreoPer, CorreoIns, NumeroCuenta, ec.idCargo, cd.Oficial, cd.idDependencia, ec.FechaAsu, ec.idModAcceso, ec.Reemplazado, ec.idEmpleadoCargo FROM empleado AS e INNER JOIN empleadocargo AS ec ON e.idEmpleado=ec.idEmpleado INNER JOIN cardependencia AS cd ON ec.idEmpleadoCargo=cd.idEmpleadoCargo WHERE ec.idEstadoCar=1 AND cd.Estado=1 ORDER BY ApellidoPat, ApellidoMat, Nombres ASC;");
@@ -50,6 +50,7 @@ if(accesocon($cone,$_SESSION['identi'],1)){
                   <td bgcolor= "#605ca8"><font color="#ffffff" size="2">TEL&Eacute;FONO PERS.</font></td>
                   <td bgcolor= "#605ca8"><font color="#ffffff" size="2">DIRECCI&Oacute;N</font></td>
                   <td bgcolor= "#605ca8"><font color="#ffffff" size="2">CUENTA</font></td>
+                  <td bgcolor= "#605ca8"><font color="#ffffff" size="2">VACUNAS</font></td>
                 </tr>
 <?php
                 $a=0;
@@ -92,6 +93,21 @@ if(accesocon($cone,$_SESSION['identi'],1)){
                   <td><font color="#555555"><?php echo telefonopers($cone,$ide); ?></font></td>
                   <td><font color="#555555"><?php echo direccionEmpleado($cone, $ide); ?></font></td>
                   <td><font color="#555555"><?php echo $rper['NumeroCuenta']; ?></font></td>
+                  <td>
+                    <font color="#555555">
+                    <?php
+                      $cvac=mysqli_query($cone, "SELECT * FROM vacuna WHERE idEmpleado=$ide;");
+                      if(mysqli_num_rows($cvac)>0){
+                        $va="";
+                        while($rvac=mysqli_fetch_assoc($cvac)){
+                          $va.=$rvac['tipo']." (".$rvac['laboratorio'].'-'.fnormal($rvac['fecha']).") | ";
+                        }
+                        echo $va;
+                      }
+                      mysqli_free_result($cvac);
+                    ?>
+                    </font>
+                  </td>
                 </tr>
 <?php
                 }

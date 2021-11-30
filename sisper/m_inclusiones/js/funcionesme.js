@@ -1021,3 +1021,72 @@ $('#b_gges').on('click', function(){
      }
   });
 })
+
+//Vacunas
+function l_vacuna(idp){
+  $.ajax({
+     type: "POST",
+     url: "m_inclusiones/ajax/a_rvacuna.php",
+     dataType: "html",
+     data: {idp: idp},   // I WANT TO ADD EXTRA DATA + SERIALIZE DATA
+     beforeSend: function () {
+        $("#vacunae").html("<img src='m_images/cargando.gif'>");
+     },
+     success: function(data){
+        $("#vacunae").html(data);
+     }
+  });
+};
+
+function vacuna(acc, idp){
+  $("#m_vac").modal("show");
+  switch (acc) {
+    case "agrvac":
+      tit='<i class="fa fa-eyedropper text-orange"></i> Agregar Vacuna';
+      break;
+    case "edivac":
+      tit='<i class="fa fa-edit text-orange"></i> Editar Vacuna';
+      break;
+    case "elivac":
+      tit='<i class="fa fa-trash text-orange"></i> Eliminar Vacuna';
+      break;
+  }
+  $(".tmodal").html(tit);
+  $.ajax({
+     type: "POST",
+     url: "m_inclusiones/ajax/a_vac.php",
+     dataType: "html",
+     data: {acc: acc, idp: idp},   // I WANT TO ADD EXTRA DATA + SERIALIZE DATA
+     beforeSend: function () {
+        $("#f_vac").html("<img src='m_images/cargando.gif'>");
+        $("#b_gvac").hide();
+     },
+     success: function(data){
+        $("#f_vac").html(data);
+        $("#b_gvac").show();
+     }
+  });
+}
+
+$('#b_gvac').on('click', function(){
+  var datos = $("#f_vac").serializeArray();
+  $.ajax({
+     type: "POST",
+     url: "m_inclusiones/ajax/a_gvac.php",
+     dataType: "json",
+     data: datos,   // I WANT TO ADD EXTRA DATA + SERIALIZE DATA
+     beforeSend: function () {
+        $("#d_frespuesta").html("<h4 class='text-center'><i class='fa fa-spinner fa-spin'></i></h4>");
+        $("#b_gvac").hide();
+     },
+     success: function(d){
+        if(d.e){
+          $("#f_vac").html(d.m);
+          l_vacuna(d.d);
+        }else{
+          $("#d_frespuesta").html(d.m);
+          $("#b_gvac").show();
+        }
+     }
+  });
+})

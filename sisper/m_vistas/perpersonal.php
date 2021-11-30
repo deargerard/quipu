@@ -119,11 +119,12 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
               <li><a href="#cargoe" data-toggle="tab">Cargos</a></li>
               <?php } ?>
               <li><a href="#parientese" data-toggle="tab">Parientes</a></li>
-              <li><a href="#gradose" data-toggle="tab">Grados/Titulos</a></li>
+              <li><a href="#gradose" data-toggle="tab">Grad./Tit.</a></li>
               <li><a href="#capacitacionese" data-toggle="tab">Capacitaciones</a></li>
               <li><a href="#experienciae" data-toggle="tab">Experiencia</a></li>
               <li><a href="#discapacidade" data-toggle="tab">Discapacidad</a></li>
               <li><a href="#gestantee" data-toggle="tab">Gestante</a></li>
+			  <li><a href="#vacunae" data-toggle="tab">Vacunas</a></li>
             </ul>
             <div class="tab-content">
               <div class="active tab-pane" id="datose">
@@ -803,6 +804,10 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
               </div>
               <!-- /.tab-pane -->
 			  <div class="tab-pane" id="gestantee">
+
+              </div>
+              <!-- /.tab-pane -->
+			  <div class="tab-pane" id="vacunae">
 
               </div>
               <!-- /.tab-pane -->
@@ -1534,7 +1539,7 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title tmodal" id="myModalLabel"><i class="fa fa-wheelchair text-orange"></i> Discapacidad</h4>
+        <h4 class="modal-title tmodal" id="myModalLabel"></h4>
       </div>
       <div class="modal-body">
         <form class="form-horizontal" id="f_ges" autocomplete="off">
@@ -1543,6 +1548,26 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" id="b_gges">Guardar</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal vacuna-->
+<div class="modal fade" id="m_vac" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title tmodal" id="myModalLabel"></h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal" id="f_vac" autocomplete="off">
+        	
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="b_gvac">Guardar</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
       </div>
     </div>
