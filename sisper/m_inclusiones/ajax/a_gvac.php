@@ -19,7 +19,7 @@ if(accesoadm($cone,$_SESSION['identi'],1) || accesoadm($cone,$_SESSION['identi']
         $fvac=fmysql(iseguro($cone,$_POST['fvac']));
         $obs=vacio(iseguro($cone,$_POST['obs']));
 
-        $cv=mysqli_query($cone, "SELECT idvacuna FROM vacuna WHERE tipo='$tvac';");
+        $cv=mysqli_query($cone, "SELECT idvacuna FROM vacuna WHERE idEmpleado=$idp AND tipo='$tvac';");
         if(mysqli_num_rows($cv)>0){
             $r['m']=mensajewa("Ya tiene registrada una vacuna del mismo tipo");
         }else{
