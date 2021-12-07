@@ -183,6 +183,7 @@ $link=conect();
                         <th>Fiscalia</th>
                         <th>condicion</th>
 						<th>Foto</th>
+						<th>Visualizar</th>
                       </tr>
                     </thead>
 					<tbody>
@@ -226,7 +227,8 @@ while($row = mysqli_fetch_array($result)) {
 		</td>
 		<?php
 		}
-		?>
+		?>				
+						<td><a href="caso_visualizacion.php?id=<?php echo $row["id"];?>" class="btn btn-info"><i class="fa fa-eye"></i> VER</td>
 						</tr>
 					  	<?php
 						} ?> 
