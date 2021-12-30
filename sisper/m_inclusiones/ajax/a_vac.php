@@ -18,6 +18,7 @@ if(accesoadm($cone,$_SESSION['identi'],1) || accesoadm($cone,$_SESSION['identi']
           <select class="form-control" name="tvac" id="tvac" style="width: 100%;">
             <option value="1D Covid-19">1D Covid-19</option>
             <option value="2D Covid-19">2D Covid-19</option>
+            <option value="3D Covid-19">3D Covid-19</option>
           </select>
         </div>
         <div class="col-sm-6">
@@ -69,6 +70,7 @@ if(accesoadm($cone,$_SESSION['identi'],1) || accesoadm($cone,$_SESSION['identi']
           <select class="form-control" name="tvac" id="tvac" style="width: 100%;">
             <option value="1D Covid-19" <?php echo $rva['tipo']=='1D Covid-19' ? 'selected' : ''; ?>>1D Covid-19</option>
             <option value="2D Covid-19" <?php echo $rva['tipo']=='2D Covid-19' ? 'selected' : ''; ?>>2D Covid-19</option>
+            <option value="3D Covid-19" <?php echo $rva['tipo']=='3D Covid-19' ? 'selected' : ''; ?>>3D Covid-19</option>
           </select>
         </div>
         <div class="col-sm-6">
