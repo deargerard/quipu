@@ -202,6 +202,34 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
       }
         ?>
         <div class="col-md-6">
+
+
+
+          <!-- Default box -->
+          <div class="box box-warning">
+              <div class="box-header with-border">
+                <h3 class="box-title text-yellow"><i class="fa fa-clock-o"></i> Horas por recuperar</h3>
+
+                <div class="box-tools pull-right">
+                  <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                    <i class="fa fa-minus"></i></button>
+                  <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
+                    <i class="fa fa-times"></i></button>
+                </div>
+              </div>
+              <div class="box-body chat">
+                  <p class="text-center text-muted">Calculando...</p>
+                  <img src="https://st3.depositphotos.com/1010613/32105/i/600/depositphotos_321053042-stock-photo-close-up-of-businessmans-hands.jpg" class="img-responsive img-rounded">
+                  <br>
+              </div>
+              <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+
+
+
+
+
            <!-- Default box -->
             <div class="box box-info">
               <div class="box-header with-border">
