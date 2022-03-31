@@ -1,6 +1,6 @@
 <?php
     include ("sisper/m_inclusiones/php/conexion_sp.php");
-    include ("ajax/a_coneenc.php");
+    //include ("ajax/a_coneenc.php");
     include ("sisper/m_inclusiones/php/funciones.php");
 ?>
 <!DOCTYPE html>
@@ -358,6 +358,15 @@
             <tr>
               <td>
                 <i class="fas fa-archive text-info"></i> <a href="incautaciones_new/" target="_blank"> Incautaciones</a>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="col-md-2">
+          <table class="table table-hover table-bordered">
+            <tr>
+              <td>
+                <i class="fas fa-truck text-info"></i> <a href="http://10.6.100.14" target="_blank"> Logística</a>
               </td>
             </tr>
           </table>
