@@ -1,6 +1,6 @@
 <?php
 if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
-  if(accesoadm($cone,$_SESSION['identi'],16)){
+  if(accesocon($cone,$_SESSION['identi'],16)){
     //$mes="2";
     //$anio="2019";
 ?>
