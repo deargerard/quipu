@@ -206,7 +206,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
 
 
           <!-- Default box -->
-          <div class="box box-warning">
+          <!-- <div class="box box-warning">
               <div class="box-header with-border">
                 <h3 class="box-title text-yellow"><i class="fa fa-clock-o"></i> Horas por recuperar</h3>
 
@@ -222,8 +222,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                   <img src="https://st3.depositphotos.com/1010613/32105/i/600/depositphotos_321053042-stock-photo-close-up-of-businessmans-hands.jpg" class="img-responsive img-rounded">
                   <br>
               </div>
-              <!-- /.box-body -->
-          </div>
+          </div> -->
           <!-- /.box -->
 
 
