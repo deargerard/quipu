@@ -7,7 +7,8 @@ if(accesoadm($cone,$_SESSION['identi'],3)){
 		if(isset($_POST['idvac']) && !empty($_POST['idvac']) && isset($_POST['estado']) && !empty($_POST['estado'])){
 			$idvac=iseguro($cone,$_POST['idvac']);
 			$estado=iseguro($cone,$_POST['estado']);
-				$sql="UPDATE provacaciones SET Estado=$estado WHERE idProVacaciones=$idvac";
+			$obse=vacio(iseguro($cone, $_POST['obse']));
+				$sql="UPDATE provacaciones SET Estado=$estado, Observaciones=$obse WHERE idProVacaciones=$idvac";
 				if(mysqli_query($cone,$sql)){
 					echo mensajesu("Listo: Se cambio el estado de las vacaciones");
 				}else{

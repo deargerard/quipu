@@ -35,15 +35,17 @@ if(accesoadm($cone,$_SESSION['identi'],3)){
           </thead>
           <tbody>
             <tr>
-              <td class="text-center">
+              <td>
                 <h4 class="text-maroon text-center"><?php echo " Del: ". fnormal($rvac['FechaIni'])." Al:  ".fnormal($rvac['FechaFin']) ?></h4>
-                <h5 class="text-info">Elija el estado a cambiar</h5>
-                <label class="radio-inline">
-                  <input type="radio" name="estado" id="inlineRadio1" value="2"> Cancelar
-                </label>
-                <label class="radio-inline">
-                  <input type="radio" name="estado" id="inlineRadio2" value="5"> Suspender
-                </label>
+                <label for="estado">Elija el estado a cambiar</label>
+                <select name="estado" id="estado" class="form-control">
+                  <option value="2">Cancelada</option>
+                  <option value="5">Suspendida</option>
+                  <option value="1">Ejecutada</option>
+                  <option value="9">Compensada</option>
+                </select>
+                <label for="obse">Observaciones</label>
+                <textarea name="obse" id="obse" rows="4" class="form-control"></textarea>
               </td>
             </tr>
           </tbody>

@@ -953,6 +953,12 @@ function estadoVac($est){
 			case 7:
 				return "<span class='label label-purple'>Aceptadas</span>";
 				break;
+			case 8:
+				return "<span class='label label-danger'>Denegadas</span>";
+				break;
+			case 9:
+				return "<span class='label label-success'>Compensadas</span>";
+				break;
 		}
 	}else{
 		return "SE";
