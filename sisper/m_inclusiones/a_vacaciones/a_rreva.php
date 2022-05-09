@@ -23,7 +23,7 @@ if(accesocon($cone,$_SESSION['identi'],3)){
 			$wcon.=$j==(count($convac)-1) ? " v.Condicion=$convac[$j])" : "v.Condicion=$convac[$j] OR ";
 		}
 
-		$q="SELECT v.idProVacaciones, pv.PeriodoVacacional, concat(d.Numero,'-',d.Ano,'-',d.Siglas) AS Resolucion, d.FechaDoc, v.FechaIni, v.FechaFin, v.Estado, v.Condicion, av.idAprVacaciones FROM provacaciones as v INNER JOIN periodovacacional AS pv ON v.idPeriodoVacacional = pv.idPeriodoVacacional INNER JOIN aprvacaciones as av ON v.idProVacaciones= av.idProVacaciones INNER JOIN doc AS d ON av.idDoc=d.idDoc INNER JOIN empleadocargo AS ec ON v.idEmpleadoCargo=ec.idEmpleadoCargo WHERE idEmpleado = $per AND ec.idEmpleadoCargo=$car AND $west AND $wcon";
+		$q="SELECT v.idProVacaciones, pv.PeriodoVacacional, concat(d.Numero,'-',d.Ano,'-',d.Siglas) AS Resolucion, d.FechaDoc, v.FechaIni, v.FechaFin, v.Estado, v.Condicion, v.Observaciones, av.idAprVacaciones FROM provacaciones as v INNER JOIN periodovacacional AS pv ON v.idPeriodoVacacional = pv.idPeriodoVacacional INNER JOIN aprvacaciones as av ON v.idProVacaciones= av.idProVacaciones INNER JOIN doc AS d ON av.idDoc=d.idDoc INNER JOIN empleadocargo AS ec ON v.idEmpleadoCargo=ec.idEmpleadoCargo WHERE idEmpleado = $per AND ec.idEmpleadoCargo=$car AND $west AND $wcon";
 		//echo $q;
 		$cvac=mysqli_query($cone,$q);
 ?>
@@ -102,7 +102,7 @@ if(accesocon($cone,$_SESSION['identi'],3)){
 		<?php
 		if (mysqli_num_rows($cvac)>0) {
 		 ?>
-		<table id="dtreva" class="table table-bordered table-hover"> <!--Tabla que Lista las vacaciones-->
+		<table id="dtreva" class="table table-bordered table-hover" style="font-size: 11px;"> <!--Tabla que Lista las vacaciones-->
 			  <thead>
 					<tr>
 						<th>PERÍODO</th>
@@ -111,40 +111,15 @@ if(accesocon($cone,$_SESSION['identi'],3)){
 						<th>PROGRAMACIÓN</th>
 						<th>DÍAS</th>
 						<th>INICIA</th>
-	          <th>TERMINA</th>
-	          <th>ESTADO</th>
+	          			<th>TERMINA</th>
+	          			<th>ESTADO</th>
+						<th>OBSERVACIONES</th>
 					</tr>
 				</thead>
 		<tbody>
 			<?php
 			$tot=0;
 					while($rvac=mysqli_fetch_assoc($cvac)){
-						if ($rvac['Estado']=='0') {
-							$est="info";
-							$cap="Pendiente";
-						}elseif($rvac['Estado']=='1') {
-							$est="success";
-							$cap="Ejecutado";
-							//$eje= intervalo($rvac['FechaFin'], $rvac['FechaIni']) + $eje;
-						}elseif ($rvac['Estado']=='2') {
-							$est="danger";
-							$cap="Cancelado";
-						}elseif ($rvac['Estado']=='3') {
-							$est="primary";
-							$cap="Ejecutandose";
-						}elseif ($rvac['Estado']=='5'){
-							$est="default";
-							$cap="Suspendida";
-						}else {
-							$est="warning";
-							$cap="Planificada";
-						}
-						$con="";
-						if($rvac['Condicion']=='1'){
-							$con="PROGRAMADAS";
-							}else {
-										$con="REPROGRAMADAS";
-										}
 						$dt=intervalo ($rvac['FechaFin'], $rvac['FechaIni']);
 						$tot=$tot+1;
 						?>
@@ -152,11 +127,12 @@ if(accesocon($cone,$_SESSION['identi'],3)){
 					<td><?php echo $rvac['PeriodoVacacional']?></td> <!--columna PERÍODO-->
 					<td><?php echo $rvac['Resolucion']?></td> <!--columna NÚMERO DE RESOLUCIÓN-->
 					<td><?php echo fnormal($rvac['FechaDoc'])?></td> <!--columna FECHA DOCUMENTO-->
-					<td><?php echo $con ?></td> <!--columna CONDICIÓN-->
+					<td><?php echo condicionVac($rvac['Condicion']) ?></td> <!--columna CONDICIÓN-->
 					<td><?php echo $dt ?></td> <!--columna CAMTIDAD DE DIAS-->
 					<td><?php echo "<span class='hidden'>".$rvac['FechaIni']."</span> ".fnormal($rvac['FechaIni'])?></td> <!--columna INICIO-->
-					<td><?php echo fnormal($rvac['FechaFin'])?></td> <!--columna FIN-->
-					<td><span class='label label-<?php echo $est?>'><?php echo $cap?></span></td> <!--columna ESTADO-->
+					<td><?php echo fnormal($rvac['FechaFin']) ?></td> <!--columna FIN-->
+					<td><?php echo estadoVac($rvac['Estado']) ?></td> <!--columna ESTADO-->
+					<td><?php echo $rvac['Observaciones'] ?></td> <!--columna ESTADO-->
         </tr>
 				<?php
 					}

@@ -62,6 +62,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                       <option value="1">EJECUTADAS</option>
                       <option value="2">CANCELADAS</option>
                       <option value="5">SUSPENDIDAS</option>
+                      <option value="9">COMPENSADAS</option>
                     </select>
                   </div>
 
@@ -146,6 +147,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                       <option value="1">EJECUTADAS</option>
                       <option value="2">CANCELADAS</option>
                       <option value="5">SUSPENDIDAS</option>
+                      <option value="9">COMPENSADAS</option>
                     </select>
                   </div>
                   <div class="form-group">
@@ -233,6 +235,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                       <option value="1">EJECUTADAS</option>
                       <option value="2">CANCELADAS</option>
                       <option value="5">SUSPENDIDAS</option>
+                      <option value="9">COMPENSADAS</option>
                     </select>
                   </div>
                   <button type="submit" id="b_bejva" class="btn btn-default">Buscar</button>

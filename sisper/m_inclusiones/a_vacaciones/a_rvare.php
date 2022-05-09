@@ -61,31 +61,8 @@ if(accesocon($cone,$_SESSION['identi'],3)){
 						</thead>
 				<tbody>
 					<?php
-						$est="";
-						$cap="";
 						$tot=0;
 							while($rpc=mysqli_fetch_assoc($cpv)){
-								if ($rpc['Estado']=='0') {
-									$est="info";
-									$cap="Pendiente";
-									//$pen= intervalo($rvac['FechaFin'], $rvac['FechaIni']) + $pen;
-								}elseif($rpc['Estado']=='1') {
-									$est="success";
-									$cap="Ejecutada";
-									//$eje= intervalo($rvac['FechaFin'], $rvac['FechaIni']) + $eje;
-								}elseif ($rpc['Estado']=='2') {
-									$est="danger";
-									$cap="Cancelada";
-								}elseif ($rpc['Estado']=='3'){
-									$est="primary";
-									$cap="Ejecutandose";
-								}elseif ($rpc['Estado']=='5'){
-									$est="default";
-									$cap="Suspendida";
-								}else{
-									$est="warning";
-									$cap="Planificada";
-								}
 								$con="";
 								if($rpc['Condicion']=='1'){
 									$con="active";
@@ -106,7 +83,7 @@ if(accesocon($cone,$_SESSION['identi'],3)){
 							<td style="font-size:11px;" class="<?php echo $con?>"><?php echo fnormal($rpc['FechaIni'])?></td> <!--columna INICIO-->
 							<td style="font-size:11px;" class="<?php echo $con?>"><?php echo fnormal($rpc['FechaFin'])?></td> <!--columna FIN-->
 							<td style="font-size:11px;" class="<?php echo $con?>"><?php echo $dt ?></td> <!--columna CAMTIDAD DE DIAS-->
-							<td style="font-size:11px;" class="<?php echo $con?>"><span class='label label-<?php echo $est?>'><?php echo $cap?></span></td> <!--columna ESTADO-->
+							<td style="font-size:11px;" class="<?php echo $con?>"><?php echo estadoVac($rpc['Estado']) ?></td> <!--columna ESTADO-->
 
 						</tr>
 						<?php

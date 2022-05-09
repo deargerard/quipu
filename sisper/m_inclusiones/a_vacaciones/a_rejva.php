@@ -41,13 +41,14 @@ if(accesocon($cone,$_SESSION['identi'],3)){
 		}
 
 
-			$c="SELECT sl.idSistemaLab, e.NumeroDoc, e.idEmpleado, c.Denominacion as cargo, d.Denominacion, cl.Tipo, ec.FechaVac, pva.idPeriodoVacacional, pva.PeriodoVacacional, pv.FechaIni, pv.FechaFin, pv.Estado, pv.Condicion, do.Numero, do.Ano, do.Siglas FROM provacaciones pv INNER JOIN empleadocargo ec ON pv.idEmpleadoCargo=ec.idEmpleadoCargo INNER JOIN empleado e ON ec.idEmpleado=e.idEmpleado INNER JOIN condicionlab cl ON ec.idCondicionLab=cl.idCondicionLab INNER JOIN cargo c ON ec.idCargo=c.idCargo INNER JOIN cardependencia cd ON ec.idEmpleadoCargo=cd.idEmpleadoCargo INNER JOIN dependencia d ON cd.idDependencia=d.idDependencia INNER JOIN periodovacacional pva ON pv.idPeriodoVacacional=pva.idPeriodoVacacional INNER JOIN sistemalab sl ON c.idSistemaLab=sl.idSistemaLab INNER JOIN aprvacaciones ava ON pv.idProVacaciones=ava.idProVacaciones INNER JOIN doc do ON ava.idDoc=do.idDoc WHERE (FechaIni BETWEEN '$mesini' AND '$mesfin') AND cd.Oficial=1 AND ec.idEstadoCar=1 AND $wrl AND $wpv AND $wev AND $wsl";
+			$c="SELECT sl.idSistemaLab, e.NumeroDoc, e.idEmpleado, c.Denominacion as cargo, d.Denominacion, cl.Tipo, ec.FechaVac, pva.idPeriodoVacacional, pva.PeriodoVacacional, pv.FechaIni, pv.FechaFin, pv.Estado, pv.Condicion, pv.Observaciones, do.Numero, do.Ano, do.Siglas FROM provacaciones pv INNER JOIN empleadocargo ec ON pv.idEmpleadoCargo=ec.idEmpleadoCargo INNER JOIN empleado e ON ec.idEmpleado=e.idEmpleado INNER JOIN condicionlab cl ON ec.idCondicionLab=cl.idCondicionLab INNER JOIN cargo c ON ec.idCargo=c.idCargo INNER JOIN cardependencia cd ON ec.idEmpleadoCargo=cd.idEmpleadoCargo INNER JOIN dependencia d ON cd.idDependencia=d.idDependencia INNER JOIN periodovacacional pva ON pv.idPeriodoVacacional=pva.idPeriodoVacacional INNER JOIN sistemalab sl ON c.idSistemaLab=sl.idSistemaLab INNER JOIN aprvacaciones ava ON pv.idProVacaciones=ava.idProVacaciones INNER JOIN doc do ON ava.idDoc=do.idDoc WHERE (FechaIni BETWEEN '$mesini' AND '$mesfin') AND cd.Oficial=1 AND ec.idEstadoCar=1 AND $wrl AND $wpv AND $wev AND $wsl";
 			//echo $c." -- ".$mesini." -- ".$mesfin;
 
 			$cpv=mysqli_query($cone,$c);
 			if (mysqli_num_rows($cpv)>0) {
 		?>
 		<hr>
+		<div class="table-responsive">
 		<table id="dtejva" class="table table-bordered table-hover"> <!--Tabla que Lista las vacaciones-->
 					  <thead>
 							<tr>
@@ -61,9 +62,9 @@ if(accesocon($cone,$_SESSION['identi'],3)){
 			          			<th style="font-size:12px;">INICIA</th>
 								<th style="font-size:12px;">TERMINA</th>
 								<th style="font-size:12px;">DIAS</th>
-								<th style="font-size:12px;"">DOCUMENTO</th>
+								<th style="font-size:12px;">DOCUMENTO</th>
 			          			<th style="font-size:12px;">ESTADO</th>
-
+								<th style="font-size:12px;">OBSERVACIONES</th>
 							</tr>
 						</thead>
 				<tbody>
@@ -73,29 +74,6 @@ if(accesocon($cone,$_SESSION['identi'],3)){
 						//$tot=0;
 							while($rpc=mysqli_fetch_assoc($cpv)){
 								$dt=intervalo ($rpc['FechaFin'], $rpc['FechaIni']);
-								if ($rpc['Estado']=='0') {
-									$est="info";
-									$cap="Pendiente";
-									//$pen= intervalo($rvac['FechaFin'], $rvac['FechaIni']) + $pen;
-								}elseif($rpc['Estado']=='1') {
-									$est="success";
-									$cap="Ejecutada";
-									//$eje= intervalo($rvac['FechaFin'], $rvac['FechaIni']);
-								}elseif ($rpc['Estado']=='2') {
-									$est="danger";
-									$cap="Cancelada";
-								}elseif ($rpc['Estado']=='3'){
-									$est="primary";
-									$cap="Ejecutandose";
-									$hoy= date('Y-m-j');
-									$dt= intervalo($hoy, $rpc['FechaIni']);
-								}elseif ($rpc['Estado']=='5'){
-									$est="default";
-									$cap="Suspendida";
-								}else{
-									$est="warning";
-									$cap="Planificada";
-								}
 								$con="";
 								if($rpc['Condicion']=='1'){
 									$con="active";
@@ -116,14 +94,15 @@ if(accesocon($cone,$_SESSION['identi'],3)){
 							<td style="font-size:11px;" class="<?php echo $con?>"><?php echo fnormal($rpc['FechaFin'])?></td> <!--columna FIN-->
 							<td style="font-size:11px;" class="<?php echo $con?>"><?php echo $dt ?></td> <!--columna CAMTIDAD DE DIAS-->
 							<td style="font-size:9px;" class="<?php echo $con?>"><?php echo $rpc['Numero']."-".$rpc['Ano'].$rpc['Siglas'] ?></td>
-							<td style="font-size:12px;" class="<?php echo $con?>"><span class='label label-<?php echo $est?>'><?php echo $cap?></span></td> <!--columna ESTADO-->
-
+							<td style="font-size:12px;" class="<?php echo $con?>"><?php echo estadoVac($rpc['Estado']) ?></td> <!--columna ESTADO-->
+							<td style="font-size:12px;" class="<?php echo $con?>"><?php echo $rpc['Observaciones'] ?></td><!--columna ESTADO-->
 						</tr>
 						<?php
 							}
 						 ?>
 				</tbody>
 			</table>
+		</div>
 			<script>
 			$('#dtejva').DataTable({
 				"order": [[7,"asc"]]

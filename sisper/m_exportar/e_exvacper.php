@@ -33,7 +33,7 @@ if(accesocon($cone,$_SESSION['identi'],3)){
   			$wcon.=$j==(count($convac)-1) ? " v.Condicion=$convac[$j])" : "v.Condicion=$convac[$j] OR ";
   		}
 
-  		$q="SELECT v.idProVacaciones, pv.PeriodoVacacional, concat(d.Numero,'-',d.Ano,'-',d.Siglas) AS Resolucion, d.FechaDoc, v.FechaIni, v.FechaFin, v.Estado, v.Condicion, av.idAprVacaciones FROM provacaciones as v INNER JOIN periodovacacional AS pv ON v.idPeriodoVacacional = pv.idPeriodoVacacional INNER JOIN aprvacaciones as av ON v.idProVacaciones= av.idProVacaciones INNER JOIN doc AS d ON av.idDoc=d.idDoc INNER JOIN empleadocargo AS ec ON v.idEmpleadoCargo=ec.idEmpleadoCargo WHERE idEmpleado = $per AND ec.idEmpleadoCargo=$car AND $west AND $wcon";
+  		$q="SELECT v.idProVacaciones, pv.PeriodoVacacional, concat(d.Numero,'-',d.Ano,'-',d.Siglas) AS Resolucion, d.FechaDoc, v.FechaIni, v.FechaFin, v.Estado, v.Condicion, v.Observaciones, av.idAprVacaciones FROM provacaciones as v INNER JOIN periodovacacional AS pv ON v.idPeriodoVacacional = pv.idPeriodoVacacional INNER JOIN aprvacaciones as av ON v.idProVacaciones= av.idProVacaciones INNER JOIN doc AS d ON av.idDoc=d.idDoc INNER JOIN empleadocargo AS ec ON v.idEmpleadoCargo=ec.idEmpleadoCargo WHERE idEmpleado = $per AND ec.idEmpleadoCargo=$car AND $west AND $wcon";
   		//echo $q;
   		$cvac=mysqli_query($cone,$q);
 ?>
@@ -42,11 +42,10 @@ if(accesocon($cone,$_SESSION['identi'],3)){
       if (mysqli_num_rows($cvac)>0) {
 ?>
               <tr>
-                    <th colspan="12"><font face="arial" color="#FF8000" size="3">RECORD DE VACACIONES</font></th>
+                <th colspan="12"><font face="arial" color="#FF8000" size="3">RECORD DE VACACIONES</font></th>
               </tr>
-
               <tr>
-                <td bgcolor= "#AFAFAF"><b><font color="#ffffff" size="2">CÓDIGO</font></b></td>
+                <td bgcolor= "#AFAFAF"><b><font color="#ffffff" size="2">C&Oacute;DIGO</font></b></td>
                 <td bgcolor= "#AFAFAF"><b><font color="#ffffff" size="2">APELLIDOS Y NOMBRES</font></b></td>
                 <td bgcolor= "#AFAFAF"><b><font color="#ffffff" size="2">CARGO</font></b></td>
                 <td bgcolor= "#AFAFAF"><b><font color="#ffffff" size="2">DEPENDENCIA</font></b></td>
@@ -57,27 +56,14 @@ if(accesocon($cone,$_SESSION['identi'],3)){
                 <td bgcolor= "#AFAFAF"><b><font color="#ffffff" size="2">REG. LAB.</font></b></td>
                 <td bgcolor= "#AFAFAF"><b><font color="#ffffff" size="2">DISTRITO FISCAL</font></b></td>
                 <td bgcolor= "#AFAFAF"><b><font color="#ffffff" size="2">DOCUMENTO</font></b></td>
-                <td bgcolor= "#AFAFAF"><b><font color="#ffffff" size="2">T. DÍAS</font></b></td>
+                <td bgcolor= "#AFAFAF"><b><font color="#ffffff" size="2">D&Iacute;AS</font></b></td>
                 <td bgcolor= "#AFAFAF"><b><font color="#ffffff" size="2">ESTADO</font></b></td>
+                <td bgcolor= "#AFAFAF"><b><font color="#ffffff" size="2">OBSERVACIONES</font></b></td>
               </tr>
 <?php
                 $a=0;
                 while($rvac=mysqli_fetch_assoc($cvac)){
                   $a++;
-                  //$per=$rvac['idEmpleado'];
-                  if ($rvac['Estado']=='0') {
-                    $cap="Pendiente";
-                  }elseif($rvac['Estado']=='1') {
-                    $cap="Ejecutada";
-                  }elseif ($rvac['Estado']=='2') {
-                    $cap="Cancelada";
-                  }elseif($rvac['Estado']=='3'){
-                    $cap="Ejecutandose";
-                  }elseif($rvac['Estado']=='5'){
-                    $cap="Suspendida";
-                  }else {
-                    $cap="Planificada";
-                  }
 ?>
               <tr>
                 <td><font color="#555555"><?php echo docidentidad($cone,$per); ?></font></td>
@@ -92,7 +78,8 @@ if(accesocon($cone,$_SESSION['identi'],3)){
                 <td><font color="#555555"><?php echo "CAJAMARCA"; ?></font></td>
                 <td><font color="#555555"><?php echo $rvac['Resolucion']?></font></td>
                 <td><font color="#555555"><?php echo intervalo($rvac['FechaFin'],$rvac['FechaIni']); ?></font></td>
-                <td><font color="#555555"><?php echo $cap ?></font></td>
+                <td><font color="#555555"><?php echo estadoVac($rvac['Estado']) ?></font></td>
+                <td><font color="#555555"><?php echo $rvac['Observaciones'] ?></font></td>
               </tr>
 <?php
                 }

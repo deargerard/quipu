@@ -21,40 +21,16 @@ if(accesocon($cone,$_SESSION['identi'],3)){
 								<th style="font-size:12px;">DEPENDENCIA</th>
 								<th style="font-size:12px;">RÉGIMEN</th>
 								<th style="font-size:12px;">FECH. VAC.</th>
-			          <th style="font-size:12px;">INICIA</th>
+			          			<th style="font-size:12px;">INICIA</th>
 								<th style="font-size:12px;">TERMINA</th>
 								<th style="font-size:12px;">DIAS</th>
-			          <th style="font-size:12px;">ESTADO</th>
-
+			          			<th style="font-size:12px;">ESTADO</th>
 							</tr>
 						</thead>
 				<tbody>
 					<?php
-						$est="";
-						$cap="";
 						$tot=0;
 							while($rva=mysqli_fetch_assoc($cva)){
-								if ($rva['Estado']=='0') {
-									$est="info";
-									$cap="Pendiente";
-									//$pen= intervalo($rvac['FechaFin'], $rvac['FechaIni']) + $pen;
-								}elseif($rva['Estado']=='1') {
-									$est="success";
-									$cap="Ejecutada";
-									//$eje= intervalo($rvac['FechaFin'], $rvac['FechaIni']) + $eje;
-								}elseif ($rva['Estado']=='2') {
-									$est="danger";
-									$cap="Cancelada";
-								}elseif ($rva['Estado']=='3'){
-									$est="primary";
-									$cap="Ejecutandose";
-								}elseif ($rva['Estado']=='5'){
-									$est="default";
-									$cap="Suspendida";
-								}else{
-									$est="warning";
-									$cap="Planificada";
-								}
 								$con="";
 								if($rva['Condicion']=='1'){
 									$con="active";
@@ -74,7 +50,7 @@ if(accesocon($cone,$_SESSION['identi'],3)){
 							<td style="font-size:11px;" class="<?php echo $con?>"><?php echo "<span class='hidden'>".$rva['FechaIni']."</span> ".fnormal($rva['FechaIni'])?></td> <!--columna INICIO-->
 							<td style="font-size:11px;" class="<?php echo $con?>"><?php echo fnormal($rva['FechaFin'])?></td> <!--columna FIN-->
 							<td style="font-size:11px;" class="<?php echo $con?>"><?php echo $dt ?></td> <!--columna CAMTIDAD DE DIAS-->
-							<td style="font-size:11px;" class="<?php echo $con?>"><span class='label label-<?php echo $est?>'><?php echo $cap?></span></td> <!--columna ESTADO-->
+							<td style="font-size:11px;" class="<?php echo $con?>"><span class='label label-<?php echo $est?>'><?php echo estadoVac($rva['Estado']) ?></span></td> <!--columna ESTADO-->
 
 						</tr>
 						<?php

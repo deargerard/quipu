@@ -19,17 +19,17 @@ if(accesocon($cone,$_SESSION['identi'],3)){
 ?>
           <table border=1>
               <tr>
-                    <th colspan="10"><font face="arial" color="#FF5C26" size="3">PROGRAMACIÓN DE VACACIONES</font></th>
+                    <th colspan="10"><font face="arial" color="#FF5C26" size="3">PROGRAMACI&Oacute;N DE VACACIONES</font></th>
               </tr>
 
 <?php
-              $cper=mysqli_query($cone,"SELECT e.idEmpleado, ec.FechaVac, pv.FechaIni, pv.FechaFin  FROM  provacaciones pv INNER JOIN aprvacaciones apv ON pv.idProVacaciones=apv.idProVacaciones INNER JOIN empleadocargo ec ON ec.idEmpleadoCargo=pv.idEmpleadoCargo INNER JOIN empleado e ON ec.idEmpleado=e.idEmpleado WHERE apv.idDoc=$doc ORDER BY e.ApellidoPat, e.ApellidoMat, e.Nombres, pv.FechaIni ASC;");
+              $cper=mysqli_query($cone,"SELECT e.idEmpleado, ec.FechaVac, pv.FechaIni, pv.FechaFin, pv.Estado, pv.Observaciones  FROM  provacaciones pv INNER JOIN aprvacaciones apv ON pv.idProVacaciones=apv.idProVacaciones INNER JOIN empleadocargo ec ON ec.idEmpleadoCargo=pv.idEmpleadoCargo INNER JOIN empleado e ON ec.idEmpleado=e.idEmpleado WHERE apv.idDoc=$doc ORDER BY e.ApellidoPat, e.ApellidoMat, e.Nombres, pv.FechaIni ASC;");
               if(mysqli_num_rows($cper)>0){
                 $cr=mysqli_query($cone, "SELECT Numero, Ano, Siglas FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc WHERE d.idDoc=$doc;");
                 if($rr=mysqli_fetch_assoc($cr)){
 ?>
                 <tr>
-                      <th colspan="10"><font face="arial" color="#777777" size="1">Resolución</font></th>
+                      <th colspan="10"><font face="arial" color="#777777" size="1">Resoluci&oacute;n</font></th>
                 </tr>
                 <tr>
                   <th colspan="10"><font face="arial" color="#C8A2C8" size="2"><?php echo $rr['Numero']."-".$rr['Ano']."-".$rr['Siglas']; ?></font></th>
@@ -40,8 +40,8 @@ if(accesocon($cone,$_SESSION['identi'],3)){
 ?>
 
                 <tr>
-                  <td bgcolor= "#C8A2C8"><font color="#ffffff" size="2">N°</font></td>
-                  <td bgcolor= "#C8A2C8"><font color="#ffffff" size="2">N° DNI</font></td>
+                  <td bgcolor= "#C8A2C8"><font color="#ffffff" size="2">N&deg;</font></td>
+                  <td bgcolor= "#C8A2C8"><font color="#ffffff" size="2">N&deg; DNI</font></td>
                   <td bgcolor= "#C8A2C8"><font color="#ffffff" size="2">NOMBRE</font></td>
                   <td bgcolor= "#C8A2C8"><font color="#ffffff" size="2">CARGO</font></td>
                   <td bgcolor= "#C8A2C8"><font color="#ffffff" size="2">DEPENDENCIA</font></td>
@@ -49,7 +49,9 @@ if(accesocon($cone,$_SESSION['identi'],3)){
                   <td bgcolor= "#C8A2C8"><font color="#ffffff" size="2">F. VACACIONES</font></td>
                   <td bgcolor= "#C8A2C8"><font color="#ffffff" size="2">F. INICIO</font></td>
                   <td bgcolor= "#C8A2C8"><font color="#ffffff" size="2">F. FIN</font></td>
-                  <td bgcolor= "#C8A2C8"><font color="#ffffff" size="2">DÍAS</font></td>
+                  <td bgcolor= "#C8A2C8"><font color="#ffffff" size="2">D&Iacute;AS</font></td>
+                  <td bgcolor= "#C8A2C8"><font color="#ffffff" size="2">ESTADO</font></td>
+                  <td bgcolor= "#C8A2C8"><font color="#ffffff" size="2">OBSERVACIONES</font></td>
                 </tr>
 <?php
                 $a=0;
@@ -68,13 +70,15 @@ if(accesocon($cone,$_SESSION['identi'],3)){
                   <td><font color="#555555"><?php echo fnormal($rper['FechaIni']); ?></font></td>
                   <td><font color="#555555"><?php echo fnormal($rper['FechaFin']); ?></font></td>
                   <td><font color="#555555"><?php echo intervalo($rper['FechaFin'],$rper['FechaIni']); ?></font></td>
+                  <td><font color="#555555"><?php echo estadoVac($rper['Estado']); ?></font></td>
+                  <td><font color="#555555"><?php echo $rper['Observaciones']; ?></font></td>
                 </tr>
 <?php
                 }
               }else{
 ?>
               <tr>
-                    <td colspan="10">No existen vacaciones para la resolución seleccionada.</td>
+                    <td colspan="10">No existen vacaciones para la resoluci&oacute;n seleccionada.</td>
               </tr>
 <?php
               }

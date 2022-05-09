@@ -54,7 +54,7 @@ if(accesocon($cone,$_SESSION['identi'],3)){
     }
 
 
-      $c="SELECT ec.idEmpleado, ec.FechaVac, ec.idEmpleadoCargo, pva.idPeriodoVacacional, pva.PeriodoVacacional, pv.FechaIni, pv.FechaFin, do.Numero, do.Ano, do.Siglas FROM provacaciones pv INNER JOIN empleadocargo ec ON pv.idEmpleadoCargo=ec.idEmpleadoCargo INNER JOIN empleado e ON ec.idEmpleado=e.idEmpleado INNER JOIN condicionlab cl ON ec.idCondicionLab=cl.idCondicionLab INNER JOIN cargo c ON ec.idCargo=c.idCargo INNER JOIN cardependencia cd ON ec.idEmpleadoCargo=cd.idEmpleadoCargo INNER JOIN dependencia d ON cd.idDependencia=d.idDependencia INNER JOIN periodovacacional pva ON pv.idPeriodoVacacional=pva.idPeriodoVacacional INNER JOIN sistemalab sl ON c.idSistemaLab=sl.idSistemaLab INNER JOIN aprvacaciones ava ON pv.idProVacaciones=ava.idProVacaciones INNER JOIN doc do ON ava.idDoc=do.idDoc WHERE (FechaIni BETWEEN '$mesini' AND '$mesfin') AND ec.idEstadoCar=1 AND cd.Oficial=1 AND $wrl AND $wpv AND $wev AND $wsl ORDER BY e.ApellidoPat, e.ApellidoMat ASC;";
+      $c="SELECT ec.idEmpleado, ec.FechaVac, ec.idEmpleadoCargo, pva.idPeriodoVacacional, pva.PeriodoVacacional, pv.FechaIni, pv.FechaFin, pv.Estado, pv.Observaciones, do.Numero, do.Ano, do.Siglas FROM provacaciones pv INNER JOIN empleadocargo ec ON pv.idEmpleadoCargo=ec.idEmpleadoCargo INNER JOIN empleado e ON ec.idEmpleado=e.idEmpleado INNER JOIN condicionlab cl ON ec.idCondicionLab=cl.idCondicionLab INNER JOIN cargo c ON ec.idCargo=c.idCargo INNER JOIN cardependencia cd ON ec.idEmpleadoCargo=cd.idEmpleadoCargo INNER JOIN dependencia d ON cd.idDependencia=d.idDependencia INNER JOIN periodovacacional pva ON pv.idPeriodoVacacional=pva.idPeriodoVacacional INNER JOIN sistemalab sl ON c.idSistemaLab=sl.idSistemaLab INNER JOIN aprvacaciones ava ON pv.idProVacaciones=ava.idProVacaciones INNER JOIN doc do ON ava.idDoc=do.idDoc WHERE (FechaIni BETWEEN '$mesini' AND '$mesfin') AND ec.idEstadoCar=1 AND cd.Oficial=1 AND $wrl AND $wpv AND $wev AND $wsl ORDER BY e.ApellidoPat, e.ApellidoMat ASC;";
       //echo $c." -- ".$mesini." -- ".$mesfin;
 
       $cpv=mysqli_query($cone,$c);
@@ -69,8 +69,8 @@ if(accesocon($cone,$_SESSION['identi'],3)){
               </tr>
 
               <tr>
-                <td bgcolor= "#AFAFAF"><b><font color="#ffffff" size="2">N°</font></b></td>
-                <td bgcolor= "#AFAFAF"><b><font color="#ffffff" size="2">CÓDIGO</font></b></td>
+                <td bgcolor= "#AFAFAF"><b><font color="#ffffff" size="2">#</font></b></td>
+                <td bgcolor= "#AFAFAF"><b><font color="#ffffff" size="2">C&Oacute;DIGO</font></b></td>
                 <td bgcolor= "#AFAFAF"><b><font color="#ffffff" size="2">APELLIDOS Y NOMBRES</font></b></td>
                 <td bgcolor= "#AFAFAF"><b><font color="#ffffff" size="2">CARGO</font></b></td>
                 <td bgcolor= "#AFAFAF"><b><font color="#ffffff" size="2">DEPENDENCIA</font></b></td>
@@ -81,7 +81,9 @@ if(accesocon($cone,$_SESSION['identi'],3)){
                 <td bgcolor= "#AFAFAF"><b><font color="#ffffff" size="2">REG. LAB.</font></b></td>
                 <td bgcolor= "#AFAFAF"><b><font color="#ffffff" size="2">DISTRITO FISCAL</font></b></td>
                 <td bgcolor= "#AFAFAF"><b><font color="#ffffff" size="2">DOCUMENTO</font></b></td>
-                <td bgcolor= "#AFAFAF"><b><font color="#ffffff" size="2">T. DÍAS</font></b></td>
+                <td bgcolor= "#AFAFAF"><b><font color="#ffffff" size="2">T. D&Iacute;AS</font></b></td>
+                <td bgcolor= "#AFAFAF"><b><font color="#ffffff" size="2">ESTADO</font></b></td>
+                <td bgcolor= "#AFAFAF"><b><font color="#ffffff" size="2">OBSERVACIONES</font></b></td>
               </tr>
 <?php
                 $a=0;
@@ -103,6 +105,8 @@ if(accesocon($cone,$_SESSION['identi'],3)){
                 <td><font color="#555555"><?php echo "CAJAMARCA"; ?></font></td>
                 <td><font color="#555555"><?php echo $rpv['Numero']."-".$rpv['Ano']."-".$rpv['Siglas']; ?></font></td>
                 <td><font color="#555555"><?php echo intervalo($rpv['FechaFin'],$rpv['FechaIni']); ?></font></td>
+                <td><font color="#555555"><?php echo estadoVac($rpv['Estado']); ?></font></td>
+                <td><font color="#555555"><?php echo $rpv['Observaciones']; ?></font></td>
               </tr>
 <?php
                 }
