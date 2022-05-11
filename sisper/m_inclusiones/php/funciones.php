@@ -1321,4 +1321,18 @@ function direccionEmpleado($con, $ide){
 		return "-";
 	}
 }
+
+function idpersonalmp($con, $ide){
+	if($ide!=""){
+		$ide=iseguro($con,$ide);
+		$cd=mysqli_query($con, "SELECT idtdmesapartes FROM tdpersonalmp WHERE idEmpleado=$ide AND estado=1;");
+		if($rd=mysqli_fetch_assoc($cd)){
+			return $rd['idtdmesapartes'];
+		}else{
+			return 0;
+		}
+	}else{
+		return 0;
+	}
+}
 ?>

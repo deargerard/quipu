@@ -1712,6 +1712,14 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                         </td>
                     </tr>
                     <?php
+                        }elseif(idpersonalmp($cone, $_SESSION['identi'])==1 || idpersonalmp($cone, $_SESSION['identi'])==2){
+                    ?>
+                    <tr>
+                        <td colspan="4" align="center">
+                            <button type="button" class="btn bg-maroon" id="b_crecar" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Creando..." onclick="g_crecar(<?php echo $idd; ?>);"><i class="fa fa-files-o"></i> Crear Cargo</button>
+                        </td>
+                    </tr>
+                    <?php
                         }
                     }
                     ?>
