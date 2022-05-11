@@ -320,7 +320,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                     $dides=$_POST['dides']=="" ? vacio("") :  vacio(iseguro($cone, $_POST['dides']));
                     $pedes=$_POST['pedes']=="" ? vacio("") :  vacio(imseguro($cone, $_POST['pedes']));
                     $dedes=$_POST['dedes']=="" ? vacio("") :  vacio(imseguro($cone, $_POST['dedes']));
-                    $car=$_POST['car']==1 ? 1 : 0;
+                    $car=0;
                     $aan=iseguro($cone, $_POST['aan']);
                     $nd=iseguro($cone, $_POST['nd']);
                     

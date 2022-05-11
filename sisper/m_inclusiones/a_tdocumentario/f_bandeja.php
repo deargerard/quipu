@@ -119,7 +119,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                 </div>
             </div>           
-            <div class="col-sm-3">
+            <!-- <div class="col-sm-3">
                 <div class="checkbox">
                     <label>
                         <br>
@@ -127,9 +127,9 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                         Es cargo
                     </label>
                 </div>
-            </div>
-            <div class="col-sm-6">
-                <label for="mpd" class="text-teal">Derivar a <small class="text-red">*</small></label>
+            </div> -->
+            <div class="col-sm-9">
+                <label for="mpd" class="text-teal">Derivar a <small class="text-red">*</small><small class="text-gray"> (Donde realizaran el envío a su destino)</small></label>
                 <select class="form-control" id="mpd" name="mpd" style="width: 100%;">
 <?php
                 $cmp=mysqli_query($cone, "SELECT idtdmesapartes, denominacion FROM tdmesapartes WHERE idLocal=$idl AND estado=1 ORDER BY tipo ASC LIMIT 1;");
