@@ -1644,7 +1644,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
 
         }elseif($acc=="busdoc"){
             if(isset($v1) && !empty($v1) && isset($v2) && !empty($v2)){
-                $cd=mysqli_query($cone, "SELECT d.idDoc, d.Numero, d.Ano, d.Siglas, d.FechaDoc, d.remitenteext, d.remitenteint, d.destinatarioext, d.destinatarioint, d.deporigenext, d.deporigenint, d.depdestinoext, d.depdestinoint, d.numdoc, d.asunto, td.TipoDoc, d.idDocRel, d.cargo FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc WHERE numdoc=$v1 AND Ano=$v2;");
+                $cd=mysqli_query($cone, "SELECT d.idDoc, d.Numero, d.Ano, d.Siglas, d.FechaDoc, d.remitenteext, d.remitenteint, d.destinatarioext, d.destinatarioint, d.deporigenext, d.deporigenint, d.depdestinoext, d.depdestinoint, d.numdoc, d.asunto, d.idTipoDoc, td.TipoDoc, d.idDocRel, d.cargo FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc WHERE numdoc=$v1 AND Ano=$v2;");
                 if($rd=mysqli_fetch_assoc($cd)){
                     $idd=$rd['idDoc'];
                     $iddr=$rd['idDocRel'];
@@ -1702,13 +1702,19 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                         ?>
                         </td>  
                     </tr>
-                    <?php if($rd['cargo']!=1){ ?>
+                    <?php
+                    if($rd['cargo']!=1){ 
+                        if($rd['idTipoDoc']!=14 && $rd['idTipoDoc']!=15){
+                    ?>
                     <tr>
                         <td colspan="4" align="center">
                             <button type="button" class="btn bg-maroon" id="b_crecar" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Creando..." onclick="g_crecar(<?php echo $idd; ?>);"><i class="fa fa-files-o"></i> Crear Cargo</button>
                         </td>
                     </tr>
-                    <?php } ?>
+                    <?php
+                        }
+                    }
+                    ?>
                 </table>
             </div>
             <div class="col-sm-12" id="d_rcc"></div>
