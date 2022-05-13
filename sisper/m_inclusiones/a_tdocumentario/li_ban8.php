@@ -21,7 +21,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
 </div>
 <div class="col-sm-12">
 <?php
-  $cg=mysqli_query($cone, "SELECT * FROM tdguia WHERE idtdmesapartesg=$idmp ORDER BY idtdguia DESC LIMIT 400;");
+  $cg=mysqli_query($cone, "SELECT * FROM tdguia WHERE idtdmesapartesg=$idmp ORDER BY idtdguia DESC LIMIT 100;");
   if(mysqli_num_rows($cg)>0){
 ?>
     <table class="table table-hover table-bordered" id="dt_ban6">
