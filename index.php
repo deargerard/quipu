@@ -348,6 +348,15 @@
           <table class="table table-hover table-bordered">
             <tr>
               <td>
+                <i class="fa fa-file text-info"></i> <a href="http://cfe.mpfn.gob.pe/generador-notificaciones/" target="_blank"> Gen. Noti.</a>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="col-md-2">
+          <table class="table table-hover table-bordered">
+            <tr>
+              <td>
                 <i class="fas fa-fingerprint text-info"></i> <a href="asistencia/" target="_blank"> Asistencia</a>
               </td>
             </tr>
