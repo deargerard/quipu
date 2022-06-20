@@ -55,11 +55,11 @@
       </div>
     </form>
     <div id="a_login" role="alert"></div>
-    <div class="row">
+    <!-- <div class="row">
       <div class="col-xs-12">
         <button id="ocon" type="button" class="btn btn-default btn-block btn-flat" data-toggle="modal" data-target="#m_ocon"><i class="fa fa-frown-o"></i> He olvidado mi contraseña</button><br>
       </div>
-    </div>
+    </div> -->
   </div>
   <!-- /.login-box-body -->
 </div>
