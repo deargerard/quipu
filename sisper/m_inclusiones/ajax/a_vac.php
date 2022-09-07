@@ -19,14 +19,23 @@ if(accesoadm($cone,$_SESSION['identi'],1) || accesoadm($cone,$_SESSION['identi']
             <option value="1D Covid-19">1D Covid-19</option>
             <option value="2D Covid-19">2D Covid-19</option>
             <option value="3D Covid-19">3D Covid-19</option>
+            <option value="4D Covid-19">4D Covid-19</option>
+            <option value="5D Covid-19">5D Covid-19</option>
+            <option value="6D Covid-19">6D Covid-19</option>
           </select>
         </div>
         <div class="col-sm-6">
         <label for="lab" class="control-label">Laboratorio <small class="text-red">*</small></label>
           <select class="form-control" name="lab" id="lab" style="width: 100%;">
             <option value="AstraZeneca">AstraZeneca</option>
+            <option value="Covaxin">Covaxin</option>
+            <option value="Covovax">Covovax</option>
+            <option value="Jhonson & Jhonson">Jhonson & Jhonson</option>
+            <option value="Moderna">Moderna</option>
             <option value="Pfizer">Pfizer</option>
             <option value="Sinopharm">Sinopharm</option>
+            <option value="Sinovac">Sinovac</option>
+            <option value="Sputnik V">Sputnik V</option>
           </select>
         </div>
         <div class="col-sm-6">
@@ -71,14 +80,23 @@ if(accesoadm($cone,$_SESSION['identi'],1) || accesoadm($cone,$_SESSION['identi']
             <option value="1D Covid-19" <?php echo $rva['tipo']=='1D Covid-19' ? 'selected' : ''; ?>>1D Covid-19</option>
             <option value="2D Covid-19" <?php echo $rva['tipo']=='2D Covid-19' ? 'selected' : ''; ?>>2D Covid-19</option>
             <option value="3D Covid-19" <?php echo $rva['tipo']=='3D Covid-19' ? 'selected' : ''; ?>>3D Covid-19</option>
+            <option value="4D Covid-19" <?php echo $rva['tipo']=='4D Covid-19' ? 'selected' : ''; ?>>4D Covid-19</option>
+            <option value="5D Covid-19" <?php echo $rva['tipo']=='5D Covid-19' ? 'selected' : ''; ?>>5D Covid-19</option>
+            <option value="6D Covid-19" <?php echo $rva['tipo']=='6D Covid-19' ? 'selected' : ''; ?>>6D Covid-19</option>
           </select>
         </div>
         <div class="col-sm-6">
         <label for="lab" class="control-label">Laboratorio <small class="text-red">*</small></label>
           <select class="form-control" name="lab" id="lab" style="width: 100%;">
             <option value="AstraZeneca" <?php echo $rva['laboratorio']=='AstraZeneca' ? 'selected' : ''; ?>>AstraZeneca</option>
+            <option value="Covaxin" <?php echo $rva['laboratorio']=='Covaxin' ? 'selected' : ''; ?>>Covaxin</option>
+            <option value="Covovax" <?php echo $rva['laboratorio']=='Covovax' ? 'selected' : ''; ?>>Covovax</option>
+            <option value="Jhonson & Jhonson" <?php echo $rva['laboratorio']=='Jhonson & Jhonson' ? 'selected' : ''; ?>>Jhonson & Jhonson</option>
+            <option value="Moderna" <?php echo $rva['laboratorio']=='Moderna' ? 'selected' : ''; ?>>Moderna</option>
             <option value="Pfizer" <?php echo $rva['laboratorio']=='Pfizer' ? 'selected' : ''; ?>>Pfizer</option>
             <option value="Sinopharm" <?php echo $rva['laboratorio']=='Sinopharm' ? 'selected' : ''; ?>>Sinopharm</option>
+            <option value="Sinovac" <?php echo $rva['laboratorio']=='Sinovac' ? 'selected' : ''; ?>>Sinovac</option>
+            <option value="Sputnik V" <?php echo $rva['laboratorio']=='Sputnik V' ? 'selected' : ''; ?>>Sputnik V</option>
           </select>
         </div>
         <div class="col-sm-6">
