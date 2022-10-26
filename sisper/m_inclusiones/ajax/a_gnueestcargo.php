@@ -51,11 +51,11 @@ if(accesoadm($cone,$_SESSION['identi'],1)){
                                           }
                                     }
 
-                                    if($estcar==3){
-                                          if(!mysqli_query($cone,"UPDATE empleado SET CorreoIns=NULL WHERE idEmpleado=$ide")){
-                                                echo mensajewa("Error: ".mysqli_error($cone)." Al eliminar registro del correo institucional");
-                                          }
-                                    }
+                                    // if($estcar==3){
+                                    //       if(!mysqli_query($cone,"UPDATE empleado SET CorreoIns=NULL WHERE idEmpleado=$ide")){
+                                    //             echo mensajewa("Error: ".mysqli_error($cone)." Al eliminar registro del correo institucional");
+                                    //       }
+                                    // }
                               }
                               mysqli_free_result($ce);
                               echo mensajesu("Listo: Nuevo estado registrado correctamente.");

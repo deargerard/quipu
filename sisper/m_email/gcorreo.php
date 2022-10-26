@@ -41,7 +41,7 @@ function ecorreo($cdes, $ndes, $cpar, $npar, $asu, $cue, $acue){
 	$mail->Username = "admcaj.mpfn@gmail.com";
 
 	//Password to use for SMTP authentication
-	$mail->Password = "H3lpD3skC4j";
+	$mail->Password = "wvmujsdlsgccqewd";
 
 	//Set who the message is to be sent from
 	$mail->setFrom($cdes, $ndes);
