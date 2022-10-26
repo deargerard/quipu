@@ -82,7 +82,21 @@ if(accesocon($cone,$_SESSION['identi'],17)){
             </table>
 
         <script>
-            $("#dt_ban1").DataTable();
+            $("#dt_ban1").DataTable({
+              dom: 'Bfrtip',
+              buttons: [
+                {
+                    extend: 'excel',
+                    text: '<i class="fa fa-file-excel-o"></i>',
+                    titleAttr: 'Exportar a Excel'
+                },
+                {
+                    extend: 'print',
+                    text: '<i class="fa fa-print"></i>',
+                    titleAttr: 'Imprimir'
+                },
+              ]
+            });
         </script>
 <?php
         }else{
