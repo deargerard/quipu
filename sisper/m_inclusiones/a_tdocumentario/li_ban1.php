@@ -21,8 +21,9 @@ if(accesocon($cone,$_SESSION['identi'],17)){
 <div class="col-sm-12">
 
 <?php
-    $cb=mysqli_query($cone, "SELECT d.idDoc, d.Numero, d.Ano, d.Siglas, d.numdoc, td.TipoDoc, ed.idtdestadodoc, g.numero numguia, g.anio, ed.idtdestado, ed.asignador FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc INNER JOIN tdestadodoc ed ON d.idDoc=ed.idDoc LEFT JOIN tdguia g ON ed.idtdguia=g.idtdguia WHERE ed.idtdmesapartes=$idmp AND ed.estado=1 AND ed.idtdestado=3 AND ed.fecha>DATE_SUB(NOW(),INTERVAL 1 YEAR) ORDER BY ed.fecha DESC;");
+    $cb=mysqli_query($cone, "SELECT d.idDoc, d.Numero, d.Ano, d.Siglas, d.numdoc, td.TipoDoc, ed.idtdestadodoc, g.numero numguia, g.anio, ed.idtdestado, ed.asignador FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc INNER JOIN tdestadodoc ed ON d.idDoc=ed.idDoc LEFT JOIN tdguia g ON ed.idtdguia=g.idtdguia WHERE ed.idtdmesapartes=$idmp AND ed.estado=1 AND ed.idtdestado=3  ORDER BY ed.fecha DESC;");
     if(mysqli_num_rows($cb)>0){
+      //AND ed.fecha>DATE_SUB(NOW(),INTERVAL 1 YEAR)
 ?>
 
         <table class="table table-bordered table-hover" id="dt_ban11">
