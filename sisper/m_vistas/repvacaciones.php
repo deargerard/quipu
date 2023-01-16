@@ -73,9 +73,25 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                       <option value="1">PROGRAMADAS</option>
                       <option value="0">REPROGRAMADAS</option>
                     </select>
-                    </div>
-                    <button type="submit" id="b_breva" class="btn btn-default">Buscar</button>
-                    <button type="button" id="b_evxp" class="btn bg-aqua">Exportar</button>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="bbb" class="sr-only">Período</label>
+                    <select data-actions-box="true" name="pervac1[]" class="form-control selectpicker" multiple="multiple" multiple data-selected-text-format="count" title="PERÍODO">
+                      <?php
+                        $cpv=mysqli_query($cone,"SELECT idPeriodoVacacional, PeriodoVacacional FROM periodovacacional WHERE Estado=1 ORDER BY PeriodoVacacional DESC");
+                        while($rpv=mysqli_fetch_assoc($cpv)){
+                      ?>
+                      <option value="<?php echo $rpv['idPeriodoVacacional']; ?>"><?php echo $rpv['PeriodoVacacional']; ?></option>
+                      <?php
+                        }
+                        mysqli_free_result($cpv);
+                      ?>
+                    </select>
+                  </div>
+
+                  <button type="submit" id="b_breva" class="btn btn-default">Buscar</button>
+                  <button type="button" id="b_evxp" class="btn bg-aqua">Exportar</button>
 
                 </form>
                 <!--Fin Formulario-->
