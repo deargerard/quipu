@@ -34,7 +34,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
                 <a href="m_inclusiones/a_tesoreria/xls_anexo11.php?ren=<?php echo $idr; ?>" class="btn btn-info" title="Exportar" target="_blank"><i class="fa fa-cloud-download"></i> A 11</a>
                 <a href="m_inclusiones/a_tesoreria/xls_anexo12.php?ren=<?php echo $idr; ?>&ti=<?php echo $r2['trendicion']; ?>" class="btn btn-info" title="Exportar" target="_blank"><i class="fa fa-cloud-download"></i> A 12</a>
                 <?php } ?>
-                <a href="m_inclusiones/a_tesoreria/xls_anexo16.php?ren=<?php echo $idr; ?>&ti=<?php echo $r2['trendicion']; ?>" class="btn btn-info" title="Exportar" target="_blank"><i class="fa fa-cloud-download"></i> A 16</a>
+                <a href="m_inclusiones/a_tesoreria/xls_anexo16.php?ren=<?php echo $idr; ?>&ti=<?php echo $r2['trendicion']; ?>" class="btn btn-info" title="Exportar" target="_blank"><i class="fa fa-cloud-download"></i> F 17</a>
                 <button type="button" class="btn btn-info" title="Regresar" onclick="lrendiciones(<?php echo "'".$r2['mes']."/".$r2['anio']."'"; ?>);"><i class="fa fa-chevron-circle-left"></i></button>
               </div>
           </td>
