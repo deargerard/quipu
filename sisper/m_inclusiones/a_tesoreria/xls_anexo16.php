@@ -14,7 +14,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
 	    	if($rr=mysqli_fetch_assoc($cr)){
 
 		      header("Content-Type: application/vnd.ms-excel; charset=utf-8");
-		      header("Content-Disposition: attachment; filename=Anexo16_$fecha.xls");
+		      header("Content-Disposition: attachment; filename=Formato17_$fecha.xls");
 		      header("Pragma: no-cache");
 		      header("Expires: 0");
 
@@ -36,7 +36,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
           <table cellpadding="0" cellspacing="0" style="width: 100%; padding: 0;" class="formato">
             <tr>
               <th colspan="2"></th>
-              <th colspan="7" style="font-size: 16px;">ANEXO N&deg; 16</th>
+              <th colspan="7" style="font-size: 16px;">FORMATO N&deg; 17</th>
               <th></th>
               <th style="text-align: center;">N&deg;</th>
               <th style="text-align: center;"><?php echo $rr['codigo']; ?></th>
@@ -187,7 +187,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
         if($rr=mysqli_fetch_assoc($cr)){
 
           header("Content-Type: application/vnd.ms-excel; charset=utf-8");
-          header("Content-Disposition: attachment; filename=Anexo16_$fecha.xls");
+          header("Content-Disposition: attachment; filename=Formato17_$fecha.xls");
           header("Pragma: no-cache");
           header("Expires: 0");
 
@@ -205,12 +205,12 @@ if(accesocon($cone,$_SESSION['identi'],16)){
           <table cellpadding="0" cellspacing="0" style="width: 100%; padding: 0;">
             <tr>
               <th colspan="2"></th>
-              <th colspan="4">ANEXO N&deg; 16</th>
+              <th colspan="4">FORMATO N&deg; 17</th>
               <th colspan="2"></th>
             </tr>
             <tr>
               <th colspan="2"></th>
-              <th colspan="4">RENDICI&Oacute;N N&deg; <?php echo $rr['codigo']."-".$rr['anio']."-".$rr['fondo']."-".$rr['meta']; ?> <br>DISTRITO FISCAL DE CAJAMARCA</th>
+              <th colspan="4">RENDICI&Oacute;N N&deg; <?php echo $rr['codigo']."-".$rr['anio']."-".$rr['fondo']."-".$rr['meta']; ?> <br>DISTRITO FISCAL DE CAJAMARCA<br> <?php echo strtoupper(nombremes($rr['mes']))." DE ".$rr['anio']; ?></th>
               <th colspan="2" align="center"></th>
             </tr>
           </table>
