@@ -46,7 +46,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
             </tr>
             <tr>
               <th colspan="2"></th>
-              <th colspan="7">RENDICI&Oacute;N N&deg; <?php echo $rr['codigo']." ".$rr['fondo']."-".$rr['meta']; ?> | DISTRITO FISCAL DE CAJAMARCA</th>
+              <th colspan="7">RENDICI&Oacute;N DE FONDO PARA PAGOS EN EFECTIVO N&deg; <?php echo $rr['codigo']." ".$rr['fondo']."-".$rr['meta']; ?> | DISTRITO FISCAL DE CAJAMARCA</th>
               <td style="text-align: center;">DIA</td>
               <td style="text-align: center;">MES</td>
               <td style="text-align: center;">A&Ntilde;O</td>
@@ -210,7 +210,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
             </tr>
             <tr>
               <th colspan="2"></th>
-              <th colspan="4">RENDICI&Oacute;N N&deg; <?php echo $rr['codigo']."-".$rr['anio']."-".$rr['fondo']."-".$rr['meta']; ?> <br>DISTRITO FISCAL DE CAJAMARCA<br> <?php echo strtoupper(nombremes($rr['mes']))." DE ".$rr['anio']; ?></th>
+              <th colspan="4">RENDICI&Oacute;N DE FONDO PARA PAGOS EN EFECTIVO N&deg; <?php echo $rr['codigo']."-".$rr['anio']."-".$rr['fondo']."-".$rr['meta']; ?> <br>DISTRITO FISCAL DE CAJAMARCA<br> <?php echo strtoupper(nombremes($rr['mes']))." DE ".$rr['anio']; ?></th>
               <th colspan="2" align="center"></th>
             </tr>
           </table>
