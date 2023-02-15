@@ -57,7 +57,7 @@
     <div id="a_login" role="alert"></div>
     <div class="row">
       <div class="col-xs-12">
-        <button id="ocon" type="button" class="btn btn-default btn-block btn-flat" data-toggle="modal" data-target="#m_ocon"><i class="fa fa-frown-o"></i> He olvidado mi contraseña</button><br>
+        <button type="button" class="btn btn-default btn-block btn-flat" data-toggle="modal" data-target="#m_ocon"><i class="fa fa-frown-o"></i> He olvidado mi contraseña</button><br>
       </div>
     </div>
   </div>
@@ -70,15 +70,15 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Recuperar contraseña</h4>
+        <h4 class="modal-title text-muted" id="myModalLabel"><i class="glyphicon glyphicon-info-sign text-yellow"></i> Recuperar contraseña</h4>
       </div>
       <form id="f_ocon">
-      <div class="modal-body" id="r_ocon">
-
+      <div class="modal-body text-center" id="r_ocon">
+          <p class="text-md"> Si desea recuperar su contraseña, solicite el cambio mediante un correo a: <b class="text-orange">informatica.cajamarcadj@mpfn.gob.pe</b></p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-        <button type="submit" id="b_gocon" class="btn btn-primary">Recuperar</button>
+        <!-- <button type="submit" id="b_gocon" class="btn btn-primary">Recuperar</button> -->
       </div>
       </form>
     </div><!-- /.modal-content -->
