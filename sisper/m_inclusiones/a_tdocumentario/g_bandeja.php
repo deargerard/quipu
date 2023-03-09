@@ -777,9 +777,13 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                         $cmp=mysqli_query($cone, "SELECT mp.idtdmesapartes FROM tdpersonalmp p INNER JOIN tdmesapartes mp ON p.idtdmesapartes=mp.idtdmesapartes WHERE p.idEmpleado=$idem AND p.estado=1 AND mp.estado=1;");
                         if($rmp=mysqli_fetch_assoc($cmp)){
                             $mp=$rmp['idtdmesapartes'];
+                            $depa=vacio(null);
+                        }else{
+                            $mp=vacio(null);
+                            $depa=iddependenciae($cone, $idem);
                         }
 
-                        if(mysqli_query($cone, "INSERT INTO tdestadodoc (idDoc, idtdestado, fecha, idEmpleado, idDependencia, asignador, mpasignador, estado) VALUES ($v1, 3, NOW(), $v3, $dep, $idem, $mp, 1);")){
+                        if(mysqli_query($cone, "INSERT INTO tdestadodoc (idDoc, idtdestado, fecha, idEmpleado, idDependencia, asignador, mpasignador, depasignador, estado) VALUES ($v1, 3, NOW(), $v3, $dep, $idem, $mp, $depa, 1);")){
                             $idne=mysqli_insert_id($cone);
                             if(mysqli_query($cone, "UPDATE tdestadodoc SET estado=0 WHERE idDoc=$v1 AND idtdestadodoc=$idue;")){
                                 $r['m']="¡Listo! Documento derivado.";

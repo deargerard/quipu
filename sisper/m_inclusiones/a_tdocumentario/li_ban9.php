@@ -80,7 +80,6 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                 var d = table9.row( $(this).parents('tr') ).data()[1];
                 var da = d.split(' ');
                 var ta =table9.row( $(this).parents('tr') );
-
                 var v3=$('#sper1').val();
                 if(v3!=null){
                   $.ajax({

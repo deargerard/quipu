@@ -18,6 +18,10 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
     if(cargoe($cone, $ide)=='ASISTENTE ADMINISTRATIVO - NTF'){
       $eno=true;
     }
+    $cs=mysqli_query($cone, "SELECT supervisor FROM empleado WHERE idEmpleado=$ide;");
+    if($rs=mysqli_fetch_assoc($cs)){
+      $su=$rs['supervisor'];
+    }
 ?>
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -41,7 +45,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
               <li class="active"><a href="#tab_1" data-toggle="tab"><i class="fa fa-circle-o text-blue"></i> Recibir</a></li>
               <li><a href="#tab_2" data-toggle="tab"><i class="fa fa-circle-o text-blue"></i> Registrar</a></li>
               <li><a href="#tab_3" data-toggle="tab"><i class="fa fa-circle-o text-blue"></i> Derivar <?php echo $tmp ? "a MP" : ""; ?> </a></li>
-              <?php if($tmp==1){ ?>
+              <?php if($tmp==1 || $su){ ?>
               <li><a href="#tab_9" data-toggle="tab"><i class="fa fa-circle-o text-blue"></i> Derivar a Per.</a></li>
               <?php } ?>
               <?php if($tmp==2){ ?>
@@ -117,7 +121,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 
               </div>
               <!-- /.tab-pane -->
-              <?php if($tmp==1){ ?>
+              <?php if($tmp==1 || $su){ ?>
               <div class="tab-pane" id="tab_9">
                 <!--Div resultados-->
                 <div class="row">
