@@ -39,15 +39,16 @@ $idp=$_SESSION['idperper'];
             								$caremp=$rc['Cargo'].' (P)';
             								break;
             						}
-            						switch ($rc['idModAcceso']) {
-            							case 6:
-            								$mod='SUPLENCIA';
-            								break;
 
-            							default:
-            								$mod='-';
-            								break;
-            						}
+            						//obtenemos la modalidad de acceso
+									$idma=$rc['idModAcceso'];
+									$cma=mysqli_query($cone, "SELECT ModAcceso FROM modacceso WHERE idModAcceso=$idma");
+									if($rca=mysqli_fetch_assoc($cma)){
+										$mod=$rca['ModAcceso'];
+									}else{
+										$mod='-';
+									}
+
             						if($rc['EstadoCar']=="ACTIVO"){
             							$act="ACTIVO";
             						}
@@ -123,7 +124,7 @@ $idp=$_SESSION['idperper'];
 			                		?>
 			                	  </div>
 			                		<?php
-			                		$cde=mysqli_query($cone,"SELECT idCarDependencia, Denominacion, FecInicio, FecFin, Oficial, cd.Estado, tde.TipoDesplaza, tde.idTipoDesplaza FROM cardependencia AS cd INNER JOIN dependencia AS d ON cd.idDependencia=d.idDependencia INNER JOIN tipodesplaza AS tde ON cd.idTipoDesplaza=tde.idTipoDesplaza WHERE cd.idEmpleadoCargo=$idec ORDER BY FecInicio DESC");
+			                		$cde=mysqli_query($cone,"SELECT idCarDependencia, Denominacion, FecInicio, FecFin, Oficial, cd.Estado, tde.TipoDesplaza, tde.idTipoDesplaza FROM cardependencia AS cd INNER JOIN dependencia AS d ON cd.idDependencia=d.idDependencia INNER JOIN tipodesplaza AS tde ON cd.idTipoDesplaza=tde.idTipoDesplaza WHERE cd.idEmpleadoCargo=$idec ORDER BY idCarDependencia DESC");
 			                		if(mysqli_num_rows($cde)>0){
 			                		?>
 			                		<table class="table table-hover table-bordered">
