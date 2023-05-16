@@ -310,9 +310,6 @@ function g_crecar(idd){
 function g_dercar(idd){
   var v2=$('#uest').val();
   var v3=$('#dmp').val();
-  alert(v2);
-  alert(v3);
-  alert(idd);
   $.ajax({
     type: "post",
     url: "m_inclusiones/a_tdocumentario/g_bandeja.php",
