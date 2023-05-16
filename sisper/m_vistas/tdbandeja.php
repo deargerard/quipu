@@ -3,9 +3,10 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
   if(accesocon($cone,$_SESSION['identi'],17)){
     $ide=$_SESSION['identi'];
 
-    $cm=mysqli_query($cone, "SELECT mp.tipo FROM tdpersonalmp pm INNER JOIN tdmesapartes mp ON pm.idtdmesapartes=mp.idtdmesapartes WHERE pm.idEmpleado=$ide AND pm.estado=1 AND mp.estado=1;");
+    $cm=mysqli_query($cone, "SELECT mp.idtdmesapartes, mp.tipo FROM tdpersonalmp pm INNER JOIN tdmesapartes mp ON pm.idtdmesapartes=mp.idtdmesapartes WHERE pm.idEmpleado=$ide AND pm.estado=1 AND mp.estado=1;");
     if($rm=mysqli_fetch_assoc($cm)){
       $tmp=$rm['tipo'];
+      $imp=$rm['idtdmesapartes'];
     }
     mysqli_free_result($cm);
     $en=false;
@@ -85,6 +86,9 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                     <button type="button" class="btn bg-green" onclick="f_bandeja('agrdoa',0,0);"><i class="fa fa-file-text-o"></i> Registrar/Asignar</button>
                       <?php } ?>
                     <button type="button" class="btn bg-purple" onclick="f_bandeja('gencar',0,0);"><i class="fa fa-files-o"></i> Generar Cargo</button>
+                        <?php if($imp==1){ ?>
+                          <button type="button" class="btn bg-blue" onclick="f_bandeja('dercar',0,0);"><i class="fa fa-reply-all"></i> Derivar Cargo</button>
+                        <?php } ?>
                     <?php } ?>
                   </div>
                 </div>

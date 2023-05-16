@@ -225,6 +225,9 @@ function f_bandeja(acc,v1,v2){
         case 'derrep':
           var mt="<span class='text-muted'><i class='fa fa-level-up text-yellow'></i> Derivar Notificación Reportada</span>";
           break;
+        case 'dercar':
+          var mt="<span class='text-muted'><i class='fa fa-level-up text-yellow'></i> Derivar Cargo</span>";
+          break;
     }
     $(".modal-title").html(mt);
     $("#m_modal").modal("show");
@@ -240,7 +243,7 @@ function f_bandeja(acc,v1,v2){
       },
       success:function(a){
         $("#f_modal").html(a);
-        if(acc!='detdoc' && acc!='rutdoc' && acc!='detest' && acc!='lisgui' && acc!='gencar'){
+        if(acc!='detdoc' && acc!='rutdoc' && acc!='detest' && acc!='lisgui' && acc!='gencar' && acc!='dercar'){
           $("#b_guardar").removeClass("hidden");
         }
       }
@@ -304,6 +307,31 @@ function g_crecar(idd){
   });
 }
 
+function g_dercar(idd){
+  var v2=$('#uest').val();
+  var v3=$('#dmp').val();
+  alert(v2);
+  alert(v3);
+  alert(idd);
+  $.ajax({
+    type: "post",
+    url: "m_inclusiones/a_tdocumentario/g_bandeja.php",
+    data: {acc: 'dercar', v1: idd, v2: v2, v3: v3},
+    dataType: "json",
+    beforeSend: function(){
+      $("#b_dercar").button('loading');
+    },
+    success:function(a){
+      if(a.e){
+        $("#f_modal").html(a.m);
+        li_ban2();
+      }else{
+        $("#d_rcc").html(a.m);
+        $("#b_dercar").button('reset');
+      }
+    }
+  });
+}
 
 function g_rec(v1, v2, mp){
     $.ajax({

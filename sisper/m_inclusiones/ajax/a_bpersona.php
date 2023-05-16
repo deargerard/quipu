@@ -17,7 +17,8 @@
 				<div class="col-md-9 col-sm-9 col-xs-8">
 					<h4 class='text-aqua'><strong><?php echo $res["NombreCom"] ?></strong><br>
 					<small><strong><?php echo cargoe($cone, $ide) ?></strong></small><br>
-					<small><?php echo dependenciae($cone, $ide) ?></small>
+					<small><?php echo dependenciae($cone, $ide) ?></small><br>
+					<small><?php echo condicionlabe($cone,$ide) ?></small>
 					</h4>
 				</div>
 			</div>
