@@ -1919,7 +1919,6 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                     <?php
                     mysqli_free_result($ces);
                     if($rd['cargo']!=1 && $est==3){
-                        if($rd['idTipoDoc']==14 || $rd['idTipoDoc']==15 || $rd['idTipoDoc']==6){
                     ?>
                     <tr>
                         <td colspan="3">
@@ -1933,7 +1932,6 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                         </td>
                     </tr>
                     <?php
-                        }
                     }
                     ?>
                 </table>
