@@ -73,9 +73,10 @@ if(accesocon($cone,$_SESSION['identi'],15)){
 										<?php
 										if ($rcs['Estado']!='2'){
 										?>
+											<?php if(is_null($rcs['estadoren']) || $rcs['estadoren']==5){ ?>
 										<li><a href="#" data-toggle="modal" data-target="#m_ecomservicios" onclick="edicomser(<?php echo $rcs['idComServicios'] ?>)">Editar</a></li>
 										<!-- <li><a href="#" data-toggle="modal" data-target="#m_nencargatura" onclick="nueenca(<?php //echo $rcs['idComServicios'] ?>)">Encargatura</a></li> -->
-											<?php if(is_null($rcs['estadoren'])){ ?>
+											
 										<li><a href="#" data-toggle="modal" data-target="#m_ccomservicios" onclick="cancomser(<?php echo $rcs['idComServicios']?>)">Cancelar</a></li>
 											<?php } ?>
 										<?php

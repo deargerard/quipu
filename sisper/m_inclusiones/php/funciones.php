@@ -1104,6 +1104,9 @@ function erviaticos($est){
 	  case 4:
 	    return "<span class='label label-success'><i class='fa fa-thumbs-up'></i> Rendida</span>";
 	    break;
+	  case 5:
+		return "<span class='label label-warning'>Sin viáticos</span>";
+		break;
 	}
 }
 function n_2decimales($num){

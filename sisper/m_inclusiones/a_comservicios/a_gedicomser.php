@@ -10,6 +10,7 @@ if(accesoadm($cone,$_SESSION['identi'],15)){
 			$fincom=ftmysql(iseguro($cone,$_POST['fincome']));
 			$desc=iseguro($cone,$_POST['desc']);
 			$veh=iseguro($cone,$_POST['veh'])== 1 ? 1 : 2;
+			$sv=vacio(iseguro($cone, $_POST['sv']));
 			$doc=iseguro($cone,$_POST['doc']);
 			$idcs=iseguro($cone,$_POST['idcs']);
 			$ide=iseguro($cone,$_POST['ide']);
@@ -23,7 +24,7 @@ if(accesoadm($cone,$_SESSION['identi'],15)){
 				$r["idcs"]=null;
 			}else{
 
-				$sql="UPDATE comservicios SET FechaIni='$inicom', FechaFin='$fincom', Descripcion='$desc', Vehiculo=$veh, idDoc=$doc, origen='$ori', destino='$des' WHERE idComServicios=$idcs";
+				$sql="UPDATE comservicios SET FechaIni='$inicom', FechaFin='$fincom', Descripcion='$desc', Vehiculo=$veh, idDoc=$doc, origen='$ori', destino='$des', estadoren=$sv WHERE idComServicios=$idcs";
 
 				if(mysqli_query($cone,$sql)){
 					$r["msg"]= mensajesu("Listo: se actualizó correctamente la comisión de servicios");

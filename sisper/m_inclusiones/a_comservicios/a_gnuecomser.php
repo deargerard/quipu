@@ -9,7 +9,8 @@ if(accesoadm($cone,$_SESSION['identi'],15)){
 			$inicom=ftmysql(iseguro($cone,$_POST['inicom']));
 			$fincom=ftmysql(iseguro($cone,$_POST['fincom']));
 			$desc=iseguro($cone,$_POST['desc']);
-			$veh=iseguro($cone,$_POST['veh'])== 1 ? 1 : 2;
+			$veh=iseguro($cone,$_POST['veh']) == 1 ? 1 : 2;
+			$sv=vacio(iseguro($cone, $_POST['sv']));
 			$doc=iseguro($cone,$_POST['doc']);
 			$ide=iseguro($cone,$_POST['ide']);
 			$ori=imseguro($cone,$_POST['ori']);
@@ -21,7 +22,7 @@ if(accesoadm($cone,$_SESSION['identi'],15)){
 				$r["e"]=false;
 				$r["idcs"]=null;
 			}else{
-				$sql="INSERT INTO comservicios (FechaIni, FechaFin, Descripcion, Vehiculo, idDoc, idEmpleado, Estado, origen, destino) VALUES ('$inicom', '$fincom', '$desc', $veh, $doc, $ide, 1, '$ori', '$des')";
+				$sql="INSERT INTO comservicios (FechaIni, FechaFin, Descripcion, Vehiculo, idDoc, idEmpleado, Estado, origen, destino, estadoren) VALUES ('$inicom', '$fincom', '$desc', $veh, $doc, $ide, 1, '$ori', '$des', $sv)";
 
 				if(mysqli_query($cone,$sql)){
 					$r["msg"]= mensajesu("Listo: se guardó correctamente la comisión de servicios");

@@ -437,7 +437,11 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                                   case 4:
                                     $vv="success";
                                     $cv="<i class='fa fa-thumbs-up'></i> Rendida";
-                                    break;                                
+                                    break;
+                                  case 5:
+                                    $vv="warning";
+                                    $cv="Sin viáticos";
+                                    break;
                                 } 
                                //}elseif ($rcs['Estado']==2){
                                 //$v="danger";
@@ -454,8 +458,12 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                                 </td> <!--columna NÚMERO DE RESOLUCIÓN-->
                                 <td><?php echo ftnormal($rcs['fecenvren']); ?></td> <!--columna NÚMERO DE RESOLUCIÓN-->
                                 <td>
-                                  <?php if($rcs['FechaIni']>'2018-12-01'){ ?>            
-                                  <button type="button" class="btn btn-<?php echo $vv;?> btn-xs" title="Estado Rendición" onclick="fo_rendir('agrre',<?php echo $rcs['idComServicios']; ?>)"><?php echo $cv; ?></button>
+                                  <?php if($rcs['FechaIni']>'2018-12-01'){ ?>
+                                    <?php if($rcs['estadoren']=='5'){ ?>
+                                      <?php echo erviaticos($rcs['estadoren']) ?>
+                                    <?php }else{ ?>
+                                      <button type="button" class="btn btn-<?php echo $vv;?> btn-xs" title="Estado Rendición" onclick="fo_rendir('agrre',<?php echo $rcs['idComServicios']; ?>)"><?php echo $cv; ?></button>
+                                    <?php } ?>
                                   <?php } ?>                              
                                 </td> <!--columna RENDIR-->
                               </tr>

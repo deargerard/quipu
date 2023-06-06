@@ -49,12 +49,20 @@ if(accesoadm($cone,$_SESSION['identi'],15)){
       </div>
     </div>
     <div class="form-group">
-      <label for="veh" class="col-sm-2 control-label" >Vehículo:</label>
-      <div class="checkbox col-sm-10">
-        <label><input type="checkbox" value="1" id="veh" name="veh"></label><small>  * Marcar sólo si la comisión incluye vehículo</small>
+      <div class="col-sm-6">
+        <label for="veh" class="col-sm-6 control-label" >Con vehículo:</label>
+        <div class="checkbox col-sm-6">
+          <label><input type="checkbox" value="1" id="veh" name="veh"></label>
+        </div>
+        <small><span class="text-danger">*</span> Si se incluye vehículo de la institución</small>
+      </div>
+      <div class="col-sm-6">
+        <label for="sv" class="col-sm-6 control-label" >Sin viáticos:</label>
+        <div class="checkbox col-sm-6">
+          <label><input type="checkbox" value="5" id="sv" name="sv"></label>
+        </div>
       </div>
     </div>
-
     <div class="form-group valida">
       <label for="doc" class="col-sm-2 control-label" >Documento:</label>
       <div class="col-sm-8">

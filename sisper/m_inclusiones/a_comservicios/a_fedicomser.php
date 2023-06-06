@@ -5,7 +5,7 @@ include ("../php/funciones.php");
 if(accesoadm($cone,$_SESSION['identi'],15)){
   if(isset($_POST['idcs']) && !empty($_POST['idcs'])){
     $idcs=iseguro($cone,$_POST['idcs']);
-    $ccs=mysqli_query($cone,"SELECT idComServicios, FechaIni, FechaFin, Descripcion, Vehiculo, idDoc, origen, destino, idEmpleado FROM comservicios WHERE idComServicios=$idcs");
+    $ccs=mysqli_query($cone,"SELECT idComServicios, FechaIni, FechaFin, Descripcion, Vehiculo, idDoc, origen, destino, idEmpleado, estadoren FROM comservicios WHERE idComServicios=$idcs");
     if($rcs=mysqli_fetch_assoc($ccs)){
     ?>
         <div class="form-group valida">
@@ -63,9 +63,18 @@ if(accesoadm($cone,$_SESSION['identi'],15)){
           </div>
         </div>
         <div class="form-group">
-          <label for="veh" class="col-sm-2 control-label" >Vehículo</label>
-          <div class="checkbox col-sm-10">
-            <label><input type="checkbox" value="1" id="veh" name="veh" <?php echo $rcs['Vehiculo']== 1 ? "checked" : "" ?>></label><small>  * Marcar sólo si la comisión incluye vehículo</small>
+          <div class="col-sm-6">
+            <label for="veh" class="col-sm-6 control-label" >Con vehículo:</label>
+            <div class="checkbox col-sm-6">
+              <label><input type="checkbox" value="1" id="veh" name="veh" <?php echo $rcs['Vehiculo']== 1 ? "checked" : "" ?>></label>
+            </div>
+            <small><span class="text-danger">*</span> Si se incluye vehículo de la institución</small>
+          </div>
+          <div class="col-sm-6">
+            <label for="sv" class="col-sm-6 control-label" >Sin viáticos:</label>
+            <div class="checkbox col-sm-6">
+              <label><input type="checkbox" value="5" id="sv" name="sv" <?php echo $rcs['estadoren']== 5 ? "checked" : "" ?>></label>
+            </div>
           </div>
         </div>
         <?php
