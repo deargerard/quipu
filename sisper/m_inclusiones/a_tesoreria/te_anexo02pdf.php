@@ -31,9 +31,9 @@ use Spipu\Html2Pdf\Html2Pdf;
               <img src="../../m_images/logompg.png" width="150">
             </td>
             <th style="width: 60%; text-align: center;">
-                <span style="font-size: 16px;">ANEXO 02</span><br>
+                <span style="font-size: 14px;">ANEXO 02</span><br>
                 <br>
-                <span style="font-size: 12px;">DECLARACIÓN JURADA DE VIÁTICOS Y ASIGNACIONES <br><br> POR COMISION DE SERVICIOS EN EL TERRITORIO NACIONAL</span><br>
+                <span style="font-size: 16px;">DECLARACIÓN JURADA DE VIÁTICOS / NO VIÁTICOS Y ASIGNACIONES<br> POR COMISIÓN DE SERVICIOS EN EL TERRITORIO NACIONAL</span><br>
                 <br>
                 <span style="font-size: 12px;"></span>
                 
@@ -58,25 +58,8 @@ use Spipu\Html2Pdf\Html2Pdf;
     $c1=mysqli_query($cone,"SELECT cs.FechaIni, cs.FechaFin, cs.idEmpleado, cs.destino, e.NumeroDoc FROM comservicios cs INNER JOIN empleado e ON cs.idEmpleado=e.idEmpleado WHERE idComServicios=$idcs;");
       if($r1=mysqli_fetch_assoc($c1)){
  ?>   
-      <table class="st">      
-        <tr>
-        <td style="width: 5%;"></td>                    
-          <td style="width: 90%; text-align: justify; word-break: break-all;">
-            <span style="font-size: 12px;">Yo <b><?php echo nomempleado($cone, $r1['idEmpleado']); ?></b> identificado con DNI N° <?php echo $r1['NumeroDoc']; ?> en el cargo de <?php echo cargoe($cone, $r1['idEmpleado']); ?>  del Ministerio Público, DECLARO BAJO JURAMENTO, haber efectuado la comisión de servicios a la ciudad de: <br><b><?php echo $r1['destino']; ?></b> los días del <?php echo fnormal($r1['FechaIni']); ?> al <?php echo fnormal($r1['FechaFin']); ?>, en cumplimiento del numeral 71.3 del articulo 71° de la Directiva N° 001-2007-EF/77.15, modificada por Resolución directoral N° 017-2007-EF/77.15, por los siguientes conceptos:</span>
-          </td>
-          <td style="width: 5%;"></td>
-        </tr>
-      </table>
-      
-      <table class="tablep">
-        <tr bgcolor="#DBEEF3">
-          <th class="ce" rowspan="1" style="width: 8%;">N° DE<br>ORDEN</th>
-          <!-- <td class="ce" rowspan="1" style="width: 10%;">FECHA</td> -->
-          <th class="ce" rowspan="1" style="width: 35%;">DETALLE</th>
-          <th class="ce" rowspan="1" style="width: 15%;">IMPORTE</th>
-          <th class="ce" rowspan="1" style="width: 42%;">OBSERVACIONES(*)</th>         
-        </tr>        
-  <?php 
+ 
+ <?php 
         $c2=mysqli_query($cone,"SELECT idtegasto, idteconceptov, idtetipocom, totalcom, fechacom FROM tegasto WHERE idtetipocom=2 AND idComServicios=$idcs;");           
         if (mysqli_num_rows($c2)>0) {             
           while ($r2=mysqli_fetch_assoc($c2)) {
@@ -107,43 +90,16 @@ use Spipu\Html2Pdf\Html2Pdf;
         mysqli_free_result($c2);
         }                    
   ?>
-          <tr>
-            <th class="ce">1</th>
-            <!-- <td><?php //echo fnormal($fah); ?></td> -->
-            <th>Alojamiento y Alimentación (*)</th>
-            <td class="de"><?php echo $tah==""? "" : n_2decimales($tah);?></td>
-            <td rowspan="5" class="de" style="text-align: center;">Estos conceptos solo son<br>aplicables en lugares donde<br>no se emitan comprobantes<br>de pago autorizados por<br>SUNAT.</td>            
-          </tr>
-          <tr>
-            <th class="ce">2</th>
-            <!-- <td><?php //echo fnormal($fml); ?></td> -->
-            <th>Movilidad local</th>
-            <td class="de"><?php echo $tml=="" ? "" : n_2decimales($tml); ?></td>
-                        
-          </tr>
-          <tr>
-            <th class="ce">3</th>
-            <!-- <td><?php //echo fnormal($fme); ?></td> -->
-            <th>Movilidad de embarque</th>
-            <td class="de"><?php echo $tme=="" ? "" : n_2decimales($tme); ?></td>
-                       
-          </tr>
-          <tr>
-            <th class="ce">4</th>
-            <!-- <td><?php //echo fnormal($fpt); ?></td> -->
-            <th>Pasaje Terrestre (*)</th>
-            <td class="de"><?php echo $tpt=="" ? "" : n_2decimales($tpt); ?></td>
-                        
-          </tr>
-
-          <tr bgcolor="#DBEEF3">
-            <th colspan="2" class="ce">TOTAL S/</th>
-            <th class="de"><?php echo $tdj=="" ? "" : n_2decimales($tdj);?></th>            
-          </tr>
-          <tr>
-            <td colspan="4" style="border-right: none; border-bottom: none; border-left: none;"><span>EN FE DE LO CUAL FIRMO LA PRESENTE DECLARACION</span></td>
-          </tr>        
-        </table>
+      <table class="st" style="margin-bottom: 250px;">      
+        <tr>
+          <td style="width: 5%;"></td>                    
+          <td style="width: 90%; text-align: justify; word-break: break-all;">
+            <span style="font-size: 12px;">Yo <b><?php echo nomempleado($cone, $r1['idEmpleado']); ?></b> identificado con DNI N° <?php echo $r1['NumeroDoc']; ?> en el cargo de <?php echo cargoe($cone, $r1['idEmpleado']); ?>  del Ministerio Público, DECLARO BAJO JURAMENTO, haber efectuado la comisión de servicios a la ciudad de       <b><?php echo $r1['destino']; ?></b> los días del <?php echo fnormal($r1['FechaIni']); ?> al <?php echo fnormal($r1['FechaFin']); ?>, en cumplimiento del numeral 71.3 del articulo 71° de la Directiva N° 001-2007-EF/77.15, modificada por Resolución directoral N° 017-2007-EF/77.15, por el siguiente importe: <?php echo $tdj=="" ? "" : n_2decimales($tdj);?></span>
+          </td>
+          <td style="width: 5%;"></td>
+        </tr>
+      </table>
+      
         <table class="st">
           <tr>
             <td style="width: 50%">
@@ -168,7 +124,7 @@ use Spipu\Html2Pdf\Html2Pdf;
                 <td colspan="2">_________________________________________</td>                                  
               </tr>
               <tr>
-                <td colspan="2">Firma del Comisionado  </td>                
+                <td colspan="2">Firma del Comisionado (Manuscrita o digital)</td>                
               </tr>
               <tr>
                 <td colspan="2">&nbsp;</td>
@@ -183,7 +139,12 @@ use Spipu\Html2Pdf\Html2Pdf;
               </tr>             
             </table>
           </td>
-        </tr>        
+        </tr> 
+        <tr>
+          <td colspan="2">
+          Nota: El documento que se suscribe para sustentar los gastos solo es usado cuando no es posible obtener comprobantes de pago reconocidos y emitidos de conformidad con lo dispuesto por la Superintendencia Nacional de Aduanas y de Administración Tributaria - SUNAT, en el lugar de la comisión de servicio donde no existen restaurantes, hoteles o empresas de transportes formales que otorguen los citados comprobantes. Dicha Declaración Jurada será presentada sólo hasta el 30% del monto total asignado por concepto de viáticos (alimentación, hospedaje y movilidad hacia y desde el lugar de embarque), según lo establecido por el Decreto Supremo N° 007-2013-EF.
+          </td>
+        </tr>       
       </table>         
 
 
