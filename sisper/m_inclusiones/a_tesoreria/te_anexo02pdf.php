@@ -23,24 +23,27 @@ use Spipu\Html2Pdf\Html2Pdf;
 
 -->
 </style>
-<page backtop="18mm" backbottom="5mm" backleft="6mm" backright="6mm" style="font-size: 10px;"> 
+<page backtop="30mm" backbottom="5mm" backleft="6mm" backright="6mm" style="font-size: 10px;"> 
     <page_header> 
       <table class="page_header">
           <tr>
             <td style="width: 20%;">
               <img src="../../m_images/logompg.png" width="150">
             </td>
-            <th style="width: 60%; text-align: center;">
+            <th style="width: 60%; text-align: center;">                
+            </th>
+            <td style="width: 20%;">                
+            </td>
+          </tr>
+          <tr>
+            <th colspan="3" style="text-align: center;">
                 <span style="font-size: 14px;">ANEXO 02</span><br>
                 <br>
                 <span style="font-size: 16px;">DECLARACIÓN JURADA DE VIÁTICOS / NO VIÁTICOS Y ASIGNACIONES<br> POR COMISIÓN DE SERVICIOS EN EL TERRITORIO NACIONAL</span><br>
                 <br>
                 <span style="font-size: 12px;"></span>
-                
             </th>
-            <td style="width: 20%;">                
-            </td>
-          </tr>          
+          </tr>       
       </table>
     </page_header> 
     <page_footer> 
@@ -92,11 +95,11 @@ use Spipu\Html2Pdf\Html2Pdf;
   ?>
       <table class="st" style="margin-bottom: 250px;">      
         <tr>
-          <td style="width: 5%;"></td>                    
-          <td style="width: 90%; text-align: justify; word-break: break-all;">
+          <td style="width: 2%;"></td>                    
+          <td style="width: 96%; text-align: justify; word-break: break-all;">
             <span style="font-size: 12px;">Yo <b><?php echo nomempleado($cone, $r1['idEmpleado']); ?></b> identificado con DNI N° <?php echo $r1['NumeroDoc']; ?> en el cargo de <?php echo cargoe($cone, $r1['idEmpleado']); ?>  del Ministerio Público, DECLARO BAJO JURAMENTO, haber efectuado la comisión de servicios a la ciudad de       <b><?php echo $r1['destino']; ?></b> los días del <?php echo fnormal($r1['FechaIni']); ?> al <?php echo fnormal($r1['FechaFin']); ?>, en cumplimiento del numeral 71.3 del articulo 71° de la Directiva N° 001-2007-EF/77.15, modificada por Resolución directoral N° 017-2007-EF/77.15, por el siguiente importe: <?php echo $tdj=="" ? "" : n_2decimales($tdj);?></span>
           </td>
-          <td style="width: 5%;"></td>
+          <td style="width: 2%;"></td>
         </tr>
       </table>
       
