@@ -23,7 +23,7 @@ use Spipu\Html2Pdf\Html2Pdf;
 
 -->
 </style>
-<page backtop="30mm" backbottom="5mm" backleft="6mm" backright="6mm" style="font-size: 10px;"> 
+<page backtop="35mm" backbottom="5mm" backleft="6mm" backright="6mm" style="font-size: 10px;"> 
     <page_header> 
       <table class="page_header">
           <tr>
@@ -93,13 +93,13 @@ use Spipu\Html2Pdf\Html2Pdf;
         mysqli_free_result($c2);
         }                    
   ?>
-      <table class="st" style="margin-bottom: 250px;">      
+      <table class="st" style="margin-bottom: 200px;">      
         <tr>
-          <td style="width: 2%;"></td>                    
-          <td style="width: 96%; text-align: justify; word-break: break-all;">
-            <span style="font-size: 12px;">Yo <b><?php echo nomempleado($cone, $r1['idEmpleado']); ?></b> identificado con DNI N° <?php echo $r1['NumeroDoc']; ?> en el cargo de <?php echo cargoe($cone, $r1['idEmpleado']); ?>  del Ministerio Público, DECLARO BAJO JURAMENTO, haber efectuado la comisión de servicios a la ciudad de       <b><?php echo $r1['destino']; ?></b> los días del <?php echo fnormal($r1['FechaIni']); ?> al <?php echo fnormal($r1['FechaFin']); ?>, en cumplimiento del numeral 71.3 del articulo 71° de la Directiva N° 001-2007-EF/77.15, modificada por Resolución directoral N° 017-2007-EF/77.15, por el siguiente importe: <?php echo $tdj=="" ? "" : n_2decimales($tdj);?></span>
+          <td style="width: 8%;"></td>                    
+          <td style="width: 84%; text-align: justify; word-break: break-all;">
+            <span style="font-size: 13px;">Yo <b><?php echo nomempleado($cone, $r1['idEmpleado']); ?></b> identificado con DNI N° <?php echo $r1['NumeroDoc']; ?> en el cargo de <?php echo cargoe($cone, $r1['idEmpleado']); ?>  del Ministerio Público, DECLARO BAJO JURAMENTO, haber efectuado la comisión de servicios a la ciudad de       <b><?php echo $r1['destino']; ?></b> los días del <?php echo fnormal($r1['FechaIni']); ?> al <?php echo fnormal($r1['FechaFin']); ?>, en cumplimiento del numeral 71.3 del articulo 71° de la Directiva N° 001-2007-EF/77.15, modificada por Resolución directoral N° 017-2007-EF/77.15, por el siguiente importe: <?php echo $tdj=="" ? "" : n_2decimales($tdj);?></span>
           </td>
-          <td style="width: 2%;"></td>
+          <td style="width: 8%;"></td>
         </tr>
       </table>
       
@@ -142,7 +142,11 @@ use Spipu\Html2Pdf\Html2Pdf;
               </tr>             
             </table>
           </td>
-        </tr> 
+        </tr>
+        <tr>
+          <td style="height: 50px;">
+          </td>
+        </tr>
         <tr>
           <td colspan="2">
           Nota: El documento que se suscribe para sustentar los gastos solo es usado cuando no es posible obtener comprobantes de pago reconocidos y emitidos de conformidad con lo dispuesto por la Superintendencia Nacional de Aduanas y de Administración Tributaria - SUNAT, en el lugar de la comisión de servicio donde no existen restaurantes, hoteles o empresas de transportes formales que otorguen los citados comprobantes. Dicha Declaración Jurada será presentada sólo hasta el 30% del monto total asignado por concepto de viáticos (alimentación, hospedaje y movilidad hacia y desde el lugar de embarque), según lo establecido por el Decreto Supremo N° 007-2013-EF.
