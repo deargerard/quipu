@@ -96,8 +96,8 @@ use Spipu\Html2Pdf\Html2Pdf;
         <table class="st" style="margin-bottom: 200px;">      
           <tr>
             <td style="width: 4%;"></td>                    
-            <td style="width: 92%; text-align: justify; word-break: break-all; font-family: Verdana, Geneva, Tahoma, sans-serif;">
-              <span style="font-size: 13px;">Yo, <b><u><?php echo nomempleado($cone, $r1['idEmpleado']); ?></u></b> identificado con DNI N°<u> <?php echo $r1['NumeroDoc']; ?> </u>en el cargo de<u> <?php echo cargoe($cone, $r1['idEmpleado']); ?>  </u>del Ministerio Público, DECLARO BAJO JURAMENTO, haber efectuado la comisión de servicios a la ciudad de<b><u> <?php echo $r1['destino']; ?> </u></b> los días del<u> <?php echo fnormal($r1['FechaIni']); ?> </u>al<u> <?php echo fnormal($r1['FechaFin']); ?></u>, en cumplimiento del numeral 71.3 del articulo 71° de la Directiva N° 001-2007-EF/77.15, modificada por Resolución directoral N° 017-2007-EF/77.15, por el siguiente importe: <b><u><?php echo $tdj=="" ? "" : n_2decimales($tdj);?></u></b></span>
+            <td style="width: 92%; text-align: justify; word-break: break-all;">
+              <span style="font-size: 13px;">Yo, <b><?php echo nomempleado($cone, $r1['idEmpleado']); ?></b> identificado con DNI N° <b><?php echo $r1['NumeroDoc']; ?></b> en el cargo de <b><?php echo cargoe($cone, $r1['idEmpleado']); ?></b> del Ministerio Público, DECLARO BAJO JURAMENTO, haber efectuado la comisión de servicios a la ciudad de <b><?php echo $r1['destino']; ?></b> los días del <b><?php echo fnormal($r1['FechaIni']); ?></b> al <b><?php echo fnormal($r1['FechaFin']); ?></b>, en cumplimiento del numeral 71.3 del articulo 71° de la Directiva N° 001-2007-EF/77.15, modificada por Resolución directoral N° 017-2007-EF/77.15, por el siguiente importe: <b><?php echo $tdj=="" ? "" : n_2decimales($tdj);?></b></span>
             </td>
             <td style="width: 4%;"></td>
           </tr>
@@ -106,7 +106,7 @@ use Spipu\Html2Pdf\Html2Pdf;
         <table class="st">
           <tr>
             <td style="width: 50%;">
-              <span style="font-size: 13px;">Ciudad de Cajamarca <?php echo date('d')." de ".nombremes(date('m'))." de ".date('Y')."."; ?></span>
+              <span style="font-size: 13px;">Ciudad de, Cajamarca</span>
             </td>
           </tr>
           <tr>
