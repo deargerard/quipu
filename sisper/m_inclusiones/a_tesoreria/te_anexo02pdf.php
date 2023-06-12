@@ -105,7 +105,7 @@ use Spipu\Html2Pdf\Html2Pdf;
       
         <table class="st">
           <tr>
-            <td style="width: 50%">
+            <td style="width: 50%; padding: 0 15px;">
               <span style="font-size: 13px;">Ciudad de Cajamarca <?php echo date('d')." de ".nombremes(date('m'))." de ".date('Y')."."; ?></span>
             </td>
           </tr>
@@ -148,7 +148,7 @@ use Spipu\Html2Pdf\Html2Pdf;
           </td>
         </tr>
         <tr>
-          <td colspan="2" style="font-size: 12px;">
+          <td colspan="2" style="font-size: 12px; text-align: justify; padding: 0 15px;">
           Nota: El documento que se suscribe para sustentar los gastos solo es usado cuando no es posible obtener comprobantes de pago reconocidos y emitidos de conformidad con lo dispuesto por la Superintendencia Nacional de Aduanas y de Administración Tributaria - SUNAT, en el lugar de la comisión de servicio donde no existen restaurantes, hoteles o empresas de transportes formales que otorguen los citados comprobantes. Dicha Declaración Jurada será presentada sólo hasta el 30% del monto total asignado por concepto de viáticos (alimentación, hospedaje y movilidad hacia y desde el lugar de embarque), según lo establecido por el Decreto Supremo N° 007-2013-EF.
           </td>
         </tr>       
