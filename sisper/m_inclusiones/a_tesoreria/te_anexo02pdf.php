@@ -96,8 +96,8 @@ use Spipu\Html2Pdf\Html2Pdf;
         <table class="st" style="margin-bottom: 200px;">      
           <tr>
             <td style="width: 4%;"></td>                    
-            <td style="width: 92%; text-align: justify; word-break: break-all;">
-              <span style="font-size: 13px;">Yo, <b><?php echo nomempleado($cone, $r1['idEmpleado']); ?></b> identificado con DNI N° <b><?php echo $r1['NumeroDoc']; ?></b> en el cargo de <b><?php echo cargoe($cone, $r1['idEmpleado']); ?></b> del Ministerio Público, DECLARO BAJO JURAMENTO, haber efectuado la comisión de servicios a la ciudad de <b><?php echo $r1['destino']; ?></b> los días del <b><?php echo fnormal($r1['FechaIni']); ?></b> al <b><?php echo fnormal($r1['FechaFin']); ?></b>, en cumplimiento del numeral 71.3 del articulo 71° de la Directiva N° 001-2007-EF/77.15, modificada por Resolución directoral N° 017-2007-EF/77.15, por el siguiente importe: <b><?php echo $tdj=="" ? "" : n_2decimales($tdj);?></b></span>
+            <td style="width: 92%; text-align: justify; word-wrap: break-word;">
+              <div style="font-size: 13px; width: inherit;">Yo, <b><?php echo nomempleado($cone, $r1['idEmpleado']); ?></b> identificado con DNI N° <b><?php echo $r1['NumeroDoc']; ?></b> en el cargo de <b><?php echo cargoe($cone, $r1['idEmpleado']); ?></b> del Ministerio Público, DECLARO BAJO JURAMENTO, haber efectuado la comisión de servicios a la ciudad de <b><?php echo $r1['destino']; ?></b> los días del <b><?php echo fnormal($r1['FechaIni']); ?></b> al <b><?php echo fnormal($r1['FechaFin']); ?></b>, en cumplimiento del numeral 71.3 del articulo 71° de la Directiva N° 001-2007-EF/77.15, modificada por Resolución directoral N° 017-2007-EF/77.15, por el siguiente importe: <b><?php echo $tdj=="" ? "" : n_2decimales($tdj);?></b></div>
             </td>
             <td style="width: 4%;"></td>
           </tr>
