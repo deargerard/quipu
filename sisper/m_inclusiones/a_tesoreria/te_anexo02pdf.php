@@ -149,7 +149,7 @@ use Spipu\Html2Pdf\Html2Pdf;
           </tr>
           <tr>
             <td colspan="2" style="font-size: 12px; text-align: justify;">
-            <span style="padding: 0 15px;">El documento que se suscribe para sustentar los gastos solo es usado cuando no es posible obtener comprobantes de pago reconocidos y emitidos de conformidad con lo dispuesto por la Superintendencia Nacional de Aduanas y de Administración Tributaria - SUNAT, en el lugar de la comisión de servicio donde no existen restaurantes, hoteles o empresas de transportes formales que otorguen los citados comprobantes. Dicha Declaración Jurada será presentada sólo hasta el 30% del monto total asignado por concepto de viáticos (alimentación, hospedaje y movilidad hacia y desde el lugar de embarque), según lo establecido por el Decreto Supremo N° 007-2013-EF.</span>
+            Nota: El documento que se suscribe para sustentar los gastos solo es usado cuando no es posible obtener comprobantes de pago reconocidos y emitidos de conformidad con lo dispuesto por la Superintendencia Nacional de Aduanas y de Administración Tributaria - SUNAT, en el lugar de la comisión de servicio donde no existen restaurantes, hoteles o empresas de transportes formales que otorguen los citados comprobantes. Dicha Declaración Jurada será presentada sólo hasta el 30% del monto total asignado por concepto de viáticos (alimentación, hospedaje y movilidad hacia y desde el lugar de embarque), según lo establecido por el Decreto Supremo N° 007-2013-EF.
             </td>
           </tr>       
         </table>
