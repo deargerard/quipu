@@ -58,7 +58,7 @@ use Spipu\Html2Pdf\Html2Pdf;
       </table>
     </page_footer>      
 <?php 
-    $c1=mysqli_query($cone,"SELECT cs.FechaIni, cs.FechaFin, cs.idEmpleado, cs.destino, e.NumeroDoc FROM comservicios cs INNER JOIN empleado e ON cs.idEmpleado=e.idEmpleado WHERE idComServicios=$idcs;");
+    $c1=mysqli_query($cone,"SELECT cs.FechaIni, cs.FechaFin, cs.idEmpleado, cs.origen, cs.destino, e.NumeroDoc FROM comservicios cs INNER JOIN empleado e ON cs.idEmpleado=e.idEmpleado WHERE idComServicios=$idcs;");
       if($r1=mysqli_fetch_assoc($c1)){
  ?>   
  
@@ -104,7 +104,7 @@ use Spipu\Html2Pdf\Html2Pdf;
         <table class="st">
           <tr>
             <td style="width: 50%;">
-              <span>Ciudad de <?php echo distritoLab($cone, $r1['idEmpleado']) ?>, <?php echo date('d')." de ".nombremes(date('m'))." de ".date('Y')."."; ?></span>
+              <span>Ciudad de <?php echo $r1['origen'] ?>, <?php echo date('d')." de ".nombremes(date('m'))." de ".date('Y')."."; ?></span>
             </td>
           </tr>
           <tr>
