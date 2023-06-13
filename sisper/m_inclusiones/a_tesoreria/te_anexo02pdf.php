@@ -104,7 +104,7 @@ use Spipu\Html2Pdf\Html2Pdf;
         <table class="st">
           <tr>
             <td style="width: 50%;">
-              <span style="font-size: 13px;">Ciudad de, Cajamarca</span>
+              <span>Ciudad de <?php echo distritoLab($cone, $r1['idEmpleado']) ?>, <?php echo date('d')." de ".nombremes(date('m'))." de ".date('Y')."."; ?></span>
             </td>
           </tr>
           <tr>

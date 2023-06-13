@@ -1320,6 +1320,7 @@ function direccionEmpleado($con, $ide){
 		}else{
 			return "-";
 		}
+		mysqli_free_result($cd);
 	}else{
 		return "-";
 	}
@@ -1334,8 +1335,24 @@ function idpersonalmp($con, $ide){
 		}else{
 			return 0;
 		}
+		mysqli_free_result($cd);
 	}else{
 		return 0;
+	}
+}
+
+function distritoLab($con, $iem){
+	if($iem!=""){
+		$iem=iseguro($con, $iem);
+		$cd=mysqli_query($con, "SELECT di.NombreDis FROM empleadocargo ec INNER JOIN cardependencia cd ON ec.idEmpleadoCargo=cd.idEmpleadoCargo INNER JOIN dependencia d ON cd.idDependencia=d.idDependencia INNER JOIN dependencialocal dl ON d.idDependencia=dl.idDependencia INNER JOIN local l ON dl.idLocal=l.idLocal INNER JOIN distrito di ON l.idDistrito=di.idDistrito WHERE ec.idEmpleado=$iem AND ec.idEstadoCar=1;");
+		if($rd=mysqli_fetch_assoc($cd)){
+			return $rd['NombreDis'];
+		}else{
+			return "Dis Error";
+		}
+		mysqli_free_result($cd);
+	}else{
+		return "Dis Error";
 	}
 }
 ?>
