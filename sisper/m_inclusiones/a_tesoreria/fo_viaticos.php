@@ -458,6 +458,7 @@ include("../php/funciones.php");
 <?php }else{ ?>
 					<option value="2">Observado</option>
 					<option value="3">Aceptado</option>
+					<option value="6">Anulada</option>
 <?php } ?>
 		      	  </select>
 		      	</div>

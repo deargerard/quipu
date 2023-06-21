@@ -86,6 +86,13 @@ if(accesocon($cone,$_SESSION['identi'],16)){
                     $mo=0;
                   }
                   mysqli_free_result($cmo);
+                  $cman=mysqli_query($cone, "SELECT SUM(g.totalcom) tan FROM comservicios cs INNER JOIN tegasto g ON cs.idComServicios=g.idComServicios WHERE DATE_FORMAT(cs.FechaIni, '%Y-%m')='$anio-$mes' AND estadoren=6");
+                  if($rman=mysqli_fetch_assoc($cman)){
+                    $man=$rman['tan'];
+                  }else{
+                    $man=0;
+                  }
+                  mysqli_free_result($cman);
 ?>
                   <table class="table table-hover table-bordered">
                     <thead>
@@ -93,6 +100,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
                         <th class="text-green">M. RENDIDO</th>
                         <th class="text-aqua">M. ACEPTADO</th>
                         <th class="text-yellow">M. OBSERVADO</th>
+                        <th class="text-danger">M. ANULADO</th>
                         <th>TOTAL</th>
                       </tr>
                     </thead>
@@ -100,7 +108,8 @@ if(accesocon($cone,$_SESSION['identi'],16)){
                         <th class="text-green"><?php echo n_2decimales($mr); ?></th>
                         <th class="text-aqua"><?php echo n_2decimales($ma); ?></th>
                         <th class="text-yellow"><?php echo n_2decimales($mo); ?></th>
-                        <th><?php echo n_2decimales($mr+$ma+$mo); ?></th>
+                        <th class="text-danger"><?php echo n_2decimales($man); ?></th>
+                        <th><?php echo n_2decimales($mr+$ma+$mo+$man); ?></th>
                       </tr>
                   </table>
                   <script>
