@@ -13,16 +13,10 @@ if(accesoadm($cone,$_SESSION['identi'],3)){
 			$idec=iseguro($cone,$_POST['idec']);
 			$st=iseguro($cone,$_POST['st']);
 			//Valida el estado.
-			if($finvac<=date('Y-m-d')){
-				$st=1;
-			}elseif($inivac<=date('Y-m-d')){
-				$st=3;
-			}elseif ($inivac>date('Y-m-d')) {
-				if (date('Y-m-d') < $fav) {
-			    $st=4;
-			  }else{
- 					$st=0;
-			 }
+			if ($inivac < $fav) {
+				$st=4;
+			}else{
+				$st=0;
 			}
 			//Fin validación del estado
 			//Valida la condicion.
