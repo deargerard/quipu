@@ -526,7 +526,7 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
 		                </div>
 		                <div>
 		                	<?php
-		                	$cp=mysqli_query($cone,"SELECT idPariente, TipoPariente, ApellidoPat, ApellidoMat, Nombres, TipoDoc, NumeroDoc, ContactoEme FROM pariente AS p INNER JOIN tipopariente AS tp ON p.idTipoPariente=tp.idTipoPariente WHERE idEmpleado=$idp ORDER BY FechaNac ASC");
+		                	$cp=mysqli_query($cone,"SELECT idPariente, TipoPariente, ApellidoPat, ApellidoMat, Nombres, TipoDoc, NumeroDoc, ContactoEme, estado FROM pariente AS p INNER JOIN tipopariente AS tp ON p.idTipoPariente=tp.idTipoPariente WHERE idEmpleado=$idp ORDER BY FechaNac ASC");
 		                	if(mysqli_num_rows($cp)>0){
 		                	?>
 							<div class="table-responsive">
@@ -546,6 +546,30 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
 										$ce="SI";
 									else
 										$ce="NO";
+									
+									if($rp['estado']==0 && accesoadm($cone,$_SESSION['identi'],1)){
+								?>
+									<tr class="danger">
+			                			<td><?php echo $rp['TipoPariente'] ?></td>
+			                			<td><?php echo $rp['ApellidoPat']." ".$rp['ApellidoMat'].", ".$rp['Nombres'] ?></td>
+			                			<td><?php echo $rp['TipoDoc'] ?></td>
+			                			<td><?php echo $rp['NumeroDoc'] ?></td>
+			                			<td><?php echo $ce ?></td>
+			                			<td>
+		                					<div class="btn-group">
+	                							<button class="btn bg-purple btn-xs dropdown-toggle" data-toggle="dropdown">
+	                								<i class="fa fa-cog"></i>&nbsp;
+	                								<span class="caret"></span>
+	                								<span class="sr-only">Desplegar menú</span>
+	                							</button>
+	                							<ul class="dropdown-menu pull-right" role="menu">
+	                								<li><a href="#" data-toggle="modal" data-target="#m_detparpersonal" onclick="detparpersonal(<?php echo $rp['idPariente'] ?>)">Detalle</a></li>
+	                							</ul>
+	                						</div>
+			                			</td>
+			                		</tr>
+		                		<?php
+									}elseif($rp['estado']==1){
 								?>
 									<tr>
 			                			<td><?php echo $rp['TipoPariente'] ?></td>
@@ -565,12 +589,14 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
 	                								<?php if(accesoadm($cone,$_SESSION['identi'],1)  || accesoadm($cone,$_SESSION['identi'],9)){ ?>
 	                								<li class="divider"></li>
 	                								<li><a href="#" data-toggle="modal" data-target="#m_ediparpersonal" onclick="ediparpersonal(<?php echo $rp['idPariente'] ?>)">Editar</a></li>
+													<li><a href="#" onclick="eliparpersonal(<?php echo $rp['idPariente'] ?>)">Eliminar</a></li>
 	                								<?php } ?>
 	                							</ul>
 	                						</div>
 			                			</td>
 			                		</tr>
-		                		<?php
+								<?php
+									}
 		                		}
 		                		?>
 		                		</tbody>

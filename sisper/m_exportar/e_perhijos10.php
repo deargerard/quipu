@@ -23,7 +23,7 @@ if(accesocon($cone,$_SESSION['identi'],1)){
             $f1=@date("y-m-d");
             $fc=@strtotime ( '-11 year' , @strtotime ( $f1 ) ) ;
             $fc=@date ( 'Y-m-j' , $fc );
-            $cph=mysqli_query($cone,"SELECT en.idEmpleado, en.NombreCom, en.NumeroDoc, pa.ApellidoPat, pa.ApellidoMat, pa.Nombres, pa.Sexo, pa.NumeroDoc as doc, pa.FechaNac, ec.FechaAsu FROM enombre AS en INNER JOIN pariente AS pa ON en.idEmpleado=pa.idEmpleado INNER JOIN empleadocargo ec ON ec.idEmpleado=en.idEmpleado WHERE pa.idTipoPariente=3 AND pa.FechaNac>'$fc' AND ec.idEstadoCar=1 ORDER BY en.NombreCom ASC");
+            $cph=mysqli_query($cone,"SELECT en.idEmpleado, en.NombreCom, en.NumeroDoc, pa.ApellidoPat, pa.ApellidoMat, pa.Nombres, pa.Sexo, pa.NumeroDoc as doc, pa.FechaNac, ec.FechaAsu FROM enombre AS en INNER JOIN pariente AS pa ON en.idEmpleado=pa.idEmpleado INNER JOIN empleadocargo ec ON ec.idEmpleado=en.idEmpleado WHERE pa.idTipoPariente=3 AND pa.FechaNac>'$fc' AND ec.idEstadoCar=1 AND pa.estado=1 ORDER BY en.NombreCom ASC");
             ?>
 
             <tr>
@@ -52,7 +52,7 @@ if(accesocon($cone,$_SESSION['identi'],1)){
                 if($ip==$idem){
                   $cony="";
                 }else{
-                  $cc=mysqli_query($cone,"SELECT ApellidoPat, ApellidoMat, Nombres FROM pariente WHERE idEmpleado=$idem AND idTipoPariente=4");
+                  $cc=mysqli_query($cone,"SELECT ApellidoPat, ApellidoMat, Nombres FROM pariente WHERE idEmpleado=$idem AND idTipoPariente=4 AND estado=1");
                   if($rc=mysqli_fetch_assoc($cc)){
                     $cony=$rc['ApellidoPat']." ".$rc['ApellidoMat'].", ".$rc['Nombres'];
                   }else{

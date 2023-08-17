@@ -10,7 +10,7 @@ if(accesocon($cone,$_SESSION['identi'],1)){
 ?>
   <h4 class="text-maroon"><strong><?php echo nomempleado($cone,$pers); ?></strong><small> (<?php echo cargoe($cone,$pers) ?>)</small></h4>
 <?php
-  $c=mysqli_query($cone,"SELECT ApellidoPat, ApellidoMat, Nombres, Sexo, FechaNac, NumeroDoc, TelefonoFij, TelefonoMov, ContactoEme, TipoPariente FROM pariente p INNER JOIN tipopariente tp ON p.idTipoPariente=tp.idTipoPariente WHERE idEmpleado=$pers ORDER BY TipoPariente, ApellidoPat, ApellidoMat, Nombres ASC;");
+  $c=mysqli_query($cone,"SELECT ApellidoPat, ApellidoMat, Nombres, Sexo, FechaNac, NumeroDoc, TelefonoFij, TelefonoMov, ContactoEme, TipoPariente FROM pariente p INNER JOIN tipopariente tp ON p.idTipoPariente=tp.idTipoPariente WHERE idEmpleado=$pers AND p.estado=1 ORDER BY TipoPariente, ApellidoPat, ApellidoMat, Nombres ASC;");
 ?>
     <table class="table table-bordered table-hover">
 <?php

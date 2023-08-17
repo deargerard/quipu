@@ -122,7 +122,7 @@ if(accesoadm($cone,$_SESSION['identi'],1) || accesoadm($cone,$_SESSION['identi']
                         <?php }else{ ?>
                         <option value="DNI">DNI</option>
                         <?php } ?>
-                        <?php if($rpa['TipoDoc']=="CARNET EXTRANGERÍA"){ ?>
+                        <?php if($rpa['TipoDoc']=="CARNET EXTRANJERÍA"){ ?>
                         <option value="CARNET EXTRANJERÍA" selected="selected">CARNET EXTRANJERÍA</option>
                         <?php }else{ ?>
                         <option value="CARNET EXTRANJERÍA">CARNET EXTRANJERÍA</option>

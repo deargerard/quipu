@@ -20,7 +20,7 @@ if(accesocon($cone,$_SESSION['identi'],1)){
               <th colspan="12"><font face="arial" color="#FF5820" size="+2">LISTADO DE PERSONAL CON HIJOS</font></th>
             </tr>
             <?php
-            $cph=mysqli_query($cone,"SELECT em.idEmpleado, CONCAT(em.ApellidoPat,' ',em.ApellidoMat,', ',em.Nombres) as NombreCom, em.NumeroDoc, em.Sexo as sexop, pa.ApellidoPat, pa.ApellidoMat, pa.Nombres, pa.Sexo, pa.NumeroDoc as doc, pa.FechaNac FROM empleado AS em INNER JOIN pariente AS pa ON em.idEmpleado=pa.idEmpleado INNER JOIN empleadocargo as ec ON em.idEmpleado=ec.idEmpleado WHERE ec.idEstadoCar=1 AND pa.idTipoPariente=3 ORDER BY em.ApellidoPat,em.ApellidoMat ASC");
+            $cph=mysqli_query($cone,"SELECT em.idEmpleado, CONCAT(em.ApellidoPat,' ',em.ApellidoMat,', ',em.Nombres) as NombreCom, em.NumeroDoc, em.Sexo as sexop, pa.ApellidoPat, pa.ApellidoMat, pa.Nombres, pa.Sexo, pa.NumeroDoc as doc, pa.FechaNac FROM empleado AS em INNER JOIN pariente AS pa ON em.idEmpleado=pa.idEmpleado INNER JOIN empleadocargo as ec ON em.idEmpleado=ec.idEmpleado WHERE ec.idEstadoCar=1 AND pa.idTipoPariente=3 AND pa.estado=1 ORDER BY em.ApellidoPat,em.ApellidoMat ASC");
             ?>
 
             <tr>
@@ -48,7 +48,7 @@ if(accesocon($cone,$_SESSION['identi'],1)){
                 if($ip==$idem){
                   $cony="";
                 }else{
-                  $cc=mysqli_query($cone,"SELECT ApellidoPat, ApellidoMat, Nombres FROM pariente WHERE idEmpleado=$idem AND idTipoPariente=4");
+                  $cc=mysqli_query($cone,"SELECT ApellidoPat, ApellidoMat, Nombres FROM pariente WHERE idEmpleado=$idem AND idTipoPariente=4 AND estado=1");
                   if($rc=mysqli_fetch_assoc($cc)){
                     $cony=$rc['ApellidoPat']." ".$rc['ApellidoMat'].", ".$rc['Nombres'];
                   }else{

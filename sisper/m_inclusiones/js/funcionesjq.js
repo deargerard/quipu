@@ -1590,6 +1590,21 @@ $.ajax({
   }
 });
 };
+//eliminar pariente personal
+function eliparpersonal(id){
+  var text="¿Seguro que desea eliminar?";
+  if(confirm(text)==true){
+    $.ajax({
+      type: "post",
+      url: "m_inclusiones/ajax/a_geliparpersonal.php",
+      data: { idpa : id },
+      success:function(a){
+        $("#parientese").load("m_inclusiones/ajax/a_rparientes.php");
+        alert(a);
+      }
+    });
+  }
+}
 //funcion validar editar movimiento personal
 $( "#f_ediparpersonal" ).validate( {
     rules: {
