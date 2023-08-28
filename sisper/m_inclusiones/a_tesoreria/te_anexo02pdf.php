@@ -99,7 +99,7 @@ use Spipu\Html2Pdf\Html2Pdf;
         <table class="st" style="margin-bottom: 200px;">      
           <tr>                 
             <td style="width: 98%; font-size: 13px;">
-              <div><?php echo wordwrap(html_entity_decode($texto), 120, "<br/>\n", true); ?></div>
+              <div><?php echo wordwrap(html_entity_decode($texto), 110, "<br/>\n", true); ?></div>
             </td>
           </tr>
         </table>
