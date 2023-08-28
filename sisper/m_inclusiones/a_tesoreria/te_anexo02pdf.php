@@ -23,7 +23,7 @@ use Spipu\Html2Pdf\Html2Pdf;
 
 -->
 </style>
-<page backtop="35mm" backbottom="6mm" backleft="6mm" backright="5mm" style="font-size: 10px;"> 
+<page backtop="35mm" backbottom="5mm" backleft="7mm" backright="7mm" style="font-size: 10px;"> 
     <page_header> 
       <table class="page_header">
           <tr>
@@ -98,7 +98,7 @@ use Spipu\Html2Pdf\Html2Pdf;
         <table class="st" style="margin-bottom: 200px;">      
           <tr>                 
             <td style="width: 98%; text-align: justify; font-size: 13px;">
-              <div><?php echo wordwrap($texto, 40, "\n", false); ?></div>
+              <div><?php echo wordwrap($texto, 40, "\n", true); ?></div>
             </td>
           </tr>
         </table>
