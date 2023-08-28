@@ -98,7 +98,7 @@ use Spipu\Html2Pdf\Html2Pdf;
         <table class="st" style="margin-bottom: 200px;">      
           <tr>                 
             <td style="width: 98%; text-align: justify; font-size: 13px;">
-              <div><?php echo utf8_decode($texto); ?></div>
+              <div><?php echo utf8_encode($texto); ?></div>
             </td>
           </tr>
         </table>
