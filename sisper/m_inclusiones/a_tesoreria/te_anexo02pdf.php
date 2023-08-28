@@ -94,11 +94,12 @@ use Spipu\Html2Pdf\Html2Pdf;
         }
       
         $texto="Yo, <b>".nomempleado($cone, $r1['idEmpleado'])."</b> identificado con DNI N° <b>".$r1['NumeroDoc']."</b> en el cargo de <b>".cargoe($cone, $r1['idEmpleado'])."</b> del Ministerio Público, DECLARO BAJO JURAMENTO, haber efectuado la comisión de servicios a la ciudad de <b>".$r1['destino']."</b> los días del <b>".fnormal($r1['FechaIni'])."</b> al <b>".fnormal($r1['FechaFin'])."</b>, en cumplimiento del numeral 71.3 del articulo 71° de la Directiva N° 001-2007-EF/77.15, modificada por Resolución directoral N° 017-2007-EF/77.15, por el siguiente importe: <b>".($tdj=="" ? "" : n_2decimales($tdj))."</b>";
+
   ?>
         <table class="st" style="margin-bottom: 200px;">      
           <tr>                 
-            <td style="width: 98%; text-align: justify; font-size: 13px;">
-              <div><?php echo wordwrap($texto, 40, "\n", true); ?></div>
+            <td style="width: 98%; font-size: 13px;">
+              <div><?php echo wordwrap(html_entity_decode($texto), 40, "<br/>\n", true); ?></div>
             </td>
           </tr>
         </table>
