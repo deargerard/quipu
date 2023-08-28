@@ -98,7 +98,7 @@ use Spipu\Html2Pdf\Html2Pdf;
         <table class="st" style="margin-bottom: 200px;">      
           <tr>                 
             <td style="width: 98%; text-align: justify; font-size: 13px;">
-              <div style="word-wrap:break-word;"><?php echo html_entity_decode($texto); ?></div>
+              <div><?php echo nl2br($texto); ?></div>
             </td>
           </tr>
         </table>
