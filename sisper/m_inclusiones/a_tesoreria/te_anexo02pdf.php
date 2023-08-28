@@ -98,8 +98,8 @@ use Spipu\Html2Pdf\Html2Pdf;
   ?>
         <table class="st" style="margin-bottom: 200px;">      
           <tr>                 
-            <td style="width: 98%; font-size: 13px;">
-              <div><?php echo wordwrap(html_entity_decode($texto), 110, "<br/>\n", false); ?></div>
+            <td style="width: 98%; font-size: 13px; text-align: justify;">
+              <div><?php echo wordwrap(html_entity_decode($texto), 115, "\n", true); ?></div>
             </td>
           </tr>
         </table>
