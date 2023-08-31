@@ -1964,6 +1964,136 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                 echo mensajewa("Ingrese número y año del documento.");
             }
 
+        }elseif($acc=="carori"){
+            $idem=$_SESSION['identi'];
+            $idl=idlocempleado($cone, $idem);  
+?>
+        
+        <div class="row">
+            <div class="col-sm-4">
+                <label for="num">Número<small class="text-red">*</small></label>
+                <input type="number" name="num" id="num" class="form-control">
+            </div>
+            <div class="col-sm-4">
+                <label for="ano">Año<small class="text-red">*</small></label>
+                <div class="input-group date" id="d_ano">
+                    <input type="text" name="ano" id="ano" class="form-control" value="<?php echo date('Y'); ?>">
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                </div>
+                    
+            </div>
+            <div class="col-sm-4">
+                <label>&nbsp;</label>
+                <button type="button" class="btn btn-info btn-block" id="b_bcarori"><i class="fa fa-search"></i> Buscar</button>
+            </div>
+        </div>
+        <div class="form-group" id="d_frespuesta">
+        </div>
+        <script>
+            $('#d_ano').datepicker({
+                format: 'yyyy',
+                language: 'es',
+                autoclose: true,
+                minViewMode: 2,
+                maxViewMode: 2,
+                todayHighlight: true
+            });
+            $('#b_bcarori').on('click', function(){
+              var num=$('#num').val();
+              var ano=$('#ano').val();
+              $.ajax({
+                type: "post",
+                url: "m_inclusiones/a_tdocumentario/f_bandeja.php",
+                data: {v1: num, v2: ano, acc: 'buscarori'},
+                dataType: "html",
+                beforeSend: function(){
+                  $("#d_frespuesta").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
+                },
+                success:function(a){                
+                    $("#d_frespuesta").html(a);
+                }
+              });
+            });
+        </script>  
+<?php
+        }elseif($acc=="buscarori"){
+            if(isset($v1) && !empty($v1) && isset($v2) && !empty($v2)){
+                $cd=mysqli_query($cone, "SELECT d.idDoc, d.Numero, d.Ano, d.Siglas, d.FechaDoc, d.remitenteext, d.remitenteint, d.destinatarioext, d.destinatarioint, d.deporigenext, d.deporigenint, d.depdestinoext, d.depdestinoint, d.numdoc, d.asunto, d.idTipoDoc, td.TipoDoc, d.idDocRel, d.cargo FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc WHERE numdoc=$v1 AND Ano=$v2;");
+                if($rd=mysqli_fetch_assoc($cd)){
+                    $idd=$rd['idDoc'];
+                    $iddr=$rd['idDocRel'];
+?> 
+        <div class="row">
+            <div class="col-sm-12">
+                <br>
+                <table class="table table-bordered table-hover" style="font-size: 12px;">
+                    <tr>
+                        <th># DOC.</th>
+                        <th>DOCUMENTO</th>
+                        <th>REMITENTE</th>
+                        <th>DESTINATARIO</th>
+                    </tr>
+                    <tr>
+                        <td class="text-orange"><?php echo $rd['numdoc']."-".$rd['Ano']; ?></td>
+                        <td class="text-blue"><?php echo ((!is_null($rd['Numero']) ? $rd['Numero']."-" : "").$rd['Ano'].(!is_null($rd['Siglas']) ? "-".$rd['Siglas'] : "")); ?><br><small class="text-purple"><?php echo $rd['TipoDoc']; ?></small> <small class="text-yellow"><?php echo $rd['cargo']==1 ? "(CARGO)" : "(ORIGINAL)"; ?></small></td>
+                        <td class="text-blue"><?php echo !is_null($rd['remitenteint']) ? nomempleado($cone, $rd['remitenteint']) : $rd['remitenteext']; ?><br><small class="text-purple"><?php echo !is_null($rd['deporigenint']) ? nomdependencia($cone, $rd['deporigenint']) : $rd['deporigenext']; ?></small></td>
+                        <td class="text-blue"><?php echo !is_null($rd['destinatarioint']) ? nomempleado($cone, $rd['destinatarioint']) : $rd['destinatarioext']; ?><br><small class="text-purple"><?php echo !is_null($rd['depdestinoint']) ? nomdependencia($cone, $rd['depdestinoint']) : $rd['depdestinoext']; ?></small></td>
+                    </tr>
+                    <tr>
+                        <th>FECHA</th>
+                        <th colspan="3">ASUNTO</th>
+                    </tr>
+                    <tr>
+                        <td><?php echo fnormal($rd['FechaDoc']); ?></td>
+                        <td colspan="3"><?php echo $rd['asunto']; ?></td>
+                    </tr>
+                    <tr>
+                        <th>PERTENECE</th>
+
+                        <td>
+                        <?php
+                        if(!is_null($iddr)){
+                            $cp=mysqli_query($cone, "SELECT numdoc, Ano FROM doc WHERE idDoc=$iddr ORDER BY numdoc ASC;");
+                            if(mysqli_num_rows($cp)>0){
+                                while($rp=mysqli_fetch_assoc($cp)){
+                                    echo $rp['numdoc']."-".$rp['Ano']."<br>";
+                                }
+                            }
+                            mysqli_free_result($cp);
+                        }
+                        ?>
+                        </td> 
+                        <th>D. RELAC.</th>
+                        <td>
+                        <?php
+                        $cr=mysqli_query($cone, "SELECT numdoc, Ano FROM doc WHERE idDocRel=$idd ORDER BY numdoc ASC;");
+                        if(mysqli_num_rows($cr)>0){
+                            while($rr=mysqli_fetch_assoc($cr)){
+                                echo $rr['numdoc']."-".$rr['Ano']."<br>";
+                            }
+                        }
+                        mysqli_free_result($cr);
+                        ?>
+                        </td>  
+                    </tr>
+                    <tr>
+                        <td colspan="4" align="center">
+                            <button type="button" class="btn bg-maroon" id="b_dercar" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Convirtiendo..." onclick="g_carori(<?php echo $idd.', '.$rd['cargo']; ?>);"><i class="fa fa-toggle-on"></i> Convertir a <?php echo $rd['cargo']==1 ? 'original' : 'cargo' ?></button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-sm-12" id="d_rcc"></div>
+        </div>
+<?php
+                }else{
+                    echo mensajewa("No se halló el documento.");
+                }
+                mysqli_free_result($cd);
+            }else{
+                echo mensajewa("Ingrese número y año del documento.");
+            }
+
         }//acafin
 	}else{
 		echo mensajewa("Error: Faltan datos.");

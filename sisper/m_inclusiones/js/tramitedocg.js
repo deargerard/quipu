@@ -226,7 +226,10 @@ function f_bandeja(acc,v1,v2){
           var mt="<span class='text-muted'><i class='fa fa-level-up text-yellow'></i> Derivar Notificación Reportada</span>";
           break;
         case 'dercar':
-          var mt="<span class='text-muted'><i class='fa fa-level-up text-yellow'></i> Derivar Cargo</span>";
+          var mt="<span class='text-muted'><i class='fa fa-reply-all text-yellow'></i> Derivar Cargo</span>";
+          break;
+        case 'carori':
+          var mt="<span class='text-muted'><i class='fa fa-toggle-on text-yellow'></i> Cargo/Original</span>";
           break;
     }
     $(".modal-title").html(mt);
@@ -243,7 +246,7 @@ function f_bandeja(acc,v1,v2){
       },
       success:function(a){
         $("#f_modal").html(a);
-        if(acc!='detdoc' && acc!='rutdoc' && acc!='detest' && acc!='lisgui' && acc!='gencar' && acc!='dercar'){
+        if(acc!='detdoc' && acc!='rutdoc' && acc!='detest' && acc!='lisgui' && acc!='gencar' && acc!='dercar' && acc!='carori'){
           $("#b_guardar").removeClass("hidden");
         }
       }
@@ -314,6 +317,27 @@ function g_dercar(idd){
     type: "post",
     url: "m_inclusiones/a_tdocumentario/g_bandeja.php",
     data: {acc: 'dercar', v1: idd, v2: v2, v3: v3},
+    dataType: "json",
+    beforeSend: function(){
+      $("#b_dercar").button('loading');
+    },
+    success:function(a){
+      if(a.e){
+        $("#f_modal").html(a.m);
+        li_ban2();
+      }else{
+        $("#d_rcc").html(a.m);
+        $("#b_dercar").button('reset');
+      }
+    }
+  });
+}
+
+function g_carori(idd, v2){
+  $.ajax({
+    type: "post",
+    url: "m_inclusiones/a_tdocumentario/g_bandeja.php",
+    data: {acc: 'carori', v1: idd, v2: v2},
     dataType: "json",
     beforeSend: function(){
       $("#b_dercar").button('loading');

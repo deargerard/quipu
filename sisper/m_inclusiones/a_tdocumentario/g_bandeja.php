@@ -998,7 +998,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
 
                         }else{
                             $r['m']=mensajewa("Error al registrar cargo.");
-                            mysql_query($cone, "DELETE FROM doc WHERE idDoc=$iddn;");
+                            mysqli_query($cone, "DELETE FROM doc WHERE idDoc=$iddn;");
                         }           
                     }
 
@@ -1055,6 +1055,29 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                 }else{
                     $r['m']=mensajewa('Error, datos erroneos del documento.');
                 }
+            }else{
+                $r['m']=mensajewa("Faltan datos.");
+            }
+        }elseif($acc=="carori"){
+            if(isset($_POST['v1']) && !empty($_POST['v1'])){
+                $v1=iseguro($cone, $_POST['v1']);
+                $v2=iseguro($cone, $_POST['v2']);
+
+                if($v2==1){
+                    if(mysqli_query($cone, "UPDATE doc SET cargo=0 WHERE idDoc=$v1")){
+                        $r['m']=mensajesu("Documento convertido a original");
+                        $r['e']=true;
+                    }else{
+                        $r['m']=mensajewa("Error al convertir documento");
+                    }
+                }else{
+                    if(mysqli_query($cone, "UPDATE doc SET cargo=1 WHERE idDoc=$v1")){
+                        $r['m']=mensajesu("Documento convertido a cargo");
+                        $r['e']=true;
+                    }else{
+                        $r['m']=mensajewa("Error al convertir documento");
+                    }
+                }  
             }else{
                 $r['m']=mensajewa("Faltan datos.");
             }
