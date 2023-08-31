@@ -320,7 +320,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                     $dides=$_POST['dides']=="" ? vacio("") :  vacio(iseguro($cone, $_POST['dides']));
                     $pedes=$_POST['pedes']=="" ? vacio("") :  vacio(imseguro($cone, $_POST['pedes']));
                     $dedes=$_POST['dedes']=="" ? vacio("") :  vacio(imseguro($cone, $_POST['dedes']));
-                    $car=0;
+                    //$car=0;
                     $aan=iseguro($cone, $_POST['aan']);
                     $nd=iseguro($cone, $_POST['nd']);
                     
@@ -338,7 +338,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                         $tn="";
                     }
 
-                    if(mysqli_query($cone, "UPDATE doc SET Numero=$num, Ano='$ano', Siglas=$sig, FechaDoc='$fecdoc', idTipoDoc=$tipdoc, asunto=$asu, folios=$fol, remitenteext=$perem, destinatarioext=$pedes, deporigenext=$derem, depdestinoext=$dedes, remitenteint=$pirem, destinatarioint=$pides, deporigenint=$direm, depdestinoint=$dides, cargo=$car $tn WHERE idDoc=$v1;")){
+                    if(mysqli_query($cone, "UPDATE doc SET Numero=$num, Ano='$ano', Siglas=$sig, FechaDoc='$fecdoc', idTipoDoc=$tipdoc, asunto=$asu, folios=$fol, remitenteext=$perem, destinatarioext=$pedes, deporigenext=$derem, depdestinoext=$dedes, remitenteint=$pirem, destinatarioint=$pides, deporigenint=$direm, depdestinoint=$dides $tn WHERE idDoc=$v1;")){
                         $r['m']=mensajesu("Listo, documento editado.<br># de Seguimiento: $nn");
                         $r['e']=true;
                     }else{

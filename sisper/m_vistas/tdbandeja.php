@@ -91,6 +91,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                         <?php } ?>
                         <?php if($imp==1){ ?>
                           <button type="button" class="btn bg-aqua" onclick="f_bandeja('carori',0,0);"><i class="fa fa-toggle-on"></i> Cargo/Original</button>
+                          <button type="button" class="btn bg-maroon" onclick="f_bandeja('edidocu',0,0);"><i class="fa fa-edit"></i> Editar</button>
                         <?php } ?>
                     <?php } ?>
                   </div>
