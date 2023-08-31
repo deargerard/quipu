@@ -2215,6 +2215,51 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                 echo mensajewa("Ingrese número y año del documento.");
             }
 
+        }elseif($acc=="movdia"){
+
+                $idem=$_SESSION['identi'];
+                
+
+                    $cdg=mysqli_query($cone, "SELECT d.numdoc, d.Numero, d.Ano, d.Siglas, ed.idtdestado, ed.fecha FROM tdestadodoc ed INNER JOIN doc d ON ed.idDoc=d.idDoc WHERE ed.asignador=$idem AND DATE_FORMAT(ed.fecha, '%Y-%m-%d')=CURDATE() ORDER BY ed.fecha DESC;");
+                    if(mysqli_num_rows($cdg)>0){
+?>
+                        <table class="table table-hover table-bordered" id="dt_mov">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>NUM.</th>
+                                    <th>DOCUMENTO</th>
+                                    <th>MOVIMIENTO</th>
+                                    <th>FECHA MOV.</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+<?php
+                            $n=0;
+                            while($rdg=mysqli_fetch_assoc($cdg)){
+                                $n++;
+?>
+                                <tr>
+                                    <td><?php echo $n; ?></td>
+                                    <td><?php echo $rdg['numdoc'].'-'.$rdg['Ano']; ?></td>
+                                    <td><?php echo $rdg['Numero'].'-'.$rdg['Ano'].'-'.$rdg['Siglas']; ?></td>
+                                    <td><?php echo estadoDoc($rdg['idtdestado']); ?></td>
+                                    <td><?php echo ftnormal($rdg['fecha']); ?></td>
+                                </tr>
+<?php
+                            }
+?>
+                            </tbody>
+                        </table>
+                        <script>
+                            $('#dt_mov').dataTable();
+                        </script>
+<?php
+                    }else{
+                        echo mensajewa("Hoy aún no ha realizado movimientos.");
+                    }
+                    mysqli_free_result($cdg);
+                
         }//acafin
 	}else{
 		echo mensajewa("Error: Faltan datos.");

@@ -93,6 +93,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                           <button type="button" class="btn bg-aqua" onclick="f_bandeja('carori',0,0);"><i class="fa fa-toggle-on"></i> Cargo/Original</button>
                           <button type="button" class="btn bg-maroon" onclick="f_bandeja('edidocu',0,0);"><i class="fa fa-edit"></i> Editar</button>
                         <?php } ?>
+                        <button type="button" class="btn btn-default" onclick="f_bandeja('movdia',0,0);"><i class="fa fa-exchange"></i> Mov. Diario</button>
                     <?php } ?>
                   </div>
                 </div>

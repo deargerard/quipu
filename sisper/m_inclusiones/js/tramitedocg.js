@@ -234,6 +234,10 @@ function f_bandeja(acc,v1,v2){
         case 'edidocu':
           var mt="<span class='text-muted'><i class='fa fa-edit text-yellow'></i> Editar</span>";
           break;
+        case 'movdia':
+          var mt="<span class='text-muted'><i class='fa fa-edit text-yellow'></i> Mis movimientos del día</span>";
+          $(".modal-dialog").addClass('modal-lg');
+          break;
     }
     $(".modal-title").html(mt);
     $("#m_modal").modal("show");
@@ -249,7 +253,7 @@ function f_bandeja(acc,v1,v2){
       },
       success:function(a){
         $("#f_modal").html(a);
-        if(acc!='detdoc' && acc!='rutdoc' && acc!='detest' && acc!='lisgui' && acc!='gencar' && acc!='dercar' && acc!='carori' && acc!='edidocu'){
+        if(acc!='detdoc' && acc!='rutdoc' && acc!='detest' && acc!='lisgui' && acc!='gencar' && acc!='dercar' && acc!='carori' && acc!='edidocu' && acc!='movdia'){
           $("#b_guardar").removeClass("hidden");
         }
       }
