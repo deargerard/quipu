@@ -98,8 +98,8 @@ use Spipu\Html2Pdf\Html2Pdf;
   ?>
         <table class="st" style="margin-bottom: 200px; font-size: 13px; text-align: justify;">      
           <tr>
-            <td style="text-align: justify;">Yo, <b><?php echo nomempleado($cone, $r1['idEmpleado']) ?></b></td>
-            <td>, identificado con DNI N° <b><?php echo $r1['NumeroDoc'] ?></b></td>
+            <td style="text-align: center;">Yo, <b><?php echo nomempleado($cone, $r1['idEmpleado']) ?></b></td>
+            <td style="text-align: center;">, identificado con DNI N° <b><?php echo $r1['NumeroDoc'] ?></b></td>
             <td style="text-align: right;">, en el cargo de</td>
           </tr>
           <tr>
