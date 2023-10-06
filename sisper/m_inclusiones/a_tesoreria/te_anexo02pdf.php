@@ -96,7 +96,7 @@ use Spipu\Html2Pdf\Html2Pdf;
         
 
   ?>
-        <table class="st" style="margin-bottom: 200px; font-size: 13px;">      
+        <table class="st" style="margin-bottom: 200px; font-size: 13px; text-align: justify;">      
           <tr>
             <td>Yo, <b><?php echo nomempleado($cone, $r1['idEmpleado']) ?></b> identificado con DNI N° <b><?php echo $r1['NumeroDoc'] ?></b></td>
           </tr>
