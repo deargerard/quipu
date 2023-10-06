@@ -101,10 +101,10 @@ use Spipu\Html2Pdf\Html2Pdf;
             <td>Yo, <b><?php echo nomempleado($cone, $r1['idEmpleado']) ?></b>, identificado con DNI N° <b><?php echo $r1['NumeroDoc'] ?></b>, en el cargo de</td>
           </tr>
           <tr>
-            <td><b><?php echo cargoe($cone, $r1['idEmpleado']) ?></b> del Ministerio Público, DECLARO BAJO JURAMENTO, haber efectuado la comisión de servicios</td>
+            <td><b><?php echo cargoe($cone, $r1['idEmpleado']) ?></b> del Ministerio Público, DECLARO BAJO JURAMENTO, haber efectuado la</td>
           </tr>
           <tr>
-            <td>a la ciudad de <b><?php echo $r1['destino'] ?></b></td>
+            <td>comisión de servicios a la ciudad de <b><?php echo $r1['destino'] ?></b></td>
           </tr>
           <tr>
             <td>los días del <b><?php echo fnormal($r1['FechaIni']) ?></b> al <b><?php echo fnormal($r1['FechaFin']) ?></b>, en cumplimiento del numeral 71.3 del articulo 71° de la Directiva N° </td>
