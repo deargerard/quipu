@@ -96,7 +96,7 @@ use Spipu\Html2Pdf\Html2Pdf;
         
 
   ?>
-        <table class="st" style="margin-bottom: 200px;">      
+        <table class="st" style="margin-bottom: 200px; font-size: 13px;">      
           <tr>
             <td>Yo, </td>
             <td><b><?php echo nomempleado($cone, $r1['idEmpleado']) ?></b></td>
@@ -119,7 +119,7 @@ use Spipu\Html2Pdf\Html2Pdf;
           </tr>
         </table>
       
-        <table class="st">
+        <table class="st" style="font-size: 12px;">
           <tr>
             <td style="width: 50%;">
               <span>Ciudad de <?php echo $r1['origen'] ?>, <?php echo date('d')." de ".nombremes(date('m'))." de ".date('Y')."."; ?></span>
