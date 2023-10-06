@@ -104,9 +104,7 @@ use Spipu\Html2Pdf\Html2Pdf;
             <td><b><?php echo $r1['NumeroDoc'] ?></b></td>
           </tr>
           <tr>
-            <td>en el cargo de </td>
-            <td colspan="2"><?php echo cargoe($cone, $r1['idEmpleado']) ?></td>
-            <td>del Ministerio Público,</td>
+            <td colspan="2">en el cargo de <b><?php echo cargoe($cone, $r1['idEmpleado']) ?></b> del Ministerio Público,</td>
           </tr>
           <tr>
             <td colspan="4">DECLARO BAJO JURAMENTO, haber efectuado la comisión de servicios a la ciudad de</td>
@@ -115,7 +113,10 @@ use Spipu\Html2Pdf\Html2Pdf;
             <td colspan="4"><b><?php echo $r1['destino'] ?></b></td>
           </tr>
           <tr>
-            <td colspan="4">los días del <b><?php echo fnormal($r1['FechaIni']) ?></b> al <b><?php echo fnormal($r1['FechaFin']) ?></b>, en cumplimiento del numeral 71.3 del articulo 71° de la Directiva N° 001-2007-EF/77.15, modificada por Resolución directoral N° 017-2007-EF/77.15, por el siguiente importe: <b><?php echo ($tdj=="" ? "" : n_2decimales($tdj)) ?></b></td>
+            <td colspan="4">los días del <b><?php echo fnormal($r1['FechaIni']) ?></b> al <b><?php echo fnormal($r1['FechaFin']) ?></b>, en cumplimiento del numeral 71.3 del articulo 71° de la Directiva N° </td>
+          </tr>
+          <tr>
+            <td colspan="4">001-2007-EF/77.15, modificada por Resolución directoral N° 017-2007-EF/77.15, por el siguiente importe: <b><?php echo ($tdj=="" ? "" : n_2decimales($tdj)) ?></b></td>
           </tr>
         </table>
       
