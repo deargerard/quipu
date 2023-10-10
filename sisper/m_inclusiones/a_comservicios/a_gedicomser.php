@@ -24,7 +24,11 @@ if(accesoadm($cone,$_SESSION['identi'],15)){
 				$r["idcs"]=null;
 			}else{
 
-				$sql="UPDATE comservicios SET FechaIni='$inicom', FechaFin='$fincom', Descripcion='$desc', Vehiculo=$veh, idDoc=$doc, origen='$ori', destino='$des', estadoren=$sv WHERE idComServicios=$idcs";
+				if($sv){
+					$sql="UPDATE comservicios SET FechaIni='$inicom', FechaFin='$fincom', Descripcion='$desc', Vehiculo=$veh, idDoc=$doc, origen='$ori', destino='$des', estadoren=$sv WHERE idComServicios=$idcs";
+				}else{
+					$sql="UPDATE comservicios SET FechaIni='$inicom', FechaFin='$fincom', Descripcion='$desc', Vehiculo=$veh, idDoc=$doc, origen='$ori', destino='$des' WHERE idComServicios=$idcs";
+				}
 
 				if(mysqli_query($cone,$sql)){
 					$r["msg"]= mensajesu("Listo: se actualizó correctamente la comisión de servicios");
