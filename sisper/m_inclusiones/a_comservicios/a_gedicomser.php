@@ -23,8 +23,8 @@ if(accesoadm($cone,$_SESSION['identi'],15)){
 				$r["e"]=false;
 				$r["idcs"]=null;
 			}else{
-
-				if($sv){
+				//validamos que solo edite si se envio 5 que corresponde a sin víaticos, caso contrario que no esdite el estado de la rendición
+				if($sv==5){
 					$sql="UPDATE comservicios SET FechaIni='$inicom', FechaFin='$fincom', Descripcion='$desc', Vehiculo=$veh, idDoc=$doc, origen='$ori', destino='$des', estadoren=$sv WHERE idComServicios=$idcs";
 				}else{
 					$sql="UPDATE comservicios SET FechaIni='$inicom', FechaFin='$fincom', Descripcion='$desc', Vehiculo=$veh, idDoc=$doc, origen='$ori', destino='$des' WHERE idComServicios=$idcs";
