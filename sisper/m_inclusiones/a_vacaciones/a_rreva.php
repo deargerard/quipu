@@ -30,7 +30,7 @@ if(accesocon($cone,$_SESSION['identi'],3)){
 			$wpv.=$k==(count($pervac1)-1) ? " pv.idPeriodoVacacional=$pervac1[$k])" : "pv.idPeriodoVacacional=$pervac1[$k] OR ";
 		}
 
-		$q="SELECT v.idProVacaciones, pv.PeriodoVacacional, concat(d.Numero,'-',d.Ano,'-',d.Siglas) AS Resolucion, d.FechaDoc, v.FechaIni, v.FechaFin, v.Estado, v.Condicion, v.Observaciones, av.idAprVacaciones FROM provacaciones as v INNER JOIN periodovacacional AS pv ON v.idPeriodoVacacional = pv.idPeriodoVacacional INNER JOIN aprvacaciones as av ON v.idProVacaciones= av.idProVacaciones INNER JOIN doc AS d ON av.idDoc=d.idDoc INNER JOIN empleadocargo AS ec ON v.idEmpleadoCargo=ec.idEmpleadoCargo WHERE idEmpleado = $per AND ec.idEmpleadoCargo=$car AND $west AND $wcon AND $wpv";
+		$q="SELECT v.idProVacaciones, pv.PeriodoVacacional, concat(d.Numero,'-',d.Ano,'-',d.Siglas) AS Resolucion, d.FechaDoc, d.Descripcion, v.FechaIni, v.FechaFin, v.Estado, v.Condicion, av.idAprVacaciones FROM provacaciones as v INNER JOIN periodovacacional AS pv ON v.idPeriodoVacacional = pv.idPeriodoVacacional INNER JOIN aprvacaciones as av ON v.idProVacaciones= av.idProVacaciones INNER JOIN doc AS d ON av.idDoc=d.idDoc INNER JOIN empleadocargo AS ec ON v.idEmpleadoCargo=ec.idEmpleadoCargo WHERE idEmpleado = $per AND ec.idEmpleadoCargo=$car AND $west AND $wcon AND $wpv";
 		//echo $q;
 		$cvac=mysqli_query($cone,$q);
 
@@ -144,7 +144,7 @@ if(accesocon($cone,$_SESSION['identi'],3)){
 					<td><?php echo "<span class='hidden'>".$rvac['FechaIni']."</span> ".fnormal($rvac['FechaIni'])?></td> <!--columna INICIO-->
 					<td><?php echo fnormal($rvac['FechaFin']) ?></td> <!--columna FIN-->
 					<td><?php echo estadoVac($rvac['Estado']) ?></td> <!--columna ESTADO-->
-					<td><?php echo $rvac['Observaciones'] ?></td> <!--columna ESTADO-->
+					<td><?php echo $rvac['Descripcion'] ?></td> <!--columna ESTADO-->
         </tr>
 				<?php
 					}
