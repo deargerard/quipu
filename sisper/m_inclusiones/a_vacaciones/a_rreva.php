@@ -162,6 +162,9 @@ if(accesocon($cone,$_SESSION['identi'],3)){
 	$('#dtreva').DataTable({
 		"order": [[0,"asc"]]
 	});
+	$(function(){
+		$('[data-toggle="popover"]').popover()
+	})
 	</script>
 <?php
 	}else {
