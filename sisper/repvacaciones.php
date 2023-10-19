@@ -16,6 +16,9 @@ $(document).ready(function(){
   $("#vacaciones").addClass("active");
   $("#repvacaciones").addClass("active");
   });
+  $(function(){
+    $('[data-toggle="popover"]').popover()
+  })
 </script>
 <?php
 }else{

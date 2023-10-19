@@ -148,7 +148,7 @@ if(accesocon($cone,$_SESSION['identi'],3)){
 					<td><?php echo $rvac['Observaciones'] ?></td> <!--columna ESTADO-->
 					<td>
 						<?php if($rvac['Descripcion']){ ?>
-						<button type="button" class="btn btn-default" data-container="body" data-toggle="popover" data-placement="left" data-content="<?php echo $rvac['Descripcion']; ?>"><i class="fa fa-file-text"></i></button>
+						<button type="button" class="btn btn-default btn-sm" data-container="body" data-toggle="popover" data-placement="left" data-content="<?php echo $rvac['Descripcion']; ?>"><i class="fa fa-file-text"></i></button>
 						<?php } ?>
 					</td>
         </tr>
