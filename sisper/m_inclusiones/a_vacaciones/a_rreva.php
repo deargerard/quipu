@@ -126,6 +126,7 @@ if(accesocon($cone,$_SESSION['identi'],3)){
 	          			<th>TERMINA</th>
 	          			<th>ESTADO</th>
 						<th>OBSERVACIONES</th>
+						<th>D. RES.</th>
 					</tr>
 				</thead>
 		<tbody>
@@ -135,7 +136,7 @@ if(accesocon($cone,$_SESSION['identi'],3)){
 						$dt=intervalo ($rvac['FechaFin'], $rvac['FechaIni']);
 						$tot=$tot+1;
 						?>
-				<tr <?php if($rvac['Descripcion']){ echo 'data-toggle="tooltip" data-placement="top" title="'.$rvac['Descripcion'].'"'; } ?>> <!--Fila de vacaciones-->
+				<tr> <!--Fila de vacaciones-->
 					<td><?php echo $rvac['PeriodoVacacional']?></td> <!--columna PERÍODO-->
 					<td><?php echo $rvac['Resolucion']?></td> <!--columna NÚMERO DE RESOLUCIÓN-->
 					<td><?php echo fnormal($rvac['FechaDoc'])?></td> <!--columna FECHA DOCUMENTO-->
@@ -145,6 +146,11 @@ if(accesocon($cone,$_SESSION['identi'],3)){
 					<td><?php echo fnormal($rvac['FechaFin']) ?></td> <!--columna FIN-->
 					<td><?php echo estadoVac($rvac['Estado']) ?></td> <!--columna ESTADO-->
 					<td><?php echo $rvac['Observaciones'] ?></td> <!--columna ESTADO-->
+					<td>
+						<?php if($rvac['Descripcion']){ ?>
+						<button type="button" class="btn btn-default" data-container="body" data-toggle="popover" data-placement="left" data-content="<?php echo $rvac['Descripcion']; ?>"><i class="fa fa-file-text"></i></button>
+						<?php } ?>
+					</td>
         </tr>
 				<?php
 					}
