@@ -77,8 +77,8 @@ if(accesoadm($cone,$_SESSION['identi'],1)){
                               echo mensajeda("Error: No se pudo registrar. ". mysqli_error($cone));
                         }
                         //enviamos correo
-                        include_once '../../m_email/fcorreo.php';
-                        include_once '../../m_email/c_estper.php';
+                        //include_once '../../m_email/fcorreo.php';
+                        //include_once '../../m_email/c_estper.php';
                   }
                   mysqli_free_result($c);
                   mysqli_close($cone);

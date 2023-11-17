@@ -71,8 +71,8 @@ if(accesoadm($cone,$_SESSION['identi'],1)){
                               //echo "<a href='carpersonal.php?per=$idper' class='btn btn-primary'>Asignar cargo</a>";
 
                               //enviamos correo
-                              include_once '../../m_email/fcorreo.php';
-                              include_once '../../m_email/c_altper.php';
+                              //include_once '../../m_email/fcorreo.php';
+                              //include_once '../../m_email/c_altper.php';
 
                         }else{
                               echo "<h4 class='text-maroon'>Error: ". mysqli_error($cone)."</h4>";
