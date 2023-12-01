@@ -116,7 +116,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                     //include("m_inclusiones/a_vacaciones/a_ofechas.php");
                   ?>
                   <div class="col-sm-5"> <!--Botón Programar vacaciones-->
-                    <h4 class="text-maroon text-right"><i class="fa fa-info-circle text-orange"></i> Las vaciones ahora se programan en <a href="https://sistemas2.mpfn.gob.pe/" target="_blank">Sistemas2</a></h4>
+                    <h4 class="text-maroon text-right"><i class="fa fa-info-circle text-orange"></i> Las vacaciones ahora se programan en <a href="https://sistemas2.mpfn.gob.pe/" target="_blank">Sistemas2</a></h4>
                   </div>
                   <?php
                   }
