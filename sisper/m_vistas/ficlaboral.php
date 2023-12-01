@@ -104,7 +104,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
             <div class="tab-pane " id="tab_2">
               <!--Encabezado-->
               <div class="row">
-                <div class="col-sm-9">
+                <div class="col-sm-7">
                   <h4 class="text-blue" style="font-size: 22px; font-weight:600;"><b><i class="fa fa-user text-orange"></i> <?php echo nomempleado($cone,$idper); ?> </b></h4>
                 </div>
                   <?php
@@ -113,12 +113,10 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                     if ($rpev=mysqli_fetch_assoc($cpev)) {
                       $pervac=$rpev['idPeriodoVacacional'];
                     }
-                    include("m_inclusiones/a_vacaciones/a_ofechas.php");
+                    //include("m_inclusiones/a_vacaciones/a_ofechas.php");
                   ?>
-                  <div class="col-sm-3"> <!--Botón Programar vacaciones-->
-                    <input type="hidden" id="idper" value="<?php echo $idper?>"> <!--envía id de personal-->
-                    <input type="hidden" id="pervac" value="<?php echo $pervac?>"> <!--envía el periodovacacional-->
-                    <button id="b_provac" class="btn btn-info" data-toggle="modal" data-target="#m_programarvacaciones" onclick="provac(<?php echo $idec .", ".$pervac.", '".$fii."', '".$ffi."', '".$fff."'" ?>)">Programar Vacaciones <?php echo $pv ?></button>
+                  <div class="col-sm-5"> <!--Botón Programar vacaciones-->
+                    <h4 class="text-maroon text-right"><i class="fa fa-info-circle text-orange"></i> Las vaciones ahora se programan en <a href="https://sistemas2.mpfn.gob.pe/" target="_blank">Sistemas2</a></h4>
                   </div>
                   <?php
                   }
