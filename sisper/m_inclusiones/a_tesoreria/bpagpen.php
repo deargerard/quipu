@@ -6,7 +6,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
 	if(isset($_POST['fon']) && !empty($_POST['fon'])){
 		$fon=iseguro($cone,$_POST['fon']);		
 
-    $c1=mysqli_query($cone,"select tc.tipo, g.fechacom, g.numerocom, p.razsocial, g.glosacom, g.totalcom from tegasto g INNER JOIN tetipocom tc ON g.idtetipocom=tc.idtetipocom INNER JOIN terendicion r ON g.idterendicion=r.idterendicion INNER JOIN temeta m ON r.idtemeta=m.idtemeta INNER JOIN tefondo f ON m.idtefondo=f.idtefondo INNER JOIN teproveedor p ON g.idteproveedor=p.idteproveedor WHERE f.idtefondo=$fon AND g.idteentrega is null AND g.idComServicios is null ORDER BY g.fechacom DESC;");
+    $c1=mysqli_query($cone,"select tc.tipo, g.fechacom, g.numerocom, p.razsocial, g.glosacom, g.totalcom, r.codigo from tegasto g INNER JOIN tetipocom tc ON g.idtetipocom=tc.idtetipocom INNER JOIN terendicion r ON g.idterendicion=r.idterendicion INNER JOIN temeta m ON r.idtemeta=m.idtemeta INNER JOIN tefondo f ON m.idtefondo=f.idtefondo INNER JOIN teproveedor p ON g.idteproveedor=p.idteproveedor WHERE f.idtefondo=$fon AND g.idteentrega is null AND g.idComServicios is null ORDER BY g.fechacom DESC;");
         if(mysqli_num_rows($c1)>0){
         ?>                
         <table class="table table-bordered table-hover">
@@ -23,6 +23,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
               <th>#</th>
               <th>TIPO</th>
               <th>NUMERO</th>
+              <th>RENDICIÓN</th>
               <th>PROVEEDOR</th>
               <th>GLOSA</th>
               <th>FECHA</th>
@@ -41,6 +42,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
               <td><?php echo $c; ?></td>
               <td><?php echo $r1['tipo']; ?></td>
               <td><?php echo $r1['numerocom']; ?></td>
+              <td><?php echo $r1['codigo']; ?></td>
               <td><?php echo $r1['razsocial'] ?></td>
               <td><?php echo $r1['glosacom']; ?></td>
               <td><?php echo fnormal($r1['fechacom']); ?></td>
