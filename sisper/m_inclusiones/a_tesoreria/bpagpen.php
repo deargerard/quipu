@@ -69,7 +69,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
           echo mensajewa("No hay comprobantes pendientes de pago.");
         }
     mysqli_free_result($c1);
-    $c2=mysqli_query($cone,"SELECT cs.origen, cs.destino, cs.idEmpleado, cs.FechaIni, SUM(g.totalcom) as rendido FROM comservicios cs INNER JOIN terendicion r ON cs.idterendicion=r.idterendicion INNER JOIN temeta m ON r.idtemeta=m.idtemeta INNER JOIN tefondo f ON m.idtefondo=f.idtefondo INNER JOIN tegasto g ON g.idComServicios=cs.idComServicios WHERE cs.estadoren=4 AND f.idtefondo=$fon AND cs.idteentrega is null group by cs.idComServicios;");
+    $c2=mysqli_query($cone,"SELECT cs.origen, cs.destino, cs.idEmpleado, cs.FechaIni, r.codigo, SUM(g.totalcom) as rendido FROM comservicios cs INNER JOIN terendicion r ON cs.idterendicion=r.idterendicion INNER JOIN temeta m ON r.idtemeta=m.idtemeta INNER JOIN tefondo f ON m.idtefondo=f.idtefondo INNER JOIN tegasto g ON g.idComServicios=cs.idComServicios WHERE cs.estadoren=4 AND f.idtefondo=$fon AND cs.idteentrega is null group by cs.idComServicios;");
         if(mysqli_num_rows($c2)>0){
         ?>                
         <table class="table table-bordered table-hover">
@@ -88,6 +88,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
               <th>DESTINO</th>
               <th>COMISIONADO</th>
               <th>FECHA</th>
+              <th>RENDICIÓN</th>
               <th>RENDIDO S/</th>
             </tr>
           </thead>
@@ -105,6 +106,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
               <td><?php echo $r2['destino']; ?></td>
               <td><?php echo nomempleado($cone,$r2['idEmpleado']); ?></td>
               <td><?php echo fnormal($r2['FechaIni']); ?></td>
+              <td><?php echo $r2['codigo']; ?></td>
               <td><?php echo $r2['rendido']; ?></td>
               
             </tr>
