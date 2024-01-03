@@ -62,7 +62,16 @@ if(accesocon($cone,$_SESSION['identi'],16)){
           </table>                
               
         <script>
-        	$('#dtable').DataTable();
+        	$('#dtable').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+              {
+                  extend: 'excel',
+                  text: '<i class="fa fa-file-excel-o"></i>',
+                  titleAttr: 'Exportar a Excel'
+              },
+            ]
+          });
         </script>
 <?php
         }else{
@@ -123,7 +132,16 @@ if(accesocon($cone,$_SESSION['identi'],16)){
           </table>        
               
           <script>
-            $('#dtable1').DataTable();
+            $('#dtable1').DataTable({
+              dom: 'Bfrtip',
+              buttons: [
+                {
+                    extend: 'excel',
+                    text: '<i class="fa fa-file-excel-o"></i>',
+                    titleAttr: 'Exportar a Excel'
+                },
+              ]
+            });
         </script>
 <?php
         }else{
