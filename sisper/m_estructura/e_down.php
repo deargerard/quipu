@@ -1,7 +1,7 @@
   </div>
   <!-- /.content-wrapper -->
 
-  <footer class="main-footer">
+  <footer class="main-footer no-print">
     <div class="pull-right hidden-xs">
       <b>Ministerio Público</b> Distrito Fiscal de Cajamarca
     </div>

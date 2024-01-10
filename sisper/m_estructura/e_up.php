@@ -54,6 +54,12 @@ if(!empty($css)){
   .datepicker{
     z-index:1200 !important;
   }
+  @media print
+  {
+    .no-print, .no-print * {
+      display: none !important;
+    }
+  }
   </style>
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->

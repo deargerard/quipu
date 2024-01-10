@@ -26,7 +26,7 @@ $('#b_lim9').click(function() {
   $('#sper1').select2('val', '');
 });
 
-$("#sper, #sper1").select2({
+$("#sper, #sper1, #pasi").select2({
   placeholder: 'Selecione un Personal',
   ajax: {
     url: 'm_inclusiones/a_general/a_selpersonal.php',
@@ -161,6 +161,22 @@ function li_ban9(){
       },
       success:function(a){
         $("#r_ban9").html(a);
+      }
+    });
+}
+function li_ban10(){
+  var pasi=$('#pasi').val();
+  var fasi=$('#fasi').val();
+    $.ajax({
+      type: "post",
+      data: {pasi: pasi, fasi, fasi},
+      url: "m_inclusiones/a_tdocumentario/li_ban10.php",
+      dataType: "html",
+      beforeSend: function () {
+        $("#r_ban10").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
+      },
+      success:function(a){
+        $("#r_ban10").html(a);
       }
     });
 }
@@ -627,7 +643,7 @@ $("#d_dano,#d_gano").datepicker({
   maxViewMode: 2,
   todayHighlight: true
 });
-$("#d_des,#d_has").datepicker({
+$("#d_des,#d_has,#d_fasi").datepicker({
   format: 'dd/mm/yyyy',
   languaje: 'es',
   autoclose: true,

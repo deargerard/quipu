@@ -42,7 +42,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
         <div class="col-md-12">
           <!-- Custom Tabs -->
           <div class="nav-tabs-custom">
-            <ul class="nav nav-tabs">
+            <ul class="nav nav-tabs no-print">
               <li class="active"><a href="#tab_1" data-toggle="tab"><i class="fa fa-circle-o text-blue"></i> Recibir</a></li>
               <li><a href="#tab_2" data-toggle="tab"><i class="fa fa-circle-o text-blue"></i> Registrar</a></li>
               <li><a href="#tab_3" data-toggle="tab"><i class="fa fa-circle-o text-blue"></i> Derivar <?php echo $tmp ? "a MP" : ""; ?> </a></li>
@@ -59,6 +59,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
               <li><a href="#tab_7" data-toggle="tab"><i class="fa fa-circle-o text-blue"></i> Retornar Derivado</a></li>
               <?php if(!is_null($tmp)){ ?>
               <li><a href="#tab_8" data-toggle="tab"><i class="fa fa-circle-o text-blue"></i> Guías</a></li>
+              <li><a href="#tab_10" data-toggle="tab"><i class="fa fa-circle-o text-blue"></i> Asignaciones</a></li>
               <?php } ?>
             </ul>
             <div class="tab-content">
@@ -140,7 +141,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                   <div class="col-md-7">
                     <form class="form-inline pull-right">
                       <div class="form-group">
-                        <label for="sper">Derivar a</label>
+                        <label for="sper1">Derivar a</label>
                         <select class="form-control" name="sper1" id="sper1" style="width: 350px;">
                           
                         </select>
@@ -241,7 +242,31 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 <!--Fin div resultados-->
               </div>
               <!-- /.tab-pane -->
+              <div class="tab-pane" id="tab_10">
+                <!--Formulario busqueda-->
+                <form class="form-inline no-print" id="f_asig">
+                    <div class="form-group">
+                        <select class="form-control" name="pasi" id="pasi" style="width: 350px;">
+                          
+                        </select>
+                      </div>
+                    <div class="form-group">
+                      <div class="input-group date" id="d_fasi">
+                        <input type="text" name="fasi" id="fasi" class="form-control" value="<?php echo date('d/m/Y'); ?>">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                      </div>
+                    </div>
+                    <button type="button" class="btn btn-info" onclick="li_ban10();"><i class="fa fa-search"></i> Buscar </button>
+                </form>
+                <!--Fin formulario busqueda-->
+                <div class="row" id="r_ban10">
+
+                </div>
+                <!--Fin div resultados-->
+              </div>
+              <!-- /.tab-pane -->
               <?php } ?>
+              
             </div>
             <!-- /.tab-content -->
           </div>
