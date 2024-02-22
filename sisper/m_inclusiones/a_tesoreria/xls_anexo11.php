@@ -12,7 +12,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
 	    	if($rr=mysqli_fetch_assoc($cr)){
 
 		      header("Content-Type: application/vnd.ms-excel; charset=utf-8");
-		      header("Content-Disposition: attachment; filename=Anexo11_$fecha.xls");
+		      header("Content-Disposition: attachment; filename=Anexo10_$fecha.xls");
 		      header("Pragma: no-cache");
 		      header("Expires: 0");
 
@@ -38,7 +38,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
               <th colspan="12">RENDICI&Oacute;N N&deg; <?php echo $rr['codigo']." ".$rr['fondo']."-".$rr['meta']; ?> | DISTRITO FISCAL DE CAJAMARCA | <?php echo strtoupper(nombremes($rr['mes']))." DE ".$rr['anio']; ?></th>
             </tr>
 			      <tr>
-              <th colspan="12">RENDICI&Oacute;N DE GASTOS DE SERVICIOS B&aacute;SICOS<br>ENERG&Iacute;A EL&Eacute;CTRICA, AGUA, DESAGUE Y ARBITRIOS</th>
+              <th colspan="12">RENDICI&Oacute;N DE GASTOS DE SERVICIOS B&Aacute;SICOS<br>ENERG&Iacute;A EL&Eacute;CTRICA, AGUA, DESAGUE Y ARBITRIOS</th>
             </tr>
           </table>
           <table border="1" cellpadding="0" cellspacing="0" bordercolor="#999999" style="width: 100%; padding: 0;" class="formato">

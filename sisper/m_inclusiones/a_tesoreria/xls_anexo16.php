@@ -14,7 +14,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
 	    	if($rr=mysqli_fetch_assoc($cr)){
 
 		      header("Content-Type: application/vnd.ms-excel; charset=utf-8");
-		      header("Content-Disposition: attachment; filename=Formato17_$fecha.xls");
+		      header("Content-Disposition: attachment; filename=Formato15_$fecha.xls");
 		      header("Pragma: no-cache");
 		      header("Expires: 0");
 
