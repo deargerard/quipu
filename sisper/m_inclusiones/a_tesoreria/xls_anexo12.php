@@ -40,7 +40,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
             </tr>
 			<tr>
 			  <th colspan="1"></th>
-              <th colspan="6">(Telefon&iacute;a Fija, Internet, Cable)</th>
+              <th colspan="6">RENDICI&Oacute;N DE GASTOS DE SERVICIOS B&Aacute;SICOS<br>TELEFON&Iacute;A FIJA, INTERNET Y CABLE</th>
               <td colspan="1"><?php echo date('d/m/Y'); ?></td>
             </tr>
           </table>

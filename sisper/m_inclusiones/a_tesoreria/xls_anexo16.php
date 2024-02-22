@@ -36,7 +36,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
           <table cellpadding="0" cellspacing="0" style="width: 100%; padding: 0;" class="formato">
             <tr>
               <th colspan="2"></th>
-              <th colspan="7" style="font-size: 16px;">FORMATO N&deg; 17</th>
+              <th colspan="7" style="font-size: 16px;">FORMATO N&deg; 15</th>
               <th></th>
               <th style="text-align: center;">N&deg;</th>
               <th style="text-align: center;"><?php echo $rr['codigo']; ?></th>

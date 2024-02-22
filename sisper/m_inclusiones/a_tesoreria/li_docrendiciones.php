@@ -31,10 +31,10 @@ if(accesocon($cone,$_SESSION['identi'],16)){
                 <button type="button" class="btn btn-info" title="<?php echo $r2['estado']==1 ? "Archivar" : "Reabrir"; ?>" onclick="fo_rendiciones('estren',<?php echo $idr.",0"; ?>)"><i class="fa <?php echo $r2['estado']==1 ? "fa-folder" : "fa-folder-open"; ?>"></i> <?php echo $r2['estado']==1 ? "Archivar" : "Reabrir"; ?></button>
                 <?php } ?>
                 <?php if($r2['trendicion']==1){ ?>
-                <a href="m_inclusiones/a_tesoreria/xls_anexo11.php?ren=<?php echo $idr; ?>" class="btn btn-info" title="Exportar" target="_blank"><i class="fa fa-cloud-download"></i> A 11</a>
-                <a href="m_inclusiones/a_tesoreria/xls_anexo12.php?ren=<?php echo $idr; ?>&ti=<?php echo $r2['trendicion']; ?>" class="btn btn-info" title="Exportar" target="_blank"><i class="fa fa-cloud-download"></i> A 12</a>
+                <a href="m_inclusiones/a_tesoreria/xls_anexo11.php?ren=<?php echo $idr; ?>" class="btn btn-info" title="Exportar" target="_blank"><i class="fa fa-cloud-download"></i> A 10</a>
+                <a href="m_inclusiones/a_tesoreria/xls_anexo12.php?ren=<?php echo $idr; ?>&ti=<?php echo $r2['trendicion']; ?>" class="btn btn-info" title="Exportar" target="_blank"><i class="fa fa-cloud-download"></i> A 11</a>
                 <?php } ?>
-                <a href="m_inclusiones/a_tesoreria/xls_anexo16.php?ren=<?php echo $idr; ?>&ti=<?php echo $r2['trendicion']; ?>" class="btn btn-info" title="Exportar" target="_blank"><i class="fa fa-cloud-download"></i> F 17</a>
+                <a href="m_inclusiones/a_tesoreria/xls_anexo16.php?ren=<?php echo $idr; ?>&ti=<?php echo $r2['trendicion']; ?>" class="btn btn-info" title="Exportar" target="_blank"><i class="fa fa-cloud-download"></i> F 15</a>
                 <button type="button" class="btn btn-info" title="Regresar" onclick="lrendiciones(<?php echo "'".$r2['mes']."/".$r2['anio']."'"; ?>);"><i class="fa fa-chevron-circle-left"></i></button>
               </div>
           </td>
