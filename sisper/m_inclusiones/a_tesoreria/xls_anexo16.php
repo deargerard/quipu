@@ -176,18 +176,14 @@ if(accesocon($cone,$_SESSION['identi'],16)){
 				echo "Datos incorrectos";
 			}
 			mysqli_free_result($cr);
+
 		}elseif($ti==2){
-
-
-
-
-
 
         $cr=mysqli_query($cone, "SELECT r.codigo, r.mes, r.anio, m.nombre AS meta, f.nombre AS fondo, m.mnemonico FROM terendicion r INNER JOIN temeta m ON r.idtemeta=m.idtemeta INNER JOIN tefondo f ON m.idtefondo=f.idtefondo WHERE r.idterendicion=$ren;");
         if($rr=mysqli_fetch_assoc($cr)){
 
           header("Content-Type: application/vnd.ms-excel; charset=utf-8");
-          header("Content-Disposition: attachment; filename=Formato17_$fecha.xls");
+          header("Content-Disposition: attachment; filename=Formato15_$fecha.xls");
           header("Pragma: no-cache");
           header("Expires: 0");
 
@@ -205,7 +201,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
           <table cellpadding="0" cellspacing="0" style="width: 100%; padding: 0;">
             <tr>
               <th colspan="2"></th>
-              <th colspan="4">FORMATO N&deg; 17</th>
+              <th colspan="4">FORMATO N&deg; 15</th>
               <th colspan="2"></th>
             </tr>
             <tr>
