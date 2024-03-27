@@ -6,7 +6,7 @@ if(accesoadm($cone,$_SESSION['identi'],3)){
 	if(isset($_POST["NomForm"]) && $_POST["NomForm"]=="f_cvacaciones"){
 		if(isset($_POST['idvac']) && !empty($_POST['idvac']) && isset($_POST['estado']) && !empty($_POST['estado'])){
 			$idvac=iseguro($cone,$_POST['idvac']);
-			$estado=iseguro($cone,$_POST['estado']);
+			$estado=iseguro($cone,$_POST['estado'])=="p" ? "0" : iseguro($cone,$_POST['estado']);
 			$obse=vacio(iseguro($cone, $_POST['obse']));
 				$sql="UPDATE provacaciones SET Estado=$estado, Observaciones=$obse WHERE idProVacaciones=$idvac";
 				if(mysqli_query($cone,$sql)){

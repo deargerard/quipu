@@ -43,7 +43,7 @@ if(accesoadm($cone,$_SESSION['identi'],3)){
                   <option value="9">Compensada</option>
                   <option value="1">Ejecutada</option>
                   <option value="3">Ejecutandose</option>
-                  <option value="0">Pendiente</option>
+                  <option value="p">Pendiente</option>
                   <option value="5">Suspendida</option>
                 </select>
                 <label for="obse">Observaciones</label>
