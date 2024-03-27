@@ -40,10 +40,11 @@ if(accesoadm($cone,$_SESSION['identi'],3)){
                 <label for="estado">Elija el estado a cambiar</label>
                 <select name="estado" id="estado" class="form-control">
                   <option value="2">Cancelada</option>
-                  <option value="5">Suspendida</option>
+                  <option value="9">Compensada</option>
                   <option value="1">Ejecutada</option>
                   <option value="3">Ejecutandose</option>
-                  <option value="9">Compensada</option>
+                  <option value="0">Pendiente</option>
+                  <option value="5">Suspendida</option>
                 </select>
                 <label for="obse">Observaciones</label>
                 <textarea name="obse" id="obse" rows="4" class="form-control"></textarea>
