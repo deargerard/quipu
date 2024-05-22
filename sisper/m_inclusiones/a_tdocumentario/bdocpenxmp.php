@@ -3,8 +3,9 @@ session_start();
 include("../php/conexion_sp.php");
 include("../php/funciones.php");
 if(accesocon($cone,$_SESSION['identi'],17)){
-    if(isset($_POST['mp']) && !empty($_POST['mp']) && isset($_POST['vig']) && !empty($_POST['vig'])){
-        $mp=iseguro($cone,$_POST['mp']);        
+    if(isset($_POST['mp']) && !empty($_POST['mp']) && isset($_POST['vig']) && !empty($_POST['vig']) && isset($_POST['est']) && !empty($_POST['est'])){
+        $mp=iseguro($cone,$_POST['mp']);
+        $est=iseguro($cone,$_POST['est']);
         $vig=iseguro($cone,$_POST['vig']);       
 ?>                
       <div class="text-blue"><h4><b><i class="fa fa-archive text-orange"></i> <?php echo nommpartes($cone, $mp); ?></b></h4></div>
@@ -18,7 +19,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
         $wvig=" ed.estado=1 AND ";
     }
 
-        $cb=mysqli_query($cone, "SELECT d.idDoc, d.Numero, d.Ano, d.Siglas, d.FechaDoc, d.numdoc, td.TipoDoc, ed.idtdestadodoc, ed.fecha, ed.idtdestado FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc INNER JOIN tdestadodoc ed ON d.idDoc=ed.idDoc INNER JOIN tdmesapartes mp ON ed.idtdmesapartes=mp.idtdmesapartes WHERE mp.idtdmesapartes=$mp AND $wvig ed.idtdestado=3 ORDER BY ed.fecha DESC;");
+        $cb=mysqli_query($cone, "SELECT d.idDoc, d.Numero, d.Ano, d.Siglas, d.FechaDoc, d.numdoc, td.TipoDoc, ed.idtdestadodoc, ed.fecha, ed.idtdestado FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc INNER JOIN tdestadodoc ed ON d.idDoc=ed.idDoc INNER JOIN tdmesapartes mp ON ed.idtdmesapartes=mp.idtdmesapartes WHERE mp.idtdmesapartes=$mp AND $wvig ed.idtdestado=$est ORDER BY ed.fecha DESC;");
 
         if(mysqli_num_rows($cb)>0){
 ?>
