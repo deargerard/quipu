@@ -89,12 +89,12 @@ $("#b_bperdoc").click(function(){
 // FIN BOTON LLAMA A LA FUNCIÓN DOCUMENTOS POR TRABAJADOR
 
 // FUNCION BUSCAR DOCUMENTOS PENDIENTES POR MESA DE PARTES
-function bdpen(mp, vig){
+function bdpen(mp, est, vig){
   
   $.ajax({
     type: "post",
     url: "m_inclusiones/a_tdocumentario/bdocpenxmp.php",
-    data: {mp : mp, vig : vig},
+    data: {mp : mp, est : est, vig : vig},
     dataType: "html",
     beforeSend: function () {
       $("#r_rep4").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
@@ -108,9 +108,10 @@ function bdpen(mp, vig){
 //BOTON LLAMA A LA FUNCIÓN DOCUMENTOS PENDIENTES POR MESA DE PARTES
 $("#b_bdpen").click(function(){
   var mp=$("#mparp").val();
-  var vig=$("#vigp").val(); 
+  var est=$("#est").val(); 
+  var vig=$("#vigp").val();
 
-    bdpen(mp, vig);
+    bdpen(mp, est, vig);
   
 })
 // FIN BOTON LLAMA A LA FUNCIÓN DOCUMENTOS PENDIENTES POR MESA DE PARTES
