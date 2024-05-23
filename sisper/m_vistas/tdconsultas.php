@@ -147,7 +147,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                       </select>
                     </div>
                     <div class="form-group">
-                        <select name="est" id="est" class="form-control">
+                        <select name="estp" id="estp" class="form-control">
                           <option value="3">Derivados</option>
                           <option value="2">Recibidos</option>
                         </select>

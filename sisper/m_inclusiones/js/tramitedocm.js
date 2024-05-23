@@ -108,7 +108,7 @@ function bdpen(mp, est, vig){
 //BOTON LLAMA A LA FUNCIÓN DOCUMENTOS PENDIENTES POR MESA DE PARTES
 $("#b_bdpen").click(function(){
   var mp=$("#mparp").val();
-  var est=$("#est").val(); 
+  var est=$("#estp").val();
   var vig=$("#vigp").val();
 
     bdpen(mp, est, vig);
