@@ -22,7 +22,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
 
         $cb=mysqli_query($cone, $q);
 
-        echo $q;
+        //echo $q;
 
         if(mysqli_num_rows($cb)>0){
 ?>
