@@ -158,6 +158,12 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                             <option value="2">Histórico</option>                          
                         </select>
                     </div>
+                    <div class="form-group">
+                      <div class="input-group date" id="d_dano">
+                        <input type="text" name="sanop" id="sanop" class="form-control" value="<?php echo date('Y'); ?>">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                      </div>
+                    </div>
                     <button type="button" class="btn btn-info" id="b_bdpen"><i class="fa fa-search"></i> Buscar </button>
                 </form>
                 <!--Fin formulario busqueda-->
