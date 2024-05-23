@@ -32,6 +32,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                 <thead>
                     <tr>
                         <th>NUM.</th>
+                        <th>SIGLAS</th>
                         <th>DOCUMENTO<br>TIPO</th>
                         <th>FECHA DOCUMENTO<br>TIEMPO</th>
                         <th>ESTADO</th>
@@ -57,6 +58,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
 ?>
                     <tr style="font-size: 12px;">
                         <td class="text-aqua"><?php echo $rb['numdoc'].'-'.$rb['Ano']; ?></td>
+                        <td><?php echo $rb['Siglas']; ?></td>
                         <td><?php echo $rb['Numero']."-".$rb['Ano']."-".$rb['Siglas']; ?><br>|<span class="text-teal"><?php echo $rb['TipoDoc']; ?></span></td>
                         <td><?php echo fnormal($rb['FechaDoc']); ?><br>|<span class="text-yellow"><?php echo diftiempo($rb['FechaDoc'], date('Y-m-d H:i:s')); ?></span></td>
                         <td><?php echo estadoDoc($rb['idtdestado']); ?></td>
