@@ -18,8 +18,11 @@ if(accesocon($cone,$_SESSION['identi'],17)){
     }elseif($vig=='1'){
         $wvig=" ed.estado=1 AND ";
     }
+        $q="SELECT d.idDoc, d.Numero, d.Ano, d.Siglas, d.FechaDoc, d.numdoc, td.TipoDoc, ed.idtdestadodoc, ed.fecha, ed.idtdestado FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc INNER JOIN tdestadodoc ed ON d.idDoc=ed.idDoc INNER JOIN tdmesapartes mp ON ed.idtdmesapartes=mp.idtdmesapartes WHERE mp.idtdmesapartes=$mp AND $wvig ed.idtdestado=$est ORDER BY ed.fecha DESC;";
 
-        $cb=mysqli_query($cone, "SELECT d.idDoc, d.Numero, d.Ano, d.Siglas, d.FechaDoc, d.numdoc, td.TipoDoc, ed.idtdestadodoc, ed.fecha, ed.idtdestado FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc INNER JOIN tdestadodoc ed ON d.idDoc=ed.idDoc INNER JOIN tdmesapartes mp ON ed.idtdmesapartes=mp.idtdmesapartes WHERE mp.idtdmesapartes=$mp AND $wvig ed.idtdestado=$est ORDER BY ed.fecha DESC;");
+        $cb=mysqli_query($cone, $q);
+
+        echo $q;
 
         if(mysqli_num_rows($cb)>0){
 ?>
