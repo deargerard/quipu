@@ -311,10 +311,12 @@
         </div>
         <div class="col-md-6">
           <div class="form-group">
-            <label for="dep"><i class="fa fa-building text-info"></i> Dependencia</label>
-            <select class="form-control select2depact" id="dep">
+            <label for="dep"><i class="fa fa-phone text-info"></i> Anexos</label>
+            <!-- <select class="form-control select2depact" id="dep">
 
-            </select>
+            </select> -->
+            <br>
+            <a href="sisper/m_files/DIRECTORIO.pdf" class="btn btn-secondary btn-block" target="_blank">Listado</a>
           </div>
         </div>
       </div>
