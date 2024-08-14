@@ -84,8 +84,11 @@ function li_ban3(){
     });
 }
 function li_ban4(){
+    var ns4=$('#ns4').val();
+    var as4=$('#as4').val();
     $.ajax({
       type: "post",
+      data: {ns4: ns4, as4: as4},
       url: "m_inclusiones/a_tdocumentario/li_ban4.php",
       dataType: "html",
       beforeSend: function () {
@@ -429,7 +432,8 @@ function g_dernot(v1, v2){
       success:function(a){
         if(a.e){
           alertify.success(a.m);
-          li_ban4();
+          // li_ban4();
+          $("#r_ban4").html("");
         }else{
           alertify.error(a.m);
         }
@@ -635,7 +639,7 @@ $("#mpar, #mparp").select2({
   },
   minimumInputLength: 2
 });
-$("#d_dano,#d_gano").datepicker({
+$("#d_dano, #d_dano4, #d_gano").datepicker({
   format: 'yyyy',
   languaje: 'es',
   autoclose: true,
