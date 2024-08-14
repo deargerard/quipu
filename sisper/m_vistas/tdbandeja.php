@@ -67,7 +67,21 @@ if (isset($_SESSION['identi']) && !empty($_SESSION['identi'])) {
                 <!--Div resultados-->
                 <div class="row">
                   <div class="col-sm-12">
-                    <button type="button" class="btn bg-yellow" onclick="li_ban1();"><i class="fa fa-refresh"></i> Actualizar Datos</button>
+                    <!-- <button type="button" class="btn bg-yellow" onclick="li_ban1();"><i class="fa fa-refresh"></i> Actualizar Datos</button> -->
+                    <!--Formulario busqueda-->
+                    <form class="form-inline" id="f_rep1">
+                      <div class="form-group">
+                        <input type="text" class="form-control" id="ns1" name="ns1" placeholder="# Seguimiento">
+                      </div>
+                      <div class="form-group">
+                        <div class="input-group date" id="d_dano1">
+                          <input type="text" name="as1" id="as1" class="form-control" value="<?php echo date('Y'); ?>">
+                          <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        </div>
+                      </div>
+                      <button type="button" class="btn btn-info" onclick="li_ban1();"><i class="fa fa-search"></i> Buscar </button>
+                    </form>
+                    <!--Fin formulario busqueda-->
                   </div>
                 </div>
                 <div class="row" id="r_ban1">

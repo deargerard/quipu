@@ -15,7 +15,7 @@ $(document).ready(function(){
   $("ul.sidebar-menu li").removeClass("active");
   $("#tramitedoc").addClass("active");
   $("#tdbandeja").addClass("active");
-  li_ban1();
+  //li_ban1();
   li_ban8();
 });
 </script>

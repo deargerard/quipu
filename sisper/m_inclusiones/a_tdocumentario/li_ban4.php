@@ -87,6 +87,8 @@ if (accesocon($cone, $_SESSION['identi'], 17)) {
       ?>
     </div>
 <?php
+  } else {
+    echo mensajewa("Ingrese el número de seguimiento y el año");
   }
 } else {
   echo accrestringidoa();
