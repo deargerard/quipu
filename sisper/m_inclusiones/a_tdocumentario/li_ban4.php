@@ -29,7 +29,7 @@ if (accesocon($cone, $_SESSION['identi'], 17)) {
     </div>
     <div class="col-sm-12">
       <?php
-      $cb = mysqli_query($cone, "SELECT d.idDoc, d.numdoc, d.Numero, d.Ano, d.Siglas, td.TipoDoc, ed.idtdestadodoc, ed.idtdestado, d.destinatarioint, d.depdestinoint, d.destinatarioext, d.depdestinoext FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc INNER JOIN tdestadodoc ed ON d.idDoc=ed.idDoc WHERE d.numdoc='$ns' AND d.Ano='$as' AND $cq AND ed.estado=1 AND (ed.idtdestado=1 OR ed.idtdestado=2) ORDER BY ed.fecha DESC;");
+      $cb = mysqli_query($cone, "SELECT d.idDoc, d.numdoc, d.Numero, d.Ano, d.Siglas, td.TipoDoc, ed.idtdestadodoc, ed.idtdestado, d.destinatarioint, d.depdestinoint, d.destinatarioext, d.depdestinoext FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc INNER JOIN tdestadodoc ed ON d.idDoc=ed.idDoc WHERE d.numdoc='$ns' AND d.Ano='$as' AND $cq AND ed.estado=1 AND (ed.idtdestado=1 OR ed.idtdestado=2);");
       if (mysqli_num_rows($cb) > 0) {
       ?>
         <table class="table table-bordered table-hover" id="dt_ban4">

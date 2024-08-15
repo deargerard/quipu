@@ -121,10 +121,24 @@ if (isset($_SESSION['identi']) && !empty($_SESSION['identi'])) {
               <div class="tab-pane" id="tab_3">
                 <!--Div resultados-->
                 <div class="row">
-                  <div class="col-md-5">
-                    <button type="button" class="btn bg-yellow" onclick="li_ban3();"><i class="fa fa-refresh"></i> Actualizar Datos</button>
+                  <div class="col-md-6">
+                    <!-- <button type="button" class="btn bg-yellow" onclick="li_ban3();"><i class="fa fa-refresh"></i> Actualizar Datos</button> -->
+                    <!--Formulario busqueda-->
+                    <form class="form-inline" id="f_rep3">
+                        <div class="form-group">
+                          <input type="text" class="form-control" id="ns3" name="ns3" placeholder="# Seguimiento">
+                        </div>
+                        <div class="form-group">
+                          <div class="input-group date" id="d_dano3">
+                            <input type="text" name="as3" id="as3" class="form-control" value="<?php echo date('Y'); ?>">
+                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                          </div>
+                        </div>
+                        <button type="button" class="btn btn-info" onclick="li_ban3();"><i class="fa fa-search"></i> Buscar </button>
+                      </form>
+                      <!--Fin formulario busqueda-->
                   </div>
-                  <div class="col-md-7">
+                  <div class="col-md-6">
                     <?php if ($tmp) { ?>
                       <form class="form-inline pull-right">
                         <div class="form-group">
