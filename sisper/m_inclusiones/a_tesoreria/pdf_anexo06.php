@@ -356,7 +356,7 @@ use Spipu\Html2Pdf\Html2Pdf;
         </tr>
         <tr>
           <td></td>
-          <th style="text-align: center;">ENCARGADO DE LA REVISIÓN</th>
+          <th style="text-align: center;">ENCARGADO DE CAJA CHICA</th>
         </tr>
       </table>
 <?php

@@ -140,7 +140,7 @@ use Spipu\Html2Pdf\Html2Pdf;
           <td colspan="3" style="height: 60px;"></td>
         </tr>
         <tr>
-          <td colspan="3"><b>Firma y Sello del Encargado del F.P.P.E.</b></td>
+          <td colspan="3"><b>Firma y Sello del Encargado de caja chica</b></td>
         </tr>
         <tr>
           <td style="width: 25%; border: none;"></td>

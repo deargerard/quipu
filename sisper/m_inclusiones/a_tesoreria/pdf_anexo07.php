@@ -144,7 +144,7 @@ $cc=mysqli_query($cone, "SELECT cs.*, d.Numero, d.Ano, d.Siglas, e.ApellidoPat, 
     </tr>
     <tr>
       <th colspan="3" align="center">FIRMA DEL COMISIONADO</th>
-      <th colspan="3" align="center">ENCARGADO ÚNICO DEL MANEJO DEL FPPE</th>
+      <th colspan="3" align="center">ENCARGADO DE CAJA CHICA</th>
     </tr>
 
 

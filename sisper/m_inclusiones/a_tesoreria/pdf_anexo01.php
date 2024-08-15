@@ -282,7 +282,7 @@ $cc=mysqli_query($cone, "SELECT cs.*, d.Numero, d.Ano, d.Siglas, e.ApellidoPat, 
     </tr>
     <tr>
       <th colspan="2" align="center">Firma del comisionado</th>
-      <th colspan="7" align="center">Sello de Pagado y Firma del Encargado Único del FPPE</th>
+      <th colspan="7" align="center">Sello de Pagado y Firma del Encargado de caja chica</th>
     </tr>
     <tr>
       <td colspan="9" style="border-left: none; border-right: none;"></td>
