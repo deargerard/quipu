@@ -16,7 +16,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
     if($rm=mysqli_fetch_assoc($cm)){
       $idmp=$rm['idtdmesapartes'];
     }
-            $q="SELECT d.numdoc, d.Numero, d.Ano, d.Siglas, d.FechaDoc, e.fecha, td.TipoDoc FROM doc d INNER JOIN tdestadodoc e ON d.idDoc=e.idDoc INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc WHERE e.idEmpleado=$pasi AND DATE_FORMAT(e.fecha, '%d/%m/%Y')='$fasi' AND e.mpasignador=$idmp AND e.idtdestado=3 ORDER BY d.Ano, d.numdoc ASC;";
+            $q="SELECT d.numdoc, d.Numero, d.Ano, d.Siglas, d.FechaDoc, e.fecha, td.TipoDoc FROM doc d INNER JOIN tdestadodoc e ON d.idDoc=e.idDoc INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc WHERE e.idEmpleado=$pasi AND DATE_FORMAT(e.fecha, '%d/%m/%Y')='$fasi' AND e.mpasignador=$idmp AND e.idtdestado=3";
             //echo $q;
             $cd=mysqli_query($cone, $q);
             if(mysqli_num_rows($cd)>0){
