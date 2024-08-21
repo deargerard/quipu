@@ -256,7 +256,7 @@ if (isset($_SESSION['identi']) && !empty($_SESSION['identi'])) {
               <!-- /.tab-pane -->
               <div class="tab-pane" id="tab_7">
                 <!--Formulario busqueda-->
-                <form class="form-inline" id="f_rep1">
+                <form class="form-inline" id="f_rep7">
                   <div class="form-group">
                     <input type="text" class="form-control" id="ns" name="ns" placeholder="# Seguimiento">
                   </div>
