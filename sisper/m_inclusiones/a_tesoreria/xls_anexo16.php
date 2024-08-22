@@ -52,7 +52,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
             </tr>
             <tr>
               <th colspan="2"></th>
-              <th colspan="7"><?php echo $rr['fondo'].' - '.$rr['meta'] ?></th>
+              <th colspan="7"><?php echo 'FOND. Y PROG. - '.$rr['meta'] ?></th>
               <td style="text-align: center;">DIA</td>
               <td style="text-align: center;">MES</td>
               <td style="text-align: center;">A&Ntilde;O</td>
@@ -221,7 +221,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
             </tr>
             <tr>
               <th colspan="2"></th>
-              <th colspan="4"><?php echo $rr['fondo']." - ".$rr['meta']; ?><br> <?php echo strtoupper(nombremes($rr['mes']))."-".$rr['anio']; ?></th>
+              <th colspan="4"><?php echo "VIÁTICOS - ".$rr['meta']; ?><br> <?php echo strtoupper(nombremes($rr['mes']))."-".$rr['anio']; ?></th>
               <th colspan="2" align="center"></th>
             </tr>
           </table>
