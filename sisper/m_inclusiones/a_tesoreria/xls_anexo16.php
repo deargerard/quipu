@@ -45,7 +45,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
               <td colspan="12"></td>
             </tr>
             <tr>
-              <th>RENDICI&Oacute;N DEL MANEJO DE CAJA CHICA DEL DISTRITO FISCAL DE CAJAMARCA</th>
+              <th colspan="12">RENDICI&Oacute;N DEL MANEJO DE CAJA CHICA DEL DISTRITO FISCAL DE CAJAMARCA</th>
             </tr>
             <tr>
               <td colspan="12"></td>
@@ -189,7 +189,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
         if($rr=mysqli_fetch_assoc($cr)){
 
           header("Content-Type: application/vnd.ms-excel; charset=utf-8");
-          header("Content-Disposition: attachment; filename=Formato15_$fecha.xls");
+          header("Content-Disposition: attachment; filename=Formato13_$fecha.xls");
           header("Pragma: no-cache");
           header("Expires: 0");
 
@@ -207,12 +207,21 @@ if(accesocon($cone,$_SESSION['identi'],16)){
           <table cellpadding="0" cellspacing="0" style="width: 100%; padding: 0;">
             <tr>
               <th colspan="2"></th>
-              <th colspan="4">FORMATO</th>
+              <th colspan="4">FORMATO N&deg; 13</th>
               <th colspan="2"></th>
             </tr>
             <tr>
+              <td colspan="8"></td>
+            </tr>
+            <tr>
+              <th colspan="8">RENDICI&Oacute;N DEL MANEJO DE CAJA CHICA DEL DISTRITO FISCAL DE CAJAMARCA</th>
+            </tr>
+            <tr>
+              <td colspan="8"></td>
+            </tr>
+            <tr>
               <th colspan="2"></th>
-              <th colspan="4">RENDICI&Oacute;N DE FONDO PARA PAGOS EN EFECTIVO N&deg; <?php echo $rr['codigo']."-".$rr['anio']."-".$rr['fondo']."-".$rr['meta']; ?> <br>DISTRITO FISCAL DE CAJAMARCA<br> <?php echo strtoupper(nombremes($rr['mes']))." DE ".$rr['anio']; ?></th>
+              <th colspan="4"><?php echo $rr['fondo']." - ".$rr['meta']; ?><br> <?php echo strtoupper(nombremes($rr['mes']))."-".$rr['anio']; ?></th>
               <th colspan="2" align="center"></th>
             </tr>
           </table>
