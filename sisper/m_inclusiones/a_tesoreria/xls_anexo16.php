@@ -36,7 +36,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
           <table cellpadding="0" cellspacing="0" style="width: 100%; padding: 0;" class="formato">
             <tr>
               <th colspan="2"></th>
-              <th colspan="7" style="font-size: 16px;">FORMATO</th>
+              <th colspan="7" style="font-size: 16px;">FORMATO N&deg; 13</th>
               <th></th>
               <th style="text-align: center;">N&deg;</th>
               <th style="text-align: center;"><?php echo $rr['codigo']; ?></th>
@@ -45,8 +45,14 @@ if(accesocon($cone,$_SESSION['identi'],16)){
               <td colspan="12"></td>
             </tr>
             <tr>
+              <th>RENDICI&Oacute;N DEL MANEJO DE CAJA CHICA DEL DISTRITO FISCAL DE CAJAMARCA</th>
+            </tr>
+            <tr>
+              <td colspan="12"></td>
+            </tr>
+            <tr>
               <th colspan="2"></th>
-              <th colspan="7">FORMATO DE RENDICI&Oacute;N DE LA CAJA CHICA DEL DISTRITO FISCAL DE CAJAMARCA</th>
+              <th colspan="7"><?php echo $rr['fondo'].' - '.$rr['meta'] ?></th>
               <td style="text-align: center;">DIA</td>
               <td style="text-align: center;">MES</td>
               <td style="text-align: center;">A&Ntilde;O</td>
