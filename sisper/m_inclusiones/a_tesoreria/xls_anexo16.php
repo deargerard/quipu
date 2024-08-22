@@ -221,7 +221,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
             </tr>
             <tr>
               <th colspan="2"></th>
-              <th colspan="4"><?php echo "VIÁTICOS - ".$rr['meta']; ?><br> <?php echo strtoupper(nombremes($rr['mes']))."-".$rr['anio']; ?></th>
+              <th colspan="4"><?php echo "VI&Aacute;TICOS - ".$rr['meta']; ?><br> <?php echo strtoupper(nombremes($rr['mes']))."-".$rr['anio']; ?></th>
               <th colspan="2" align="center"></th>
             </tr>
           </table>
