@@ -35,14 +35,13 @@ if(accesocon($cone,$_SESSION['identi'],16)){
 		</style>
           <table cellpadding="0" cellspacing="0" style="width: 100%; padding: 0;" class="formato">
             <tr>
-              <th colspan="2"></th>
-              <th colspan="7" style="font-size: 16px;">FORMATO N&deg; 13</th>
-              <th></th>
-              <th style="text-align: center;">N&deg;</th>
-              <th style="text-align: center;"><?php echo $rr['codigo']; ?></th>
+
+              <th colspan="12" style="font-size: 16px;">FORMATO N&deg; 13</th>
             </tr>
             <tr>
-              <td colspan="12"></td>
+              <td colspan="10"></td>
+              <th style="text-align: center;">N&deg;</th>
+              <th style="text-align: center;"><?php echo $rr['codigo']; ?></th>
             </tr>
             <tr>
               <th colspan="12">RENDICI&Oacute;N DEL MANEJO DE CAJA CHICA DEL DISTRITO FISCAL DE CAJAMARCA</th>
@@ -74,8 +73,8 @@ if(accesocon($cone,$_SESSION['identi'],16)){
               <td colspan="3">Documento</td>
               <td rowspan="2">Proveedor</td>
               <td rowspan="2">RUC</td>
-              <td rowspan="2">Detalle Gasto</td>
-              <td rowspan="2" colspan="2">Especifica de gasto</td>
+              <td rowspan="2">Detalle del Gasto</td>
+              <td rowspan="2" colspan="2">Especifica del gasto</td>
               <td colspan="2"><?php echo substr($rr['fondo'], 0, 4)."/".substr($rr['meta'], 0, 4); ?></td>
               <td rowspan="2">TOTAL</td>
             </tr>
@@ -207,28 +206,45 @@ if(accesocon($cone,$_SESSION['identi'],16)){
           <table cellpadding="0" cellspacing="0" style="width: 100%; padding: 0;">
             <tr>
               <th colspan="2"></th>
-              <th colspan="4">FORMATO N&deg; 13</th>
+              <th colspan="7">FORMATO N&deg; 13</th>
               <th colspan="2"></th>
             </tr>
             <tr>
-              <td colspan="8"></td>
+              <td colspan="9"></td>
+              <th style="text-align: center;">N&deg;</th>
+              <th style="text-align: center;"><?php echo $rr['codigo']; ?></th>
             </tr>
             <tr>
-              <th colspan="8">RENDICI&Oacute;N DEL MANEJO DE CAJA CHICA DEL DISTRITO FISCAL DE CAJAMARCA</th>
+              <th colspan="11">RENDICI&Oacute;N DEL MANEJO DE CAJA CHICA DEL DISTRITO FISCAL DE CAJAMARCA</th>
             </tr>
             <tr>
-              <td colspan="8"></td>
+              <td colspan="11"></td>
             </tr>
             <tr>
-              <th colspan="2"></th>
-              <th colspan="4"><?php echo "VI&Aacute;TICOS - ".$rr['meta']; ?><br> <?php echo strtoupper(nombremes($rr['mes']))."-".$rr['anio']; ?></th>
-              <th colspan="2" align="center"></th>
+              <td colspan="3"></td>
+              <th colspan="5"><?php echo "VI&Aacute;TICOS - ".$rr['meta']; ?></th>
+              <td style="text-align: center;">DIA</td>
+              <td style="text-align: center;">MES</td>
+              <td style="text-align: center;">A&Ntilde;O</td>
+            </tr>
+            <tr>
+              <th colspan="3"></th>
+              <th colspan="5"><?php echo strtoupper(nombremes($rr['mes']))." DE ".$rr['anio']; ?></th>
+              <td style="text-align: center;">&nbsp;<?php echo date('d'); ?></td>
+              <td style="text-align: center;">&nbsp;<?php echo date('m'); ?></td>
+              <td style="text-align: center;">&nbsp;<?php echo date('Y'); ?></td>
+            </tr>
+            <tr>
+              <td colspan="11"></td>
             </tr>
           </table>
           <table border="1" cellpadding="0" cellspacing="0" bordercolor="#999999" style="width: 100%; padding: 0;" class="tabla">
             <tr style="background-color: #CCCCCC;" style="vertical-align: middle; text-align: center;">
               <td rowspan="2">N&deg;</td>
               <td colspan="3">DOCUMENTO</td>
+              <td rowspan="2">Proveedor</td>
+              <td rowspan="2">RUC</td>
+              <td rowspan="2">Detalle de Gasto</td>
               <td rowspan="2">ESPECIFICA DE GASTO</td>
               <td colspan="2"><?php echo substr($rr['fondo'], 0, 4)."/".substr($rr['meta'], 0, 4); ?></td>
               <td rowspan="2">TOTAL</td>
@@ -252,7 +268,13 @@ if(accesocon($cone,$_SESSION['identi'],16)){
               $idcs=$rct['idComServicios'];
 ?>
             <tr style="background-color: #DDDDDD; vertical-align: middle;">
-              <td colspan="7"><b><?php echo $n.".- ".nomempleado($cone, $rct['idEmpleado'])." - ".$rct['csivia']; ?></b></td>
+              <td><b><?php echo $n; ?></b></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td colspan="4"><b><?php echo 'Vi&aacute;tico N&deg;'.$rct['csivia']." ".nomempleado($cone, $rct['idEmpleado']); ?></b></td>
               <td style="mso-number-format:'0.00';"><b><?php echo n_2decimales($rct['tot']); ?></b></td>
             </tr>
 <?php
@@ -263,14 +285,19 @@ if(accesocon($cone,$_SESSION['identi'],16)){
                   $se[$ide]=$se[$ide]+$rte['totesp'];
 ?>
             <tr style="background-color: #EEEEEE;">
-              <td colspan="4"></td>
-              <td><b><?php echo $rte['codigo']." ".$rte['nombre']; ?></b></td>
               <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td><b><?php echo $rte['codigo']; ?></b></td>
+              <td colspan="3"><b><?php echo $rte['nombre']; ?></b></td>
               <td style="mso-number-format:'0.00';"><b><?php echo $rte['totesp']; ?></b></td>
-              <td></td>
             </tr>
 <?php
-                  $cga=mysqli_query($cone, "SELECT g.fechacom, tc.tipo, g.numerocom, g.glosacom, g.totalcom FROM tegasto g INNER JOIN tetipocom tc ON g.idtetipocom=tc.idtetipocom WHERE g.idComServicios=$idcs AND g.idteespecifica=$ide ORDER BY g.fechacom ASC;");
+                  $cga=mysqli_query($cone, "SELECT g.fechacom, g.numerocom, g.glosacom, g.totalcom, tc.tipo, p.razsocial, p.ruc FROM tegasto g INNER JOIN tetipocom tc ON g.idtetipocom=tc.idtetipocom INNER JOIN teproveedor p ON g.idteproveedor=p.idteproveedor WHERE g.idComServicios=$idcs AND g.idteespecifica=$ide ORDER BY g.fechacom ASC;");
+
                   if(mysqli_num_rows($cga)>0){
                     while($rga=mysqli_fetch_assoc($cga)){
 ?>
@@ -279,6 +306,9 @@ if(accesocon($cone,$_SESSION['identi'],16)){
               <td><?php echo fnormal($rga['fechacom']); ?></td>
               <td><?php echo $rga['tipo']; ?></td>
               <td><?php echo is_null($rga['numerocom']) ? "&nbsp;S/N" : "&nbsp;".$rga['numerocom']; ?></td>
+              <td><?php echo $rga['razsocial']; ?></td>
+              <td><?php echo $rga['ruc']; ?></td>
+              <td><?php echo $rte['codigo']; ?></td>
               <td><?php echo $rga['glosacom']; ?></td>
               <td><?php echo $rr['mnemonico']; ?></td>
               <td style="mso-number-format:'0.00';"><?php echo $rga['totalcom']; ?></td>
@@ -294,14 +324,14 @@ if(accesocon($cone,$_SESSION['identi'],16)){
             }
 ?>
             <tr>
-              <td colspan="7" style="text-align: center;"><b>TOTAL</b></td>
+              <td colspan="10" style="text-align: center;"><b>TOTAL</b></td>
               <td style="mso-number-format:'0.00';"><b><?php echo $st; ?></b></td>
             </tr>
 <?php
           }else{
 ?>
             <tr>
-              <td colspan="8">Aún sin registros</td>
+              <td colspan="11">Aún sin registros</td>
             </tr>
 <?php
           }
@@ -316,7 +346,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
           </table>
           <table border="1" cellpadding="0" cellspacing="0" bordercolor="#999999" style="width: 100%; padding: 0;" class="tabla">
             <tr style="background-color: #CCCCCC;" style="vertical-align: middle; text-align: center;">
-              <td colspan="6" rowspan="2">ESPECIFICA DE GASTO</td>
+              <td colspan="9" rowspan="2">ESPECIFICA DE GASTO</td>
               <td colspan="2">MNEMONICO</td>
             </tr>
             <tr style="background-color: #CCCCCC;" style="vertical-align: middle; text-align: center;">
@@ -329,7 +359,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
             if($res=mysqli_fetch_assoc($ces)){
 ?>
             <tr>
-              <td colspan="6"><?php echo $res['codigo']." ".$res['nombre']; ?></td>
+              <td colspan="9"><?php echo $res['codigo']." ".$res['nombre']; ?></td>
               <td colspan="2" style="mso-number-format:'0.00';"><?php echo $value; ?></td>
             </tr>
 <?php
@@ -338,7 +368,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
           }
 ?>
             <tr>
-              <td colspan="6" style="text-align: center;"><b>TOTAL</b></td>
+              <td colspan="9" style="text-align: center;"><b>TOTAL</b></td>
               <td colspan="2" style="mso-number-format:'0.00';"><b><?php echo $st; ?></b></td>
             </tr>
           </table>
