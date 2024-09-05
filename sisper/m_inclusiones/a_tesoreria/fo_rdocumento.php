@@ -244,7 +244,7 @@ if(accesoadm($cone,$_SESSION['identi'],9)){
 <?php 
 		}elseif($acc=="edidr"){
 		$idg=iseguro($cone,$_POST['idg']);
-		$c3=mysqli_query($cone,"SELECT g.idtegasto, tc.tipo, tc.idtetipocom, cv.conceptov, g.numerocom, g.totalcom, g.idteproveedor, g.glosacom, g.fechacom, p.razsocial FROM tegasto g INNER JOIN teconceptov cv ON g.idteconceptov=cv.idteconceptov LEFT JOIN teproveedor p ON g.idteproveedor=p.idteproveedor LEFT JOIN tetipocom tc ON tc.idtetipocom=g.idtetipocom WHERE idtegasto=$idg");
+		$c3=mysqli_query($cone,"SELECT g.idtegasto, tc.tipo, tc.idtetipocom, cv.conceptov, g.numerocom, g.totalcom, g.idteproveedor, g.glosacom, g.fechacom, g.idteconceptov, p.razsocial FROM tegasto g INNER JOIN teconceptov cv ON g.idteconceptov=cv.idteconceptov LEFT JOIN teproveedor p ON g.idteproveedor=p.idteproveedor LEFT JOIN tetipocom tc ON tc.idtetipocom=g.idtetipocom WHERE idtegasto=$idg");
 			if ($r3=mysqli_fetch_assoc($c3)) {					
 ?> 
 			<div class="form-group">
@@ -311,8 +311,16 @@ if(accesoadm($cone,$_SESSION['identi'],9)){
 			<div class="form-group">			
 				
 				<div class="col-sm-12">
-				<label for="glo" class="control-label">Glosa:</label>									
-					<input type="text" name="glo" id="glo" class="form-control" value="<?php echo $r3['glosacom'] ?>">		
+					<label for="glo" class="control-label">Glosa:</label>									
+					<!-- <input type="text" name="glo" id="glo" class="form-control" value=""> -->
+					<select name="glo" id="glo" class="form-control">
+						<option value="Desayuno" <?php echo $r3['glosacom']=="Desayuno" ? "selected" : "" ?>>Desayuno</option>
+						<option value="Almuerzo" <?php echo $r3['glosacom']=="Almuerzo" ? "selected" : "" ?>>Almuerzo</option>
+						<option value="Cena" <?php echo $r3['glosacom']=="Cena" ? "selected" : "" ?>>Cena</option>
+						<option value="Hospedaje" <?php echo $r3['glosacom']=="Hospedaje" ? "selected" : "" ?>>Hospedaje</option>
+						<option value="Movilidad local" <?php echo $r3['glosacom']=="Movilidad local" ? "selected" : "" ?>>Movilidad local</option>
+						<option value="Movilidad de embarque" <?php echo $r3['glosacom']=="Movilidad de embarque" ? "selected" : "" ?>>Movilidad de embarque</option>
+					</select>		
 				</div>			
 			</div>
 			<div class="form-group ocu <?php echo $r3['idtetipocom']==2 ? "hidden" : "" ?>">				
