@@ -270,10 +270,10 @@ if (accesocon($cone, $_SESSION['identi'], 16)) {
             <td>FECHA</td>
             <td>CLASE</td>
             <td>N&deg;</td>
-            <td colspan="2">Gestión Administrativa</td>
+            <td colspan="2">Gesti&oacute;n Administrativa</td>
           </tr>
           <tr style="background-color: #FDFE97;" style="vertical-align: middle; text-align: center;">
-            <th colspan="8">Mnemónicos</th>
+            <th colspan="8">Mnem&oacute;nicos</th>
             <th colspan="2"><?php echo $rr['mnemonico']; ?></th>
             <th></th>
           </tr>
@@ -312,7 +312,7 @@ if (accesocon($cone, $_SESSION['identi'], 16)) {
                     <td></td>
                   </tr>
                   <?php
-                  $cga = mysqli_query($cone, "SELECT g.fechacom, g.numerocom, g.glosacom, g.totalcom, tc.tipo, p.razsocial, p.ruc FROM tegasto g INNER JOIN tetipocom tc ON g.idtetipocom=tc.idtetipocom INNER JOIN teproveedor p ON g.idteproveedor=p.idteproveedor WHERE g.idComServicios=$idcs AND g.idteespecifica=$ide ORDER BY g.fechacom ASC;");
+                  $cga = mysqli_query($cone, "SELECT g.fechacom, g.numerocom, g.glosacom, g.totalcom, tc.tipo, p.razsocial, p.ruc FROM tegasto g INNER JOIN tetipocom tc ON g.idtetipocom=tc.idtetipocom LEFT JOIN teproveedor p ON g.idteproveedor=p.idteproveedor WHERE g.idComServicios=$idcs AND g.idteespecifica=$ide ORDER BY g.fechacom ASC;");
 
                   if (mysqli_num_rows($cga) > 0) {
                     while ($rga = mysqli_fetch_assoc($cga)) {
@@ -426,12 +426,12 @@ if (accesocon($cone, $_SESSION['identi'], 16)) {
               <td colspan="7"></td>
             </tr>
             <tr>
-              <td colspan="2">C/P N°</td>
+              <td colspan="2">C/P N&deg;</td>
               <td colspan="2" style="border-bottom: solid #000000;"></td>
               <td colspan="7"></td>
             </tr>
             <tr>
-              <td colspan="2">CH. o GIRO N°</td>
+              <td colspan="2">CH. o GIRO N&deg;</td>
               <td colspan="2" style="border-bottom: solid #000000;"></td>
               <td colspan="7"></td>
             </tr>
@@ -439,7 +439,7 @@ if (accesocon($cone, $_SESSION['identi'], 16)) {
               <td colspan="11"></td>
             </tr>
             <tr>
-              <td colspan="11">Importe de la presente Rendición:</td>
+              <td colspan="11">Importe de la presente Rendici&oacute;n:</td>
             </tr>
             <tr>
               <th colspan="11" style="text-align: left;">SALDO ACTUAL</th>
@@ -453,9 +453,9 @@ if (accesocon($cone, $_SESSION['identi'], 16)) {
             </tr>
             <tr>
               <td colspan="2"></td>
-              <th colspan="3">Oficina de Tesorería / Administrador</th>
+              <th colspan="3">Oficina de Tesorer&iacute;a / Administrador</th>
               <td colspan="1"></td>
-              <th colspan="3">Encargado Único del manejo de la Caja Chica</th>
+              <th colspan="3">Encargado &Uacute;nico del manejo de la Caja Chica</th>
               <td colspan="2"></td>
             </tr>
           </table>
