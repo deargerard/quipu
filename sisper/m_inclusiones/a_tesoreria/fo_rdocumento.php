@@ -202,9 +202,17 @@ if(accesoadm($cone,$_SESSION['identi'],9)){
 			</div>
 			<div class="form-group">			
 				
-				<div class="col-sm-12">									
+				<div class="col-sm-12">	
 					<label for="glo" class="control-label">Glosa:</label>
-					<input type="text" name="glo" id="glo" class="form-control" placeholder="Digite la glosa del comprobante">		
+					<!-- <input type="text" name="glo" id="glo" class="form-control" placeholder="Digite la glosa del comprobante"> -->
+					<select name="glo" id="glo" class="form-control">
+						<option value="Desayuno">Desayuno</option>
+						<option value="Almuerzo">Almuerzo</option>
+						<option value="Cena">Cena</option>
+						<option value="Hospedaje">Hospedaje</option>
+						<option value="Movilidad local">Movilidad local</option>
+						<option value="Movilidad de embarque">Movilidad de embarque</option>
+					</select>	
 				</div>			
 			</div>
 
