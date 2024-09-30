@@ -211,6 +211,7 @@ if(accesoadm($cone,$_SESSION['identi'],9)){
 						<option value="Cena">Cena</option>
 						<option value="Hospedaje">Hospedaje</option>
 						<option value="Movilidad local">Movilidad local</option>
+						<option value="Pasaje terrestre">Pasaje terrestre</option>
 						<option value="Movilidad de embarque">Movilidad de embarque</option>
 					</select>	
 				</div>			
