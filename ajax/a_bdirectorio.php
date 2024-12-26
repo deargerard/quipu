@@ -9,7 +9,7 @@
     	if($tip==1){
     		$fot = "../sisper/m_fotos/".docidentidad($cone,$id).".jpg";
     		$fot1 = "sisper/m_fotos/".docidentidad($cone,$id).".jpg";
-    		$fot = file_exists($fot) ? $fot1 : "/sisper/m_fotos/sinfoto.jpg";
+    		$fot = file_exists($fot) ? $fot1 : "/sisper/m_fotos/sinfoto.jpg";                                                                                                   
 ?>
 	<div class="row">
 		<div class="col-sm-2">
@@ -30,8 +30,7 @@
     		$c2=mysqli_query($cone, "SELECT CorreoIns, CorreoPer FROM empleado WHERE idEmpleado=$id;");
     		$r2=mysqli_fetch_assoc($c2);
 ?>
-
-				<h6 class="text-center text-muted"><i class="fa fa-phone-square text-info"></i> CORREO</h6>
+				<h6 class="text-center text-muted"><i class="fa fa-envelope-square text-info"></i> CORREO</h6>
 				<table class="table table-hover table-bordered">
 					<tbody>
 						<tr>
@@ -39,6 +38,30 @@
 						</tr>
 					</tbody>
 				</table>
+<?php
+			$ct=mysqli_query($cone, "SELECT te.Numero, tt.TipoTelefono FROM telefonoemp te INNER JOIN tipotelefono tt ON te.idTipoTelefono=tt.idTipoTelefono WHERE te.idEmpleado=$id AND te.Estado=1 AND (te.idTipoTelefono=17 OR te.idTipoTelefono=18);");
+			if(mysqli_num_rows($ct)>0){
+?>
+				<h6 class="text-center text-muted"><i class="fa fa-phone-square text-info"></i> TELÉFONOS</h6>
+				<table class="table table-hover table-bordered">
+					<tbody>
+<?php
+				while($rt=mysqli_fetch_assoc($ct)){
+?>
+						<tr>
+							<td class="text-center"><?php echo $rt['TipoTelefono']; ?></td>
+							<td class="text-center"><?php echo $rt['TipoTelefono']=="ANEXO" ? "Central: 01 625 5555 *Anexo: ".$rt['Numero'] : $rt['Numero']; ?></td>
+						</tr>
+<?php
+				}
+?>
+					</tbody>
+				</table>
+				<small>* Para llamar a los anexos desde los télefonos en las oficinas, marcar solamente el número de enexo.</small>
+<?php
+			}
+			mysqli_free_result($ct);
+?>
 		</div>
 	</div>
 <?php

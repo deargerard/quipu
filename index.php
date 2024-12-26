@@ -350,7 +350,25 @@
           <table class="table table-hover table-bordered">
             <tr>
               <td>
-                <i class="fa fa-file text-info"></i> <a href="https://cfe.mpfn.gob.pe/generador-notificaciones/" target="_blank"> Gen. Noti.</a>
+                <i class="fa fa-file text-info"></i>  <a href="https://cfe-int.mpfn.gob.pe/generador-notificaciones/" target="_blank"> Gen. Noti.</a>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="col-md-2">
+          <table class="table table-hover table-bordered">
+            <tr>
+              <td>
+                <i class="fa fa-folder-open text-info"></i> <a href="https://cfe-int.mpfn.gob.pe/central-notificaciones/" target="_blank"> Cen. Noti.</a>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="col-md-2">
+          <table class="table table-hover table-bordered">
+            <tr>
+              <td>
+                <i class="fa fa-folder text-info"></i> <a href="https://cfe-int.mpfn.gob.pe/carpeta-fiscal/ingresar" target="_blank"> Ban. Fiscal</a>
               </td>
             </tr>
           </table>
