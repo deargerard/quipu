@@ -57,7 +57,7 @@
 ?>
 					</tbody>
 				</table>
-				<small>* Para llamar a los anexos desde los télefonos en las oficinas, marcar solamente el número de enexo.</small>
+				<small>* Para llamar a los anexos desde los télefonos en las oficinas, marcar sin usar la central.</small>
 <?php
 			}
 			mysqli_free_result($ct);
