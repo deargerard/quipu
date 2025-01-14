@@ -70,73 +70,81 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                         $car=$_POST['car']==1 ? 1 : 0;
                         $mpd=iseguro($cone, $_POST['mpd']);
 
-                        //consultamos último número doc
-                        $cn=mysqli_query($cone, "SELECT MAX(numdoc) num FROM doc WHERE Ano='$ano';");
-                        if($rn=mysqli_fetch_assoc($cn)){
-                            if(!is_null($rn['num'])){
-                                $nu=$rn['num']+1;
-                            }else{
-                                $nu=1;
+                        mysqli_begin_transaction($cone);
+
+                        try{
+                            //consultamos último número doc
+                            $cn=mysqli_query($cone, "SELECT MAX(numdoc) num FROM doc WHERE Ano='$ano' FOR UPDATE;");
+                            if($rn=mysqli_fetch_assoc($cn)){
+                                if(!is_null($rn['num'])){
+                                    $nu=$rn['num']+1;
+                                }else{
+                                    $nu=1;
+                                }
                             }
-                        }
-                        mysqli_free_result($cn);
+                            mysqli_free_result($cn);
 
+                                $q="INSERT INTO doc (Numero, Ano, Siglas, FechaDoc, idTipoDoc, asunto, folios, remitenteext, destinatarioext, deporigenext, depdestinoext, remitenteint, destinatarioint, deporigenint, depdestinoint, numdoc, fecregistro, regpor, cargo) VALUES ($num, '$ano', $sig, '$fecdoc', $tipdoc, $asu, $fol, $perem, $pedes, $derem, $dedes, $pirem, $pides, $direm, $dides, $nu, NOW(), $idem, $car);";
+                                if(mysqli_query($cone, $q)){
+                                    $iddo=mysqli_insert_id($cone);
 
-                        $cnu=mysqli_query($cone, "SELECT idDoc FROM doc WHERE numdoc=$nu AND Ano='$ano';");
-                        if(mysqli_num_rows($cnu)>0){
-                            $r['m']=mensajewa("Error, # de seguimiento ya registrado. Vuelva a intentarlo para generar un uno nuevo.");
-                        }else{
-
-                            $q="INSERT INTO doc (Numero, Ano, Siglas, FechaDoc, idTipoDoc, asunto, folios, remitenteext, destinatarioext, deporigenext, depdestinoext, remitenteint, destinatarioint, deporigenint, depdestinoint, numdoc, fecregistro, regpor, cargo) VALUES ($num, '$ano', $sig, '$fecdoc', $tipdoc, $asu, $fol, $perem, $pedes, $derem, $dedes, $pirem, $pides, $direm, $dides, $nu, NOW(), $idem, $car);";
-                            if(mysqli_query($cone, $q)){
-                                $iddo=mysqli_insert_id($cone);
-
-                                $pmp=mysqli_query($cone, "SELECT pm.idtdpersonalmp FROM tdpersonalmp pm INNER JOIN tdmesapartes mp ON pm.idtdmesapartes=mp.idtdmesapartes WHERE pm.idEmpleado=$idem AND pm.idtdmesapartes=$mpd AND pm.estado=1 AND mp.estado=1;");
-                                if(mysqli_num_rows($pmp)>0){
-                                    $q="INSERT INTO tdestadodoc (idDoc, idtdestado, fecha, idEmpleado, idtdmesapartes, asignador, mpasignador, estado) VALUES ($iddo, 2, NOW(), $idem, $mpd, $idem, $mpd, 1);";
-                                    if(mysqli_query($cone, $q)){
-                                        $r['m']=mensajesu("Listo, documento registrado y recibido.<br> N° Seguimiento:<b> $nu-$ano</b>");
-                                        $r['e']=true;
-                                    }else{
-                                        if(mysqli_query($cone, "DELETE FROM doc WHERE idDoc=$iddo;")){
-                                            $r['m']=mensajewa("Error al registrar estado, vuelva a intentarlo. ".$q);
+                                    $pmp=mysqli_query($cone, "SELECT pm.idtdpersonalmp FROM tdpersonalmp pm INNER JOIN tdmesapartes mp ON pm.idtdmesapartes=mp.idtdmesapartes WHERE pm.idEmpleado=$idem AND pm.idtdmesapartes=$mpd AND pm.estado=1 AND mp.estado=1;");
+                                    if(mysqli_num_rows($pmp)>0){
+                                        $q="INSERT INTO tdestadodoc (idDoc, idtdestado, fecha, idEmpleado, idtdmesapartes, asignador, mpasignador, estado) VALUES ($iddo, 2, NOW(), $idem, $mpd, $idem, $mpd, 1);";
+                                        if(mysqli_query($cone, $q)){
+                                            mysqli_commit($cone);
+                                            $r['m']=mensajesu("Listo, documento registrado y recibido.<br> N° Seguimiento:<b> $nu-$ano</b>");
+                                            $r['e']=true;
                                         }else{
-                                            $r['m']=mensajewa("Solo se registro el documento, contacte a informática para generarle un estado.");
+                                            // if(mysqli_query($cone, "DELETE FROM doc WHERE idDoc=$iddo;")){
+                                            //     $r['m']=mensajewa("Error al registrar estado, vuelva a intentarlo. ".$q);
+                                            // }else{
+                                            //     $r['m']=mensajewa("Solo se registro el documento, contacte a informática para generarle un estado.");
+                                            // }
+                                            mysqli_rollback($cone);
+                                            $r['m']=mensajewa("Error al registrar estado, vuelva a intentarlo. ".$q);
                                         }
+
+                                    }else{
+
+                                        //validamos si deriva de una mesa de partes
+                                        $cmmp=mysqli_query($cone, "SELECT mp.idtdmesapartes FROM tdpersonalmp pm INNER JOIN tdmesapartes mp ON pm.idtdmesapartes=mp.idtdmesapartes WHERE pm.idEmpleado=$idem AND pm.estado=1 AND mp.estado=1;");
+                                        if($rmmp=mysqli_fetch_assoc($cmmp)){
+                                            $mmp=vacio($rmmp['idtdmesapartes']);
+                                            $dep=vacio("");
+                                        }else{
+                                            $mmp=vacio("");
+                                            $dep=vacio(iddependenciae($cone, $_SESSION['identi']));
+                                        }
+                                        mysqli_free_result($cmmp);
+                                        $q="INSERT INTO tdestadodoc (idDoc, idtdestado, fecha, idtdmesapartes, asignador, depasignador, mpasignador, estado) VALUES ($iddo, 3, NOW(), $mpd, $idem, $dep, $mmp, 1);";
+                                        if(mysqli_query($cone, $q)){
+                                            mysqli_commit($cone);
+                                            $r['m']=mensajesu("Listo, documento registrado y derivado.<br> N° Seguimiento:<b> $nu-$ano</b>");
+                                            $r['e']=true;
+                                        }else{
+                                            // if(mysqli_query($cone, "DELETE FROM doc WHERE idDoc=$iddo;")){
+                                            //     $r['m']=mensajewa("Error al registrar estado, vuelva a intentarlo. ".$q);
+                                            // }else{
+                                            //     $r['m']=mensajewa("Solo se registro el documento, contacte a informática para generarle un estado.");
+                                            // }
+                                            mysqli_rollback($cone);
+                                            $r['m']=mensajewa("Error al registrar estado, vuelva a intentarlo. ".$q);
+                                        }
+
                                     }
 
                                 }else{
-
-                                    //validamos si deriva de una mesa de partes
-                                    $cmmp=mysqli_query($cone, "SELECT mp.idtdmesapartes FROM tdpersonalmp pm INNER JOIN tdmesapartes mp ON pm.idtdmesapartes=mp.idtdmesapartes WHERE pm.idEmpleado=$idem AND pm.estado=1 AND mp.estado=1;");
-                                    if($rmmp=mysqli_fetch_assoc($cmmp)){
-                                        $mmp=vacio($rmmp['idtdmesapartes']);
-                                        $dep=vacio("");
-                                    }else{
-                                        $mmp=vacio("");
-                                        $dep=vacio(iddependenciae($cone, $_SESSION['identi']));
-                                    }
-                                    mysqli_free_result($cmmp);
-                                    $q="INSERT INTO tdestadodoc (idDoc, idtdestado, fecha, idtdmesapartes, asignador, depasignador, mpasignador, estado) VALUES ($iddo, 3, NOW(), $mpd, $idem, $dep, $mmp, 1);";
-                                    if(mysqli_query($cone, $q)){
-                                        $r['m']=mensajesu("Listo, documento registrado y derivado.<br> N° Seguimiento:<b> $nu-$ano</b>");
-                                        $r['e']=true;
-                                    }else{
-                                        if(mysqli_query($cone, "DELETE FROM doc WHERE idDoc=$iddo;")){
-                                            $r['m']=mensajewa("Error al registrar estado, vuelva a intentarlo. ".$q);
-                                        }else{
-                                            $r['m']=mensajewa("Solo se registro el documento, contacte a informática para generarle un estado.");
-                                        }
-                                    }
-
+                                    mysqli_rollback($cone);
+                                    $r['m']=mensajewa("Error al registrar, vuelva a intentarlo.<br> $q");
                                 }
 
-                            }else{
-                                $r['m']=mensajewa("Error al registrar, vuelva a intentarlo.<br> $q");
-                            }
-
+            
+                        } catch (Exception $e) {
+                            //Si ocurre algún error, hacemos rollback
+                            mysqli_rollback($cone);
+                            echo "Error: ".$e->getMessage();
                         }
-                        mysqli_free_result($cnu);
                 }
 
             }else{
