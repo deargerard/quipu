@@ -444,6 +444,10 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                                     $vv="danger";
                                     $cv="Anulada";
                                     break;
+                                  case 7:
+                                    $vv="warning";
+                                    $cv="Fuera plazo";
+                                    break;
                                 } 
                                //}elseif ($rcs['Estado']==2){
                                 //$v="danger";
@@ -461,7 +465,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                                 <td><?php echo ftnormal($rcs['fecenvren']); ?></td> <!--columna NÚMERO DE RESOLUCIÓN-->
                                 <td>
                                   <?php if($rcs['FechaIni']>'2018-12-01'){ ?>
-                                    <?php if($rcs['estadoren']=='5' || $rcs['estadoren']=='6'){ ?>
+                                    <?php if($rcs['estadoren']=='5' || $rcs['estadoren']=='6' || $rcs['estadoren']=='7'){ ?>
                                       <?php echo erviaticos($rcs['estadoren']) ?>
                                     <?php }else{ ?>
                                       <button type="button" class="btn btn-<?php echo $vv;?> btn-xs" title="Estado Rendición" onclick="fo_rendir('agrre',<?php echo $rcs['idComServicios']; ?>)"><?php echo $cv; ?></button>

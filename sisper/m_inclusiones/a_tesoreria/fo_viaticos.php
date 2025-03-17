@@ -132,7 +132,7 @@ include("../php/funciones.php");
 					<?php } ?>
 				<?php
 				}
-				if(accesoadm($cone,$_SESSION['identi'],16) && $rc['estadoren']!=0){
+				if(accesoadm($cone,$_SESSION['identi'],16)){
 				?>
 					<button class="btn btn-sm bg-yellow" title="Cambiar estado" onclick="fo_viaticos1('estren', <?php echo $v1.", ".$rc['estadoren']; ?>)"><i class="fa fa-retweet"></i> Estado</button>
 				<?php
@@ -459,6 +459,7 @@ include("../php/funciones.php");
 					<option value="2">Observado</option>
 					<option value="3">Aceptado</option>
 					<option value="6">Anulada</option>
+					<option value="7">Fuera de plazo</option>
 <?php } ?>
 		      	  </select>
 		      	</div>

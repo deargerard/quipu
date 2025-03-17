@@ -263,7 +263,7 @@ if (accesocon($cone, $_SESSION['identi'], 16)) {
             <td rowspan="2">RUC</td>
             <td rowspan="2">Detalle de Gasto</td>
             <td rowspan="2">ESPECIFICA DE GASTO</td>
-            <td colspan="2"><?php echo $rr['meta'] . "\n"; ?>(9001)</td>
+            <td colspan="2"><?php echo $rr['meta'] . "\n"; ?></td>
             <td rowspan="2" style="width: 9;">TOTAL POR ESPECIF.</td>
           </tr>
           <tr style="background-color: #CCCCCC;" style="vertical-align: middle; text-align: center;">

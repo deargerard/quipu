@@ -1110,6 +1110,9 @@ function erviaticos($est){
 	  case 6:
 		return "<span class='label label-danger'><i class='fa fa-times-circle'></i> Anulada</span>";
 		break;
+	  case 7:
+		return "<span class='label label-warning'><i class='fa fa-calendar-times-o'></i> Fuera de plazo</span>";
+		break;
 	}
 }
 function n_2decimales($num){
