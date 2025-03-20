@@ -4,9 +4,9 @@ include("../php/conexion_sp.php");
 include("../php/funciones.php");
 if(accesocon($cone,$_SESSION['identi'],1)){
   $fec=date('Y-m-j');
-  $sfec=strtotime('+15 day', strtotime($fec));
+  $sfec=strtotime('+2 months', strtotime($fec));
   $sfec=date('Y-m-j',$sfec);
-  $afec=strtotime('-15 day', strtotime($fec));
+  $afec=strtotime('-1 months', strtotime($fec));
   $afec=date('Y-m-j',$afec);
 ?>
 <hr>
@@ -51,7 +51,7 @@ if(mysqli_num_rows($c)>0){
 
 <h4 class="text-maroon"><strong>VENCIMIENTO DE DESPLAZAMIENTOS</strong></h4>
 <?php
-$c=mysqli_query($cone,"SELECT ec.idEmpleado, cd.FecFin FROM cardependencia cd INNER JOIN empleadocargo ec ON cd.idEmpleadoCargo=ec.idEmpleadoCargo WHERE idEstadoCar=1 AND cd.estado=1 AND (FecFin>='$afec' AND FecFin<='$sfec') ORDER BY FecFin DESC;")
+$c=mysqli_query($cone,"SELECT ec.idEmpleado, cd.FecFin FROM cardependencia cd INNER JOIN empleadocargo ec ON cd.idEmpleadoCargo=ec.idEmpleadoCargo WHERE idEstadoCar=1 AND cd.estado=1 AND (cd.Vence>='$afec' AND cd.Vence<='$sfec') ORDER BY FecFin DESC;")
 ?>
   <table class="table table-bordered table-hover">
 <?php
@@ -90,7 +90,7 @@ if(mysqli_num_rows($c)>0){
 
 <h4 class="text-maroon"><strong>VENCIMIENTO DE RESERVAS</strong></h4>
 <?php
-$c=mysqli_query($cone,"SELECT ec.idEmpleado, esc.FechaFin FROM estadocargo esc INNER JOIN empleadocargo ec ON esc.idEmpleadoCargo=ec.idEmpleadoCargo WHERE ec.idEstadoCar=3 AND esc.Estado=1 AND (FechaFin>='$afec' AND FechaFin<='$sfec') ORDER BY FechaFin DESC;")
+$c=mysqli_query($cone,"SELECT ec.idEmpleado, esc.FechaFin FROM estadocargo esc INNER JOIN empleadocargo ec ON esc.idEmpleadoCargo=ec.idEmpleadoCargo WHERE ec.idEstadoCar=3 AND esc.Estado=1 AND (esc.Vence>='$afec' AND esc.Vence<='$sfec') ORDER BY FechaFin DESC;")
 ?>
   <table class="table table-bordered table-hover">
 <?php

@@ -458,6 +458,15 @@
           <table class="table table-hover table-bordered">
             <tr>
               <td>
+                <i class="fa fa-envelope text-info"></i>  <a href="https://email.mpfn.gob.pe" target="_blank"> Zimbra</a>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="col-md-2">
+          <table class="table table-hover table-bordered">
+            <tr>
+              <td>
                 <i class="fas fa-university text-info"></i> <a href="http://aulavirtual.mpfn.gob.pe/login/index.php" target="_blank"> Aula Virtual</a>
               </td>
             </tr>
