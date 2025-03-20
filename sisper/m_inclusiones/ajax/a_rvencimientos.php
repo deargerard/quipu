@@ -51,7 +51,7 @@ if(mysqli_num_rows($c)>0){
 
 <h4 class="text-maroon"><strong>VENCIMIENTO DE DESPLAZAMIENTOS</strong></h4>
 <?php
-$c=mysqli_query($cone,"SELECT ec.idEmpleado, cd.FecFin FROM cardependencia cd INNER JOIN empleadocargo ec ON cd.idEmpleadoCargo=ec.idEmpleadoCargo WHERE idEstadoCar=1 AND cd.estado=1 AND (cd.Vence>='$afec' AND cd.Vence<='$sfec') ORDER BY FecFin DESC;")
+$c=mysqli_query($cone,"SELECT ec.idEmpleado, cd.Vence FROM cardependencia cd INNER JOIN empleadocargo ec ON cd.idEmpleadoCargo=ec.idEmpleadoCargo WHERE idEstadoCar=1 AND cd.estado=1 AND (cd.Vence>='$afec' AND cd.Vence<='$sfec') ORDER BY FecFin DESC;")
 ?>
   <table class="table table-bordered table-hover">
 <?php
@@ -74,7 +74,7 @@ if(mysqli_num_rows($c)>0){
     <td><?php echo nomempleado($cone,$r['idEmpleado']); ?></td>
     <td><?php echo cargoe($cone,$r['idEmpleado']); ?></td>
     <td><?php echo nomdependencia($cone,iddependenciae($cone,$r['idEmpleado'])); ?></td>
-    <td class="text-maroon"><?php echo fnormal($r['FecFin']); ?></td>
+    <td class="text-maroon"><?php echo fnormal($r['Vence']); ?></td>
   </tr>
 <?php
   }
@@ -90,7 +90,7 @@ if(mysqli_num_rows($c)>0){
 
 <h4 class="text-maroon"><strong>VENCIMIENTO DE RESERVAS</strong></h4>
 <?php
-$c=mysqli_query($cone,"SELECT ec.idEmpleado, esc.FechaFin FROM estadocargo esc INNER JOIN empleadocargo ec ON esc.idEmpleadoCargo=ec.idEmpleadoCargo WHERE ec.idEstadoCar=3 AND esc.Estado=1 AND (esc.Vence>='$afec' AND esc.Vence<='$sfec') ORDER BY FechaFin DESC;")
+$c=mysqli_query($cone,"SELECT ec.idEmpleado, esc.Vence FROM estadocargo esc INNER JOIN empleadocargo ec ON esc.idEmpleadoCargo=ec.idEmpleadoCargo WHERE ec.idEstadoCar=3 AND esc.Estado=1 AND (esc.Vence>='$afec' AND esc.Vence<='$sfec') ORDER BY FechaFin DESC;")
 ?>
   <table class="table table-bordered table-hover">
 <?php
@@ -113,7 +113,7 @@ if(mysqli_num_rows($c)>0){
     <td><?php echo nomempleado($cone,$r['idEmpleado']); ?></td>
     <td><?php echo cargoe($cone,$r['idEmpleado']); ?></td>
     <td><?php echo nomdependencia($cone,iddependenciae($cone,$r['idEmpleado'])); ?></td>
-    <td class="text-maroon"><?php echo fnormal($r['FechaFin']); ?></td>
+    <td class="text-maroon"><?php echo fnormal($r['Vence']); ?></td>
   </tr>
 <?php
   }
