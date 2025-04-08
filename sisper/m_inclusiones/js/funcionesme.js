@@ -16,6 +16,9 @@ $("#p_personal").on("click",function(e){
 $('#cumples').slimScroll({
     height: '330px'
 });
+$('#vacas').slimScroll({
+  height: '330px'
+});
 //funcion tooltip
 $('#sptooltip').tooltip();
 //fin funcion tooltip
