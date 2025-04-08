@@ -16,38 +16,41 @@ $c=mysqli_query($cone, "SELECT * FROM gestante WHERE ('$vig' BETWEEN fur AND fpp
 <?php
 if(mysqli_num_rows($c)>0){
 ?>
+<!-- <button class="btn bg-orange btn-xs pull-right" id="b_expges" title="Exportar a Excel"><i class="fa fa-file-excel-o"></i></button> -->
   <table class="table table-bordered table-hover" id="tablage">
-  <thead>
-  <tr class="text-maroon">
-    <th colspan="8"><i class="fa fa-user-md"></i> GESTANTES AL <?php echo fnormal($vig); ?><button class="btn bg-orange btn-xs pull-right" id="b_expges" title="Exportar a Excel"><i class="fa fa-file-excel-o"></i></button></th></th>
-  </tr>
-  <tr>
-    <th>#</th>
-    <th class="text-green">GESTANTE</th>
-    <th>FUR</th>
-    <th class="text-maroon">FPP</th>
-    <th>ESTB. SALUD</th>
-    <th class="text-blue">PERSONAL RESP.</th>
-    <th>CARGO</th>
-  </tr>
-  </thead>
+    <thead>
+      <tr class="text-maroon">
+        <th colspan="8"><i class="fa fa-user-md"></i> GESTANTES AL <?php echo fnormal($vig); ?></th>
+      </tr>
+      <tr>
+        <th>#</th>
+        <th class="text-green">GESTANTE</th>
+        <th>FUR</th>
+        <th class="text-maroon">FPP</th>
+        <th>ESTB. SALUD</th>
+        <th class="text-blue">PERSONAL RESP.</th>
+        <th>CARGO</th>
+      </tr>
+    </thead>
+    <tbody>
 <?php
   $n=0;
   while ($r=mysqli_fetch_assoc($c)) {
     $n++;
 ?>
-  <tr>
-    <td><?php echo $n; ?></td>
-    <td class="text-green"><?php echo is_null($r['idPariente']) ? nomempleado($cone, $r['idEmpleado']) : nompariente($cone, $r['idPariente']); ?></td>
-    <td><?php echo fnormal($r['fur']); ?></td>
-    <td class="text-maroon"><?php echo fnormal($r['fpp']); ?></td>
-    <td><?php echo $r['estsalud']; ?></td>
-    <td class="text-blue"><?php echo nomempleado($cone, $r['idEmpleado']); ?></td>
-    <td><?php echo cargoxiexfecha($cone, $r['idEmpleado'], date('Y-m-d')); ?></td>
-  </tr>
+      <tr>
+        <td><?php echo $n; ?></td>
+        <td class="text-green"><?php echo is_null($r['idPariente']) ? nomempleado($cone, $r['idEmpleado']) : nompariente($cone, $r['idPariente']); ?></td>
+        <td><?php echo fnormal($r['fur']); ?></td>
+        <td class="text-maroon"><?php echo fnormal($r['fpp']); ?></td>
+        <td><?php echo $r['estsalud']; ?></td>
+        <td class="text-blue"><?php echo nomempleado($cone, $r['idEmpleado']); ?></td>
+        <td><?php echo cargoxiexfecha($cone, $r['idEmpleado'], date('Y-m-d')); ?></td>
+      </tr>
 <?php
   }
 ?>
+    </tbody>
   </table>
   <script>
         var wbtg = XLSX.utils.table_to_book(document.getElementById('tablage'), {sheet:"Quipu"});

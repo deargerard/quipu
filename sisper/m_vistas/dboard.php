@@ -97,8 +97,6 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
       <div class="row">
         <?php
         $idem=$_SESSION['identi'];
-        //votos por distrito
-        //$q="SELECT ec.idEmpleado FROM empleadocargo ec INNER JOIN cargo c ON ec.idCargo=c.idCargo INNER JOIN cardependencia cd ON ec.idEmpleadocargo=cd.idEmpleadocargo INNER JOIN dependencia d ON cd.idDependencia=d.idDependencia INNER JOIN dependencialocal dl ON d.idDependencia=dl.idDependencia INNER JOIN local l ON dl.idLocal=l.idLocal WHERE ec.idEmpleado=$idem AND ec.idEstadoCar=1 AND cd.Estado=1 AND l.idDistrito=561 AND (c.idSistemaLab=1 OR c.idSistemaLab=3);";
         $q="SELECT idEmpleado FROM empleado WHERE idEmpleado=$idem AND elector=1;";
         //echo $q;
       $cel=mysqli_query($cone, $q);
@@ -202,34 +200,6 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
       }
         ?>
         <div class="col-md-6">
-
-
-
-          <!-- Default box -->
-          <!-- <div class="box box-warning">
-              <div class="box-header with-border">
-                <h3 class="box-title text-yellow"><i class="fa fa-clock-o"></i> Horas por recuperar</h3>
-
-                <div class="box-tools pull-right">
-                  <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                    <i class="fa fa-minus"></i></button>
-                  <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
-                    <i class="fa fa-times"></i></button>
-                </div>
-              </div>
-              <div class="box-body chat">
-                  <p class="text-center text-muted">Calculando...</p>
-                  <img src="https://st3.depositphotos.com/1010613/32105/i/600/depositphotos_321053042-stock-photo-close-up-of-businessmans-hands.jpg" class="img-responsive img-rounded">
-                  <br>
-              </div>
-          </div> -->
-          <!-- /.box -->
-
-
-
-
-
-           <!-- Default box -->
             <div class="box box-info">
               <div class="box-header with-border">
                 <h3 class="box-title text-aqua"><i class="fa fa-birthday-cake"></i> Cumples en <?php echo nombremes(@date('m')) ?></h3>
@@ -358,6 +328,75 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
           <!-- /.box -->
         </div>
         <div class="col-md-6">
+            <div class="box box-warning">
+              <div class="box-header with-border">
+                <h3 class="box-title text-orange"><i class="fa fa-plane"></i> De vacaciones en <?php echo nombremes(@date('m')) ?></h3>
+
+                <div class="box-tools pull-right">
+                  <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                    <i class="fa fa-minus"></i></button>
+                  <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
+                    <i class="fa fa-times"></i></button>
+                </div>
+              </div>
+              <div class="box-body chat" id="vacas">
+                
+                <table class="table table-striped table-bordered">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>COLABORADOR(A)</th>
+                      <th>DESDE - HASTA</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <?php
+                    $cvac=mysqli_query($cone,"SELECT ApellidoPat, ApellidoMat, Nombres, pv.FechaIni, pv.FechaFin FROM empleado AS e INNER JOIN empleadocargo AS ec ON e.idEmpleado=ec.idEmpleado INNER JOIN provacaciones pv ON ec.idEmpleadoCargo=pv.idEmpleadoCargo WHERE idEstadoCar=1 AND pv.Estado in (0,1,3,4,6,7,9) AND (date_format(pv.FechaIni, '%Y-%m') = date_format(now(), '%Y-%m') OR date_format(pv.FechaFin, '%Y-%m') = date_format(now(), '%Y-%m')) ORDER BY pv.FechaIni, ApellidoPat, ApellidoMat ASC");
+                    $n=0;
+                    $dia=@date(d);
+
+                    if(mysqli_num_rows($cvac)>0){
+                    while($rvac=mysqli_fetch_assoc($cvac)){
+                      $n++;
+                      $fini = new DateTime($rvac['FechaIni']);
+                      $ffin = new DateTime($rvac['FechaFin']);
+                      $fact = new DateTime();
+                      if($fact>=$fini && $fact<=$ffin){
+                    ?>
+                    <tr class="info">
+                      <td><?php echo $n ?></td>
+                      <td><?php echo $rvac['ApellidoPat'].' '.$rvac['ApellidoMat'].' '.$rvac['Nombres'] ?></td>
+                      <td><?php echo fnormal($rvac['FechaIni']).' - '.fnormal($rvac['FechaFin']) ?></td>
+                    </tr>
+                    <?php
+                      }else{
+                    ?>
+                    <tr>
+                      <td><?php echo $n ?></td>
+                      <td><?php echo $rvac['ApellidoPat'].' '.$rvac['ApellidoMat'].' '.$rvac['Nombres'] ?></td>
+                      <td><?php echo fnormal($rvac['FechaIni']).' - '.fnormal($rvac['FechaFin']) ?></td>
+                    </tr>
+                    <?php
+                      }
+                    }
+                    }else{
+                    ?>
+                      <h4 class="text-maroon">Nadie sale de vacaciones este mes.</h4>
+                    <?php
+                    }
+                    mysqli_free_result($cvac);
+                    ?>
+                  </tbody>
+                </table>
+
+              </div>
+              <!-- /.box-body -->
+              <div class="box-footer">
+                
+              </div>
+              <!-- /.box-footer-->
+            </div>
+            <!-- /.box -->
           <!-- DONUT CHART -->
           <div class="box box-danger">
             <div class="box-header with-border">
