@@ -29,7 +29,8 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
           <!-- Custom Tabs -->
           <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
-              <li class="active"><a href="#tab_1" data-toggle="tab">Vacaciones por Trabajador</a></li>
+              <li class="active"><a href="#tab_0" data-toggle="tab">Vacaciones en <?php echo nombremes(date('m')); ?></a></li>
+              <li><a href="#tab_1" data-toggle="tab">Vacaciones por Trabajador</a></li>
               <li><a href="#tab_2" data-toggle="tab">Vacaciones por Período</a></li>
               <li><a href="#tab_3" data-toggle="tab">Vacaciones por Meses</a></li>
               <li><a href="#tab_4" data-toggle="tab">Vacaciones por Resolución</a></li>
@@ -38,7 +39,70 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
               <?php endif; ?>
             </ul>
             <div class="tab-content">
-              <div class="tab-pane active" id="tab_1">
+              <div class="tab-pane active" id="tab_0">
+                <!--div resultados-->
+                <div class="row">
+                  <div class="col-md-12" id="r_vacmes">
+                    <table class="table table-striped table-hover">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>COLABORADOR(A)</th>
+                          <th>DESDE - HASTA</th>
+                          <th>DÍAS</th>
+                          <th>ESTADO</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <?php
+                        $cvac=mysqli_query($cone,"SELECT ApellidoPat, ApellidoMat, Nombres, pv.FechaIni, pv.FechaFin, pv.Estado FROM empleado AS e INNER JOIN empleadocargo AS ec ON e.idEmpleado=ec.idEmpleado INNER JOIN provacaciones pv ON ec.idEmpleadoCargo=pv.idEmpleadoCargo WHERE idEstadoCar=1 AND pv.Estado in (0,1,3,4,6,7,9) AND (date_format(pv.FechaIni, '%Y-%m') = date_format(now(), '%Y-%m') OR date_format(pv.FechaFin, '%Y-%m') = date_format(now(), '%Y-%m')) ORDER BY pv.FechaIni, ApellidoPat, ApellidoMat ASC");
+                        $n=0;
+                        $fact = date('Y-m-d');
+                        if(mysqli_num_rows($cvac)>0){
+                        while($rvac=mysqli_fetch_assoc($cvac)){
+                          $n++;
+                          $fini=new DateTime($rvac['FechaIni']);
+                          $ffin=new DateTime($rvac['FechaFin']);
+
+                          $dif=$fini->diff($ffin);
+
+                          if($fact>=$rvac['FechaIni'] && $fact<=$rvac['FechaFin']){
+                        ?>
+                        <tr class="success">
+                          <td><?php echo $n; ?></td>
+                          <td><?php echo $rvac['ApellidoPat'].' '.$rvac['ApellidoMat'].' '.$rvac['Nombres'] ?></td>
+                          <td><?php echo fnormal($rvac['FechaIni']).' - '.fnormal($rvac['FechaFin']) ?></td>
+                          <td><?php echo ($dif->days+1); ?></td>
+                          <td><?php echo estadoVac($rvac['Estado']); ?></td>
+                        </tr>
+                        <?php
+                          }else{
+                        ?>
+                        <tr>
+                          <td><?php echo $n ?></td>
+                          <td><?php echo $rvac['ApellidoPat'].' '.$rvac['ApellidoMat'].' '.$rvac['Nombres'] ?></td>
+                          <td><?php echo fnormal($rvac['FechaIni']).' - '.fnormal($rvac['FechaFin']) ?></td>
+                          <td><?php echo ($dif->days+1); ?></td>
+                          <td><?php echo estadoVac($rvac['Estado']); ?></td>
+                        </tr>
+                        <?php
+                          }
+                        }
+                        }else{
+                        ?>
+                          <h4 class="text-maroon">Nadie sale de vacaciones este mes.</h4>
+                        <?php
+                        }
+                        mysqli_free_result($cvac);
+                        ?>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <!--fin div resultados-->
+              </div>
+              <!-- /.tab-pane -->
+              <div class="tab-pane" id="tab_1">
                 <!--Formulario-->
                 <form action="" id="f_rreva" class="form-inline">
                   <div class="form-group">
