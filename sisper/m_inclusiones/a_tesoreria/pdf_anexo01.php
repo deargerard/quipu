@@ -78,7 +78,7 @@ $cc=mysqli_query($cone, "SELECT cs.*, d.Numero, d.Ano, d.Siglas, e.ApellidoPat, 
       <th bgcolor="#EAF1DD">Cargo</th>
       <td colspan="3" align="center"><?php echo cargoe($cone, $rc['idEmpleado']); ?></td>
       <th colspan="2" bgcolor="#EAF1DD">Régimen</th>
-      <td colspan="3" align="center"><?php echo condicionlabxiec($cone, $idec); ?></td>
+      <td colspan="3" align="center"><?php echo condicionlabe($cone, $rc['idEmpleado']); ?></td>
     </tr>
     <tr>
       <th bgcolor="#EAF1DD">Mnemonico</th>

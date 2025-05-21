@@ -102,7 +102,7 @@ use Spipu\Html2Pdf\Html2Pdf;
         </tr>
         <tr>
           <th colspan="2">DEPENDENCIA:</th>
-          <td colspan="5"><?php echo wordwrap(html_entity_decode(dependenciaxiecxfecha($cone, idecxidexfecha($cone, $r1['idEmpleado'], date('Y-m-d', strtotime($r1['FechaIni']))), date('Y-m-d', strtotime($r1['FechaIni'])))),55,"<br/>\n",true); ?></td>
+          <td colspan="5"><?php echo wordwrap(html_entity_decode(dependenciae($cone, $r1['idEmpleado'])),55,"<br/>\n",true); ?></td>
         </tr>
         <tr>
           <th colspan="2">CARGO:</th>
