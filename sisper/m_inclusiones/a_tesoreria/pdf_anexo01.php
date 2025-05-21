@@ -70,13 +70,13 @@ $cc=mysqli_query($cone, "SELECT cs.*, d.Numero, d.Ano, d.Siglas, e.ApellidoPat, 
     </tr>
     <tr>
       <th bgcolor="#EAF1DD">Dependencia</th>
-      <td colspan="3" align="center"><?php echo substr(html_entity_decode(dependenciaxiecxfecha($cone, $idec, date('Y-m-d', strtotime($rc['FechaIni'])))),0,60); ?></td>
+      <td colspan="3" align="center"><?php echo substr(html_entity_decode(dependenciae($cone, $rc['idEmpleado'])),0,60); ?></td>
       <th colspan="2" bgcolor="#EAF1DD">D.N.I.</th>
       <td colspan="3" align="center"><?php echo $rc['NumeroDoc']; ?></td>
     </tr>
     <tr>
       <th bgcolor="#EAF1DD">Cargo</th>
-      <td colspan="3" align="center"><?php echo cargoiec($cone, idecxidexfecha($cone, $rc['idEmpleado'], date('Y-m-d', strtotime($rc['FechaIni'])))); ?></td>
+      <td colspan="3" align="center"><?php echo cargoe($cone, $rc['idEmpleado']); ?></td>
       <th colspan="2" bgcolor="#EAF1DD">Régimen</th>
       <td colspan="3" align="center"><?php echo condicionlabxiec($cone, $idec); ?></td>
     </tr>

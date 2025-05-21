@@ -106,7 +106,7 @@ use Spipu\Html2Pdf\Html2Pdf;
         </tr>
         <tr>
           <th colspan="2">CARGO:</th>
-          <td colspan="5"><?php echo cargoiec($cone, idecxidexfecha($cone, $r1['idEmpleado'], date('Y-m-d', strtotime($r1['FechaIni'])))) ?></td>
+          <td colspan="5"><?php echo cargoe($cone, $r1['idEmpleado']) ?></td>
         </tr>
         <tr>
           <th colspan="2">GRADO Y SUB GRADO</th>
