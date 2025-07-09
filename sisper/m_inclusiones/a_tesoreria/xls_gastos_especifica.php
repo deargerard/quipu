@@ -22,16 +22,16 @@ if(accesocon($cone,$_SESSION['identi'],16)){
 
   		$resp=mysqli_fetch_assoc($cesp);      
 
-      $q="(SELECT r.codigo, tc.abreviatura, g.numerocom, r.mes, f.nombre, g.cantidadcom, um.umedida, g.glosacom, g.totalcom, g.idDependencia, g.fechacom FROM tegasto g INNER JOIN terendicion r on g.idterendicion= r.idterendicion INNER JOIN tetipocom tc ON g.idtetipocom=tc.idtetipocom INNER JOIN temeta m ON m.idtemeta= r.idtemeta INNER JOIN tefondo f ON m.idtefondo=f.idtefondo LEFT JOIN teumedida um ON g.idteumedida=um.idteumedida WHERE idteespecifica=$esp AND date_format(fechacom, '%Y')='$anob' order by r.codigo asc)
+      $q="(SELECT r.codigo, tc.abreviatura, g.numerocom, r.mes, f.nombre, g.cantidadcom, um.umedida, g.glosacom, g.totalcom, g.idDependencia, g.fechacom, tp.razsocial, tp.ruc FROM tegasto g INNER JOIN terendicion r on g.idterendicion= r.idterendicion INNER JOIN tetipocom tc ON g.idtetipocom=tc.idtetipocom INNER JOIN temeta m ON m.idtemeta= r.idtemeta INNER JOIN tefondo f ON m.idtefondo=f.idtefondo LEFT JOIN teproveedor tp ON g.idteproveedor=tp.idteproveedor LEFT JOIN teumedida um ON g.idteumedida=um.idteumedida WHERE idteespecifica=$esp AND date_format(fechacom, '%Y')='$anob' order by r.codigo asc)
         union
-        (SELECT r.codigo,  tc.abreviatura, g.numerocom, r.mes, f.nombre, g.cantidadcom, um.umedida, g.glosacom, g.totalcom, g.idDependencia, g.fechacom FROM tegasto g INNER JOIN comservicios cs ON g.idComServicios=cs.idComServicios INNER JOIN terendicion r ON cs.idterendicion=r.idterendicion INNER JOIN teespecifica e ON g.idteespecifica=e.idteespecifica INNER JOIN temeta m ON r.idtemeta=m.idtemeta INNER JOIN tefondo f ON m.idtefondo=f.idtefondo INNER JOIN tetipocom tc ON g.idtetipocom=tc.idtetipocom LEFT JOIN teumedida um ON g.idteumedida=um.idteumedida WHERE g.idteespecifica=$esp AND date_format(fechacom, '%Y')='$anob' order by r.codigo asc);";
+        (SELECT r.codigo,  tc.abreviatura, g.numerocom, r.mes, f.nombre, g.cantidadcom, um.umedida, g.glosacom, g.totalcom, g.idDependencia, g.fechacom, tp.razsocial, tp.ruc FROM tegasto g INNER JOIN comservicios cs ON g.idComServicios=cs.idComServicios INNER JOIN terendicion r ON cs.idterendicion=r.idterendicion INNER JOIN teespecifica e ON g.idteespecifica=e.idteespecifica INNER JOIN temeta m ON r.idtemeta=m.idtemeta INNER JOIN tefondo f ON m.idtefondo=f.idtefondo INNER JOIN tetipocom tc ON g.idtetipocom=tc.idtetipocom LEFT JOIN teproveedor tp ON g.idteproveedor=tp.idteproveedor LEFT JOIN teumedida um ON g.idteumedida=um.idteumedida WHERE g.idteespecifica=$esp AND date_format(fechacom, '%Y')='$anob' order by r.codigo asc);";
         //echo $q;
   		$cgas=mysqli_query($cone,$q);
       
 ?>
         <table>
           <tr>
-            <th colspan="10"><font face="arial" color="#FF8000" size="3">Gastos por Espec&iacute;fica</font></th>                  
+            <th colspan="13"><font face="arial" color="#FF8000" size="3">Gastos por Espec&iacute;fica</font></th>                  
           </tr>
          
         </table>
@@ -44,6 +44,8 @@ if(accesocon($cone,$_SESSION['identi'],16)){
               <td rowspan="2" bgcolor= "#AFAFAF" style="text-align: center;"><b><font color="#ffffff" size="2">COMP</font></b></td>
               <td rowspan="2" bgcolor= "#AFAFAF" style="text-align: center;"><b><font color="#ffffff" size="2">NUM</font></b></td>
               <td rowspan="2" bgcolor= "#AFAFAF" style="text-align: center;"><b><font color="#ffffff" size="2">FECHA</font></b></td>
+              <td rowspan="2" bgcolor= "#AFAFAF" style="text-align: center;"><b><font color="#ffffff" size="2">PROVEEDOR</font></b></td>
+              <td rowspan="2" bgcolor= "#AFAFAF" style="text-align: center;"><b><font color="#ffffff" size="2">RUC</font></b></td>
               <td rowspan="2" bgcolor= "#AFAFAF" style="text-align: center;"><b><font color="#ffffff" size="2">MES</font></b></td>
               <td rowspan="2" bgcolor= "#AFAFAF" style="text-align: center;"><b><font color="#ffffff" size="2">META</font></b></td>
               <td rowspan="2" bgcolor= "#AFAFAF" style="text-align: center;"><b><font color="#ffffff" size="2">CANT</font></b></td>
@@ -67,6 +69,8 @@ if(accesocon($cone,$_SESSION['identi'],16)){
                   <td><font color="#555555"><?php echo $rgas['abreviatura']; ?></font></td>
                   <td><font color="#555555">'<?php echo $rgas['numerocom']; ?></font></td>
                   <td><font color="#555555"><?php echo $rgas['fechacom']; ?></font></td>
+                  <td><font color="#555555"><?php echo $rgas['razsocial']; ?></font></td>
+                  <td><font color="#555555"><?php echo $rgas['ruc']; ?></font></td>
                   <td><font color="#555555"><?php echo nombremes($rgas['mes']); ?></font></td>
                   <td><font color="#555555"><?php echo $rgas['nombre']; ?></font></td>
                   <td><font color="#555555"><?php echo $rgas['cantidadcom']; ?></font></td>
@@ -81,7 +85,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
         </table>
         <table border=1 bordercolor="#BFBFBF">
           <tr>
-            <td colspan="9" bgcolor= "#AFAFAF"><b><font color="#ffffff" size="2">TOTAL </font></b></td>            
+            <td colspan="11" bgcolor= "#AFAFAF"><b><font color="#ffffff" size="2">TOTAL </font></b></td>            
             <td bgcolor= "#AFAFAF" style="mso-number-format:'0.00'; text-align: right;"><b><font color="#ffffff" size="2"><?php echo $tgas; ?></font></b></td>              
           </tr>          
         </table>
