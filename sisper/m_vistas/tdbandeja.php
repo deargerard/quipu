@@ -12,14 +12,14 @@ if (isset($_SESSION['identi']) && !empty($_SESSION['identi'])) {
 
       //consultar el número de documentos derivados pendientes a la mesa de partes
       $nddmp = 0;
-      $cnddmp = mysqli_query($cone, "SELECT COUNT(*) AS ndd FROM tdestadodoc WHERE idtdmesapartes=$imp AND idtdestado=3;");
+      $cnddmp = mysqli_query($cone, "SELECT COUNT(*) AS ndd FROM tdestadodoc WHERE idtdmesapartes=$imp AND estado=1 AND idtdestado=3;");
       if ($rnddmp = mysqli_fetch_assoc($cnddmp)) {
         $nddmp = $rnddmp['ndd'];
       }
       mysqli_free_result($cnddmp);
       //consultar el número de documentos recibidos pendientes a la mesa de partes
       $ndrmp = 0;
-      $cndrmp = mysqli_query($cone, "SELECT COUNT(*) AS ndr FROM tdestadodoc WHERE idtdmesapartes=$imp AND idtdestado=2;");
+      $cndrmp = mysqli_query($cone, "SELECT COUNT(*) AS ndr FROM tdestadodoc WHERE idtdmesapartes=$imp AND estado=1 AND idtdestado=2;");
       if ($rndrmp = mysqli_fetch_assoc($cndrmp)) {
         $ndrmp = $rndrmp['ndr'];
       }
@@ -47,14 +47,14 @@ if (isset($_SESSION['identi']) && !empty($_SESSION['identi'])) {
 
     //consultar el número de documentos derivados pendientes del empleado
     $nder = 0;
-    $cndd = mysqli_query($cone, "SELECT COUNT(*) AS ndd FROM tdestadodoc WHERE idEmpleado=$ide AND idtdestado=3;");
+    $cndd = mysqli_query($cone, "SELECT COUNT(*) AS ndd FROM tdestadodoc WHERE idEmpleado=$ide AND estado=1 AND idtdestado=3;");
     if ($rndd = mysqli_fetch_assoc($cndd)) {
       $nder = $rndd['ndd'];
     }
     mysqli_free_result($cndd);
     //consultar el número de documentos recibidos pendientes del empleado
     $nrec = 0;
-    $cndr = mysqli_query($cone, "SELECT COUNT(*) AS ndr FROM tdestadodoc WHERE idEmpleado=$ide AND idtdestado=2;");
+    $cndr = mysqli_query($cone, "SELECT COUNT(*) AS ndr FROM tdestadodoc WHERE idEmpleado=$ide AND estado=1 AND idtdestado=2;");
     if ($rndr = mysqli_fetch_assoc($cndr)) {
       $nrec = $rndr['ndr'];
     }
