@@ -2,27 +2,63 @@
 if (isset($_SESSION['identi']) && !empty($_SESSION['identi'])) {
   if (accesocon($cone, $_SESSION['identi'], 17)) {
     $ide = $_SESSION['identi'];
+    $nom=nomempleado($cone, $ide);
 
-    $cm = mysqli_query($cone, "SELECT mp.idtdmesapartes, mp.tipo FROM tdpersonalmp pm INNER JOIN tdmesapartes mp ON pm.idtdmesapartes=mp.idtdmesapartes WHERE pm.idEmpleado=$ide AND pm.estado=1 AND mp.estado=1;");
+    $cm = mysqli_query($cone, "SELECT mp.idtdmesapartes, mp.tipo, mp.denominacion FROM tdpersonalmp pm INNER JOIN tdmesapartes mp ON pm.idtdmesapartes=mp.idtdmesapartes WHERE pm.idEmpleado=$ide AND pm.estado=1 AND mp.estado=1;");
     if ($rm = mysqli_fetch_assoc($cm)) {
       $tmp = $rm['tipo'];
       $imp = $rm['idtdmesapartes'];
+      $nmp=$rm['denominacion'];
+
+      //consultar el número de documentos derivados pendientes a la mesa de partes
+      $nddmp = 0;
+      $cnddmp = mysqli_query($cone, "SELECT COUNT(*) AS ndd FROM tdestadodoc WHERE idtdmesapartes=$imp AND idtdestado=3;");
+      if ($rnddmp = mysqli_fetch_assoc($cnddmp)) {
+        $nddmp = $rnddmp['ndd'];
+      }
+      mysqli_free_result($cnddmp);
+      //consultar el número de documentos recibidos pendientes a la mesa de partes
+      $ndrmp = 0;
+      $cndrmp = mysqli_query($cone, "SELECT COUNT(*) AS ndr FROM tdestadodoc WHERE idtdmesapartes=$imp AND idtdestado=2;");
+      if ($rndrmp = mysqli_fetch_assoc($cndrmp)) {
+        $ndrmp = $rndrmp['ndr'];
+      }
+      mysqli_free_result($cndrmp);
     }
     mysqli_free_result($cm);
+    //consulta si el usuario pertenece a una dependencia de notificaciones
     $en = false;
     $cn = mysqli_query($cone, "SELECT ec.idEmpleadoCargo FROM empleadocargo ec INNER JOIN cardependencia cd ON ec.idEmpleadoCargo=cd.idEmpleadoCargo INNER JOIN dependencia d ON cd.idDependencia=d.idDependencia WHERE ec.idEmpleado=$ide AND ec.idEstadoCar=1 AND cd.Estado=1 AND (d.Denominacion LIKE '%NOTIFICACIONES%');");
     if (mysqli_num_rows($cn) > 0) {
       $en = true;
     }
     mysqli_free_result($cn);
+    //consulta si el usuario es asistente administrativo de notificador
     $eno = false;
     if (cargoe($cone, $ide) == 'ASISTENTE ADMINISTRATIVO - NTF') {
       $eno = true;
     }
+    //consulta si el usuario es supervisor
     $cs = mysqli_query($cone, "SELECT supervisor FROM empleado WHERE idEmpleado=$ide;");
     if ($rs = mysqli_fetch_assoc($cs)) {
       $su = $rs['supervisor'];
     }
+    mysqli_free_result($cs);
+
+    //consultar el número de documentos derivados pendientes del empleado
+    $nder = 0;
+    $cndd = mysqli_query($cone, "SELECT COUNT(*) AS ndd FROM tdestadodoc WHERE idEmpleado=$ide AND idtdestado=3;");
+    if ($rndd = mysqli_fetch_assoc($cndd)) {
+      $nder = $rndd['ndd'];
+    }
+    mysqli_free_result($cndd);
+    //consultar el número de documentos recibidos pendientes del empleado
+    $nrec = 0;
+    $cndr = mysqli_query($cone, "SELECT COUNT(*) AS ndr FROM tdestadodoc WHERE idEmpleado=$ide AND idtdestado=2;");
+    if ($rndr = mysqli_fetch_assoc($cndr)) {
+      $nrec = $rndr['ndr'];
+    }
+    mysqli_free_result($cndr);
 ?>
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -66,7 +102,77 @@ if (isset($_SESSION['identi']) && !empty($_SESSION['identi'])) {
               <div class="tab-pane active" id="tab_1">
                 <!--Div resultados-->
                 <div class="row">
+                  
                   <div class="col-sm-12">
+                    <div class="row" style="margin-top: 10px;">
+
+                      <div class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="info-box bg-teal">
+                          <span class="info-box-icon"><i class="fa fa-file-text-o"></i></span>
+
+                          <div class="info-box-content">
+                            <span class="info-box-text">DERIVADOS PENDIENTES</span>
+                            <span class="info-box-number"><?php echo $nder; ?></span>
+                                <span class="progress-description">
+                                  <?php echo $nom; ?>
+                                </span>
+                          </div>
+                          <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                      </div>
+                      <div class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="info-box bg-orange">
+                          <span class="info-box-icon"><i class="fa fa-file-text-o"></i></span>
+
+                          <div class="info-box-content">
+                            <span class="info-box-text">RECIBIDOS PENDIENTES</span>
+                            <span class="info-box-number"><?php echo $nrec; ?></span>
+                                <span class="progress-description">
+                                  <?php echo $nom; ?>
+                                </span>
+                          </div>
+                          <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                      </div>
+
+
+                      <div class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="info-box bg-teal">
+                          <span class="info-box-icon"><i class="fa fa-file-text-o"></i></span>
+
+                          <div class="info-box-content">
+                            <span class="info-box-text">DERIVADOS PENDIENTES</span>
+                            <span class="info-box-number"><?php echo $nddmp; ?></span>
+                                <span class="progress-description">
+                                  <?php echo $nmp; ?>
+                                </span>
+                          </div>
+                          <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                      </div>
+                      <div class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="info-box bg-orange">
+                          <span class="info-box-icon"><i class="fa fa-file-text-o"></i></span>
+
+                          <div class="info-box-content">
+                            <span class="info-box-text">RECIBIDOS PENDIENTES</span>
+                            <span class="info-box-number"><?php echo $ndrmp; ?></span>
+                                <span class="progress-description">
+                                  <?php echo $nmp; ?>
+                                </span>
+                          </div>
+                          <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-12">
                     <!-- <button type="button" class="btn bg-yellow" onclick="li_ban1();"><i class="fa fa-refresh"></i> Actualizar Datos</button> -->
                     <!--Formulario busqueda-->
                     <form class="form-inline" id="f_rep1">
@@ -83,7 +189,6 @@ if (isset($_SESSION['identi']) && !empty($_SESSION['identi'])) {
                     </form>
                     <!--Fin formulario busqueda-->
                   </div>
-                </div>
                 <div class="row" id="r_ban1">
 
                 </div>
