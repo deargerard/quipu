@@ -1228,6 +1228,9 @@ function estadoDoc($est){
 		case 5:
 			return "<span class='label label-success'>Reportado</span>";
 			break;
+		case 6:
+			return "<span class='label label-primary'>Enviado GN</span>";
+			break;
 	}
 }
 

@@ -519,6 +519,52 @@ if(accesocon($cone,$_SESSION['identi'],17)){
             }else{
                 $r['m']="Faltan datos.";
             }
+        }elseif($acc=="envgn"){
+            if(isset($_POST['v1']) && !empty($_POST['v1']) && isset($_POST['v2']) && !empty($_POST['v2'])){
+                $v1=iseguro($cone, $_POST['v1']); //idDoc
+                $v2=iseguro($cone, $_POST['v2']); //idtdestadodoc
+                $mp=iseguro($cone, $_POST['mp']);
+                $idem=$_SESSION['identi'];
+                
+
+                $ce=mysqli_query($cone, "SELECT idtdestadodoc FROM tdestadodoc WHERE idDoc=$v1 AND estado=1;");
+                if($re=mysqli_fetch_assoc($ce)){
+                    if($re['idtdestadodoc']==$v2){
+                        $idue=$re['idtdestadodoc'];
+
+                        if($mp!=0){
+                            $dep=vacio("");
+                        }else{
+                            $mp=vacio("");
+                            $dep=iddependenciae($cone, $_SESSION['identi']);
+                        }
+
+                        if(mysqli_query($cone, "INSERT INTO tdestadodoc (idDoc, idtdestado, fecha, idEmpleado, idDependencia, idtdmesapartes, asignador, mpasignador, depasignador, estado) VALUES ($v1, 6, NOW(), $idem, $dep, $mp, $idem, $mp, $dep, 1);")){
+                            $idne=mysqli_insert_id($cone);
+                            if(mysqli_query($cone, "UPDATE tdestadodoc SET estado=0 WHERE idDoc=$v1 AND idtdestadodoc=$idue;")){
+                                $r['m']="¡Listo! Documento enviado al Generador de Notificaciones.";
+                                $r['e']=true;
+                            }else{
+                                if(mysqli_query($cone, "DELETE FROM tdestadodoc WHERE idtdestadodoc=$idne;")){
+                                    $r['m']="Error al enviar, vuelva a intentarlo.";
+                                }else{
+                                    $r['m']="Error al enviar, reporte al administrador del sistema.";
+                                }
+                            }
+                        }else{
+                            $r['m']="Error al enviar, vuelva a intentarlo.";
+                        }
+                    }else{
+                        $r['m']='El documento ya tiene otro estado.';
+                        $r['e']=true;
+                    }
+                }else{
+                    $r['m']='Error, datos erroneos del documento.';
+                }
+
+            }else{
+                $r['m']="Faltan datos.";
+            }
         }elseif($acc=="dernot"){
             if(isset($_POST['v1']) && !empty($_POST['v1']) && isset($_POST['v2']) && !empty($_POST['v2']) && isset($_POST['v3']) && !empty($_POST['v3'])){
                 $v1=iseguro($cone, $_POST['v1']);

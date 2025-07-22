@@ -57,9 +57,9 @@ if (accesocon($cone, $_SESSION['identi'], 17)) {
                     </td>
                     <td><?php echo is_null($rb['numguia']) ? "-" : $rb['numguia'] . "-" . $rb['anio']; ?></td>
                     <td class="text-center">
-                      <div class="btn-group btn-group-xs">
-                        <button type="button" class="btn btn-info" id="btn-recibirmp" title="Recibir"><i class="fa fa-check"></i></button>
-                      </div>
+
+                        <button type="button" class="btn btn-info btn-xs" id="btn-recibirmp" title="Recibir"><i class="fa fa-check"></i></button>
+                      
                       <div class="btn-group">
 
                         <button class="btn bg-maroon btn-xs dropdown-toggle" data-toggle="dropdown">
@@ -74,7 +74,9 @@ if (accesocon($cone, $_SESSION['identi'], 17)) {
                           <li><a href="#" onclick="f_bandeja('detdoc',<?php echo $rb['idDoc'] . ",0"; ?>)"><i class="fa fa-file-text text-maroon"></i> Detalle</a></li>
                         </ul>
                       </div>
-
+                      <?php if($idmp==2 || $idmp==60 || $idmp==61) { ?>
+                      <button type="button" class="btn btn-primary btn-xs" id="btn-enviargn" title="Enviar al Generador de Notificaciones"><i class="fa fa-share"></i></button>
+                      <?php } ?>
                     </td>
                   </tr>
                 <?php
@@ -96,6 +98,32 @@ if (accesocon($cone, $_SESSION['identi'], 17)) {
                   url: "m_inclusiones/a_tdocumentario/g_bandeja.php",
                   data: {
                     acc: 'recdoc',
+                    v1: da[0],
+                    v2: da[1],
+                    mp: da[2]
+                  },
+                  dataType: "json",
+                  success: function(a) {
+                    if (a.e) {
+                      alertify.success(a.m);
+                      ta.remove().draw();
+                    } else {
+                      alertify.error(a.m);
+                    }
+                  }
+                });
+              });
+
+              $('#dt_ban11 tbody').on('click', 'button#btn-enviargn', function() {
+                var d = table.row($(this).parents('tr')).data()[1];
+                var da = d.split(' ');
+                var ta = table.row($(this).parents('tr'));
+
+                $.ajax({
+                  type: "post",
+                  url: "m_inclusiones/a_tdocumentario/g_bandeja.php",
+                  data: {
+                    acc: 'envgn',
                     v1: da[0],
                     v2: da[1],
                     mp: da[2]
