@@ -162,11 +162,11 @@ if (isset($_SESSION['identi']) && !empty($_SESSION['identi'])) {
                     <!--Formulario busqueda-->
                     <form class="form-inline" id="f_rep3">
                         <div class="form-group">
-                          <input type="text" class="form-control" id="ns3" name="ns3" placeholder="# Seguimiento">
+                          <input type="text" class="form-control" id="ns3" name="ns3" placeholder="# Seguimiento" onkeydown="if(event.key==='Enter'){li_ban3();}">
                         </div>
                         <div class="form-group">
                           <div class="input-group date" id="d_dano3">
-                            <input type="text" name="as3" id="as3" class="form-control" value="<?php echo date('Y'); ?>">
+                            <input type="text" name="as3" id="as3" class="form-control" value="<?php echo date('Y'); ?>" onkeydown="if(event.key==='Enter'){li_ban3();}">
                             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                           </div>
                         </div>
@@ -231,11 +231,11 @@ if (isset($_SESSION['identi']) && !empty($_SESSION['identi'])) {
                       <!--Formulario busqueda-->
                       <form class="form-inline" id="f_rep4">
                         <div class="form-group">
-                          <input type="text" class="form-control" id="ns4" name="ns4" placeholder="# Seguimiento">
+                          <input type="text" class="form-control" id="ns4" name="ns4" placeholder="# Seguimiento" onkeydown="if(event.key==='Enter'){li_ban4();}">
                         </div>
                         <div class="form-group">
                           <div class="input-group date" id="d_dano4">
-                            <input type="text" name="as4" id="as4" class="form-control" value="<?php echo date('Y'); ?>">
+                            <input type="text" name="as4" id="as4" class="form-control" value="<?php echo date('Y'); ?>" onkeydown="if(event.key==='Enter'){li_ban4();}">
                             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                           </div>
                         </div>
@@ -294,11 +294,11 @@ if (isset($_SESSION['identi']) && !empty($_SESSION['identi'])) {
                 <!--Formulario busqueda-->
                 <form class="form-inline" id="f_rep7">
                   <div class="form-group">
-                    <input type="text" class="form-control" id="ns" name="ns" placeholder="# Seguimiento">
+                    <input type="text" class="form-control" id="ns" name="ns" placeholder="# Seguimiento" onkeydown="if(event.key==='Enter'){li_ban7();}">
                   </div>
                   <div class="form-group">
                     <div class="input-group date" id="d_dano">
-                      <input type="text" name="as" id="as" class="form-control" value="<?php echo date('Y'); ?>">
+                      <input type="text" name="as" id="as" class="form-control" value="<?php echo date('Y'); ?>" onkeydown="if(event.key==='Enter'){li_ban7();}">
                       <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                     </div>
                   </div>
