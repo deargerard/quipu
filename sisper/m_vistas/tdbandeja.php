@@ -107,11 +107,11 @@ if (isset($_SESSION['identi']) && !empty($_SESSION['identi'])) {
                     <!--Formulario busqueda-->
                     <form class="form-inline" id="f_rep1">
                       <div class="form-group">
-                        <input type="text" class="form-control" id="ns1" name="ns1" placeholder="# Seguimiento">
+                        <input type="text" class="form-control" id="ns1" name="ns1" placeholder="# Seguimiento" onkeydown="if(event.key==='Enter'){li_ban1();}">
                       </div>
                       <div class="form-group">
                         <div class="input-group date" id="d_dano1">
-                          <input type="text" name="as1" id="as1" class="form-control" value="<?php echo date('Y'); ?>">
+                          <input type="text" name="as1" id="as1" class="form-control" value="<?php echo date('Y'); ?>" onkeydown="if(event.key==='Enter'){li_ban1();}">
                           <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                         </div>
                       </div>
