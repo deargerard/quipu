@@ -364,7 +364,21 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
 		                	<table class="table table-hover table-bordered">
 		                		<thead>
 		                			<tr>
-		                				<th colspan="<?php echo $rc['EstadoCar']=="ACTIVO" ? 6 : 7; ?>"><h4 class="<?php echo $rc['EstadoCar']=="ACTIVO" ? "text-primary" : "text-gray"; ?>"><strong><?php echo $caremp ?></strong></h4></th>
+		                				<th colspan="<?php echo $rc['EstadoCar']=="ACTIVO" ? 6 : 7; ?>">
+											<h4 class="<?php echo $rc['EstadoCar']=="ACTIVO" ? "text-primary" : "text-gray"; ?>">
+												<strong><?php echo $caremp ?></strong>
+													<?php
+													$q="SELECT tl.MotivoLic FROM licencia l INNER JOIN tipolic tl ON l.idTipoLic=tl.idTipoLic WHERE idEmpleadoCargo=$rc[idEmpleadoCargo] AND l.Estado=1 AND DATE_FORMAT(NOW(), '%Y-%m-%d') BETWEEN l.FechaIni AND l.FechaFin";
+													$consultar_licencia = mysqli_query($cone, $q);
+													if($resultado_licencia=mysqli_fetch_assoc($consultar_licencia)){
+													?>
+													<small>(Con licencia: <span class="text-maroon"><?php echo $resultado_licencia['MotivoLic'] ?></span>)</small>
+													<?php
+													}
+													mysqli_free_result($consultar_licencia);
+													?>
+											</h4>
+										</th>
 		                			</tr>
 		                			<tr>
 		                				<th>COND. LAB.</th>

@@ -28,7 +28,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
         
         }
 
-        $cd=mysqli_query($cone, "SELECT d.idDoc, d.Numero, d.Ano, d.Siglas, d.FechaDoc, d.numdoc, d.destinatarioext, d.destinatarioint, td.TipoDoc FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc WHERE $wdoc $wdes d.ano=$ano");
+        $cd=mysqli_query($cone, "SELECT d.idDoc, d.Numero, d.Ano, d.Siglas, d.FechaDoc, d.numdoc, d.destinatarioext, d.destinatarioint, d.depdestinoext, d.depdestinoint, td.TipoDoc FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc WHERE $wdoc $wdes d.ano=$ano");
 
         //echo "SELECT d.idDoc, d.Numero, d.Ano, d.Siglas, d.FechaDoc, d.numdoc, td.TipoDoc, ed.idtdestadodoc, ed.fecha, g.numero numguia, g.anio, ed.idtdestado FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc INNER JOIN tdestadodoc ed ON d.idDoc=ed.idDoc LEFT JOIN tdguia g ON ed.idtdguia=g.idtdguia WHERE $wdoc $wdes d.ano=$ano ORDER BY ed.fecha DESC";
         if(mysqli_num_rows($cd)>0){
@@ -39,7 +39,8 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                         <th>NUM.</th>
                         <th>DOCUMENTO<br>TIPO</th>
                         <th>FECHA DOCUMENTO<br>TIEMPO</th>
-                        <th>DESTINATARIO</th>                        
+                        <th>DESTINATARIO</th>    
+                        <th>DESTINO</th>                    
                         <th class="text-center">ACCIÓN</th>
                     </tr>
                 </thead>
@@ -80,6 +81,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                             <td><?php echo $rb['Numero']."-".$rb['Ano']."-".$rb['Siglas']; ?><br><span class="text-teal"><?php echo $rb['TipoDoc']; ?></span></td>
                             <td><?php echo fnormal($rb['FechaDoc']); ?><br><span class="text-yellow"><?php echo diftiempo($rb['FechaDoc'], date('Y-m-d H:i:s')); ?></span></td>
                             <td><?php echo $dest; ?></td>
+                            <td><?php echo $rb['depdestinoint'] ? nomdependencia($cone, $rb['depdestinoint']) : $rb['depdestinoext']; ?></td>
                             <td class="text-center">
                                   
                                   <div class="btn-group">
