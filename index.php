@@ -350,6 +350,15 @@
           <table class="table table-hover table-bordered">
             <tr>
               <td>
+                <i class="fa fa-laptop text-info"></i> <a href="https://portalogti.mpfn.gob.pe/" target="_blank"> GLPI</a>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="col-md-2">
+          <table class="table table-hover table-bordered">
+            <tr>
+              <td>
                 <i class="fa fa-file text-info"></i>  <a href="https://cfe-int.mpfn.gob.pe/generador-notificaciones/" target="_blank"> Gen. Noti.</a>
               </td>
             </tr>
