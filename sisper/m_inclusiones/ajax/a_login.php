@@ -9,15 +9,23 @@ if(isset($_POST["NomForm"]) && $_POST["NomForm"]=="login"){
 		$pas=sha1(iseguro($cone,$_POST['pas']));
 		$q=mysqli_query($cone,"SELECT idEmpleado, ApellidoPat, ApellidoMat, Nombres, NumeroDoc, Contrasena, Estado FROM empleado WHERE NumeroDoc='$doc'");
 		if($p=mysqli_fetch_assoc($q)){
+			
 			if($p['Contrasena']===$pas){
 				if($p['Estado']==1){
-					$_SESSION['identi']=$p['idEmpleado'];
-					$_SESSION['nomusu']=$p['ApellidoPat']." ".$p['ApellidoMat'].", ".$p['Nombres'];
-					$_SESSION['docide']=$p['NumeroDoc'];
-					$jres["exito"]=true;
-					$jres["mensaje"]="Bienvenido.";
-					$fa=@date("Y-m-d");
-					mysqli_query($cone,"UPDATE empleado SET FecUltIng='$fa' WHERE idEmpleado=".$p['idEmpleado']);
+					//Consultaremos si tiene un registro en la tabla empleadocargo con el idEstadoCar=1 y su idCondicionLab=7
+					$qc=mysqli_query($cone,"SELECT idEmpleadoCargo FROM empleadocargo WHERE idEmpleado=".$p['idEmpleado']." AND idEstadoCar=1 AND idCondicionLab=7");
+					if(mysqli_num_rows($qc) > 0){
+						$jres["exito"]=false;
+						$jres["mensaje"]="No cuenta con usuario.";
+					}else{
+						$_SESSION['identi']=$p['idEmpleado'];
+						$_SESSION['nomusu']=$p['ApellidoPat']." ".$p['ApellidoMat'].", ".$p['Nombres'];
+						$_SESSION['docide']=$p['NumeroDoc'];
+						$jres["exito"]=true;
+						$jres["mensaje"]="Bienvenido.";
+						$fa=@date("Y-m-d");
+						mysqli_query($cone,"UPDATE empleado SET FecUltIng='$fa' WHERE idEmpleado=".$p['idEmpleado']);
+					}
 				}else{
 					$jres["exito"]=false;
 					$jres["mensaje"]="Usuario desactivado.";
@@ -26,6 +34,7 @@ if(isset($_POST["NomForm"]) && $_POST["NomForm"]=="login"){
 				$jres["exito"]=false;
 				$jres["mensaje"]="Contraseña incorrecta.";
 			}
+			
 		}else{
 			$jres["exito"]=false;
 			$jres["mensaje"]="Número de documento de identidad incorrecto.";
