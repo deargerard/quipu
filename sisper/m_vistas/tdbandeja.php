@@ -95,6 +95,7 @@ if (isset($_SESSION['identi']) && !empty($_SESSION['identi'])) {
               <li><a href="#tab_7" data-toggle="tab"><i class="fa fa-circle-o text-blue"></i> Retornar Derivado</a></li>
               <?php if (!is_null($tmp)) { ?>
                 <li><a href="#tab_8" data-toggle="tab"><i class="fa fa-circle-o text-blue"></i> Guías</a></li>
+                <li><a href="#tab_11" data-toggle="tab"><i class="fa fa-circle-o text-blue"></i> Remitos</a></li>
                 <li><a href="#tab_10" data-toggle="tab"><i class="fa fa-circle-o text-blue"></i> Asignaciones</a></li>
               <?php } ?>
             </ul>
@@ -143,6 +144,9 @@ if (isset($_SESSION['identi']) && !empty($_SESSION['identi'])) {
                       <?php if ($imp == 1 || $imp == 2) { ?>
                         <button type="button" class="btn bg-aqua" onclick="f_bandeja('carori',0,0);"><i class="fa fa-toggle-on"></i> Cargo/Original</button>
                         <button type="button" class="btn bg-maroon" onclick="f_bandeja('edidocu',0,0);"><i class="fa fa-edit"></i> Editar</button>
+                      <?php } ?>
+                      <?php if($imp==2 || $imp==60 || $imp==61) { ?>
+                      <button type="button" class="btn bg-primary" onclick="f_bandeja('retgen',0,0);" title="Retornar del generador"><i class="fa fa-reply"></i> Generador</button>
                       <?php } ?>
                       <button type="button" class="btn btn-default" onclick="f_bandeja('movdia',0,0);"><i class="fa fa-exchange"></i> Mov. Diario</button>
                     <?php } ?>
@@ -315,6 +319,18 @@ if (isset($_SESSION['identi']) && !empty($_SESSION['identi'])) {
                 <div class="tab-pane" id="tab_8">
                   <!--Div resultados-->
                   <div class="row" id="r_ban8">
+
+                  </div>
+                  <!--Fin div resultados-->
+                </div>
+                <!-- /.tab-pane -->
+                <div class="tab-pane" id="tab_11">
+                  <div class="col-sm-12">
+                    <button type="button" class="btn bg-teal" onclick="f_bandeja('regrem', <?php echo $imp; ?>, 0)"><i class="fa fa-sticky-note"></i> Registrar Remito</button>
+                    <button type="button" class="btn bg-yellow" onclick="li_ban11(1);"><i class="fa fa-tag"></i> Remitos Generados</button>
+                    <button type="button" class="btn bg-orange" onclick="li_ban11(2);"><i class="fa fa-tag"></i> Remitos Recibidos</button>
+                  </div>
+                  <div class="row" id="r_ban11">
 
                   </div>
                   <!--Fin div resultados-->

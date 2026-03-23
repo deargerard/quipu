@@ -112,16 +112,33 @@ if(accesoadm($cone,$_SESSION['identi'],17)){
             if(isset($_POST['v1']) && !empty($_POST['v1']) && isset($_POST['v2']) && !empty($_POST['v2'])){
                 $v1=iseguro($cone, $_POST['v1']);
                 $v2=iseguro($cone, $_POST['v2']);
-                $cm=mysqli_query($cone, "SELECT estado FROM tdpersonalmp WHERE idtdpersonalmp=$v1;");
+                $cm=mysqli_query($cone, "SELECT estado, idEmpleado FROM tdpersonalmp WHERE idtdpersonalmp=$v1;");
                 if($rm=mysqli_fetch_assoc($cm)){
-                    $nest=$rm['estado']==1 ? 0 : 1;
-                    if(mysqli_query($cone, "UPDATE tdpersonalmp SET estado=$nest WHERE idtdpersonalmp=$v1;")){
-                        $r['e']=true;
-                        $r['m']=mensajesu("¡Listo! Se cambio el estado.");
-                        $r['i']=$v2;
+                    if($rm['estado']){
+                        if(mysqli_query($cone, "UPDATE tdpersonalmp SET estado=0 WHERE idtdpersonalmp=$v1;")){
+                            $r['e']=true;
+                            $r['m']=mensajesu("¡Listo! Se cambio el estado.");
+                            $r['i']=$v2;
+                        }else{
+                            $r['m']=mensajewa("Error, vuelva a intentarlo.");
+                        }
                     }else{
-                        $r['m']=mensajewa("Error, vuelva a intentarlo.");
-                    }
+                            $ce=mysqli_query($cone, "SELECT idtdpersonalmp FROM tdpersonalmp WHERE idEmpleado=".$rm['idEmpleado']." AND estado=1;");
+                            if(mysqli_num_rows($ce)>0){
+                                $r['e']=true;
+                                $r['m']=mensajewa("Error al activar, el personal se encuentre activo en otra mesa de partes.");
+                                $r['i']=$v2;    
+                            }else{
+                                if(mysqli_query($cone, "UPDATE tdpersonalmp SET estado=1 WHERE idtdpersonalmp=$v1;")){
+                                    $r['e']=true;
+                                    $r['m']=mensajesu("¡Listo! Se cambio el estado.");
+                                    $r['i']=$v2;
+                                }else{
+                                    $r['m']=mensajewa("Error, vuelva a intentarlo.");
+                                }
+                            }
+                            mysqli_free_result($ce);
+                    }                        
                 }else{
                     $r['m']=mensajewa("Error, datos inválidos.");
                 }

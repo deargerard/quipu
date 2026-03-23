@@ -8,7 +8,6 @@ if(accesocon($cone,$_SESSION['identi'],17)){
 ?>
 <div class="col-sm-6">
     <h5 class="text-muted text-blue" style="font-weight: 600;"><i class="fa fa-table text-yellow"></i> <b>DOCUMENTOS PARA ATENDER</b></h5>
-    <input type="hidden" id="idmp" value="<?php echo $rm['idtdmesapartes']; ?>">
 </div>
 <div class="col-sm-6">
     <p class="text-right text-muted" style="font-size: 11px;"><i class="fa fa-refresh text-yellow"></i> Alctualizado al <?php echo date('d/m/Y h:i:s A'); ?></p>

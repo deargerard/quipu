@@ -117,6 +117,33 @@ $("#b_bdpen").click(function(){
 })
 // FIN BOTON LLAMA A LA FUNCIÓN DOCUMENTOS PENDIENTES POR MESA DE PARTES
 
+// FUNCION BUSCAR REMITOS
+function brem(mprem, mrem, amb){
+  
+  $.ajax({
+    type: "post",
+    url: "m_inclusiones/a_tdocumentario/bremito.php",
+    data: {mprem : mprem , mrem : mrem, amb : amb},
+    dataType: "html",
+    beforeSend: function () {
+      $("#r_rep6").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
+    },
+    success:function(a){      
+      $("#r_rep6").html(a);      
+    }
+  });
+}
+// FIN FUNCION BUSCAR REMITOS
+//BOTON LLAMA A LA FUNCIÓN REMITOS
+$("#b_rem").click(function(){
+  var mprem=$("#mprem").val();
+  var mrem=$("#mrem").val();
+  var amb=$("#amb").val();
+
+  brem(mprem, mrem, amb);
+  
+})
+// FIN BOTON LLAMA A LA FUNCIÓN REMITOS
 
 // FUNCION BUSCAR DOCUMENTO POR DATOS
 function bdocd(ndoc, ano, tip, per, dext, dint){

@@ -26,6 +26,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
               <li><a href="#tab_3" data-toggle="tab"><i class="fa fa-circle-o text-gray"></i> Documentos/Trabajador</a></li>
               <li><a href="#tab_4" data-toggle="tab"><i class="fa fa-circle-o text-gray"></i> Pendientes/M.Partes</a></li>
               <li><a href="#tab_5" data-toggle="tab"><i class="fa fa-circle-o text-gray"></i> Por datos de Documento</a></li>
+              <li><a href="#tab_6" data-toggle="tab"><i class="fa fa-circle-o text-gray"></i> Remitos</a></li>
             </ul>
             <div class="tab-content">
               <div class="tab-pane active" id="tab_1">
@@ -136,7 +137,6 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
 
               </div>
               <!-- /.tab-pane -->
-
               <div class="tab-pane" id="tab_4">
                 <!--Formulario busqueda-->
                 <form class="form-inline" id="f_rep4">                    
@@ -213,6 +213,38 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 </div>
                 <!--Fin div resultados-->
                 
+              </div>
+              <!-- /.tab-pane -->
+              <div class="tab-pane" id="tab_6">
+                <!--Formulario busqueda-->
+                <form class="form-inline" id="f_rep6">                    
+                    
+                    <div class="form-group">
+                      <select class="form-control" name="mprem" id="mprem" style="width: 450px;">
+                          
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <div class="input-group date" id="d_rano">
+                        <input type="text" name="mrem" id="mrem" class="form-control" value="<?php echo date('m/Y'); ?>">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                        <select name="amb" id="amb" class="form-control">
+                            <option value="1">Local</option>
+                            <option value="2">Nacional</option>                         
+                        </select>
+                    </div>
+                    <button type="button" class="btn btn-info" id="b_rem"><i class="fa fa-search"></i> Buscar </button>
+                </form>
+                <!--Fin formulario busqueda-->
+                <!--Div resultados-->
+                <hr>
+                <div id="r_rep6">
+                  <h4 class="text-aqua"><strong>Resultados</strong></h4>
+                </div>
+                <!--Fin div resultados-->
               </div>
               <!-- /.tab-pane -->
             </div>

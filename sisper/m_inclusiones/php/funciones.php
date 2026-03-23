@@ -1364,4 +1364,39 @@ function distritoLab($con, $iem){
 		return "Dis Error";
 	}
 }
+
+function diasHabiles($conexion, $fechaInicio, $fechaFin){
+	//Validamos el orden de las fechas
+	if(strtotime($fechaInicio) > strtotime($fechaFin)){
+		return 0;
+	}
+	//Consultamos feriados que no sean sábados ni domingos
+	$feriados = array();
+	$sql="SELECT Fecha FROM feriados WHERE fecha BETWEEN '$fechaInicio' AND '$fechaFin' AND WEEKDAY(Fecha) < 5;";
+	$resultado = mysqli_query($conexion, $sql);
+	if(mysqli_num_rows($resultado) > 0){
+		while($fila = mysqli_fetch_assoc($resultado)){
+			$feriados[] = $fila['Fecha'];
+		}
+	}
+	
+	//proceso de conteo con DateTime
+	$inicio = new DateTime($fechaInicio);
+	$fin = new DateTime($fechaFin);
+	//$fin->modify('+1 day'); // Incluimos el último día
+
+	$intervalo = new DateInterval('P1D');
+	$periodo = new DatePeriod($inicio, $intervalo, $fin);
+
+	$diasHabiles = 0;
+
+	foreach ($periodo as $fecha) {
+		$diaSemana = $fecha->format('N');
+		$fechaStr = $fecha->format('Y-m-d');
+		if ($diaSemana < 6 && !in_array($fechaStr, $feriados)) {
+			$diasHabiles++;
+		}
+	}
+	return $diasHabiles;
+}
 ?>

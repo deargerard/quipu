@@ -2260,6 +2260,550 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                     }
                     mysqli_free_result($cdg);
                 
+        }elseif($acc=="regrem"){
+            $idem=$_SESSION['identi'];
+            $idl=idlocempleado($cone, $idem);  
+?>
+        <div class="row">
+            <input type="hidden" name="acc" value="<?php echo $acc; ?>">
+            <input type="hidden" name="imp" value="<?php echo $v1; ?>">
+            <div class="col-sm-12">
+                <label for="remdes">Destino<small class="text-red">*</small></label>
+                <select class="form-control" id="remdes" name="remdes" style="width: 100%;">
+
+                </select>
+            </div>
+            <div class="col-sm-4">
+                <label for="remnum">Número<small class="text-red">*</small></label>
+                <input type="text" name="remnum" id="remnum" class="form-control">
+            </div>
+            <div class="col-sm-4">
+                <label for="rempes">Peso<small class="text-red">*</small></label>
+                <input type="number" name="rempes" id="rempes" class="form-control" step="0.01">
+            </div>
+            <div class="col-sm-4 acta">
+                <label for="remacta">Número de acta<small class="text-red">*</small></label>
+                <input type="text" name="remacta" id="remacta" class="form-control">
+            </div>
+        </div>
+        <div class="form-group" id="d_frespuesta">
+        </div>
+        <script>
+            //mostrar numero de acta solo si el peso es mayor o igual a 30
+            $('.acta').hide();
+            $('#rempes').on('input', function(){
+                var peso=parseFloat($(this).val());
+                if(peso>=30){
+                    $('.acta').show();
+                }else{
+                    $('.acta').hide();
+                    $('#remacta').val('');
+                }
+            });
+            $("#remdes").select2({
+              placeholder: 'Selecione el destino',
+              ajax: {
+                url: 'm_inclusiones/a_general/a_selmpartes.php',
+                dataType: 'json',
+                delay: 250,
+                processResults: function (data) {
+                  return {
+                    results: data
+                  };
+                },
+                cache: true
+              },
+              minimumInputLength: 4
+            });
+        </script>  
+<?php
+
+        }elseif($acc=="edirem"){
+            if(isset($v1) && !empty($v1)){
+                $cr=mysqli_query($cone, "SELECT * FROM tdremito WHERE idtdremito=$v1;");
+                if($rr=mysqli_fetch_assoc($cr)){
+
+                    $idem=$_SESSION['identi'];
+?>
+        <div class="row">
+            <input type="hidden" name="acc" value="<?php echo $acc; ?>">
+            <input type="hidden" name="idrem" value="<?php echo $v1; ?>">
+            <div class="col-sm-12">
+                <label for="remdes">Destino<small class="text-red">*</small></label>
+                <select class="form-control" id="remdes" name="remdes" style="width: 100%;">
+                <?php
+                $cmp=mysqli_query($cone, "SELECT denominacion FROM tdmesapartes WHERE idtdmesapartes=$rr[mp_destino];");
+                if($rmp=mysqli_fetch_assoc($cmp)){
+                    echo '<option value="'.$rr['mp_destino'].'" selected>'.$rmp['denominacion'].'</option>';
+                }
+                mysqli_free_result($cmp);
+                ?>
+                </select>
+            </div>
+            <div class="col-sm-6">
+                <label for="remnum">Número<small class="text-red">*</small></label>
+                <input type="text" name="remnum" id="remnum" class="form-control" value="<?php echo $rr['num_remito'] ?>">
+            </div>
+            <div class="col-sm-6">
+                <label for="rempes">Peso<small class="text-red">*</small></label>
+                <input type="number" name="rempes" id="rempes" class="form-control" step="0.01" value="<?php echo $rr['peso'] ?>">
+            </div>
+        </div>
+        <div class="form-group" id="d_frespuesta">
+        </div>
+        <script>
+            $("#remdes").select2({
+              placeholder: 'Selecione el destino',
+              ajax: {
+                url: 'm_inclusiones/a_general/a_selmpartes.php',
+                dataType: 'json',
+                delay: 250,
+                processResults: function (data) {
+                  return {
+                    results: data
+                  };
+                },
+                cache: true
+              },
+              minimumInputLength: 4
+            });
+        </script>  
+<?php
+                }else{
+                    echo mensajewa("No se halló el remito.");
+                }
+                mysqli_free_result($cr);
+            }else{
+                echo mensajewa("Error: Faltan datos.");
+            }
+        }elseif($acc=="fecrem"){
+            if(isset($v1) && !empty($v1)){
+                $cr=mysqli_query($cone, "SELECT fecha_remite FROM tdremito WHERE idtdremito=$v1;");
+                if($rr=mysqli_fetch_assoc($cr)){
+                    $idem=$_SESSION['identi'];
+                    $idl=idlocempleado($cone, $idem);  
+?>
+        <div class="row">
+            <input type="hidden" name="acc" value="<?php echo $acc; ?>">
+            <input type="hidden" name="idrem" value="<?php echo $v1; ?>">
+            <div class="col-sm-12">
+                <label for="fec">Fecha Remite<small class="text-red">*</small></label>
+                <input type="text" name="fec" id="fec" class="form-control" value="<?php echo date('d/m/Y', strtotime($rr['fecha_remite'])); ?>">
+            </div>
+        </div>
+        <div class="form-group" id="d_frespuesta">
+        </div>
+        <script>
+            $("#fec").datepicker({
+                format: "dd/mm/yyyy",
+                autoclose: true,
+                language: "es",
+                todayHighlight: true,
+                minViewMode: 0,
+                maxViewMode: 2
+            });
+        </script>  
+<?php
+                }else{
+                    echo mensajewa("No se halló el remito.");
+                }
+                mysqli_free_result($cr);
+            }else{
+                echo mensajewa("Error: Faltan datos.");
+            }
+        }elseif($acc=="feccar"){
+            if(isset($v1) && !empty($v1)){
+                $cr=mysqli_query($cone, "SELECT fecha_cargo FROM tdremito WHERE idtdremito=$v1;");
+                if($rr=mysqli_fetch_assoc($cr)){
+                    $idem=$_SESSION['identi'];
+                    $idl=idlocempleado($cone, $idem);  
+?>
+        <div class="row">
+            <input type="hidden" name="acc" value="<?php echo $acc; ?>">
+            <input type="hidden" name="idrem" value="<?php echo $v1; ?>">
+            <div class="col-sm-12">
+                <label for="fec">Fecha Cargo<small class="text-red">*</small></label>
+                <input type="text" name="fec" id="fec" class="form-control" value="<?php echo $rr['fecha_cargo'] ? date('d/m/Y', strtotime($rr['fecha_cargo'])) : date('d/m/Y'); ?>">
+            </div>
+        </div>
+        <div class="form-group" id="d_frespuesta">
+        </div>
+        <script>
+            $("#fec").datepicker({
+                format: "dd/mm/yyyy",
+                autoclose: true,
+                language: "es",
+                todayHighlight: true,
+                minViewMode: 0,
+                maxViewMode: 2
+            });
+        </script>  
+<?php
+                }else{
+                    echo mensajewa("No se halló el remito.");
+                }
+                mysqli_free_result($cr);
+            }else{
+                echo mensajewa("Error: Faltan datos.");
+            }
+        }elseif($acc=="fecrec"){
+            if(isset($v1) && !empty($v1)){
+                $cr=mysqli_query($cone, "SELECT fecha_recepcion FROM tdremito WHERE idtdremito=$v1;");
+                if($rr=mysqli_fetch_assoc($cr)){
+                    $idem=$_SESSION['identi'];
+                    $idl=idlocempleado($cone, $idem);  
+?>
+        <div class="row">
+            <input type="hidden" name="acc" value="<?php echo $acc; ?>">
+            <input type="hidden" name="idrem" value="<?php echo $v1; ?>">
+            <input type="hidden" name="origen" value="<?php echo $v2; ?>">
+            <div class="col-sm-12">
+                <label for="fec">Fecha Recepción<small class="text-red">*</small></label>
+                <input type="text" name="fec" id="fec" class="form-control" value="<?php echo $rr['fecha_recepcion'] ? date('d/m/Y', strtotime($rr['fecha_recepcion'])) : date('d/m/Y'); ?>">
+            </div>
+        </div>
+        <div class="form-group" id="d_frespuesta">
+        </div>
+        <script>
+            $("#fec").datepicker({
+                format: "dd/mm/yyyy",
+                autoclose: true,
+                language: "es",
+                todayHighlight: true,
+                minViewMode: 0,
+                maxViewMode: 2
+            });
+        </script>  
+<?php
+                }else{
+                    echo mensajewa("No se halló el remito.");
+                }
+                mysqli_free_result($cr);
+            }else{
+                echo mensajewa("Error: Faltan datos.");
+            }
+        }elseif($acc=="elirem"){
+            if(isset($v1) && !empty($v1)){
+                $cr=mysqli_query($cone, "SELECT num_remito FROM tdremito WHERE idtdremito=$v1;");
+                if($rr=mysqli_fetch_assoc($cr)){
+                    $crg=mysqli_query($cone, "SELECT idtdguia_remito FROM tdguia_remito WHERE idtdremito=$v1;");
+                    if(mysqli_num_rows($crg)>0){
+?>
+                        <div class="row">
+                            <div class="col-sm-12 text-center">
+                                <h4 class="text-warning">El remito <?php echo $rr['num_remito']; ?> no se puede eliminar porque tiene guías asociadas.</h4>
+                                <small>Si desea eliminarlo, primero elimine las guías asociadas.</small>
+                            </div>
+                        </div>
+<?php
+                    }else{
+                        
+                    
+?>
+                    <div class="row">
+                        <input type="hidden" name="acc" value="<?php echo $acc; ?>">
+                        <input type="hidden" name="idrem" value="<?php echo $v1; ?>">
+                        <div class="col-sm-12 text-center">
+                            <h4 class="text-red">¿Está seguro de eliminar el remito <?php echo $rr['num_remito']; ?>?</h4>
+                            <small>Esta acción no se puede deshacer.</small>
+                        </div>
+                    </div>
+                    <div class="form-group" id="d_frespuesta">
+                    </div> 
+<?php
+                    }
+                    mysqli_free_result($crg);
+                }else{
+                    echo mensajewa("No se halló el remito.");
+                }
+                mysqli_free_result($cr);
+            }else{
+                echo mensajewa("Error: Faltan datos.");
+            }
+        }elseif($acc=="detrem"){
+            if(isset($v1) && !empty($v1) && isset($v2) && !empty($v2)){
+                $cr=mysqli_query($cone, "SELECT * FROM tdremito WHERE idtdremito=$v1;");
+                if($rr=mysqli_fetch_assoc($cr)){
+?>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table class="table table-bordered table-hover" style="font-size: 12px;">
+                                <tr>
+                                    <td>
+                                        <small class="text-muted">REMITO</small><br>
+                                        <span class="text-red" style="font-size: 14px;"><?php echo $rr['num_remito']; ?></span>
+                                    </td>
+                                    <td>
+                                        <small class="text-muted">PESO</small><br>
+                                        <?php echo $rr['peso']; ?> kg
+                                    </td>
+                                    <td>
+                                        <small class="text-muted">FECHA REMITE</small><br>
+                                        <?php echo date('d/m/Y', strtotime($rr['fecha_remite'])); ?>
+                                        <br><small class="text-gray"><?php echo $rr['r_remite'] ? nomempleado($cone, $rr['r_remite']) : ""; ?></small>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <small class="text-muted">REMITE</small><br>
+                                        <?php echo nommpartes($cone, $rr['mp_remite']); ?>
+                                    </td>
+                                    <td>
+                                        <small class="text-muted">FECHA RECEPCIÓN</small><br>
+                                        <?php echo $rr['fecha_recepcion'] ? date('d/m/Y', strtotime($rr['fecha_recepcion'])) : ""; ?>
+                                        <br><small class="text-gray"><?php echo $rr['r_recepcion'] ? nomempleado($cone, $rr['r_recepcion']) : ""; ?></small>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <small class="text-muted">DESTINO</small><br>
+                                        <?php echo nommpartes($cone, $rr['mp_destino']); ?>
+                                    </td>
+                                    <td>
+                                        <small class="text-muted">FECHA CARGO</small><br>
+                                        <?php echo $rr['fecha_cargo'] ? date('d/m/Y', strtotime($rr['fecha_cargo'])) : ""; ?>
+                                        <br><small class="text-gray"><?php echo $rr['r_cargo'] ? nomempleado($cone, $rr['r_cargo']) : ""; ?></small>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-sm-12">
+                            
+                            <?php
+                            $crg=mysqli_query($cone, "SELECT g.idtdguia, g.numero, g.anio FROM tdguia_remito as gr INNER JOIN tdguia g ON gr.idtdguia=g.idtdguia WHERE gr.idtdremito=$v1;");
+                            if(mysqli_num_rows($crg)>0){
+?>
+                                <h4 class="text-center text-muted">GUÍAS ASOCIADAS</h4>
+                                <table class="table table-bordered table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th class="text-center"># GUÍAS</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td class="text-center">
+                                            <?php
+                                            while($rrg=mysqli_fetch_assoc($crg)){       
+                                                echo $rrg['numero']."-".$rrg['anio']." ";
+                                                //boton para eliminar la guía del remito
+                                                if($v2==$rr['mp_remite'] && is_null($rr['fecha_recepcion']) && is_null($rr['fecha_cargo'])){
+                                                    echo '<button type="button" class="btn btn-danger btn-xs" title="Eliminar del remito" onclick="g_elguirem('.$rrg['idtdguia'].', '.$v1.');"><i class="fa fa-times"></i></button> &emsp;';
+                                                }else{
+                                                    echo '&emsp;';
+                                                }
+                                            }
+                                            ?>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+<?php
+                            }else{
+                                echo mensajewa("No hay guías asociadas a este remito.");
+                            }
+                            mysqli_free_result($crg);                    
+                }else{
+                    echo mensajewa("No se halló el remito.");
+                }
+                mysqli_free_result($cr);
+            }else{
+                echo mensajewa("Error: Faltan datos.");
+            }
+        }elseif($acc=="guirem"){
+            if(isset($v1) && !empty($v1)){
+                //Verificar que la guía no esté incluida en un remito
+                $crg=mysqli_query($cone, "SELECT idtdremito FROM tdguia_remito WHERE idtdguia=$v1;");
+                if(mysqli_num_rows($crg)>0){
+                    echo mensajewa("La guía ya está incluida en un remito, no se puede incluir en otro.");
+                    mysqli_free_result($crg);
+                    exit;
+                }
+                mysqli_free_result($crg);
+
+                $cg=mysqli_query($cone, "SELECT numero, anio, fecenvio, idLocal FROM tdguia g INNER JOIN tdmesapartes mp ON g.idtdmesapartesd = mp.idtdmesapartes WHERE idtdguia=$v1;");
+                if($rg=mysqli_fetch_assoc($cg)){
+                    //obtener los ids de las mesas de partes en el local de la guía
+                    $mpd=mysqli_query($cone, "SELECT idtdmesapartes FROM tdmesapartes WHERE idLocal=$rg[idLocal];");
+                    $mpd=mysqli_fetch_all($mpd, MYSQLI_ASSOC);
+?>
+                    <div class="row">
+                        <input type="hidden" name="acc" value="<?php echo $acc; ?>">
+                        <input type="hidden" name="idguia" value="<?php echo $v1; ?>">
+                        <div class="col-sm-12 text-center">
+                            <h4 class="text-maroon">Guía <?php echo $rg['numero'].'-'.$rg['anio']; ?> <small>[<?php echo fnormal($rg['fecenvio']); ?>]</small></h4>
+                        <div class="col-sm-12">
+<?php
+                        //consultar los remitos con la mp_destino igual a la mp_destino de la guía y sin fecha de recepción ni de cargo y de una antiguedad de 2 meses de la fecha de remite
+                        $mpd_ids = array_column($mpd, 'idtdmesapartes');
+                        $mpd_ids_str = implode(',', $mpd_ids);
+                        $cr=mysqli_query($cone, "SELECT idtdremito, num_remito, fecha_remite, mp_destino FROM tdremito WHERE mp_destino IN ($mpd_ids_str) AND fecha_recepcion IS NULL AND fecha_cargo IS NULL AND fecha_remite >= DATE_SUB(NOW(), INTERVAL 2 MONTH) ORDER BY fecha_remite DESC;");
+                        if(mysqli_num_rows($cr)>0){
+?>
+                            <table class="table table-bordered table-hover" style="font-size: 12px;">
+                                <tr>
+                                    <th>#</th>
+                                    <th>REMITO</th>
+                                    <th>DESTINO</th>
+                                    <th>FECHA REMITE</th>
+                                    <th>ACCIONES</th>
+                                </tr>
+<?php
+                                $n=0;
+                                while($rr=mysqli_fetch_assoc($cr)){
+                                    $n++;
+?>
+                                <tr>
+                                    <td><?php echo $n; ?></td>
+                                    <td><?php echo $rr['num_remito']; ?></td>
+                                    <td><?php echo nommpartes($cone,$rr['mp_destino']); ?></td>
+                                    <td><?php echo fnormal($rr['fecha_remite']); ?></td>
+                                    <td>
+                                        <button type="button" class="btn bg-orange btn-xs" id="btn-guiaremito" title="Incluir en Remito" onclick="g_guirem(<?php echo $v1.','.$rr['idtdremito']; ?>)"><i class="fa fa-check"></i></button>
+                                    </td>
+                                </tr>
+<?php
+                                }
+                                mysqli_free_result($cr);
+                        }else{
+                            echo mensajewa("No hay remitos disponibles con el mismo destino donde incluir la guía.");
+                        }
+?>
+                        </div>
+                    </div>
+                    <div class="form-group" id="d_frespuesta">
+                    </div>
+
+<?php
+                }else{
+                    echo mensajewa("No se halló el remito.");
+                }
+                mysqli_free_result($cg);
+            }else{
+                echo mensajewa("Error: Faltan datos.");
+            }
+        }elseif($acc=="retgen"){
+            $idem=$_SESSION['identi'];
+            $idl=idlocempleado($cone, $idem);  
+?>
+        
+        <div class="row">
+            <div class="col-sm-4">
+                <label for="num">Número<small class="text-red">*</small></label>
+                <input type="number" name="num" id="num" class="form-control">
+            </div>
+            <div class="col-sm-4">
+                <label for="ano">Año<small class="text-red">*</small></label>
+                <div class="input-group date" id="d_ano">
+                    <input type="text" name="ano" id="ano" class="form-control" value="<?php echo date('Y'); ?>">
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                </div>
+                    
+            </div>
+            <div class="col-sm-4">
+                <label>&nbsp;</label>
+                <button type="button" class="btn btn-info btn-block" id="b_bretgen"><i class="fa fa-search"></i> Buscar</button>
+            </div>
+        </div>
+        <div class="form-group" id="d_frespuesta">
+        </div>
+        <script>
+            $('#d_ano').datepicker({
+                format: 'yyyy',
+                language: 'es',
+                autoclose: true,
+                minViewMode: 2,
+                maxViewMode: 2,
+                todayHighlight: true
+            });
+            $('#b_bretgen').on('click', function(){
+              var num=$('#num').val();
+              var ano=$('#ano').val();
+              $.ajax({
+                type: "post",
+                url: "m_inclusiones/a_tdocumentario/f_bandeja.php",
+                data: {v1: num, v2: ano, acc: 'busretgen'},
+                dataType: "html",
+                beforeSend: function(){
+                  $("#d_frespuesta").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
+                },
+                success:function(a){                
+                    $("#d_frespuesta").html(a);
+                }
+              });
+            });
+        </script>  
+<?php
+        }elseif($acc=="busretgen"){
+            if(isset($v1) && !empty($v1) && isset($v2) && !empty($v2)){
+                $cd=mysqli_query($cone, "SELECT d.idDoc, d.Numero, d.Ano, d.Siglas, d.FechaDoc, d.remitenteext, d.remitenteint, d.destinatarioext, d.destinatarioint, d.deporigenext, d.deporigenint, d.depdestinoext, d.depdestinoint, d.numdoc, d.asunto, d.idTipoDoc, td.TipoDoc, d.cargo FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc WHERE numdoc=$v1 AND Ano=$v2;");
+                if($rd=mysqli_fetch_assoc($cd)){
+                    $idd=$rd['idDoc'];
+
+                    $idem=$_SESSION['identi'];
+
+                    //consultamos la mesa de partes del empleado
+                    $cmpe=mysqli_query($cone, "SELECT idtdmesapartes FROM tdpersonalmp WHERE idEmpleado=$idem AND estado=1;");
+                    if($rmpe=mysqli_fetch_assoc($cmpe)){
+                        $idmp=$rmpe['idtdmesapartes'];
+                    }else{
+                        echo mensajewa("El personal no tiene asignada una mesa de partes.");
+                        exit;
+                    }
+?> 
+        <div class="row">
+            <div class="col-sm-12">
+                <br>
+                <table class="table table-bordered table-hover" style="font-size: 12px;">
+                    <tr>
+                        <th># DOC.</th>
+                        <th>DOCUMENTO</th>
+                        <th>REMITENTE</th>
+                        <th>DESTINATARIO</th>
+                    </tr>
+                    <tr>
+                        <td class="text-orange"><?php echo $rd['numdoc']."-".$rd['Ano']; ?></td>
+                        <td class="text-blue"><?php echo ((!is_null($rd['Numero']) ? $rd['Numero']."-" : "").$rd['Ano'].(!is_null($rd['Siglas']) ? "-".$rd['Siglas'] : "")); ?><br><small class="text-purple"><?php echo $rd['TipoDoc']; ?></small> <small class="text-yellow"><?php echo $rd['cargo']==1 ? "(CARGO)" : "(ORIGINAL)"; ?></small></td>
+                        <td class="text-blue"><?php echo !is_null($rd['remitenteint']) ? nomempleado($cone, $rd['remitenteint']) : $rd['remitenteext']; ?><br><small class="text-purple"><?php echo !is_null($rd['deporigenint']) ? nomdependencia($cone, $rd['deporigenint']) : $rd['deporigenext']; ?></small></td>
+                        <td class="text-blue"><?php echo !is_null($rd['destinatarioint']) ? nomempleado($cone, $rd['destinatarioint']) : $rd['destinatarioext']; ?><br><small class="text-purple"><?php echo !is_null($rd['depdestinoint']) ? nomdependencia($cone, $rd['depdestinoint']) : $rd['depdestinoext']; ?></small></td>
+                    </tr>
+                    <tr>
+                        <th>FECHA</th>
+                        <th colspan="3">ASUNTO</th>
+                    </tr>
+                    <tr>
+                        <td><?php echo fnormal($rd['FechaDoc']); ?></td>
+                        <td colspan="3"><?php echo $rd['asunto']; ?></td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" align="center">
+                            <?php
+                            //consultadomos su estado actual
+                            $cest=mysqli_query($cone, "SELECT idtdestadodoc FROM tdestadodoc WHERE idDoc=$idd AND idtdmesapartes=$idmp AND estado=1 AND idtdestado=6;");
+                            if(mysqli_num_rows($cest)>0){
+                                $rest=mysqli_fetch_assoc($cest);
+                            ?>
+                            <button type="button" class="btn btn-primary" id="b_retgen" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Retornando..." onclick="g_retgen(<?php echo $rest['idtdestadodoc']; ?>);"><i class="fa fa-reply"></i> Retornar de generador</button>
+                            <?php
+                            }else{
+                                echo mensajewa("El documento no ha sido enviado al generador o no corresponde a su mesa de partes.");
+                            }
+                            ?>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-sm-12" id="d_rcc"></div>
+        </div>
+<?php
+                }else{
+                    echo mensajewa("No se halló el documento.");
+                }
+                mysqli_free_result($cd);
+            }else{
+                echo mensajewa("Ingrese número y año del documento.");
+            }
+
         }//acafin
 	}else{
 		echo mensajewa("Error: Faltan datos.");

@@ -1135,9 +1135,232 @@ if(accesocon($cone,$_SESSION['identi'],17)){
             }else{
                 $r['m']=mensajewa("Faltan datos.");
             }
+        }elseif($acc=="regrem"){
+            if(isset($_POST['imp']) && !empty($_POST['imp']) && isset($_POST['remdes']) && !empty($_POST['remdes']) && isset($_POST['remnum']) && !empty($_POST['remnum']) && isset($_POST['rempes']) && !empty($_POST['rempes'])){
+                $imp=iseguro($cone, $_POST['imp']);
+                $remdes=iseguro($cone, $_POST['remdes']);
+                $remnum=iseguro($cone, $_POST['remnum']);
+                $rempes=iseguro($cone, $_POST['rempes']);
+
+                $idem=$_SESSION['identi'];
+
+                if($rempes<=0){
+                    $r['m']=mensajewa("El peso debe ser mayor a 0.");
+                }else{
+                    if($imp==$remdes){
+                    $r['m']=mensajewa("Elija otro destino, no puede ser el mismo que remite.");
+                    }else{
+                        if($rempes>=30 && empty($_POST['remacta'])){
+                            $r['m']=mensajewa("Ingrese el número de acta para pesos mayores o iguales a 30 kg.");
+                        }else{
+
+                            $remacta=vacio(iseguro($cone, $_POST['remacta']));
+
+                            $q="INSERT INTO tdremito (num_remito, mp_remite, mp_destino, peso, fecha_remite, r_remite, num_acta) VALUES ('$remnum', $imp, $remdes, $rempes,NOW(), $idem, $remacta);";
+                        
+                            if(mysqli_query($cone, $q)){
+                                $r['m']=mensajesu("Remito registrado.");
+                                $r['e']=true;
+                            }else{
+                                $r['m']=mensajewa("Error al registrar remito, vuelva a intentarlo. $q");
+                            }
+                        }
+                    }
+                }
+            }else{
+                $r['m']=mensajewa("Faltan datos.");
+            }
+        }elseif($acc=="edirem"){
+            if(isset($_POST['idrem']) && !empty($_POST['idrem']) && isset($_POST['remdes']) && !empty($_POST['remdes']) && isset($_POST['remnum']) && !empty($_POST['remnum']) && isset($_POST['rempes']) && !empty($_POST['rempes'])){
+                $idrem=iseguro($cone, $_POST['idrem']);
+
+                $cr=mysqli_query($cone, "SELECT * FROM tdremito WHERE idtdremito=$idrem;");
+                if($rr=mysqli_fetch_assoc($cr)){
+
+                $remdes=iseguro($cone, $_POST['remdes']);
+                $remnum=iseguro($cone, $_POST['remnum']);
+                $rempes=iseguro($cone, $_POST['rempes']);
+
+                $idem=$_SESSION['identi'];
+
+                    if($rr['mp_remite']==$remdes){
+                        $r['m']=mensajewa("Elija otro destino, no puede ser el mismo que remite.");
+                    }else{
+                        $q="UPDATE tdremito SET num_remito='$remnum', mp_destino=$remdes, peso=$rempes, r_remite=$idem WHERE idtdremito=$idrem;";
+                        if(mysqli_query($cone, $q)){
+                            $r['m']=mensajesu("Remito editado.");
+                            $r['e']=true;
+                        }else{
+                            $r['m']=mensajewa("Error al editar remito, vuelva a intentarlo. ");
+                        }
+                    }
+                }else{
+                    $r['m']=mensajewa("Error, datos erroneos del remito.");
+                }
+                mysqli_free_result($cr);
+            }else{
+                $r['m']=mensajewa("Faltan datos.");
+            }
+        }elseif($acc=="fecrem"){
+            if(isset($_POST['idrem']) && !empty($_POST['idrem']) && isset($_POST['fec']) && !empty($_POST['fec'])){
+                $idrem=iseguro($cone, $_POST['idrem']);
+
+                $cr=mysqli_query($cone, "SELECT * FROM tdremito WHERE idtdremito=$idrem;");
+                if($rr=mysqli_fetch_assoc($cr)){
+
+                    $fec=fmysql(iseguro($cone, $_POST['fec']));
+                    $idem=$_SESSION['identi'];
+                    
+                        $q="UPDATE tdremito SET fecha_remite='$fec', r_remite=$idem WHERE idtdremito=$idrem;";
+                        if(mysqli_query($cone, $q)){
+                            $r['m']=mensajesu("Fecha de remito editada.");
+                            $r['e']=true;
+                        }else{
+                            $r['m']=mensajewa("Error al editar fecha de remito, vuelva a intentarlo. ");
+                        }
+                    
+                }else{
+                    $r['m']=mensajewa("Error, datos erroneos del remito.");
+                }
+                mysqli_free_result($cr);
+            }else{
+                $r['m']=mensajewa("Faltan datos.");
+            }
+        }elseif($acc=="fecrec"){
+            if(isset($_POST['idrem']) && !empty($_POST['idrem']) && isset($_POST['fec']) && !empty($_POST['fec'])){
+                $idrem=iseguro($cone, $_POST['idrem']);
+
+                $cr=mysqli_query($cone, "SELECT * FROM tdremito WHERE idtdremito=$idrem;");
+                if($rr=mysqli_fetch_assoc($cr)){
+
+                    $fec=fmysql(iseguro($cone, $_POST['fec']));
+                    $idem=$_SESSION['identi'];
+                    
+                        $q="UPDATE tdremito SET fecha_recepcion='$fec', r_recepcion=$idem WHERE idtdremito=$idrem;";
+                        if(mysqli_query($cone, $q)){
+                            $r['m']=mensajesu("Fecha de recepción editada.");
+                            $r['e']=true;
+                        }else{
+                            $r['m']=mensajewa("Error al editar fecha de recepción, vuelva a intentarlo. ");
+                        }
+                    
+                }else{
+                    $r['m']=mensajewa("Error, datos erroneos del remito.");
+                }
+                mysqli_free_result($cr);
+            }else{
+                $r['m']=mensajewa("Faltan datos.");
+            }
+        }elseif($acc=="feccar"){
+            if(isset($_POST['idrem']) && !empty($_POST['idrem']) && isset($_POST['fec']) && !empty($_POST['fec'])){
+                $idrem=iseguro($cone, $_POST['idrem']);
+
+                $cr=mysqli_query($cone, "SELECT * FROM tdremito WHERE idtdremito=$idrem;");
+                if($rr=mysqli_fetch_assoc($cr)){
+
+                    $fec=fmysql(iseguro($cone, $_POST['fec']));
+                    $idem=$_SESSION['identi'];
+                    
+                        $q="UPDATE tdremito SET fecha_cargo='$fec', r_cargo=$idem WHERE idtdremito=$idrem;";
+                        if(mysqli_query($cone, $q)){
+                            $r['m']=mensajesu("Fecha de cargo editada.");
+                            $r['e']=true;
+                        }else{
+                            $r['m']=mensajewa("Error al editar fecha de cargo, vuelva a intentarlo. ");
+                        }
+                    
+                }else{
+                    $r['m']=mensajewa("Error, datos erroneos del remito.");
+                }
+                mysqli_free_result($cr);
+            }else{
+                $r['m']=mensajewa("Faltan datos.");
+            }
+        }elseif($acc=="elirem"){
+            if(isset($_POST['idrem']) && !empty($_POST['idrem'])){
+                $idrem=iseguro($cone, $_POST['idrem']);
+                $cgr=mysqli_query($cone, "SELECT idtdguia_remito FROM tdguia_remito WHERE idtdremito=$idrem;");
+                if(mysqli_num_rows($cgr)==0){
+                    if(mysqli_query($cone, "DELETE FROM tdremito WHERE idtdremito=$idrem;")){
+                        $r['m']=mensajesu("Remito eliminado.");
+                        $r['e']=true;
+                    }else{
+                        $r['m']=mensajewa("Error al eliminar remito, vuelva a intentarlo. ");
+                    }
+                }else{
+                    $r['m']=mensajewa("No se puede eliminar el remito, tiene guías asociadas.");
+                }
+                mysqli_free_result($cgr);
+            }else{
+                $r['m']=mensajewa("Faltan datos.");
+            }
+        }elseif($acc=="guirem"){
+            if(isset($_POST['guia']) && !empty($_POST['guia']) && isset($_POST['remito']) && !empty($_POST['remito'])){
+                $guia=iseguro($cone, $_POST['guia']);
+                $remito=iseguro($cone, $_POST['remito']);
+                $idem=$_SESSION['identi'];
+                
+                $cgr=mysqli_query($cone, "SELECT idtdguia_remito FROM tdguia_remito WHERE idtdguia=$guia;");
+                if($rgr=mysqli_fetch_assoc($cgr)){
+                    $r['m']="La guía ya fue agregada a un remito.";
+                }else{
+                    if(mysqli_query($cone, "INSERT INTO tdguia_remito (idtdguia, idtdremito, responsable, fecha) VALUES ($guia, $remito, $idem, NOW());")){
+                        $r['m']="Guía agregada al remito.";
+                        $r['e']=true;
+                    }else{
+                        $r['m']="Error al agregar guía al remito, vuelva a intentarlo. ";
+                    }
+                }
+                mysqli_free_result($cgr);
+            }else{
+                $r['m']="Faltan datos.";
+            }
+        }elseif($acc=="elguirem"){
+            if(isset($_POST['guia']) && !empty($_POST['guia'])){
+                $guia=iseguro($cone, $_POST['guia']);
+                $idem=$_SESSION['identi'];
+                
+                //eliminamos el registro en tdguia_remito que tenga el idtdguia=$guia
+                if(mysqli_query($cone, "DELETE FROM tdguia_remito WHERE idtdguia=$guia;")){
+                    $r['m']="Guía eliminada del remito.";
+                    $r['e']=true;
+                }else{
+                    $r['m']="Error al eliminar guía del remito, vuelva a intentarlo. ";
+                }
+            }else{
+                $r['m']="Faltan datos.";
+            }
+        }elseif($acc=="fecharec"){
+            if(isset($_POST['remito']) && !empty($_POST['remito'])){
+                $remito=iseguro($cone, $_POST['remito']);
+                $idem=$_SESSION['identi'];
+                
+                //actualizamos la fecha de recepción del remito con la fecha actual y el responsable de la actualización
+                if(mysqli_query($cone, "UPDATE tdremito SET fecha_recepcion=NOW(), r_recepcion=$idem WHERE idtdremito=$remito;")){
+                    $r['m']="Remito recibido, se registró fecha y responsable.";
+                    $r['e']=true;
+                }else{
+                    $r['m']="Error al recibir remito, vuelva a intentarlo. ";
+                }
+            }else{
+                $r['m']="Faltan datos.";
+            }
+        }elseif($acc=="retgen"){
+            if(isset($_POST['ides']) && !empty($_POST['ides'])){
+                $ides=iseguro($cone, $_POST['ides']);
+                $idem=$_SESSION['identi'];
+                    if(mysqli_query($cone, "UPDATE tdestadodoc SET idtdestado=2, fecha=NOW(), idEmpleado=NULL, asignador=$idem WHERE idtdestadodoc=$ides")){
+                        $r['m']=mensajesu("Documento retornado a estado de recibido.");
+                        $r['e']=true;
+                    }else{
+                        $r['m']=mensajewa("Error al retornar documento, vuelva a intentarlo. ");
+                    }
+            }else{
+                $r['m']=mensajewa("Faltan datos.");
+            }
         }//acafin
 	}else{
-		$r['m']=mensajewa("Error: Ne envio la acción.");
+		$r['m']=mensajewa("Error: No envió la acción.");
 	}
 }else{
     $r['m']=mensajewa("Acceso restringido.");

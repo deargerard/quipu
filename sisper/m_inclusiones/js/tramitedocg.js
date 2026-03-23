@@ -189,8 +189,24 @@ function li_ban10() {
     }
   });
 }
+function li_ban11(origen) {
+  $.ajax({
+    type: "post",
+    data: { origen: origen },
+    url: "m_inclusiones/a_tdocumentario/li_ban11.php",
+    dataType: "html",
+    beforeSend: function () {
+      $("#r_ban11").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
+    },
+    success: function (a) {
+      $("#r_ban11").html(a);
+    }
+  });
+}
 function f_bandeja(acc, v1, v2) {
   $("#m_tamano").removeClass('modal-lg');
+  $("#m_tamano").removeClass('modal-sm');
+  $("#b_guardar").html('<i class="fa fa-save"></i> Guardar');
   switch (acc) {
     case 'agrdoc':
       var mt = "<span class='text-muted'><i class='fa fa-file-text-o text-yellow'></i> Registrar/Derivar Documento</span>";
@@ -260,8 +276,43 @@ function f_bandeja(acc, v1, v2) {
       var mt = "<span class='text-muted'><i class='fa fa-edit text-yellow'></i> Editar</span>";
       break;
     case 'movdia':
-      var mt = "<span class='text-muted'><i class='fa fa-edit text-yellow'></i> Mis movimientos del día</span>";
+      var mt = "<span class='text-muted'><i class='fa fa-list text-yellow'></i> Mis movimientos del día</span>";
       $(".modal-dialog").addClass('modal-lg');
+      break;
+    case 'regrem':
+      var mt = "<span class='text-muted'><i class='fa fa-plus text-yellow'></i> Registrar Remito</span>";
+      $(".modal-dialog").addClass('modal-lg');
+      break;
+    case 'edirem':
+      var mt = "<span class='text-muted'><i class='fa fa-edit text-yellow'></i> Editar Remito</span>";
+      $(".modal-dialog").addClass('modal-lg');
+      break;
+    case 'fecrem':
+      var mt = "<span class='text-muted'><i class='fa fa-calendar text-yellow'></i> Fecha Remite</span>";
+      $(".modal-dialog").addClass('modal-sm');
+      break;
+    case 'fecrec':
+      var mt = "<span class='text-muted'><i class='fa fa-calendar text-yellow'></i> Fecha Recepción</span>";
+      $(".modal-dialog").addClass('modal-sm');
+      break;
+    case 'feccar':
+      var mt = "<span class='text-muted'><i class='fa fa-calendar text-yellow'></i> Fecha Cargo</span>";
+      $(".modal-dialog").addClass('modal-sm');
+      break;
+    case 'elirem':
+      var mt = "<span class='text-muted'><i class='fa fa-trash text-yellow'></i> Eliminar Remito</span>";
+      $(".modal-dialog").addClass('modal-sm');
+      $("#b_guardar").html('<i class="fa fa-trash"></i> Eliminar');
+      break;
+    case 'detrem':
+      var mt = "<span class='text-muted'><i class='fa fa-info-circle text-yellow'></i> Detalle Remito</span>";
+      $(".modal-dialog").addClass('modal-lg');
+      break;
+    case 'guirem':
+      var mt = "<span class='text-muted'><i class='fa fa-plus text-yellow'></i> Agregar a Remito</span>";
+      break;
+    case 'retgen':
+      var mt = "<span class='text-muted'><i class='fa fa-reply text-yellow'></i> Retornar Generador</span>";
       break;
   }
   $(".modal-title").html(mt);
@@ -278,7 +329,7 @@ function f_bandeja(acc, v1, v2) {
     },
     success: function (a) {
       $("#f_modal").html(a);
-      if (acc != 'detdoc' && acc != 'rutdoc' && acc != 'detest' && acc != 'lisgui' && acc != 'gencar' && acc != 'dercar' && acc != 'carori' && acc != 'edidocu' && acc != 'movdia') {
+      if (acc != 'detdoc' && acc != 'rutdoc' && acc != 'detest' && acc != 'lisgui' && acc != 'gencar' && acc != 'dercar' && acc != 'carori' && acc != 'edidocu' && acc != 'movdia' && acc != 'detrem' && acc != 'guirem' && acc != 'retgen') {
         $("#b_guardar").removeClass("hidden");
       }
     }
@@ -312,6 +363,12 @@ $('#f_modal').submit(function (e) {
         }
         if (datos[0]['value'] == 'atedoc') {
           li_ban5();
+        }
+        if (datos[0]['value'] == 'regrem' || datos[0]['value'] == 'edirem' || datos[0]['value'] == 'fecrem' || datos[0]['value'] == 'feccar' || datos[0]['value'] == 'elirem') {
+          li_ban11(1);
+        }
+        if(datos[0]['value'] == 'fecrec'){
+          li_ban11(datos[2]['value']);
         }
       } else {
         $("#d_frespuesta").html(a.m);
@@ -386,6 +443,27 @@ function g_carori(idd, v2) {
   });
 }
 
+function g_retgen(ides) {
+  $.ajax({
+    type: "post",
+    url: "m_inclusiones/a_tdocumentario/g_bandeja.php",
+    data: { acc: 'retgen', ides: ides },
+    dataType: "json",
+    beforeSend: function () {
+      $("#b_retgen").button('loading');
+    },
+    success: function (a) {
+      if (a.e) {
+        $("#f_modal").html(a.m);
+        li_ban2();
+      } else {
+        $("#d_rcc").html(a.m);
+        $("#b_retgen").button('reset');
+      }
+    }
+  });
+}
+
 function g_rec(v1, v2, mp) {
   $.ajax({
     type: "post",
@@ -402,6 +480,8 @@ function g_rec(v1, v2, mp) {
     }
   });
 }
+
+
 
 /*
 function g_dermpa(v1, v2){
@@ -448,6 +528,57 @@ function g_dernot(v1, v2) {
   } else {
     alert('Elija el personal a quien derivará notificación.');
   }
+}
+
+function g_guirem(guia, remito) {
+  $.ajax({
+    type: "post",
+    url: "m_inclusiones/a_tdocumentario/g_bandeja.php",
+    data: { acc: 'guirem', guia: guia, remito: remito },
+    dataType: "json",
+    success: function (a) {
+      $("#m_modal").modal("hide");
+      if (a.e) {
+        alertify.success(a.m);
+      } else {
+        alertify.error(a.m);
+      }
+    }
+  });
+}
+
+function g_elguirem(guia, remito) {
+  $.ajax({
+    type: "post",
+    url: "m_inclusiones/a_tdocumentario/g_bandeja.php",
+    data: { acc: 'elguirem', guia: guia },
+    dataType: "json",
+    success: function (a) {
+      if (a.e) {
+        alertify.success(a.m);
+        f_bandeja('detrem', remito, 0);
+      } else {
+        alertify.error(a.m);
+      }
+    }
+  });
+}
+
+function g_fecharec(remito){
+  $.ajax({
+    type: "post",
+    url: "m_inclusiones/a_tdocumentario/g_bandeja.php",
+    data: { acc: 'fecharec', remito: remito },
+    dataType: "json",
+    success: function (a) {
+      if (a.e) {
+        alertify.success(a.m);
+        li_ban11(2);
+      } else {
+        alertify.error(a.m);
+      }
+    }
+  });
 }
 
 /*function g_derper(v1, v2){
@@ -630,7 +761,7 @@ $('#f_mmodalp').submit(function (e) {
 });
 
 //consultas
-$("#mpar, #mparp").select2({
+$("#mpar, #mparp, #mprem").select2({
   placeholder: 'Selecione una mesa de partes',
   ajax: {
     url: 'm_inclusiones/a_general/a_selmpartes.php',
@@ -650,6 +781,14 @@ $("#d_dano, #d_dano1, #d_dano3, #d_dano4, #d_gano").datepicker({
   languaje: 'es',
   autoclose: true,
   minViewMode: 2,
+  maxViewMode: 2,
+  todayHighlight: true
+});
+$("#d_rano").datepicker({
+  format: 'mm/yyyy',
+  languaje: 'es',
+  autoclose: true,
+  minViewMode: 1,
   maxViewMode: 2,
   todayHighlight: true
 });
