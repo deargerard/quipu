@@ -319,9 +319,10 @@ if(accesoadm($cone,$_SESSION['identi'],9)){
 						<option value="Almuerzo" <?php echo $r3['glosacom']=="Almuerzo" ? "selected" : "" ?>>Almuerzo</option>
 						<option value="Cena" <?php echo $r3['glosacom']=="Cena" ? "selected" : "" ?>>Cena</option>
 						<option value="Hospedaje" <?php echo $r3['glosacom']=="Hospedaje" ? "selected" : "" ?>>Hospedaje</option>
+						<option value="Pasaje terrestre" <?php echo $r3['glosacom']=="Pasaje terrestre" ? "selected" : "" ?>>Pasaje terrestre</option>
 						<option value="Movilidad local" <?php echo $r3['glosacom']=="Movilidad local" ? "selected" : "" ?>>Movilidad local</option>
 						<option value="Movilidad de embarque" <?php echo $r3['glosacom']=="Movilidad de embarque" ? "selected" : "" ?>>Movilidad de embarque</option>
-					</select>		
+					</select>	
 				</div>			
 			</div>
 			<div class="form-group ocu <?php echo $r3['idtetipocom']==2 ? "hidden" : "" ?>">				

@@ -596,7 +596,7 @@ $('#fo_aprov').submit(function(e){
     data: datos,
     dataType: "json",
     beforeSend: function () {
-      $("#d_frespuesta").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
+      $("#d1_frespuesta").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
       $("#b_guardar").addClass("hidden");
     },
     success:function(a){
@@ -604,7 +604,7 @@ $('#fo_aprov').submit(function(e){
         $("#fo_aprov").html(a.m);        
         $("#gu_modal3").addClass("hidden");
       }else{
-        $("#d_frespuesta").html(a.m);
+        $("#d1_frespuesta").html(a.m);
         $("#gu_modal3").removeClass("hidden");
       }
     }

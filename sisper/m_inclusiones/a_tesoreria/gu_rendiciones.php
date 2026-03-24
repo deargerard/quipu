@@ -160,18 +160,23 @@ $r['e']=false;
 				$ruc=iseguro($cone, $_POST['ruc']);
 				$dir=vacio(iseguro($cone, $_POST['dir']));
 				$tel=vacio(iseguro($cone, $_POST['tel']));
-				$ce=mysqli_query($cone, "SELECT idteproveedor FROM teproveedor WHERE ruc='$ruc';");
-				if(mysqli_num_rows($ce)>0){
-					$r['m']=mensajewa("El RUC ingresado ya existe.");
+				
+				if(trim($razsoc)=="" || trim($ruc)=="" || strlen($ruc)!=11){
+					$r['m']=mensajewa("La razón social y el RUC son obligatorios. El RUC debe tener 11 caracteres.");
 				}else{
-					if(mysqli_query($cone, "INSERT INTO teproveedor (razsocial, ruc, direccion, telefono) VALUES ('$razsoc', '$ruc', $dir, $tel);")){
-						$r['e']=true;
-						$r['m']=mensajesu("Listo, proveedor registrado.");
+					$ce=mysqli_query($cone, "SELECT idteproveedor FROM teproveedor WHERE ruc='$ruc';");
+					if(mysqli_num_rows($ce)>0){
+						$r['m']=mensajewa("El RUC ingresado ya existe.");
 					}else{
-						$r['m']=mensajewa("Error, intentelo denuevo.");
+						if(mysqli_query($cone, "INSERT INTO teproveedor (razsocial, ruc, direccion, telefono) VALUES ('$razsoc', '$ruc', $dir, $tel);")){
+							$r['e']=true;
+							$r['m']=mensajesu("Listo, proveedor registrado.");
+						}else{
+							$r['m']=mensajewa("Error, intentelo denuevo.");
+						}
 					}
+					mysqli_free_result($ce);
 				}
-				mysqli_free_result($ce);
 			}else{
 				$r['m']=mensajewa("Los campos marcados con <b class='text-red'>*</b> son obligatorios.");
 			}
