@@ -52,7 +52,10 @@ if(accesocon($cone,$_SESSION['identi'],17)){
               <!--<button type="button" class="btn btn-info btn-xs" title="Documento a guía" onclick="f_bandeja('docgui', <?php //echo $rg['idtdguia']; ?>, 0)"><i class="fa fa-stack-overflow"></i></button>-->
               <button type="button" class="btn btn-info btn-xs" title="Listar guía" onclick="f_bandeja('lisgui', <?php echo $rg['idtdguia']; ?>, 0)"><i class="fa fa-files-o"></i></button>
             </div>
-            <button type="button" class="btn bg-orange btn-xs" id="btn-guiaremito" title="Agregar a remito" onclick="f_bandeja('guirem',<?php echo $rg['idtdguia'].',0'; ?>)"><i class="fa fa-codepen"></i></button>
+            <?php if(strtotime($rg['fecenvio']) >= strtotime('-7 days')) { ?>
+            <button type="button" class="btn bg-teal btn-xs" id="btn-guiaremito" title="Agregar documento adicional a la guía" onclick="f_bandeja('aguidoc',<?php echo $rg['idtdguia'].',0'; ?>)"><i class="fa fa-plus"></i></button>
+            <button type="button" class="btn bg-orange btn-xs" id="btn-guiaremito" title="Agregar guía a remito" onclick="f_bandeja('guirem',<?php echo $rg['idtdguia'].',0'; ?>)"><i class="fa fa-codepen"></i></button>
+            <?php } ?>
           </td>
         </tr>
 <?php

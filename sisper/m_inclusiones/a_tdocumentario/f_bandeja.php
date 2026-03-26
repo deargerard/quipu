@@ -2804,6 +2804,78 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                 echo mensajewa("Ingrese número y año del documento.");
             }
 
+        }elseif($acc=="aguidoc"){
+            if(isset($v1) && !empty($v1)){
+                //obtenemos el idtdmesapartesd de la guía
+                $cg=mysqli_query($cone, "SELECT numero, anio, idtdmesapartesg, idtdmesapartesd, generador FROM tdguia WHERE idtdguia=$v1 AND estado=1;");
+                if($rg=mysqli_fetch_assoc($cg)){
+                    if($_SESSION['identi']==$rg['generador']){
+                        $idmpg=$rg['idtdmesapartesg'];
+                        $idmpd=$rg['idtdmesapartesd'];
+                        //Consultamos los doc que tienes su tdestadodoc con idtdestado=3, idtdmesapartes igual al $idmpd, mpasignador igual al idmpg, el idtdguia sea null y el estado igual a 1. obtener los registros cuya fecha en el tdestadodoc sea como minimo del último año
+                        $q="SELECT d.Numero, d.Ano, d.Siglas, d.numdoc, ed.idtdestadodoc, ed.fecha FROM doc d INNER JOIN tdestadodoc ed ON d.idDoc=ed.idDoc WHERE ed.idtdestado=3 AND ed.estado=1 AND ed.idtdmesapartes=$idmpd AND ed.mpasignador=$idmpg AND ed.idtdguia IS NULL  AND ed.idEmpleado IS NULL ORDER BY ed.fecha DESC;";
+                        $cd=mysqli_query($cone, $q);
+                        if(mysqli_num_rows($cd)>0){
+?>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <h3 class="text-center">GUÍA: <?php echo $rg['numero'].'-'.$rg['anio']; ?></h3>
+                                <h5 class="text-center text-orange">DESTINO: <?php echo nommpartes($cone, $idmpd); ?></h5>
+                                <small class="text-warning text-center">Nota: Solo agregar documentos adicionales antes de imprimir la guía y enviarlos.</small>
+                                <hr>
+                                <table class="table table-bordered table-hover" id="dt_documentos" style="font-size: 12px;">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>SEGUIMIENTO</th>
+                                            <th>DOCUMENTO</th>
+                                            <th>FECHA DERIVACIÓN</th>
+                                            <th>ACCIONES</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+<?php
+                            $n=0;
+                            while($rd=mysqli_fetch_assoc($cd)){
+                            $n++;
+?>
+                                    <tr>
+                                        <td><?php echo $n; ?></td>
+                                        <td><?php echo $rd['numdoc'].'-'.$rd['Ano']; ?></td>
+                                        <td><?php echo $rd['Numero'].'-'.$rd['Ano'].'-'.$rd['Siglas']; ?></td>
+                                        <td><?php echo fnormal($rd['fecha']); ?></td>
+                                        <td>
+                                            <div class="btn-group btn-group-xs">
+                                                <button type="button" class="btn bg-purple btn-xs" title="Agregar a guía" onclick="g_aguidoc(<?php echo $rd['idtdestadodoc'].','.$v1; ?>)"><i class="fa fa-check"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+<?php
+                    }
+?>
+                                </tbody>
+                            </table>
+                            <script>
+                                $('#dt_documentos').dataTable();
+                            </script>
+                        </div>
+                    </div>
+                    
+<?php
+                        }else{
+                            echo mensajewa("No se encontraron documentos derivados al destino de la guía. ");
+                        }
+                        mysqli_free_result($cd);
+                    }else{
+                        echo mensajewa(nomempleado($cone, $rg['generador']).".<br />Es el único que puede agregar documentos adicionales a la guía, porque es quien la generó.<br /><small class='text-warning'>* Si desea agregar documentos, por favor solicite al generador que lo haga.</small>");
+                    }
+                }else{
+                    echo mensajewa("No se halló la guía.");
+                }
+                mysqli_free_result($cg);
+            }else{
+                echo mensajewa("Error: Faltan datos.");
+            }
         }//acafin
 	}else{
 		echo mensajewa("Error: Faltan datos.");

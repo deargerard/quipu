@@ -314,6 +314,10 @@ function f_bandeja(acc, v1, v2) {
     case 'retgen':
       var mt = "<span class='text-muted'><i class='fa fa-reply text-yellow'></i> Retornar Generador</span>";
       break;
+    case 'aguidoc':
+      var mt = "<span class='text-muted'><i class='fa fa-plus text-yellow'></i> Agregar documentos a guía</span>";
+      $(".modal-dialog").addClass('modal-lg');
+      break;
   }
   $(".modal-title").html(mt);
   $("#m_modal").modal("show");
@@ -329,7 +333,7 @@ function f_bandeja(acc, v1, v2) {
     },
     success: function (a) {
       $("#f_modal").html(a);
-      if (acc != 'detdoc' && acc != 'rutdoc' && acc != 'detest' && acc != 'lisgui' && acc != 'gencar' && acc != 'dercar' && acc != 'carori' && acc != 'edidocu' && acc != 'movdia' && acc != 'detrem' && acc != 'guirem' && acc != 'retgen') {
+      if (acc != 'detdoc' && acc != 'rutdoc' && acc != 'detest' && acc != 'lisgui' && acc != 'gencar' && acc != 'dercar' && acc != 'carori' && acc != 'edidocu' && acc != 'movdia' && acc != 'detrem' && acc != 'guirem' && acc != 'retgen' && acc != 'aguidoc') {
         $("#b_guardar").removeClass("hidden");
       }
     }
@@ -574,6 +578,23 @@ function g_fecharec(remito){
       if (a.e) {
         alertify.success(a.m);
         li_ban11(2);
+      } else {
+        alertify.error(a.m);
+      }
+    }
+  });
+}
+
+function g_aguidoc(estado, guia) {
+  $.ajax({
+    type: "post",
+    url: "m_inclusiones/a_tdocumentario/g_bandeja.php",
+    data: { acc: 'aguidoc', estado:estado, guia: guia },
+    dataType: "json",
+    success: function (a) {
+      $("#m_modal").modal("hide");
+      if (a.e) {
+        alertify.success(a.m);
       } else {
         alertify.error(a.m);
       }

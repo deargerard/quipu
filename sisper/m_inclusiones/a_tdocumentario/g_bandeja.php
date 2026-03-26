@@ -1358,6 +1358,22 @@ if(accesocon($cone,$_SESSION['identi'],17)){
             }else{
                 $r['m']=mensajewa("Faltan datos.");
             }
+        }elseif($acc=="aguidoc"){
+            if(isset($_POST['estado']) && !empty($_POST['estado']) && isset($_POST['guia']) && !empty($_POST['guia'])){
+                $estado=iseguro($cone, $_POST['estado']);
+                $guia=iseguro($cone, $_POST['guia']);
+                $idem=$_SESSION['identi'];
+                
+                //actualizamos el idtdguia del registro en tdestadodoc con el idtdestadodoc=$estado
+                if(mysqli_query($cone, "UPDATE tdestadodoc SET idtdguia=$guia WHERE idtdestadodoc=$estado;")){
+                    $r['m']="Documento agregado a la guía.";
+                    $r['e']=true;
+                }else{
+                    $r['m']="Error al agregar documento a la guía. ";
+                }
+            }else{
+                $r['m']="Faltan datos.";
+            }
         }//acafin
 	}else{
 		$r['m']=mensajewa("Error: No envió la acción.");
