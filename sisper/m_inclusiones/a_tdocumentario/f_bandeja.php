@@ -2588,7 +2588,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                                                 echo $rrg['numero']."-".$rrg['anio']." ";
                                                 //boton para eliminar la guía del remito
                                                 if($v2==$rr['mp_remite'] && is_null($rr['fecha_recepcion']) && is_null($rr['fecha_cargo'])){
-                                                    echo '<button type="button" class="btn btn-danger btn-xs" title="Eliminar del remito" onclick="g_elguirem('.$rrg['idtdguia'].', '.$v1.');"><i class="fa fa-times"></i></button> &emsp;';
+                                                    echo '<button type="button" class="btn btn-danger btn-xs" title="Eliminar del remito" onclick="g_elguirem('.$rrg['idtdguia'].', '.$v1.','.$rr['mp_remite'].');"><i class="fa fa-times"></i></button> &emsp;';
                                                 }else{
                                                     echo '&emsp;';
                                                 }
@@ -2626,6 +2626,21 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                     //obtener los ids de las mesas de partes en el local de la guía
                     $mpd=mysqli_query($cone, "SELECT idtdmesapartes FROM tdmesapartes WHERE idLocal=$rg[idLocal];");
                     $mpd=mysqli_fetch_all($mpd, MYSQLI_ASSOC);
+                    //obtener la mesa de partes el usuario
+                    $idem=$_SESSION['identi'];
+                    $cmpu=mysqli_query($cone, "SELECT idtdmesapartes FROM tdpersonalmp WHERE idEmpleado=$idem AND estado=1;");
+                    //Validar que exista algún registro
+                    if(mysqli_num_rows($cmpu)>0){
+                        $rmpu=mysqli_fetch_assoc($cmpu);
+                        //obtener el id de la mesa de partes del usuario
+                        $mpu_id = $rmpu['idtdmesapartes'];
+                    }else{
+                        echo mensajewa("No se encontró una mesa de partes asociada al usuario.");
+                        mysqli_free_result($cmpu);
+                        exit;
+                    }
+                    mysqli_free_result($cmpu);
+
 ?>
                     <div class="row">
                         <input type="hidden" name="acc" value="<?php echo $acc; ?>">
@@ -2637,7 +2652,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                         //consultar los remitos con la mp_destino igual a la mp_destino de la guía y sin fecha de recepción ni de cargo y de una antiguedad de 2 meses de la fecha de remite
                         $mpd_ids = array_column($mpd, 'idtdmesapartes');
                         $mpd_ids_str = implode(',', $mpd_ids);
-                        $cr=mysqli_query($cone, "SELECT idtdremito, num_remito, fecha_remite, mp_destino FROM tdremito WHERE mp_destino IN ($mpd_ids_str) AND fecha_recepcion IS NULL AND fecha_cargo IS NULL AND fecha_remite >= DATE_SUB(NOW(), INTERVAL 2 MONTH) ORDER BY fecha_remite DESC;");
+                        $cr=mysqli_query($cone, "SELECT idtdremito, num_remito, fecha_remite, mp_destino FROM tdremito WHERE mp_remite = $mpu_id AND mp_destino IN ($mpd_ids_str) AND fecha_recepcion IS NULL AND fecha_cargo IS NULL AND fecha_remite >= DATE_SUB(NOW(), INTERVAL 2 MONTH) ORDER BY fecha_remite DESC;");
                         if(mysqli_num_rows($cr)>0){
 ?>
                             <table class="table table-bordered table-hover" style="font-size: 12px;">

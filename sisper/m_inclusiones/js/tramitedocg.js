@@ -551,16 +551,16 @@ function g_guirem(guia, remito) {
   });
 }
 
-function g_elguirem(guia, remito) {
+function g_elguirem(guia, remito, mp_remite) {
   $.ajax({
     type: "post",
     url: "m_inclusiones/a_tdocumentario/g_bandeja.php",
-    data: { acc: 'elguirem', guia: guia },
+    data: { acc: 'elguirem', guia: guia},
     dataType: "json",
     success: function (a) {
       if (a.e) {
         alertify.success(a.m);
-        f_bandeja('detrem', remito, 0);
+        f_bandeja('detrem', remito, mp_remite);
       } else {
         alertify.error(a.m);
       }
