@@ -12,7 +12,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
       <hr>
 <?php   
 
-        $q="SELECT d.idDoc, d.Numero, d.Ano, d.Siglas, d.FechaDoc, d.numdoc, td.TipoDoc, ed.idtdestadodoc, ed.fecha, ed.idtdestado, g.numero, g.anio FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc INNER JOIN tdestadodoc ed ON d.idDoc=ed.idDoc INNER JOIN tdmesapartes mp ON ed.idtdmesapartes=mp.idtdmesapartes LEFT JOIN tdguia g ON ed.idtdguia=g.idtdguia WHERE mp.idtdmesapartes=$mp AND (DATE_FORMAT(ed.fecha, '%Y-%m-%d') BETWEEN '$desmp' AND '$hasmp') AND ed.estado=1 AND ed.idtdestado in (2,3) ORDER BY ed.fecha DESC;";
+        $q="SELECT d.idDoc, d.Numero, d.Ano, d.Siglas, d.FechaDoc, d.numdoc, td.TipoDoc, ed.idtdestadodoc, ed.fecha, ed.idtdestado, g.numero, g.anio FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc INNER JOIN tdestadodoc ed ON d.idDoc=ed.idDoc INNER JOIN tdmesapartes mp ON ed.idtdmesapartes=mp.idtdmesapartes LEFT JOIN tdguia g ON ed.idtdguia=g.idtdguia WHERE mp.idtdmesapartes=$mp AND ed.estado=1 AND ed.idtdestado in (2,3) AND (DATE_FORMAT(ed.fecha, '%Y-%m-%d') BETWEEN '$desmp' AND '$hasmp')  ORDER BY d.FechaDoc DESC;";
 
         $cb=mysqli_query($cone, $q);
 

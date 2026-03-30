@@ -12,7 +12,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
       <div class="text-blue"><h4><b><i class="fa fa-user text-orange"></i> <?php echo nomempleado($cone, $per);?></b></h4></div>
       <hr>
 <?php
-        $q="SELECT d.idDoc, d.Numero, d.Ano, d.Siglas, d.numdoc, d.FechaDoc, td.TipoDoc, ed.idtdestadodoc, ed.fecha, ed.idtdestado, ed.estado FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc INNER JOIN tdestadodoc ed ON d.idDoc=ed.idDoc WHERE ed.idEmpleado=$per AND ed.idtdmesapartes IS NULL AND (DATE_FORMAT(ed.fecha, '%Y-%m-%d') BETWEEN '$fini' AND '$ffin') AND ed.idtdestado in (2,3) AND ed.estado=1 ORDER BY ed.fecha DESC;";
+        $q="SELECT d.idDoc, d.Numero, d.Ano, d.Siglas, d.numdoc, d.FechaDoc, td.TipoDoc, ed.idtdestadodoc, ed.fecha, ed.idtdestado, ed.estado FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc INNER JOIN tdestadodoc ed ON d.idDoc=ed.idDoc WHERE ed.idEmpleado=$per AND ed.idtdestado in (2,3) AND ed.estado=1 AND ed.idtdmesapartes IS NULL AND (DATE_FORMAT(ed.fecha, '%Y-%m-%d') BETWEEN '$fini' AND '$ffin')  ORDER BY d.FechaDoc DESC;";
         $cb=mysqli_query($cone, $q);
 
         if(mysqli_num_rows($cb)>0){
