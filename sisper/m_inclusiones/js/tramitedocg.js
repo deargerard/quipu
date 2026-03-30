@@ -813,7 +813,7 @@ $("#d_rano").datepicker({
   maxViewMode: 2,
   todayHighlight: true
 });
-$("#d_des,#d_has,#d_fasi").datepicker({
+$("#d_des,#d_has,#d_fasi,#d_desmp,#d_hasmp").datepicker({
   format: 'dd/mm/yyyy',
   languaje: 'es',
   autoclose: true,

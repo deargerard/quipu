@@ -3,23 +3,16 @@ session_start();
 include("../php/conexion_sp.php");
 include("../php/funciones.php");
 if(accesocon($cone,$_SESSION['identi'],17)){
-    if(isset($_POST['mp']) && !empty($_POST['mp']) && isset($_POST['vig']) && !empty($_POST['vig']) && isset($_POST['est']) && !empty($_POST['est']) && isset($_POST['ano']) && !empty($_POST['ano'])){
+    if(isset($_POST['mp']) && !empty($_POST['mp']) && isset($_POST['desmp']) && !empty($_POST['desmp']) && isset($_POST['hasmp']) && !empty($_POST['hasmp'])){
         $mp=iseguro($cone,$_POST['mp']);
-        $est=iseguro($cone,$_POST['est']);
-        $vig=iseguro($cone,$_POST['vig']);
-        $ano=iseguro($cone,$_POST['ano']);
+        $desmp=fmysql(iseguro($cone,$_POST['desmp']));
+        $hasmp=fmysql(iseguro($cone,$_POST['hasmp']));
 ?>                
       <div class="text-blue"><h4><b><i class="fa fa-archive text-orange"></i> <?php echo nommpartes($cone, $mp); ?></b></h4></div>
       <hr>
 <?php   
 
-    $wvig="";    
-    if ($vig=='2'){
-        $wvig="ed.estado=0 AND ";
-    }elseif($vig=='1'){
-        $wvig=" ed.estado=1 AND ";
-    }
-        $q="SELECT d.idDoc, d.Numero, d.Ano, d.Siglas, d.FechaDoc, d.numdoc, td.TipoDoc, ed.idtdestadodoc, ed.fecha, ed.idtdestado FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc INNER JOIN tdestadodoc ed ON d.idDoc=ed.idDoc INNER JOIN tdmesapartes mp ON ed.idtdmesapartes=mp.idtdmesapartes WHERE mp.idtdmesapartes=$mp AND DATE_FORMAT(ed.fecha, '%Y')='$ano' AND $wvig ed.idtdestado=$est ORDER BY ed.fecha DESC;";
+        $q="SELECT d.idDoc, d.Numero, d.Ano, d.Siglas, d.FechaDoc, d.numdoc, td.TipoDoc, ed.idtdestadodoc, ed.fecha, ed.idtdestado, g.numero, g.anio FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc INNER JOIN tdestadodoc ed ON d.idDoc=ed.idDoc INNER JOIN tdmesapartes mp ON ed.idtdmesapartes=mp.idtdmesapartes LEFT JOIN tdguia g ON ed.idtdguia=g.idtdguia WHERE mp.idtdmesapartes=$mp AND (DATE_FORMAT(ed.fecha, '%Y-%m-%d') BETWEEN '$desmp' AND '$hasmp') AND ed.estado=1 AND ed.idtdestado in (2,3) ORDER BY ed.fecha DESC;";
 
         $cb=mysqli_query($cone, $q);
 
@@ -31,56 +24,29 @@ if(accesocon($cone,$_SESSION['identi'],17)){
             <table class="table table-bordered table-hover" id="dt_ban1">
                 <thead>
                     <tr>
-                        <th>NUM.</th>
-                        <th>SIGLAS</th>
-                        <th>DOCUMENTO<br>TIPO</th>
-                        <th>FECHA DOCUMENTO<br>TIEMPO</th>
+                        <th>#</th>
+                        <th>SEGUIMIENTO</th>
+                        <th>DOCUMENTO</th>
+                        <th>FECHA</th>
                         <th>ESTADO</th>
-                        <th>FECHA ESTADO<br>TIEMPO</th>                        
-                        <th class="text-center">ACCIÓN</th>
+                        <th>FECHA ESTADO</th>
+                        <th>GUÍA</th>                      
                     </tr>
                 </thead>
                 <tbody>
 <?php
-                    while($rb=mysqli_fetch_assoc($cb)){
-
-                    $ti="";
-                    $v1=$rb['idDoc'];
-                    $fec=$rb['fecha'];
-                    $cs=mysqli_query($cone, "SELECT fecha FROM tdestadodoc WHERE idDoc=$v1 AND fecha>'$fec' ORDER BY fecha ASC LIMIT 1;");
-                    if($rs=mysqli_fetch_assoc($cs)){
-                        $ti=$rs['fecha'];
-                    }else{
-                        $ti=date('Y-m-d H:i:s');
-                    }
-                    mysqli_free_result($cs);                    
-
+                    $n=0;
+                    while($rb=mysqli_fetch_assoc($cb)){         
+                        $n++;
 ?>
                     <tr style="font-size: 12px;">
+                        <td><?php echo $n; ?></td>
                         <td class="text-aqua"><?php echo $rb['numdoc'].'-'.$rb['Ano']; ?></td>
-                        <td><?php echo $rb['Siglas']; ?></td>
-                        <td><?php echo $rb['Numero']."-".$rb['Ano']."-".$rb['Siglas']; ?><br>|<span class="text-teal"><?php echo $rb['TipoDoc']; ?></span></td>
-                        <td><?php echo fnormal($rb['FechaDoc']); ?><br>|<span class="text-yellow"><?php echo diftiempo($rb['FechaDoc'], date('Y-m-d H:i:s')); ?></span></td>
+                        <td><?php echo $rb['Numero']."-".$rb['Ano']."-".$rb['Siglas']; ?> <span class="text-teal">(<?php echo $rb['TipoDoc']; ?>)</span></td>
+                        <td><?php echo fnormal($rb['FechaDoc']); ?></td>
                         <td><?php echo estadoDoc($rb['idtdestado']); ?></td>
-                        <td><?php echo date('d/m/Y h:i:s A', strtotime($rb['fecha'])); ?><br>|<span class="text-orange"><?php echo $ti!="" ? diftiempo($fec, $ti) : ""; ?></span></td>
-                        <td class="text-center">
-                              
-                              <div class="btn-group">
-                                
-                                <button class="btn bg-maroon btn-xs dropdown-toggle" data-toggle="dropdown">
-                                  <i class="fa fa-file"></i>&nbsp;
-                                  <span class="caret"></span>
-                                  <span class="sr-only">Desplegar menú</span>
-                                </button>
-                                <ul class="dropdown-menu pull-right" role="menu">
-                                  <li><a href="#" onclick="f_bandeja('rutdoc',<?php echo $rb['idDoc'].",0"; ?>)"><i class="fa fa-retweet text-maroon"></i> Ruta</a></li>
-                                  <li><a href="#" onclick="f_bandeja('detest',<?php echo $rb['idtdestadodoc'].",0"; ?>)"><i class="fa fa-tags text-maroon"></i> Estado</a></li>
-                                  <li class="divider"></li>
-                                  <li><a href="#" onclick="f_bandeja('detdoc',<?php echo $rb['idDoc'].",0"; ?>)"><i class="fa fa-file-text text-maroon"></i> Detalle</a></li>
-                                </ul>
-                              </div>
-
-                        </td>
+                        <td><?php echo date('d/m/Y h:i:s A', strtotime($rb['fecha'])); ?></td>
+                        <td><?php echo $rb['numero'] ? $rb['numero'].'-'.$rb['anio'] : ''; ?></td>
                     </tr>
 <?php
                     }

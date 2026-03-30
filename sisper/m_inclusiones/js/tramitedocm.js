@@ -59,12 +59,12 @@ $("#b_bguia").click(function(){
 // FIN BOTON LLAMA A LA FUNCIÓN GUIAS
 
 // FUNCION BUSCAR DOCUMENTOS POR TRABAJADOR
-function bperdoc(per, est, vig, fini, ffin){
+function bperdoc(per, fini, ffin){
   
   $.ajax({
     type: "post",
     url: "m_inclusiones/a_tdocumentario/bdocxestxfec.php",
-    data: {per : per , est : est, vig : vig, fini : fini, ffin : ffin},
+    data: {per : per , fini : fini, ffin : ffin},
     dataType: "html",
     beforeSend: function () {
       $("#r_rep3").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
@@ -73,28 +73,27 @@ function bperdoc(per, est, vig, fini, ffin){
       $("#r_rep3").html(a);      
     }
   });
+
 }
 // FIN FUNCION BUSCAR DOCUMENTOS POR TRABAJADOR
 //BOTON LLAMA A LA FUNCIÓN DOCUMENTOS POR TRABAJADOR
 $("#b_bperdoc").click(function(){
   var per=$("#per").val();
-  var est=$("#est").val();
-  var vig=$("#vig").val();
   var fini=$("#des").val();
   var ffin=$("#has").val();
 
-    bperdoc(per, est, vig, fini, ffin);
+    bperdoc(per, fini, ffin);
   
 })
 // FIN BOTON LLAMA A LA FUNCIÓN DOCUMENTOS POR TRABAJADOR
 
 // FUNCION BUSCAR DOCUMENTOS PENDIENTES POR MESA DE PARTES
-function bdpen(mp, est, vig, ano){
+function bdpen(mp, desmp, hasmp){
   
   $.ajax({
     type: "post",
     url: "m_inclusiones/a_tdocumentario/bdocpenxmp.php",
-    data: {mp : mp, est : est, vig : vig, ano : ano},
+    data: {mp : mp, desmp : desmp, hasmp : hasmp},
     dataType: "html",
     beforeSend: function () {
       $("#r_rep4").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
@@ -108,11 +107,10 @@ function bdpen(mp, est, vig, ano){
 //BOTON LLAMA A LA FUNCIÓN DOCUMENTOS PENDIENTES POR MESA DE PARTES
 $("#b_bdpen").click(function(){
   var mp=$("#mparp").val();
-  var est=$("#estp").val();
-  var vig=$("#vigp").val();
-  var ano=$("#sanop").val();
+  var desmp=$("#desmp").val();
+  var hasmp=$("#hasmp").val();
 
-    bdpen(mp, est, vig, ano);
+    bdpen(mp, desmp, hasmp);
   
 })
 // FIN BOTON LLAMA A LA FUNCIÓN DOCUMENTOS PENDIENTES POR MESA DE PARTES

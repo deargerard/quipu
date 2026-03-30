@@ -23,7 +23,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
             <ul class="nav nav-tabs">
               <li class="active"><a href="#tab_1" data-toggle="tab"><i class="fa fa-circle-o text-gray"></i> Por Nro de Seguimineto</a></li>
               <li><a href="#tab_2" data-toggle="tab"><i class="fa fa-circle-o text-gray"></i> Por Guía</a></li>
-              <li><a href="#tab_3" data-toggle="tab"><i class="fa fa-circle-o text-gray"></i> Documentos/Trabajador</a></li>
+              <li><a href="#tab_3" data-toggle="tab"><i class="fa fa-circle-o text-gray"></i> Pendientes/Personal</a></li>
               <li><a href="#tab_4" data-toggle="tab"><i class="fa fa-circle-o text-gray"></i> Pendientes/M.Partes</a></li>
               <li><a href="#tab_5" data-toggle="tab"><i class="fa fa-circle-o text-gray"></i> Por datos de Documento</a></li>
               <li><a href="#tab_6" data-toggle="tab"><i class="fa fa-circle-o text-gray"></i> Remitos</a></li>
@@ -88,29 +88,8 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 <!--Formulario busqueda-->
                 <form class="form-inline" id="f_rep3">
                     <div class="form-group">
-                        <select name="per" id="per" class="form-control" style="width: 300px;">
+                        <select name="per" id="per" class="form-control" style="width: 350px;">
                             
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <select name="est" id="est" class="form-control">
-                            <option value="t">Todos</option>
-                          <?php
-                          $ce=mysqli_query($cone, "SELECT * FROM tdestado WHERE estado=1;");
-                          if(mysqli_num_rows($ce)>0){
-                            while($re=mysqli_fetch_assoc($ce)){
-                          ?>
-                            <option value="<?php echo $re['idtdestado']; ?>"><?php echo $re['nombre']; ?></option>
-                          <?php
-                            }
-                          }
-                          ?>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <select name="vig" id="vig" class="form-control">
-                            <option value="1">Actual</option>
-                            <option value="2">Histórico</option>                          
                         </select>
                     </div>
                     <div class="form-group">
@@ -147,20 +126,14 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                       </select>
                     </div>
                     <div class="form-group">
-                        <select name="estp" id="estp" class="form-control">
-                          <option value="3">Derivados</option>
-                          <option value="2">Recibidos</option>
-                        </select>
+                      <div class="input-group date" id="d_desmp">
+                        <input type="text" name="desmp" id="desmp" class="form-control" autocomplete="Off">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                      </div>
                     </div>
                     <div class="form-group">
-                        <select name="vigp" id="vigp" class="form-control">
-                            <option value="1">Actual</option>
-                            <option value="2">Histórico</option>                          
-                        </select>
-                    </div>
-                    <div class="form-group">
-                      <div class="input-group date" id="d_dano">
-                        <input type="text" name="sanop" id="sanop" class="form-control" value="<?php echo date('Y'); ?>">
+                      <div class="input-group date" id="d_hasmp">
+                        <input type="text" name="hasmp" id="hasmp" class="form-control" value="<?php echo date('d/m/Y'); ?>">
                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                       </div>
                     </div>
