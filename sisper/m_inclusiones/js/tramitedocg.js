@@ -821,7 +821,7 @@ $("#d_des,#d_has,#d_fasi,#d_desmp,#d_hasmp").datepicker({
   maxViewMode: 2,
   todayHighlight: true
 });
-$("#per").select2({
+$("#per, #perdoc").select2({
   placeholder: 'Selecione un personal',
   ajax: {
     url: 'm_inclusiones/a_general/a_selpersonal.php',

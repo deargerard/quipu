@@ -58,7 +58,7 @@ $("#b_bguia").click(function(){
 })
 // FIN BOTON LLAMA A LA FUNCIÓN GUIAS
 
-// FUNCION BUSCAR DOCUMENTOS POR TRABAJADOR
+// FUNCION BUSCAR DOCUMENTOS PENDIENTES POR TRABAJADOR
 function bperdoc(per, fini, ffin){
   
   $.ajax({
@@ -75,14 +75,45 @@ function bperdoc(per, fini, ffin){
   });
 
 }
+// FIN FUNCION BUSCAR DOCUMENTOS PENDIENTES POR TRABAJADOR
+// FUNCION BUSCAR DOCUMENTOS POR TRABAJADOR
+function bperdocu(per, fini, ffin, tie, est){
+  
+  $.ajax({
+    type: "post",
+    url: "m_inclusiones/a_tdocumentario/bdocuxestxfec.php",
+    data: {per : per , fini : fini, ffin : ffin, tie : tie, est : est},
+    dataType: "html",
+    beforeSend: function () {
+      $("#r_rep7").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
+    },
+    success:function(a){      
+      $("#r_rep7").html(a);      
+    }
+  });
+
+}
 // FIN FUNCION BUSCAR DOCUMENTOS POR TRABAJADOR
-//BOTON LLAMA A LA FUNCIÓN DOCUMENTOS POR TRABAJADOR
+//BOTON LLAMA A LA FUNCIÓN DOCUMENTOS PENDIENTES POR TRABAJADOR
 $("#b_bperdoc").click(function(){
   var per=$("#per").val();
   var fini=$("#des").val();
   var ffin=$("#has").val();
 
     bperdoc(per, fini, ffin);
+  
+})
+// FIN BOTON LLAMA A LA FUNCIÓN DOCUMENTOS PENDIENTES POR TRABAJADOR
+
+//BOTON LLAMA A LA FUNCIÓN DOCUMENTOS POR TRABAJADOR
+$("#b_bperdocu").click(function(){
+  var per=$("#perdoc").val();
+  var fini=$("#desdoc").val();
+  var ffin=$("#hasdoc").val();
+  var tie=$("#tiedoc").val();
+  var est=$("#estdoc").val();
+
+    bperdocu(per, fini, ffin, tie, est);
   
 })
 // FIN BOTON LLAMA A LA FUNCIÓN DOCUMENTOS POR TRABAJADOR

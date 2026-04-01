@@ -23,6 +23,7 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
             <ul class="nav nav-tabs">
               <li class="active"><a href="#tab_1" data-toggle="tab"><i class="fa fa-circle-o text-gray"></i> Por Nro de Seguimineto</a></li>
               <li><a href="#tab_2" data-toggle="tab"><i class="fa fa-circle-o text-gray"></i> Por Guía</a></li>
+              <li><a href="#tab_7" data-toggle="tab"><i class="fa fa-circle-o text-gray"></i> Documentos/Personal</a></li>
               <li><a href="#tab_3" data-toggle="tab"><i class="fa fa-circle-o text-gray"></i> Pendientes/Personal</a></li>
               <li><a href="#tab_4" data-toggle="tab"><i class="fa fa-circle-o text-gray"></i> Pendientes/M.Partes</a></li>
               <li><a href="#tab_5" data-toggle="tab"><i class="fa fa-circle-o text-gray"></i> Por datos de Documento</a></li>
@@ -82,7 +83,59 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                 <!--Fin div resultados-->
               </div>
               <!-- /.tab-pane -->
+              <div class="tab-pane" id="tab_7">
 
+                <!--Formulario busqueda-->
+                <form class="form-inline" id="f_rep7">
+                    <div class="form-group">
+                        <select name="perdoc" id="perdoc" class="form-control" style="width: 350px;">
+                            
+                        </select>
+                    </div>
+                    <div class="form-group">
+                      <div class="input-group date" id="d_des">
+                        <input type="text" name="desdoc" id="desdoc" class="form-control" autocomplete="Off">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="input-group date" id="d_has">
+                        <input type="text" name="hasdoc" id="hasdoc" class="form-control" value="<?php echo date('d/m/Y'); ?>">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                        <select name="estdoc" id="estdoc" class="form-control">
+                            <option value="">ESTADO</option>
+                            <?php
+                                $q="SELECT idtdestado, nombre FROM tdestado WHERE estado=1;";
+                                $ce=mysqli_query($cone, $q);
+                                if(mysqli_num_rows($ce)>0){
+                                    while($re=mysqli_fetch_assoc($ce)){
+                                        echo "<option value='".$re['idtdestado']."'>".strtoupper($re['nombre'])."</option>";
+                                    }
+                                }
+                            ?>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <select name="tiedoc" id="tiedoc" class="form-control">
+                            <option value="1">ACTUAL</option>
+                            <option value="2">HISTÓRICO</option>
+                        </select>
+                    </div>
+                    <button type="button" class="btn btn-info" id="b_bperdocu"><i class="fa fa-search"></i> Buscar </button>
+                </form>
+                <!--Fin formulario busqueda-->
+                <!--Div resultados-->                
+                <hr>
+                <div id="r_rep7">
+                  <h4 class="text-aqua"><strong>Resultados</strong></h4>
+                </div>
+                <!--Fin div resultados-->
+
+              </div>
+              <!-- /.tab-pane -->
               <div class="tab-pane" id="tab_3">
 
                 <!--Formulario busqueda-->
