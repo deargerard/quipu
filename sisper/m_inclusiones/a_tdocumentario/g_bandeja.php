@@ -1153,8 +1153,11 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                         if($rempes>=30 && empty($_POST['remacta'])){
                             $r['m']=mensajewa("Ingrese el número de acta para pesos mayores o iguales a 30 kg.");
                         }else{
-
-                            $remacta=vacio(iseguro($cone, $_POST['remacta']));
+                            if($rempes<30){
+                                $remacta=vacio(null);
+                            }else{
+                                $remacta=vacio(iseguro($cone, $_POST['remacta']));
+                            }
 
                             $q="INSERT INTO tdremito (num_remito, mp_remite, mp_destino, peso, fecha_remite, r_remite, num_acta) VALUES ('$remnum', $imp, $remdes, $rempes,NOW(), $idem, $remacta);";
                         
@@ -1186,12 +1189,21 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                     if($rr['mp_remite']==$remdes){
                         $r['m']=mensajewa("Elija otro destino, no puede ser el mismo que remite.");
                     }else{
-                        $q="UPDATE tdremito SET num_remito='$remnum', mp_destino=$remdes, peso=$rempes, r_remite=$idem WHERE idtdremito=$idrem;";
-                        if(mysqli_query($cone, $q)){
-                            $r['m']=mensajesu("Remito editado.");
-                            $r['e']=true;
+                        if($rempes>=30 && empty($_POST['remacta'])){
+                            $r['m']=mensajewa("Ingrese el número de acta para pesos mayores o iguales a 30 kg.");
                         }else{
-                            $r['m']=mensajewa("Error al editar remito, vuelva a intentarlo. ");
+                            if($rempes<30){
+                                $remacta=vacio(null);
+                            }else{
+                                $remacta=vacio(iseguro($cone, $_POST['remacta']));
+                            }
+                            $q="UPDATE tdremito SET num_remito='$remnum', mp_destino=$remdes, peso=$rempes, num_acta=$remacta, r_remite=$idem WHERE idtdremito=$idrem;";
+                            if(mysqli_query($cone, $q)){
+                                $r['m']=mensajesu("Remito editado.");
+                                $r['e']=true;
+                            }else{
+                                $r['m']=mensajewa("Error al editar remito, vuelva a intentarlo. ");
+                            }
                         }
                     }
                 }else{

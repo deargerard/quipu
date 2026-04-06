@@ -2297,7 +2297,6 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                     $('.acta').show();
                 }else{
                     $('.acta').hide();
-                    $('#remacta').val('');
                 }
             });
             $("#remdes").select2({
@@ -2340,18 +2339,34 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                 ?>
                 </select>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-4">
                 <label for="remnum">Número<small class="text-red">*</small></label>
                 <input type="text" name="remnum" id="remnum" class="form-control" value="<?php echo $rr['num_remito'] ?>">
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-4">
                 <label for="rempes">Peso<small class="text-red">*</small></label>
                 <input type="number" name="rempes" id="rempes" class="form-control" step="0.01" value="<?php echo $rr['peso'] ?>">
+            </div>
+            <div class="col-sm-4 acta">
+                <label for="remacta">Número de acta<small class="text-red">*</small></label>
+                <input type="text" name="remacta" id="remacta" class="form-control" value="<?php echo $rr['num_acta'] ?>">
             </div>
         </div>
         <div class="form-group" id="d_frespuesta">
         </div>
         <script>
+            //mostrar numero de acta solo si el peso es mayor o igual a 30
+            <?php if($rr['peso']<30){ ?>
+            $('.acta').hide();
+            <?php } ?>
+            $('#rempes').on('input', function(){
+                var peso=parseFloat($(this).val());
+                if(peso>=30){
+                    $('.acta').show();
+                }else{
+                    $('.acta').hide();
+                }
+            });
             $("#remdes").select2({
               placeholder: 'Selecione el destino',
               ajax: {
@@ -2536,6 +2551,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                                     <td>
                                         <small class="text-muted">PESO</small><br>
                                         <?php echo $rr['peso']; ?> kg
+                                        <?php if($rr['num_acta']){ ?><br><small class="text-muted">ACTA</small><br><?php echo $rr['num_acta']; } ?>
                                     </td>
                                     <td>
                                         <small class="text-muted">FECHA REMITE</small><br>
