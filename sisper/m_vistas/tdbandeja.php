@@ -92,7 +92,7 @@ if (isset($_SESSION['identi']) && !empty($_SESSION['identi'])) {
               <?php if ($en || $eno) { ?>
                 <li><a href="#tab_6" data-toggle="tab"><i class="fa fa-circle-o text-blue"></i> Reportar Ntf.</a></li>
               <?php } ?>
-              <li><a href="#tab_7" data-toggle="tab"><i class="fa fa-circle-o text-blue"></i> Retornar Derivado</a></li>
+              <li><a href="#tab_7" data-toggle="tab"><i class="fa fa-circle-o text-blue"></i> Anular trámite</a></li>
               <?php if (!is_null($tmp)) { ?>
                 <li><a href="#tab_8" data-toggle="tab"><i class="fa fa-circle-o text-blue"></i> Guías</a></li>
                 <li><a href="#tab_11" data-toggle="tab"><i class="fa fa-circle-o text-blue"></i> Remitos</a></li>

@@ -468,21 +468,36 @@ function g_retgen(ides) {
   });
 }
 
-function g_rec(v1, v2, mp) {
-  $.ajax({
-    type: "post",
-    url: "m_inclusiones/a_tdocumentario/g_bandeja.php",
-    data: { acc: 'recdoc', v1: v1, v2: v2, mp: mp },
-    dataType: "json",
-    success: function (a) {
-      if (a.e) {
-        alertify.success(a.m);
-        li_ban7();
-      } else {
-        alertify.error(a.m);
-      }
-    }
-  });
+function g_anu(idestadodoc) {
+     //anular el último trámite pero con alertify v1.11.0, cambiar el boton de confirmación a "Anular" y el de cancelación a "Cancelar" y tambien el titulo a anular trámite
+
+      alertify.defaults.ok = 'Anular';
+      alertify.defaults.cancel = 'Cancelar';
+      alertify.defaults.glossary.title = 'Anular trámite';
+
+      alertify.confirm(
+        '¿Está seguro de anular el último trámite? Esta acción no se puede revertir.',
+        function () {
+          $.ajax({
+            type: "post",
+            url: "m_inclusiones/a_tdocumentario/g_bandeja.php",
+            data: { acc: 'anudoc', idestadodoc: idestadodoc },
+            dataType: "json",
+            success: function (a) {
+              if (a.e) {
+                alertify.success(a.m);
+                li_ban7();
+              } else {
+                alertify.error(a.m);
+              }
+            }
+          });
+        },
+        function () {
+          alertify.error('Anulación cancelada');
+        }
+    ).set('labels', { ok: 'Anular', cancel: 'Cancelar' });
+ 
 }
 
 

@@ -467,53 +467,35 @@ if(accesocon($cone,$_SESSION['identi'],17)){
             }else{
                 $r['m']="Faltan datos.";
             }
-        }elseif($acc=="recdoc"){
-            if(isset($_POST['v1']) && !empty($_POST['v1']) && isset($_POST['v2']) && !empty($_POST['v2'])){
-                $v1=iseguro($cone, $_POST['v1']);
-                $v2=iseguro($cone, $_POST['v2']);
-                $mp=iseguro($cone, $_POST['mp']);
+        }elseif($acc=="anudoc"){
+            if(isset($_POST['idestadodoc']) && !empty($_POST['idestadodoc'])){
+                $idestadodoc=iseguro($cone, $_POST['idestadodoc']);
                 $idem=$_SESSION['identi'];
-                
 
-                $ce=mysqli_query($cone, "SELECT idtdestadodoc, pnotificar FROM tdestadodoc WHERE idDoc=$v1 AND estado=1;");
-                if($re=mysqli_fetch_assoc($ce)){
-                    if($re['idtdestadodoc']==$v2){
-                        $idue=$re['idtdestadodoc'];
-
-                        if($mp!=0){
-                            $dep=vacio("");
-                        }else{
-                            $mp=vacio("");
-                            $dep=iddependenciae($cone, $_SESSION['identi']);
-                        }
-                        if($re['pnotificar']==1){
-                            $pn=1;
-                        }else{
-                            $pn=vacio("");
-                        }
-
-
-                        if(mysqli_query($cone, "INSERT INTO tdestadodoc (idDoc, idtdestado, fecha, idEmpleado, idDependencia, idtdmesapartes, asignador, mpasignador, depasignador, estado, pnotificar) VALUES ($v1, 2, NOW(), $idem, $dep, $mp, $idem, $mp, $dep, 1, $pn);")){
-                            $idne=mysqli_insert_id($cone);
-                            if(mysqli_query($cone, "UPDATE tdestadodoc SET estado=0 WHERE idDoc=$v1 AND idtdestadodoc=$idue;")){
-                                $r['m']="¡Listo! Documento recibido.";
+                //consultamos el estado, validando que tenga el mismo idtdestado que el enviado, el asignador sea $idem y el idtdestado sea diferente a 1 y 2
+                $cest=mysqli_query($cone, "SELECT idDoc FROM tdestadodoc WHERE idtdestadodoc=$idestadodoc AND asignador=$idem AND estado=1 AND idtdestado NOT IN (1,2);");
+                if($rest=mysqli_fetch_assoc($cest)){
+                    $idDoc=$rest['idDoc'];
+                    //consultamos el último estado del documento con estado=0 para convertirlo en 1 en rremplazo del estado a anular
+                    $cest2=mysqli_query($cone, "SELECT idtdestadodoc FROM tdestadodoc WHERE idDoc=$idDoc AND estado=0 ORDER BY idtdestadodoc DESC LIMIT 1;");
+                    if($rest2=mysqli_fetch_assoc($cest2)){
+                        $idestadodoc2=$rest2['idtdestadodoc'];
+                        //ahora necesito eliminar el estado a anular y poner en 1 el estado anterior
+                        if(mysqli_query($cone, "DELETE FROM tdestadodoc WHERE idtdestadodoc=$idestadodoc;")){
+                            if(mysqli_query($cone, "UPDATE tdestadodoc SET estado=1 WHERE idtdestadodoc=$idestadodoc2;")){
+                                $r['m']="¡Listo! Trámite anulado.";
                                 $r['e']=true;
                             }else{
-                                if(mysqli_query($cone, "DELETE FROM tdestadodoc WHERE idtdestadodoc=$idne;")){
-                                    $r['m']="Error al recibir, vuelva a intentarlo.";
-                                }else{
-                                    $r['m']="Error al recibir, reporte al administrador del sistema.";
-                                }
+                                $r['m']="Error, se anulo el trámite pero no se pudo activar el trámite anterior, contacte al administrador del sistema.";
                             }
                         }else{
-                            $r['m']="Error al recibir, vuelva a intentarlo.";
+                            $r['m']="Error, no se pudo anular el trámite, vuelva a intentarlo.";
                         }
                     }else{
-                        $r['m']='El documento ya tiene otro estado.';
-                        $r['e']=true;
+                        $r['m']='Error, el documento no tiene un trámite previo.';
                     }
                 }else{
-                    $r['m']='Error, datos erroneos del documento.';
+                    $r['m']='Error, no se puede anular el trámite.';
                 }
 
             }else{
