@@ -11,6 +11,12 @@ if(accesocon($cone,$_SESSION['identi'],17)){
 
     $idem=$_SESSION['identi'];
 
+    $idmp=NULL;
+    $cm=mysqli_query($cone, "SELECT mp.idtdmesapartes, mp.denominacion FROM tdpersonalmp p INNER JOIN tdmesapartes mp ON p.idtdmesapartes=mp.idtdmesapartes WHERE p.idEmpleado=$idem AND p.estado=1 AND mp.estado=1;");
+    if($rm=mysqli_fetch_assoc($cm)){
+      $idmp=$rm['idtdmesapartes'];
+    }
+
             $cd=mysqli_query($cone, "SELECT d.*, td.TipoDoc FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc WHERE d.Ano=$as AND d.numdoc=$ns;");
             if($rd=mysqli_fetch_assoc($cd)){
               $v1=$rd['idDoc'];
@@ -46,11 +52,8 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                     </tr>
                 </table>
 <?php
-            $ce=mysqli_query($cone, "SELECT ed.*, modnotificacion, tipo, motivo FROM tdestadodoc ed LEFT JOIN tdmodnotificacion mn ON ed.idtdmodnotificacion=mn.idtdmodnotificacion LEFT JOIN tdproveido p ON ed.idtdproveido=p.idtdproveido WHERE ed.idDoc=$v1 ORDER BY ed.idtdestadodoc DESC;");
-
-            $num_registros = mysqli_num_rows($ce);
-            if($num_registros>0){
-
+            $ce=mysqli_query($cone, "SELECT ed.*, modnotificacion, tipo, motivo FROM tdestadodoc ed LEFT JOIN tdmodnotificacion mn ON ed.idtdmodnotificacion=mn.idtdmodnotificacion LEFT JOIN tdproveido p ON ed.idtdproveido=p.idtdproveido WHERE ed.idDoc=$v1 ORDER BY ed.fecha DESC;");
+            if(mysqli_num_rows($ce)>0){
 ?>
                 <span class="text-muted" style="font-size: 11px;"><i class="fa fa-refresh text-orange"></i> Actualizado al <?php echo date('d/m/Y h:i:s A'); ?></span>
                 <table class="table table-bordered table-hover" style="font-size: 13px;">
@@ -66,9 +69,16 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                     <tbody>
 <?php
                 $n=0;
+                $pre=false;
                 while($re=mysqli_fetch_assoc($ce)){
                     $n++;
                     $ti="";
+
+                    if($n==1 && $re['idtdestado']==3 && ($re['asignador']==$idem || $re['mpasignador']==$idmp)){
+                      $pre=true;
+                      $v2=$re['idtdestadodoc'];
+                    }
+                    
                         $fec=$re['fecha'];
                         $cs=mysqli_query($cone, "SELECT fecha FROM tdestadodoc WHERE idDoc=$v1 AND fecha>'$fec' ORDER BY fecha ASC LIMIT 1;");
                         if($rs=mysqli_fetch_assoc($cs)){
@@ -77,21 +87,9 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                             $ti=date('Y-m-d H:i:s');
                         }
                         mysqli_free_result($cs);
-                        if($n==1){
-?>      
-                        <tr>
-                            <td colspan="5" class="text-center">
-                                <?php if($num_registros>1 && $re['idtdestado']!=1 && $re['idtdestado']!=2 && $re['asignador']==$idem){ ?>
-                                    <button type="button" class="btn bg-maroon" title="Anular último trámite" onclick="g_anu(<?php echo $re['idtdestadodoc'] ?>)"><i class="fa fa-times"></i> Anular último trámite</button>
-                                <?php }else{ ?>
-                                    <span class="text-warning" style="font-size: 14px;"><i class="fa fa-info-circle text-yellow"></i> No puedes anular el último trámite si no lo realizaste, si es el único trámite o si se encuentra en estado de recibido.</span>
-                                <?php } ?>
-                            </td>
-                        </tr>
-<?php
-                        }
+
 ?>
-                        <tr class="<?php echo $n==1 ? 'danger' : "" ?>">
+                        <tr>
                             <td><?php echo $n; ?></td>
                             <td>
                                 <?php echo estadoDoc($re['idtdestado']); ?>
@@ -126,7 +124,6 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                                 ?>
                             </td>
                         </tr>
-                        
                         <?php if(!is_null($re['observacion'])){ ?>
                         <tr>
                             <td colspan="5">
@@ -139,6 +136,11 @@ if(accesocon($cone,$_SESSION['identi'],17)){
 ?>
                     </tbody>
                 </table>
+                <?php if($pre){ ?>
+                <div class="text-center">
+                  <button type="button" class="btn bg-maroon" title="Recibirlo nuevamente" onclick="g_rec(<?php echo $v1.", ".$v2.", ".(!is_null($idmp) ? $idmp : 0); ?>)"><i class="fa fa-check"></i> Recibirlo Nuevamente</button>
+                </div>
+                <?php }else{ echo mensajewa("Ud. no puede recibir nuevamente este el documento."); }?>
 <?php
 
             }
