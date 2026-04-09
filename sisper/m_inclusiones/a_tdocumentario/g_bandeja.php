@@ -1386,6 +1386,40 @@ if(accesocon($cone,$_SESSION['identi'],17)){
             }else{
                 $r['m']="Faltan datos.";
             }
+        }elseif($acc=="anudoc"){
+            if(isset($_POST['idestadodoc']) && !empty($_POST['idestadodoc'])){
+                $idestadodoc=iseguro($cone, $_POST['idestadodoc']);
+                $idem=$_SESSION['identi'];
+
+                //consultamos el estado, validando que tenga el mismo idtdestado que el enviado, el asignador sea $idem y el idtdestado sea diferente a 1 y 2
+                $cest=mysqli_query($cone, "SELECT idDoc FROM tdestadodoc WHERE idtdestadodoc=$idestadodoc AND asignador=$idem AND estado=1 AND idtdestado NOT IN (1,2);");
+                if($rest=mysqli_fetch_assoc($cest)){
+                    $idDoc=$rest['idDoc'];
+                    //consultamos el último estado del documento con estado=0 para convertirlo en 1 en rremplazo del estado a anular
+                    $cest2=mysqli_query($cone, "SELECT idtdestadodoc FROM tdestadodoc WHERE idDoc=$idDoc AND estado=0 ORDER BY idtdestadodoc DESC LIMIT 1;");
+                    if($rest2=mysqli_fetch_assoc($cest2)){
+                        $idestadodoc2=$rest2['idtdestadodoc'];
+                        //ahora necesito eliminar el estado a anular y poner en 1 el estado anterior
+                        if(mysqli_query($cone, "DELETE FROM tdestadodoc WHERE idtdestadodoc=$idestadodoc;")){
+                            if(mysqli_query($cone, "UPDATE tdestadodoc SET estado=1 WHERE idtdestadodoc=$idestadodoc2;")){
+                                $r['m']="¡Listo! Trámite anulado.";
+                                $r['e']=true;
+                            }else{
+                                $r['m']="Error, se anulo el trámite pero no se pudo activar el trámite anterior, contacte al administrador del sistema.";
+                            }
+                        }else{
+                            $r['m']="Error, no se pudo anular el trámite, vuelva a intentarlo.";
+                        }
+                    }else{
+                        $r['m']='Error, el documento no tiene un trámite previo.';
+                    }
+                }else{
+                    $r['m']='Error, no se puede anular el trámite.';
+                }
+
+            }else{
+                $r['m']="Faltan datos.";
+            }
         }//acafin
 	}else{
 		$r['m']=mensajewa("Error: No envió la acción.");
