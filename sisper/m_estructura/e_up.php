@@ -248,9 +248,8 @@ if(!empty($css)){
             <i class="fa fa-angle-left pull-right"></i>
           </a>
           <ul class="treeview-menu">
-            <?php if(esResDespacho($cone,$_SESSION['identi'])){ ?>
-            <li id="provacaciones"><a href="provacaciones.php"><i class="fa fa-circle-o"></i> Programación</a></li>
-            <?php } if(accesoadm($cone,$_SESSION['identi'],3)){ ?>
+            <!-- <li id="provacaciones"><a href="provacaciones.php"><i class="fa fa-circle-o"></i> Programación</a></li> -->
+            <?php if(accesoadm($cone,$_SESSION['identi'],3)){ ?>
             <li id="pagvacaciones"><a href="pagvacaciones.php"><i class="fa fa-circle-o"></i> Reprogramación</a></li>
             <?php } if(accesoadm($cone,$_SESSION['identi'],14)){ ?>
             <li id="aprvacaciones"><a href="aprvacaciones.php"><i class="fa fa-circle-o"></i> Aprobación</a></li>

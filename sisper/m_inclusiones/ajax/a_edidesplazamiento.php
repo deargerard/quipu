@@ -54,16 +54,16 @@ if(accesoadm($cone,$_SESSION['identi'],1)){
                     <div class="form-group">
                       <label for="numres" class="col-sm-3 control-label">N° Documento</label>
                       <div class="col-sm-6 valida">
-                        <input type="text" id="numres" name="numres" class="form-control" placeholder="N° Documento" value="<?php echo $r['NumResolucion']; ?>" <?php echo $r['idTipoDesplaza']==1 ? "readonly" : ""; ?>>
+                        <input type="text" id="numres" name="numres" class="form-control" placeholder="N° Documento" value="<?php echo $r['NumResolucion']; ?>">
                       </div>
                       <div class="col-sm-3">
-                        <?php echo $r['idTipoDesplaza']==1 ? "<i class='fa fa-exclamation-circle text-orange'></i> <small>Editable al editar cargo</small>" : ""; ?>
+                        
                       </div>
                     </div>
                     <div class="form-group">
                       <label for="mot" class="col-sm-3 control-label">Motivo</label>
                       <div class="col-sm-9 valida">
-                        <input type="text" id="mot" name="mot" class="form-control" placeholder="Motivo" value="<?php echo $r['Motivo']; ?>" <?php echo $r['idTipoDesplaza']==1 ? "readonly" : ""; ?>>
+                        <input type="text" id="mot" name="mot" class="form-control" placeholder="Motivo" value="<?php echo $r['Motivo']; ?>">
                       </div>
                     </div>
                     <div id="r_edesplazamiento" class="text-center">
