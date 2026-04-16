@@ -287,9 +287,11 @@ if (accesocon($cone, $_SESSION['identi'], 16)) {
               $st = $st + $rct['tot'];
               $n++;
               $idcs = $rct['idComServicios'];
+              $nom = nomempleado($cone, $rct['idEmpleado']);
+              $dni = DNI($cone, $rct['idEmpleado']);
           ?>
               <tr style="background-color: #DDDDDD; vertical-align: middle;">
-                <td colspan="10"><b><?php echo $n . ".-" . nomempleado($cone, $rct['idEmpleado']) . " - " . $rct['csivia']; ?></b></td>
+                <td colspan="10"><b><?php echo $n . ".-" . $nom . " - " . $rct['csivia']; ?></b></td>
                 <td style="mso-number-format:'0.00';"><b><?php echo n_2decimales($rct['tot']); ?></b></td>
               </tr>
               <?php
@@ -321,9 +323,9 @@ if (accesocon($cone, $_SESSION['identi'], 16)) {
                         <td></td>
                         <td><?php echo fnormal($rga['fechacom']); ?></td>
                         <td><?php echo $rga['tipo']; ?></td>
-                        <td><?php echo is_null($rga['numerocom']) ? "&nbsp;S/N" : "&nbsp;" . $rga['numerocom']; ?></td>
-                        <td><?php echo $rga['razsocial']; ?></td>
-                        <td><?php echo $rga['ruc']; ?></td>
+                        <td><?php echo $rga['tipo']=="DECLARACION JURADA" ? "&nbsp;S/N" : "&nbsp;" . $rga['numerocom']; ?></td>
+                        <td><?php echo $rga['tipo']!="DECLARACION JURADA" ? $rga['razsocial'] : $nom; ?></td>
+                        <td><?php echo $rga['tipo']!="DECLARACION JURADA" ? $rga['ruc'] : $dni; ?></td>
                         <td><?php echo $rte['codigo']; ?></td>
                         <td><?php echo $rga['glosacom']; ?></td>
                         <td colspan="2" style="mso-number-format:'0.00';"><?php echo $rga['totalcom']; ?></td>
