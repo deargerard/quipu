@@ -221,7 +221,6 @@ if(accesoadm($cone,$_SESSION['identi'],9)){
 				<div class="col-sm-9">								
 					<label for="pro" class=" control-label">Proveedor: <small class="text-red">*</small></label>
 					<select class="form-control select2pro" name="pro" id="pro" style="width: 100%;">
-						<option value="sd">Ninguno</option>		
 					</select>
 				</div>
 				<div class="col-sm-3">
@@ -274,12 +273,12 @@ if(accesoadm($cone,$_SESSION['identi'],9)){
 				?>
 				<div class="col-sm-3">
 					<label for="ser" class="control-label ocu <?php echo $r3['idtetipocom']==2 ? "hidden" : "" ?>">Serie: <small class="text-red">*</small></label>		
-					<input type="text" name="ser" id="ser" class="form-control ocu <?php echo $r3['idtetipocom']==2 ? "hidden" : "" ?>" value="<?php echo $r3['numerocom']=="" ? "sd" : $m[0]; ?>">									
+					<input type="text" name="ser" id="ser" class="form-control ocu <?php echo $r3['idtetipocom']==2 ? "hidden" : "" ?>" value="<?php echo $r3['numerocom']=="" ? "" : $m[0]; ?>">									
 				</div>
 				
 				<div class="col-sm-3">
 					<label for="num" class="control-label ocu <?php echo $r3['idtetipocom']==2 ? "hidden" : "" ?>">Número: <small class="text-red">*</small></label>				
-					<input type="text" name="num" id="num" class="form-control ocu <?php echo $r3['idtetipocom']==2 ? "hidden" : "" ?>" value="<?php echo $r3['numerocom']=="" ? "sd" : $m[1]; ?>">
+					<input type="text" name="num" id="num" class="form-control ocu <?php echo $r3['idtetipocom']==2 ? "hidden" : "" ?>" value="<?php echo $r3['numerocom']=="" ? "" : $m[1]; ?>">
 				</div>					
 			</div>
 			<div class="form-group">
@@ -330,7 +329,6 @@ if(accesoadm($cone,$_SESSION['identi'],9)){
 					<label for="pro" class="control-label">Proveedor: <small class="text-red">*</small></label>	
 					<select class="form-control select2pro" name="pro" id="pro" style="width: 100%;">
 						<option value="<?php echo $r3['idteproveedor'] ?>"><?php echo $r3['razsocial']; ?></option>
-						<option value="sd" <?php echo $r3['idtetipocom']==2 ? "selected" : "" ?>>Ninguno</option>	
 					</select>
 				</div>
 				<div class="col-sm-3">
@@ -419,13 +417,8 @@ $(".select2doc").select2()
 var tip=$(this).val();
 if (tip==2) {
   $(".ocu").addClass("hidden");
-  $("#num").val("sd");
-  $("#ser").val("sd");  
-  $("#pro").select2("val", "sd");  
 }else{
   $(".ocu").removeClass("hidden");
-  $("#num").val("");
-  $("#ser").val("");   
 }
 });
 
