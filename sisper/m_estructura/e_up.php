@@ -239,7 +239,7 @@ if(!empty($css)){
         </li>
         <?php
         }
-        if(accesocon($cone,$_SESSION['identi'],3) || esResDespacho($cone,$_SESSION['identi'])){
+        if(accesocon($cone,$_SESSION['identi'],3)){
         ?>
         <li class="treeview" id="vacaciones">
           <a href="#">

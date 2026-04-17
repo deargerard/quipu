@@ -2858,6 +2858,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                                     <thead>
                                         <tr>
                                             <th>#</th>
+                                            <th class="hidden">id</th>
                                             <th>SEGUIMIENTO</th>
                                             <th>DOCUMENTO</th>
                                             <th>FECHA DERIVACIÓN</th>
@@ -2872,12 +2873,13 @@ if(accesocon($cone,$_SESSION['identi'],17)){
 ?>
                                     <tr>
                                         <td><?php echo $n; ?></td>
+                                        <th class="hidden"><?php echo $rd['idtdestadodoc'].' '.$v1; ?></th>
                                         <td><?php echo $rd['numdoc'].'-'.$rd['Ano']; ?></td>
                                         <td><?php echo $rd['Numero'].'-'.$rd['Ano'].'-'.$rd['Siglas']; ?></td>
                                         <td><?php echo fnormal($rd['fecha']); ?></td>
                                         <td>
                                             <div class="btn-group btn-group-xs">
-                                                <button type="button" class="btn bg-purple btn-xs" title="Agregar a guía" onclick="g_aguidoc(<?php echo $rd['idtdestadodoc'].','.$v1; ?>)"><i class="fa fa-check"></i></button>
+                                                <button type="button" class="btn bg-purple btn-xs" title="Agregar a guía" id="btn-aguidoc"><i class="fa fa-check"></i></button>
                                             </div>
                                         </td>
                                     </tr>
@@ -2887,7 +2889,29 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                                 </tbody>
                             </table>
                             <script>
-                                $('#dt_documentos').dataTable();
+
+                                var table = $("#dt_documentos").DataTable();
+
+                                $('#dt_documentos tbody').on('click', 'button#btn-aguidoc', function() {
+                                    var d = table.row($(this).parents('tr')).data()[1];
+                                    var da = d.split(' ');
+                                    var ta = table.row($(this).parents('tr'));
+
+                                    $.ajax({
+                                        type: "post",
+                                        url: "m_inclusiones/a_tdocumentario/g_bandeja.php",
+                                        data: { acc: 'aguidoc', estado: da[0], guia: da[1] },
+                                        dataType: "json",
+                                        success: function (a) {
+                                            if (a.e) {
+                                                alertify.success(a.m);
+                                                ta.remove().draw();
+                                            } else {
+                                                alertify.error(a.m);
+                                            }
+                                        }
+                                    });
+                                });
                             </script>
                         </div>
                     </div>

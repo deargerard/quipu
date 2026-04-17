@@ -615,7 +615,7 @@ function g_fecharec(remito){
   });
 }
 
-function g_aguidoc(estado, guia) {
+/* function g_aguidoc(estado, guia) {
   $.ajax({
     type: "post",
     url: "m_inclusiones/a_tdocumentario/g_bandeja.php",
@@ -630,7 +630,7 @@ function g_aguidoc(estado, guia) {
       }
     }
   });
-}
+} */
 
 /*function g_derper(v1, v2){
   var v3=$('#sper1').val();
