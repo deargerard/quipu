@@ -485,7 +485,7 @@
           <table class="table table-hover table-bordered">
             <tr>
               <td>
-                <i class="fas fa-balance-scale text-info"></i> <a href="https://casillas.pj.gob.pe/msiap/faces/login.jsp" target="_blank"> MSIAP PJ</a>
+                <i class="fas fa-balance-scale text-info"></i> <a href="https://msiap.pj.gob.pe/msiap/faces/login.jsp" target="_blank"> MSIAP PJ</a>
               </td>
             </tr>
           </table>
