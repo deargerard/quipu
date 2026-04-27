@@ -28,6 +28,14 @@ $rpv=mysqli_fetch_assoc($cpv);
   $anot= substr($rpv['PeriodoVacacional'], -11,-6);
   $anov= substr($rpv['PeriodoVacacional'], -4);
   $alta= substr($rin['FechaVac'], -10, -6);
+  /**
+   * Extrae los últimos 4 dígitos de la fecha de vacaciones, omitiendo los últimos 6 caracteres.
+   * 
+   * Utilizando substr con inicio -10 y longitud -6, se obtiene una subcadena de 4 caracteres.
+   * Ejemplo: si $rin['FechaVac'] = '2014-02-10', obtiene '-02' (caracteres en posición -10 a -7)
+   * 
+   * @var string $asume Resultado de la extracción de substring
+   */
   $asume= substr($rin['FechaVac'], -10, -6);
   $d= substr($rin['FechaVac'],-2);
   $m= substr($rin['FechaVac'],-5, -3);

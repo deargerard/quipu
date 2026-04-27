@@ -3,55 +3,68 @@ session_start();
 include ("../php/conexion_sp.php");
 include ("../php/funciones.php");
 if(accesoadm($cone,$_SESSION['identi'],3)){
-  if(isset($_POST['idec']) && !empty($_POST['idec']) && isset($_POST['pervac']) && !empty($_POST['pervac']) && isset($_POST['fav']) && !empty($_POST['fav'])&& isset($_POST['st'])){
+  if(isset($_POST['idec']) && !empty($_POST['idec']) && isset($_POST['pervac']) && !empty($_POST['pervac'])){
     $pervac=iseguro($cone,$_POST['pervac']);
-    $fav=fmysql(iseguro($cone,$_POST['fav']));
     $idec=iseguro($cone,$_POST['idec']);
-    $st=iseguro($cone,$_POST['st']);
-
-  //echo $fav." --- ".$st;
 
     ?>
-          <div class="form-group valida">
+          <div class="form-group">
             <div class="col-sm-12 text-center">
               <input type="hidden" name="idec" value="<?php echo $idec?>"> <!--envía id de personal-->
               <?php
                 $cpv=mysqli_query($cone,"SELECT * FROM periodovacacional WHERE idPeriodoVacacional=$pervac");
                 $rpv=mysqli_fetch_assoc($cpv);
+                mysqli_free_result($cpv);
               ?>
-                <h4 class="text-danger"><?php echo "REPROGRAMACIÓN PARA EL PERÍODO  ". $rpv['PeriodoVacacional']?></h4>
+                <h4 class="text-orange"><?php echo "Período  ". $rpv['PeriodoVacacional']?></h4>
                 <input type="hidden" name="peva" value="<?php echo $pervac?>"> <!--envía id del periodo-->
-                <input type="hidden" name="st" value="<?php echo $st?>"> <!--envía el estado inicial-->
-                <input type="hidden" name="fav" value="<?php echo $fav?>"> <!--envía la fecha de vacaciones-->
             </div>
           </div>
-          <div class="form-group valida">
-            <div class="col-sm-6" >
-              <label for="inivac" class="col-sm-4 control-label">Inicia</label>
-              <div class="input-group col-sm-8">
+          <div class="form-group">
+            <div class="col-sm-4" >
+              <label for="convac">Condición <small class="text-red">*</small></label>
+              <select name="convac" id="convac" class="form-control">
+                <option value="r">Reprogramado</option>
+                <option value="1">Programado</option>
+              </select>
+            </div>
+            <div class="col-sm-4 " >
+              <label for="inivac">Inicia <small class="text-red">*</small></label>
+              <div class="input-group">
                 <input type="text" id="inivac" name="inivac" class="form-control" placeholder="dd/mm/aaaa" autocomplete="off">
                 <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
               </div>
             </div>
-            <div class="col-sm-6" id="divter">
-              <label for="finvac" class="col-sm-4 control-label">Termina</label>
-              <div class="input-group col-sm-8">
-              <input type="text" id="finvac" name="finvac" class="form-control" placeholder="dd/mm/aaaa" autocomplete="off">
-              <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
+            <div class="col-sm-4 " id="divter">
+              <label for="finvac">Termina <small class="text-red">*</small></label>
+              <div class="input-group">
+                <input type="text" id="finvac" name="finvac" class="form-control" placeholder="dd/mm/aaaa" autocomplete="off">
+                <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
               </div>
             </div>
           </div>
-          <div class="form-group valida text-center">
+          <div class="form-group text-center">
             <span id="msg" class="text-maroon"></span>
           </div>
 
-          <div class="form-group valida">
-            <label for="doc" class="col-sm-2" >Documento</label>
-            <div class="col-sm-8">
-              <select name="doc" id="doc" class="form-control select2doc" style="width:100%">
-              </select>
+          <div class="form-group">
+            <div class="col-sm-9 ">
+              <label for="doc" >Documento <small class="text-red">*</small></label>
+              <select name="doc" id="doc" class="form-control select2doc" style="width:100%"></select>
             </div>
-            <button id="b_nuedoc" class="btn btn-info" type="button" data-toggle="modal" data-target="#m_nuedocu" >Nuevo</button>
+            <div class="col-sm-3">
+              <label>&ensp;</label><br>
+              <button id="b_nuedoc" class="btn btn-info" type="button" data-toggle="modal" data-target="#m_nuedocu" >Nuevo</button>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-12">
+            <label for="obsvac">Observaciones</label>
+            <textarea name="obsvac" id="obsvac" class="form-control" rows="3"></textarea>
+            </div>
+          </div>
+          <div class="form-group" id="d_frespuesta">
+
           </div>
 <script>
   $('#inivac').datepicker({
@@ -162,7 +175,7 @@ if(accesoadm($cone,$_SESSION['identi'],3)){
 <?php
     mysqli_close($cone);
   }else{
-    echo mensajewa("Error: No se selecciono ningún personal.");
+    echo mensajewa("Error: Verifique los datos.");
   }
 }else{
   echo accrestringidoa();

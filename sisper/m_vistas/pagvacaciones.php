@@ -34,32 +34,28 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                     <form action="" id="f_vacper" class="form-inline">
                       <div class="form-group">
                         <label for="per" class="sr-only">Personal</label>
-                        <select name="per" id="per" class="form-control select2pertot" style="width: 300px;">
-
-                        </select>
-                      </div>
-                      <div class="form-group">
-                        <label for="bbb" class="sr-only">Cargo </label>
-                        <select name="car" id="car" class="form-control select2" style="width: 180px;">
+                        <select name="per" id="per" class="form-control select2personal" style="width: 400px;">
 
                         </select>
                       </div>
                       <div class="form-group">
                         <label for="pervac" class="sr-only">Período</label>
-                        <select name="pervac" id="pervac" class="form-control select2per" style="width: 110px">
+                        <select name="pervac" id="pervac" class="form-control select2per" style="width: 150px">
 
                           <!-- <option value="t">TODOS</option> -->
 
                         </select>
                       </div>
                       <button class="btn btn-default" type="button" id="b_nperiodo" data-toggle="modal" data-target="#m_nperiodo"><i class="fa fa-calendar-plus-o" ></i></button>
-                      <div class="form-group">
-                        <label for="est" class="sr-only">ESTADO</label>
-                        <select id="can" name="can[]" class="form-control selectpicker show-tick" multiple data-selected-text-format="count" title="CANCELADAS">
-                          <option value="2">VER CANCELADAS</option>
-                        </select>
+                      <div class="form-group" style="padding: 0 5px 0 5px;">
+                        <label for="can" class="sr-only">Ver Canceladas</label>
+                        <div class="checkbox">
+                          <label>
+                          <input type="checkbox" id="can" name="can" value="2"> Ver Canceladas
+                          </label>
+                        </div>
                       </div>
-                      <button type="submit" id="b_bvacper" class="btn btn-default">Buscar</button>
+                      <button type="button" id="b_bvacper" class="btn btn-default" onclick="bvacper()">Buscar</button>
 
                 </form>
                     <!--Fin Formulario-->

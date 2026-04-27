@@ -793,6 +793,24 @@ $(".select2peract").select2({
   },
   minimumInputLength: 4
 });
+//Seleccionar personal
+$(".select2personal").select2({
+  placeholder: 'Selecione a un personal',
+  ajax: {
+    url: 'm_inclusiones/a_general/a_seltodopersonal.php',
+    dataType: 'json',
+    delay: 250,
+    processResults: function (data) {
+      return {
+        results: data
+      };
+    },
+    cache: true
+  },
+  minimumInputLength: 4
+});
+//fin seleccionar personal
+//Seleccionar personal y llenar cargos
 $(".select2pertot").select2({
   placeholder: 'Selecione a un personal',
   ajax: {
@@ -851,6 +869,7 @@ $(".select2pertot1").select2({
     }
   });
 });
+//fin seleccionar personal y llenar cargos
 
 $(".select2doc").select2({
   placeholder: 'Selecione a un documento',

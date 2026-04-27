@@ -2,187 +2,166 @@
 session_start();
 include("../php/conexion_sp.php");
 include("../php/funciones.php");
-if(accesocon($cone,$_SESSION['identi'],3)){
-	$per=iseguro($cone,$_POST["per"]);
-	$pervac=iseguro($cone,$_POST["pervac"]);
-	$val=$_POST["can"];
-	$idec=iseguro($cone,$_POST["car"]);
-	if(isset($per) && !empty($per) && isset($pervac) && !empty($pervac)){
-// Obtener  idEmpleadoCargo, fechas para cálculo de vacaciones
-		for ($i=0; $i < count($val); $i++) {
-			$can = $i==(count($val)-1) ? $val[$i] : $val[$i];
-		}
-include("a_ofechas.php");
-if ($asume<=$anot) {	
+if(accesoadm($cone,$_SESSION['identi'],3)){
+	if(isset($_POST["per"]) && !empty($_POST["per"]) && isset($_POST["pervac"]) && !empty($_POST["pervac"])){
+		$per=iseguro($cone,$_POST["per"]);
+		$pervac=iseguro($cone,$_POST["pervac"]);
+		$can=iseguro($cone,$_POST["can"]);
 ?>
 <div class="row">
-  <div class="col-sm-2"> <!--Botón Nuevo-->
-		<button id="b_nuevac" class="btn btn-info" data-toggle="modal" data-target="#m_nvacaciones" onclick="nuevac(<?php echo $idec .", ".$pervac.",".$st.",'".$av."'" ?>)">Nuevas Vacaciones</button>
-	</div>
-  <div class="col-sm-7"> <!--Nombre-->
-		<?php
-		if ($rin['idEstadoCar']==1) {
-		?>
-			<h4 class="text-aqua text-center"><strong><i class="fa fa-user"></i> <?php echo nomempleado($cone,$per); ?> </strong>| <small><i class="fa fa-black-tie"></i> <?php echo $rin['Denominacion']; ?></small></h4>
-		<?php
-		}else{
-		 ?>
-		 <h4 class="text-center"><strong><i class="fa fa-user"></i> <?php echo nomempleado($cone,$per); ?> </strong>| <small><i class="fa fa-black-tie"></i> <?php echo $rin['Denominacion']."  (INACTIVO)"; ?></small></h4>
-		<?php
-		}
-		?>
-	</div>
-	<div class="col-sm-3"> <!--Nombre-->
-    <h6 class="text-red" style="margin-bottom: 2px; text-align:right"> ALTA DEL TRABAJADOR: <?php echo fnormal($rin['FechaAsu'])?></h6>
-		<h6 class="text-red" style="margin-top: 2px; text-align:right"> CÁLCULO DE VACACIONES: <?php echo date('d/m/Y', $nf)?></h6>
-	</div>
+	<h3 class="text-center text-primary"><i class="fa fa-user text-orange"></i> <?php echo nomempleado($cone,$per) ?></h3>
 </div>
-<br>
 <?php
-$num=1;
-$tot=0;
-		if($can=="2"){
-			$cvac=mysqli_query($cone,"SELECT v.idProVacaciones, pv.PeriodoVacacional, concat(d.Numero,'-',d.Ano,'-',d.Siglas) AS Resolucion, d.FechaDoc, v.FechaIni, v.FechaFin, v.Estado, v.Condicion, av.idAprVacaciones, v.Observaciones FROM provacaciones as v INNER JOIN periodovacacional AS pv ON v.idPeriodoVacacional = pv.idPeriodoVacacional INNER JOIN aprvacaciones as av ON v.idProVacaciones= av.idProVacaciones INNER JOIN doc AS d ON av.idDoc=d.idDoc INNER JOIN empleadocargo AS ec ON v.idEmpleadoCargo=ec.idEmpleadoCargo WHERE v.idEmpleadoCargo = $rin[idEmpleadoCargo] AND v.idPeriodoVacacional=$pervac" );
-		}else{
-				$cvac=mysqli_query($cone,"SELECT v.idProVacaciones, pv.PeriodoVacacional, concat(d.Numero,'-',d.Ano,'-',d.Siglas) AS Resolucion, d.FechaDoc, v.FechaIni, v.FechaFin, v.Estado, v.Condicion, av.idAprVacaciones, v.Observaciones FROM provacaciones as v INNER JOIN periodovacacional AS pv ON v.idPeriodoVacacional = pv.idPeriodoVacacional INNER JOIN aprvacaciones as av ON v.idProVacaciones= av.idProVacaciones INNER JOIN doc AS d ON av.idDoc=d.idDoc INNER JOIN empleadocargo AS ec ON v.idEmpleadoCargo=ec.idEmpleadoCargo WHERE v.idEmpleadoCargo = $rin[idEmpleadoCargo] AND v.idPeriodoVacacional=$pervac AND v.Estado!=2");
-		}
-		//se obtine el periodo seleccionado
-		$cperi=mysqli_query($cone,"SELECT PeriodoVacacional FROM periodovacacional WHERE idPeriodoVacacional=$pervac");
-		$rperi=mysqli_fetch_assoc($cperi);
-		$peri=$rperi['PeriodoVacacional'];
-		// fin se obtine el periodo seleccionado
-	if(mysqli_num_rows($cvac)>0){
-		$pen=0;
+		//si no tiene cargo activo no podrá registrar vacaciones
+		$reg_vacaciones=false;
+		//Consultar su empleado cargo activo para validar si le corresponde vacaciones
+		$cec=mysqli_query($cone, "SELECT ec.idEmpleadoCargo, ec.FechaAsu, ec.FechaVac, c.Denominacion, cc.CondicionCar FROM empleadocargo ec INNER JOIN cargo c ON ec.idCargo=c.idCargo INNER JOIN condicioncar cc ON ec.idCondicionCar=cc.idCondicionCar WHERE ec.idEmpleado=$per AND ec.idEstadoCar=1");
+		if($rec=mysqli_fetch_assoc($cec)){
+			$idec=$rec['idEmpleadoCargo'];
+			$das=(caldiant($cone, $idec)%365);
+			//obtenemos el periodo vacacional
+			$cvp=mysqli_query($cone,"SELECT PeriodoVacacional FROM periodovacacional WHERE idPeriodoVacacional=$pervac");
+			if($rvp=mysqli_fetch_assoc($cvp)){
+				$periodovac=explode('-', $rvp['PeriodoVacacional']);
+			}
+			mysqli_free_result($cvp);
+			
+			if(strtotime($rec['FechaAsu']) <= strtotime(trim($periodovac[0])."-".date("m-d", strtotime($rec['FechaAsu'])))) {
+				$reg_vacaciones=true;
+			}
 ?>
-		<table id="dtdir" class="table table-bordered table-hover"> <!--Tabla que Lista las vacaciones-->
-			  <thead>
+	<div class="row">
+		<div class="col-sm-4"> <!--Nombre-->
+			<p><i class="fa fa-calendar text-maroon"></i> ALTA DEL TRABAJADOR: <?php echo fnormal($rec['FechaAsu'])?><br>
+			 <i class="fa fa-calendar text-maroon"></i> CÁLCULO DE VACACIONES: <?php echo date('d/m', strtotime('+'.$das.' day', strtotime($rec['FechaVac'])))."/".trim($periodovac[1]); ?></p>
+		</div>
+		<div class="col-sm-4 text-center"> <!--Nombre-->
+			<h4 class="text-aqua"><i class="fa fa-black-tie text-gray"></i> <?php echo $rec['Denominacion'].($rec['CondicionCar']!="NINGUNO" ? " (".substr($rec['CondicionCar'],0,1).")" : ""); ?></h4>
+		</div>
+		<div class="col-sm-4 text-right"> <!--Botón Nuevo-->
+			<?php if($reg_vacaciones) { ?>
+				<button id="b_nuevac" class="btn btn-info" data-toggle="modal" data-target="#m_nvacaciones" onclick="nuevac(<?php echo $idec.",".$pervac; ?>)"><i class="fa fa-umbrella"></i>  Registrar vacaciones</button>
+			<?php
+				}
+			?>
+		</div>
+	</div>
+<?php
+		}else{
+			echo mensajewa("Sin cargo activo.");
+		}
+		mysqli_free_result($cec);
+
+		if($can=="2"){
+			$cvac=mysqli_query($cone,"SELECT v.idProVacaciones, pv.PeriodoVacacional, concat(d.Numero,'-',d.Ano,'-',d.Siglas) AS Resolucion, d.FechaDoc, v.FechaIni, v.FechaFin, v.Estado, v.Condicion, av.idAprVacaciones, v.Observaciones, c.Denominacion, cc.CondicionCar, ec.idEmpleadoCargo FROM provacaciones as v INNER JOIN periodovacacional AS pv ON v.idPeriodoVacacional = pv.idPeriodoVacacional INNER JOIN aprvacaciones as av ON v.idProVacaciones= av.idProVacaciones INNER JOIN doc AS d ON av.idDoc=d.idDoc INNER JOIN empleadocargo AS ec ON v.idEmpleadoCargo=ec.idEmpleadoCargo INNER JOIN cargo c ON ec.idCargo=c.idCargo INNER JOIN condicioncar cc ON ec.idCondicionCar=cc.idCondicionCar WHERE ec.idEmpleado = $per AND v.idPeriodoVacacional=$pervac ORDER BY v.FechaIni ASC" );
+		}else{
+			$cvac=mysqli_query($cone,"SELECT v.idProVacaciones, pv.PeriodoVacacional, concat(d.Numero,'-',d.Ano,'-',d.Siglas) AS Resolucion, d.FechaDoc, v.FechaIni, v.FechaFin, v.Estado, v.Condicion, av.idAprVacaciones, v.Observaciones, c.Denominacion, cc.CondicionCar, ec.idEmpleadoCargo FROM provacaciones as v INNER JOIN periodovacacional AS pv ON v.idPeriodoVacacional = pv.idPeriodoVacacional INNER JOIN aprvacaciones as av ON v.idProVacaciones= av.idProVacaciones INNER JOIN doc AS d ON av.idDoc=d.idDoc INNER JOIN empleadocargo AS ec ON v.idEmpleadoCargo=ec.idEmpleadoCargo INNER JOIN cargo c ON ec.idCargo=c.idCargo INNER JOIN condicioncar cc ON ec.idCondicionCar=cc.idCondicionCar WHERE ec.idEmpleado = $per AND v.idPeriodoVacacional=$pervac AND v.Estado!=2 ORDER BY v.FechaIni ASC");
+		}
+
+		if(mysqli_num_rows($cvac)>0){
+			$pen=0;
+	?>
+			<table id="dtdir" class="table table-bordered table-hover"> <!--Tabla que Lista las vacaciones-->
+				<thead>
 					<tr>
+						<th>CARGO</th>
 						<th>PERÍODO</th>
-						<th>NÚMERO DE RESOLUCIÓN</th>
-						<th>FECHA RES.</th>
+						<th>RESOLUCIÓN</th>
 						<th>PROGRAMACIÓN</th>
 						<th>DÍAS</th>
-						<th>INICIA</th>
-						<th>TERMINA</th>
+						<th>FECHAS</th>
 						<th>ESTADO</th>
 						<th>ACCIÓN</th>
 					</tr>
 				</thead>
 				<tbody>
-				<?php
-						while($rvac=mysqli_fetch_assoc($cvac)){
-							if ($rvac['Estado']!='2') {
-								$pen= intervalo($rvac['FechaFin'], $rvac['FechaIni']) + $pen;
-							}
-
-							$dt=intervalo ($rvac['FechaFin'], $rvac['FechaIni']);
-				?>
-				<tr <?php echo is_null($rvac['Observaciones']) ? "" : "data-toggle='tooltip' data-placement='top' title='".$rvac['Observaciones']."'" ?>> <!--Fila de vacaciones-->
-					<td><?php echo $rvac['PeriodoVacacional']?></td> <!--columna PERÍODO-->
-					<td><?php echo $rvac['Resolucion']?></td> <!--columna NÚMERO DE RESOLUCIÓN-->
-					<td><?php echo fnormal($rvac['FechaDoc'])?></td> <!--columna FECHA DOCUMENTO-->
-					<td><?php echo condicionVac($rvac['Condicion']) ?></td> <!--columna CONDICIÓN-->
-					<td><?php echo $dt ?></td> <!--columna CAMTIDAD DE DIAS-->
-					<td><?php echo fnormal($rvac['FechaIni'])?></td> <!--columna INICIO-->
-					<td><?php echo fnormal($rvac['FechaFin'])?></td> <!--columna FIN-->
-					<td><?php echo estadoVac($rvac['Estado']) ?></td> <!--columna ESTADO-->
-          			<td> <!--columna ACCIÓN-->
 					<?php
-					$falta = intervalo($rvac['FechaIni'],$hoy)-1;
-					$perm = 0;
-						if ($rvac['Estado']=='0'|| $rvac['Estado']=='4'){
-							if ($falta>16) {
-							$perm=1;
-							}
+					while($rvac=mysqli_fetch_assoc($cvac)){
+						$dt=intervalo ($rvac['FechaFin'], $rvac['FechaIni']);
+						if ($idec && $rvac['Estado']!='2' && $idec==$rvac['idEmpleadoCargo']) {
+							$pen= $dt + $pen;
 						}
-						?>
-						<div class="btn-group">  <!--menu desplegable-->
-						<button class="btn btn-warning btn-xs dropdown-toggle" data-toggle="dropdown">
-							<i class="fa fa-cog"></i>&nbsp;
-							<span class="caret"></span>
-							<span class="sr-only">Desplegar menú</span>
-						</button>
-						<ul class="dropdown-menu pull-right" role="menu">
-							<li><a href="#" data-toggle="modal" data-target="#m_evacaciones" onclick="edivac(<?php echo $perm.",". $rvac['idProVacaciones'].",".$rvac['idAprVacaciones'].",'".$av."'"?>)">Editar </a></li>
-											<?php
-											if ($rvac['Estado']!='2'){
-											?>
-												<li><a href="#" data-toggle="modal" data-target="#m_cvacaciones" onclick="canvac(<?php echo $perm.",". $rvac['idProVacaciones']?>)">Cambiar estado</a></li>
-											<?php
-											}
-											?>
-						</ul>
-						</div>
-          			</td> <!--/columna ACCIÓN-->
-				</tr>
-				<?php
-				$peri=$rvac['PeriodoVacacional'];  //se obtiene el ultimo período
-				}
-				$re="reprogramar ";
-				}else{
-				?>
-				<tr>
-					<?php
-				 		mensajewa("El trabajador no tiene vacaciones para el período $peri.");
 					?>
-				</tr>
-				<?php
-				$re="programar ";
-				}
-					$tot=(30)-($pen); //Calculo de días de vacaciones pendientes de programar
-					mysqli_free_result($cvac);
-				?>
-		</tbody>
-		<script>
-		var tot= parseInt(<?php echo $tot ?>);
-		var int= parseInt(<?php intervalo($fff, $hoy) ?>);
-		if (tot==0 || int<=15) {
-			$("#b_nuevac").hide();
+					<tr <?php echo is_null($rvac['Observaciones']) ? "" : "data-toggle='tooltip' data-placement='top' title='".$rvac['Observaciones']."'" ?>> <!--Fila de vacaciones-->
+						<td><?php echo $rvac['Denominacion'].($rvac['CondicionCar']!="NINGUNO" ? " (".substr($rvac['CondicionCar'],0,1).")" : ""); ?></td> <!--columna CARGO-->
+						<td><?php echo $rvac['PeriodoVacacional']?></td> <!--columna PERÍODO-->
+						<td><?php echo $rvac['Resolucion']." <small>(".fnormal($rvac['FechaDoc']).")</small>"?></td> <!--columna NÚMERO DE RESOLUCIÓN-->
+						<td><?php echo condicionVac($rvac['Condicion']) ?></td> <!--columna CONDICIÓN-->
+						<td><?php echo $dt ?></td> <!--columna CAMTIDAD DE DIAS-->
+						<td><?php echo fnormal($rvac['FechaIni']).' - '.fnormal($rvac['FechaFin']) ?></td> <!--columna FECHAS-->
+						<td><?php echo estadoVac($rvac['Estado']) ?></td> <!--columna ESTADO-->
+						<td> <!--columna ACCIÓN-->
+							<?php
+							if ($rvac['Estado']!=2 && $rvac['Estado']!=1){
+							?>
+							<div class="btn-group">  <!--menu desplegable-->
+								<button class="btn bg-orange btn-xs dropdown-toggle" data-toggle="dropdown">
+									<i class="fa fa-cog"></i>&nbsp;
+									<span class="caret"></span>
+									<span class="sr-only">Desplegar menú</span>
+								</button>
+								<ul class="dropdown-menu pull-right" role="menu">
+								<?php
+								if($reg_vacaciones && $rvac['idEmpleadoCargo']==$idec){
+								?>
+									<li>
+										<a href="#" data-toggle="modal" data-target="#m_evacaciones" onclick="edivac(<?php echo $rvac['idProVacaciones'] ?>)">Editar </a>
+									</li>
+								<?php
+								}
+								?>
+									<li>
+										<a href="#" data-toggle="modal" data-target="#m_cvacaciones" onclick="canvac(<?php echo $rvac['idProVacaciones']?>)">Cambiar estado</a>
+									</li>
+								</ul>
+							</div>
+							<?php
+							}
+							?>
+						</td> <!--/columna ACCIÓN-->
+					</tr>
+<?php	
+					}
+?>
+				</tbody>
+			</table>
+<?php
+		}else{
+			echo mensajewa("Sin vacaciones para el período seleccionado.");
+			$re="programar ";
 		}
-		</script>
-	</table>
-		<table class="table table-hover table-bordered"> <!--Datos relacionados a los dias de vacaciones-->
-			<tr>
-				<input type="hidden" name="df" id="df" value="<?php echo $tot ?>">
-			<?php
-			if ($tot!=0){
-				if ($tot<0){
-					?>
-					<td class="text-red">El trabajador(a) ha excedido en <?php echo abs($tot) ?> día(s) al <?php echo $re ?> las vacaciones para el período <?php echo $peri ?>.</td>
-					<?php
-				}else{
-					?>
-					<td class="text-red">El trabajador(a) tiene <?php echo $tot ?> días de vacaciones pendientes de <?php echo $re ?> en el período <?php echo $peri ?>.</td>
-					<?php
-				}
-			}elseif ($falta<15){
-				if ($falta==1) {
-					?>
-					<td class="text-success">Mañana iniciarán las vacaciones del período <?php echo $peri ?>.</td>
-					<?php
-				}elseif ($falta==0){
-					?>
-					<td class="text-success">El trabajador(a) esta ejecutando sus vacaciones del período <?php echo $peri ?>.</td>
-					<?php
-				}elseif ($falta>0) {
-					?>
-					<td class="text-success">En <?php echo $falta?> días iniciarán las vacaciones del período <?php echo $peri ?>.</td>
-					<?php
-				}
+		mysqli_free_result($cvac);
+		$tot=0;
+		if($reg_vacaciones){
+			$tot=30-$pen; //Calculo de días de vacaciones pendientes de programar
+?>
+				<input type="hidden" name="df" id="df" value="<?php echo $tot; ?>">
+<?php
+			if($tot>0){
+				echo mensajein("Tiene $tot día(s) pendiente(s) por programar.");
+			}elseif($tot==0){
+				echo mensajein("No tiene días pendientes por programar.");
+?>
+				<script>
+					$("#b_nuevac").addClass("hide");
+				</script>
+<?php
+			}else{
+				echo mensajeda("Tiene ".abs($tot)." día(s) programado(s) en exceso.");
+?>
+				<script>
+					$("#b_nuevac").addClass("hide");
+				</script>
+<?php
 			}
-
-			?>
-			</tr>
-	</table>
-	<?php
-		mysqli_close($cone);
-}else{
-	echo mensajewa("Al trabajador ".nomempleado($cone,$per)." no le corresponde programar vacaciones en el periodo ".$rpv['PeriodoVacacional']);
-} //
+		}
+		
+?>
+		<?php
+		
 	}else{
-		echo mensajewa("Atención: Debe seleccionar el Trabajador y el Período Vacacional");
+		echo mensajewa("Error: No selecciono el personal o el periodo vacacional");
 	}
-
 }else{
   echo accrestringidoa();
 }

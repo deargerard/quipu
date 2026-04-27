@@ -2,46 +2,61 @@
 session_start();
 include ("../php/conexion_sp.php");
 include ("../php/funciones.php");
+$r=array();
+$r['e']=false;
 if(accesoadm($cone,$_SESSION['identi'],3)){
-	if(isset($_POST["NomForm"]) && $_POST["NomForm"]=="f_evacaciones"){
-		if(isset($_POST['inivac']) && !empty($_POST['inivac']) && isset($_POST['finvac']) && !empty($_POST['finvac']) && isset($_POST['doc']) && !empty($_POST['doc']) && isset($_POST['idvac']) && !empty($_POST['idvac']) && isset($_POST['idav']) && !empty($_POST['idav']) && isset($_POST['st']) && isset($_POST['fav']) && !empty($_POST['fav'])){
-			$inivac=fmysql(iseguro($cone,$_POST['inivac']));
-			$finvac=fmysql(iseguro($cone,$_POST['finvac']));
-			$fav=fmysql(iseguro($cone,$_POST['fav']));
-			$doc=iseguro($cone,$_POST['doc']);
+		if(isset($_POST['idvac']) && !empty($_POST['idvac']) && isset($_POST['convac']) && !empty($_POST['convac']) && isset($_POST['inivac']) && !empty($_POST['inivac']) && isset($_POST['finvac']) && !empty($_POST['finvac']) && isset($_POST['doc']) && !empty($_POST['doc'])){
 			$idvac=iseguro($cone,$_POST['idvac']);
-			$idav=iseguro($cone,$_POST['idav']);
-			$st=iseguro($cone,$_POST['st']);
-			//Valida el estado.
-			if($finvac<=date('Y-m-d')){
-				$st=1;
-			}elseif($inivac<=date('Y-m-d')){
-				$st=3;
-			}elseif ($inivac>date('Y-m-d')) {
-				if (date('Y-m-d') < $fav) {
-			    $st=4;
-			  }else{
- 					$st=0;
-			 }
-			}
-			//Fin validación del estado
+			$convac=iseguro($cone,$_POST['convac']);
+			$inivac=fmysql(iseguro($cone,$_POST['inivac']));
+			$finvac=fmysql(iseguro($cone,$_POST['finvac']));	
+			$doc=iseguro($cone,$_POST['doc']);
+			$obsvac=iseguro($cone,$_POST['obsvac']);
 
-				$sql="UPDATE provacaciones SET FechaIni='$inivac', FechaFin='$finvac', Estado=$st WHERE idProVacaciones=$idvac";
-				if(mysqli_query($cone,$sql)){
-					$sqlpv="UPDATE aprvacaciones SET idDoc=$doc WHERE idAprVacaciones=$idav";
-					if(!mysqli_query($cone,$sqlpv)){
-						echo mensajeda("Error: No se pudo actualizar la aprobación de las vacaciones. Consulte con Informática ".mysqli_error($cone));
+			//Verificamos que el personal tiene cargo activo y obtenemos el la fecha de vacaciones
+			$cv=mysqli_query($cone,"SELECT idEmpleadoCargo, FechaVac FROM empleadocargo WHERE idEmpleadoCargo=(SELECT idEmpleadoCargo FROM provacaciones WHERE idProVacaciones=$idvac) AND idEstadoCar=1");
+			if($rv=mysqli_fetch_assoc($cv)){
+				if(strtotime($inivac)>strtotime($rv['FechaVac'])){
+					
+					$convac = ($convac == "r") ? 0 : $convac; //si es reprogramado, se guarda como 0 en la base de datos
+
+					//Valida el estado.
+					$st=0;
+					if(strtotime(date('Y-m-d')) > strtotime($finvac)){
+						$st=1;
+					}elseif(strtotime(date('Y-m-d')) >= strtotime($inivac) && strtotime(date('Y-m-d')) <= strtotime($finvac)){
+						$st=3;
+					}elseif (strtotime(date('Y-m-d'))<strtotime($inivac)) {
+						$st=4;
 					}
-					echo mensajesu("Listo: Se actualizó correctamente las vacaciones");
+					//Fin validación del estado
+
+					$sql="UPDATE provacaciones SET FechaIni='$inivac', FechaFin='$finvac', Estado=$st, Condicion=$convac, Observaciones='$obsvac' WHERE idProVacaciones=$idvac";
+					if(mysqli_query($cone,$sql)){
+						$sqlpv="UPDATE aprvacaciones SET idDoc=$doc WHERE idProVacaciones=$idvac";
+						if(mysqli_query($cone,$sqlpv)){
+							$r['e']=true;
+							$r['m']="¡Hecho! Se editó correctamente las vacaciones";
+						}else{
+							$r['m']=mensajeda("Error: No se pudo actualizar el documento. Consulte con Informática.");
+						}
+					}else{
+						$r['m']=mensajeda("Error: No se pudo actualizar las vacaciones.");
+					}
 				}else{
-					echo mensajeda("Error: No se pudo actualizar las vacaciones. ".mysqli_error($cone));
+					$r['m']=mensajewa("Error: La fecha de inicio de vacaciones no puede ser menor a la fecha de vacaciones registrada.");
 				}
-			mysqli_close($cone);
+			}else{
+				$r['m']=mensajewa("Error: Las vacaciones no pertenecen a un cargo activo. No se puede actualizar las vacaciones.");
+			}
+			mysqli_free_result($cv);
 		}else{
-			echo mensajewa("Error: No lleno correctamente el formulario.");
+			$r['m']=mensajewa("Error: Los campos marcados con * son obligatorios.");
 		}
-	}
 }else{
-  echo accrestringidoa();
+  $r['m']="Acceso restringido.";
 }
+header('Content-type: application/json; charset=utf-8');
+echo json_encode($r);
+mysqli_close($cone);
 ?>

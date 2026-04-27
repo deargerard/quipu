@@ -1,6 +1,7 @@
 // Recibir Persona y periodo vacacional
-$("#f_vacper").submit(function(e){
- e.preventDefault();
+function bvacper(){
+//$("#f_vacper").submit(function(e){
+ //e.preventDefault();
  var datos = $("#f_vacper").serializeArray();
  datos.push({name: "NomForm", value: "f_vacper"});
  $.ajax({
@@ -15,38 +16,43 @@ $("#f_vacper").submit(function(e){
          $("#r_vacper").html(response);
        }
    });
-});
+//});
+}
 // Fin Recibir Persona y periodo vacacional
 // funciÃ³n reprogramacion de vacaciones
-function nuevac(idec, pervac, st, fav){
+function nuevac(idec, pervac){
 $.ajax({
  type: "post",
  url: "m_inclusiones/a_vacaciones/a_fnuevac.php",
- data: { idec : idec, pervac : pervac, st : st, fav  : fav},
+ data: { idec : idec, pervac : pervac },
  beforeSend: function () {
    $("#r_nuevacaciones").html("<img src='m_images/cargando.gif'>");
    $("#b_gnvac").hide();
  },
  success:function(a){
-   $("#b_gnvac").show();
-   $("#r_nuevacaciones").html(a);
+  $("#b_gnvac").html("Guardar");
+  $("#b_gnvac").removeClass("disabled");
+  $("#b_gnvac").show();
+  $("#r_nuevacaciones").html(a);
  }
 });
 };
 //fin reprogramacion de vacaciones
 //funcion validar reprogramacion de vacaciones
-$( "#f_nuevacaciones").validate( {
+/* $( "#f_nuevacaciones").validate( {
  rules: {
+  convac:"required",
    peva:"required",
    inivac:"required",
    finvac:"required",
    doc:"required",
   },
  messages: {
+  convac:"Elija la condición",
    peva:"Seleccione el periodo vacacional",
-   inivac:"Seleccione el inicio de las vacaciones",
-   finvac:"Seleccione el final de las vacaciones",
-   doc:"Seleccione el documento de aprobaciÃ³n de las vacaciones",
+   inivac:"Ingrese el inicio de las vacaciones",
+   finvac:"Ingrese el final de las vacaciones",
+   doc:"Elija el documento de aprobación de las vacaciones",
   },
  errorElement: "em",
  errorPlacement: function ( error, element ) {
@@ -89,27 +95,56 @@ $( "#f_nuevacaciones").validate( {
       }
    });
  }
-} );
+} ); */
 //fin funciÃ³n validar reprogramacion de vacaciones
-// funciÃ³n editar reprogramacion de vacaciones
-function edivac(perm, idvac, idav, fav){
-$.ajax({
-type: "post",
-url: "m_inclusiones/a_vacaciones/a_fedivac.php",
-data: { perm  : perm, idvac : idvac, idav: idav, fav: fav },
-beforeSend: function () {
-  $("#r_evacaciones").html("<img src='m_images/cargando.gif'>");
-  $("#b_gevacaciones").hide();
-},
-success:function(a){
-  $("#b_gevacaciones").show();
-  $("#r_evacaciones").html(a);
-}
+$('#f_nuevacaciones').submit(function(e){
+  e.preventDefault();
+  var datos = $("#f_nuevacaciones").serializeArray();
+  $.ajax({
+      type: "POST",
+      url: "m_inclusiones/a_vacaciones/a_gnuevac.php",
+      dataType: "json",
+      data: datos,   // I WANT TO ADD EXTRA DATA + SERIALIZE DATA
+      beforeSend: function () {
+         $("#b_gnvac").html("<i class='fa fa-spinner fa-spin'></i> Enviando");
+         $("#b_gnvac").addClass("disabled");
+      },
+      success: function(data){
+        if(data.e){
+          alertify.success(data.m);
+          $("#m_nvacaciones").modal("hide");
+          bvacper();
+        }else{
+          $("#d_frespuesta").html(data.m);
+          $("#b_gnvac").html("Guardar");
+          $("#b_gnvac").removeClass("disabled");
+        }
+      }
+   });
 });
+
+
+// funciÃ³n editar reprogramacion de vacaciones
+function edivac(idvac){
+  $.ajax({
+    type: "post",
+    url: "m_inclusiones/a_vacaciones/a_fedivac.php",
+    data: { idvac : idvac },
+    beforeSend: function () {
+      $("#r_evacaciones").html("<img src='m_images/cargando.gif'>");
+      $("#b_gevacaciones").hide();
+    },
+    success:function(a){
+      $("#b_gevacaciones").html("Guardar");
+      $("#b_gevacaciones").removeClass("disabled");
+      $("#b_gevacaciones").show();
+      $("#r_evacaciones").html(a);
+    }
+  });
 };
 //fin editar reprogramacion de vacaciones
 //funcion validar editar reprogramacion de vacaciones
-$( "#f_evacaciones" ).validate( {
+/* $( "#f_evacaciones" ).validate( {
   rules: {
     inivac:"required",
     finvac:"required",
@@ -161,25 +196,50 @@ $( "#f_evacaciones" ).validate( {
       }
    });
  }
-} );
+} ); */
+$('#f_evacaciones').submit(function(e){
+  e.preventDefault();
+  var datos = $("#f_evacaciones").serializeArray();
+  $.ajax({
+      type: "POST",
+      url: "m_inclusiones/a_vacaciones/a_gedivac.php",
+      dataType: "json",
+      data: datos,   // I WANT TO ADD EXTRA DATA + SERIALIZE DATA
+      beforeSend: function () {
+         $("#b_gevacaciones").html("<i class='fa fa-spinner fa-spin'></i> Enviando");
+         $("#b_gevacaciones").addClass("disabled");
+      },
+      success: function(data){
+          if(data.e){
+            alertify.success(data.m);
+            $("#m_evacaciones").modal("hide");
+            bvacper();
+          }else{
+            $("#d_frespuesta").html(data.m);
+            $("#b_gevacaciones").html("Guardar");
+            $("#b_gevacaciones").removeClass("disabled");
+          }
+      }
+   });
+});
 //fin funciÃ³n validar editar reprogramacion de vacaciones
 // funciÃ³n cancelar vacaciones
-function canvac(perm, idvac){
-$.ajax({
- type: "post",
- url: "m_inclusiones/a_vacaciones/a_fcanvac.php",
- data: { perm  : perm, idvac : idvac},
- beforeSend: function () {
-   $("#r_cvacaciones").html("<img src='m_images/cargando.gif'>");
-   $("#b_sicvacaciones").hide();
-   $("#b_nocvacaciones").html("Cerrar");
- },
- success:function(a){
-   $("#b_sicvacaciones").show();
-   $("#b_nocvacaciones").html("No");
-   $("#r_cvacaciones").html(a);
- }
-});
+function canvac(idvac){
+  $.ajax({
+    type: "post",
+    url: "m_inclusiones/a_vacaciones/a_fcanvac.php",
+    data: {idvac : idvac},
+    beforeSend: function () {
+      $("#r_cvacaciones").html("<img src='m_images/cargando.gif'>");
+      $("#b_sicvacaciones").hide();
+      $("#b_nocvacaciones").html("Cerrar");
+    },
+    success:function(a){
+      $("#b_sicvacaciones").show();
+      $("#b_nocvacaciones").html("No");
+      $("#r_cvacaciones").html(a);
+    }
+  });
 };
 //fin funciÃ³n cancelar vacaciones
 //funciÃ³n enviar vacaciones a cancelar
@@ -191,13 +251,20 @@ $("#f_cvacaciones").submit(function(e){
         data:  datos,
         url:   "m_inclusiones/a_vacaciones/a_gcanvac.php",
         type:  "post",
+        dataType: "json",
         beforeSend: function () {
-          $("#r_cvacaciones").html("<img scr='m_images/cargando.gif'>");
+          $("#d_frespuesta").html("<img scr='m_images/cargando.gif'>");
           $("#b_sicvacaciones").hide();
         },
-        success:  function (response) {
-          $("#r_cvacaciones").html(response);
-          $("#b_nocvacaciones").html("Cerrar");
+        success:  function (data) {
+          if(data.e){
+            alertify.success(data.m);
+            $("#m_cvacaciones").modal("hide");
+            bvacper();
+          }else{
+            $("#d_frespuesta").html(data.m);
+            $("#b_sicvacaciones").show();
+          }
         }
     });
 });
@@ -223,7 +290,7 @@ $('#m_nvacaciones, #m_evacaciones, #m_cvacaciones').on('hidden.bs.modal', functi
   });
 })
 //fin funcion actualizar lista de vacaciones
-//funcion llamar formulario nuevo perÃ­odo
+//funcion llamar formulario nuevo período
 $("#b_nperiodo").on("click",function(e){
   $.ajax({
     type:"post",
@@ -237,8 +304,8 @@ $("#b_nperiodo").on("click",function(e){
     }
   });
 });
-//fin funcion llamar formulario nuevo perÃ­odo
-//funcion validar nuevo perÃ­odo
+//fin funcion llamar formulario nuevo período
+//funcion validar nuevo período
 $( "#f_nperiodo").validate({
  rules: {
    atrab: "required",
@@ -293,7 +360,7 @@ $( "#f_nperiodo").validate({
 
 //function seleccionar periodo
 $(".select2per").select2({
-  placeholder: 'Selecione perÃ­odo',
+  placeholder: 'Seleccione período',
   ajax: {
     url: 'm_inclusiones/a_vacaciones/a_selperiodo.php',
     dataType: 'json',
@@ -305,7 +372,7 @@ $(".select2per").select2({
     },
     cache: true
   },
-  minimumInputLength: 1
+  minimumInputLength: 4
 });
 //fin function seleccionar periodo
 

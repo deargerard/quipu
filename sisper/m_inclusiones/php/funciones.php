@@ -614,6 +614,9 @@ function mensajeda($text){
 function mensajewa($text){
 	return "<h4 class='text-muted text-center'><i class='fa fa-warning text-yellow'></i> $text</h4>";
 }
+function mensajein($text){
+	return "<h4 class='text-muted text-center'><i class='fa fa-info-circle text-aqua'></i> $text</h4>";
+}
 function estado($est){
 	if($est==1){
 		return "<span class='label label-success'>Activo</span>";
