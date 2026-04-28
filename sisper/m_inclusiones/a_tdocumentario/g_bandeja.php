@@ -1395,7 +1395,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                 $cest=mysqli_query($cone, "SELECT idDoc FROM tdestadodoc WHERE idtdestadodoc=$idestadodoc AND asignador=$idem AND estado=1 AND idtdestado NOT IN (1,2);");
                 if($rest=mysqli_fetch_assoc($cest)){
                     $idDoc=$rest['idDoc'];
-                    //consultamos el último estado del documento con estado=0 para convertirlo en 1 en rremplazo del estado a anular
+                    //consultamos el último estado del documento con estado=0 para convertirlo en 1 en remplazo del estado a anular
                     $cest2=mysqli_query($cone, "SELECT idtdestadodoc FROM tdestadodoc WHERE idDoc=$idDoc AND estado=0 ORDER BY idtdestadodoc DESC LIMIT 1;");
                     if($rest2=mysqli_fetch_assoc($cest2)){
                         $idestadodoc2=$rest2['idtdestadodoc'];
@@ -1411,7 +1411,23 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                             $r['m']="Error, no se pudo anular el trámite, vuelva a intentarlo.";
                         }
                     }else{
-                        $r['m']='Error, el documento no tiene un trámite previo.';
+                        //consultamos si pertenece a una mesa de partes para asignar el trámite a la mesa de partes
+                         $cmp=mysqli_query($cone, "SELECT idtdmesapartes FROM tdpersonalmp WHERE idEmpleado=$idem AND estado=1;");
+                        if($rmp=mysqli_fetch_assoc($cmp)){
+                            $mp=$rmp['idtdmesapartes'];
+                            $dep=vacio("");
+                        }else{
+                            $mp=vacio("");
+                            $dep=iddependenciae($cone, $idem);
+                        }
+                        mysqli_free_result($cmp);
+
+                        if(mysqli_query($cone, "UPDATE tdestadodoc SET idtdestado=2, fecha=NOW(), idEmpleado=$idem, idDependencia=$dep, idtdmesapartes=$mp, asignador=$idem, mpasignador=$mp, depasignador=$dep, idtdguia=null WHERE idtdestadodoc=$idestadodoc;")){
+                            $r['m']="¡Listo! Trámite anulado, el documento se encuentra como recibido.";
+                            $r['e']=true;
+                        }else{
+                            $r['m']="Error, vuelva a intentarlo.";
+                        }
                     }
                 }else{
                     $r['m']='Error, no se puede anular el trámite.';

@@ -81,10 +81,10 @@ if(accesocon($cone,$_SESSION['identi'],17)){
 ?>      
                         <tr>
                             <td colspan="5" class="text-center">
-                                <?php if($num_registros>1 && $re['idtdestado']!=1 && $re['idtdestado']!=2 && $re['asignador']==$idem){ ?>
+                                <?php if($re['idtdestado']!=1 && $re['idtdestado']!=2 && $re['asignador']==$idem){ ?>
                                     <button type="button" class="btn bg-maroon" title="Anular último trámite" onclick="g_anu(<?php echo $re['idtdestadodoc'] ?>)"><i class="fa fa-times"></i> Anular último trámite</button>
                                 <?php }else{ ?>
-                                    <span class="text-warning" style="font-size: 14px;"><i class="fa fa-info-circle text-yellow"></i> La anulación solo es válida para trámites propios que no sean los únicos y que no estén como recibidos.</span>
+                                    <span class="text-warning" style="font-size: 14px;"><i class="fa fa-info-circle text-yellow"></i> La anulación solo es válida para trámites propios y que no estén como recibidos.</span>
                                 <?php } ?>
                             </td>
                         </tr>
