@@ -1084,13 +1084,14 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                             $mp=vacio("");
                             $dep=iddependenciae($cone, $idem);
                         }
+                        mysqli_free_result($cmp);
 
                         $q="INSERT INTO tdestadodoc (idDoc, idtdestado, fecha, idtdmesapartes, asignador, mpasignador, depasignador, estado) VALUES ($v1, 3, NOW(), $v3, $idem, $mp, $dep, 1);";
                         if(mysqli_query($cone, $q)){
                             $idne=mysqli_insert_id($cone);
                             if(mysqli_query($cone, "UPDATE tdestadodoc SET estado=0 WHERE idDoc=$v1 AND idtdestadodoc=$idue;")){
                                 mysqli_query($cone, "UPDATE doc SET cargo=1 WHERE idDoc=$v1;");
-                                $r['m']=mensajesu("¡Listo! Documento derivado a Mesa de Partes.");
+                                $r['m']=mensajesu("¡Listo! Cargo derivado a Mesa de Partes.");
                                 $r['e']=true;
                             }else{
                                 if(mysqli_query($cone, "DELETE FROM tdestadodoc WHERE idtdestadodoc=$idne;")){
@@ -1100,10 +1101,60 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                                 }
                             }
                         }else{
-                            $r['m']=mensajewa("Error al derivar, vuelva a intentarlo. $q");
+                            $r['m']=mensajewa("Error al derivar, vuelva a intentarlo.");
                         }
                     }else{
-                        $r['m']=mensajewa("El documento ya tiene otro estado. ¡Actualice! $v1 $v2 $v3");
+                        $r['m']=mensajewa("El documento ya tiene otro estado. ¡Actualice!");
+                        $r['e']=true;
+                    }
+                }else{
+                    $r['m']=mensajewa('Error, datos erroneos del documento.');
+                }
+            }else{
+                $r['m']=mensajewa("Faltan datos.");
+            }
+        }elseif($acc=="dercarper"){
+            if(isset($_POST['iddoc']) && !empty($_POST['iddoc']) && isset($_POST['uestado']) && !empty($_POST['uestado']) && isset($_POST['idper']) && !empty($_POST['idper'])){
+                $idDoc=iseguro($cone, $_POST['iddoc']);
+                $uestado=iseguro($cone, $_POST['uestado']);
+                $idper=iseguro($cone, $_POST['idper']);
+                $idem=$_SESSION['identi'];
+
+                $ce=mysqli_query($cone, "SELECT idtdestadodoc FROM tdestadodoc WHERE idDoc=$idDoc AND estado=1;");
+                if($re=mysqli_fetch_assoc($ce)){
+                    if($re['idtdestadodoc']==$uestado){
+                        $idue=$re['idtdestadodoc'];
+
+                        //obtenemos la mp
+                        $cmp=mysqli_query($cone, "SELECT mp.idtdmesapartes FROM tdpersonalmp p INNER JOIN tdmesapartes mp ON p.idtdmesapartes=mp.idtdmesapartes WHERE p.idEmpleado=$idem AND p.estado=1 AND mp.estado=1;");
+                        if($rmp=mysqli_fetch_assoc($cmp)){
+                            $mp=$rmp['idtdmesapartes'];
+                            $dep=iddependenciae($cone, $idper);
+                        
+
+                            $q="INSERT INTO tdestadodoc (idDoc, idtdestado, fecha, idEmpleado, asignador, mpasignador, idDependencia, estado) VALUES ($idDoc, 3, NOW(), $idper, $idem, $mp, $dep, 1);";
+                            if(mysqli_query($cone, $q)){
+                                $idne=mysqli_insert_id($cone);
+                                if(mysqli_query($cone, "UPDATE tdestadodoc SET estado=0 WHERE idDoc=$idDoc AND idtdestadodoc=$idue;")){
+                                    mysqli_query($cone, "UPDATE doc SET cargo=1 WHERE idDoc=$idDoc;");
+                                    $r['m']=mensajesu("¡Listo! Cargo derivado al personal seleccionado.");
+                                    $r['e']=true;
+                                }else{
+                                    if(mysqli_query($cone, "DELETE FROM tdestadodoc WHERE idtdestadodoc=$idne;")){
+                                        $r['m']=mensajewa("Error al derivar, vuelva a intentarlo.");
+                                    }else{
+                                        $r['m']=mensajewa("Error al derivar, contacte al administrador del sistema.");
+                                    }
+                                }
+                            }else{
+                                $r['m']=mensajewa("Error al derivar, vuelva a intentarlo.");
+                            }
+                        }else{
+                            $r['m']=mensajewa("Error al derivar, debes pertenecer a una mesa de partes activa.");
+                        }
+                        mysqli_free_result($cmp);
+                    }else{
+                        $r['m']=mensajewa("El documento ya tiene otro estado. ¡Actualice!");
                         $r['e']=true;
                     }
                 }else{

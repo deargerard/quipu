@@ -1779,7 +1779,17 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                 maxViewMode: 2,
                 todayHighlight: true
             });
-            $('#b_bdocder').on('click', function(){
+            $('#num').on('keypress', function(e){
+                if(e.keyCode==13){
+                    e.preventDefault();
+                    bdocder();
+                }
+            });
+            $('#b_bdocder').on('click', function(e){
+                e.preventDefault();
+                bdocder();
+            });
+            function bdocder(){
               var num=$('#num').val();
               var ano=$('#ano').val();
               $.ajax({
@@ -1789,12 +1799,14 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                 dataType: "html",
                 beforeSend: function(){
                   $("#d_frespuesta").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
+                  $("#b_guardar").hide();
                 },
                 success:function(a){                
                     $("#d_frespuesta").html(a);
+                    $("#b_guardar").hide();
                 }
               });
-            });
+            }
         </script>  
 <?php
 
@@ -1867,9 +1879,8 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                         if($res=mysqli_fetch_assoc($ces)){
                             $est=$res['idtdestado'];
                             $iest=$res['idtdestadodoc'];
-                        }else{
-                            $est=false;
-                        }
+                            $ump=$res['idtdmesapartes'];
+                        
                         ?>
                         <td>
                             <?php echo estadoDoc($res['idtdestado']); ?>
@@ -1908,21 +1919,57 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                         </td>
                     </tr>
                     <?php
+                        }else{
+                            $est=false;
+                    ?>
+                    <tr>
+                        <td colspan="7" align="center"><span class="text-red">No se encontró estado para este documento.</span></td>
+                    </tr>
+                    <?php
+                        }
                     mysqli_free_result($ces);
                     if($rd['cargo']!=1 && $est==3){
+                        if($ump){
+                            //verificamos que la mesa de partes a la que se rerivo sea una de ambito 2
+                            $cmpd=mysqli_query($cone, "SELECT idtdmesapartes FROM tdmesapartes WHERE idtdmesapartes=$ump AND ambito=2;");
+                            if(mysqli_num_rows($cmpd)>0){
                     ?>
+                    <tr>
+                        <td colspan="7" style="font-weight: bold;" class="text-center">DERIVAR A MESA DE PARTES</td>
+                    </tr>
                     <tr>
                         <td colspan="3">
                             
-                            <select name="dmp" id="dmp" class="form-control">
+                            <select name="dmp" id="dmp" class="form-control" style="width: 380px;">
                             </select>
                             <input type="hidden" name="uest" id="uest" value="<?php echo $iest ?>">
                         </td>
                         <td colspan="4" align="center">
-                            <button type="button" class="btn bg-maroon" id="b_dercar" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Creando..." onclick="g_dercar(<?php echo $idd; ?>);"><i class="fa fa-level-up"></i> Derivar Cargo</button>
+                            <button type="button" class="btn bg-maroon" id="b_dercar" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Derivando..." onclick="g_dercar(<?php echo $idd; ?>);"><i class="fa fa-level-up"></i> Derivar Cargo</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="7" style="font-weight: bold;" class="text-center">DERIVAR A PERSONAL</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            
+                            <select name="dper" id="dper" class="form-control" style="width: 380px;">
+                            </select>
+                        </td>
+                        <td colspan="4" align="center">
+                            <button type="button" class="btn bg-maroon" id="b_dercarper" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Derivando..." onclick="g_dercarper(<?php echo $idd; ?>);"><i class="fa fa-level-up"></i> Derivar Cargo</button>
                         </td>
                     </tr>
                     <?php
+                            }else{
+                                echo '<tr><td colspan="7" align="center"><span class="text-yellow">Permitido, solo para documentos derivados fuera del distrito fiscal.</span></td></tr>';
+                            }
+                        }else{
+                         echo '<tr><td colspan="7" align="center"><span class="text-yellow">No permitido, el documento no está derivado a una mesa de partes.</span></td></tr>';
+                        }
+                    }else{
+                        echo '<tr><td colspan="7" align="center"><span class="text-yellow">Permitido, solo para documentos originales y derivados a una mesa de partes fuera del distrito fiscal.</span></td></tr>';
                     }
                     ?>
                 </table>
@@ -1934,6 +1981,21 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                 placeholder: 'Selecciones una mesa de partes',
                 ajax: {
                     url: 'm_inclusiones/a_general/a_selmpartes.php',
+                    dataType: 'json',
+                    delay: 250,
+                    processResults: function(data){
+                        return{
+                            results:data
+                        };
+                    },
+                    cache: true
+                },
+                minimumInputLength: 3
+            });
+            $("#dper").select2({
+                placeholder: 'Selecciones un personal',
+                ajax: {
+                    url: 'm_inclusiones/a_general/a_selpersonal.php',
                     dataType: 'json',
                     delay: 250,
                     processResults: function(data){

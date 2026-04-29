@@ -426,6 +426,29 @@ function g_dercar(idd) {
   });
 }
 
+function g_dercarper(idd) {
+  var uestado = $('#uest').val();
+  var idper = $('#dper').val();
+  $.ajax({
+    type: "post",
+    url: "m_inclusiones/a_tdocumentario/g_bandeja.php",
+    data: { acc: 'dercarper', iddoc: idd, uestado: uestado, idper: idper },
+    dataType: "json",
+    beforeSend: function () {
+      $("#b_dercarper").button('loading');
+    },
+    success: function (a) {
+      if (a.e) {
+        $("#f_modal").html(a.m);
+        li_ban2();
+      } else {
+        $("#d_rcc").html(a.m);
+        $("#b_dercarper").button('reset');
+      }
+    }
+  });
+}
+
 function g_carori(idd, v2) {
   $.ajax({
     type: "post",
