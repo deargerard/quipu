@@ -1879,7 +1879,6 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                         if($res=mysqli_fetch_assoc($ces)){
                             $est=$res['idtdestado'];
                             $iest=$res['idtdestadodoc'];
-                            $ump=$res['idtdmesapartes'];
                         
                         ?>
                         <td>
@@ -1929,10 +1928,7 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                         }
                     mysqli_free_result($ces);
                     if($rd['cargo']!=1 && $est==3){
-                        if($ump){
-                            //verificamos que la mesa de partes a la que se rerivo sea una de ambito 2
-                            $cmpd=mysqli_query($cone, "SELECT idtdmesapartes FROM tdmesapartes WHERE idtdmesapartes=$ump AND ambito=2;");
-                            if(mysqli_num_rows($cmpd)>0){
+                        
                     ?>
                     <tr>
                         <td colspan="7" style="font-weight: bold;" class="text-center">DERIVAR A MESA DE PARTES</td>
@@ -1962,14 +1958,9 @@ if(accesocon($cone,$_SESSION['identi'],17)){
                         </td>
                     </tr>
                     <?php
-                            }else{
-                                echo '<tr><td colspan="7" align="center"><span class="text-yellow">Permitido, solo para documentos derivados fuera del distrito fiscal.</span></td></tr>';
-                            }
-                        }else{
-                         echo '<tr><td colspan="7" align="center"><span class="text-yellow">No permitido, el documento no está derivado a una mesa de partes.</span></td></tr>';
-                        }
+                           
                     }else{
-                        echo '<tr><td colspan="7" align="center"><span class="text-yellow">Permitido, solo para documentos originales y derivados a una mesa de partes fuera del distrito fiscal.</span></td></tr>';
+                        echo '<tr><td colspan="7" align="center"><span class="text-yellow">Permitido, solo para documentos originales y derivados.</span></td></tr>';
                     }
                     ?>
                 </table>

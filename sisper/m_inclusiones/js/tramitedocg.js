@@ -329,12 +329,12 @@ function f_bandeja(acc, v1, v2) {
     dataType: "html",
     beforeSend: function () {
       $("#f_modal").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
-      $("#b_guardar").addClass("hidden");
+      $("#b_guardar").hide();
     },
     success: function (a) {
       $("#f_modal").html(a);
       if (acc != 'detdoc' && acc != 'rutdoc' && acc != 'detest' && acc != 'lisgui' && acc != 'gencar' && acc != 'dercar' && acc != 'carori' && acc != 'edidocu' && acc != 'movdia' && acc != 'detrem' && acc != 'guirem' && acc != 'retgen' && acc != 'aguidoc') {
-        $("#b_guardar").removeClass("hidden");
+        $("#b_guardar").show();
       }
     }
   });
