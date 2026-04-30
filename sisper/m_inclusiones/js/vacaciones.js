@@ -999,13 +999,12 @@ $("#b_evxm").click(function(){
 //función exportar vacaciones por trabajador
 $("#b_evxp").click(function(){
   var per=$("#per").val();
-  var car=$("#car").val();
   var estvac=$("#estva").val();
   var convac=$("#conva").val();
-  if (per==null || car==null || estvac==null || convac==null){
+  if (per==null || estvac==null || convac==null){
     alert("Todos los campos son obligatorios");
   }else {
-    window.location.href = "m_exportar/e_exvacper.php?per="+per+"&car="+car+"&estvac="+estvac+"&convac="+convac;
+    window.location.href = "m_exportar/e_exvacper.php?per="+per+"&estvac="+estvac+"&convac="+convac;
   }
 })
 //fin función exportar vacaciones por trabajador

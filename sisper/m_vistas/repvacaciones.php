@@ -112,12 +112,6 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                     </select>
                   </div>
                   <div class="form-group">
-                    <label for="bbb" class="sr-only">Cargo </label>
-                    <select name="car" id="car" class="form-control select2" style="width: 180px;">
-
-                    </select>
-                  </div>
-                  <div class="form-group">
                     <label for="bbb" class="sr-only">Estado </label>
                     <select data-actions-box="true" name="estvac[]" id="estva" class="form-control selectpicker" multiple="multiple" multiple data-selected-text-format="count" title="ESTADO" >
                       <option value="4">PLANIFICADAS</option>
@@ -129,8 +123,6 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
                       <option value="9">COMPENSADAS</option>
                     </select>
                   </div>
-
-
                   <div class="form-group">
                     <label for="aaa" class="sr-only">Condición</label>
                     <select name="convac[]" id="conva" class="form-control selectpicker" multiple="multiple" multiple data-selected-text-format="count" title="CONDICIÓN">
@@ -429,6 +421,28 @@ if(isset($_SESSION['identi']) && !empty($_SESSION['identi'])){
 
     </section>
     <!-- /.content -->
+
+    <!--Modal-->
+    <div class="modal fade" id="m_modal" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" id="m_tamano" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Titulo</h4>
+          </div>
+          <div class="modal-body">
+            <form id="f_modal" autocomplete="off">
+
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn bg-green" id="b_guardar" form="f_modal"><i class="fa fa-save"></i> Guardar</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-close"></i> Cerrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Fin Modal Detalle Dependencia-->
 
 <?php
 }else{
