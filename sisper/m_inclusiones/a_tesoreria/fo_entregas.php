@@ -253,7 +253,7 @@ if(accesoadm($cone,$_SESSION['identi'],16)){
 		}elseif($acc=="agrviat"){
 			$ide=iseguro($cone,$_POST['v1']);
 
-			$cg=mysqli_query($cone, "SELECT cs.idComServicios, cs.idEmpleado, cs.FechaIni, cs.FechaFin, cs.destino, d.Numero, d.Ano, d.Siglas, cs.estadoren, r.codigo, r.anio FROM comservicios cs INNER JOIN doc d ON cs.idDoc=d.idDoc LEFT JOIN terendicion r ON cs.idterendicion=r.idterendicion WHERE FechaIni>='2018-12-01' AND ISNULL(idteentrega) AND cs.Estado=1;");
+			$cg=mysqli_query($cone, "SELECT cs.idComServicios, cs.idEmpleado, cs.FechaIni, cs.FechaFin, cs.destino, d.Numero, d.Ano, d.Siglas, cs.estadoren, r.codigo, r.anio FROM comservicios cs INNER JOIN doc d ON cs.idDoc=d.idDoc LEFT JOIN terendicion r ON cs.idterendicion=r.idterendicion WHERE FechaIni>=DATE_SUB(CURDATE(), INTERVAL 1 YEAR) AND ISNULL(idteentrega) AND cs.Estado=1 ORDER BY cs.FechaIni DESC;");
 			if(mysqli_num_rows($cg)>0){
 ?>
 			<span class="text-purple"> <i class="fa fa-stack-overflow"></i> Viáticos</span>
