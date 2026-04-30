@@ -350,7 +350,7 @@ $('#f_modal').submit(function (e) {
     dataType: "json",
     beforeSend: function () {
       $("#d_frespuesta").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
-      $("#b_guardar").addClass("hidden");
+      $("#b_guardar").hide();
     },
     success: function (a) {
       if (a.e) {
@@ -376,7 +376,7 @@ $('#f_modal').submit(function (e) {
         }
       } else {
         $("#d_frespuesta").html(a.m);
-        $("#b_guardar").removeClass("hidden");
+        $("#b_guardar").show();
       }
     }
   });
@@ -737,12 +737,12 @@ function f_mpartes(acc, v1, v2) {
     dataType: "html",
     beforeSend: function () {
       $("#f_mmodal").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
-      $("#b_guardar").addClass("hidden");
+      $("#b_guardar").hide();
     },
     success: function (a) {
       $("#f_mmodal").html(a);
       if (acc != 'resmpar') {
-        $("#b_guardar").removeClass("hidden");
+        $("#b_guardar").show();
       }
       if (acc == 'resmpar') {
         li_rmpartes(v1);
@@ -761,7 +761,7 @@ $('#f_mmodal').submit(function (e) {
     dataType: "json",
     beforeSend: function () {
       $("#d_frespuesta").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
-      $("#b_guardar").addClass("hidden");
+      $("#b_guardar").hide();
     },
     success: function (a) {
       if (a.e) {
@@ -769,7 +769,7 @@ $('#f_mmodal').submit(function (e) {
         li_mpartes();
       } else {
         $("#d_frespuesta").html(a.m);
-        $("#b_guardar").removeClass("hidden");
+        $("#b_guardar").show();
       }
     }
   });
@@ -798,11 +798,11 @@ function f_mpartesp(acc, v1, v2) {
     dataType: "html",
     beforeSend: function () {
       $("#f_mmodalp").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
-      $("#b_guardarp").addClass("hidden");
+      $("#b_guardarp").hide();
     },
     success: function (a) {
       $("#f_mmodalp").html(a);
-      $("#b_guardarp").removeClass("hidden");
+      $("#b_guardarp").show();
     }
   });
 }
@@ -817,18 +817,18 @@ $('#f_mmodalp').submit(function (e) {
     dataType: "json",
     beforeSend: function () {
       $("#d_frespuestap").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
-      $("#b_guardarp").addClass("hidden");
+      $("#b_guardarp").hide();
     },
     success: function (a) {
       if (a.e) {
         $("#f_mmodalp").html(a.m);
-        $("#b_guardarp").addClass("hidden");
+        $("#b_guardarp").hide();
         if (a.i != null) {
           li_rmpartes(a.i);
         }
       } else {
         $("#d_frespuestap").html(a.m);
-        $("#b_guardarp").removeClass("hidden");
+        $("#b_guardarp").show();
       }
     }
   });
