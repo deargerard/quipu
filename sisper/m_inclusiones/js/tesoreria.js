@@ -16,9 +16,9 @@
   });
 
 	var mes=$('#fecb').val();
-  	basignaciones(mes);
-  	var tra=$('#tra').val();
-    bentregas(tra);
+  basignaciones(mes);
+  //var tra=$('#tra').val();
+  //bentregas(tra);
 });
 
 // FUNCIÓN BUSCAR ASIGNACIONES
@@ -29,7 +29,7 @@ function basignaciones(mb){
     data: {fecb : mb},
     dataType: "html",
     beforeSend: function () {
-      $("#a_resultado").html("<img scr='m_images/cargando.gif'>");
+      $("#a_resultado").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
     },
     success:function(a){
       $("#a_resultado").html(a);
@@ -119,7 +119,7 @@ function bentregas(tb){
     data: {tra : tb},
     dataType: "html",
     beforeSend: function () {
-      $("#en_resultado").html("<img scr='m_images/cargando.gif'>");
+      $("#en_resultado").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
     },
     success:function(a){
       $("#en_resultado").html(a);
@@ -207,7 +207,7 @@ function ldocentregas(ide){
     data: {ide : ide},
     dataType: "html",
     beforeSend: function () {
-      $("#en_resultado").html("<img scr='m_images/cargando.gif'>");
+      $("#en_resultado").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
     },
     success:function(a){
       $("#en_resultado").html(a);
@@ -331,7 +331,7 @@ function b_bpagpen(fon){
     data: {fon : fon},
     dataType: "html",
     beforeSend: function () {
-      $("#r_rep3").html("<img scr='m_images/cargando.gif'>");
+      $("#r_rep3").html("<h4 class='text-center text-gray'><i class='fa fa-spinner fa-spin'></i></h4>");
     },
     success:function(a){
       $("#r_rep3").html(a);      

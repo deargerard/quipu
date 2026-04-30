@@ -206,13 +206,14 @@ if(accesoadm($cone,$_SESSION['identi'],9)){
 					<label for="glo" class="control-label">Glosa:</label>
 					<!-- <input type="text" name="glo" id="glo" class="form-control" placeholder="Digite la glosa del comprobante"> -->
 					<select name="glo" id="glo" class="form-control">
-						<option value="Desayuno">Desayuno</option>
-						<option value="Almuerzo">Almuerzo</option>
-						<option value="Cena">Cena</option>
-						<option value="Hospedaje">Hospedaje</option>
-						<option value="Movilidad local">Movilidad local</option>
-						<option value="Pasaje terrestre">Pasaje terrestre</option>
-						<option value="Movilidad de embarque">Movilidad de embarque</option>
+						<option value="POR ALIMENTACI&Oacute;N - DESAYUNO">POR ALIMENTACI&Oacute;N - DESAYUNO</option>
+						<option value="POR ALIMENTACI&Oacute;N - ALMUERZO">POR ALIMENTACI&Oacute;N - ALMUERZO</option>
+						<option value="POR ALIMENTACI&Oacute;N - CENA">POR ALIMENTACI&Oacute;N - CENA</option>
+						<option value="POR HOSPEDAJE">POR HOSPEDAJE</option>
+						<option value="POR MOVILIDAD DE EMBARQUE">POR MOVILIDAD DE EMBARQUE</option>
+						<option value="POR MOVILIDAD LOCAL">POR MOVILIDAD LOCAL</option>
+						<option value="POR PASAJE TERRESTRE">POR PASAJE TERRESTRE</option>
+						<option value="POR PEAJE">POR PEAJE</option>
 					</select>	
 				</div>			
 			</div>
@@ -314,13 +315,14 @@ if(accesoadm($cone,$_SESSION['identi'],9)){
 					<label for="glo" class="control-label">Glosa:</label>									
 					<!-- <input type="text" name="glo" id="glo" class="form-control" value=""> -->
 					<select name="glo" id="glo" class="form-control">
-						<option value="Desayuno" <?php echo $r3['glosacom']=="Desayuno" ? "selected" : "" ?>>Desayuno</option>
-						<option value="Almuerzo" <?php echo $r3['glosacom']=="Almuerzo" ? "selected" : "" ?>>Almuerzo</option>
-						<option value="Cena" <?php echo $r3['glosacom']=="Cena" ? "selected" : "" ?>>Cena</option>
-						<option value="Hospedaje" <?php echo $r3['glosacom']=="Hospedaje" ? "selected" : "" ?>>Hospedaje</option>
-						<option value="Pasaje terrestre" <?php echo $r3['glosacom']=="Pasaje terrestre" ? "selected" : "" ?>>Pasaje terrestre</option>
-						<option value="Movilidad local" <?php echo $r3['glosacom']=="Movilidad local" ? "selected" : "" ?>>Movilidad local</option>
-						<option value="Movilidad de embarque" <?php echo $r3['glosacom']=="Movilidad de embarque" ? "selected" : "" ?>>Movilidad de embarque</option>
+						<option value="POR ALIMENTACI&Oacute;N - DESAYUNO" <?php echo $r3['glosacom']=="POR ALIMENTACI&Oacute;N - DESAYUNO" ? "selected" : "" ?>>POR ALIMENTACI&Oacute;N - DESAYUNO</option>
+						<option value="POR ALIMENTACI&Oacute;N - ALMUERZO" <?php echo $r3['glosacom']=="POR ALIMENTACI&Oacute;N - ALMUERZO" ? "selected" : "" ?>>POR ALIMENTACI&Oacute;N - ALMUERZO</option>
+						<option value="POR ALIMENTACI&Oacute;N - CENA" <?php echo $r3['glosacom']=="POR ALIMENTACI&Oacute;N - CENA" ? "selected" : "" ?>>POR ALIMENTACI&Oacute;N - CENA</option>
+						<option value="POR HOSPEDAJE" <?php echo $r3['glosacom']=="POR HOSPEDAJE" ? "selected" : "" ?>>POR HOSPEDAJE</option>
+						<option value="POR MOVILIDAD DE EMBARQUE" <?php echo $r3['glosacom']=="POR MOVILIDAD DE EMBARQUE" ? "selected" : "" ?>>POR MOVILIDAD DE EMBARQUE</option>
+						<option value="POR MOVILIDAD LOCAL" <?php echo $r3['glosacom']=="POR MOVILIDAD LOCAL" ? "selected" : "" ?>>POR MOVILIDAD LOCAL</option>
+						<option value="POR PASAJE TERRESTRE" <?php echo $r3['glosacom']=="POR PASAJE TERRESTRE" ? "selected" : "" ?>>POR PASAJE TERRESTRE</option>
+						<option value="POR PEAJE" <?php echo $r3['glosacom']=="POR PEAJE" ? "selected" : "" ?>>POR PEAJE</option>
 					</select>	
 				</div>			
 			</div>

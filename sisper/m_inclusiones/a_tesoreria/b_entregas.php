@@ -7,16 +7,16 @@ if(accesocon($cone,$_SESSION['identi'],16)){
   $tra=iseguro($cone, $_POST["tra"]); 
     if ($tra=="t") {
       $wtra="";
-      }else{
+    }else{
       $wtra="WHERE idEmpleado=$tra";
-          } 
+    } 
 
         if ($tra!=="t") {
 ?>      
         <div class="col-md-10">
           
-          <h4 class="text-orange"><strong><i class="fa fa-user"></i> <?php echo nomempleado($cone,$tra); ?> </strong></h4>
-          </div>
+          <h4 class="text-orange"><strong><i class="fa fa-user text-gray"></i> <?php echo nomempleado($cone,$tra); ?> </strong></h4>
+        </div>
       <div class="col-md-2">
 <?php
         if(accesoadm($cone,$_SESSION['identi'],16)){ ?>
@@ -34,7 +34,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
       <div class="row">
         <div class="col-md-12" id="r_bent">
 <?php
-            $ca=mysqli_query($cone,"SELECT e.idteentrega, e.empleado, e.motivo, e.idEmpleado, sum(de.monto) tot FROM teentrega e INNER JOIN tedocentrega de ON e.idteentrega=de.idteentrega $wtra group by e.idteentrega ORDER BY idteentrega DESC LIMIT 600;");
+            $ca=mysqli_query($cone,"SELECT e.idteentrega, e.empleado, e.motivo, e.idEmpleado, sum(de.monto) tot FROM teentrega e INNER JOIN tedocentrega de ON e.idteentrega=de.idteentrega $wtra group by e.idteentrega ORDER BY idteentrega DESC LIMIT 400;");
             
 ?>
             <table id="dtable" class="table table-bordered table-hover">
@@ -46,7 +46,7 @@ if(accesocon($cone,$_SESSION['identi'],16)){
 ?>
                   <th>NOMBRE</th>
 <?php      
-        }
+                  }
 ?>
                   <th>MOTIVO</th>
                   <th>MONTO S/</th>
