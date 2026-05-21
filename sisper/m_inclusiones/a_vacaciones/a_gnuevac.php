@@ -31,7 +31,7 @@ if(accesoadm($cone,$_SESSION['identi'],3)){
 					}elseif(strtotime(date('Y-m-d')) >= strtotime($inivac) && strtotime(date('Y-m-d')) <= strtotime($finvac)){
 						$st=3;
 					}elseif (strtotime(date('Y-m-d'))<strtotime($inivac)) {
-						$st=4;
+						$st=0;
 					}
 					//Fin validación del estado
 					

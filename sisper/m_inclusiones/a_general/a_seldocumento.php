@@ -4,7 +4,18 @@ include("../php/conexion_sp.php");
 include("../php/funciones.php");
 
     $t=iseguro($cone,$_GET['q']);
-    $c=mysqli_query($cone,"SELECT iddoc, Numero, Ano, Siglas, TipoDoc FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc WHERE Numero LIKE '%$t%' ORDER BY Numero, Ano DESC;");
+    //separar por guion
+    $t=explode("-",$t);
+    //si existe $t[1]
+    if(isset($t[1])){
+        $t[0]=trim($t[0]);
+        $t[1]=trim($t[1]);
+        $c=mysqli_query($cone,"SELECT iddoc, Numero, Ano, Siglas, TipoDoc FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc WHERE Numero LIKE '%$t[0]%' AND Ano='$t[1]' ORDER BY Numero, Ano DESC;");
+    }else{
+        $t[0]=trim($t[0]);
+        $c=mysqli_query($cone,"SELECT iddoc, Numero, Ano, Siglas, TipoDoc FROM doc d INNER JOIN tipodoc td ON d.idTipoDoc=td.idTipoDoc WHERE Numero LIKE '%$t[0]%' ORDER BY Numero, Ano DESC;");
+    }
+    
     $json=[];
     if(mysqli_num_rows($c)>0){
         while ($r=mysqli_fetch_assoc($c)) {

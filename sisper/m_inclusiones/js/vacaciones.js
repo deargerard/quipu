@@ -1,10 +1,10 @@
 // Recibir Persona y periodo vacacional
 function bvacper(){
-//$("#f_vacper").submit(function(e){
- //e.preventDefault();
- var datos = $("#f_vacper").serializeArray();
- datos.push({name: "NomForm", value: "f_vacper"});
- $.ajax({
+  //$("#f_vacper").submit(function(e){
+  //e.preventDefault();
+  var datos = $("#f_vacper").serializeArray();
+  datos.push({name: "NomForm", value: "f_vacper"});
+  $.ajax({
        data:  datos,
        url:   "m_inclusiones/a_vacaciones/a_vacper.php",
        type:  "post",

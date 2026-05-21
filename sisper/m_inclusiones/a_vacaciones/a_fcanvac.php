@@ -5,7 +5,7 @@ include("../php/funciones.php");
 if(accesoadm($cone,$_SESSION['identi'],3)){
   if(isset($_POST["idvac"]) && !empty($_POST["idvac"])){
     $idvac=iseguro($cone,$_POST["idvac"]);
-    $cvac=mysqli_query($cone,"SELECT pv.Condicion, pv.FechaIni, pv.FechaFin, pv.Observaciones FROM provacaciones pv INNER JOIN empleadocargo ec ON pv.idEmpleadoCargo = ec.idEmpleadoCargo WHERE pv.idProVacaciones=$idvac and ec.idEstadoCar=1");
+    $cvac=mysqli_query($cone,"SELECT pv.Condicion, pv.FechaIni, pv.FechaFin, pv.Observaciones FROM provacaciones pv INNER JOIN empleadocargo ec ON pv.idEmpleadoCargo = ec.idEmpleadoCargo WHERE pv.idProVacaciones=$idvac");
     if($rvac=mysqli_fetch_assoc($cvac)){
         $est= $rvac['Condicion']==1 ? "Programadas" : "Reprogramadas";
         ?>
@@ -35,7 +35,7 @@ if(accesoadm($cone,$_SESSION['identi'],3)){
         <?php
         
     }else{
-        echo mensajewa("Error: No se encontró las vacaciones o el cargo del trabajador no está activo.");
+        echo mensajewa("Error: No se encontró las vacaciones.");
     }
     mysqli_free_result($cvac);  
   }else{
