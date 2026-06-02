@@ -26,13 +26,13 @@ if(accesoadm($cone,$_SESSION['identi'],3)){
 
 					//Valida el estado.
 					$st=0;
-					if(strtotime(date('Y-m-d')) > strtotime($finvac)){
+					/* if(strtotime(date('Y-m-d')) > strtotime($finvac)){
 						$st=1;
 					}elseif(strtotime(date('Y-m-d')) >= strtotime($inivac) && strtotime(date('Y-m-d')) <= strtotime($finvac)){
 						$st=3;
 					}elseif (strtotime(date('Y-m-d'))<strtotime($inivac)) {
 						$st=0;
-					}
+					} */
 					//Fin validación del estado
 					
 					$sql="INSERT INTO provacaciones (idEmpleadoCargo, idPeriodoVacacional, FechaIni, FechaFin, Condicion, Estado, Observaciones) VALUES ($idec, $peva, '$inivac', '$finvac', $convac, $st, '$obsvac')";

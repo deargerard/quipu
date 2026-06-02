@@ -21,17 +21,17 @@ if(accesoadm($cone,$_SESSION['identi'],3)){
 					$convac = ($convac == "r") ? 0 : $convac; //si es reprogramado, se guarda como 0 en la base de datos
 
 					//Valida el estado.
-					$st=0;
+					/* $st=0;
 					if(strtotime(date('Y-m-d')) > strtotime($finvac)){
 						$st=1;
 					}elseif(strtotime(date('Y-m-d')) >= strtotime($inivac) && strtotime(date('Y-m-d')) <= strtotime($finvac)){
 						$st=3;
 					}elseif (strtotime(date('Y-m-d'))<strtotime($inivac)) {
 						$st=4;
-					}
+					} */
 					//Fin validación del estado
 
-					$sql="UPDATE provacaciones SET FechaIni='$inivac', FechaFin='$finvac', Estado=$st, Condicion=$convac, Observaciones='$obsvac' WHERE idProVacaciones=$idvac";
+					$sql="UPDATE provacaciones SET FechaIni='$inivac', FechaFin='$finvac', Condicion=$convac, Observaciones='$obsvac' WHERE idProVacaciones=$idvac";
 					if(mysqli_query($cone,$sql)){
 						$sqlpv="UPDATE aprvacaciones SET idDoc=$doc WHERE idProVacaciones=$idvac";
 						if(mysqli_query($cone,$sqlpv)){
