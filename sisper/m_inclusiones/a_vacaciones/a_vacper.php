@@ -91,9 +91,7 @@ if(accesoadm($cone,$_SESSION['identi'],3)){
 						<td><?php echo fnormal($rvac['FechaIni']).' - '.fnormal($rvac['FechaFin']) ?></td> <!--columna FECHAS-->
 						<td><?php echo estadoVac($rvac['Estado']) ?></td> <!--columna ESTADO-->
 						<td> <!--columna ACCIÓN-->
-							<?php
-							if ($rvac['Estado']!=2 && $rvac['Estado']!=1){
-							?>
+
 							<div class="btn-group">  <!--menu desplegable-->
 								<button class="btn bg-orange btn-xs dropdown-toggle" data-toggle="dropdown">
 									<i class="fa fa-cog"></i>&nbsp;
@@ -101,23 +99,17 @@ if(accesoadm($cone,$_SESSION['identi'],3)){
 									<span class="sr-only">Desplegar menú</span>
 								</button>
 								<ul class="dropdown-menu pull-right" role="menu">
-								<?php
-								if($reg_vacaciones && $rvac['idEmpleadoCargo']==$idec){
-								?>
+
 									<li>
 										<a href="#" data-toggle="modal" data-target="#m_evacaciones" onclick="edivac(<?php echo $rvac['idProVacaciones'] ?>)">Editar </a>
 									</li>
-								<?php
-								}
-								?>
+
 									<li>
 										<a href="#" data-toggle="modal" data-target="#m_cvacaciones" onclick="canvac(<?php echo $rvac['idProVacaciones']?>)">Cambiar estado</a>
 									</li>
 								</ul>
 							</div>
-							<?php
-							}
-							?>
+
 						</td> <!--/columna ACCIÓN-->
 					</tr>
 <?php	
