@@ -26,7 +26,7 @@ if(accesoadm($cone,$_SESSION['identi'],3)){
 			}
 			mysqli_free_result($cvp);
 			
-			if(strtotime($rec['FechaAsu']) <= strtotime(trim($periodovac[0])."-".date("m-d", strtotime($rec['FechaAsu'])))) {
+			if(strtotime($rec['FechaVac']) <= strtotime(trim($periodovac[0])."-".date("m-d", strtotime($rec['FechaVac'])))) {
 				$reg_vacaciones=true;
 			}
 ?>
