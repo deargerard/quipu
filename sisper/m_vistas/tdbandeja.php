@@ -143,8 +143,8 @@ if (isset($_SESSION['identi']) && !empty($_SESSION['identi'])) {
                       <?php } ?>
                       <?php if ($imp == 1 || $imp == 2) { ?>
                         <button type="button" class="btn bg-aqua" onclick="f_bandeja('carori',0,0);"><i class="fa fa-toggle-on"></i> Cargo/Original</button>
-                        <button type="button" class="btn bg-maroon" onclick="f_bandeja('edidocu',0,0);"><i class="fa fa-edit"></i> Editar</button>
                       <?php } ?>
+                      <button type="button" class="btn bg-maroon" onclick="f_bandeja('edidocu',0,0);"><i class="fa fa-edit"></i> Editar</button>
                       <?php if($imp==2 || $imp==60 || $imp==61) { ?>
                       <button type="button" class="btn bg-primary" onclick="f_bandeja('retgen',0,0);" title="Retornar del generador"><i class="fa fa-reply"></i> Generador</button>
                       <?php } ?>
