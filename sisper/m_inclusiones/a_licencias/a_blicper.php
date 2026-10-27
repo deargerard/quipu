@@ -119,7 +119,7 @@ if(mysqli_num_rows($cc)>0){
 		                    <ul class="dropdown-menu pull-right" role="menu">
 		                      <li><a href="#" data-toggle="modal" data-target="#m_detlic" onclick="detlic(<?php echo $r['idLicencia'] ?>)">Detalle</a></li>
 		<?php
-							if(accesoadm($cone,$_SESSION['identi'],4) && $rc['idEstadoCar']==1){
+							if(accesoadm($cone,$_SESSION['identi'],4)){
 								if($r['Estado']==1){
 		?>
 		                      <li><a href="#" data-toggle="modal" data-target="#m_edilic" onclick="edilic(<?php echo $r['idLicencia'].",".$ano ?>)">Editar</a></li>
