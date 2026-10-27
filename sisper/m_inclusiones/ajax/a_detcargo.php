@@ -53,9 +53,9 @@ if(accesocon($cone,$_SESSION['identi'],1) || accesocon($cone,$_SESSION['identi']
 					<td><?php echo $rc['Rol'] ?></td>
 				</tr>
 				<tr>
-					<th>F. Juramentación/Posesión</th>
+					<th>F. Juramentación / Posesión</th>
 					<td><?php echo fnormal($rc['FechaAsu']) ?></td>
-					<th>F. Nombramiento/Designación</th>
+					<th>F. Nombramiento / Designación</th>
 					<td><?php echo fnormal($rc['FechaJur']) ?></td>
 				</tr>
 				<tr>
